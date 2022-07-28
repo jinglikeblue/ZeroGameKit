@@ -1,0 +1,22 @@
+- 重新整理资源，每个测试按钮改成独立加载资源包。加载动画搞一个。
+- 「资源名生成」功能里，顺便生成@Configs文件中的文件地址和名称
+- [UniWebView]编写网页访问示例
+- Sprite Packer 已弃用，改为 Sprite Atlas 
+                       var saa =new UnityEditor.U2D.SpriteAtlasAsset();
+                saa.name = "fuck";
+                saa.Add(objs);
+                saa.SetPackingSettings(UnityEditor.U2D.SpriteAtlasPackingSettings)
+                UnityEditor.U2D.SpriteAtlasAsset.Save(saa, "Assets/Examples/Art/saa");
+- 引入「TurbochargedScrollList」
+- 引入「Zero2dDemo」
+- 引入「Zero3dDemo」
+- 引入「KCP」
+- 引入「WebSocket」
+- 引入「One」
+- 把框架中的功能类都写例子
+- [setting.json]增加是否使用反射执行DLL，标注“在Editor下不适用，仅适用于Player下”
+- 完善[项目是否使用热更]为false的情况
+
+-----------------------------------------------------华佗---------------------------------------------------
+- Android真机测试
+- iOS真机测试

@@ -1,0 +1,17 @@
+﻿
+{
+    "client" : {
+        "version" : "1.0",
+        "url"     : "http://5t9whj.coding-pages.com/zero.apk"
+    },
+    "netResRoot" : "http://192.168.0.103/zerogamekit",
+    "startupResGroups" : [
+        "dll",
+        "configs",
+        "ab/examples.ab",
+        "ab/root_assets.ab",
+        "ab/manifest.ab"
+    ],
+    "startupParams"    : {
+    }
+}
