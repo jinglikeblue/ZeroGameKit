@@ -1,0 +1,85 @@
+﻿
+{
+    "abList" : [
+        {
+            "explain" : "@Resources根目录下资源",
+            "assetbundle" : "root_assets.ab",
+            "assetList"   : [
+                "ILContent.prefab"
+            ]
+        },
+        {
+            "explain" : null,
+            "assetbundle" : "commons.ab",
+            "assetList"   : [
+                "MsgWin.prefab"
+            ]
+        },
+        {
+            "explain" : null,
+            "assetbundle" : "examples.ab",
+            "assetList"   : [
+                "MainStartupPanel.prefab"
+            ]
+        },
+        {
+            "explain" : null,
+            "assetbundle" : "examples/audios.ab",
+            "assetList"   : [
+                "bgm.mp3",
+                "click.mp3"
+            ]
+        },
+        {
+            "explain" : null,
+            "assetbundle" : "examples/bitmapfont.ab",
+            "assetList"   : [
+                "BitmapFontExampleWin.prefab"
+            ]
+        },
+        {
+            "explain" : null,
+            "assetbundle" : "examples/cross_depend_test.ab",
+            "assetList"   : [
+            ]
+        },
+        {
+            "explain" : null,
+            "assetbundle" : "examples/menus.ab",
+            "assetList"   : [
+                "MenuPanel.prefab"
+            ]
+        },
+        {
+            "explain" : null,
+            "assetbundle" : "examples/roushan.ab",
+            "assetList"   : [
+                "Block.prefab",
+                "GamePanel.prefab",
+                "GameStage.prefab",
+                "HelpWin.prefab",
+                "StartupPanel.prefab"
+            ]
+        },
+        {
+            "explain" : null,
+            "assetbundle" : "examples/cross_depend_test/a.ab",
+            "assetList"   : [
+                "A.prefab",
+                "C.prefab"
+            ]
+        },
+        {
+            "explain" : null,
+            "assetbundle" : "examples/cross_depend_test/b.ab",
+            "assetList"   : [
+                "B.prefab"
+            ]
+        }
+    ],
+    "viewClassNamespaceList" : [
+        "Roushan.",
+        "ZeroGameKit.",
+        "Example."
+    ]
+}

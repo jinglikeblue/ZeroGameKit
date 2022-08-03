@@ -1,0 +1,18 @@
+﻿//该类由 [Zero → 自动生成代码 → Assets资源名生成] 工具自动创建
+namespace ZeroHot
+{
+    /// <summary>
+    /// [自动生成的]AssetBundle数据
+    /// </summary>
+    public sealed class [CLASS NAME]
+    {[CLASS LIST]	}
+}
+------------------------------Split--------------------------------		/// <summary>
+		/// [EXPLAIN]
+		/// </summary>
+------------------------------Split--------------------------------
+[EXPLAIN]		public sealed class [CLASS NAME]
+		{[FIELD LIST]            
+		}
+------------------------------Split--------------------------------
+			public const string [FIELD NAME] = "[FIELD VALUE]";
