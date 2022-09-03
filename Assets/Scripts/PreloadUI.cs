@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using Zero;
 
@@ -24,10 +25,11 @@ namespace Demo
             preload.StartPreload();            
         }
 
-        void SetProgress(float progress, long totalSize)
+        private void SetProgress(long loadedSize, long totalSize)
         {
+            var progress = (int)((float)loadedSize / totalSize * 100);
             //转换为MB
-            text.text = $"{(int)(progress * 100)}%";
+            text.text = $"{progress}%[{loadedSize}/{totalSize}]";
         }
     }
 }

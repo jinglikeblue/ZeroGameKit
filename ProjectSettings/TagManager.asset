@@ -41,6 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: StageEffect
+    uniqueID: 2570550693
+    locked: 0
   - name: UI
     uniqueID: 1047701119
     locked: 0

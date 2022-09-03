@@ -40,6 +40,8 @@ namespace ZeroHot
             "Roushan.",
             "ZeroGameKit.",
             "Example.",
+            "Sokoban.",
+            "Knight.",
         };
 
         private ViewAutoRegister()
@@ -49,7 +51,23 @@ namespace ZeroHot
             R("examples.ab", "MainStartupPanel");
             R("examples/audio_device.ab", "AudioDeviceExampleWin");
             R("examples/bitmapfont.ab", "BitmapFontExampleWin");
+            R("examples/framework.ab", "ClockView");
+            R("examples/framework.ab", "CoroutineProxyExampleWin");
+            R("examples/framework.ab", "ResMgrExampleWin");
+            R("examples/framework.ab", "ResUpdateExampleWin");
+            R("examples/framework.ab", "TimerExampleWin");
+            R("examples/framework.ab", "ViewFactoryExampleWin");
+            R("examples/framework.ab", "ZeroEventListenerExampleWin");
+            R("examples/framework.ab", "ZeroUIExampleWin");
+            R("examples/future.ab", "HotFilesLoadFutureWin");
+            R("examples/future.ab", "StreamingAssetsLoadFutureWin");
+            R("examples/knight.ab", "KnightLoadingPanel");
+            R("examples/knight.ab", "KnightMenuPanel");
+            R("examples/knight.ab", "KnightSettingWin");
             R("examples/menus.ab", "MenuPanel");
+            R("examples/network.ab", "TcpExampleWin");
+            R("examples/network.ab", "UdpExampleWin");
+            R("examples/network.ab", "WebSocketExampleWin");
             R("examples/performance.ab", "CallNativeCodePerformanceWin");
             R("examples/performance.ab", "FibonacciPerformanceWin");
             R("examples/roushan.ab", "Block");
@@ -58,10 +76,30 @@ namespace ZeroHot
             R("examples/roushan.ab", "HelpWin");
             R("examples/roushan.ab", "StartupPanel");
             R("examples/textures.ab", "TexturesWin");
-            R("examples/utility.ab", "MD5ExampleWin");
+            R("examples/turbocharged_scroll_list.ab", "GridScrollListDemoPanel");
+            R("examples/turbocharged_scroll_list.ab", "HorizontalScrollListDemoPanel");
+            R("examples/turbocharged_scroll_list.ab", "ScrollListDemoMenuPanel");
+            R("examples/turbocharged_scroll_list.ab", "VerticalScrollListDemoPanel");
+            R("examples/uniwebview.ab", "UniWebViewExampleWin");
+            R("examples/utility.ab", "CryptoExampleWin");
+            R("examples/video.ab", "VideoExampleWin");
             R("examples/cross_depend_test/a.ab", "A");
             R("examples/cross_depend_test/a.ab", "C");
             R("examples/cross_depend_test/b.ab", "B");
+            R("examples/knight/game.ab", "KnightGamePanel");
+            R("examples/knight/game.ab", "KnightGameStage");
+            R("examples/sokoban/prefabs.ab", "CreditsWin");
+            R("examples/sokoban/prefabs.ab", "LevelSelectWin");
+            R("examples/sokoban/prefabs.ab", "LoadingWin");
+            R("examples/sokoban/prefabs.ab", "SokobanGamePanel");
+            R("examples/sokoban/prefabs.ab", "SokobanGameStage");
+            R("examples/sokoban/prefabs.ab", "SokobanMenuPanel");
+            R("examples/sokoban/prefabs.ab", "SokobanMsgWin");
+            R("examples/sokoban/prefabs/game.ab", "BangEffect");
+            R("examples/sokoban/prefabs/game.ab", "Block");
+            R("examples/sokoban/prefabs/game.ab", "Box");
+            R("examples/sokoban/prefabs/game.ab", "Role");
+            R("examples/sokoban/prefabs/game.ab", "Target");
         }
 
         void R(string abName, string viewName)
@@ -81,7 +119,7 @@ namespace ZeroHot
 
             if (!isRegisterSuccess)
             {
-                Debug.Log(Log.Orange("[{0}/{1}.prefab]没有找到匹配的类，请检查是否存在「{2}.cs」，或者「自动生成代码」配置的命名空间是否正确!!!", abName, viewName, viewName));
+                Debug.LogWarning(Log.Orange("[{0}/{1}.prefab]没有找到匹配的类，请检查是否存在「{2}.cs」，或者「自动生成代码」配置的命名空间是否正确!!!", abName, viewName, viewName));
             }
         }
     }

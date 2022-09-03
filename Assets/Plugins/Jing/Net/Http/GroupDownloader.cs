@@ -56,34 +56,42 @@ namespace Jing
             }
         }
 
+        /// <summary>
+        /// 已下载的文件大小
+        /// </summary>
+        public long loadedSize { get; private set; } = 0;
+
         long _totalSize = 0;
         /// <summary>
         /// 下载文件总大小
         /// </summary>
-        public long TotalSize
+        public long totalSize
         {
             get { return _totalSize; }
         }
 
-        long _loadedSize = 0;
+        /// <summary>
+        /// 已下载完成的文件的总大小
+        /// </summary>
+        long _loadedFileTotalSize = 0;
 
         float _progress;
         /// <summary>
         /// 下载进度
         /// </summary>
-        public float Progress
+        public float progress
         {
             get { return _progress; }
         }
 
         string _error;
-        public string Error
+        public string error
         {
             get { return _error; }
         }
 
         bool _isDone;
-        public bool IsDone
+        public bool isDone
         {
             get
             {
@@ -125,7 +133,7 @@ namespace Jing
             {
                 return;
             }
-            _loadedSize = 0;
+            _loadedFileTotalSize = 0;
             new Thread(LoadThread).Start();
         }
 
@@ -142,9 +150,10 @@ namespace Jing
                 Downloader loader = new Downloader(info.url, info.savePath, info.version);
                 do
                 {
-                    double loaderLoaded = info.fileSize * loader.progress;
-                    var tempLoadedSize = _loadedSize + loaderLoaded;
-                    _progress = (float)(tempLoadedSize / _totalSize); 
+                    var loaderLoaded = info.fileSize * loader.progress;
+                    var tempLoadedSize = _loadedFileTotalSize + loaderLoaded;
+                    loadedSize = (long)tempLoadedSize;
+                    _progress = tempLoadedSize / _totalSize; 
                     //Debug.LogFormat("下载进度  idx:{0} , progress:{1}[{2}/{3}]", _idx, _progress, tempLoadedSize, _totalSize);
                     Thread.Sleep(20);
                 }
@@ -163,12 +172,12 @@ namespace Jing
                         _loadedQueue.Enqueue(info);
                     }
                 }
-                _loadedSize += info.fileSize;
+                _loadedFileTotalSize += info.fileSize;
                 _idx++;
             }
 
             _progress = 1;
-            _loadedSize = _totalSize;
+            loadedSize = _loadedFileTotalSize = _totalSize;             
             _isDone = true;
             _isLoadding = false;
         }

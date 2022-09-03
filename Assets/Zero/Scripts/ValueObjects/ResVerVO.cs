@@ -3,7 +3,7 @@
     /// <summary>
     /// 资源版本号数据
     /// </summary>
-    public struct ResVerVO
+    public class ResVerVO
     {
         /// <summary>
         /// 资源项

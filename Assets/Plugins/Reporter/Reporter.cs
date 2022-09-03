@@ -301,9 +301,19 @@ public class Reporter : MonoBehaviour
 #endif
 	string systemMemorySize;
 
+	/// <summary>
+	/// area to makesure interface elements in Special-shaped screen
+	/// </summary>
+	public Rect SafeScreenArea { get; private set; }
+
 	void Awake()
 	{
-		if (!Initialized)
+#if UNITY_2017_2_OR_NEWER
+		SafeScreenArea = Screen.safeArea;
+#else
+		safeScreenArea = new Rect(0, 0, Screen.width, Screen.height);
+#endif		
+        if (!Initialized)
 			Initialize();
 
 #if UNITY_CHANGE3
@@ -788,9 +798,9 @@ public class Reporter : MonoBehaviour
 		GUILayout.Space(size.x);
 		GUILayout.Space(size.x);
 		GUILayout.Space(size.x);
-		GUILayout.Label("Screen Width " + Screen.width, nonStyle, GUILayout.Height(size.y));
+		GUILayout.Label("Screen Width " + SafeScreenArea.width, nonStyle, GUILayout.Height(size.y));
 		GUILayout.Space(size.x);
-		GUILayout.Label("Screen Height " + Screen.height, nonStyle, GUILayout.Height(size.y));
+		GUILayout.Label("Screen Height " + SafeScreenArea.height, nonStyle, GUILayout.Height(size.y));
 		GUILayout.FlexibleSpace();
 		GUILayout.EndHorizontal();
 
@@ -888,7 +898,7 @@ public class Reporter : MonoBehaviour
 		GUILayout.Space(size.x);
 		GUILayout.Label("Size = " + size.x.ToString("0.0"), nonStyle, GUILayout.Height(size.y));
 		GUILayout.Space(size.x);
-		float _size = GUILayout.HorizontalSlider(size.x, 16, 64, sliderBackStyle, sliderThumbStyle, GUILayout.Width(Screen.width * 0.5f));
+		float _size = GUILayout.HorizontalSlider(size.x, 16, 64, sliderBackStyle, sliderThumbStyle, GUILayout.Width(SafeScreenArea.width * 0.5f));
 		if (size.x != _size) {
 			size.x = size.y = _size;
 			initializeStyle();
@@ -980,10 +990,10 @@ public class Reporter : MonoBehaviour
 
 	void DrawReport()
 	{
-		screenRect.x = 0f;
-		screenRect.y = 0f;
-		screenRect.width = Screen.width;
-		screenRect.height = Screen.height;
+		screenRect.x = SafeScreenArea.x;
+		screenRect.y = SafeScreenArea.y;
+		screenRect.width = SafeScreenArea.width;
+		screenRect.height = SafeScreenArea.height;
 		GUILayout.BeginArea(screenRect, backStyle);
 		GUILayout.BeginVertical();
 		GUILayout.FlexibleSpace();
@@ -1016,9 +1026,9 @@ public class Reporter : MonoBehaviour
 	void drawToolBar()
 	{
 
-		toolBarRect.x = 0f;
-		toolBarRect.y = 0f;
-		toolBarRect.width = Screen.width;
+		toolBarRect.x = SafeScreenArea.x;
+		toolBarRect.y = SafeScreenArea.y;
+		toolBarRect.width = SafeScreenArea.width;
 		toolBarRect.height = size.y * 2f;
 
 		//toolbarScrollerSkin.verticalScrollbar.fixedWidth = 0f;
@@ -1026,7 +1036,11 @@ public class Reporter : MonoBehaviour
 
 		GUI.skin = toolbarScrollerSkin;
 		Vector2 drag = getDrag();
-		if ((drag.x != 0) && (downPos != Vector2.zero) && (downPos.y > Screen.height - size.y * 2f)) {
+
+		//因为downPos是按照屏幕左下角为(0,0)来计算的
+		var screenMouseY = Screen.height - downPos.y;
+
+		if ((drag.x != 0) && (downPos != Vector2.zero) && (screenMouseY < SafeScreenArea.y + toolBarRect.height)) {
 			toolbarScrollPosition.x -= (drag.x - toolbarOldDrag);
 		}
 		toolbarOldDrag = drag.x;
@@ -1214,8 +1228,9 @@ public class Reporter : MonoBehaviour
 		GUI.skin = logScrollerSkin;
 		//setStartPos();
 		Vector2 drag = getDrag();
-
-		if (drag.y != 0 && logsRect.Contains(new Vector2(downPos.x, Screen.height - downPos.y))) {
+		//因为downPos是按照屏幕左下角为(0,0)来计算的
+		var screenMouseY = Screen.height - downPos.y;
+		if (drag.y != 0 && logsRect.Contains(new Vector2(downPos.x, screenMouseY))) {
 			scrollPosition.y += (drag.y - oldDrag);
 		}
 		scrollPosition = GUILayout.BeginScrollView(scrollPosition);
@@ -1223,7 +1238,7 @@ public class Reporter : MonoBehaviour
 		oldDrag = drag.y;
 
 
-		int totalVisibleCount = (int)(Screen.height * 0.75f / size.y);
+		int totalVisibleCount = (int)(SafeScreenArea.height * 0.75f / size.y);
 		int totalCount = currentLog.Count;
 		/*if( totalCount < 100 )
 			inGameLogsScrollerSkin.verticalScrollbarThumb.fixedHeight = 0;
@@ -1286,7 +1301,7 @@ public class Reporter : MonoBehaviour
 			float w = 0f;
 			if (collapse)
 				w = barStyle.CalcSize(tempContent).x + 3;
-			countRect.x = Screen.width - w;
+			countRect.x = Screen.width - w - SafeScreenArea.x;
 			countRect.y = size.y * i;
 			if (beforeHeight > 0)
 				countRect.y += 8;//i will check later why
@@ -1411,9 +1426,9 @@ public class Reporter : MonoBehaviour
 		GUILayout.EndScrollView();
 		GUILayout.EndArea();
 
-		buttomRect.x = 0f;
-		buttomRect.y = Screen.height - size.y;
-		buttomRect.width = Screen.width;
+		buttomRect.x = SafeScreenArea.x;
+		buttomRect.y = SafeScreenArea.yMax - size.y;
+		buttomRect.width = SafeScreenArea.width;
 		buttomRect.height = size.y;
 
 		if (showGraph)
@@ -1438,16 +1453,16 @@ public class Reporter : MonoBehaviour
 	{
 
 		graphRect = stackRect;
-		graphRect.height = Screen.height * 0.25f;//- size.y ;
+		graphRect.height = SafeScreenArea.height * 0.25f;//- size.y ;
 
 
 
-		//startFrame = samples.Count - (int)(Screen.width / graphSize) ;
+		//startFrame = samples.Count - (int)(safeScreenArea.width / graphSize) ;
 		//if( startFrame < 0 ) startFrame = 0 ;
 		GUI.skin = graphScrollerSkin;
 
 		Vector2 drag = getDrag();
-		if (graphRect.Contains(new Vector2(downPos.x, Screen.height - downPos.y))) {
+		if (graphRect.Contains(new Vector2(downPos.x, SafeScreenArea.height - downPos.y))) {
 			if (drag.x != 0) {
 				graphScrollerPos.x -= drag.x - oldDrag3;
 				graphScrollerPos.x = Mathf.Max(0, graphScrollerPos.x);
@@ -1464,7 +1479,7 @@ public class Reporter : MonoBehaviour
 
 		graphScrollerPos = GUILayout.BeginScrollView(graphScrollerPos);
 		startFrame = (int)(graphScrollerPos.x / graphSize);
-		if (graphScrollerPos.x >= (samples.Count * graphSize - Screen.width))
+		if (graphScrollerPos.x >= (samples.Count * graphSize - SafeScreenArea.width))
 			graphScrollerPos.x += graphSize;
 
 		GUILayout.Label(" ", GUILayout.Width(samples.Count * graphSize));
@@ -1474,7 +1489,7 @@ public class Reporter : MonoBehaviour
 		minFpsValue = 100000;
 		maxMemoryValue = 0;
 		minMemoryValue = 100000;
-		for (int i = 0; i < Screen.width / graphSize; i++) {
+		for (int i = 0; i < SafeScreenArea.width / graphSize; i++) {
 			int index = startFrame + i;
 			if (index >= samples.Count)
 				break;
@@ -1556,7 +1571,9 @@ public class Reporter : MonoBehaviour
 
 		if (selectedLog != null) {
 			Vector2 drag = getDrag();
-			if (drag.y != 0 && stackRect.Contains(new Vector2(downPos.x, Screen.height - downPos.y))) {
+			//因为downPos是按照屏幕左下角为(0,0)来计算的
+			var screenMouseY = Screen.height - downPos.y;
+			if (drag.y != 0 && stackRect.Contains(new Vector2(downPos.x, screenMouseY))) {
 				scrollPosition2.y += drag.y - oldDrag2;
 			}
 			oldDrag2 = drag.y;
@@ -1629,31 +1646,31 @@ public class Reporter : MonoBehaviour
 			return;
 		}
 
-		screenRect.x = 0;
-		screenRect.y = 0;
-		screenRect.width = Screen.width;
-		screenRect.height = Screen.height;
+		screenRect.x = SafeScreenArea.x;
+		screenRect.y = SafeScreenArea.y;
+		screenRect.width = SafeScreenArea.width;
+		screenRect.height = SafeScreenArea.height;
 
 		getDownPos();
 
 
-		logsRect.x = 0f;
-		logsRect.y = size.y * 2f;
-		logsRect.width = Screen.width;
-		logsRect.height = Screen.height * 0.75f - size.y * 2f;
+		logsRect.x = SafeScreenArea.x;
+		logsRect.y = SafeScreenArea.y + size.y * 2f;
+		logsRect.width = SafeScreenArea.width;
+		logsRect.height = SafeScreenArea.height * 0.75f - size.y * 2f;
 
-		stackRectTopLeft.x = 0f;
-		stackRect.x = 0f;
-		stackRectTopLeft.y = Screen.height * 0.75f;
-		stackRect.y = Screen.height * 0.75f;
-		stackRect.width = Screen.width;
-		stackRect.height = Screen.height * 0.25f - size.y;
+		//stackRectTopLeft.x = safeScreenArea.x;
+		stackRect.x = SafeScreenArea.x;
+		//stackRectTopLeft.y = safeScreenArea.height * 0.75f;
+		stackRect.y = SafeScreenArea.y + SafeScreenArea.height * 0.75f;
+		stackRect.width = SafeScreenArea.width;
+		stackRect.height = SafeScreenArea.height * 0.25f - size.y;
 
 
 
-		detailRect.x = 0f;
-		detailRect.y = Screen.height - size.y * 3;
-		detailRect.width = Screen.width;
+		detailRect.x = SafeScreenArea.x;
+		detailRect.y = SafeScreenArea.y + SafeScreenArea.height - size.y * 3;
+		detailRect.width = SafeScreenArea.width;
 		detailRect.height = size.y * 3;
 
 		if (currentView == ReportView.Info)
@@ -1725,7 +1742,7 @@ public class Reporter : MonoBehaviour
 			prevDelta = delta;
 		}
 
-		int gestureBase = (Screen.width + Screen.height) / 4;
+		int gestureBase = ((int)SafeScreenArea.width + (int)SafeScreenArea.height) / 4;
 
 		if (gestureLength > gestureBase && gestureSum.magnitude < gestureBase / 2) {
 			gestureDetector.Clear();
@@ -2010,7 +2027,7 @@ public class Reporter : MonoBehaviour
 		if (newLogAdded) {
 			calculateStartIndex();
 			int totalCount = currentLog.Count;
-			int totalVisibleCount = (int)(Screen.height * 0.75f / size.y);
+			int totalVisibleCount = (int)(SafeScreenArea.height * 0.75f / size.y);
 			if (startIndex >= (totalCount - totalVisibleCount))
 				scrollPosition.y += size.y;
 		}

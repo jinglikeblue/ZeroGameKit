@@ -1,22 +1,66 @@
 - 重新整理资源，每个测试按钮改成独立加载资源包。加载动画搞一个。
 - 「资源名生成」功能里，顺便生成@Configs文件中的文件地址和名称
-- [UniWebView]编写网页访问示例
+
 - Sprite Packer 已弃用，改为 Sprite Atlas 
                        var saa =new UnityEditor.U2D.SpriteAtlasAsset();
                 saa.name = "fuck";
                 saa.Add(objs);
                 saa.SetPackingSettings(UnityEditor.U2D.SpriteAtlasPackingSettings)
                 UnityEditor.U2D.SpriteAtlasAsset.Save(saa, "Assets/Examples/Art/saa");
-- 引入「TurbochargedScrollList」
-- 引入「Zero2dDemo」
-- 引入「Zero3dDemo」
+
 - 引入「KCP」
-- 引入「WebSocket」
-- 引入「One」
-- 把框架中的功能类都写例子
+
 - [setting.json]增加是否使用反射执行DLL，标注“在Editor下不适用，仅适用于Player下”
+
 - 完善[项目是否使用热更]为false的情况
+
+- 实现一个基于线程的计时器，TimerThreaded，可以应用在逻辑开发中，不依赖Unity的API
+
+- ResMgr的异步加载，好像没有取消的办法
+
+- 热更打包
+       - 增加内嵌资源直接放在StreamingAssets的方案（不走Package.zip的复制流程）
+       - 增加一个可以不请求网络，直接读StreamingAssets的方案
+
+- 重写框架中一些传回调的地方，改成事件委托方式
+
+- 框架中异步的地方，需要返回一个对象，可以用来终止异步操作
+       - ResUpdate
+       - ResMgr
+       - AudioDevice
+
+- 后缀为json和xml的文件可以直接打到AB包中了
+
+-@Configs重新设计
+       - txt json xml可以直接放在@Resources里打入到AB包中
+       - 名字换成不能打入AB包的资源放置的位置
+
+- 重构结构，preload到ilcontent阶段，统一一下界面，让使用起来的理解更简洁
+
+- 热更资源分为「AB(@Resources)」和「非AB(@Files)」两类，能放AB的优先放AB，不行的或者特殊需求的，放「非AB」
+       - 生成和AB.cs类似的HotFile.cs文件
+
+- 写一个协程按照顺序执行的工具类       
+
+- 分两步优化setting.json
+       - 第一步：Preload中设置的数据，都可以通过setting.json来覆盖，影响加载setting.json之后的逻辑，影响部分RuntimeVO数据。不包括以下：
+              - 内嵌资源执行模式
+              - 资源读取模式
+              - 网络资源的根目录列表
+       - 第二步：setting.json加一个参数，标记更新到这个setting.json后，是否下次启动直接使用这个setting.json中RuntimeVO数据,这样可以影响所有RuntimeVO数据。
+              - 这一步可能导致程序更新setting.json后，因为配置错误，导致APP不能正常运行，且无法还原。
+
 
 -----------------------------------------------------华佗---------------------------------------------------
 - Android真机测试
 - iOS真机测试
+
+-----------------------------------------------------优先---------------------------------------------------
+- 资源放置的重新设计(StreamingAssets)
+- Sprite Atlas 工具实现
+
+
+
+-----------------------------------------------------BUG---------------------------------------------------
+
+- 「视频播放」真机上有问题

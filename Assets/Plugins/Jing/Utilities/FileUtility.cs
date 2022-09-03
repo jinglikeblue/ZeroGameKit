@@ -8,6 +8,13 @@ namespace Jing
     /// </summary>
     public class FileUtility
     {
+                public enum EPathType
+        {
+            FILE,
+            DIRECTORY,
+            OTHER
+        }
+
         /// <summary>
         /// 标准化路径中的路径分隔符（统一使用“/”符号）
         /// </summary>
@@ -35,20 +42,15 @@ namespace Jing
         /// </summary>
         /// <param name="dirPath">目录地址</param>
         /// <param name="ext">扩展名 格式可以为[exe]或[.exe]</param>
-        public static void DeleteFilesByExt(string dirPath, string ext)
+        /// <param name="searchOption">指定是搜索当前目录，还是搜索当前目录及其所有子目录</param>
+        public static void DeleteFilesByExt(string dirPath, string ext, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             if (false == ext.StartsWith("."))
             {
                 ext = "." + ext;
-            }
+            }            
 
-            string[] dirs = Directory.GetDirectories(dirPath);
-            foreach (string dir in dirs)
-            {
-                DeleteFilesByExt(dir, ext);
-            }
-
-            string[] files = Directory.GetFiles(dirPath);
+            string[] files = Directory.GetFiles(dirPath, "*" + ext, searchOption);
             foreach (string file in files)
             {
                 if (File.Exists(file))
@@ -160,7 +162,7 @@ namespace Jing
         /// <returns></returns>
         public delegate bool CheckCopyEnableDelegate(string sourceFile, string targetFile);
 
-        public static void CopyDir(string source, string target, CheckCopyEnableDelegate checkCopyEnable = null)
+        public static void CopyDir(string source, string target, CheckCopyEnableDelegate checkCopyEnable = null, Action<string> onFileCopied = null)
         {
             source = StandardizeBackslashSeparator(source);
             target = StandardizeBackslashSeparator(target);
@@ -185,6 +187,7 @@ namespace Jing
                 if (copyEnable)
                 {
                     CopyFile(subFile, targetFile, true);
+                    onFileCopied?.Invoke(targetFile);
                 }
             }
         }
@@ -195,7 +198,7 @@ namespace Jing
         /// <param name="source"></param>
         /// <param name="target"></param>
         /// <param name="overwrite"></param>
-        public static void CopyFile(string source, string target, bool overwrite)
+        public static void CopyFile(string source, string target, bool overwrite = true)
         {
             if (false == File.Exists(source))
             {
@@ -287,6 +290,47 @@ namespace Jing
             }
 
             return result;
+        }
+    
+
+        /// <summary>
+        /// 检查路径是否指向文件
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static bool CheckIsFile(string path)
+        {
+            return File.Exists(path);
+        }
+        
+        /// <summary>
+        /// 检查路径是否指向文件夹
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static bool CheckIsDirectory(string path)
+        {
+            return Directory.Exists(path);
+        }
+
+        /// <summary>
+        /// 检查路径对应的文件类型
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static EPathType CheckPathType(string path)
+        {
+            if (CheckIsFile(path))
+            {
+                return EPathType.FILE;
+            }
+
+            if (CheckIsDirectory(path))
+            {
+                return EPathType.DIRECTORY;
+            }
+
+            return EPathType.OTHER;
         }
     }
 }

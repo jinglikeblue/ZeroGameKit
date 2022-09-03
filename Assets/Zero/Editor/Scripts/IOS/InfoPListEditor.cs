@@ -54,7 +54,7 @@ namespace ZeroEditor.IOS
         }
 
         /// <summary>
-        /// 添加urlscheme白名单
+        /// 添加UrlScheme白名单
         /// </summary>
         /// <param name="urlScheme">URL scheme.</param>
         public void AddLSApplicationQueriesScheme(string urlScheme)

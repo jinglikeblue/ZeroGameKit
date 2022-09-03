@@ -37,9 +37,9 @@ namespace ZeroEditor
         static public string ASSET_BUNDLE_PUBLISH_DIR = FileUtility.CombineDirs(false, ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.AB_DIR_NAME);
 
         /// <summary>
-        /// 配置的发布目录
+        /// Files资源的发布目录
         /// </summary>
-        static public string CONFIG_PUBLISH_DIR = FileUtility.CombineDirs(false, ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.CONFIG_DIR_NAME);
+        static public string FILES_PUBLISH_DIR = FileUtility.CombineDirs(false, ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.FILES_DIR_NAME);
 
         /// <summary>
         /// DD打包缓存目录

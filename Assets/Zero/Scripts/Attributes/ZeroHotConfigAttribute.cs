@@ -14,14 +14,14 @@ namespace Zero
         public string label { get; private set; }
 
         /// <summary>
-        /// 配置存储的位置，相对于@Configs目录
+        /// 配置存储的位置，相对于@Resources目录
         /// </summary>
-        public string path { get; private set; }
+        public string assetPath { get; private set; }
 
-        public ZeroHotConfigAttribute(string label, string path)
-        {
+        public ZeroHotConfigAttribute(string label, string assetPath)
+        {            
             this.label = label;
-            this.path = path;
+            this.assetPath = assetPath;
         }
     }
 }

@@ -44,16 +44,20 @@ namespace ZeroHot
             return null;
         }
 
-        public void DestroyPool<T>(string name) where T : class, IRecyclable
+        public void ClearPool(string name)
         {
             if (_poolDic.ContainsKey(name))
             {
-                var pool = _poolDic[name] as ObjectPool<T>;
-                if (null == pool)
-                {
-                    throw new System.Exception(string.Format("对象池[{0}]存在，但是类型为:{1} , 并不是:{2} !", name, _poolDic[name].GetType().FullName, typeof(T).FullName));
-                }
-                pool.Clear();
+                var pool = _poolDic[name];
+                pool?.Clear();
+            }
+        }
+
+        public void DestroyPool(string name) 
+        {
+            ClearPool(name);
+            if (_poolDic.ContainsKey(name))
+            {
                 _poolDic.Remove(name);
             }
         }

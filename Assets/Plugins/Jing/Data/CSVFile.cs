@@ -59,7 +59,13 @@ namespace Jing
         {
             for (int i = 0; i < rows.Length; i++)
             {
-                var cols = GetCols(rows[i]);
+                var rowString = rows[i];
+                if (rowString.Trim().Equals(string.Empty))
+                {
+                    //空行，没有数据，跳过
+                    continue;
+                }
+                var cols = GetCols(rowString);
                 if (null != cols)
                 {
                     _data.Add(cols.ToArray());
@@ -80,6 +86,16 @@ namespace Jing
         /// <param name="col"></param>
         public string GetValue(int row, int col)
         {
+            if(_data.Count <= row)
+            {
+                throw new Exception($"请求的Row值不存在: row = {row} , col = {col}");
+            }
+
+            if(_data[row].Length <= col)
+            {
+                throw new Exception($"请求的Col值不存在: row = {row} , col = {col}");
+            }
+
             return _data[row][col];
         }
 
@@ -110,6 +126,12 @@ namespace Jing
                     if (c == QUOTATION_MARKS)
                     {
                         isSpecial = true;                        
+                    }
+                    else if(c == COMMA)
+                    {
+                        //第一个字符就是分割符，说明该列没有数据
+                        cols.Add(string.Empty);
+                        splitMark = charIdx + 1;
                     }
                     else
                     {

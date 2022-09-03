@@ -31,8 +31,6 @@ sysinfo.txt
 /ProjectSettings/ProjectVersion.txt
 /Assets/Resources/BillingMode.json.meta
 /Assets/Resources/BillingMode.json
-/Assets/Zero/Libs/ILRuntime/Generated.meta
-/Assets/Zero/Libs/ILRuntime/Generated
 /Packages/packages-lock.json
 /ProjectSettings/PackageManagerSettings.asset
 /.vsconfig
@@ -42,3 +40,8 @@ sysinfo.txt
 /HuatuoData/il2cpp_huatuo_repo
 /HuatuoData/AssembliesPostIl2CppStrip
 /Assets/Resources/huatuo.meta
+/Assets/StreamingAssets/hot
+/Assets/StreamingAssets/hot.meta
+/Assets/StreamingAssets/res
+/Assets/StreamingAssets/res.meta
+/Designs/*.bkp

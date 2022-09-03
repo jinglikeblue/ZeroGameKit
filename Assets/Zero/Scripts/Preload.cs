@@ -16,24 +16,24 @@ namespace Zero
         public enum EState
         {
             /// <summary>
-            /// 解压StreamingAssets/Package.zip
+            /// 内嵌资源创始器
             /// </summary>
-            UNZIP_PACKAGE,
+            STREAMING_ASSETS_RES_INITIATOR,
 
             /// <summary>
             /// 更新Setting.json
             /// </summary>
-            SETTING_UPDATE,
+            SETTING_JSON_INITIATOR,
 
             /// <summary>
             /// 客户端更新
             /// </summary>
-            CLIENT_UDPATE,
+            APP_UPDATE_INITIATOR,
 
             /// <summary>
             /// 资源更新
             /// </summary>
-            RES_UPDATE,
+            STARTUP_RES_INITIATOR,
 
             /// <summary>
             /// 启动主程序
@@ -41,7 +41,7 @@ namespace Zero
             STARTUP
         }        
         
-        public RuntimeVO runtimeCfg = new RuntimeVO();
+        public RuntimeVO runtimeVO = new RuntimeVO();
 
         /// <summary>
         /// 当前状态
@@ -55,12 +55,20 @@ namespace Zero
         /// <summary>
         /// 状态对应进度的委托
         /// </summary>
-        public event Action<float, long> onProgress;
+        public event BaseInitiator.InitiatorProgress onProgress;
 
         /// <summary>
         /// Preload加热失败
         /// </summary>
-        public event Action<string> onError;            
+        public event Action<string> onError;
+
+        StreamingAssetsResInitiator _streamingAssetsResInitiator;
+
+        SettingJsonInitiator _settingJsonInitiator;
+
+        AppUpdateInitiator _appUpdateInitiator;
+
+        StartupResInitiator _startupResInitiator;
 
         /// <summary>
         /// 开始激活预加载
@@ -71,123 +79,173 @@ namespace Zero
             //实例化Native桥接器
             var startupNativeBridge = NativeBridge.Ins;
 
-            //初始化运行环境配置环境
-            Runtime.Ins.Init(runtimeCfg);
 
-            Debug.Log(Log.Zero1("游戏运行模式：[{0}]", Runtime.Ins.IsHotResProject?Runtime.Ins.ResMode.ToString():"Local"));
 
-            if (false == Runtime.Ins.IsHotResProject)
+            StreamingAssetsResInit();
+        }
+
+        #region StreamingAssetsResInit -> InitRuntime
+
+        void StreamingAssetsResInit()
+        {
+            ChangeState(EState.STREAMING_ASSETS_RES_INITIATOR);
+            _streamingAssetsResInitiator = new StreamingAssetsResInitiator();
+            _streamingAssetsResInitiator.onComplete += OnStreamingAssetsResInitiatorComplete;
+            _streamingAssetsResInitiator.Start();
+        }
+
+        private void OnStreamingAssetsResInitiatorComplete(BaseInitiator initiator)
+        {
+            _streamingAssetsResInitiator.onComplete -= OnStreamingAssetsResInitiatorComplete;
+
+            Runtime.Ins.streamingAssetsResInitiator = _streamingAssetsResInitiator;
+
+            if (initiator.error != null)
             {
-                ResMgr.Ins.Init(ResMgr.EResMgrType.RESOURCES);
-                RunScripts();
+                Error(initiator.error);
             }
             else
             {
-                OnStageChange(EState.UNZIP_PACKAGE);
-                new PackageUpdate().Start(LoadSettingFile, OnPackageUpdate);
+                InitRuntime();
+            }
+        }
+
+        #endregion
+
+        void InitRuntime()
+        {
+            //初始化运行环境配置环境
+            Runtime.Ins.Init(runtimeVO);
+
+            SettingJsonInit();
+        }
+
+        #region SettingJsonInit -> AppClientInit
+
+        void SettingJsonInit()
+        {
+            ChangeState(EState.SETTING_JSON_INITIATOR);
+            _settingJsonInitiator = new SettingJsonInitiator();
+            _settingJsonInitiator.onComplete += OnSettingJsonInitiatorComplete;
+            _settingJsonInitiator.Start();            
+        }
+
+        private void OnSettingJsonInitiatorComplete(BaseInitiator initiator)
+        {
+            _settingJsonInitiator.onComplete -= OnSettingJsonInitiatorComplete;
+
+            if (initiator.error != null)
+            {
+                Error(initiator.error);
+            }
+            else
+            {
+                AppClientInit();
             }            
         }
 
-        public void OnPackageUpdate(float progress, long totalSize)
-        {
-            OnProgress(progress, totalSize);
-        }
+        #endregion
 
-        void LoadSettingFile()
-        {
-            OnStageChange(EState.SETTING_UPDATE);
-            new SettingUpdate().Start(ClientUpdate, OnError);
-        }
+        #region AppClientInit -> StartupResInit
 
         /// <summary>
         /// 客户端更新
         /// </summary>
-        void ClientUpdate()
+        void AppClientInit()
         {                       
-            OnStageChange(EState.CLIENT_UDPATE);
-            new AppUpdate().Start(StartupResUpdate, OnClientUpdateProgress, OnError);
+            ChangeState(EState.APP_UPDATE_INITIATOR);
+            _appUpdateInitiator = new AppUpdateInitiator();
+            _appUpdateInitiator.onComplete += OnAppUpdateInitiatorComplete;
+            _appUpdateInitiator.onProgress += OnAppUpdateInitiatorProgress;
+            _appUpdateInitiator.Start();
         }
 
-        private void OnClientUpdateProgress(float progress, long totalSize)
+        private void OnAppUpdateInitiatorProgress(long loadedSize, long totalSize)
         {
-            OnProgress(progress, totalSize);
+            OnProgress(loadedSize, totalSize);
         }
+
+        private void OnAppUpdateInitiatorComplete(BaseInitiator initiator)
+        {
+            _appUpdateInitiator.onComplete -= OnAppUpdateInitiatorComplete;
+            _appUpdateInitiator.onProgress -= OnAppUpdateInitiatorProgress;
+
+            if (initiator.error != null)
+            {
+                Error(initiator.error);
+            }
+            else
+            {
+                StartupResInit();
+            }
+        }
+
+        #endregion
+
+        #region StartupResInit -> ScriptsInit
 
         /// <summary>
         /// 更新初始化所需资源
         /// </summary>
-        void StartupResUpdate(bool isOverVersion)
+        void StartupResInit()
         {
-            OnStageChange(EState.RES_UPDATE);           
-
-            ResUpdate update = new ResUpdate();
-            update.Start(Runtime.Ins.setting.startupResGroups, RunScripts, OnUpdateStartupResGroups, onError);
+            ChangeState(EState.STARTUP_RES_INITIATOR);
+            _startupResInitiator = new StartupResInitiator();
+            _startupResInitiator.onComplete += OnStartupResInitiatorComplete;
+            _startupResInitiator.onProgress += OnStartupResInitiatorProgress;
+            _startupResInitiator.Start();            
         }
 
-        private void OnUpdateStartupResGroups(float progress, long totalSize)
-        {            
-            OnProgress(progress, totalSize);
+        private void OnStartupResInitiatorProgress(long loadedSize, long totalSize)
+        {
+            OnProgress(loadedSize, totalSize);
         }
 
-        void OnProgress(float progress, long totalSize)
+        private void OnStartupResInitiatorComplete(BaseInitiator initiator)
+        {
+            _startupResInitiator.onComplete -= OnAppUpdateInitiatorComplete;
+            _startupResInitiator.onProgress -= OnAppUpdateInitiatorProgress;
+
+            if (initiator.error != null)
+            {
+                Error(initiator.error);
+            }
+            else
+            {
+                ScriptsInit();
+            }
+        }
+
+        #endregion
+
+        void OnProgress(long loadedSize, long totalSize)
         {
             //Log.W("Progress: {0}", progress);
-            if (null != onProgress)
-            {
-                onProgress.Invoke(progress, totalSize);
-            }
+            onProgress?.Invoke(loadedSize, totalSize);
         }
 
-        void OnStageChange(EState state)
+        void ChangeState(EState state)
         {
             CurrentState = state;
-            Debug.LogWarningFormat("state: {0}", state);            
-            if(null != onStateChange)
-            {
-                onStateChange.Invoke(state);
-            }
-                
+            Debug.Log(Log.Zero1($"Preload State: {state}"));
+            onStateChange?.Invoke(state);
         }
 
         /// <summary>
         /// 发生错误
         /// </summary>
         /// <param name="error"></param>
-        private void OnError(string error)
+        private void Error(string error)
         {
-            if (null != onError)
-            {
-                onError.Invoke(error);
-            }
+            onError?.Invoke(error);
         }
 
-        void RunScripts()
+        void ScriptsInit()
         {
-            OnStageChange(EState.STARTUP);
+            ChangeState(EState.STARTUP);
             GameObject.Destroy(this.gameObject);
 
-            var cfg = Runtime.Ins.VO;
-            bool isUseDll = cfg.isUseDll && cfg.isHotResProject;
-            
-            if (isUseDll)
-            {
-                Debug.Log(Log.Zero1("@Scripts代码运行环境: [外部程序集]"));
-
-                string dllDir = FileUtility.CombineDirs(false, Runtime.Ins.localResDir, ZeroConst.DLL_DIR_NAME);
-                //初始化IL
-                ILBridge.Ins.Startup(dllDir, ZeroConst.DLL_FILE_NAME, cfg.isDebugIL, cfg.isLoadPdb);
-                //调用启动方法
-                ILBridge.Ins.Invoke(cfg.className, cfg.methodName);
-            }
-            else
-            {
-                Debug.Log(Log.Zero1("@Scripts代码运行环境: [本地程序集]"));
-
-                //初始化IL
-                ILBridge.Ins.Startup();
-                //调用启动方法
-                ILBridge.Ins.Invoke(cfg.className, cfg.methodName);
-            }
+            new ScriptsInitiator().Start();
         }
     }
 }

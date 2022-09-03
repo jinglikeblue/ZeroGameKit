@@ -1,4 +1,6 @@
-﻿namespace ZeroHot
+﻿using System;
+
+namespace ZeroHot
 {
     public abstract class BaseSingleton
     {
@@ -19,9 +21,19 @@
     /// <typeparam name="T"></typeparam>
     public abstract class ASingleton<T> : BaseSingleton where T : BaseSingleton, new()
     {
-        private static object _singletonLock = new object(); //锁同步
+        class LockObject 
+        {
+            public string name;
+            public LockObject(string name)
+            {
+                this.name = name;
+            }
+        }
 
-        private static T _ins;
+
+        private static LockObject _singletonLock = new LockObject(DateTime.Now.ToString()); //锁同步        
+
+        private static T _ins = new T();
 
         /// <summary>
         /// 单例
@@ -38,12 +50,12 @@
         /// 创建单例，如果单例对象不存在，则会创建
         /// </summary>
         public static T GetIns()
-        {
+        {            
             lock (_singletonLock)
             {
                 if (null == _ins)
                 {
-                    _ins = new T();
+                    _ins = new T();                    
                 }
             }
             return _ins;

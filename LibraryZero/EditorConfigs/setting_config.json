@@ -1,10 +1,10 @@
 ﻿
 {
     "client" : {
-        "version" : "1.0",
-        "url"     : "http://5t9whj.coding-pages.com/zero.apk"
+        "version" : "0.1",
+        "url"     : "http://www.baidu.com"
     },
-    "netResRoot" : "http://192.168.0.103/zerogamekit",
+    "netResRoot" : "http://192.168.0.4:8800/res",
     "startupResGroups" : [
         "dll",
         "configs",
@@ -13,5 +13,6 @@
         "ab/manifest.ab"
     ],
     "startupParams"    : {
-    }
+    },
+    "isOnlyUseResInStreamingAssets" : false
 }

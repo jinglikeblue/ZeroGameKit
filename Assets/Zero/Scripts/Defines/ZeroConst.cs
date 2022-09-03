@@ -31,9 +31,9 @@ namespace Zero
         public const string LOGIC_SCRIPT_STARTUP_METHOD = "Startup";
 
         /// <summary>
-        /// 配置资源的目录名称
+        /// 其它资源文件的目录名称
         /// </summary>
-        public const string CONFIG_DIR_NAME = "configs";
+        public const string FILES_DIR_NAME = "files";
 
         /// <summary>
         /// 热更DLL的文件名称（不含后缀）
@@ -83,9 +83,9 @@ namespace Zero
         static public string HOT_RESOURCES_ROOT_DIR = "Assets/@Resources";
 
         /// <summary>
-        /// 热更配置在项目中的根目录
+        /// 其它热更资源再项目中的根目录
         /// </summary>
-        static public string HOT_CONFIGS_ROOT_DIR = "Assets/@Configs";
+        static public string HOT_FILES_ROOT_DIR = "Assets/@Files";
 
         /// <summary>
         /// Zero框架的Library目录
@@ -128,22 +128,26 @@ namespace Zero
         static string _streamingAssetsPath = null;
 
         /// <summary>
-        /// 可用WWW加载资源的streamingAssets目录地址
+        /// 可用UnityWebRequest加载资源的streamingAssets目录地址
         /// </summary>
         public static string STREAMING_ASSETS_PATH
         {
             get
             {
-                if (null == _streamingAssetsPath)
-                {
-                    _streamingAssetsPath = Application.streamingAssetsPath;
-#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_IPHONE
-                    //如果在编辑器下，或是PC平台或iOS平台，则要加上file://才能读取资源
-                    _streamingAssetsPath = "file://" + _streamingAssetsPath;
-#endif
-                }
-                return _streamingAssetsPath;
+                return Application.streamingAssetsPath;
             }
+//            get
+//            {
+//                if (null == _streamingAssetsPath)
+//                {
+//                    _streamingAssetsPath = Application.streamingAssetsPath;
+//#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_IPHONE
+//                    //如果在编辑器下，或是PC平台或iOS平台，则要加上file://才能读取资源
+//                    _streamingAssetsPath = "file://" + _streamingAssetsPath;
+//#endif
+//                }
+//                return _streamingAssetsPath;
+//            }
         }
 
         static string _persistentDataPath = null;
@@ -177,5 +181,11 @@ namespace Zero
         /// 框架生成文件存放地址
         /// </summary>
         public static string GENERATES_PERSISTENT_DATA_PATH = FileUtility.CombineDirs(false, PERSISTENT_DATA_PATH, "zero", "generated");
+
+        /// <summary>
+        /// StreamingAssets下的内嵌资源根路径
+        /// 举例：[StreamingAssets绝对路径]/res/[平台]
+        /// </summary>
+        public static string STREAMING_ASSETS_RES_DATA_PATH = FileUtility.CombinePaths(Application.streamingAssetsPath, "res", ZeroConst.PLATFORM_DIR_NAME);
     }
 }

@@ -1,0 +1,95 @@
+<level name="level33">
+  <blocks>
+    <unit x="1" y="9"/>
+    <unit x="2" y="14"/>
+    <unit x="3" y="11"/>
+    <unit x="4" y="14"/>
+    <unit x="5" y="14"/>
+    <unit x="6" y="14"/>
+    <unit x="7" y="14"/>
+    <unit x="8" y="14"/>
+    <unit x="1" y="12"/>
+    <unit x="2" y="9"/>
+    <unit x="3" y="14"/>
+    <unit x="4" y="9"/>
+    <unit x="5" y="9"/>
+    <unit x="14" y="5"/>
+    <unit x="7" y="12"/>
+    <unit x="8" y="9"/>
+    <unit x="9" y="14"/>
+    <unit x="1" y="14"/>
+    <unit x="11" y="9"/>
+    <unit x="3" y="9"/>
+    <unit x="13" y="9"/>
+    <unit x="14" y="9"/>
+    <unit x="6" y="9"/>
+    <unit x="7" y="5"/>
+    <unit x="8" y="7"/>
+    <unit x="9" y="11"/>
+    <unit x="10" y="11"/>
+    <unit x="1" y="13"/>
+    <unit x="12" y="9"/>
+    <unit x="13" y="5"/>
+    <unit x="14" y="8"/>
+    <unit x="5" y="3"/>
+    <unit x="6" y="10"/>
+    <unit x="7" y="3"/>
+    <unit x="8" y="3"/>
+    <unit x="9" y="12"/>
+    <unit x="10" y="10"/>
+    <unit x="11" y="4"/>
+    <unit x="1" y="10"/>
+    <unit x="14" y="7"/>
+    <unit x="5" y="4"/>
+    <unit x="6" y="3"/>
+    <unit x="9" y="13"/>
+    <unit x="10" y="9"/>
+    <unit x="12" y="5"/>
+    <unit x="1" y="11"/>
+    <unit x="14" y="6"/>
+    <unit x="3" y="4"/>
+    <unit x="4" y="4"/>
+    <unit x="9" y="3"/>
+    <unit x="10" y="3"/>
+    <unit x="12" y="4"/>
+    <unit x="3" y="8"/>
+    <unit x="4" y="8"/>
+    <unit x="10" y="4"/>
+    <unit x="3" y="7"/>
+    <unit x="3" y="6"/>
+    <unit x="3" y="5"/>
+  </blocks>
+  <roles>
+    <unit x="4" y="10"/>
+  </roles>
+  <boxs>
+    <unit x="5" y="7"/>
+    <unit x="6" y="7"/>
+    <unit x="7" y="6"/>
+    <unit x="8" y="8"/>
+    <unit x="9" y="9"/>
+    <unit x="11" y="6"/>
+    <unit x="12" y="8"/>
+    <unit x="6" y="12"/>
+    <unit x="7" y="10"/>
+    <unit x="8" y="11"/>
+    <unit x="9" y="7"/>
+    <unit x="12" y="6"/>
+    <unit x="8" y="5"/>
+  </boxs>
+  <targets>
+    <unit x="2" y="13"/>
+    <unit x="3" y="13"/>
+    <unit x="4" y="13"/>
+    <unit x="5" y="13"/>
+    <unit x="2" y="11"/>
+    <unit x="3" y="12"/>
+    <unit x="4" y="12"/>
+    <unit x="5" y="11"/>
+    <unit x="2" y="12"/>
+    <unit x="3" y="10"/>
+    <unit x="4" y="11"/>
+    <unit x="5" y="12"/>
+    <unit x="2" y="10"/>
+  </targets>
+</level>

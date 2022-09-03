@@ -88,6 +88,9 @@ namespace ZeroEditor
 
         string GenerateFieldList(string abName, List<string> viewNameList)
         {
+            //因为Unity构建AssetBundle时，会将大写转换为小写，所以这里同样的做一个名字转换为小写的处理
+            abName = abName.ToLower();
+
             var abNameWithoutExt = abName;
             if (abNameWithoutExt.EndsWith(ZeroConst.AB_EXTENSION))
             {

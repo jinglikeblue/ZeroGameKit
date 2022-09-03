@@ -28,7 +28,9 @@ namespace Zero
 
         private void OnEnable()
         {
-            
+            var rt = GetComponent<RectTransform>();
+            var canvas = GetComponentInParent<ZeroUICanvas>();
+            rt.sizeDelta = new Vector2(canvas.RenderWidth, canvas.RenderHeight);
         }
 
         /// <summary>

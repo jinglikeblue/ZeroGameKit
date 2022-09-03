@@ -82,49 +82,45 @@ namespace Zero
         /// <summary>
         /// 启动热更代码执行
         /// </summary>
-        /// <param name="dllDir">Dll文件所在目录</param>
-        /// <param name="dllName">DLL文件名称（不含扩展名）</param>
-        /// <param name="isDebug">是否是调试模式（仅针对ILRuntime，可以用第三方插件在APP运行时进行调试）</param>
-        /// <param name="methodName">是否需要加载PDB文件（仅针对ILRuntime，可以在调试时打印出错代码信息）</param>
-        public void Startup(string dllDir, string dllName, bool isDebug, bool isNeedPdbFile)
+        /// <param name="dllBytes">dll文件二进制数据</param>
+        /// <param name="pdbBytes">pdb文件二进制数据，可能为null</param>         
+        public void Startup(byte[] dllBytes, byte[] pdbBytes)
         {
-            string dllPath = Path.Combine(dllDir, dllName + ".dll");
-            string pdbPath = Path.Combine(dllDir, dllName + ".pdb");
-
-            byte[] dllBytes = File.ReadAllBytes(dllPath);
-            byte[] pdbBytes = null;
-            if (isNeedPdbFile)
-            {
-                pdbBytes = File.ReadAllBytes(pdbPath);
-            }
             Assembly assembly = AssemblyILWorker.LoadAssembly(dllBytes, pdbBytes);
 
-            //如果是HuaTuo模式
-            if (Runtime.Ins.VO.ilType == EILType.HUA_TUO)
+            //如果是HybridCLR模式
+            if (Runtime.Ins.VO.ilType == EILType.HYBRID_CLR)
             {
-                Debug.Log(Log.Zero1("外部程序集执行方式：[HuaTuo]"));
+                Debug.Log(Log.Zero1("外部程序集执行方式：[HYBRID_CLR]"));
                 iLWorker = new HuaTuoILWorker(assembly);
-                ILWorkerType = EILType.HUA_TUO;
+                ILWorkerType = EILType.HYBRID_CLR;
                 return;
             }
 
-            if (null != assembly && Runtime.Ins.VO.ilType == EILType.JIT)
+            if(Runtime.Ins.VO.ilType == EILType.IL_RUNTIME)
             {
-                //可以用JIT方式执行
-                Debug.Log(Log.Zero1("外部程序集执行方式：[JIT]"));
-                //使用Assembly                
-                iLWorker = new AssemblyILWorker(assembly);
-                ILWorkerType = EILType.JIT;
+                if (null != assembly && Runtime.Ins.VO.isTryJitBeforeILRuntime)
+                {
+                    //可以用JIT方式执行
+                    Debug.Log(Log.Zero1("外部程序集执行方式：[JIT]"));
+                    //使用Assembly                
+                    iLWorker = new AssemblyILWorker(assembly);
+                    ILWorkerType = EILType.JIT;
+                }
+                else
+                {
+                    //如果JIT不行，则切换为ILRuntime模式
+                    Debug.Log(Log.Zero1("外部程序集执行方式：[IL_RUNTIME]"));
+                    //使用ILRuntime
+                    var ilruntimeWorker = new ILRuntimeILWorker(dllBytes, pdbBytes, Runtime.Ins.VO.isDebugIL);
+                    iLWorker = ilruntimeWorker;
+                    ILRuntimeAppDomain = ilruntimeWorker.appDomain;
+                    ILWorkerType = EILType.IL_RUNTIME;
+                }
             }
             else
             {
-                //如果JIT不行，则切换为ILRuntime模式
-                Debug.Log(Log.Zero1("外部程序集执行方式：[ILRuntime]"));
-                //使用ILRuntime
-                var ilruntimeWorker = new ILRuntimeILWorker(dllBytes, dllDir, dllName, isDebug, isNeedPdbFile);
-                iLWorker = ilruntimeWorker;
-                ILRuntimeAppDomain = ilruntimeWorker.appDomain;
-                ILWorkerType = EILType.IL_RUNTIME;
+                throw new Exception("外部程序集执行出错！");
             }
         }
 

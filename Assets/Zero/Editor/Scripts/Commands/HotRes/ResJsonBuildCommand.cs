@@ -15,7 +15,7 @@ namespace ZeroEditor
     {
         string _sourceDir;
 
-        ResVerVO _res;
+        ResVerVO _res = new ResVerVO();
 
         List<string> _files;
 

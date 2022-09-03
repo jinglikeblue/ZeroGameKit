@@ -1,0 +1,55 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Zero
+{
+    public class BaseUpdater
+    {
+        public delegate void UpdateProgress(long loadedSize, long totalSize);
+
+        /// <summary>
+        /// 创始器执行完毕
+        /// </summary>
+        public event Action<BaseUpdater> onComplete;
+
+        /// <summary>
+        /// 进度更新
+        /// </summary>
+        public event UpdateProgress onProgress;
+
+        /// <summary>
+        /// 创始器错误，null表示没有错误
+        /// </summary>
+        public string error { get; private set; } = null;
+
+        internal bool IsUpdating { get; private set; }
+
+        public virtual void Start()
+        {
+            if (IsUpdating)
+            {
+                throw new Exception("Updater正在执行中!");
+            }
+            IsUpdating = true;
+        }
+
+        /// <summary>
+        /// 创始器结束时调用，触发onComplete事件
+        /// </summary>
+        /// <param name="error"></param>
+        protected virtual void End(string error = null)
+        {
+            IsUpdating = false;
+            this.error = error;
+            onComplete?.Invoke(this);
+        }
+
+        protected virtual void Progress(long loadedSize, long totalSize)
+        {
+            onProgress?.Invoke(loadedSize, totalSize);
+        }
+    }
+}

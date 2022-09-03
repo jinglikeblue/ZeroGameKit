@@ -36,9 +36,9 @@ namespace Zero
             //使用Couroutine时，C#编译器会自动生成一个实现了IEnumerator，IEnumerator<object>，IDisposable接口的类，因为这是跨域继承，所以需要写CrossBindAdapter
             appdomain.RegisterCrossBindingAdaptor(new CoroutineAdapter());
             appdomain.RegisterCrossBindingAdaptor(new Adapt_IMessage());
-            appdomain.RegisterValueTypeBinder(typeof(Vector3), new Vector3Binder());
-            appdomain.RegisterValueTypeBinder(typeof(Vector2), new Vector2Binder());
-            appdomain.RegisterValueTypeBinder(typeof(Quaternion), new QuaternionBinder());
+            //appdomain.RegisterValueTypeBinder(typeof(Vector3), new Vector3Binder()); //能提高性能，但可能导致BUG
+            //appdomain.RegisterValueTypeBinder(typeof(Vector2), new Vector2Binder()); //能提高性能，但可能导致BUG 
+            //appdomain.RegisterValueTypeBinder(typeof(Quaternion), new QuaternionBinder()); //能提高性能，但可能导致BUG
             #endregion
         }
 
@@ -75,7 +75,10 @@ namespace Zero
             appdomain.DelegateManager.RegisterMethodDelegate<Zero.Timer>();
             appdomain.DelegateManager.RegisterMethodDelegate<System.Single, System.Int64>();            appdomain.DelegateManager.RegisterMethodDelegate<System.String>();            appdomain.DelegateManager.RegisterFunctionDelegate<global::Adapt_IMessage.Adaptor>();
             appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.Object[]>();
-            #endregion            
+            #endregion
+
+            appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.Vector2>();
+            appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.Sprite>();            appdomain.DelegateManager.RegisterMethodDelegate<One.IChannel>();            appdomain.DelegateManager.RegisterMethodDelegate<Jing.TurbochargedScrollList.ScrollListItem, System.Object, System.Boolean>();            appdomain.DelegateManager.RegisterMethodDelegate<One.TcpClient>();            appdomain.DelegateManager.RegisterMethodDelegate<One.UdpServer, System.Net.EndPoint, System.Byte[]>();            appdomain.DelegateManager.RegisterMethodDelegate<One.WebSocketClient>();            appdomain.DelegateManager.RegisterMethodDelegate<One.TcpClient, System.Byte[]>();            appdomain.DelegateManager.RegisterMethodDelegate<One.UdpClient, System.Byte[]>();            appdomain.DelegateManager.RegisterMethodDelegate<One.WebSocketClient, System.Byte[]>();            appdomain.DelegateManager.RegisterMethodDelegate<One.IChannel, System.Byte[]>();            appdomain.DelegateManager.RegisterFunctionDelegate<System.Object, System.Object, System.Boolean>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.BaseUpdater>();            appdomain.DelegateManager.RegisterMethodDelegate<System.Int64, System.Int64>();
         }
 
         /// <summary>
@@ -144,6 +147,27 @@ namespace Zero
                     ((Action)act)();
                 });
             });
+            appdomain.DelegateManager.RegisterDelegateConvertor<One.ReceiveDataEvent>((act) =>
+            {
+                return new One.ReceiveDataEvent((sender, data) =>
+                {
+                    ((Action<One.IChannel, System.Byte[]>)act)(sender, data);
+                });
+            });
+            appdomain.DelegateManager.RegisterDelegateConvertor<Jing.TurbochargedScrollList.RenderItemDelegate>((act) =>
+            {
+                return new Jing.TurbochargedScrollList.RenderItemDelegate((item, data, isFresh) =>
+                {
+                    ((Action<Jing.TurbochargedScrollList.ScrollListItem, System.Object, System.Boolean>)act)(item, data, isFresh);
+                });
+            });
+            appdomain.DelegateManager.RegisterDelegateConvertor<Zero.BaseUpdater.UpdateProgress>((act) =>
+            {
+                return new Zero.BaseUpdater.UpdateProgress((loadedSize, totalSize) =>
+                {
+                    ((Action<System.Int64, System.Int64>)act)(loadedSize, totalSize);
+                });
+            });
         }
     }
 }

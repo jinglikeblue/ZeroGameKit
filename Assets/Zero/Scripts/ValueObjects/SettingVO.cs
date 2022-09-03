@@ -2,7 +2,7 @@
 
 namespace Zero
 {
-    public struct SettingVO
+    public class SettingVO
     {
         /// <summary>
         /// 客户端版本号数据
@@ -36,5 +36,10 @@ namespace Zero
         /// 配置的参数
         /// </summary>
         public Dictionary<string, string> startupParams;
+
+        /// <summary>
+        /// 是否仅使用StreamingAssets中res资源来运行项目
+        /// </summary>
+        public bool isOnlyUseResInStreamingAssets;
     }
 }

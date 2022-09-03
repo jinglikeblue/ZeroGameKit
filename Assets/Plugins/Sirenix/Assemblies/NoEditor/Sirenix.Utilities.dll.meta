@@ -44,7 +44,7 @@ PluginImporter:
   - first:
       Android: Android
     second:
-      enabled: 1
+      enabled: 0
       settings: {}
   - first:
       Any: 
@@ -108,7 +108,7 @@ PluginImporter:
   - first:
       iPhone: iOS
     second:
-      enabled: 1
+      enabled: 0
       settings: {}
   - first:
       tvOS: tvOS

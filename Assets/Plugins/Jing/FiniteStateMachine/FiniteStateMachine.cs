@@ -1,50 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 /* 示例代码
-public class TestFSM
-{
-    public enum ET
+    public class TestFSM
     {
-        A,
-        B,
-        C,
+        public enum ET
+        {
+            A,
+            B,
+            C,
+        }
+
+        FiniteStateMachine<ET> fsm = new FiniteStateMachine<ET>();
+        StringBuilder _sb;
+        public TestFSM(StringBuilder sb)
+        {
+            _sb = sb;            
+            fsm.RegistState(ET.A, OnEnter, OnExit, OnUpdate, SwitchEnable);
+            fsm.RegistState(ET.B, OnEnter, OnExit, OnUpdate, SwitchEnable);
+            fsm.RegistState(ET.C, OnEnter, OnExit, OnUpdate, SwitchEnable);
+
+            Log($"注册状态机允许的切换规则： {ET.A} -> {ET.C}");
+            fsm.AddSwitchRule(ET.A, ET.C);
+
+            string logStart = $"尝试切换状态 Current：{fsm.CurrentState} To：{ET.A}";
+            var result = fsm.SwitchState(ET.A, "ToA");
+            Log($"{logStart} Result：{result}");
+            fsm.Update(Time.deltaTime, "A?");
+
+            logStart = $"尝试切换状态 Current：{fsm.CurrentState} To：{ET.B}";
+            result = fsm.SwitchState(ET.B, "ToB");
+            Log($"{logStart} Result：{result}");
+            fsm.Update(Time.deltaTime, "B?");
+
+            logStart = $"尝试切换状态 Current：{fsm.CurrentState} To：{ET.C}";
+            result = fsm.SwitchState(ET.C, "ToC");
+            Log($"{logStart} Result：{result}");
+            fsm.Update(Time.deltaTime, "C?");
+        }
+
+        private void OnUpdate(ET currentState, object data)
+        {
+            Log($"状态更新 State：{currentState} StayTime：{fsm.StateStayTime}  Data：{data}");
+        }
+
+        private bool SwitchEnable(ET toState, object data)
+        {
+            Log($"检查状态切换是否允许 From：{fsm.CurrentState} To：{toState}  Data：{data}");
+            return true;
+        }
+
+        private void OnExit(ET toState, object data)
+        {
+            Log($"退出状态 Current：{fsm.CurrentState} To：{toState}  Data：{data}");
+        }
+
+        private void OnEnter(ET fromState, object data)
+        {
+            Log($"进入状态 From：{fromState} Current：{fsm.CurrentState}  Data：{data}");
+        }
+
+        void Log(string s)
+        {
+            _sb.AppendLine(s);
+            _sb.AppendLine();
+        }
     }
-
-    FiniteStateMachine<ET> fsm = new FiniteStateMachine<ET>();
-    
-    public TestFSM()
-    {
-        fsm.RegistState(ET.A, OnEnter, OnExit, OnUpdate, SwitchEnable);
-        fsm.RegistState(ET.B, OnEnter, OnExit, OnUpdate, SwitchEnable);
-        fsm.SwitchState(ET.A);
-        fsm.Update();
-        fsm.SwitchState(ET.B);
-        fsm.Update();
-        fsm.SwitchState(ET.C);
-        fsm.Update();
-    }
-
-    public void OnEnter(ET from)
-    {
-
-    }
-
-    public void OnExit(ET to)
-    {
-
-    }
-
-    public void OnUpdate()
-    {
-        Debug.Log("state: " + fsm.curState);
-    }
-
-    public bool SwitchEnable(ET toState)
-    {
-        return true;
-    }
-}
 */
 
 namespace Jing
@@ -101,7 +121,7 @@ namespace Jing
             /// <summary>
             /// 配置的能切换到的状态，null表示不限制
             /// </summary>
-            public HashSet<TState> roleSwitch = null;
+            public HashSet<TState> ruleSwitch = null;
 
             public StateController(TState state)
             {
@@ -117,7 +137,7 @@ namespace Jing
         /// <summary>
         /// 当前状态
         /// </summary>
-        public T CurState { get; private set; }
+        public T CurrentState { get; private set; }
 
         /// <summary>
         /// 状态字典
@@ -136,6 +156,7 @@ namespace Jing
 
         /// <summary>
         /// 注册一个状态，不适用的方法可以传递Null
+        /// 注册的第一个状态，将会成为状态机的初始状态
         /// </summary>
         public void RegistState(T state, EnterStateDelegate onEnter = null, ExitStateDelegate onExit = null, UpdateStateDelegate onUpdate = null, CheckSwitchStateEnableDelegate checkSwitchEnable = null)
         {
@@ -145,10 +166,10 @@ namespace Jing
             sc.onUpdate = onUpdate;
             sc.checkSwitchEnable = checkSwitchEnable;
 
-            if (null == CurState)
+            if (null == CurrentState)
             {
                 //设置为第一个状态
-                CurState = state;
+                CurrentState = state;
             }
 
             _stateDic[state] = sc;
@@ -164,18 +185,19 @@ namespace Jing
                 _stateDic.Remove(state);
             }
 
-            if (CurState.Equals(state))
+            if (CurrentState.Equals(state))
             {
-                CurState = default(T);
+                CurrentState = default(T);
             }
         }
 
         /// <summary>
         /// 添加一个合法的状态转换规则
+        /// 如果一个规则都不添加，则注册的状态之间可以随意切换，可以通过「checkSwitchEnable」自行判断
         /// </summary>
         /// <param name="fromState"></param>
         /// <param name="toState"></param>
-        public void AddSwitchRole(T fromState, T toState)
+        public void AddSwitchRule(T fromState, T toState)
         {
             if (false == _stateDic.ContainsKey(fromState))
             {
@@ -183,26 +205,26 @@ namespace Jing
             }
 
 
-            if (null == _stateDic[fromState].roleSwitch)
+            if (null == _stateDic[fromState].ruleSwitch)
             {
-                _stateDic[fromState].roleSwitch = new HashSet<T>();
+                _stateDic[fromState].ruleSwitch = new HashSet<T>();
             }
 
-            _stateDic[fromState].roleSwitch.Add(toState);
+            _stateDic[fromState].ruleSwitch.Add(toState);
         }
 
         /// <summary>
         /// 移除一个合法的状态转换规则
         /// </summary>
         /// <param name="fromState"></param>
-        public void RemoveSwitchRole(T fromState, T toState)
+        public void RemoveSwitchRule(T fromState, T toState)
         {
-            if (false == _stateDic.ContainsKey(fromState) || null == _stateDic[fromState].roleSwitch)
+            if (false == _stateDic.ContainsKey(fromState) || null == _stateDic[fromState].ruleSwitch)
             {
                 return;
             }
 
-            _stateDic[fromState].roleSwitch.Remove(toState);
+            _stateDic[fromState].ruleSwitch.Remove(toState);
         }
 
         /// <summary>
@@ -215,9 +237,9 @@ namespace Jing
                 return false;
             }
 
-            var oldSC = _stateDic[CurState];
+            var oldSC = _stateDic[CurrentState];
 
-            if (oldSC.roleSwitch != null && false == oldSC.roleSwitch.Contains(toState))
+            if (oldSC.ruleSwitch != null && false == oldSC.ruleSwitch.Contains(toState))
             {
                 return false;
             }
@@ -233,7 +255,7 @@ namespace Jing
             {
                 oldSC.onExit.Invoke(toState, data);
             }
-            CurState = toState;
+            CurrentState = toState;
             StateStayTime = 0;
             if (null != newSC.onEnter)
             {
@@ -249,10 +271,10 @@ namespace Jing
         public void Update(float dt = 0f, object data = null)
         {
             StateStayTime += dt;
-            var nowSC = _stateDic[CurState];
+            var nowSC = _stateDic[CurrentState];
             if (null != nowSC.onUpdate)
             {
-                nowSC.onUpdate.Invoke(CurState, data);
+                nowSC.onUpdate.Invoke(CurrentState, data);
             }
         }
     }

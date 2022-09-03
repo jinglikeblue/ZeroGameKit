@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace Jing
 {
     /// <summary>
+    /// 线程同步器
     /// 在线程A中通过AddToSyncAction将Action添加进来，在线程B中通过RunSyncActions来执行这些方法。
     /// </summary>
     public class ThreadSyncActions

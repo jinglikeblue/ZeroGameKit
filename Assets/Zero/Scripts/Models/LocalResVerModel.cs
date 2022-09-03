@@ -6,13 +6,15 @@ namespace Zero
     /// <summary>
     /// 本地版本文件数据模型
     /// </summary>
-    public class LocalResVerModel : ResVerModel
+    public class LocalResVerModel : BaseWriteableResVerModel
     {
         const string FILE_NAME = "local_res_ver.zero.json";
         string _path;
 
+        public const string EMPTY_VERSION = "";
+
         public LocalResVerModel()
-        {
+        {            
             Load();
         }
 
@@ -52,7 +54,7 @@ namespace Zero
                 var filePath = FileUtility.CombinePaths(Runtime.Ins.localResDir, item.name);
                 if (!File.Exists(filePath))
                 {
-                    SetVer(item.name, "");
+                    SetVer(item.name, EMPTY_VERSION);
                 }
             }
         }
@@ -63,7 +65,7 @@ namespace Zero
         /// <param name="name"></param>
         /// <param name="version"></param>
         /// <returns></returns>
-        public void SetVerAndSave(string name, string version)
+        public override void SetVerAndSave(string name, string version)
         {
             SetVer(name, version);
             Save();
@@ -74,7 +76,7 @@ namespace Zero
         /// </summary>
         /// <returns>The ver.</returns>
         /// <param name="name">Name.</param>
-        public void RemoveVerAndSave(string name)
+        public override void RemoveVerAndSave(string name)
         {
             RemoveVer(name);
             Save();
@@ -83,7 +85,7 @@ namespace Zero
         /// <summary>
         /// 清理所有版本信息
         /// </summary>
-        public void ClearVerAndSave()
+        public override void ClearVerAndSave()
         {
             ClearVer();
             Save();

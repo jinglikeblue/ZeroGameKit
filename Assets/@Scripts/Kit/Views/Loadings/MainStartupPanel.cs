@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using Zero;
 using ZeroHot;
@@ -14,30 +15,35 @@ namespace ZeroGameKit
         Text textProgress;
         Image bar;
 
-        string[] startupRes = new string[] { "ab/examples/audios.ab" };
+        string[] startupRes = new string[] { "/" };
 
         protected override void OnInit(object data)
         {
-            SetProgress(0, 1);
-            ResUpdate update = new ResUpdate(false, false);
-            update.Start(startupRes, Enter, OnProgress, OnError);
+            OnUpdaterProgress(0, 1);
+            HotResUpdater updater = new HotResUpdater(startupRes);
+            updater.onComplete += OnUpdaterComplete;
+            updater.onProgress += OnUpdaterProgress;
+            updater.Start();            
         }
 
-        private void OnProgress(float progress, long totalSize)
+        private void OnUpdaterComplete(BaseUpdater updater)
         {
-            SetProgress(progress, totalSize);
+            if(updater.error != null)
+            {
+                textState.text = updater.error;
+            }
+            else
+            {
+                Enter();
+            }
         }
 
-        private void OnError(string msg)
-        {
-            textState.text = msg;
-        }
-
-        void SetProgress(float progress, long totalSize)
+        private void OnUpdaterProgress(long loadedSize, long totalSize)
         {
             //转换为MB
             float totalMB = totalSize / 1024 / 1024f;
-            float loadedMB = totalMB * progress;
+            float loadedMB = loadedSize / 1024 / 1024f;
+            float progress = loadedMB / totalMB;
             textProgress.text = string.Format("{0}% [{1}MB/{2}MB]", (int)(progress * 100f), loadedMB.ToString("0.00"), totalMB.ToString("0.00"));
             bar.fillAmount = progress;
         }
@@ -49,12 +55,12 @@ namespace ZeroGameKit
 
         private void OnProgress(float progress)
         {
-            Debug.Log("加载进度：" + progress);
+            Debug.Log("[MainStartupPanel]加载进度：" + progress);
         }
 
         private void OnCreated(AView view)
         {
-            Debug.Log("创建完成:" + view.gameObject.name);
+            Debug.Log("[MainStartupPanel]创建完成:" + view.gameObject.name);
         }
 
         protected override void OnEnable()

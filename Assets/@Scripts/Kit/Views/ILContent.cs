@@ -1,4 +1,6 @@
-﻿using ZeroHot;
+﻿using UnityEngine.UI;
+using Zero;
+using ZeroHot;
 
 namespace ZeroGameKit
 {
@@ -7,8 +9,7 @@ namespace ZeroGameKit
         protected override void OnInit(object data)
         {
             base.OnInit(data);
-            var rootTransform = gameObject.transform;
-            
+
             var stage = CreateChildView<StageMgr>("Stage");
             var uiPanel = CreateChildView<UIPanelMgr>("UICanvas/UIPanel");
             var uiWin = CreateChildView<UIWinMgr>("UICanvas/UIWin");

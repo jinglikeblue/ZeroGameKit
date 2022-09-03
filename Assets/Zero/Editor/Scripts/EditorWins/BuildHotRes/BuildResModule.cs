@@ -22,8 +22,8 @@ namespace ZeroEditor
 
         [Title("热更资源打包", TitleAlignment = TitleAlignments.Centered)]
         [Title("勾选构建内容")]
-        [LabelText("Copy Configs (拷贝配置文件)"), ToggleLeft]
-        public bool isCopyConfigs = true;
+        [LabelText("Copy Files (拷贝 @Files 文件夹到发布目录)"), ToggleLeft]
+        public bool isCopyFiles = true;
         [LabelText("Build AssetBundles (构建AB包)"), ToggleLeft]
         public bool isBuildAB = true;
         [LabelText("Build DLL (构建热更代码)"), ToggleLeft]
@@ -31,16 +31,15 @@ namespace ZeroEditor
         [LabelText("Build res.json (构建资源版本号)"), ToggleLeft]
         public bool isBuildResJson = true;        
 
-        [LabelText("发布热更资源"), Button(ButtonSizes.Medium)]
+        [LabelText("发布热更资源"), Button(ButtonSizes.Large)]
         void BuildPart1()
         {
-            if (isCopyConfigs)
+            if (isCopyFiles)
             {
-                EditorUtility.DisplayProgressBar("打包热更资源", "开始拷贝配置", 0f);
-                Debug.Log("开始拷贝配置");
-                //发布AB资源
-                CopyConfigs();
-                Debug.Log("配置拷贝完成");
+                EditorUtility.DisplayProgressBar("打包热更资源", "开始拷贝Files资源文件夹", 0f);
+                Debug.Log("开始拷贝Files资源文件夹");                
+                CopyFiles();
+                Debug.Log("Files资源文件夹拷贝完成");
             }
 
             if (isBuildAB)
@@ -73,9 +72,41 @@ namespace ZeroEditor
             }
         }
 
-        [LabelText("发布完成后打开发布目录"), ToggleLeft, PropertyOrder(999)]
+
+
+        [LabelText("发布完成后打开发布目录"), ToggleLeft, PropertyOrder(800)]
         [InlineButton("OpenPublishDir", "打开发布目录")]
         public bool isOpenPublishDir = true;
+
+        [Space(50)]
+        [Title("内嵌资源构建")]
+        [LabelText("自动拷贝到内嵌资源目录(StreamingAssets/res)"), ToggleLeft, PropertyOrder(900)]
+        [InlineButton("OpenBuiltinDir", "打开内嵌资源目录")]
+        public bool isCopyToBuiltinDir = false;
+
+        
+        [LabelText("拷贝到内嵌资源目录"), Button(ButtonSizes.Large), PropertyOrder(901)]
+        void CopyToBuiltinDir()
+        {
+            if (EditorUtility.DisplayDialog("确定窗口", "确定拷贝构建内容到'StreamingAssets/res'？", "是", "否"))
+            {
+                FileUtility.CopyDir(ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.STREAMING_ASSETS_RES_DATA_PATH);
+                AssetDatabase.Refresh();
+            }
+        }
+
+        [LabelText("清空内嵌资源目录"), Button(ButtonSizes.Large), PropertyOrder(902)]
+        void CleanBuiltinDir()
+        {
+            if (EditorUtility.DisplayDialog("确定窗口", "确定清空'StreamingAssets/res'目录？", "是", "否"))
+            {
+                if (Directory.Exists(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH))
+                {
+                    Directory.Delete(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, true);
+                    AssetDatabase.Refresh();
+                }
+            }
+        }
 
         void OpenPublishDir()
         {
@@ -93,6 +124,12 @@ namespace ZeroEditor
                 Debug.Log("版本描述文件发布完成");
             }
 
+            if (isCopyToBuiltinDir)
+            {
+                EditorUtility.DisplayProgressBar("构建内嵌资源", "开始拷贝资源到内嵌目录", 0f);
+                CopyToBuiltinDir();
+            }
+
             if (isOpenPublishDir)
             {
                 OpenPublishDir();                
@@ -105,14 +142,24 @@ namespace ZeroEditor
             EditorUtility.ClearProgressBar();
         }
 
-        void CopyConfigs()
+
+
+        void OpenBuiltinDir()
         {
-            if (Directory.Exists(ZeroEditorConst.CONFIG_PUBLISH_DIR))
+            //打开目录
+            ZeroEditorUtil.OpenDirectory(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH);
+        }
+
+
+
+        void CopyFiles()
+        {
+            if (Directory.Exists(ZeroEditorConst.FILES_PUBLISH_DIR))
             {
-                Directory.Delete(ZeroEditorConst.CONFIG_PUBLISH_DIR, true);
+                Directory.Delete(ZeroEditorConst.FILES_PUBLISH_DIR, true);
             }
             //拷贝文件
-            FileUtility.CopyDir(ZeroConst.HOT_CONFIGS_ROOT_DIR, ZeroEditorConst.CONFIG_PUBLISH_DIR, (s,t)=> {
+            FileUtility.CopyDir(ZeroConst.HOT_FILES_ROOT_DIR, ZeroEditorConst.FILES_PUBLISH_DIR, (s,t)=> {
                 var ext = Path.GetExtension(s);
                 if (ext.Equals(".meta"))
                 {
