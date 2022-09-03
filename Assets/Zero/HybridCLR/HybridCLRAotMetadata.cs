@@ -5,16 +5,19 @@ using UnityEngine;
 
 namespace Zero
 {
-    public class HuaTuoAotMetadata
+    /// <summary>
+    /// HybridCLR补充元数据
+    /// </summary>
+    public class HybridCLRAotMetadata
     {
         /// <summary>
-        /// 华佗的AOT DLL，在Resources下的子目录名称
+        /// AOT DLL在Resources目录中的子目录名称
         /// </summary>
-        static public readonly string HUATUO_RESOURCES_DIR = "huatuo";
+        public const string AOT_DLL_RESOURCES_DIR = "hybrid_clr";
 
         public static void InitAotMetadata()
         {
-            LoadMetadataForAOTAssembly();     
+            LoadMetadataForAOTAssembly();
         }
 
         /// <summary>
@@ -28,23 +31,26 @@ namespace Zero
 
             /// 注意，补充元数据是给AOT dll补充元数据，而不是给热更新dll补充元数据。
             /// 热更新dll不缺元数据，不需要补充，如果调用LoadMetadataForAOTAssembly会返回错误            
-            
-            var aotDllList = Resources.LoadAll<TextAsset>(HUATUO_RESOURCES_DIR);
+
+            var aotDllList = Resources.LoadAll<TextAsset>(AOT_DLL_RESOURCES_DIR);
 
 
             foreach (TextAsset ta in aotDllList)
-            {                
+            {
+
+#if HYBRID_CLR_ENABLE
+#if !UNITY_EDITOR
                 byte[] dllBytes = ta.bytes;
                 fixed (byte* ptr = dllBytes)
                 {
-#if !UNITY_EDITOR && UNITY_ENABLE
                     // 加载assembly对应的dll，会自动为它hook。一旦aot泛型函数的native函数不存在，用解释器版本代码
-                    int err = Huatuo.HuatuoApi.LoadMetadataForAOTAssembly((IntPtr)ptr, dllBytes.Length);
+                    int err = HybridCLR.RuntimeApi.LoadMetadataForAOTAssembly((IntPtr)ptr, dllBytes.Length);
                     Debug.Log($"元数据补充:{ta.name}  结果:{err}");
-#else
-                    Debug.Log($"发现元数据补充文件:{ta.name}");
-#endif
                 }
+#endif
+#else
+                Debug.Log($"发现元数据补充文件:{ta.name}");
+#endif
             }
         }
     }

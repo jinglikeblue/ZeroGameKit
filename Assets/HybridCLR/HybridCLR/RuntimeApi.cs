@@ -10,6 +10,9 @@ namespace HybridCLR
 {
     public static class RuntimeApi
     {
+
+#if HYBRID_CLR_ENABLE
+
 #if UNITY_STANDALONE_WIN
         private const string dllName = "GameAssembly";
 #elif UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_WEBGL
@@ -32,5 +35,7 @@ namespace HybridCLR
 
         [DllImport(dllName, EntryPoint = "RuntimeApi_SetInterpreterThreadFrameStackSize")]
         public static extern void SetInterpreterThreadFrameStackSize(int size);
+
+#endif
     }
 }

@@ -15,7 +15,7 @@ namespace Zero
         public HuaTuoILWorker(Assembly assembly) : base(assembly)
         {
             //元数据补充
-            HuaTuoAotMetadata.InitAotMetadata();
+            HybridCLRAotMetadata.InitAotMetadata();
         }
     }
 }

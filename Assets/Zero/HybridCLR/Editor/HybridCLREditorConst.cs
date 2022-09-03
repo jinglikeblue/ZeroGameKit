@@ -15,7 +15,7 @@ namespace ZeroEditor
         /// <summary>
         /// 主工程DLL放置目录
         /// </summary>
-        static public readonly string AOT_DLL_TARGET_DIR = $"{Application.dataPath}/Resources/{HuaTuoAotMetadata.HUATUO_RESOURCES_DIR}";
+        static public readonly string AOT_DLL_TARGET_DIR = $"{Application.dataPath}/Resources/{HybridCLRAotMetadata.AOT_DLL_RESOURCES_DIR}";
 
         /// <summary>
         /// AOT-interpreter桥接函数文件生成目录
@@ -45,6 +45,6 @@ namespace ZeroEditor
         /// <summary>
         /// 使用HybridCLR需要添加的宏定义名称
         /// </summary>
-        public const string SCRIPTING_DEFINE_SYMBOL = "HUATUO_ENABLE";
+        public const string SCRIPTING_DEFINE_SYMBOL = "HYBRID_CLR_ENABLE";
     }
 }

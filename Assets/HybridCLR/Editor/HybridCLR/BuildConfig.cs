@@ -11,7 +11,7 @@ namespace HybridCLR.Editor
 {
     public static partial class BuildConfig
     {
-#if !UNITY_IOS
+#if !UNITY_IOS && HYBRID_CLR_ENABLE
         [InitializeOnLoadMethod]
         private static void Setup()
         {

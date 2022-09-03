@@ -48,14 +48,35 @@ namespace HybridCLR.Editor.BuildProcessors
             return $"{BuildConfig.ProjectDir}/Temp/StagingArea/{subPath}";
         }
 
+        /// <summary>
+        /// IPostprocessBuildWithReport接口
+        /// </summary>
+        /// <param name="report"></param>
+        public void OnPostprocessBuild(BuildReport report)
+        {
+#if HYBRID_CLR_ENABLE
+#if UNITY_2021_1_OR_NEWER && !UNITY_IOS
+            BuildTarget target = EditorUserBuildSettings.activeBuildTarget;
+            CopyStripDlls(GetStripAssembliesDir2021(target), target);
+#endif
+#endif
+        }
+
+        /// <summary>
+        /// IIl2CppProcessor接口
+        /// </summary>
+        /// <param name="report"></param>
+        /// <param name="data"></param>
         public void OnBeforeConvertRun(BuildReport report, Il2CppBuildPipelineData data)
-        {            
+        {
+#if HYBRID_CLR_ENABLE
             // 此回调只在 2020中调用
             CopyStripDlls(GetStripAssembliesDir2020(data.target), data.target);
+#endif
         }
 #endif
 
-        public static void CopyStripDlls(string srcStripDllPath, BuildTarget target)
+            public static void CopyStripDlls(string srcStripDllPath, BuildTarget target)
         {
             Debug.Log($"[BPCopyStrippedAOTAssemblies] CopyScripDlls. src:{srcStripDllPath} target:{target}");
 
@@ -73,12 +94,6 @@ namespace HybridCLR.Editor.BuildProcessors
             }
         }
 
-        public void OnPostprocessBuild(BuildReport report)
-        {
-#if UNITY_2021_1_OR_NEWER && !UNITY_IOS
-            BuildTarget target = EditorUserBuildSettings.activeBuildTarget;
-            CopyStripDlls(GetStripAssembliesDir2021(target), target);
-#endif
-        }
+
     }
 }

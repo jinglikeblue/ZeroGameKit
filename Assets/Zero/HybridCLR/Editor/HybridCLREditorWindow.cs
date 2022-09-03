@@ -25,7 +25,7 @@ namespace ZeroEditor
 
         protected override void OnEnable()
         {
-            isSetEnvironmentVariable = HybridCLRIl2CppProcessor.EnvironmentVariableValue == null ? false : true;
+            isSetEnvironmentVariable = HybridCLRUtility.EnvironmentVariableValue == null ? false : true;
             PrefabEditNotice.Ins.onILTypeChanged += OnILTypeChanged;
         }
 
@@ -43,11 +43,11 @@ namespace ZeroEditor
         {
             if(isSetEnvironmentVariable)
             {
-                HybridCLRIl2CppProcessor.SetEnvironmentVariable();
+                HybridCLRUtility.SetEnvironmentVariable();
             }
             else
             {
-                HybridCLRIl2CppProcessor.CleanEnvironmentVariable();
+                HybridCLRUtility.CleanEnvironmentVariable();
             }            
         }
 
