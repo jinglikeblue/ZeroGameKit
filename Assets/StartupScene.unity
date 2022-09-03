@@ -695,7 +695,7 @@ MonoBehaviour:
     - http://192.168.0.4:8800/res
     isUseDll: 1
     isLoadPdb: 1
-    ilType: 1
+    ilType: 0
     isTryJitBeforeILRuntime: 0
     isDebugIL: 0
 --- !u!114 &1440188156

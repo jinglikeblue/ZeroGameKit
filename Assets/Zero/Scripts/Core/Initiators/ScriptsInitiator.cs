@@ -26,27 +26,20 @@ namespace Zero
 
             if (isUseDll)
             {
-                RunWithDll();
+                StartupWithDll();
             }
             else
             {
-                RunWithoutDll();
+                StartupWithoutDll();
             }
+
+            //调用启动方法
+            ILBridge.Ins.Invoke(ZeroConst.LOGIC_SCRIPT_STARTUP_CLASS_NAME, ZeroConst.LOGIC_SCRIPT_STARTUP_METHOD);
 
             End();
         }
 
-        void RunWithoutDll()
-        {
-            Debug.Log(Log.Zero1("@Scripts代码运行环境: [本地程序集]"));
-
-            //初始化IL
-            ILBridge.Ins.Startup();
-            //调用启动方法
-            ILBridge.Ins.Invoke(Runtime.Ins.VO.className, Runtime.Ins.VO.methodName);
-        }
-
-        void RunWithDll()
+        void StartupWithDll()
         {
             Debug.Log(Log.Zero1("@Scripts代码运行环境: [外部程序集]"));
 
@@ -59,9 +52,17 @@ namespace Zero
 
             //初始化IL
             ILBridge.Ins.Startup(dllBytes, pdbBytes);
-            //调用启动方法
-            ILBridge.Ins.Invoke(Runtime.Ins.VO.className, Runtime.Ins.VO.methodName);
         }
+
+        void StartupWithoutDll()
+        {
+            Debug.Log(Log.Zero1("@Scripts代码运行环境: [本地程序集]"));
+
+            //初始化IL
+            ILBridge.Ins.Startup();
+        }
+
+
 
         byte[] LoadDllBytes()
         {

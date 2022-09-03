@@ -12,14 +12,14 @@ using Zero;
 namespace ZeroEditor
 {
     public class HybridCLRUtility
-    {
-        [InitializeOnLoadMethod]
-        public static void InitializeOnLoadMethod()
-        {
-            Debug.Log(Log.Zero1("HybridCLRUtility:InitializeOnLoadMethod"));                        
-            SyncWithHybridCLRSettings(null);
-            HybridCLRSettings.Ins.onEnableChanged += SyncWithHybridCLRSettings;
-        }
+    {        
+        //[InitializeOnLoadMethod]
+        //public static void InitializeOnLoadMethod()
+        //{            
+        //    Debug.Log(Log.Zero1("HybridCLRUtility:InitializeOnLoadMethod"));                        
+        //    SyncWithHybridCLRSettings(null);
+        //    HybridCLRSettings.Ins.onEnableChanged += SyncWithHybridCLRSettings;
+        //}
 
         /// <summary>
         /// 根据HybridCLR开关，同步环境
