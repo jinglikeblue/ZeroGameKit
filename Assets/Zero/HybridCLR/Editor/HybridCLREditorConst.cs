@@ -39,6 +39,11 @@ namespace ZeroEditor
         static public readonly string HYBRID_CLR_IL2CPP_DIR = BuildConfig.LocalIl2CppDir;        
 
         /// <summary>
+        /// HybridCLR插件安装目录
+        /// </summary>
+        static public readonly string HYBRID_CLR_INSTALL_DIR = $"{BuildConfig.HybridCLRDataDir}/LocalIl2CppData";
+
+        /// <summary>
         /// 使用HybridCLR需要添加的宏定义名称
         /// </summary>
         public const string SCRIPTING_DEFINE_SYMBOL = "HYBRID_CLR_ENABLE";

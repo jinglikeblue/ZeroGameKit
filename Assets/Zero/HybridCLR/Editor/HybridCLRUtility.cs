@@ -112,7 +112,14 @@ namespace ZeroEditor
 
                 Environment.SetEnvironmentVariable(HybridCLREditorConst.ENVIRONMENT_VARIABLE_KEY, HybridCLREditorConst.HYBRID_CLR_IL2CPP_DIR);
 
-                Debug.Log(Log.Zero1($"HybridCLR环境设置: 设置环境变量[{HybridCLREditorConst.ENVIRONMENT_VARIABLE_KEY} = {HybridCLREditorConst.HYBRID_CLR_IL2CPP_DIR}]"));
+                Debug.Log(Log.Zero1($"HybridCLR环境设置: 设置环境变量[{HybridCLREditorConst.ENVIRONMENT_VARIABLE_KEY} = {HybridCLREditorConst.HYBRID_CLR_IL2CPP_DIR}]"));               
+
+                Debug.Log(Log.Zero1($"HybridCLR环境设置: 拷贝AotDll到[Resources/hybrid_clr]目录，为正式包的补充元数据做准备"));
+                CopyAotDllToResources();
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("提示", "当前Dll执行方式不是HybridCLR", "OK");
             }
         }
 
@@ -130,7 +137,58 @@ namespace ZeroEditor
                 Environment.SetEnvironmentVariable(HybridCLREditorConst.ENVIRONMENT_VARIABLE_KEY, null);
 
                 Debug.Log(Log.Zero1($"HybridCLR环境清除: 删除环境变量[{HybridCLREditorConst.ENVIRONMENT_VARIABLE_KEY}]"));
+
+                Debug.Log(Log.Zero1($"HybridCLR环境清除:  删除为正式包的补充元数据做准备的[Resources/hybrid_clr]目录"));
+                DeleteAotDllResourcesDir();
             }
+            else
+            {
+                EditorUtility.DisplayDialog("提示", "当前Dll执行方式是HybridCLR", "OK");
+            }
+        }
+
+        /// <summary>
+        /// 拷贝AotDll到Resources/hybrid_clr目录，为正式包的补充元数据做准备
+        /// </summary>
+        public static void CopyAotDllToResources()
+        {            
+            var sourceWrongMsg = $"[{HybridCLREditorConst.AOT_DLL_SOURCE_DIR}]中没有DLL文件。需要构建一次主包后才能生成裁剪后的AOT DLL";
+            if (!Directory.Exists(HybridCLREditorConst.AOT_DLL_SOURCE_DIR))
+            {
+                Debug.LogError(sourceWrongMsg);
+                return;
+            }
+
+            //删除老文件夹中的所有内容
+            DeleteAotDllResourcesDir();
+
+            Directory.CreateDirectory(HybridCLREditorConst.AOT_DLL_TARGET_DIR);
+
+            var dllFileList = Directory.GetFiles(HybridCLREditorConst.AOT_DLL_SOURCE_DIR, "*.dll");
+
+            if (0 == dllFileList.Length)
+            {
+                Debug.LogError(sourceWrongMsg);
+                return;
+            }
+
+            foreach (var dllFile in dllFileList)
+            {
+                var fi = new FileInfo(dllFile);
+                string dllBytesFile = $"{HybridCLREditorConst.AOT_DLL_TARGET_DIR}/{fi.Name}.bytes";
+                File.Copy(dllFile, dllBytesFile, true);
+                Debug.Log($"已拷贝AOT DLL：{fi.Name}");
+            }
+
+            AssetDatabase.Refresh();
+        }
+
+        /// <summary>
+        /// 删除为正式包的补充元数据做准备的"Resources/hybrid_clr"目录
+        /// </summary>
+        public static void DeleteAotDllResourcesDir()
+        {
+            Directory.Delete(HybridCLREditorConst.AOT_DLL_TARGET_DIR, true);
         }
     }
 }

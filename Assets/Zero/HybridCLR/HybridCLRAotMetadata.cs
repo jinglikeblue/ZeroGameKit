@@ -45,7 +45,14 @@ namespace Zero
                 {
                     // 加载assembly对应的dll，会自动为它hook。一旦aot泛型函数的native函数不存在，用解释器版本代码
                     int err = HybridCLR.RuntimeApi.LoadMetadataForAOTAssembly((IntPtr)ptr, dllBytes.Length);
-                    Debug.Log($"元数据补充:{ta.name}  结果:{err}");
+                    if(0 == err)
+                    {
+                        Debug.Log($"补充元数据:{ta.name}  成功");
+                    }
+                    else
+                    {
+                        Debug.Log($"补充元数据:{ta.name}  错误码:{err}");
+                    }                    
                 }
 #endif
 #else

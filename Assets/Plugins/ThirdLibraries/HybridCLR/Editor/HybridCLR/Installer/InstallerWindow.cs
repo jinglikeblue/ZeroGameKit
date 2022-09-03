@@ -15,7 +15,7 @@ namespace HybridCLR.Editor.Installer
         private InstallerController m_Controller;
 
         [MenuItem("HybridCLR/Installer...", false, 0)]
-        private static void Open()
+        public static void Open()
         {
             InstallerWindow window = GetWindow<InstallerWindow>("HybridCLR Installer", true);
             window.minSize = new Vector2(800f, 500f);
