@@ -1,3 +1,4 @@
+using HybridCLR.Editor.Installer;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
@@ -18,46 +19,79 @@ namespace ZeroEditor
         /// </summary>
         public static HybridCLREditorWindow Open()
         {
-            var win = GetWindow<HybridCLREditorWindow>("HuaTuo");
+            var win = GetWindow<HybridCLREditorWindow>("HybridCLR");
             win.position = GUIHelper.GetEditorWindowRect().AlignCenter(440, 470);
             return win;
         }
 
+        void SetHybridCLREnvironment()
+        {
+            HybridCLRUtility.SetHybridCLREnvironment();
+        }
+
+        void CleanHybridCLREnvironment()
+        {
+            HybridCLRUtility.CleanHybridCLREnvironment();
+        }
+
+        bool IsILTypeIsHybridCLR()
+        {
+            return HybridCLRUtility.IsILTypeIsHybridCLR;
+        }
+
+        bool IsHybridCLREnvironmentCorrect()
+        {
+            return HybridCLRUtility.IsHybridCLREnvironmentCorrect;
+        }
+
+        InstallerController _installerController;
+
+        /// <summary>
+        /// 是否HybridCLR插件安装了
+        /// </summary>
+        bool IsHybridCLRInstalled()
+        {
+            return _installerController.HasInstalledHybridCLR();
+        }
+
         protected override void OnEnable()
         {
-            isSetEnvironmentVariable = HybridCLRUtility.EnvironmentVariableValue == null ? false : true;
-            PrefabEditNotice.Ins.onILTypeChanged += OnILTypeChanged;
+            _installerController = new InstallerController();
+            isHybridCLRInstalled = IsHybridCLRInstalled();
         }
 
-        private void OnDisable()
+
+        [Title("HybridCLR代码插件安装")]
+        [LabelText("HybridCLR代码插件是否已安装")]
+        [PropertyOrder(0)]
+        public bool isHybridCLRInstalled;
+
+        /// <summary>
+        /// 安装HybridCLR
+        /// </summary>
+        [PropertyOrder(1)][DisableIf("IsHybridCLRInstalled")]
+        void InstallHybridCLR()
         {
-            PrefabEditNotice.Ins.onILTypeChanged -= OnILTypeChanged;
+            _installerController.InitHybridCLR(_installerController.Il2CppBranch, _installerController.Il2CppInstallDirectory);
         }
 
-        private void OnILTypeChanged(EILType type)
+        [PropertyOrder(1)][EnableIf("IsHybridCLRInstalled")]
+        void UninstallHybridCLR()
         {
-            isSetEnvironmentVariable = type == EILType.HYBRID_CLR ? true : false;
+            Directory.Delete(_installerController.Il2CppInstallDirectory, true);            
         }
 
-        void OnSetEnvironmentVariable()
-        {
-            if(isSetEnvironmentVariable)
-            {
-                HybridCLRUtility.SetEnvironmentVariable();
-            }
-            else
-            {
-                HybridCLRUtility.CleanEnvironmentVariable();
-            }            
-        }
+
 
         [InfoBox("环境变量设置时，打包会走HuaTuo的IL2CPP。否则走的是Unity自己的IL2CPP流程。不使用华佗的情况下，请确保取消该项设置！",InfoMessageType.Warning)]
         [Title("IL2CPP打包环境变量")]
         [PropertyOrder(-3)]
         [ToggleLeft]
-        [LabelText("[UNITY_IL2CPP_PATH]是否设置")]
-        [OnValueChanged("OnSetEnvironmentVariable")]
-        public bool isSetEnvironmentVariable; 
+        [LabelText("是否HybridCLR已设置并且环境正确")]        
+        [ReadOnly]
+        [InlineButton("SetHybridCLREnvironment", "设置环境", ShowIf = "IsILTypeIsHybridCLR")]
+        [InlineButton("CleanHybridCLREnvironment", "清除环境", ShowIf = "IsILTypeIsHybridCLR")]
+        public bool isHybridCLREnvironmentCorrect = HybridCLRUtility.IsHybridCLREnvironmentCorrect; 
 
         //[PropertySpace(10)]        
         [TitleGroup("元数据补充功能")]
@@ -96,37 +130,15 @@ namespace ZeroEditor
             AssetDatabase.Refresh();
         }
 
-        [TitleGroup("AOT-interpreter桥接函数生成")]
-        [LabelText("x64"), ToggleLeft]
-        public bool isGenerateMethodBridge_X64 = true;
-        [TitleGroup("AOT-interpreter桥接函数生成")]
-        [LabelText("arm64"), ToggleLeft]
-        public bool isGenerateMethodBridge_Arm64 = true;
-
-        [Button(ButtonSizes.Large), LabelText("生成")]
+        [Button(ButtonSizes.Large), LabelText("AOT-interpreter桥接函数生成")]
         void GenerateMethodBridge()
-        {
-            EditorUtility.DisplayProgressBar("AOT-interpreter桥接函数生成", "x64", 0);
+        {           
+            EditorUtility.DisplayProgressBar("", "AOT-interpreter桥接函数生成", 0);
 
-            if (isGenerateMethodBridge_X64)
-            {
-                string outputFile = $"{HybridCLREditorConst.METHOD_BRIDGE_CPP_DIR}/MethodBridge_x64.cpp";
-                //GenerateMethodBridge(outputFile, CallConventionType.X64);
-            }
-
-            EditorUtility.DisplayProgressBar("AOT-interpreter桥接函数生成", "arm64", 0);
-
-            if (isGenerateMethodBridge_Arm64)
-            {
-                string outputFile = $"{HybridCLREditorConst.METHOD_BRIDGE_CPP_DIR}/MethodBridge_arm64.cpp";
-                //GenerateMethodBridge(outputFile, CallConventionType.Arm64);
-            }
-
-            EditorUtility.DisplayProgressBar("AOT-interpreter桥接函数生成", "清理IL2CPP构建缓存目录", 1);
-            CleanIl2CppBuildCache();
+            HybridCLR.Editor.MethodBridgeHelper.GenerateMethodBridgeAll(false);
 
             EditorUtility.ClearProgressBar();
-            Debug.Log("生成完毕！");
+            Debug.Log("AOT-interpreter桥接函数生成生成完毕！");
         }
 
         [Button(ButtonSizes.Large), LabelText("打开目录")]
@@ -135,27 +147,6 @@ namespace ZeroEditor
             //打开目录
             ZeroEditorUtil.OpenDirectory(HybridCLREditorConst.METHOD_BRIDGE_CPP_DIR);
         }
-
-        //void GenerateMethodBridge(string outputFile, CallConventionType cct)
-        //{            
-        //    var fi = new FileInfo(outputFile);
-        //    if (false == fi.Directory.Exists)
-        //    {
-        //        fi.Directory.Create();
-        //    }
-
-        //    var g = new MethodBridgeGenerator(new MethodBridgeGeneratorOptions()
-        //    {
-        //        CallConvention = cct,
-        //        Assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList(),
-        //        OutputFile = outputFile,
-        //    });
-
-        //    g.PrepareMethods();
-        //    g.Generate();            
-        //    Debug.Log($"AOT-interpreter桥接函数生成: {outputFile}");
-        //}
-
 
         [TitleGroup("缓存")]        
         [Button(ButtonSizes.Large), LabelText("清理IL2CPP构建缓存目录")]
@@ -171,7 +162,7 @@ namespace ZeroEditor
 
 
         [TitleGroup("资料")]
-        [Button(ButtonSizes.Large), LabelText("访问HuaTuo官网")]
+        [Button(ButtonSizes.Large), LabelText("HybridCLR官方文档")]
         void OpenHuaTuoWebSite()
         {
             Application.OpenURL("https://focus-creative-games.github.io/hybridclr/");

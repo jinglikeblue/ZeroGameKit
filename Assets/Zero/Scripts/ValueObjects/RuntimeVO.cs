@@ -122,8 +122,8 @@ namespace Zero
         }
 
         void OnILTypeValueChange()
-        {            
-            //PrefabEditNotice.Ins.onILTypeChanged?.Invoke(ilType);
+        {
+            HybridCLRSettings.Ins.IsHybridCLREnable = ilType == EILType.HYBRID_CLR ? true : false;            
         }
 
         IEnumerable ILType = new ValueDropdownList<EILType>()

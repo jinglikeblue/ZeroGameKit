@@ -1,3 +1,4 @@
+using HybridCLR.Editor;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace ZeroEditor
         /// <summary>
         /// 主工程DLL来源目录
         /// </summary>
-        static public readonly string AOT_DLL_SOURCE_DIR = $"{Path.GetDirectoryName(Application.dataPath)}/HuatuoData/AssembliesPostIl2CppStrip/{EditorUserBuildSettings.activeBuildTarget}";
+        static public readonly string AOT_DLL_SOURCE_DIR = BuildConfig.GetAssembliesPostIl2CppStripDir(EditorUserBuildSettings.activeBuildTarget);
 
         /// <summary>
         /// 主工程DLL放置目录
@@ -20,12 +21,12 @@ namespace ZeroEditor
         /// <summary>
         /// AOT-interpreter桥接函数文件生成目录
         /// </summary>
-        static public readonly string METHOD_BRIDGE_CPP_DIR = $"{ZeroEditorConst.PROJECT_PATH}/HuatuoData/LocalIl2CppData/il2cpp/libil2cpp/huatuo/interpreter";
+        static public readonly string METHOD_BRIDGE_CPP_DIR = BuildConfig.MethodBridgeCppDir;
 
         /// <summary>
         /// IL2CPP打包的缓存目录
         /// </summary>
-        static public readonly string IL2CPP_BUILD_CACHE_DIR = $"{ZeroEditorConst.PROJECT_PATH}/Library/Il2cppBuildCache";
+        static public readonly string IL2CPP_BUILD_CACHE_DIR = BuildConfig.Il2CppBuildCacheDir;
 
         /// <summary>
         /// HybridCLR打包用环境参数字段
@@ -35,12 +36,7 @@ namespace ZeroEditor
         /// <summary>
         /// HybridCLR打包用IL2CPP环境值
         /// </summary>
-        static public readonly string HYBRID_CLR_IL2CPP_DIR = $"{ZeroEditorConst.PROJECT_PATH}/HuatuoData/LocalIl2CppData/il2cpp";
-
-        /// <summary>
-        /// HybridCLR打包用IL2CPP目录没有初始化的提示
-        /// </summary>
-        static public readonly string HUATUO_INIT_TIP = $"本地il2cpp目录:{HYBRID_CLR_IL2CPP_DIR} 不存在，请手动执行 {ZeroEditorConst.PROJECT_PATH}/HuatuoData 目录下的 init_local_il2cpp_data.bat 或者 init_local_il2cpp_data.sh 文件";
+        static public readonly string HYBRID_CLR_IL2CPP_DIR = BuildConfig.LocalIl2CppDir;        
 
         /// <summary>
         /// 使用HybridCLR需要添加的宏定义名称
