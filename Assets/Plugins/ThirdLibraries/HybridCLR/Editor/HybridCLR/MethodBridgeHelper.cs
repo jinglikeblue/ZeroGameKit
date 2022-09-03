@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace HybridCLR.Editor
 {
-    internal class MethodBridgeHelper
+    public class MethodBridgeHelper
     {
 
         private static void CleanIl2CppBuildCache()

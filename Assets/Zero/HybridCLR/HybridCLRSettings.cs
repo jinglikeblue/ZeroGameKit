@@ -18,6 +18,7 @@ public class HybridCLRSettings : ScriptableObject
         {
             if(null == _ins)
             {
+#if UNITY_EDITOR
                 _ins = AssetDatabase.LoadAssetAtPath<HybridCLRSettings>(assetPath);
 
                 if (_ins == null)
@@ -27,6 +28,7 @@ public class HybridCLRSettings : ScriptableObject
                     AssetDatabase.CreateAsset(_ins, assetPath);
                     AssetDatabase.SaveAssets();
                 }
+#endif
             }
 
             return _ins;
