@@ -89,7 +89,7 @@ namespace Zero
             Assembly assembly = AssemblyILWorker.LoadAssembly(dllBytes, pdbBytes);
 
             //如果是HybridCLR模式
-            if (Runtime.Ins.VO.ilType == EILType.HYBRID_CLR)
+            if (Runtime.Ins.ILType == EILType.HYBRID_CLR)
             {
                 Debug.Log(Log.Zero1("外部程序集执行方式：[HYBRID_CLR]"));
                 iLWorker = new HuaTuoILWorker(assembly);
@@ -97,9 +97,9 @@ namespace Zero
                 return;
             }
 
-            if(Runtime.Ins.VO.ilType == EILType.IL_RUNTIME)
+            if(Runtime.Ins.ILType == EILType.IL_RUNTIME)
             {
-                if (null != assembly && Runtime.Ins.VO.isTryJitBeforeILRuntime)
+                if (null != assembly && Runtime.Ins.IsTryJitBeforeILRuntime)
                 {
                     //可以用JIT方式执行
                     Debug.Log(Log.Zero1("外部程序集执行方式：[JIT]"));
@@ -112,7 +112,7 @@ namespace Zero
                     //如果JIT不行，则切换为ILRuntime模式
                     Debug.Log(Log.Zero1("外部程序集执行方式：[IL_RUNTIME]"));
                     //使用ILRuntime
-                    var ilruntimeWorker = new ILRuntimeILWorker(dllBytes, pdbBytes, Runtime.Ins.VO.isDebugIL);
+                    var ilruntimeWorker = new ILRuntimeILWorker(dllBytes, pdbBytes, Runtime.Ins.IsDebugILRuntime);
                     iLWorker = ilruntimeWorker;
                     ILRuntimeAppDomain = ilruntimeWorker.appDomain;
                     ILWorkerType = EILType.IL_RUNTIME;

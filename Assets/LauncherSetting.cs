@@ -7,9 +7,33 @@ using UnityEngine;
 using Zero;
 
 [ExecuteInEditMode]
-public class LauncherSetter : MonoBehaviour
+public class LauncherSetting : MonoBehaviour
 {
-    public RuntimeVO runtimeVO;
+    public LauncherSettingData runtimeVO;
+
+    static LauncherSettingData _cache;
+
+    static public LauncherSettingData Load()
+    {
+        if (_cache != null)
+        {
+            return _cache;
+        }
+
+        Debug.Log($"LauncherSetter:Load");
+
+        var ta = Resources.Load<TextAsset>("launcher_setting");
+        if (null == ta)
+        {
+            _cache = new LauncherSettingData();
+        }
+        else
+        {
+            _cache = LitJson.JsonMapper.ToObject<LauncherSettingData>(ta.text);
+        }
+
+        return _cache;
+    }
 
 #if UNITY_EDITOR
 
@@ -32,37 +56,11 @@ public class LauncherSetter : MonoBehaviour
     {        
         runtimeVO.onChange -= OnSettingChanged;
         Save(runtimeVO);
-    }
-
-    #region Static ¾²Ì¬´úÂë
-
-    static RuntimeVO _cache;
+    }    
 
     static public event Action onValueChanged;
 
-    static public RuntimeVO Load()
-    {
-        if(_cache != null)
-        {
-            return _cache;
-        }
-
-        Debug.Log($"LauncherSetter:Load");
-
-        var ta = Resources.Load<TextAsset>("launcher_setting");
-        if (null == ta)
-        {
-            _cache = new RuntimeVO();
-        }
-        else
-        {
-            _cache = LitJson.JsonMapper.ToObject<RuntimeVO>(ta.text);
-        }
-        
-        return _cache;
-    }
-
-    static public void Save(RuntimeVO vo)
+    static public void Save(LauncherSettingData vo)
     {    
         if(vo == null)
         {
@@ -78,7 +76,5 @@ public class LauncherSetter : MonoBehaviour
 
         onValueChanged?.Invoke();
     }
-
-    #endregion
 #endif
 }

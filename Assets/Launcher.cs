@@ -38,7 +38,7 @@ namespace Zero
             STARTUP
         }
 
-        public RuntimeVO runtimeVO;
+        public LauncherSettingData runtimeVO;
 
         /// <summary>
         /// µ±Ç°×´Ì¬
@@ -67,7 +67,7 @@ namespace Zero
 
         StartupResInitiator _startupResInitiator;
 
-        public Launcher(RuntimeVO runtimeVO)
+        public Launcher(LauncherSettingData runtimeVO)
         {
             this.runtimeVO = runtimeVO;
         }

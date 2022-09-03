@@ -18,7 +18,7 @@ namespace ZeroEditor
         {
             Debug.Log(Log.Zero1("HybridCLRUtility:InitializeOnLoadMethod"));
             SyncWithHybridCLRSettings();
-            LauncherSetter.onValueChanged += SyncWithHybridCLRSettings;            
+            LauncherSetting.onValueChanged += SyncWithHybridCLRSettings;            
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace ZeroEditor
         {
             get
             {
-                var setting = LauncherSetter.Load();
+                var setting = LauncherSetting.Load();
                 return setting.ilType == EILType.HYBRID_CLR ? true : false;
             }
         }

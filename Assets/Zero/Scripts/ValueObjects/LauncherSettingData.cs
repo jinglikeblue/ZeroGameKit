@@ -10,7 +10,7 @@ namespace Zero
     /// </summary>
     [Serializable]
     [HideLabel]
-    public class RuntimeVO
+    public class LauncherSettingData
     {
         [Title("基础")]                               
         [SuffixLabel("关闭日志打印可以提高执行效率")]        

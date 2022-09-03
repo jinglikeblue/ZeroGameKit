@@ -16,9 +16,9 @@ namespace Zero
         public static readonly Runtime Ins = new Runtime();
 
         /// <summary>
-        /// RuntimeVO数据对象
+        /// 启动器设置数据
         /// </summary>
-        internal RuntimeVO VO { get; private set; }
+        LauncherSettingData VO;
 
         internal StreamingAssetsResInitiator streamingAssetsResInitiator;
 
@@ -30,7 +30,33 @@ namespace Zero
         /// <summary>
         /// 热更资源模式
         /// </summary>
-        public EHotResMode HotResMode => VO.hotResMode;        
+        public EHotResMode HotResMode => VO.hotResMode;
+
+        /// <summary>
+        /// DLL执行模式
+        /// </summary>
+        public EILType ILType => VO.ilType;
+
+        /// <summary>
+        /// 是否在ILRuntime模式下开启调试
+        /// </summary>
+        public bool IsDebugILRuntime => VO.isDebugIL;
+
+        /// <summary>
+        /// 在ILRuntime模式下，是否优先尝试JIT模式
+        /// JIT方式更高效，如果平台不支持则继续ILRuntime模式
+        /// </summary>
+        public bool IsTryJitBeforeILRuntime => VO.isTryJitBeforeILRuntime;
+
+        /// <summary>
+        /// 是否用DLL方式启动程序
+        /// </summary>
+        public bool IsUseDll => VO.isUseDll;
+
+        /// <summary>
+        /// 是否加载PDB
+        /// </summary>
+        public bool IsLoadPdb => VO.isLoadPdb;
 
         /// <summary>
         /// 本地数据
@@ -144,7 +170,7 @@ namespace Zero
         }
 
 
-        internal void Init(RuntimeVO vo)
+        internal void Init(LauncherSettingData vo)
         {
             this.VO = vo;
 

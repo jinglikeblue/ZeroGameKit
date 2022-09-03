@@ -15,10 +15,8 @@ namespace Zero
         {
             base.Start();
 
-            var cfg = Runtime.Ins.VO;
-
-            bool isUseDll = cfg.isUseDll;
-            if (cfg.builtinResMode == EBuiltinResMode.ONLY_USE)
+            bool isUseDll = Runtime.Ins.IsUseDll;
+            if (Runtime.Ins.BuiltinResMode == EBuiltinResMode.ONLY_USE)
             {
                 //只使用内嵌资源的情况下，不需要加载DLL，直接执行打包的代码即可
                 isUseDll = false;
@@ -45,7 +43,7 @@ namespace Zero
 
             var dllBytes = LoadDllBytes();
             byte[] pdbBytes = null;
-            if (Runtime.Ins.VO.isLoadPdb)
+            if (Runtime.Ins.IsLoadPdb)
             {
                 pdbBytes = LoadPdbBytes();
             }

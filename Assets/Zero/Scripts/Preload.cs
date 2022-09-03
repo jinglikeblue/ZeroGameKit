@@ -41,7 +41,7 @@ namespace Zero
             STARTUP
         }        
         
-        public RuntimeVO runtimeVO = new RuntimeVO();
+        public LauncherSettingData runtimeVO = new LauncherSettingData();
 
         /// <summary>
         /// 当前状态
