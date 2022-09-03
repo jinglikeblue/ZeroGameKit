@@ -35,8 +35,7 @@ namespace ZeroEditor
             url = cfg.client.url;
             netResRoot = cfg.netResRoot;
             startupResGroups = cfg.startupResGroups;
-            startupParams = cfg.startupParams;
-            isOnlyUseResInStreamingAssets = cfg.isOnlyUseResInStreamingAssets;
+            startupParams = cfg.startupParams;            
             if (null == startupParams)
             {
                 startupParams = new Dictionary<string, string>();
@@ -49,8 +48,7 @@ namespace ZeroEditor
             cfg.client.url = url;
             cfg.netResRoot = netResRoot;
             cfg.startupResGroups = startupResGroups;
-            cfg.startupParams = startupParams;
-            cfg.isOnlyUseResInStreamingAssets = isOnlyUseResInStreamingAssets;
+            cfg.startupParams = startupParams;            
         }
 
         [Title("setting.json 热更配置文件", TitleAlignment = TitleAlignments.Centered)]

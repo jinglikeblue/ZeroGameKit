@@ -72,8 +72,8 @@ namespace Zero
         public event Action onChange;
 
         void OnValueChanged()
-        {            
-            onChange?.Invoke();
+        {
+            onChange?.Invoke();            
         }
 
         bool IsOnlyUseBuiltinResMode()

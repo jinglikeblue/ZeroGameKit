@@ -45,8 +45,26 @@ namespace Zero
 
         void SetSetting(SettingVO vo)
         {
-            //TODO 这里需要用setting.json里配置的数据，覆盖preload中配置的RuntimeVO数据
-            //Runtime.Ins.VO
+            if (vo.lsLogEnable.isOverride)
+            {
+                Runtime.Ins.SetLogEnable(vo.lsLogEnable.value);
+            }
+            if (vo.lsUseDll.isOverride)
+            {
+                Runtime.Ins.VO.isUseDll = vo.lsUseDll.value;
+            }
+            if (vo.lsLoadPdb.isOverride)
+            {
+                Runtime.Ins.VO.isLoadPdb = vo.lsLoadPdb.value;
+            }
+            if (vo.lsTryJitBeforeILRuntime.isOverride)
+            {
+                Runtime.Ins.VO.isTryJitBeforeILRuntime = vo.lsTryJitBeforeILRuntime.value;
+            }
+            if (vo.lsDebugIL.isOverride)
+            {
+                Runtime.Ins.VO.isDebugIL = vo.lsDebugIL.value;
+            }
 
             Runtime.Ins.setting = vo;
             if (vo.netResRoot != null)

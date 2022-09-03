@@ -18,7 +18,7 @@ namespace Zero
         /// <summary>
         /// 启动器设置数据
         /// </summary>
-        LauncherSettingData VO;
+        internal LauncherSettingData VO;
 
         internal StreamingAssetsResInitiator streamingAssetsResInitiator;
 
@@ -169,13 +169,23 @@ namespace Zero
             }
         }
 
+        /// <summary>
+        /// 设置是否打印日志
+        /// </summary>
+        /// <param name="enable"></param>
+        internal void SetLogEnable(bool enable)
+        {
+            VO.isLogEnable = enable;
+            //日志控制
+            Log.IsActive = enable;
+        }
+
 
         internal void Init(LauncherSettingData vo)
         {
             this.VO = vo;
 
-            //日志控制
-            Log.IsActive = vo.isLogEnable;            
+            SetLogEnable(vo.isLogEnable);
 
             InitHotResRuntime();
 

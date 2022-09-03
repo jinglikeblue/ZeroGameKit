@@ -37,9 +37,20 @@ namespace Zero
         /// </summary>
         public Dictionary<string, string> startupParams;
 
-        /// <summary>
-        /// 是否仅使用StreamingAssets中res资源来运行项目
-        /// </summary>
-        public bool isOnlyUseResInStreamingAssets;
+        public LauncherSettingParam<bool> lsLogEnable = new LauncherSettingParam<bool>();
+
+        public LauncherSettingParam<bool> lsUseDll = new LauncherSettingParam<bool>();
+
+        public LauncherSettingParam<bool> lsLoadPdb = new LauncherSettingParam<bool>();
+
+        public LauncherSettingParam<bool> lsTryJitBeforeILRuntime = new LauncherSettingParam<bool>();
+
+        public LauncherSettingParam<bool> lsDebugIL = new LauncherSettingParam<bool>();
+
+        public class LauncherSettingParam<T> 
+        {
+            public bool isOverride = false;
+            public T value;
+        }
     }
 }
