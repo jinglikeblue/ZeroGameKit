@@ -12,20 +12,20 @@ using Zero;
 namespace ZeroEditor
 {
     public class HybridCLRUtility
-    {        
-        //[InitializeOnLoadMethod]
-        //public static void InitializeOnLoadMethod()
-        //{            
-        //    Debug.Log(Log.Zero1("HybridCLRUtility:InitializeOnLoadMethod"));                        
-        //    SyncWithHybridCLRSettings(null);
-        //    HybridCLRSettings.Ins.onEnableChanged += SyncWithHybridCLRSettings;
-        //}
+    {
+        [InitializeOnLoadMethod]
+        public static void InitializeOnLoadMethod()
+        {
+            Debug.Log(Log.Zero1("HybridCLRUtility:InitializeOnLoadMethod"));
+            SyncWithHybridCLRSettings();
+            LauncherSetter.onValueChanged += SyncWithHybridCLRSettings;            
+        }
 
         /// <summary>
         /// 根据HybridCLR开关，同步环境
         /// </summary>
         /// <param name="settings"></param>
-        static void SyncWithHybridCLRSettings(HybridCLRSettings settings)
+        static void SyncWithHybridCLRSettings()
         {
             if (IsILTypeIsHybridCLR)
             {
@@ -50,7 +50,8 @@ namespace ZeroEditor
         {
             get
             {
-                return HybridCLRSettings.Ins.IsHybridCLREnable;
+                var setting = LauncherSetter.Load();
+                return setting.ilType == EILType.HYBRID_CLR ? true : false;
             }
         }
 
@@ -85,7 +86,7 @@ namespace ZeroEditor
         {
             get
             {
-                if (HybridCLRSettings.Ins.IsHybridCLREnable && IsScriptingDefineSymbolsExist && IsEnvironmentVariableExist)
+                if (IsILTypeIsHybridCLR && IsScriptingDefineSymbolsExist && IsEnvironmentVariableExist)
                 {
                     return true;
                 }

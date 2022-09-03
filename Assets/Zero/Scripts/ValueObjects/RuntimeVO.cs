@@ -15,49 +15,66 @@ namespace Zero
         [Title("基础")]                               
         [SuffixLabel("关闭日志打印可以提高执行效率")]        
         [LabelText("是否允许打印日志")]
+        [OnValueChanged("OnValueChanged")]
         public bool isLogEnable;
 
+        [ShowInInspector]
         [Title("启动")]
         [LabelText("启动类(完全限定类名)"), DisplayAsString]
-        public string className = ZeroConst.LOGIC_SCRIPT_STARTUP_CLASS_NAME;
+        protected string className = ZeroConst.LOGIC_SCRIPT_STARTUP_CLASS_NAME;
 
+        [ShowInInspector]
         [LabelText("启动方法(静态)"), DisplayAsString]
-        public string methodName = ZeroConst.LOGIC_SCRIPT_STARTUP_METHOD;
+        protected string methodName = ZeroConst.LOGIC_SCRIPT_STARTUP_METHOD;
 
         [Title("内嵌资源配置")]
         [InfoBox("如果希望所有资源都从网络下载，删除[StreamingAssets/res]目录即可\r\n也可以根据需求删除部分内嵌资源，只需要重新对内嵌资源目录生成res.json即可", VisibleIf = "$IsHotPatchBuiltinResMode")]
         [InfoBox("$BuiltinResSource", InfoMessageType = InfoMessageType.None)]
-        [LabelText("模式"), ValueDropdown("BuiltinResMode")]        
-        [OnValueChanged("OnBuiltinResModeChange")]
+        [LabelText("模式"), ValueDropdown("BuiltinResMode")]                
+        [OnValueChanged("OnValueChanged")]
         public EBuiltinResMode builtinResMode;
 
         [Title("资源读取配置")]        
         [InfoBox("$HotResSource", InfoMessageType = InfoMessageType.None)]
-        [LabelText("资源读取模式"), ValueDropdown("HotResMode")]            
+        [LabelText("资源读取模式"), ValueDropdown("HotResMode")]
+        [OnValueChanged("OnValueChanged")]
         public EHotResMode hotResMode;
         
         [InfoBox("Zero会按照队列依次尝试资源的下载，直到其中一个成功为止", InfoMessageType = InfoMessageType.Info)]
-        [LabelText("网络资源的根目录"), ShowIf("hotResMode", EHotResMode.NET_ASSET_BUNDLE)]        
+        [LabelText("网络资源的根目录"), ShowIf("hotResMode", EHotResMode.NET_ASSET_BUNDLE)]
+        [OnValueChanged("OnValueChanged")]
         public string[] netRoots = new string[1];
 
         [InfoBox("仅使用内嵌资源模式下，将不会使用DLL运行项目，代码将直接运行以达到代码执行效率最佳化。", InfoMessageType.Warning, VisibleIf = "$IsOnlyUseBuiltinResMode")]
         [Title("热更代码配置")]
-        [LabelText("使用dll")]           
+        [LabelText("使用dll")]
+        [OnValueChanged("OnValueChanged")]
         public bool isUseDll;
 
         [LabelText("加载pdb"), ShowIf("isUseDll")]
+        [OnValueChanged("OnValueChanged")]
         public bool isLoadPdb;
 
-        [LabelText("DLL执行方式"), ValueDropdown("ILType"), ShowIf("isUseDll"), OnValueChanged("OnILTypeValueChange")]        
+        [LabelText("DLL执行方式"), ValueDropdown("ILType"), ShowIf("isUseDll")]
+        [OnValueChanged("OnValueChanged")]
         public EILType ilType = EILType.IL_RUNTIME;
 
         [LabelText("优先JIT"), SuffixLabel("JIT方式更高效，如果平台不支持则继续ILRuntime模式"), ShowIf("$IsShowILRuntimeDebug")]
+        [OnValueChanged("OnValueChanged")]
         public bool isTryJitBeforeILRuntime;
 
         [LabelText("调试功能"), ShowIf("$IsShowILRuntimeDebug")]
+        [OnValueChanged("OnValueChanged")]
         public bool isDebugIL;
 
 #if UNITY_EDITOR
+
+        public event Action onChange;
+
+        void OnValueChanged()
+        {            
+            onChange?.Invoke();
+        }
 
         bool IsOnlyUseBuiltinResMode()
         {
@@ -67,11 +84,6 @@ namespace Zero
         bool IsHotPatchBuiltinResMode()
         {
             return builtinResMode == EBuiltinResMode.HOT_PATCH ? true : false;
-        }
-
-        void OnBuiltinResModeChange()
-        {
-
         }
 
         IEnumerable BuiltinResMode = new ValueDropdownList<EBuiltinResMode>()
@@ -119,11 +131,6 @@ namespace Zero
                     break;
             }
             return source;
-        }
-
-        void OnILTypeValueChange()
-        {
-            HybridCLRSettings.Ins.IsHybridCLREnable = ilType == EILType.HYBRID_CLR ? true : false;            
         }
 
         IEnumerable ILType = new ValueDropdownList<EILType>()

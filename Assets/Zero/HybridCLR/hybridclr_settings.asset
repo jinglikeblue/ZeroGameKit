@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c029766c1ebfe40b370005188aa142, type: 3}
   m_Name: hybridclr_settings
   m_EditorClassIdentifier: 
-  _isHybridCLREnable: 0
+  _isHybridCLREnable: 1

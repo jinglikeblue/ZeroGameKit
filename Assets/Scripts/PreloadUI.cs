@@ -13,16 +13,20 @@ namespace Demo
         void Start()
         {    
             SetProgress(0, 1);
-            Preload preload = GetComponent<Preload>();
-            preload.onProgress += SetProgress;
 
-            preload.onStateChange += (state) =>
+            var vo = LauncherSetter.Load();
+            var launcher = new Launcher(vo);
+
+            //Preload preload = GetComponent<Preload>();
+            launcher.onProgress += SetProgress;
+
+            launcher.onStateChange += (state) =>
             {
                 Debug.Log("Preload State Change: " + state);                
             };
 
             //从这里启动Ppreload
-            preload.StartPreload();            
+            launcher.Start();            
         }
 
         private void SetProgress(long loadedSize, long totalSize)
