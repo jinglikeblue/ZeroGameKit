@@ -46,3 +46,4 @@ sysinfo.txt
 /Assets/StreamingAssets/res.meta
 /Designs/*.bkp
 /HybridCLRData/LocalIl2CppData
+/HybridCLRData/AssembliesPostIl2CppStrip
