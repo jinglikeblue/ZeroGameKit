@@ -21,6 +21,7 @@ namespace ZeroEditor
         {            
             var win = GetWindow<HybridCLREditorWindow>("HybridCLR");            
             win.position = GUIHelper.GetEditorWindowRect().AlignCenter(440, 470);
+            win.Show();
             return win;
         }
 

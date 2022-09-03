@@ -94,7 +94,7 @@ namespace HybridCLR.Editor.Generators.MethodBridge
                 case PlatformABI.Arm64: tplFile = "Arm64"; break;
                 default: throw new NotSupportedException();
             };
-            return $"{Application.dataPath}/Editor/HybridCLR/Generators/Templates/MethodBridge_{tplFile}.cpp";
+            return $"{Application.dataPath}/Plugins/ThirdLibraries/HybridCLR/Editor/HybridCLR/Generators/Templates/MethodBridge_{tplFile}.cpp";
         }
 
         public IEnumerable<TypeGenInfo> GetGenerateTypes()

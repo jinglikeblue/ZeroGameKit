@@ -85,7 +85,7 @@ namespace ZeroEditor
 
         [MenuItem("Zero/热更代码框架/HybridCLR")]
         public static void OpenHybridCLREditorWindow()
-        {
+        {            
             HybridCLREditorWindow.Open();
         }
     }
