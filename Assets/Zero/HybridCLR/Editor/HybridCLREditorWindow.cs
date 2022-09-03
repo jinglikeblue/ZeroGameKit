@@ -71,9 +71,14 @@ namespace ZeroEditor
 
 
         [Title("HybridCLR插件")]
-        [InfoBox("$HybridCLRPluginInfo", InfoMessageType = InfoMessageType.None)]                
-        [PropertyOrder(1)]      
+        [InfoBox("$HybridCLRPluginInfo", InfoMessageType = InfoMessageType.None)]
+        [PropertyOrder(0)]
+        [DisplayAsString(true), HideLabel]
+        public string textHybridCLRPluginInfo = "必须先安装插件，才能以HybridCLR执行DLL";
+
+        //[HorizontalGroup("HybridCLR_Plugin")]
         [Button("安装HybridCLR插件", ButtonSizes.Large)]
+        [PropertyOrder(1)]
         [DisableIf("IsHybridCLRInstalled")]
         void InstallHybridCLR()
         {
@@ -81,17 +86,23 @@ namespace ZeroEditor
             //_installerController.InitHybridCLR(_installerController.Il2CppBranch, _installerController.Il2CppInstallDirectory);
         }
         
-        [HorizontalGroup("HybridCLR_Plugin")]
-        [PropertyOrder(1)]
-        [Button("卸载HybridCLR插件", ButtonSizes.Large)]
-        [EnableIf("IsHybridCLRInstalled")]
-        void UninstallHybridCLR()
-        {            
-            Directory.Delete(HybridCLREditorConst.HYBRID_CLR_INSTALL_DIR, true);
-        }
+        //[HorizontalGroup("HybridCLR_Plugin")]
+        //[PropertyOrder(1)]
+        //[Button("卸载HybridCLR插件", ButtonSizes.Large)]
+        //[EnableIf("IsHybridCLRInstalled")]
+        //void UninstallHybridCLR()
+        //{
+        //    HybridCLRUtility.UninstallHybridCLRPlugin();            
+        //}
 
         [Title("HybridCLR环境")]
-        [InfoBox("$HybridCLREnvironmentInfo", InfoMessageType = InfoMessageType.None)]       
+        [InfoBox("$HybridCLREnvironmentInfo", InfoMessageType = InfoMessageType.None)]
+        [PropertyOrder(2)]
+        [DisplayAsString(true), HideLabel]
+        public string textHybridCLREnvironmentInfo = "参考官方文档<快速开始>";
+
+
+        [HorizontalGroup("HybridCLR_Environment")]
         [PropertyOrder(3)]
         [Button("设置HybridCLR环境", ButtonSizes.Large)]
         [EnableIf("@false == IsHybridCLREnvironmentCorrect() && IsHybridCLRInstalled()")]
@@ -100,6 +111,7 @@ namespace ZeroEditor
             HybridCLRUtility.SetHybridCLREnvironment();
         }
 
+        [HorizontalGroup("HybridCLR_Environment")]
         [PropertyOrder(3)]
         [Button("清除HybridCLR环境", ButtonSizes.Large)]
         [EnableIf("IsHybridCLREnvironmentCorrect")]
@@ -109,6 +121,10 @@ namespace ZeroEditor
         }
 
         [Title("AOT-interpreter桥接函数")]
+        [PropertyOrder(4)]
+        [DisplayAsString(true), HideLabel]
+        public string textMethodBridgeInfo = "参考官方文档<AOT-interpreter桥接函数>";
+
         [PropertyOrder(4)]
         [Button(ButtonSizes.Large), LabelText("AOT-interpreter桥接函数生成")]
         [EnableIf("IsHybridCLRInstalled")]
@@ -128,12 +144,14 @@ namespace ZeroEditor
             {
                 return $"[{HybridCLREditorConst.AOT_DLL_SOURCE_DIR}]中没有DLL文件。需要构建一次主包后才能生成裁剪后的AOT DLL";
             }
-            return "在列表中填写要拷贝的dll";
+            return "Aot Dll将会拷贝到：Assets/Resources/hybrid_clr";
         }
 
-        [TitleGroup("AOT泛型限制", "补充元数据")]
-        //[PropertyOrder(5)]
+        [TitleGroup("AOT泛型限制(补充元数据)")]
+        [PropertyOrder(5)]
         [InfoBox("$CopyAotDllInfo", "@CopyAotDllInfo() != null", InfoMessageType = InfoMessageType.Warning)]
+        [DisplayAsString(true), HideLabel]
+        public string textCopyAotDllToResourcesInfo = "参考官方文档<AOT泛型限制及原理介绍>";
         //[ListDrawerSettings(Expanded = true, NumberOfItemsPerPage = 5)]
         //[HideLabel]
         //public string[] toCopyAotDllList = new string[]
@@ -144,7 +162,7 @@ namespace ZeroEditor
         //};
 
 
-        //[TitleGroup("AOT泛型限制","补充元数据")]
+
         [PropertyOrder(5)]        
         [EnableIf("IsHybridCLRInstalled")]
         [Button(ButtonSizes.Large), LabelText("拷贝Aot Dll到Resources")]

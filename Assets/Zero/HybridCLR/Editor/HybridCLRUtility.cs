@@ -190,5 +190,16 @@ namespace ZeroEditor
         {
             Directory.Delete(HybridCLREditorConst.AOT_DLL_TARGET_DIR, true);
         }
+
+        /// <summary>
+        /// 卸载HybridCLR插件
+        /// </summary>
+        public static void UninstallHybridCLRPlugin()
+        {
+            Directory.Delete(HybridCLREditorConst.HYBRID_CLR_INSTALL_DIR, true);
+            Debug.Log(Log.Zero1($"HybridCLR插件卸载: 删除插件目录[{HybridCLREditorConst.HYBRID_CLR_INSTALL_DIR}]"));
+
+            CleanHybridCLREnvironment();
+        }
     }
 }
