@@ -57,6 +57,7 @@ namespace Zero
 
         [LabelText("DLL执行方式"), ValueDropdown("ILType"), ShowIf("isUseDll")]
         [OnValueChanged("OnValueChanged")]
+        [OnValueChanged("OnILTypeChanged")]
         public EILType ilType = EILType.IL_RUNTIME;
 
         [LabelText("优先JIT"), SuffixLabel("JIT方式更高效，如果平台不支持则继续ILRuntime模式"), ShowIf("$IsShowILRuntimeDebug")]
@@ -74,6 +75,13 @@ namespace Zero
         void OnValueChanged()
         {
             onChange?.Invoke();            
+        }
+
+        public event Action onILTypeChanged;
+
+        void OnILTypeChanged()
+        {
+            onILTypeChanged?.Invoke();
         }
 
         bool IsOnlyUseBuiltinResMode()

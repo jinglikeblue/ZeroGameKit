@@ -75,6 +75,11 @@ namespace Zero
         /// </summary>
         public const string ROOT_AB_FILE_NAME = "root_assets";
 
+        /// <summary>
+        /// Resources下的launcher_setting.json资源名
+        /// </summary>
+        public const string LAUNCHER_SETTING_NAME = "launcher_setting";
+
         #region 基于项目根目录的路径
 
         /// <summary>

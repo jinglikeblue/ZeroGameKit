@@ -684,14 +684,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70a482d60817cec449e036dc1133d521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runtimeVO:
+  data:
     isLogEnable: 1
     builtinResMode: 0
-    hotResMode: 2
+    hotResMode: 0
     netRoots:
-    - http://192.168.0.4:8800/res
-    isUseDll: 0
-    isLoadPdb: 1
+    - 
+    isUseDll: 1
+    isLoadPdb: 0
     ilType: 0
     isTryJitBeforeILRuntime: 0
     isDebugIL: 0

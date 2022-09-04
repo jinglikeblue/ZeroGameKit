@@ -38,7 +38,7 @@ namespace Zero
             STARTUP
         }
 
-        public LauncherSettingData runtimeVO;
+        public LauncherSettingData launcherData;
 
         /// <summary>
         /// 当前状态
@@ -67,9 +67,9 @@ namespace Zero
 
         StartupResInitiator _startupResInitiator;
 
-        public Launcher(LauncherSettingData runtimeVO)
+        public Launcher(LauncherSettingData data)
         {
-            this.runtimeVO = runtimeVO;
+            this.launcherData = data;
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Zero
         void InitRuntime()
         {
             //初始化运行环境配置环境
-            Runtime.Ins.Init(runtimeVO);
+            Runtime.Ins.Init(launcherData);
 
             SettingJsonInit();
         }

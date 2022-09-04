@@ -13,19 +13,19 @@ namespace ZeroEditor
 {
     public class HybridCLRUtility
     {
-        [InitializeOnLoadMethod]
-        public static void InitializeOnLoadMethod()
-        {
-            Debug.Log(Log.Zero1("HybridCLRUtility:InitializeOnLoadMethod"));
-            SyncWithHybridCLRSettings();
-            LauncherSetting.onValueChanged += SyncWithHybridCLRSettings;            
-        }
+        //[InitializeOnLoadMethod]
+        //public static void InitializeOnLoadMethod()
+        //{
+        //    Debug.Log(Log.Zero1("HybridCLRUtility:InitializeOnLoadMethod"));
+        //    SyncWithHybridCLRSettings();
+        //    LauncherSettingCustomEditor.onValueChanged += SyncWithHybridCLRSettings;            
+        //}
 
         /// <summary>
         /// 根据HybridCLR开关，同步环境
         /// </summary>
         /// <param name="settings"></param>
-        static void SyncWithHybridCLRSettings()
+        public static void SyncWithHybridCLRSettings()
         {
             if (IsILTypeIsHybridCLR)
             {
@@ -50,7 +50,7 @@ namespace ZeroEditor
         {
             get
             {
-                var setting = LauncherSetting.Load();
+                var setting = LauncherSettingCustomEditor.Load();
                 return setting.ilType == EILType.HYBRID_CLR ? true : false;
             }
         }
