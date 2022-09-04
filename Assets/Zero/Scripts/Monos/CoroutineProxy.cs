@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ZeroHot;
 
 /// <summary>
 /// 携程代理工具

@@ -119,7 +119,7 @@ namespace ZeroHot
 
             if (!isRegisterSuccess)
             {
-                Debug.LogWarning(Log.Orange("[{0}/{1}.prefab]没有找到匹配的类，请检查是否存在「{2}.cs」，或者「自动生成代码」配置的命名空间是否正确!!!", abName, viewName, viewName));
+                Debug.Log(Log.Orange("[{0}/{1}.prefab]没有找到匹配的类，请检查是否存在「{2}.cs」，或者「自动生成代码」配置的命名空间是否正确!!!", abName, viewName, viewName));
             }
         }
     }

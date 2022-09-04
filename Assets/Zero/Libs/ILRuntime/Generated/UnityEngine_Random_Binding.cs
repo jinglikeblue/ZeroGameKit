@@ -37,13 +37,13 @@ namespace ILRuntime.Runtime.Generated
             StackObject* __ret = ILIntepreter.Minus(__esp, 2);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            System.Int32 @max = ptr_of_this_method->Value;
+            System.Int32 @maxExclusive = ptr_of_this_method->Value;
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
-            System.Int32 @min = ptr_of_this_method->Value;
+            System.Int32 @minInclusive = ptr_of_this_method->Value;
 
 
-            var result_of_this_method = UnityEngine.Random.Range(@min, @max);
+            var result_of_this_method = UnityEngine.Random.Range(@minInclusive, @maxExclusive);
 
             __ret->ObjectType = ObjectTypes.Integer;
             __ret->Value = result_of_this_method;

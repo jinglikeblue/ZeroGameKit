@@ -303,8 +303,6 @@ namespace ZeroHot
 		{
 			public const string NAME = "examples/video.ab";
 
-			public const string Sample_mp4 = "Sample.mp4";
-			public const string Sample_mp4_assetPath = "examples/video/Sample.mp4";
 			public const string VideoExampleWin = "VideoExampleWin.prefab";
 			public const string VideoExampleWin_assetPath = "examples/video/VideoExampleWin.prefab";            
 		}

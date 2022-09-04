@@ -25,6 +25,9 @@ namespace ILRuntime.Runtime.Generated
             args = new Type[]{typeof(System.String)};
             method = type.GetMethod("ToString", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, ToString_0);
+            args = new Type[]{};
+            method = type.GetMethod("ToString", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, ToString_1);
 
 
         }
@@ -89,6 +92,20 @@ namespace ILRuntime.Runtime.Generated
             System.Single instance_of_this_method = GetInstance(__domain, ptr_of_this_method, __mStack);
 
             var result_of_this_method = instance_of_this_method.ToString(@format);
+
+            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
+        }
+
+        static StackObject* ToString_1(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* ptr_of_this_method;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 1);
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
+            System.Single instance_of_this_method = GetInstance(__domain, ptr_of_this_method, __mStack);
+
+            var result_of_this_method = instance_of_this_method.ToString();
 
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }
