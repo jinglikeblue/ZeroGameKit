@@ -81,10 +81,10 @@ namespace ZeroEditor
         [Space(50)]
         [Title("内嵌资源构建")]
         [LabelText("自动拷贝到内嵌资源目录(StreamingAssets/res)"), ToggleLeft, PropertyOrder(900)]
-        [InlineButton("OpenBuiltinDir", "打开内嵌资源目录")]
+        [InlineButton("OpenBuiltinDir", "打开内嵌资源目录")]        
         public bool isCopyToBuiltinDir = false;
 
-        
+        [HorizontalGroup("BuiltinResCopy")]
         [LabelText("拷贝到内嵌资源目录"), Button(ButtonSizes.Large), PropertyOrder(901)]
         void CopyToBuiltinDir()
         {
@@ -95,7 +95,14 @@ namespace ZeroEditor
             }
         }
 
-        [LabelText("清空内嵌资源目录"), Button(ButtonSizes.Large), PropertyOrder(902)]
+        [LabelText("Build StreamingAssets/res中的res.json"), Button(ButtonSizes.Large), PropertyOrder(901)]
+        void BuildBuiltinResJson()
+        {
+            new ResJsonBuildCommand(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH).Execute();
+        }
+
+        [HorizontalGroup("BuiltinResCopy")]
+        [LabelText("清空内嵌资源目录"), Button(ButtonSizes.Large), PropertyOrder(901)]
         void CleanBuiltinDir()
         {
             if (EditorUtility.DisplayDialog("确定窗口", "确定清空'StreamingAssets/res'目录？", "是", "否"))
