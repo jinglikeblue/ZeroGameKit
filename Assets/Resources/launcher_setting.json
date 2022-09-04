@@ -1,6 +1,6 @@
 
 {
-    "isLogEnable" : false,
+    "isLogEnable" : true,
     "builtinResMode" : 0,
     "hotResMode"     : 2,
     "netRoots"       : [

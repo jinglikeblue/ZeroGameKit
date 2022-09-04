@@ -11,28 +11,18 @@ public class LauncherSetting : MonoBehaviour
 {
     public LauncherSettingData runtimeVO;
 
-    static LauncherSettingData _cache;
-
-    static public LauncherSettingData Load()
+    /// <summary>
+    /// 加载Resources中的launcher_setting_data，并返回全新的对象
+    /// </summary>
+    /// <returns></returns>
+    static public LauncherSettingData LoadLauncherSettingDataFromResources()
     {
-        if (_cache != null)
-        {
-            return _cache;
-        }
-
-        Debug.Log($"LauncherSetter:Load");
-
         var ta = Resources.Load<TextAsset>("launcher_setting");
-        if (null == ta)
+        if(null != ta)
         {
-            _cache = new LauncherSettingData();
+            return LitJson.JsonMapper.ToObject<LauncherSettingData>(ta.text);
         }
-        else
-        {
-            _cache = LitJson.JsonMapper.ToObject<LauncherSettingData>(ta.text);
-        }
-
-        return _cache;
+        return null;
     }
 
 #if UNITY_EDITOR
@@ -59,6 +49,31 @@ public class LauncherSetting : MonoBehaviour
     }    
 
     static public event Action onValueChanged;
+
+    static LauncherSettingData _cache;
+
+    /// <summary>
+    /// 加载LauncherSettingData，如果有缓存则返回，无则从Resources中加载
+    /// </summary>
+    /// <returns></returns>
+    static public LauncherSettingData Load()
+    {
+        if (_cache != null)
+        {
+            return _cache;
+        }
+
+        Debug.Log($"LauncherSetter:Load");
+
+        _cache = LoadLauncherSettingDataFromResources();
+        if (null == _cache)
+        {
+            _cache = new LauncherSettingData();
+        }
+
+        return _cache;
+    }
+
 
     static public void Save(LauncherSettingData vo)
     {    

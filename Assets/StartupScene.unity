@@ -685,7 +685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runtimeVO:
-    isLogEnable: 0
+    isLogEnable: 1
     builtinResMode: 0
     hotResMode: 2
     netRoots:

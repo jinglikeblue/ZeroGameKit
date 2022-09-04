@@ -14,7 +14,7 @@ namespace Demo
         {    
             SetProgress(0, 1);
 
-            var vo = LauncherSetting.Load();
+            var vo = LauncherSetting.LoadLauncherSettingDataFromResources();
             var launcher = new Launcher(vo);
 
             //Preload preload = GetComponent<Preload>();
