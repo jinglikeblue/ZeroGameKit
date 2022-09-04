@@ -42,7 +42,8 @@ namespace Zero
         
         [InfoBox("Zero会按照队列依次尝试资源的下载，直到其中一个成功为止", InfoMessageType = InfoMessageType.Info)]
         [LabelText("网络资源的根目录"), ShowIf("hotResMode", EHotResMode.NET_ASSET_BUNDLE)]
-        [OnValueChanged("OnValueChanged")]
+        [OnValueChanged("OnValueChanged")]     
+        [ListDrawerSettings(Expanded = true, NumberOfItemsPerPage = 3)]                
         public string[] netRoots = new string[1];
 
         [InfoBox("仅使用内嵌资源模式下，将不会使用DLL运行项目，代码将直接运行以达到代码执行效率最佳化。", InfoMessageType.Warning, VisibleIf = "$IsOnlyUseBuiltinResMode")]

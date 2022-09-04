@@ -689,7 +689,7 @@ MonoBehaviour:
     builtinResMode: 0
     hotResMode: 0
     netRoots:
-    - 
+    - http://192.168.0.4:8800/res
     isUseDll: 1
     isLoadPdb: 0
     ilType: 0

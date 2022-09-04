@@ -5,7 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zero;
 
 namespace ZeroEditor
@@ -22,10 +24,16 @@ namespace ZeroEditor
         }
 
         override protected void OnEnable()
-        {
+        {                    
             Target.data = Load();
             Target.data.onChange += OnSettingChanged;
             Target.data.onILTypeChanged += OnILTypeChanged;
+            EditorSceneManager.sceneSaved += OnSceneSaved;
+        }
+
+        private void OnSceneSaved(Scene scene)
+        {
+            Save(Target.data);
         }
 
         private void OnSettingChanged()
@@ -36,7 +44,8 @@ namespace ZeroEditor
         override protected void OnDisable()
         {
             Target.data.onChange -= OnSettingChanged;
-            Target.data.onILTypeChanged += OnILTypeChanged;            
+            Target.data.onILTypeChanged -= OnILTypeChanged;
+            EditorSceneManager.sceneSaved -= OnSceneSaved;
         }
 
         private void OnILTypeChanged()
