@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,7 +22,7 @@ namespace ZeroEditor
             {
                 return this.target as LauncherSetting;
             }            
-        }
+        }                
 
         override protected void OnEnable()
         {                    
@@ -38,7 +39,8 @@ namespace ZeroEditor
 
         private void OnSettingChanged()
         {
-            Save(Target.data);
+            _isDirty = true;
+            //Save(Target.data);
         }
 
         override protected void OnDisable()
@@ -46,6 +48,7 @@ namespace ZeroEditor
             Target.data.onChange -= OnSettingChanged;
             Target.data.onILTypeChanged -= OnILTypeChanged;
             EditorSceneManager.sceneSaved -= OnSceneSaved;
+            Save(Target.data);
         }
 
         private void OnILTypeChanged()
@@ -57,6 +60,8 @@ namespace ZeroEditor
         static public event Action onValueChanged;
 
         static LauncherSettingData _cache;
+
+        static bool _isDirty = false;
 
         /// <summary>
         /// 加载LauncherSettingData，如果有缓存则返回，无则从Resources中加载
@@ -81,8 +86,17 @@ namespace ZeroEditor
         }
 
 
-        static public void Save(LauncherSettingData vo)
+        static public void Save(LauncherSettingData vo, bool isOnlySaveIfDirty = true)
         {
+            if (isOnlySaveIfDirty)
+            {
+                if(false == _isDirty)
+                {
+                    return;
+                }
+                _isDirty = false;
+            }
+
             if (vo == null)
             {
                 throw new Exception("保存的[LauncherSettingData]为null!!!");

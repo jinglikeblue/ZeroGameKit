@@ -2,12 +2,12 @@
 {
     "isLogEnable" : true,
     "builtinResMode" : 0,
-    "hotResMode"     : 0,
+    "hotResMode"     : 2,
     "netRoots"       : [
         "http://192.168.0.4:8800/res"
     ],
-    "isUseDll"       : true,
-    "isLoadPdb"      : false,
+    "isUseDll"       : false,
+    "isLoadPdb"      : true,
     "ilType"         : 0,
     "isTryJitBeforeILRuntime" : false,
     "isDebugIL"               : false

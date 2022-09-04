@@ -21,8 +21,12 @@ namespace Demo
             launcher.onProgress += SetProgress;
 
             launcher.onStateChange += (state) =>
-            {
-                Debug.Log("Preload State Change: " + state);                
+            {                
+                Debug.Log("Preload State Change: " + state);
+                if (state == Launcher.EState.STARTUP)
+                {
+                    GameObject.Destroy(this.gameObject);
+                }
             };
 
             //从这里启动Ppreload
