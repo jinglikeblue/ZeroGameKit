@@ -5,8 +5,8 @@ using System;
 using System.IO;
 
 class UniWebViewEditorSettings: ScriptableObject
-{
-    const string assetPath = "Assets/Editor/UniWebView/settings.asset";
+{    
+    const string assetPath = "Assets/Plugins/ThirdLibraries/UniWebView/Editor/settings.asset";
 
     [SerializeField]
     internal bool usesCleartextTraffic = false;

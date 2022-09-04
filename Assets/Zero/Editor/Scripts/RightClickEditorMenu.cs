@@ -9,7 +9,7 @@ using ZeroEditor;
 /// </summary>
 public class RightClickEditorMenu
 {
-    [MenuItem("Assets/Zero快捷操作/生成DLL", false, 0)]
+    [MenuItem("Assets/Zero/生成DLL", false, 0)]
     static void GenerateDll()
     {
         var now = DateTime.Now;
@@ -22,25 +22,25 @@ public class RightClickEditorMenu
         cmd.Execute();        
     }
 
-    [MenuItem("Assets/Zero快捷操作/位图字体/直接创建/使用Png图片的名称作为字符源", false, 1)]
+    [MenuItem("Assets/Zero/位图字体/直接创建/使用Png图片的名称作为字符源", false, 1)]
     static void CreateBitmapFontUsePNGFileName()
     {
         BitmapFontCreaterMenu.CreateBitmapFontUsePNGFileName();
     }
 
-    [MenuItem("Assets/Zero快捷操作/位图字体/直接创建/使用「chars.txt」作为字符源", false, 2)]
+    [MenuItem("Assets/Zero/位图字体/直接创建/使用「chars.txt」作为字符源", false, 2)]
     static void CreateBitmapFontUseCharsTxt()
     {
         BitmapFontCreaterMenu.CreateBitmapFontUseCharsTxt();
     }
 
-    [MenuItem("Assets/Zero快捷操作/位图字体/使用GUI创建", false, 3)]
+    [MenuItem("Assets/Zero/位图字体/使用GUI创建", false, 3)]
     static void CreateBitmapFontGUI()
     {
         BitmapFontCreaterMenu.CreateBitmapFontGUI();
     }
 
-    [MenuItem("Assets/Zero快捷操作/资源名生成", false, 100)]
+    [MenuItem("Assets/Zero/资源名生成", false, 100)]
     static void GenerateAssetNames()
     {        
         var findCmd = new FindAssetBundlesCommand(false);
