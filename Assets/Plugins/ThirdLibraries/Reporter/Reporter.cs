@@ -2080,7 +2080,8 @@ public class Reporter : MonoBehaviour
 	void OnApplicationQuit()
 	{
 		PlayerPrefs.SetInt("Reporter_currentView", (int)currentView);
-		PlayerPrefs.SetInt("Reporter_show", (show == true) ? 1 : 0);
+		//PlayerPrefs.SetInt("Reporter_show", (show == true) ? 1 : 0);
+		PlayerPrefs.SetInt("Reporter_show", 0);
 		PlayerPrefs.SetInt("Reporter_collapse", (collapse == true) ? 1 : 0);
 		PlayerPrefs.SetInt("Reporter_clearOnNewSceneLoaded", (clearOnNewSceneLoaded == true) ? 1 : 0);
 		PlayerPrefs.SetInt("Reporter_showTime", (showTime == true) ? 1 : 0);
