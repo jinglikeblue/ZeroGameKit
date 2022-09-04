@@ -82,7 +82,7 @@ namespace Example
         private void LoadPrivacyPolicy()
         {
             L("加载 configs");
-            this.StartCoroutine(LoadText("隐私政策.txt"));                               
+            this.StartCoroutine(LoadText(HotFiles._隐私政策_TXT));                               
         }
 
         IEnumerator LoadText(string path)

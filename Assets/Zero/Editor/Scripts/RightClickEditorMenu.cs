@@ -42,7 +42,8 @@ public class RightClickEditorMenu
 
     [MenuItem("Assets/Zero/资源名生成", false, 100)]
     static void GenerateAssetNames()
-    {        
+    {
+        new GenerateHotFileClassCommand().Excute();
         var findCmd = new FindAssetBundlesCommand(false);
         findCmd.onFinished += (cmd, list) =>
         {

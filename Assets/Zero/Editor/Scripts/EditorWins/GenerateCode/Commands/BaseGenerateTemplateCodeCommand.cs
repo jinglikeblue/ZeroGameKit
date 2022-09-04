@@ -1,4 +1,7 @@
-﻿namespace ZeroEditor
+﻿using System.Text.RegularExpressions;
+using UnityEngine;
+
+namespace ZeroEditor
 {
     abstract class BaseGenerateTemplateCodeCommand
     {
@@ -19,6 +22,30 @@
         #endregion
 
         public abstract void Excute();
+
+        /// <summary>
+        /// 确保字段名称是合法的代码字段名
+        /// </summary>
+        /// <param name="fieldName"></param>
+        /// <returns></returns>
+        static public string MakeFieldNameRightful(string fieldName)
+        {
+            fieldName = fieldName.Replace(' ', '_');
+            var firstChar = fieldName[0];
+            Regex regex = new Regex("[a-zA-Z_]");
+            if (false == regex.IsMatch(firstChar.ToString()))
+            {
+                Debug.LogWarningFormat($"字段不是合法的(前缀已自动添加下划线): {fieldName}");                
+                fieldName = "_" + fieldName;
+            }
+
+            if (fieldName.IndexOf('.') > -1)
+            {
+                Debug.LogWarningFormat($"字段不是合法的(已自动替换'.'为'_'): {fieldName}");                
+                fieldName = fieldName.Replace('.', '_');
+            }
+            return fieldName;
+        }
     }
 
 
