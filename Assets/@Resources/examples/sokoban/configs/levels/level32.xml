@@ -1,0 +1,53 @@
+<level name="level32">
+  <blocks>
+    <unit x="4" y="11"/>
+    <unit x="5" y="11"/>
+    <unit x="6" y="9"/>
+    <unit x="7" y="11"/>
+    <unit x="8" y="9"/>
+    <unit x="9" y="9"/>
+    <unit x="10" y="5"/>
+    <unit x="11" y="11"/>
+    <unit x="4" y="9"/>
+    <unit x="5" y="6"/>
+    <unit x="6" y="7"/>
+    <unit x="7" y="4"/>
+    <unit x="8" y="11"/>
+    <unit x="9" y="11"/>
+    <unit x="10" y="11"/>
+    <unit x="11" y="10"/>
+    <unit x="4" y="7"/>
+    <unit x="5" y="7"/>
+    <unit x="6" y="11"/>
+    <unit x="8" y="4"/>
+    <unit x="9" y="4"/>
+    <unit x="10" y="6"/>
+    <unit x="11" y="7"/>
+    <unit x="4" y="10"/>
+    <unit x="5" y="4"/>
+    <unit x="6" y="4"/>
+    <unit x="10" y="7"/>
+    <unit x="11" y="9"/>
+    <unit x="4" y="8"/>
+    <unit x="5" y="5"/>
+    <unit x="10" y="4"/>
+    <unit x="11" y="8"/>
+  </blocks>
+  <roles>
+    <unit x="8" y="10"/>
+  </roles>
+  <boxs>
+    <unit x="8" y="6"/>
+    <unit x="9" y="8"/>
+    <unit x="9" y="7"/>
+    <unit x="6" y="8"/>
+    <unit x="7" y="9"/>
+  </boxs>
+  <targets>
+    <unit x="8" y="5"/>
+    <unit x="9" y="5"/>
+    <unit x="9" y="6"/>
+    <unit x="6" y="5"/>
+    <unit x="6" y="6"/>
+  </targets>
+</level>

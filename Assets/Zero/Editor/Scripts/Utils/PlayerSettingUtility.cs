@@ -10,24 +10,36 @@ using UnityEngine;
 public static class PlayerSettingUtility
 {
     /// <summary>
+    /// 检查指定宏是否存在
+    /// </summary>
+    /// <param name="define"></param>
+    /// <param name="targetGroup"></param>
+    /// <returns></returns>
+    static public bool CheckScriptingDefineSymbolsExist(string define, BuildTargetGroup targetGroup)
+    {
+        var defines = GetScriptingDefineSymbols(targetGroup);
+        return defines.Contains(define);
+    }
+
+    /// <summary>
+    /// 获取项目已设置的宏
+    /// </summary>
+    /// <returns></returns>
+    static public string[] GetScriptingDefineSymbols(BuildTargetGroup targetGroup)
+    {
+        var sourceStr = PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
+        string[] defines = sourceStr.Split(';');
+        return defines;
+    }
+
+    /// <summary>
     /// 添加代码编译宏
     /// </summary>
     /// <param name="define">宏定义字符串</param>
     /// <param name="targetGroup">不设置的话，会使用当前编辑器对应打包平台</param>    
-    static public bool AddScriptingDefineSymbols(string define, BuildTargetGroup targetGroup = BuildTargetGroup.Unknown)
+    static public bool AddScriptingDefineSymbols(string define, BuildTargetGroup targetGroup)
     {
-        if(targetGroup == BuildTargetGroup.Unknown)
-        {
-            if(BuildTargetGroup.Unknown == EditorUserBuildSettings.selectedBuildTargetGroup)
-            {
-                return false;
-            }
-
-            targetGroup = EditorUserBuildSettings.selectedBuildTargetGroup;
-        }        
-        
-        var sourceStr = PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-        string[] defines = sourceStr.Split(';');
+        string[] defines = GetScriptingDefineSymbols(targetGroup);
 
         if (defines.Contains(define) == false)
         {
@@ -65,20 +77,9 @@ public static class PlayerSettingUtility
     /// </summary>
     /// <param name="define">宏定义字符串</param>
     /// <param name="targetGroup">不设置的话，会使用当前编辑器对应打包平台</param>
-    static public bool RemoveScriptingDefineSymbols(string define, BuildTargetGroup targetGroup = BuildTargetGroup.Unknown)
+    static public bool RemoveScriptingDefineSymbols(string define, BuildTargetGroup targetGroup)
     {
-        if (targetGroup == BuildTargetGroup.Unknown)
-        {
-            if (BuildTargetGroup.Unknown == EditorUserBuildSettings.selectedBuildTargetGroup)
-            {
-                return false;
-            }
-
-            targetGroup = EditorUserBuildSettings.selectedBuildTargetGroup;
-        }       
-        
-        var sourceStr = PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-        string[] defines = sourceStr.Split(';');
+        string[] defines = GetScriptingDefineSymbols(targetGroup);
 
         var defineList = defines.ToList();
         defineList.Remove(define);

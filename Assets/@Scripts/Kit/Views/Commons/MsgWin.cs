@@ -57,6 +57,15 @@ namespace ZeroGameKit
         }
 
         /// <summary>
+        /// 设置字体大小
+        /// </summary>
+        /// <param name="size"></param>
+        public void SetFontSize(int size)
+        {
+            textContent.fontSize = size;
+        }
+
+        /// <summary>
         /// 设置标题
         /// </summary>
         /// <param name="title"></param>

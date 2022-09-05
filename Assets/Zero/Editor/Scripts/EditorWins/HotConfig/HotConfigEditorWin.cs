@@ -17,7 +17,7 @@ namespace ZeroEditor
                 var att = type.GetCustomAttribute<ZeroHotConfigAttribute>(false);
                 if (null != att)
                 {                    
-                    menuTree.Add(att.label, new HotConfigModule(type, att.path, this), EditorIcons.File);
+                    menuTree.Add(att.label, new HotConfigModule(type, att.assetPath, this), EditorIcons.File);
                 }
             }
         }

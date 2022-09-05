@@ -6,17 +6,17 @@
     public enum EILType
     {
         /// <summary>
-        /// JIT(如果设备不支持JIT，会切换为ILRuntime)
-        /// </summary>
-        JIT,
-        /// <summary>
         /// ILRuntime
         /// </summary>
         IL_RUNTIME,
         /// <summary>
-        /// HuaTuo
+        /// HybridClr，也叫WoLong，也叫HuaTuo
         /// </summary>
-        HUA_TUO,
+        HYBRID_CLR,
+        /// <summary>
+        /// 程序与反射执行
+        /// </summary>
+        JIT,
 
         NONE,
     }

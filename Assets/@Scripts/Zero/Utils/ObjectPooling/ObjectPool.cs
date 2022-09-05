@@ -51,7 +51,7 @@ namespace ZeroHot
             {
                 for(int i = _poolList.Count - 1; i >= poolMaxSize; i--)
                 {
-                    _poolList[i].Discarded();
+                    _poolList[i].OnDiscarded();
                     _poolList.RemoveAt(i);
                 }
             }
@@ -80,12 +80,12 @@ namespace ZeroHot
         {
             if (_poolList.Count < poolMaxSize)
             {
-                obj.Recycled();
+                obj.OnRecycled();
                 _poolList.Add(obj);
             }
             else
             {
-                obj.Discarded();
+                obj.OnDiscarded();
             }
         }
 
@@ -106,7 +106,7 @@ namespace ZeroHot
         {
             foreach (var obj in _poolList)
             {
-                obj.Discarded();
+                obj.OnDiscarded();
             }
             _poolList.Clear();
         }

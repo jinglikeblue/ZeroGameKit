@@ -2,7 +2,7 @@
 
 namespace Zero
 {
-    public struct SettingVO
+    public class SettingVO
     {
         /// <summary>
         /// 客户端版本号数据
@@ -36,5 +36,21 @@ namespace Zero
         /// 配置的参数
         /// </summary>
         public Dictionary<string, string> startupParams;
+
+        public LauncherSettingParam<bool> lsLogEnable = new LauncherSettingParam<bool>();
+
+        public LauncherSettingParam<bool> lsUseDll = new LauncherSettingParam<bool>();
+
+        public LauncherSettingParam<bool> lsLoadPdb = new LauncherSettingParam<bool>();
+
+        public LauncherSettingParam<bool> lsTryJitBeforeILRuntime = new LauncherSettingParam<bool>();
+
+        public LauncherSettingParam<bool> lsDebugIL = new LauncherSettingParam<bool>();
+
+        public class LauncherSettingParam<T> 
+        {
+            public bool isOverride = false;
+            public T value;
+        }
     }
 }

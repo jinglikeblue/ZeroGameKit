@@ -44,6 +44,13 @@ namespace Zero
             return sorted;
         }
 
+        /// <summary>
+        /// 对数组进行排序
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="sortFunction"></param>
+        /// <returns></returns>
         public static T[] Sort<T>(T[] list, Func<object, object, bool> sortFunction)
         {
             List<T> sorted = new List<T>(list.Length);

@@ -27,7 +27,7 @@ namespace Zero
             Image = GetComponent<Image>();
             if (State != -1)
             {
-                SetState(State);
+                SetState(State);                
             }
         }
 

@@ -27,10 +27,10 @@ namespace ZeroEditor
             GenerateCodeEditorWin.Open();            
         }
 
-        [MenuItem("Zero/项目自动化配置", false, 150)]
+        [MenuItem("Zero/iOS构建自动化配置", false, 150)]
         public static void IosProjectInit()
         {
-            PorjectInitEditorWin.Open();
+            IOSPorjectInitEditorWin.Open();
         }
 
         [MenuItem("Zero/资源优化", false, 200)]
@@ -71,16 +71,24 @@ namespace ZeroEditor
             BitmapFontCreaterMenu.CreateBitmapFontGUITools();            
         }
 
-        [MenuItem("Zero/About", false, 450)]
+        [MenuItem("Zero/热更代码框架/ILRuntime", false, 450)]
+        public static void OpenILRuntimeEditorWindow()
+        {
+            ILRuntimeEditorWin.Open();
+        }
+
+        [MenuItem("Zero/热更代码框架/HybridCLR", false, 450)]
+        public static void OpenHybridCLREditorWindow()
+        {
+            HybridCLREditorWindow.Open();
+        }
+
+        [MenuItem("Zero/About", false, 500)]
         public static void Document()
         {
             AboutEditorWin.Open();            
         }
 
-        [MenuItem("Zero/HuaTuo")]
-        public static void OpenHuaTuoEditorWindow()
-        {
-            HuaTuoEditorWindow.Open();
-        }
+
     }
 }

@@ -35,7 +35,7 @@ namespace ZeroEditor
             url = cfg.client.url;
             netResRoot = cfg.netResRoot;
             startupResGroups = cfg.startupResGroups;
-            startupParams = cfg.startupParams;
+            startupParams = cfg.startupParams;            
             if (null == startupParams)
             {
                 startupParams = new Dictionary<string, string>();
@@ -48,7 +48,7 @@ namespace ZeroEditor
             cfg.client.url = url;
             cfg.netResRoot = netResRoot;
             cfg.startupResGroups = startupResGroups;
-            cfg.startupParams = startupParams;
+            cfg.startupParams = startupParams;            
         }
 
         [Title("setting.json 热更配置文件", TitleAlignment = TitleAlignments.Centered)]
@@ -94,6 +94,9 @@ namespace ZeroEditor
         [InfoBox("客户端启动运行所必需下载的网络资源组，通过指定资源路径(文件或目录，比如[ab/h.ab]或[dll])来批量下载。如果要下载所有资源，则指定为[/]即可\n")]
         [LabelText("启动资源组"), ListDrawerSettings(NumberOfItemsPerPage = 7, Expanded = false)]
         public string[] startupResGroups;
+
+        [Title("是否仅使用StreamingAssets中res目录下的资源来运行项目（脱离网络运行）")]
+        public bool isOnlyUseResInStreamingAssets;
 
         [Title("启动参数配置"),ShowInInspector]
         public Dictionary<string, string> startupParams;

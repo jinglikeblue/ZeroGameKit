@@ -6,9 +6,12 @@ using UnityEngine;
 
 namespace ZeroEditor
 {
+    /// <summary>
+    /// 自定义Hierarchy中选中GameObject的右键菜单
+    /// </summary>
     public class HierarchyRightClickEditorMenu
     {
-        [MenuItem("GameObject/Zero/Copy Full Path", priority = -999)]
+        [MenuItem("GameObject/Zero/Copy Path", priority = -999)]
         static void CopyPath()
         {
             var objs = Selection.gameObjects;

@@ -12,7 +12,7 @@ namespace Zero
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static Assembly LoadAssembly(byte[] assemblyBytes, byte[] pdbBytes)
+        public static Assembly LoadAssembly(byte[] assemblyBytes, byte[] pdbBytes = null)
         {
             Assembly assembly;
             try

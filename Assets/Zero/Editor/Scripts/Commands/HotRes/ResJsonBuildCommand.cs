@@ -15,7 +15,7 @@ namespace ZeroEditor
     {
         string _sourceDir;
 
-        ResVerVO _res;
+        ResVerVO _res = new ResVerVO();
 
         List<string> _files;
 
@@ -59,6 +59,10 @@ namespace ZeroEditor
             for (int i = 0; i < _files.Count; i++)
             {
                 var file = _files[i];
+                if (file.EndsWith(".meta"))
+                {
+                    continue;
+                }
 
                 EditorUtility.DisplayProgressBar("正在生成 " + ZeroConst.RES_JSON_FILE_NAME, string.Format("文件:{0}", file), ((float)i / items.Count));
                 FileInfo fi = new FileInfo(file);                

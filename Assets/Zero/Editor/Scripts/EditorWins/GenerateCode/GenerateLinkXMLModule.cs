@@ -46,9 +46,13 @@ namespace ZeroEditor
             }
 
             includeDirs = _cfg.includeDirs;
-            includeDlls = _cfg.includeDlls;
+            includeDlls = _cfg.includeDlls;               
+        }
 
-            CheckExistsAndRefreshPreviewList();            
+        public override void OnEnable()
+        {
+            base.OnEnable();
+            CheckExistsAndRefreshPreviewList();
         }
 
         void CheckExistsAndRefreshPreviewList()

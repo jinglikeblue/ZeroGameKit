@@ -14,48 +14,35 @@ namespace Zero
         /// </summary>
         public ILRuntime.Runtime.Enviorment.AppDomain appDomain { get; }
 
-        /// <summary>
-        /// DLL文件所在目录
-        /// </summary>
-        public string dllDir { get; private set; }
-
-        /// <summary>
-        /// DLL文件名称(没有扩展名)
-        /// </summary>
-        public string dllNameWithoutExt { get; private set; }
-
         ILRuntime.CLR.TypeSystem.IType[] _ilRuntimeTypes;
 
-        public ILRuntimeILWorker(byte[] dllBytes, string dllDir, string dllNameWithoutExt, bool isDebug, bool isNeedPdbFile)
-        {            
-            this.dllDir = dllDir;
-            this.dllNameWithoutExt = dllNameWithoutExt;
+        public ILRuntimeILWorker(byte[] dllBytes, byte[] pdbBytes, bool isDebug)
+        {
             //首先实例化ILRuntime的AppDomain，AppDomain是一个应用程序域，每个AppDomain都是一个独立的沙盒
             appDomain = new ILRuntime.Runtime.Enviorment.AppDomain();
 
             if (isDebug)
             {
+                Debug.Log(Log.Zero1("IL_RUNTIME 调试端口：56000"));
                 //启动调试监听
                 appDomain.DebugService.StartDebugService(56000);
             }
 
             MemoryStream fs = new MemoryStream(dllBytes);
 
-            if (isNeedPdbFile)
+            if (pdbBytes != null)
             {
-                string pdbPath = Path.Combine(dllDir, dllNameWithoutExt + ".pdb");
-                byte[] pdbBytes = File.ReadAllBytes(pdbPath);                
                 MemoryStream p = new MemoryStream(pdbBytes);
                 appDomain.LoadAssembly(fs, p, new ILRuntime.Mono.Cecil.Pdb.PdbReaderProvider());
             }
             else
-            {                
+            {
                 appDomain.LoadAssembly(fs);
             }
 
             InitializeILRuntime();
 
-            _ilRuntimeTypes = appDomain.LoadedTypes.Values.ToArray();            
+            _ilRuntimeTypes = appDomain.LoadedTypes.Values.ToArray();
         }
 
         void InitializeILRuntime()
@@ -67,14 +54,14 @@ namespace Zero
 
             //进行CLR绑定。通过反射执行，这样如果没有绑定代码，也不会报错
             var classCLRBinding = Type.GetType("ILRuntime.Runtime.Generated.CLRBindings");
-            if(null != classCLRBinding)
+            if (null != classCLRBinding)
             {
                 //注册CLR绑定            
                 var methodInitialize = classCLRBinding.GetMethod("Initialize");
-                if(null != methodInitialize)
+                if (null != methodInitialize)
                 {
                     methodInitialize.Invoke(null, new object[] { appdomain });
-                }                
+                }
             }
         }
 
@@ -88,7 +75,7 @@ namespace Zero
         /// </summary>
         /// <returns></returns>
         public ILRuntime.CLR.TypeSystem.IType[] GetILRuntimeTypes()
-        {           
+        {
             ILRuntime.CLR.TypeSystem.IType[] types = new ILRuntime.CLR.TypeSystem.IType[_ilRuntimeTypes.Length];
             Array.Copy(_ilRuntimeTypes, types, types.Length);
             return types;

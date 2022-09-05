@@ -23,9 +23,10 @@
         {
             if (null != Current)
             {
-                Current.onDestroyed -= OnViewDestroy;
-                Current.Destroy();
-                Current = null;
+                throw new System.Exception("框架逻辑代码有问题！这里Current应该在BeforeShow中已被设置为Null");
+                //Current.onDestroyed -= OnViewDestroy;
+                //Current.Destroy();
+                //Current = null;
             }
 
             Current = view;

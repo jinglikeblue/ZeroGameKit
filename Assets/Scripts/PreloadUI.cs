@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using Zero;
 
@@ -12,22 +13,31 @@ namespace Demo
         void Start()
         {    
             SetProgress(0, 1);
-            Preload preload = GetComponent<Preload>();
-            preload.onProgress += SetProgress;
 
-            preload.onStateChange += (state) =>
-            {
-                Debug.Log("Preload State Change: " + state);                
+            var vo = LauncherSetting.LoadLauncherSettingDataFromResources();
+            var launcher = new Launcher(vo);
+
+            //Preload preload = GetComponent<Preload>();
+            launcher.onProgress += SetProgress;
+
+            launcher.onStateChange += (state) =>
+            {                
+                Debug.Log("Preload State Change: " + state);
+                if (state == Launcher.EState.STARTUP)
+                {
+                    GameObject.Destroy(this.gameObject);
+                }
             };
 
             //从这里启动Ppreload
-            preload.StartPreload();            
+            launcher.Start();            
         }
 
-        void SetProgress(float progress, long totalSize)
+        private void SetProgress(long loadedSize, long totalSize)
         {
+            var progress = (int)((float)loadedSize / totalSize * 100);
             //转换为MB
-            text.text = $"{(int)(progress * 100)}%";
+            text.text = $"{progress}%[{loadedSize}/{totalSize}]";
         }
     }
 }

@@ -5,11 +5,11 @@
         /// <summary>
         /// 被回收了
         /// </summary>
-        void Recycled();
+        void OnRecycled();
 
         /// <summary>
         /// 被遗弃了
         /// </summary>
-        void Discarded();
+        void OnDiscarded();
     }
 }

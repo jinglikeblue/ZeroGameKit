@@ -1,4 +1,5 @@
 ﻿using Jing;
+using System;
 using System.IO;
 using UnityEngine;
 
@@ -15,17 +16,47 @@ namespace Zero
         public static readonly Runtime Ins = new Runtime();
 
         /// <summary>
-        /// RuntimeVO数据对象
+        /// 启动器设置数据
         /// </summary>
-        public RuntimeVO VO { get; private set; }
+        internal LauncherSettingData VO;
+
+        internal StreamingAssetsResInitiator streamingAssetsResInitiator;
 
         /// <summary>
-        /// 资源模式
+        /// 内嵌资源模式
         /// </summary>
-        public EHotResMode ResMode
-        {
-            get { return VO.hotResMode; }
-        }
+        public EBuiltinResMode BuiltinResMode => VO.builtinResMode;
+
+        /// <summary>
+        /// 热更资源模式
+        /// </summary>
+        public EHotResMode HotResMode => VO.hotResMode;
+
+        /// <summary>
+        /// DLL执行模式
+        /// </summary>
+        public EILType ILType => VO.ilType;
+
+        /// <summary>
+        /// 是否在ILRuntime模式下开启调试
+        /// </summary>
+        public bool IsDebugILRuntime => VO.isDebugIL;
+
+        /// <summary>
+        /// 在ILRuntime模式下，是否优先尝试JIT模式
+        /// JIT方式更高效，如果平台不支持则继续ILRuntime模式
+        /// </summary>
+        public bool IsTryJitBeforeILRuntime => VO.isTryJitBeforeILRuntime;
+
+        /// <summary>
+        /// 是否用DLL方式启动程序
+        /// </summary>
+        public bool IsUseDll => VO.isUseDll;
+
+        /// <summary>
+        /// 是否加载PDB
+        /// </summary>
+        public bool IsLoadPdb => VO.isLoadPdb;
 
         /// <summary>
         /// 本地数据
@@ -44,6 +75,7 @@ namespace Zero
 
         /// <summary>
         /// 基于运行平台的网络资源目录(使用的网络资源的地址)
+        /// 举例: [资源所在URL地址]/res/[平台]
         /// </summary>
         public string netResDir;
 
@@ -54,13 +86,14 @@ namespace Zero
 
         /// <summary>
         /// 存放下载文件的目录
+        /// 举例: [资源所在目录绝对路径]/res
         /// </summary>
         public string localResDir { get; private set; }
 
         /// <summary>
         /// 本地的资源版本
         /// </summary>
-        public LocalResVerModel localResVer { get; private set; }
+        public BaseWriteableResVerModel localResVer { get; private set; }
 
         /// <summary>
         /// Zero框架生成的文件的目录
@@ -70,11 +103,11 @@ namespace Zero
         /// <summary>
         /// 是否使用AssetDataBase加载资源
         /// </summary>
-        public bool IsLoadAssetsByAssetDataBase
+        public bool IsLoadAssetBundleByAssetDataBase
         {
             get
             {
-                if (VO.isHotResProject && VO.hotResMode == EHotResMode.ASSET_DATA_BASE)
+                if (VO.hotResMode == EHotResMode.ASSET_DATA_BASE)
                 {
                     return true;
                 }
@@ -83,69 +116,78 @@ namespace Zero
         }
 
         /// <summary>
-        /// 是否是从网络加载资源
+        /// 运行时是否依赖网络（需要更新资源）
         /// </summary>
-        public bool IsLoadAssetsFromNet
+        public bool IsNeedNetwork
         {
             get
             {
-                if (VO.hotResMode == EHotResMode.NET_ASSET_BUNDLE)
+                //正式发布的热更资源模式情况下，只要不是仅使用内嵌资源模式，都需要网络进行热更资源更新
+                if (HotResMode == EHotResMode.NET_ASSET_BUNDLE)
                 {
-                    return true;
+                    if (BuiltinResMode != EBuiltinResMode.ONLY_USE)
+                    {
+                        return true;
+                    }
                 }
                 return false;
             }
         }
 
         /// <summary>
-        /// 是否是热更资源项目
+        /// 运行时是否允许加载热更目录中的资源 
         /// </summary>
-        public bool IsHotResProject
+        public bool IsHotResEnable
         {
             get
             {
-                return VO.isHotResProject;
+                //正式发布的热更资源模式情况下，如果勾选了仅使用内嵌资源，则不允许从热更目录加载资源。否则都可以使用热更资源。
+                if (HotResMode == EHotResMode.NET_ASSET_BUNDLE)
+                {
+                    if (BuiltinResMode == EBuiltinResMode.ONLY_USE)
+                    {
+                        return false;
+                    }
+                }
+                return true;
             }
         }
 
         /// <summary>
-        /// 初始化热更资源相关的运行参数
+        /// 内嵌资源是否存在
         /// </summary>
-        void InitHotResRuntime()
+        public bool IsBuildinResExist
         {
-            SettingFileNetDirList = new string[VO.netRoots.Length];
-            for (var i = 0; i < SettingFileNetDirList.Length; i++)
+            get
             {
-                SettingFileNetDirList[i] = FileUtility.CombineDirs(false, VO.netRoots[i], ZeroConst.PLATFORM_DIR_NAME);
-            }
+                if (streamingAssetsResInitiator.IsResExist)
+                {
+                    return true;
+                }                
 
-            if (IsLoadAssetsFromNet)
-            {
-                localResDir = ZeroConst.WWW_RES_PERSISTENT_DATA_PATH;
-            }
-            else
-            {
-                localResDir = ZeroConst.PUBLISH_RES_ROOT_DIR;
-            }
-
-            //确保本地资源目录存在
-            if (false == Directory.Exists(localResDir))
-            {
-                Directory.CreateDirectory(localResDir);
+                return false;
             }
         }
 
-        public void Init(RuntimeVO vo)
+        /// <summary>
+        /// 设置是否打印日志
+        /// </summary>
+        /// <param name="enable"></param>
+        internal void SetLogEnable(bool enable)
+        {
+            VO.isLogEnable = enable;
+            //日志控制
+            Log.IsActive = enable;
+        }
+
+
+        internal void Init(LauncherSettingData vo)
         {
             this.VO = vo;
 
-            //日志控制
-            Log.IsActive = vo.isLogEnable;
+            SetLogEnable(vo.isLogEnable);
 
-            if (vo.isHotResProject)
-            {
-                InitHotResRuntime();
-            }
+            InitHotResRuntime();
 
             switch (Application.platform)
             {
@@ -168,25 +210,75 @@ namespace Zero
             }
 
             localData = new LocalDataModel();
-            localResVer = new LocalResVerModel();
+            if (IsBuildinResExist)
+            {
+                localResVer = new LocalMixResVerModel(streamingAssetsResInitiator.resVerVO);
+            }
+            else
+            {
+                localResVer = new LocalResVerModel();
+            }            
 
-            Debug.Log(Log.Zero1("Streaming Assets Dir: {0}", ZeroConst.STREAMING_ASSETS_PATH));
+            Debug.Log(Log.Zero1("[Runtime]Streaming Assets Dir: {0}", ZeroConst.STREAMING_ASSETS_PATH));
 
             if (null != SettingFileNetDirList)
-            {
-                Debug.Log(Log.Zero1("Net Res Root        : "));
+            {                               
                 for (var i = 0; i < SettingFileNetDirList.Length; i++)
                 {
-                    Debug.Log(Log.Zero1($"{i} : {SettingFileNetDirList[i]}"));
+                    Debug.Log(Log.Zero1($"Net Res Root {i}        : {SettingFileNetDirList[i]}"));                    
                 }
             }
             else
             {
                 Debug.Log(Log.Zero1("Net Res Root        : Empty"));
             }
-            Debug.Log(Log.Zero1("Persistent Data Dir : {0}", ZeroConst.PERSISTENT_DATA_PATH));
-            Debug.Log(Log.Zero1("Local Res Dir       : {0}", localResDir == null ? "Empty" : localResDir));
-            Debug.Log(Log.Zero1("Generate Files Dir  : {0}", generateFilesDir));
+            Debug.Log(Log.Zero1("[Runtime]Persistent Data Dir : {0}", ZeroConst.PERSISTENT_DATA_PATH));
+            Debug.Log(Log.Zero1("[Runtime]Local Res Dir       : {0}", localResDir == null ? "Empty" : localResDir));
+            Debug.Log(Log.Zero1("[Runtime]Generate Files Dir  : {0}", generateFilesDir));
+
+
+            CheckEnvironment();
+        }
+
+        /// <summary>
+        /// 初始化热更资源相关的运行参数
+        /// </summary>
+        void InitHotResRuntime()
+        {
+            SettingFileNetDirList = new string[VO.netRoots.Length];
+            for (var i = 0; i < SettingFileNetDirList.Length; i++)
+            {
+                SettingFileNetDirList[i] = FileUtility.CombineDirs(false, VO.netRoots[i], ZeroConst.PLATFORM_DIR_NAME);
+            }
+
+            switch (HotResMode) 
+            {
+                case EHotResMode.NET_ASSET_BUNDLE:
+                    localResDir = ZeroConst.WWW_RES_PERSISTENT_DATA_PATH;
+                    break;
+                default:
+                    localResDir = ZeroConst.PUBLISH_RES_ROOT_DIR;
+                    break;
+            }
+
+
+            //确保本地资源目录存在
+            if (false == Directory.Exists(localResDir))
+            {
+                Directory.CreateDirectory(localResDir);
+            }
+        }
+
+        /// <summary>
+        /// 检查运行时环境
+        /// </summary>
+        void CheckEnvironment()
+        {
+            Debug.Log(Log.Zero1($"内嵌资源使用模式  : {BuiltinResMode}"));
+            if (BuiltinResMode == EBuiltinResMode.ONLY_USE && false == streamingAssetsResInitiator.IsResExist)
+            {
+                throw new Exception($"[仅使用内嵌资源模式]下，{ZeroConst.STREAMING_ASSETS_RES_DATA_PATH} 下的资源不正确");
+            }
         }
     }
 }

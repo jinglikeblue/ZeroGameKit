@@ -38,7 +38,7 @@ namespace Zero
         public uint repeatCount { get; private set; }
 
         /// <summary>
-        /// 已出发次数
+        /// 已触发次数
         /// </summary>
         public int triggeredTimes { get; private set; }
 
@@ -136,7 +136,7 @@ namespace Zero
         {
             Reset();
             this.repeatCount = repeatCount;
-            _triggerDT = DateTime.UtcNow.AddSeconds(intervalSeconds);
+            _triggerDT = DateTime.UtcNow.AddSeconds(intervalSeconds);            
             ILBridge.Ins.StartCoroutine(this, Update());
         }        
 

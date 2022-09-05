@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace ZeroGameKit
 {
@@ -14,7 +15,7 @@ namespace ZeroGameKit
             }
             else
             {
-                throw new Exception("Inited");
+                throw new Exception("Inited");                
             }
         }
     }

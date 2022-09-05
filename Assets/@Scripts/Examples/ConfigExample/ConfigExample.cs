@@ -1,5 +1,6 @@
 ﻿using Example.Config;
 using UnityEngine;
+using Zero;
 using ZeroGameKit;
 using ZeroHot;
 
@@ -9,7 +10,7 @@ namespace Example
     {
         public static void Start()
         {
-            var cfg = ConfigMgr.Ins.LoadZeroHotConfig<TestConfigVO>(true);
+            var cfg = ConfigMgr.Ins.LoadZeroHotConfig<TestConfigVO>();
             Debug.Log("配置文件的内容是：");
             Debug.Log(LitJson.JsonMapper.ToPrettyJson(cfg));
 

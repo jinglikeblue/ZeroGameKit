@@ -74,10 +74,13 @@ namespace ZeroEditor
             var assetDir = Application.dataPath;
             var dllList0 = Directory.GetFiles(assetDir, "*.dll", SearchOption.AllDirectories);
 
+            //Unity2019.4.37里面打包发现用不着这块DLL的引用
+            dllList0 = new string[0];
+
             //依赖Library/ScriptAssemblies下的DLL
             var projectDir = Directory.GetParent(assetDir).FullName;
             var dllList1 = Directory.GetFiles(FileUtility.CombineDirs(true, projectDir, "Library", "ScriptAssemblies"), "*.dll", SearchOption.AllDirectories);
-
+            
 #if UNITY_2019_1_OR_NEWER
             var dllList2 = new string[0];
 #else
