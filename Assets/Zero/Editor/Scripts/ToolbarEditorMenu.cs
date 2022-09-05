@@ -71,22 +71,24 @@ namespace ZeroEditor
             BitmapFontCreaterMenu.CreateBitmapFontGUITools();            
         }
 
-        [MenuItem("Zero/About", false, 450)]
+        [MenuItem("Zero/热更代码框架/ILRuntime", false, 450)]
+        public static void OpenILRuntimeEditorWindow()
+        {
+            ILRuntimeEditorWin.Open();
+        }
+
+        [MenuItem("Zero/热更代码框架/HybridCLR", false, 450)]
+        public static void OpenHybridCLREditorWindow()
+        {
+            HybridCLREditorWindow.Open();
+        }
+
+        [MenuItem("Zero/About", false, 500)]
         public static void Document()
         {
             AboutEditorWin.Open();            
         }
 
-        [MenuItem("Zero/热更代码框架/ILRuntime")]
-        public static void OpenILRuntimeEditorWindow()
-        {
-            EditorUtility.DisplayDialog("TODO", "自动生成代码里的自动代码生成放到这里来", "了解");
-        }
 
-        [MenuItem("Zero/热更代码框架/HybridCLR")]
-        public static void OpenHybridCLREditorWindow()
-        {            
-            HybridCLREditorWindow.Open();
-        }
     }
 }
