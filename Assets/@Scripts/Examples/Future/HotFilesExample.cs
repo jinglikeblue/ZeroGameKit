@@ -15,21 +15,21 @@ using ZeroHot;
 namespace Example
 {
     /// <summary>
-    /// StreamingAssets中直接加载热更资源的功能研发
+    /// 读取@Files中的文件
     /// </summary>
-    class HotFilesLoadFuture
+    class HotFilesExample
     {
         static public void Start()
         {
-            UIWinMgr.Ins.Open<HotFilesLoadFutureWin>();
+            UIWinMgr.Ins.Open<HotFilesExampleWin>();
         }
     }
 
-    class HotFilesLoadFutureWin : WithCloseButtonWin
+    class HotFilesExampleWin : WithCloseButtonWin
     {        
-        public Button btnLoadResJson;
-        public Button btnLoadSettingJson;        
-        public Button btnLoadDll;
+        public Button btnAllFiles;
+        public Button btnPicsFiles;        
+        public Button btnLoadSampleMP4;
         public Button btnLoadPrivacyPolicy;
 
         public Text textLog;
@@ -44,9 +44,9 @@ namespace Example
         {
             base.OnEnable();
 
-            btnLoadResJson.onClick.AddListener(LoadResJson);
-            btnLoadSettingJson.onClick.AddListener(LoadSettingJson);            
-            btnLoadDll.onClick.AddListener(LoadDll);
+            btnAllFiles.onClick.AddListener(AllFiles);
+            btnPicsFiles.onClick.AddListener(PicsFiles);
+            btnLoadSampleMP4.onClick.AddListener(LoadSampleMP4);
             btnLoadPrivacyPolicy.onClick.AddListener(LoadPrivacyPolicy);
         }
 
@@ -54,34 +54,41 @@ namespace Example
         {
             base.OnDisable();
 
-            btnLoadResJson.onClick.RemoveListener(LoadResJson);
-            btnLoadSettingJson.onClick.RemoveListener(LoadSettingJson);            
-            btnLoadDll.onClick.RemoveListener(LoadDll);
+            btnAllFiles.onClick.RemoveListener(AllFiles);
+            btnPicsFiles.onClick.RemoveListener(PicsFiles);
+            btnLoadSampleMP4.onClick.RemoveListener(LoadSampleMP4);
             btnLoadPrivacyPolicy.onClick.RemoveListener(LoadPrivacyPolicy);
         }
 
-        private void LoadResJson()
+        private void AllFiles()
         {
-            L("加载 res.json");            
-            this.StartCoroutine(LoadText("res.json"));
+            var list = HotFiles.GetAllFileList();
+            var json = LitJson.JsonMapper.ToPrettyJson(list);
+            L($"所有的文件：{json}");            
+            L("------------------------------------------------------------");
         }
 
-        private void LoadSettingJson()
+        private void PicsFiles()
         {
-            L("加载 setting.json");            
-            this.StartCoroutine(LoadText("setting.json"));
+            var list0 = HotFiles.GetFiles("pics");
+            var list1 = HotFiles.GetFiles("pics", System.IO.SearchOption.AllDirectories);
+
+            L($"pics下的文件(不含子目录)：{LitJson.JsonMapper.ToPrettyJson(list0)}");
+
+            L($"pics下的文件(含子目录)：{LitJson.JsonMapper.ToPrettyJson(list1)}");
+
+            L("------------------------------------------------------------");
         }
 
-        private void LoadDll()
+        private void LoadSampleMP4()
         {
-            L("加载 dll");            
-            this.StartCoroutine(LoadBytes("dll/scripts.dll"));            
-            this.StartCoroutine(LoadBytes("dll/scripts.pdb"));
+            L($"加载 {HotFiles.VIDEOS_SAMPLE_MP4}");
+            this.StartCoroutine(LoadBytes(HotFiles.VIDEOS_SAMPLE_MP4));
         }
 
         private void LoadPrivacyPolicy()
         {
-            L("加载 configs");
+            L($"加载 {HotFiles._隐私政策_TXT}");
             this.StartCoroutine(LoadText(HotFiles._隐私政策_TXT));                               
         }
 

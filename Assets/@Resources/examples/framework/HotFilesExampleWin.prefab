@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 2017794864266068980}
   - component: {fileID: 3813920495120900097}
   m_Layer: 5
-  m_Name: BtnLoadDll
+  m_Name: BtnLoadSampleMP4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -630,7 +630,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u52A0\u8F7D dll"
+  m_Text: "\u52A0\u8F7DSample.mp4"
 --- !u!114 &5073489192252322723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -783,7 +783,7 @@ GameObject:
   - component: {fileID: 6553102267828678582}
   - component: {fileID: 8222493251938061379}
   m_Layer: 5
-  m_Name: BtnLoadResJson
+  m_Name: BtnPicsFiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1021,7 +1021,7 @@ GameObject:
   - component: {fileID: 6788122779908359658}
   - component: {fileID: 8563911843494520351}
   m_Layer: 5
-  m_Name: BtnLoadSettingJson
+  m_Name: BtnAllFiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1532,7 +1532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8922773255713481570}
   m_Layer: 5
-  m_Name: HotFilesLoadFutureWin
+  m_Name: HotFilesExampleWin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1640,7 +1640,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u52A0\u8F7D res.json"
+  m_Text: "\u83B7\u53D6pics\u6587\u4EF6\u5939\u4E0B\u7684\u6240\u6709\u6587\u4EF6"
 --- !u!114 &43147025690681313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1734,7 +1734,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u52A0\u8F7D setting.json"
+  m_Text: "\u83B7\u53D6\u6240\u6709\u6587\u4EF6\u5217\u8868"
 --- !u!114 &314200304968578493
 MonoBehaviour:
   m_ObjectHideFlags: 0

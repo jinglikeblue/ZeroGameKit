@@ -53,13 +53,13 @@ namespace ZeroHot
             R("examples/bitmapfont.ab", "BitmapFontExampleWin");
             R("examples/framework.ab", "ClockView");
             R("examples/framework.ab", "CoroutineProxyExampleWin");
+            R("examples/framework.ab", "HotFilesExampleWin");
             R("examples/framework.ab", "ResMgrExampleWin");
             R("examples/framework.ab", "ResUpdateExampleWin");
             R("examples/framework.ab", "TimerExampleWin");
             R("examples/framework.ab", "ViewFactoryExampleWin");
             R("examples/framework.ab", "ZeroEventListenerExampleWin");
             R("examples/framework.ab", "ZeroUIExampleWin");
-            R("examples/future.ab", "HotFilesLoadFutureWin");
             R("examples/future.ab", "StreamingAssetsLoadFutureWin");
             R("examples/knight.ab", "KnightLoadingPanel");
             R("examples/knight.ab", "KnightMenuPanel");

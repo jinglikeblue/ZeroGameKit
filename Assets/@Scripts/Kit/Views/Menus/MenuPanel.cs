@@ -67,10 +67,7 @@ namespace ZeroGameKit
             AddBtn(GROUP_DEBUG, "清空缓存", ClearCache);
             AddBtn(GROUP_DEBUG, "GC", ResMgr.Ins.DoGC);
 
-            AddBtn(GROUP_FUTURE, "加载StreamingAssets", StreamingAssetsLoadFuture.Start);
-            AddBtn(GROUP_FUTURE, "HotFiles读取资源", HotFilesLoadFuture.Start);
-            AddBtn(GROUP_FUTURE, "内嵌资源AB读取", null);
-            AddBtn(GROUP_FUTURE, "内嵌资源Files读取", null);
+            AddBtn(GROUP_FUTURE, "加载StreamingAssets", StreamingAssetsLoadFuture.Start);            
 
             AddBtn(GROUP_DEMO, "DEMO_2D物理游戏", RoushanExample.Start);
             AddBtn(GROUP_DEMO, "DEMO_推箱子游戏", SokobanExample.Start);
@@ -120,7 +117,8 @@ namespace ZeroGameKit
             AddBtn(GROUP_AUDIO, "音频控制", AudioDeviceExample.Start);            
             AddBtn(GROUP_FRAMEWORK, "Zero 资源操作", ResMgrExample.Start);
             AddBtn(GROUP_FRAMEWORK, "Zero 资源更新", ResUpdateExample.Start);
-            
+            AddBtn(GROUP_FRAMEWORK, "HotFiles资源", HotFilesExample.Start);
+
             AddBtn(GROUP_FRAMEWORK, "高级计时器", TimerExample.Start);
             //AddBtn(GROUP_FILE, "Zip解压缩", null);
             AddBtn(GROUP_BITMAPFONT, "位图字体使用", BitmapFontExample.Start);
