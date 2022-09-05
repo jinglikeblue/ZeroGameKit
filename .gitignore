@@ -47,3 +47,5 @@ sysinfo.txt
 /Designs/*.bkp
 /HybridCLRData/LocalIl2CppData
 /HybridCLRData/AssembliesPostIl2CppStrip
+/Assets/$Test
+/Assets/$Test.meta
