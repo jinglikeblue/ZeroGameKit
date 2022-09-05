@@ -14,12 +14,6 @@ namespace ZeroEditor
 {
     class GenerateHotFileClassCommand : BaseGenerateTemplateCodeCommand
     {
-        [MenuItem("Test/GenerateHotFileClassCommand")]
-        public static void Test()
-        {
-            new GenerateHotFileClassCommand().Excute();
-        }
-
         /// <summary>
         /// AB名称类模板文件位置
         /// </summary>
