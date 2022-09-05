@@ -117,6 +117,8 @@ namespace ZeroHot
 			public const string ClockView_assetPath = "examples/framework/ClockView.prefab";
 			public const string CoroutineProxyExampleWin = "CoroutineProxyExampleWin.prefab";
 			public const string CoroutineProxyExampleWin_assetPath = "examples/framework/CoroutineProxyExampleWin.prefab";
+			public const string HotFilesExampleWin = "HotFilesExampleWin.prefab";
+			public const string HotFilesExampleWin_assetPath = "examples/framework/HotFilesExampleWin.prefab";
 			public const string ResMgrExampleWin = "ResMgrExampleWin.prefab";
 			public const string ResMgrExampleWin_assetPath = "examples/framework/ResMgrExampleWin.prefab";
 			public const string ResUpdateExampleWin = "ResUpdateExampleWin.prefab";
@@ -135,8 +137,6 @@ namespace ZeroHot
 		{
 			public const string NAME = "examples/future.ab";
 
-			public const string HotFilesLoadFutureWin = "HotFilesLoadFutureWin.prefab";
-			public const string HotFilesLoadFutureWin_assetPath = "examples/future/HotFilesLoadFutureWin.prefab";
 			public const string StreamingAssetsLoadFutureWin = "StreamingAssetsLoadFutureWin.prefab";
 			public const string StreamingAssetsLoadFutureWin_assetPath = "examples/future/StreamingAssetsLoadFutureWin.prefab";            
 		}

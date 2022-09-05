@@ -35,9 +35,11 @@ namespace Demo
 
         private void SetProgress(long loadedSize, long totalSize)
         {
+            float totalMB = totalSize / 1024 / 1024f;
+            float loadedMB = loadedSize / 1024 / 1024f;
             var progress = (int)((float)loadedSize / totalSize * 100);
             //转换为MB
-            text.text = $"{progress}%[{loadedSize}/{totalSize}]";
+            text.text = string.Format("{0}% [{1}MB/{2}MB]", (int)(progress * 100f), loadedMB.ToString("0.00"), totalMB.ToString("0.00"));
         }
     }
 }
