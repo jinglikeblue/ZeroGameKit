@@ -54,7 +54,14 @@ namespace ZeroEditor
                 string json = File.ReadAllText(path, Encoding.UTF8);
                 return JsonMapper.ToObject<T>(json);
             }
-            return default(T);
+
+            var obj = default(T);
+            if(null == obj)
+            {
+                //不是struct是class,创建一个实例
+                obj = System.Activator.CreateInstance<T>();
+            }
+            return obj;
         }
     }
 }

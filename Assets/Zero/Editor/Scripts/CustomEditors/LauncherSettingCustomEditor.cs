@@ -80,6 +80,7 @@ namespace ZeroEditor
             if (null == _cache)
             {
                 _cache = new LauncherSettingData();
+                _isDirty = true;
             }
 
             return _cache;

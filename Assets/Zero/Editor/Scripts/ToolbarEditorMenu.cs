@@ -55,7 +55,7 @@ namespace ZeroEditor
             var cacheDir = new DirectoryInfo(ZeroConst.PERSISTENT_DATA_PATH);
             if (cacheDir.Exists)
             {
-                ZeroEditorUtil.OpenDirectory(cacheDir.FullName);
+                ZeroEditorUtility.OpenDirectory(cacheDir.FullName);
             }
         }
 
@@ -69,6 +69,12 @@ namespace ZeroEditor
         public static void CreateBitmapFontGUITools()
         {
             BitmapFontCreaterMenu.CreateBitmapFontGUITools();            
+        }
+
+        [MenuItem("Zero/工具/SpriteAtlas Tools", false, 401)]
+        public static void SpriteAtlasTools()
+        {
+            SpriteAtlasToolsEditorWin.Open();
         }
 
         [MenuItem("Zero/热更代码框架/ILRuntime", false, 450)]

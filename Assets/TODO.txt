@@ -1,13 +1,6 @@
 - 重新整理资源，每个测试按钮改成独立加载资源包。加载动画搞一个。
 - 「资源名生成」功能里，顺便生成@Configs文件中的文件地址和名称
 
-- Sprite Packer 已弃用，改为 Sprite Atlas 
-                       var saa =new UnityEditor.U2D.SpriteAtlasAsset();
-                saa.name = "fuck";
-                saa.Add(objs);
-                saa.SetPackingSettings(UnityEditor.U2D.SpriteAtlasPackingSettings)
-                UnityEditor.U2D.SpriteAtlasAsset.Save(saa, "Assets/Examples/Art/saa");
-
 - 引入「KCP」
 
 - [setting.json]增加是否使用反射执行DLL，标注“在Editor下不适用，仅适用于Player下”

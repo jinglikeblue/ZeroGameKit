@@ -16,7 +16,7 @@ namespace Zero
         [SuffixLabel("关闭日志打印可以提高执行效率")]        
         [LabelText("是否允许打印日志")]
         [OnValueChanged("OnValueChanged")]
-        public bool isLogEnable;
+        public bool isLogEnable = true;
 
         [ShowInInspector]
         [Title("启动")]
@@ -32,29 +32,29 @@ namespace Zero
         [InfoBox("$BuiltinResSource", InfoMessageType = InfoMessageType.None)]
         [LabelText("模式"), ValueDropdown("BuiltinResMode")]                
         [OnValueChanged("OnValueChanged")]
-        public EBuiltinResMode builtinResMode;
+        public EBuiltinResMode builtinResMode = EBuiltinResMode.HOT_PATCH;
 
         [Title("资源读取配置")]        
         [InfoBox("$HotResSource", InfoMessageType = InfoMessageType.None)]
         [LabelText("资源读取模式"), ValueDropdown("HotResMode")]
         [OnValueChanged("OnValueChanged")]
-        public EHotResMode hotResMode;
+        public EHotResMode hotResMode = EHotResMode.ASSET_DATA_BASE;
         
         [InfoBox("Zero会按照队列依次尝试资源的下载，直到其中一个成功为止", InfoMessageType = InfoMessageType.Info)]
         [LabelText("网络资源的根目录"), ShowIf("hotResMode", EHotResMode.NET_ASSET_BUNDLE)]
         [OnValueChanged("OnValueChanged")]     
         [ListDrawerSettings(Expanded = true, NumberOfItemsPerPage = 3)]                
-        public string[] netRoots = new string[1];
+        public string[] netRoots = new string[1] { "http://YourHotResRootUrl" };
 
         [InfoBox("仅使用内嵌资源模式下，将不会使用DLL运行项目，代码将直接运行以达到代码执行效率最佳化。", InfoMessageType.Warning, VisibleIf = "$IsOnlyUseBuiltinResMode")]
         [Title("热更代码配置")]
         [LabelText("使用dll")]
         [OnValueChanged("OnValueChanged")]
-        public bool isUseDll;
+        public bool isUseDll = false;
 
         [LabelText("加载pdb"), ShowIf("isUseDll")]
         [OnValueChanged("OnValueChanged")]
-        public bool isLoadPdb;
+        public bool isLoadPdb = true;
 
         [LabelText("DLL执行方式"), ValueDropdown("ILType"), ShowIf("isUseDll")]
         [OnValueChanged("OnValueChanged")]
@@ -63,11 +63,11 @@ namespace Zero
 
         [LabelText("优先JIT"), SuffixLabel("JIT方式更高效，如果平台不支持则继续ILRuntime模式"), ShowIf("$IsShowILRuntimeDebug")]
         [OnValueChanged("OnValueChanged")]
-        public bool isTryJitBeforeILRuntime;
+        public bool isTryJitBeforeILRuntime = false;
 
         [LabelText("调试功能"), ShowIf("$IsShowILRuntimeDebug")]
         [OnValueChanged("OnValueChanged")]
-        public bool isDebugIL;
+        public bool isDebugIL = false;
 
 #if UNITY_EDITOR
 
