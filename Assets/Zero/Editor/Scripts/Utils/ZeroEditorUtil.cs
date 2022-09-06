@@ -1,8 +1,5 @@
 ﻿using Jing;
-using Sirenix.OdinInspector;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -74,6 +71,22 @@ namespace ZeroEditor
             m_path = m_path.Substring(0, m_path.Length - 6);
             m_path += assetPath;
             return m_path;
+        }
+
+        /// <summary>
+        /// 设置选中项为路径指向的资源
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static bool SetPathToSelection(string path)
+        {
+            var obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);            
+            if(obj != null)
+            {
+                Selection.objects = new UnityEngine.Object[] { obj };
+                return true;
+            }
+            return false;
         }
     }
 }

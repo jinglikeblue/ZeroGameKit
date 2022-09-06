@@ -11,7 +11,17 @@ namespace ZeroEditor
         /// <summary>
         /// 创建的spriteatlas文件保存的目录
         /// </summary>
-        public string spriteAtlasSaveDirPath = "";
+        public string spriteAtlasSaveDirPath = "Assets/@Resources/spriteatlas";
+
+        /// <summary>
+        /// 打包到纹理集的资源最大宽度限制
+        /// </summary>
+        public int packingTextureWidthLimit = 1024;
+
+        /// <summary>
+        /// 打包到纹理集的资源最大高度限制
+        /// </summary>
+        public int packingTextureHeightLimit = 1024;
 
         /// <summary>
         /// 配置的spriteatlas文件数据

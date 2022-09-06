@@ -1,9 +1,15 @@
 ﻿
 {
     "spriteAtlasSaveDirPath" : "Assets/Examples/SpriteAtlas",
-    "itemList"               : [
+    "packingTextureWidthLimit" : 512,
+    "packingTextureHeightLimit" : 512,
+    "itemList"                  : [
         {
-            "texturesDirPath" : "Assets/Examples/SpriteAtlas",
+            "texturesDirPath" : "Assets/Examples/Art",
+            "isSubDirSplit"   : false
+        },
+        {
+            "texturesDirPath" : "Assets/Examples/Art",
             "isSubDirSplit"   : false
         }
     ]

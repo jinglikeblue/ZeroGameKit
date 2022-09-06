@@ -16,9 +16,7 @@ namespace ZeroEditor
     /// SpriteAtlasTools工具
     /// </summary>
     class SpriteAtlasToolsEditorWin : OdinEditorWindow
-    {
-        const string CONFIG_NAME = "sprite_atlas_tools_config.json";
-
+    {       
         public static SpriteAtlasToolsEditorWin Open()
         {
             return GetWindow<SpriteAtlasToolsEditorWin>("SpriteAtlas Tools");
@@ -29,13 +27,32 @@ namespace ZeroEditor
         protected override void OnEnable()
         {
             base.OnEnable();
+            SpriteAtlasToolsUtility.onAddSpriteAtlas += OnUtilityAddSpriteAtlas;            
 
-            _cfg = EditorConfigUtil.LoadConfig<SpriteAtlasToolsConfigVO>(CONFIG_NAME);
+            LoadConfigFile();
+        }
+
+        private void OnDisable()
+        {
+            SpriteAtlasToolsUtility.onAddSpriteAtlas -= OnUtilityAddSpriteAtlas;            
+        }
+
+        private void OnUtilityAddSpriteAtlas()
+        {
+            LoadConfigFile();
+        }
+
+        void LoadConfigFile()
+        {
+            _cfg = EditorConfigUtil.LoadConfig<SpriteAtlasToolsConfigVO>(SpriteAtlasToolsUtility.CONFIG_NAME);
 
             spriteAtlasSaveDirPath = _cfg.spriteAtlasSaveDirPath;
+            packingTextureWidthLimit = _cfg.packingTextureWidthLimit;
+            packingTextureHeightLimit = _cfg.packingTextureHeightLimit;
+            itemList.Clear();
             for (var i = 0; i < _cfg.itemList.Count; i++)
             {
-                itemList.Add(new SpriteAtlasItemEditor(_cfg.itemList[i]));
+                itemList.Add(new SpriteAtlasItemEditor(this, _cfg.itemList[i]));
             }
         }
 
@@ -43,47 +60,70 @@ namespace ZeroEditor
         void SaveConfig()
         {
             _cfg.spriteAtlasSaveDirPath = spriteAtlasSaveDirPath;
+            _cfg.packingTextureWidthLimit = packingTextureWidthLimit;
+            _cfg.packingTextureHeightLimit = packingTextureHeightLimit;
             _cfg.itemList.Clear();
             for (var i = 0; i < itemList.Count; i++)
             {
                 _cfg.itemList.Add(itemList[i].ToSpriteAtlasItemVO());
             }
-            EditorConfigUtil.SaveConfig(_cfg, CONFIG_NAME);
+            EditorConfigUtil.SaveConfig(_cfg, SpriteAtlasToolsUtility.CONFIG_NAME);
         }
+
+
 
         [Title("Editor配置")]
         [InfoBox("工具创建的spriteatlas文件都会保存在该目录下")]
-        [LabelText("spriteatlas文件保存目录")]
+        [LabelText("spriteatlas文件保存目录"), LabelWidth(160)]
         [FolderPath(AbsolutePath = false, ParentFolder = "./", UseBackslashes = false)]
         [PropertyOrder(10)]
+        [InlineButton("SelectSpriteAtlasDir", "查看")]
         public string spriteAtlasSaveDirPath;
+
+        void SelectSpriteAtlasDir()
+        {
+            var isSuccess = ZeroEditorUtil.SetPathToSelection(spriteAtlasSaveDirPath);
+            if (!isSuccess)
+            {
+                this.ShowTip("路径不存在：构建时将自动创建");                
+            }           
+        }
+
+        [Title("打包到纹理集的资源大小限制", "大于等于配置的Width或Height的图片，会在构建时自动排除出SpriteAtlas")]        
+        [LabelText("宽度(Width)"),LabelWidth(80)]        
+        [PropertyOrder(11)]        
+        public int packingTextureWidthLimit;
+
+        [LabelText("高度(Height)")]
+        [PropertyOrder(11), LabelWidth(80)]        
+        public int packingTextureHeightLimit;        
 
         [Title("SpriteAtlas配置")]
         [InfoBox("只需要配置好纹理放置的目录以及生成方式即可，spriteatlas的文件名会自动生成")]
         [LabelText("spriteatlas文件数据")]
         [PropertyOrder(20)]
         [HideReferenceObjectPicker]
-        [TableList(AlwaysExpanded = true, NumberOfItemsPerPage = 5, DrawScrollView = false, ShowPaging = true)]
-        //[ListDrawerSettings(Expanded = true, NumberOfItemsPerPage = 10, AlwaysAddDefaultValue = true, CustomAddFunction = "AddSpriteAtlasItem")]
+        //[TableList(AlwaysExpanded = true, NumberOfItemsPerPage = 5, DrawScrollView = false, ShowPaging = true)]
+        [ListDrawerSettings(Expanded = true, NumberOfItemsPerPage = 3, AlwaysAddDefaultValue = true, CustomAddFunction = "AddSpriteAtlasItem", DraggableItems = false)]
         public List<SpriteAtlasItemEditor> itemList = new List<SpriteAtlasItemEditor>();
 
-        void AddSpriteAtlasItem()
+        public void AddSpriteAtlasItem()
         {
-            itemList.Add(new SpriteAtlasItemEditor(null));
+            itemList.Add(new SpriteAtlasItemEditor(this, null));
         }
 
         [Title("构建")]
-        [InfoBox("刷新操作将完成以下操作：\r\n 根据「spriteatlas文件数据」创建或更新「spriteatlas保存目录」中的spriteatlas文件")]
-        [Button("刷新所有的spriteatlas文件", ButtonSizes.Large)]
-        [PropertyOrder(21)]
-        void RefreshAll()
+        [InfoBox("构建将完成以下操作：\r\n 根据「spriteatlas文件数据」创建或更新「spriteatlas保存目录」中的spriteatlas文件")]
+        [Button("构建所有的spriteatlas文件", ButtonSizes.Large)]
+        [PropertyOrder(30)]
+        void BuildAll()
         {
             if (itemList.Count == 0)
             {
                 return;
             }
 
-            EditorUtility.DisplayProgressBar("进度", "spriteatlas文件刷新中...", 0);
+            EditorUtility.DisplayProgressBar("进度", "spriteatlas文件构建中...", 0);
 
             //检查保存目录是否存在，不在则生成
             if (!Directory.Exists(spriteAtlasSaveDirPath))
@@ -95,9 +135,9 @@ namespace ZeroEditor
             {
                 var item = itemList[i];
                 var progress = (i + 1f) / itemList.Count;
-                EditorUtility.DisplayProgressBar("进度", "spriteatlas文件刷新中...", progress);
+                EditorUtility.DisplayProgressBar("进度", "spriteatlas文件构建中...", progress);
 
-                SpriteAtlasToolsUtility.UpdateSpriteAtlas(item.ToSpriteAtlasItemVO());
+                SpriteAtlasToolsUtility.BuildSpriteAtlas(spriteAtlasSaveDirPath, item.ToSpriteAtlasItemVO(), packingTextureWidthLimit, packingTextureHeightLimit);
             }
 
             EditorUtility.ClearProgressBar();
@@ -105,45 +145,65 @@ namespace ZeroEditor
 
         public struct SpriteAtlasItemEditor
         {
-            [TableColumnWidth(60, false)]
-            [Button("构建")]
-            [PropertyOrder(-1)]
-            void Refresh()
-            {
-                SpriteAtlasToolsUtility.UpdateSpriteAtlas(ToSpriteAtlasItemVO());
-            }
+            SpriteAtlasToolsEditorWin _win;
 
             /// <summary>
             /// 是否子目录单独创建spriteatlas
             /// </summary>
-            [TableColumnWidth(190, false)]
+            //[TableColumnWidth(190, false)]
+            [HorizontalGroup("Item", MaxWidth = 190)]
             [LabelText("子目录单独生成spriteatlas"), LabelWidth(150)]
-            public bool texturesDirPath;
+            //[ToggleLeft]            
+            public bool isSubDirSplit;
 
             /// <summary>
             /// 打包纹理集的目录
             /// </summary>
-            [LabelText("纹理资源目录"), LabelWidth(80)]
+            [LabelText("纹理资源目录"), LabelWidth(100)]
             [HideLabel]
             [FolderPath(AbsolutePath = false, ParentFolder = "./", UseBackslashes = false, RequireExistingPath = true)]
-            public string packingDirPath;
+            [InlineButton("SelectFile", "配置SpriteAtlas")]
+            [HorizontalGroup("Item")]
+            public string texturesDirPath;
 
-            public SpriteAtlasItemEditor(SpriteAtlasToolsConfigVO.SpriteAtlasItemVO vo)
+            void SelectFile()
+            {
+                var name = SpriteAtlasToolsUtility.GenerateSpriteAtlasNameByPath(texturesDirPath);
+                var filePath = FileUtility.CombinePaths(_win.spriteAtlasSaveDirPath, name);
+                var isSuccess = ZeroEditorUtil.SetPathToSelection(filePath);
+                if (!isSuccess)
+                {
+                    _win.ShowTip($"[{filePath}]不存在：构建时将自动创建");
+                }
+            }
+
+            //[TableColumnWidth(60, false)]
+            [Button("构建")]            
+            [HorizontalGroup("Item", MaxWidth = 60)]
+            void Build()
+            {
+                EditorUtility.DisplayProgressBar("进度", "spriteatlas文件构建中...", 0);
+                SpriteAtlasToolsUtility.BuildSpriteAtlas(_win.spriteAtlasSaveDirPath, ToSpriteAtlasItemVO(), _win.packingTextureWidthLimit, _win.packingTextureHeightLimit);
+                EditorUtility.ClearProgressBar();
+            }
+
+            public SpriteAtlasItemEditor(SpriteAtlasToolsEditorWin win, SpriteAtlasToolsConfigVO.SpriteAtlasItemVO vo)
             {
                 if (null == vo)
                 {
                     vo = new SpriteAtlasToolsConfigVO.SpriteAtlasItemVO();
                 }
 
-                this.packingDirPath = vo.texturesDirPath;
-                this.texturesDirPath = vo.isSubDirSplit;
+                this.texturesDirPath = vo.texturesDirPath;
+                this.isSubDirSplit = vo.isSubDirSplit;
+                _win = win;
             }
 
             public SpriteAtlasToolsConfigVO.SpriteAtlasItemVO ToSpriteAtlasItemVO()
             {
                 var vo = new SpriteAtlasToolsConfigVO.SpriteAtlasItemVO();
-                vo.texturesDirPath = packingDirPath;
-                vo.isSubDirSplit = texturesDirPath;
+                vo.texturesDirPath = texturesDirPath;
+                vo.isSubDirSplit = isSubDirSplit;
                 return vo;
             }
         }

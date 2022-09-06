@@ -71,7 +71,7 @@ namespace ZeroEditor
             BitmapFontCreaterMenu.CreateBitmapFontGUITools();            
         }
 
-        [MenuItem("Zero/工具/SpriteAtlas管理", false, 401)]
+        [MenuItem("Zero/工具/SpriteAtlas Tools", false, 401)]
         public static void SpriteAtlasTools()
         {
             SpriteAtlasToolsEditorWin.Open();
