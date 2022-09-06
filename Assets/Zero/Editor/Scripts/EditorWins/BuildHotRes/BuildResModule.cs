@@ -118,7 +118,7 @@ namespace ZeroEditor
         void OpenPublishDir()
         {
             //打开目录
-            ZeroEditorUtil.OpenDirectory(ZeroConst.PUBLISH_RES_ROOT_DIR);
+            ZeroEditorUtility.OpenDirectory(ZeroConst.PUBLISH_RES_ROOT_DIR);
         }
 
         void BuildPart2()
@@ -154,7 +154,7 @@ namespace ZeroEditor
         void OpenBuiltinDir()
         {
             //打开目录
-            ZeroEditorUtil.OpenDirectory(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH);
+            ZeroEditorUtility.OpenDirectory(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH);
         }
 
 

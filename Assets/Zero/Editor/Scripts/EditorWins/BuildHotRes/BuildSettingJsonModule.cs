@@ -137,7 +137,7 @@ namespace ZeroEditor
         void OpenPublishDir()
         {
             //打开目录
-            ZeroEditorUtil.OpenDirectory(ZeroConst.PUBLISH_RES_ROOT_DIR);
+            ZeroEditorUtility.OpenDirectory(ZeroConst.PUBLISH_RES_ROOT_DIR);
         }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ZeroEditor
 {
-    public class ZeroEditorUtil : EditorWindow
+    public class ZeroEditorUtility : EditorWindow
     {
         /// <summary>
         /// 打开目录

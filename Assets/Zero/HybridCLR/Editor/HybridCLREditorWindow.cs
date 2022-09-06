@@ -181,7 +181,7 @@ namespace ZeroEditor
                 return;
             }
             //´ò¿ªÄ¿Â¼
-            ZeroEditorUtil.OpenDirectory(HybridCLREditorConst.AOT_DLL_SOURCE_DIR);
+            ZeroEditorUtility.OpenDirectory(HybridCLREditorConst.AOT_DLL_SOURCE_DIR);
         }
 
         [TitleGroup("»º´æ")]

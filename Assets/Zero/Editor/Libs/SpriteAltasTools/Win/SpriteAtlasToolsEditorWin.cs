@@ -84,7 +84,7 @@ namespace ZeroEditor
 
         void SelectSpriteAtlasDir()
         {
-            var isSuccess = ZeroEditorUtil.SetPathToSelection(spriteAtlasSaveDirPath);
+            var isSuccess = ZeroEditorUtility.SetPathToSelection(spriteAtlasSaveDirPath);
             if (!isSuccess)
             {
                 this.ShowTip("路径不存在：构建时将自动创建");                
@@ -179,13 +179,13 @@ namespace ZeroEditor
             {                
                 var name = SpriteAtlasToolsUtility.GenerateSpriteAtlasNameByPath(texturesDirPath);
                 var filePath = FileUtility.CombinePaths(_win.spriteAtlasSaveDirPath, name);
-                var isSuccess = ZeroEditorUtil.SetPathToSelection(filePath);
+                var isSuccess = ZeroEditorUtility.SetPathToSelection(filePath);
                 if (isSuccess)
                 {
                     return;                    
                 }
 
-                isSuccess = ZeroEditorUtil.SetPathToSelection(_win.spriteAtlasSaveDirPath);
+                isSuccess = ZeroEditorUtility.SetPathToSelection(_win.spriteAtlasSaveDirPath);
 
                 //尝试选中目录
                 if (false == isSuccess)

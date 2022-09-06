@@ -55,7 +55,7 @@ namespace ZeroEditor
             var cacheDir = new DirectoryInfo(ZeroConst.PERSISTENT_DATA_PATH);
             if (cacheDir.Exists)
             {
-                ZeroEditorUtil.OpenDirectory(cacheDir.FullName);
+                ZeroEditorUtility.OpenDirectory(cacheDir.FullName);
             }
         }
 
