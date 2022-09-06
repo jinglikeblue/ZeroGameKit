@@ -1,8 +1,8 @@
 ﻿
 {
     "spriteAtlasSaveDirPath" : "Assets/Examples/SpriteAtlas",
-    "packingTextureWidthLimit" : 512,
-    "packingTextureHeightLimit" : 512,
+    "packingTextureWidthLimit" : 1024,
+    "packingTextureHeightLimit" : 1024,
     "itemList"                  : [
         {
             "texturesDirPath" : "Assets/Examples/Art/GUI",

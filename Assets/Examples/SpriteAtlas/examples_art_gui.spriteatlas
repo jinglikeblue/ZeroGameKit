@@ -35,6 +35,8 @@ SpriteAtlas:
     - {fileID: 21300000, guid: 3c770cc55d75744439bab80a6225bfc5, type: 3}
     - {fileID: 21300000, guid: c39594df88824c94cb5f186ea2773398, type: 3}
     - {fileID: 21300000, guid: df7b2235e7f73b5478d10f847b5f502b, type: 3}
+    - {fileID: 21300000, guid: d5e65cf88458cce408378ec2021d7bf8, type: 3}
+    - {fileID: 21300000, guid: 8e3e972a915ae084399a5c9dcdbd7a11, type: 3}
     - {fileID: 21300000, guid: 810f7a511b5081f4c88707a527b977fa, type: 3}
     - {fileID: 21300000, guid: 48b5037796cb83a45bdd3d1e2b47c70f, type: 3}
     - {fileID: 21300000, guid: 8becd0ca7ea2dc749a027b58ba104098, type: 3}
@@ -52,7 +54,51 @@ SpriteAtlas:
     - {fileID: 21300000, guid: aaca041400e8c504b89c48a7a8180f48, type: 3}
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 39282f31c702159439f2dc215e9aba40, type: 3}
+  - {fileID: 21300000, guid: 810f7a511b5081f4c88707a527b977fa, type: 3}
+  - {fileID: 21300000, guid: 93246f02ef627464dbfd1473ba0d2813, type: 3}
+  - {fileID: 21300000, guid: 304a63433a88e1044b1cf5a8955f6961, type: 3}
+  - {fileID: 21300000, guid: aaca041400e8c504b89c48a7a8180f48, type: 3}
+  - {fileID: 21300000, guid: eae49a74357ae194abb53bee956e4340, type: 3}
+  - {fileID: 21300000, guid: df7b2235e7f73b5478d10f847b5f502b, type: 3}
+  - {fileID: 21300000, guid: 3c770cc55d75744439bab80a6225bfc5, type: 3}
+  - {fileID: 21300000, guid: 8eaa46470842e4d4f942ecbe9b126ad3, type: 3}
+  - {fileID: 21300000, guid: 48b5037796cb83a45bdd3d1e2b47c70f, type: 3}
+  - {fileID: 21300000, guid: 38b02718571456e49a7063979356a88a, type: 3}
+  - {fileID: 21300000, guid: 57d24658124a0ea46926ce4f22643b00, type: 3}
+  - {fileID: 21300000, guid: 7808edc84a479f643b0bfe9e12c5f3f2, type: 3}
+  - {fileID: 21300000, guid: d5e65cf88458cce408378ec2021d7bf8, type: 3}
+  - {fileID: 21300000, guid: 3f53aa591a49a0c4cb38cb013dc0ff93, type: 3}
+  - {fileID: 21300000, guid: 8e3e972a915ae084399a5c9dcdbd7a11, type: 3}
+  - {fileID: 21300000, guid: 8becd0ca7ea2dc749a027b58ba104098, type: 3}
+  - {fileID: 21300000, guid: cd8eb10b54b7ec8448df403ed644ee6e, type: 3}
+  - {fileID: 21300000, guid: 6346274b324871846b30440e7c1442fc, type: 3}
+  - {fileID: 21300000, guid: c39594df88824c94cb5f186ea2773398, type: 3}
+  - {fileID: 21300000, guid: c5f02cdf21a9fe74187137be4d143160, type: 3}
+  - {fileID: 21300000, guid: 36c2a7ef950a81f40addff352d8c0941, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - 00_bg_dikuang_03
+  - Minimap_ExclamationMark_Yellow
+  - Window_Button_Foreground_Grayscale
+  - TopBar_Icon_Rows_Normal
+  - Window_Header
+  - RadioToggle_Checkmark
+  - c_header_close
+  - Button_Large_Background
+  - TopBar_Icon_Exit_Normal
+  - Minimap_QuestionMark_Yellow
+  - Window_CloseBtn_Normal
+  - Window_Button_Foreground_Red
+  - Toggle_Background_Hovered
+  - LoadingBar_Background
+  - Toggle_Checkmark
+  - LoadingBar_Fill_Green
+  - RadioToggle_Background_Hovered
+  - 14_bg_txt2
+  - TopBar_Icon_Settings_Normal
+  - Button_Large_Foreground
+  - Window_Button_Foreground_Green
+  - TextField_Focused
   m_Tag: examples_art_gui
   m_IsVariant: 0

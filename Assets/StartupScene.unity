@@ -683,8 +683,8 @@ MonoBehaviour:
     builtinResMode: 0
     hotResMode: 2
     netRoots:
-    - http://192.168.0.4:8800/res
-    isUseDll: 0
+    - http://YourHotResRootUrl
+    isUseDll: 1
     isLoadPdb: 1
     ilType: 0
     isTryJitBeforeILRuntime: 0

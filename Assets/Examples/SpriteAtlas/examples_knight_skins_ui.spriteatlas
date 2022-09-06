@@ -32,6 +32,8 @@ SpriteAtlas:
     packables:
     - {fileID: 21300000, guid: 8fef2bf89e2cb7a4ca29dd71ca50e808, type: 3}
     - {fileID: 21300000, guid: 66c47df2e67c15146addaf3c31bee34c, type: 3}
+    - {fileID: 21300000, guid: fd54062da5ee13c45b2b8920ff585efc, type: 3}
+    - {fileID: 21300000, guid: 7e9bbe409e9f27d4fac88c3d921d2cd5, type: 3}
     - {fileID: 21300000, guid: 9427c3f5857d6ea43bc23b8a51f2e528, type: 3}
     - {fileID: 21300000, guid: 81d706d491ad07847886c1290feaa786, type: 3}
     - {fileID: 21300000, guid: aa5f3f4be2841fe47a5fe42bd75647fc, type: 3}
@@ -50,6 +52,7 @@ SpriteAtlas:
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 7e9bbe409e9f27d4fac88c3d921d2cd5, type: 3}
   - {fileID: 21300000, guid: 57a81621d1f525649b503a783d1a27c7, type: 3}
   - {fileID: 21300000, guid: 66c47df2e67c15146addaf3c31bee34c, type: 3}
   - {fileID: 21300000, guid: e2e94283b37987c4da2559475d2c253f, type: 3}
@@ -66,8 +69,10 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 70d95c0bbe1b60f49abd5f43cee6ba42, type: 3}
   - {fileID: 21300000, guid: 635f1f2bac8e20e4dbc86f245dae5dc9, type: 3}
   - {fileID: 21300000, guid: aa5f3f4be2841fe47a5fe42bd75647fc, type: 3}
+  - {fileID: 21300000, guid: fd54062da5ee13c45b2b8920ff585efc, type: 3}
   - {fileID: 21300000, guid: e9f50fcee105ed642b36874d50588063, type: 3}
   m_PackedSpriteNamesToIndex:
+  - LoadingBar_Fill_Green
   - c_header_close
   - Button_Large_Foreground
   - RadioToggle_Checkmark
@@ -84,6 +89,7 @@ SpriteAtlas:
   - RadioToggle_Background_Hovered
   - tgb_menu_button_settings
   - m_action_frame_inner_sword
+  - LoadingBar_Background
   - m_controller_frame
   m_Tag: examples_knight_skins_ui
   m_IsVariant: 0

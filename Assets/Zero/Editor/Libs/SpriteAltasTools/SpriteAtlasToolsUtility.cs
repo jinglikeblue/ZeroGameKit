@@ -150,7 +150,7 @@ namespace ZeroEditor
                 packingSettings.enableTightPacking = false;
                 packingSettings.padding = 2;
 
-                sa = new SpriteAtlas();
+                sa = new SpriteAtlas();                
                 sa.SetPackingSettings(packingSettings);
                 AssetDatabase.CreateAsset(sa, filePath);
             }
@@ -160,6 +160,26 @@ namespace ZeroEditor
             sa.Add(spriteList.ToArray());
 
             AssetDatabase.SaveAssets();
+        }
+
+
+        /// <summary>
+        /// 刷新预览
+        /// </summary>
+        static public void PackPreview(string spriteAtlasDir)
+        {
+            var list = new List<SpriteAtlas>();
+            var files = Directory.GetFiles(spriteAtlasDir);
+            foreach(var file in files)
+            {
+               var sa = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(file);
+                if(sa != null)
+                {
+                    list.Add(sa);
+                }
+            }
+
+            SpriteAtlasUtility.PackAtlases(list.ToArray(), ZeroEditorConst.BUILD_PLATFORM);
         }
     }
 }

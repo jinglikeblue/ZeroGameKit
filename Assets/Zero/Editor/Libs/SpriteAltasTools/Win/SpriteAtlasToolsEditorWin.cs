@@ -75,8 +75,8 @@ namespace ZeroEditor
 
 
         [Title("Editor配置")]
-        [InfoBox("工具创建的spriteatlas文件都会保存在该目录下")]
-        [LabelText("spriteatlas文件保存目录"), LabelWidth(160)]
+        [InfoBox("工具创建的SpriteAtlas文件都会保存在该目录下")]
+        [LabelText("SpriteAtlas文件保存目录"), LabelWidth(160)]
         [FolderPath(AbsolutePath = false, ParentFolder = "./", UseBackslashes = false)]
         [PropertyOrder(10)]
         [InlineButton("SelectSpriteAtlasDir", "查看")]
@@ -101,8 +101,8 @@ namespace ZeroEditor
         public int packingTextureHeightLimit;        
 
         [Title("SpriteAtlas配置")]        
-        [InfoBox("只需要配置好纹理放置的目录以及生成方式即可，spriteatlas的文件名会自动生成")]        
-        [LabelText("spriteatlas文件数据")]
+        [InfoBox("只需要配置好纹理放置的目录以及生成方式即可，SpriteAtlas的文件名会自动生成")]        
+        [LabelText("SpriteAtlas文件数据")]
         [PropertyOrder(20)]
         [HideReferenceObjectPicker]
         //[TableList(AlwaysExpanded = true, NumberOfItemsPerPage = 5, DrawScrollView = false, ShowPaging = true)]
@@ -115,8 +115,8 @@ namespace ZeroEditor
         }
 
         [Title("构建")]
-        [InfoBox("构建将完成以下操作：\r\n 根据「spriteatlas文件数据」创建或更新「spriteatlas保存目录」中的spriteatlas文件")]
-        [Button("构建所有的spriteatlas文件", ButtonSizes.Large)]
+        [InfoBox("构建将完成以下操作：\r\n 根据「SpriteAtlas文件数据」创建或更新「SpriteAtlas保存目录」中的SpriteAtlas文件")]
+        [Button("构建所有的SpriteAtlas文件", ButtonSizes.Large)]
         [PropertyOrder(30)]
         void BuildAll()
         {
@@ -125,7 +125,7 @@ namespace ZeroEditor
                 return;
             }
 
-            EditorUtility.DisplayProgressBar("进度", "spriteatlas文件构建中...", 0);
+            EditorUtility.DisplayProgressBar("进度", "SpriteAtlas文件构建中...", 0);
 
             //检查保存目录是否存在，不在则生成
             if (!Directory.Exists(spriteAtlasSaveDirPath))
@@ -137,12 +137,19 @@ namespace ZeroEditor
             {
                 var item = itemList[i];
                 var progress = (i + 1f) / itemList.Count;
-                EditorUtility.DisplayProgressBar("进度", "spriteatlas文件构建中...", progress);
+                EditorUtility.DisplayProgressBar("进度", "SpriteAtlas文件构建中...", progress);
 
                 SpriteAtlasToolsUtility.BuildSpriteAtlas(spriteAtlasSaveDirPath, item.ToSpriteAtlasItemVO(), packingTextureWidthLimit, packingTextureHeightLimit);
             }
 
             EditorUtility.ClearProgressBar();
+        }
+        
+        [Button("触发已构建SpriteAtlas文件的[Pack Preview]，刷新纹理集预览", ButtonSizes.Large)]
+        [PropertyOrder(31)]
+        void PackPreviewAll()
+        {
+            SpriteAtlasToolsUtility.PackPreview(spriteAtlasSaveDirPath);
         }
 
         public struct SpriteAtlasItemEditor
@@ -150,11 +157,11 @@ namespace ZeroEditor
             SpriteAtlasToolsEditorWin _win;
 
             /// <summary>
-            /// 是否子目录单独创建spriteatlas
+            /// 是否子目录单独创建SpriteAtlas
             /// </summary>
             //[TableColumnWidth(190, false)]
             [HorizontalGroup("Item", MaxWidth = 190)]
-            [LabelText("子目录单独生成spriteatlas"), LabelWidth(150)]
+            [LabelText("子目录单独生成SpriteAtlas"), LabelWidth(150)]
             //[ToggleLeft]            
             public bool isSubDirSplit;
 
@@ -192,7 +199,7 @@ namespace ZeroEditor
             [HorizontalGroup("Item", MaxWidth = 60)]
             void Build()
             {
-                EditorUtility.DisplayProgressBar("进度", "spriteatlas文件构建中...", 0);
+                EditorUtility.DisplayProgressBar("进度", "SpriteAtlas文件构建中...", 0);
                 SpriteAtlasToolsUtility.BuildSpriteAtlas(_win.spriteAtlasSaveDirPath, ToSpriteAtlasItemVO(), _win.packingTextureWidthLimit, _win.packingTextureHeightLimit);
                 EditorUtility.ClearProgressBar();
             }

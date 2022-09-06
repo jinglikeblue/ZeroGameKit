@@ -30,12 +30,17 @@ SpriteAtlas:
       enableTightPacking: 0
     variantMultiplier: 1
     packables:
+    - {fileID: 21300000, guid: 86352e6445fe88849a20530df23b4e6c, type: 3}
+    - {fileID: 21300000, guid: 7f7f1c112254cd54d982e62ef637e3fa, type: 3}
     - {fileID: 21300000, guid: bcc0165cad2f5c340a8e6abdda999c6a, type: 3}
     - {fileID: 21300000, guid: 999575e9f1ac75340aceb3664fba3e48, type: 3}
+    - {fileID: 21300000, guid: e4c360c56b24fdb4ca9c44c51c496548, type: 3}
     - {fileID: 21300000, guid: 84215c65ecfe6d44caf4effad37b6bbf, type: 3}
     - {fileID: 21300000, guid: 058581f63fa2fe148a2832a687206ab6, type: 3}
     - {fileID: 21300000, guid: e6f7e92475a23054084c0b6a48346fdc, type: 3}
     - {fileID: 21300000, guid: e427423ad69b80b4aa7ac8ccfa715b66, type: 3}
+    - {fileID: 21300000, guid: b408c9940f7228b49871fd71715db8d0, type: 3}
+    - {fileID: 21300000, guid: 3730f8645ad868548b7888696425140b, type: 3}
     - {fileID: 21300000, guid: 21665f3465c086f499684a4423f01ed4, type: 3}
     - {fileID: 21300000, guid: 55240fb0526045046a2e281b12333acb, type: 3}
     - {fileID: 21300000, guid: b51a6f8a77392cf4a9620acafada4fcf, type: 3}
@@ -56,11 +61,16 @@ SpriteAtlas:
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 55240fb0526045046a2e281b12333acb, type: 3}
+  - {fileID: 21300000, guid: 7f7f1c112254cd54d982e62ef637e3fa, type: 3}
   - {fileID: 21300000, guid: 6380eff26bf484d4493a2f8e2728c6f1, type: 3}
   - {fileID: 21300000, guid: 4172177374140f24ab2f0c65a1bb28e6, type: 3}
   - {fileID: 21300000, guid: e6f7e92475a23054084c0b6a48346fdc, type: 3}
   - {fileID: 21300000, guid: 21665f3465c086f499684a4423f01ed4, type: 3}
+  - {fileID: 21300000, guid: 3730f8645ad868548b7888696425140b, type: 3}
+  - {fileID: 21300000, guid: 86352e6445fe88849a20530df23b4e6c, type: 3}
+  - {fileID: 21300000, guid: b408c9940f7228b49871fd71715db8d0, type: 3}
   - {fileID: 21300000, guid: 84215c65ecfe6d44caf4effad37b6bbf, type: 3}
+  - {fileID: 21300000, guid: e4c360c56b24fdb4ca9c44c51c496548, type: 3}
   - {fileID: 21300000, guid: 6b2ce9d6ec8fdec45ad492abde60bbc2, type: 3}
   - {fileID: 21300000, guid: 058581f63fa2fe148a2832a687206ab6, type: 3}
   - {fileID: 21300000, guid: 5041c81779dca1c45b84f19300e11c17, type: 3}
@@ -79,11 +89,16 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e6e4fa1e14c888047a7d1b7e3215f3ca, type: 3}
   m_PackedSpriteNamesToIndex:
   - r2
+  - preload_bg
   - t1
   - rf1
   - b2
   - r1
+  - life_bg
+  - icon
+  - life
   - start_tip
+  - start_bg
   - t4
   - arrow
   - t8

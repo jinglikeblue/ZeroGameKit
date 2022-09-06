@@ -27,8 +27,7 @@ public class RightClickEditorMenu
 
     [MenuItem("Assets/Zero/工具/SpriteAtlas Tools/添加目录到SpriteAtlas配置", false, 1)]
     static void SpriteAtlasAdd()
-    {
-        
+    {        
         if (Selection.objects.Length != 1)
         {
             EditorUtility.DisplayDialog("错误", "仅支持[单选]的[文件夹]", "OK");

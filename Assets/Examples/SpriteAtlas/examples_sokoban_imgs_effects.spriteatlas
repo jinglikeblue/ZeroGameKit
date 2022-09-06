@@ -42,7 +42,27 @@ SpriteAtlas:
     - {fileID: 21300000, guid: 80b0fcf111c59494fa08f0526ea50ca5, type: 3}
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 52455c504176e9341a386873b2a1bf4c, type: 3}
+  - {fileID: 21300000, guid: 80b0fcf111c59494fa08f0526ea50ca5, type: 3}
+  - {fileID: 21300000, guid: 0fafa0a23556d854eab060a1bcc8aab8, type: 3}
+  - {fileID: 21300000, guid: 9ea8ede2b75aecb4db1a3e4fd808aa8a, type: 3}
+  - {fileID: 21300000, guid: df6e465378829bd4e9ef4983af198882, type: 3}
+  - {fileID: 21300000, guid: e7d5e18667ad906409a9a789647fa38d, type: 3}
+  - {fileID: 21300000, guid: b716a5f852d72a844b688d9fb5420a9b, type: 3}
+  - {fileID: 21300000, guid: cfaf28fa0e0d18640ba872d54be438ee, type: 3}
+  - {fileID: 21300000, guid: c346bdade0356bb4f8bb9d35de6a3b25, type: 3}
+  - {fileID: 21300000, guid: 0f86850e8705a8c4e90c149117114cd8, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - effect_bang_3
+  - effect_bang_9
+  - effect_bang_0
+  - effect_bang_1
+  - effect_bang_5
+  - effect_bang_7
+  - effect_bang_2
+  - effect_bang_4
+  - effect_bang_6
+  - effect_bang_8
   m_Tag: examples_sokoban_imgs_effects
   m_IsVariant: 0
