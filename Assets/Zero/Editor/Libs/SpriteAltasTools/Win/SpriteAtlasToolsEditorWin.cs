@@ -20,7 +20,7 @@ namespace ZeroEditor
         public static SpriteAtlasToolsEditorWin Open()
         {
             var win = GetWindow<SpriteAtlasToolsEditorWin>("SpriteAtlas Tools");
-            var rect = GUIHelper.GetEditorWindowRect().AlignCenter(860, 530);
+            var rect = GUIHelper.GetEditorWindowRect().AlignCenter(860, 700);
             return win;
         }
 
@@ -106,7 +106,7 @@ namespace ZeroEditor
         [PropertyOrder(20)]
         [HideReferenceObjectPicker]
         //[TableList(AlwaysExpanded = true, NumberOfItemsPerPage = 5, DrawScrollView = false, ShowPaging = true)]
-        [ListDrawerSettings(Expanded = true, NumberOfItemsPerPage = 3, AlwaysAddDefaultValue = true, CustomAddFunction = "AddSpriteAtlasItem", DraggableItems = false)]
+        [ListDrawerSettings(Expanded = true, NumberOfItemsPerPage = 10, AlwaysAddDefaultValue = true, CustomAddFunction = "AddSpriteAtlasItem", DraggableItems = false)]
         public List<SpriteAtlasItemEditor> itemList = new List<SpriteAtlasItemEditor>();
 
         public void AddSpriteAtlasItem()

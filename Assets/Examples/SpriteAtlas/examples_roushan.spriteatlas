@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: examples_roushan
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 0
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    variantMultiplier: 1
+    packables:
+    - {fileID: 21300000, guid: bcc0165cad2f5c340a8e6abdda999c6a, type: 3}
+    - {fileID: 21300000, guid: 999575e9f1ac75340aceb3664fba3e48, type: 3}
+    - {fileID: 21300000, guid: 84215c65ecfe6d44caf4effad37b6bbf, type: 3}
+    - {fileID: 21300000, guid: 058581f63fa2fe148a2832a687206ab6, type: 3}
+    - {fileID: 21300000, guid: e6f7e92475a23054084c0b6a48346fdc, type: 3}
+    - {fileID: 21300000, guid: e427423ad69b80b4aa7ac8ccfa715b66, type: 3}
+    - {fileID: 21300000, guid: 21665f3465c086f499684a4423f01ed4, type: 3}
+    - {fileID: 21300000, guid: 55240fb0526045046a2e281b12333acb, type: 3}
+    - {fileID: 21300000, guid: b51a6f8a77392cf4a9620acafada4fcf, type: 3}
+    - {fileID: 21300000, guid: 4172177374140f24ab2f0c65a1bb28e6, type: 3}
+    - {fileID: 21300000, guid: b2c70fa9a6049ae438e7e42bf4438959, type: 3}
+    - {fileID: 21300000, guid: 6380eff26bf484d4493a2f8e2728c6f1, type: 3}
+    - {fileID: 21300000, guid: c241df2db47776749aff91fe8d16d338, type: 3}
+    - {fileID: 21300000, guid: b967f7a8cecaf1a448390744e8022523, type: 3}
+    - {fileID: 21300000, guid: 928c520dce85a974b997dba11174ab25, type: 3}
+    - {fileID: 21300000, guid: d211540a3397ff84a987cbc3280e68ef, type: 3}
+    - {fileID: 21300000, guid: 6b2ce9d6ec8fdec45ad492abde60bbc2, type: 3}
+    - {fileID: 21300000, guid: 7a725d0c7ce28d34b94beb38b32b8fdb, type: 3}
+    - {fileID: 21300000, guid: 111730fbc8e90ae45bb3240814c96357, type: 3}
+    - {fileID: 21300000, guid: e6e4fa1e14c888047a7d1b7e3215f3ca, type: 3}
+    - {fileID: 21300000, guid: 5041c81779dca1c45b84f19300e11c17, type: 3}
+    - {fileID: 21300000, guid: 1515f087fd37af24684591e02762657a, type: 3}
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 55240fb0526045046a2e281b12333acb, type: 3}
+  - {fileID: 21300000, guid: 6380eff26bf484d4493a2f8e2728c6f1, type: 3}
+  - {fileID: 21300000, guid: 4172177374140f24ab2f0c65a1bb28e6, type: 3}
+  - {fileID: 21300000, guid: e6f7e92475a23054084c0b6a48346fdc, type: 3}
+  - {fileID: 21300000, guid: 21665f3465c086f499684a4423f01ed4, type: 3}
+  - {fileID: 21300000, guid: 84215c65ecfe6d44caf4effad37b6bbf, type: 3}
+  - {fileID: 21300000, guid: 6b2ce9d6ec8fdec45ad492abde60bbc2, type: 3}
+  - {fileID: 21300000, guid: 058581f63fa2fe148a2832a687206ab6, type: 3}
+  - {fileID: 21300000, guid: 5041c81779dca1c45b84f19300e11c17, type: 3}
+  - {fileID: 21300000, guid: 1515f087fd37af24684591e02762657a, type: 3}
+  - {fileID: 21300000, guid: b967f7a8cecaf1a448390744e8022523, type: 3}
+  - {fileID: 21300000, guid: b2c70fa9a6049ae438e7e42bf4438959, type: 3}
+  - {fileID: 21300000, guid: 999575e9f1ac75340aceb3664fba3e48, type: 3}
+  - {fileID: 21300000, guid: d211540a3397ff84a987cbc3280e68ef, type: 3}
+  - {fileID: 21300000, guid: e427423ad69b80b4aa7ac8ccfa715b66, type: 3}
+  - {fileID: 21300000, guid: b51a6f8a77392cf4a9620acafada4fcf, type: 3}
+  - {fileID: 21300000, guid: 111730fbc8e90ae45bb3240814c96357, type: 3}
+  - {fileID: 21300000, guid: 7a725d0c7ce28d34b94beb38b32b8fdb, type: 3}
+  - {fileID: 21300000, guid: bcc0165cad2f5c340a8e6abdda999c6a, type: 3}
+  - {fileID: 21300000, guid: 928c520dce85a974b997dba11174ab25, type: 3}
+  - {fileID: 21300000, guid: c241df2db47776749aff91fe8d16d338, type: 3}
+  - {fileID: 21300000, guid: e6e4fa1e14c888047a7d1b7e3215f3ca, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - r2
+  - t1
+  - rf1
+  - b2
+  - r1
+  - start_tip
+  - t4
+  - arrow
+  - t8
+  - t9
+  - t11
+  - close_btn
+  - restart
+  - t3
+  - hp_label
+  - r3
+  - t6
+  - t5
+  - des_btn
+  - t2
+  - t10
+  - t7
+  m_Tag: examples_roushan
+  m_IsVariant: 0

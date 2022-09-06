@@ -5,7 +5,19 @@
     "packingTextureHeightLimit" : 512,
     "itemList"                  : [
         {
-            "texturesDirPath" : "Assets/Examples/Art",
+            "texturesDirPath" : "Assets/Examples/Art/GUI",
+            "isSubDirSplit"   : false
+        },
+        {
+            "texturesDirPath" : "Assets/Examples/Knight/Skins/UI",
+            "isSubDirSplit"   : false
+        },
+        {
+            "texturesDirPath" : "Assets/Examples/Sokoban/Imgs",
+            "isSubDirSplit"   : true
+        },
+        {
+            "texturesDirPath" : "Assets/Examples/RouShan",
             "isSubDirSplit"   : false
         }
     ]

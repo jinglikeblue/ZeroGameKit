@@ -45,6 +45,14 @@ namespace ZeroEditor
         static public void AddSpriteAtlas(string texturesDirPath, bool isSubDirSplit)
         {
             var cfg = EditorConfigUtil.LoadConfig<SpriteAtlasToolsConfigVO>(CONFIG_NAME);
+            foreach(var item in cfg.itemList)
+            {
+                if(item.texturesDirPath == texturesDirPath)
+                {
+                    Debug.Log("失败：添加到SpriteAtlas配置的目录已存在");
+                    return;
+                }
+            }
 
             var itemVO = new SpriteAtlasToolsConfigVO.SpriteAtlasItemVO();
             itemVO.texturesDirPath = texturesDirPath;
@@ -52,6 +60,8 @@ namespace ZeroEditor
             cfg.itemList.Add(itemVO);
 
             EditorConfigUtil.SaveConfig(cfg, CONFIG_NAME);
+
+            Debug.Log("成功：添加目录到SpriteAtlas配置");
 
             onAddSpriteAtlas?.Invoke();
         }
@@ -116,12 +126,13 @@ namespace ZeroEditor
                 spriteList.Add(sprite);
             }
 
-            bool isEmpty = spriteList.Count == 0 ? true : false;
+            //只有纹理数量大于1的时候，才需要构建纹理集
+            bool isNeedCreateAtlas = spriteList.Count > 1 ? true : false;
 
             var sa = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(filePath);
             if (null == sa)
             {
-                if (isEmpty)
+                if (false == isNeedCreateAtlas)
                 {
                     //SpriteAtlas还未创建，列表又是空的，就不创建了。
                     //PS:已创建的不删除，是可能有自定义的配置，需要保留
