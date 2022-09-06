@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Zero;
@@ -21,6 +22,28 @@ public class RightClickEditorMenu
         };
         cmd.Execute();        
     }
+
+    [MenuItem("Assets/Zero/工具/创建SpriteAtlas", false, 0)]
+    static void CreateSpriteAtlas()
+    {
+        
+        if (Selection.objects.Length != 1)
+        {
+            EditorUtility.DisplayDialog("错误", "仅支持[单选]的[文件夹]", "OK");
+            return;
+        }
+        
+        var obj = Selection.objects[0];
+        var assetPath = AssetDatabase.GetAssetPath(obj);        
+        if (false == Directory.Exists(assetPath))
+        {
+            EditorUtility.DisplayDialog("错误", "仅支持[单选]的[文件夹]", "OK");
+            return;
+        }
+
+        SpriteAtlasToolsCreateEditorWin.Open(assetPath);
+    }
+
 
     [MenuItem("Assets/Zero/位图字体/直接创建/使用Png图片的名称作为字符源", false, 1)]
     static void CreateBitmapFontUsePNGFileName()

@@ -1,0 +1,10 @@
+﻿
+{
+    "spriteAtlasSaveDirPath" : "Assets/Examples/SpriteAtlas",
+    "itemList"               : [
+        {
+            "texturesDirPath" : "Assets/Examples/SpriteAtlas",
+            "isSubDirSplit"   : false
+        }
+    ]
+}

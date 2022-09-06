@@ -71,6 +71,12 @@ namespace ZeroEditor
             BitmapFontCreaterMenu.CreateBitmapFontGUITools();            
         }
 
+        [MenuItem("Zero/工具/SpriteAtlas管理", false, 401)]
+        public static void SpriteAtlasTools()
+        {
+            SpriteAtlasToolsEditorWin.Open();
+        }
+
         [MenuItem("Zero/热更代码框架/ILRuntime", false, 450)]
         public static void OpenILRuntimeEditorWindow()
         {
