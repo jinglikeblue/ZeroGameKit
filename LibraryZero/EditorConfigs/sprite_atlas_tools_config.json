@@ -7,10 +7,6 @@
         {
             "texturesDirPath" : "Assets/Examples/Art",
             "isSubDirSplit"   : false
-        },
-        {
-            "texturesDirPath" : "Assets/Examples/Art",
-            "isSubDirSplit"   : false
         }
     ]
 }

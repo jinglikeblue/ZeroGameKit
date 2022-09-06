@@ -128,6 +128,12 @@ namespace ZeroEditor
                     return;
                 }
 
+                var dirPath = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(dirPath))
+                {
+                    Directory.CreateDirectory(dirPath);
+                }
+
                 var packingSettings = new SpriteAtlasPackingSettings();
                 packingSettings.enableRotation = false;
                 packingSettings.enableTightPacking = false;

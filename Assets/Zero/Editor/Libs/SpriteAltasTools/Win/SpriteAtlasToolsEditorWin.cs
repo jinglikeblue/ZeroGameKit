@@ -19,7 +19,9 @@ namespace ZeroEditor
     {       
         public static SpriteAtlasToolsEditorWin Open()
         {
-            return GetWindow<SpriteAtlasToolsEditorWin>("SpriteAtlas Tools");
+            var win = GetWindow<SpriteAtlasToolsEditorWin>("SpriteAtlas Tools");
+            var rect = GUIHelper.GetEditorWindowRect().AlignCenter(860, 530);
+            return win;
         }
 
         SpriteAtlasToolsConfigVO _cfg;
@@ -98,8 +100,8 @@ namespace ZeroEditor
         [PropertyOrder(11), LabelWidth(80)]        
         public int packingTextureHeightLimit;        
 
-        [Title("SpriteAtlas配置")]
-        [InfoBox("只需要配置好纹理放置的目录以及生成方式即可，spriteatlas的文件名会自动生成")]
+        [Title("SpriteAtlas配置")]        
+        [InfoBox("只需要配置好纹理放置的目录以及生成方式即可，spriteatlas的文件名会自动生成")]        
         [LabelText("spriteatlas文件数据")]
         [PropertyOrder(20)]
         [HideReferenceObjectPicker]
@@ -167,13 +169,21 @@ namespace ZeroEditor
             public string texturesDirPath;
 
             void SelectFile()
-            {
+            {                
                 var name = SpriteAtlasToolsUtility.GenerateSpriteAtlasNameByPath(texturesDirPath);
                 var filePath = FileUtility.CombinePaths(_win.spriteAtlasSaveDirPath, name);
                 var isSuccess = ZeroEditorUtil.SetPathToSelection(filePath);
-                if (!isSuccess)
+                if (isSuccess)
                 {
-                    _win.ShowTip($"[{filePath}]不存在：构建时将自动创建");
+                    return;                    
+                }
+
+                isSuccess = ZeroEditorUtil.SetPathToSelection(_win.spriteAtlasSaveDirPath);
+
+                //尝试选中目录
+                if (false == isSuccess)
+                {
+                    _win.ShowTip($"[{name}]不存在：未构建");
                 }
             }
 
