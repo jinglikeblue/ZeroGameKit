@@ -277,7 +277,7 @@ namespace Zero
             Debug.Log(Log.Zero1($"内嵌资源使用模式  : {BuiltinResMode}"));
             if (BuiltinResMode == EBuiltinResMode.ONLY_USE && false == streamingAssetsResInitiator.IsResExist)
             {
-                throw new Exception($"[仅使用内嵌资源模式]下，{ZeroConst.STREAMING_ASSETS_RES_DATA_PATH} 下的资源不正确");
+                throw new Exception($"[仅使用内嵌资源模式]下，{ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW} 下的资源不正确");
             }
         }
     }

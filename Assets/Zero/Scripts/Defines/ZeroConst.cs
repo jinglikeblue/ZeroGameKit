@@ -136,23 +136,19 @@ namespace Zero
         /// 可用UnityWebRequest加载资源的streamingAssets目录地址
         /// </summary>
         public static string STREAMING_ASSETS_PATH
-        {
+        {            
             get
             {
-                return Application.streamingAssetsPath;
+                if (null == _streamingAssetsPath)
+                {
+                    _streamingAssetsPath = Application.streamingAssetsPath;
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_IPHONE
+                    //如果在编辑器下，或是PC平台或iOS平台，则要加上file://才能读取资源
+                    _streamingAssetsPath = "file://" + _streamingAssetsPath;
+#endif
+                }
+                return _streamingAssetsPath;
             }
-//            get
-//            {
-//                if (null == _streamingAssetsPath)
-//                {
-//                    _streamingAssetsPath = Application.streamingAssetsPath;
-//#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_IPHONE
-//                    //如果在编辑器下，或是PC平台或iOS平台，则要加上file://才能读取资源
-//                    _streamingAssetsPath = "file://" + _streamingAssetsPath;
-//#endif
-//                }
-//                return _streamingAssetsPath;
-//            }
         }
 
         static string _persistentDataPath = null;
@@ -188,9 +184,16 @@ namespace Zero
         public static string GENERATES_PERSISTENT_DATA_PATH = FileUtility.CombineDirs(false, PERSISTENT_DATA_PATH, "zero", "generated");
 
         /// <summary>
-        /// StreamingAssets下的内嵌资源根路径
-        /// 举例：[StreamingAssets绝对路径]/res/[平台]
+        /// StreamingAssets下的内嵌资源根路径，加载AssetBundle时使用；
+        /// 使用WWW、UnityWebRequest加载的时候请使用[STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW]；
+        /// 举例：[StreamingAssets绝对路径]/res/[平台]。
         /// </summary>
         public static string STREAMING_ASSETS_RES_DATA_PATH = FileUtility.CombinePaths(Application.streamingAssetsPath, "res", ZeroConst.PLATFORM_DIR_NAME);
+
+        /// <summary>
+        /// StreamingAssets下的内嵌资源根路径，使用WWW、UnityWebRequest加载的时候使用
+        /// 加载AssetBundle时时候请使用[STREAMING_ASSETS_RES_DATA_PATH]；        
+        /// </summary>
+        public static string STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW = FileUtility.CombinePaths(STREAMING_ASSETS_PATH, "res", ZeroConst.PLATFORM_DIR_NAME);
     }
 }

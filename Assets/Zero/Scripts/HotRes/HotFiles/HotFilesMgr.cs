@@ -83,7 +83,7 @@ namespace Zero
 
             string GetStreamingAssetsPath()
             {
-                return FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.FILES_DIR_NAME, path);
+                return FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.FILES_DIR_NAME, path);
             }
 
             internal Loader(string path, EDataMode dataMode)
@@ -242,7 +242,7 @@ namespace Zero
 
             if (Runtime.Ins.IsBuildinResExist)
             {
-                var builtinResPath = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.FILES_DIR_NAME, path);
+                var builtinResPath = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.FILES_DIR_NAME, path);
                 return builtinResPath;
             }
             return null;

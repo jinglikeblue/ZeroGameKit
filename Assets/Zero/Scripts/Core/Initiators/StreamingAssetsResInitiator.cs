@@ -51,7 +51,7 @@ namespace Zero
 
         IEnumerator LoadSettingJson()
         {
-            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.SETTING_FILE_NAME);
+            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.SETTING_FILE_NAME);
             var uwr = UnityWebRequest.Get(path);
             yield return uwr.SendWebRequest();
 
@@ -69,7 +69,7 @@ namespace Zero
 
         IEnumerator LoadResJson()
         {
-            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.RES_JSON_FILE_NAME);
+            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.RES_JSON_FILE_NAME);
             var uwr = UnityWebRequest.Get(path);
             yield return uwr.SendWebRequest();
 
@@ -86,7 +86,7 @@ namespace Zero
 
         IEnumerator LoadScripts()
         {
-            var dllPath = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".dll");
+            var dllPath = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".dll");
 
             var uwr = UnityWebRequest.Get(dllPath);
             yield return uwr.SendWebRequest();
@@ -100,7 +100,7 @@ namespace Zero
                 scriptDllBytes = uwr.downloadHandler.data;
             }
 
-            var pdbPath = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".pdb");
+            var pdbPath = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".pdb");
 
             uwr = UnityWebRequest.Get(pdbPath);
             yield return uwr.SendWebRequest();

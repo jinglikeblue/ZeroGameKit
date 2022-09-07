@@ -66,21 +66,21 @@ namespace Example
         private void LoadResJson()
         {
             L("加载 res.json");
-            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, "res.json");
+            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, "res.json");
             this.StartCoroutine(Load(path));
         }
 
         private void LoadSettingJson()
         {
             L("加载 setting.json");
-            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, "setting.json");
+            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, "setting.json");
             this.StartCoroutine(Load(path));
         }
 
         private void LoadAssetBundle()
         {
             L("加载 AssetBundle");
-            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, "ab", "examples.ab");
+            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, "ab", "examples.ab");
 
             var ab = AssetBundle.LoadFromFile(path);
             if (null != ab)
@@ -103,9 +103,9 @@ namespace Example
         private void LoadDll()
         {
             L("加载 dll");
-            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, "dll", "scripts.dll");
+            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, "dll", "scripts.dll");
             this.StartCoroutine(Load(path));
-            path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, "dll", "scripts.pdb");
+            path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, "dll", "scripts.pdb");
             this.StartCoroutine(Load(path));
         }
 
@@ -120,7 +120,7 @@ namespace Example
 
         void LoadAB(string abName, string assetName)
         {
-            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.AB_DIR_NAME, abName);
+            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.AB_DIR_NAME, abName);
             var ab = AssetBundle.LoadFromFile(path);
             if (null != ab)
             {
