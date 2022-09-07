@@ -1,6 +1,7 @@
 # ZeroGameKit 文档
 
 ## 菜单
+- [初始化项目](ImportProject/FirstTimeImportProject.md)
 - 构建
     - [Android](Build/AndroidBuild.md)    
 
