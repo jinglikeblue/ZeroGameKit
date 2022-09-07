@@ -35,3 +35,8 @@
 
 # 交流平台
 QQ群：695429639
+
+# DEMO
+>体验版本，资源打包模式为`仅使用内嵌资源`模式，无需网络环境也可以运行
+
+![http://d.firim.pro/y8b6](https://upload-images.jianshu.io/upload_images/9825434-090a934aae159cc1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
