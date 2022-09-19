@@ -163,7 +163,7 @@ namespace Zero
                 if (streamingAssetsResInitiator.IsResExist)
                 {
                     return true;
-                }                
+                }
 
                 return false;
             }
@@ -217,15 +217,15 @@ namespace Zero
             else
             {
                 localResVer = new LocalResVerModel();
-            }            
+            }
 
             Debug.Log(Log.Zero1("[Runtime]Streaming Assets Dir: {0}", ZeroConst.STREAMING_ASSETS_PATH));
 
             if (null != SettingFileNetDirList)
-            {                               
+            {
                 for (var i = 0; i < SettingFileNetDirList.Length; i++)
                 {
-                    Debug.Log(Log.Zero1($"Net Res Root {i}        : {SettingFileNetDirList[i]}"));                    
+                    Debug.Log(Log.Zero1($"Net Res Root {i}        : {SettingFileNetDirList[i]}"));
                 }
             }
             else
@@ -251,7 +251,7 @@ namespace Zero
                 SettingFileNetDirList[i] = FileUtility.CombineDirs(false, VO.netRoots[i], ZeroConst.PLATFORM_DIR_NAME);
             }
 
-            switch (HotResMode) 
+            switch (HotResMode)
             {
                 case EHotResMode.NET_ASSET_BUNDLE:
                     localResDir = ZeroConst.WWW_RES_PERSISTENT_DATA_PATH;
@@ -279,6 +279,27 @@ namespace Zero
             {
                 throw new Exception($"[仅使用内嵌资源模式]下，{ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW} 下的资源不正确");
             }
+        }
+
+        /// <summary>
+        /// 获取启动参数，如果指定的参数不存在，则返回defaultValue
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="defaultValue">key不存在时，返回改变量</param>
+        /// <returns></returns>
+        public string GetStartupParams(string key, string defaultValue = null)
+        {            
+            if (null == setting || null == setting.startupParams)
+            {
+                return defaultValue;
+            }
+
+            if (false == setting.startupParams.ContainsKey(key))
+            {
+                return defaultValue;
+            }
+
+            return setting.startupParams[key];
         }
     }
 }

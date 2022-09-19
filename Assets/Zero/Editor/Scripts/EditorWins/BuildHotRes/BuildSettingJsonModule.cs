@@ -95,9 +95,7 @@ namespace ZeroEditor
         [LabelText("启动资源组"), ListDrawerSettings(NumberOfItemsPerPage = 7, Expanded = false)]
         public string[] startupResGroups;
 
-        [Title("是否仅使用StreamingAssets中res目录下的资源来运行项目（脱离网络运行）")]
-        public bool isOnlyUseResInStreamingAssets;
-
+        [InfoBox("使用[Runtime.Ins.GetStartupParams]方法，在运行时获取")]
         [Title("启动参数配置"),ShowInInspector]
         public Dictionary<string, string> startupParams;
 
