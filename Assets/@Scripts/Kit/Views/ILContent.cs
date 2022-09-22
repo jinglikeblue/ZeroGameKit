@@ -16,9 +16,6 @@ namespace ZeroGameKit
             var uiWin = CreateChildView<UIWinMgr>("UICanvas/UIWin");
 
             UIPanelMgr.Ins.Switch<MainStartupPanel>(null);
-
-            Zero.RectTransformUtility.FitRenderSafeArea(uiPanel.GetComponent<RectTransform>(), Screen.safeArea);
-            Zero.RectTransformUtility.FitRenderSafeArea(uiWin.GetComponent<RectTransform>(), Screen.safeArea);
         }
     }
 }

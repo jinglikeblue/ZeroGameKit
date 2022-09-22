@@ -108,6 +108,7 @@ namespace ZeroGameKit
             AddBtn(GROUP_FRAMEWORK, "Messager消息收发系统", MessagerExample.Start);
             AddBtn(GROUP_FRAMEWORK, "对象池使用", ObjectPoolExample.Start);
             AddBtn(GROUP_FRAMEWORK, "视图工厂", ViewFactoryExample.Start);
+            AddBtn(GROUP_FRAMEWORK, "异形屏适配", ScreenSafeAreaExample.Start);
 
             AddBtn(GROUP_FRAMEWORK, "框架常量", FrameworkConstExample.Start);
 

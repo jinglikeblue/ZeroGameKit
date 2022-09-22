@@ -36,9 +36,7 @@ namespace ZeroHot
 			public const string NAME = "examples.ab";
 
 			public const string MainStartupPanel = "MainStartupPanel.prefab";
-			public const string MainStartupPanel_assetPath = "examples/MainStartupPanel.prefab";
-			public const string TexturesAtlas_2019_spriteatlas = "TexturesAtlas_2019.spriteatlas";
-			public const string TexturesAtlas_2019_spriteatlas_assetPath = "examples/TexturesAtlas_2019.spriteatlas";            
+			public const string MainStartupPanel_assetPath = "examples/MainStartupPanel.prefab";            
 		}
 
 		public sealed class TEST
@@ -123,6 +121,8 @@ namespace ZeroHot
 			public const string ResMgrExampleWin_assetPath = "examples/framework/ResMgrExampleWin.prefab";
 			public const string ResUpdateExampleWin = "ResUpdateExampleWin.prefab";
 			public const string ResUpdateExampleWin_assetPath = "examples/framework/ResUpdateExampleWin.prefab";
+			public const string ScreenSafeAreaExampleWin = "ScreenSafeAreaExampleWin.prefab";
+			public const string ScreenSafeAreaExampleWin_assetPath = "examples/framework/ScreenSafeAreaExampleWin.prefab";
 			public const string TimerExampleWin = "TimerExampleWin.prefab";
 			public const string TimerExampleWin_assetPath = "examples/framework/TimerExampleWin.prefab";
 			public const string ViewFactoryExampleWin = "ViewFactoryExampleWin.prefab";
@@ -261,10 +261,12 @@ namespace ZeroHot
 			public const string item_01_png_assetPath = "examples/textures/item_01.png";
 			public const string item_02_png = "item_02.png";
 			public const string item_02_png_assetPath = "examples/textures/item_02.png";
+			public const string item_03_png = "item_03.png";
+			public const string item_03_png_assetPath = "examples/textures/item_03.png";
+			public const string item_05_png = "item_05.png";
+			public const string item_05_png_assetPath = "examples/textures/item_05.png";
 			public const string item_06_png = "item_06.png";
 			public const string item_06_png_assetPath = "examples/textures/item_06.png";
-			public const string TexturesAtlas_2019_spriteatlas = "TexturesAtlas_2019.spriteatlas";
-			public const string TexturesAtlas_2019_spriteatlas_assetPath = "examples/textures/TexturesAtlas_2019.spriteatlas";
 			public const string TexturesWin = "TexturesWin.prefab";
 			public const string TexturesWin_assetPath = "examples/textures/TexturesWin.prefab";            
 		}

@@ -56,6 +56,7 @@ namespace ZeroHot
             R("examples/framework.ab", "HotFilesExampleWin");
             R("examples/framework.ab", "ResMgrExampleWin");
             R("examples/framework.ab", "ResUpdateExampleWin");
+            R("examples/framework.ab", "ScreenSafeAreaExampleWin");
             R("examples/framework.ab", "TimerExampleWin");
             R("examples/framework.ab", "ViewFactoryExampleWin");
             R("examples/framework.ab", "ZeroEventListenerExampleWin");
