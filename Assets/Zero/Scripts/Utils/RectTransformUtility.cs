@@ -17,7 +17,7 @@ namespace Zero
         /// 适配渲染安全区域
         /// </summary>
         /// <param name="rt">调整的RectTransform</param>
-        /// <param name="safeAreaRect">安全区域的矩形数据</param>
+        /// <param name="safeAreaRect">安全区域的矩形数据(该矩形表示的区域是以左下角为原点)</param>
         public static void FitRenderSafeArea(RectTransform rt, Rect safeAreaRect)
         {
             var cs = rt.GetComponentInParent<CanvasScaler>();
@@ -46,7 +46,7 @@ namespace Zero
             
             if(0 == rt.anchorMin.y && 1 == rt.anchorMax.y)
             {
-                //Y轴上的stretch
+                //Y轴上的stretch，safeAreaRect中Y轴的原点在屏幕下方，向上依次增大
 
                 var stretchTop = Screen.height - safeAreaRect.yMax;
                 var stretchBottom = safeAreaRect.yMin; 
