@@ -48,8 +48,8 @@ namespace Zero
             {
                 //Y轴上的stretch
 
-                var stretchTop = safeAreaRect.yMin;
-                var stretchBottom = Screen.height - safeAreaRect.yMax;
+                var stretchTop = Screen.height - safeAreaRect.yMax;
+                var stretchBottom = safeAreaRect.yMin; 
 
                 stretchTop /= deviceRenderScale.y;
                 stretchBottom /= deviceRenderScale.y;
