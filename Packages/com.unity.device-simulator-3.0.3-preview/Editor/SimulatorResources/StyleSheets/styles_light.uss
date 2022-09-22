@@ -1,0 +1,23 @@
+.unity-device-simulator__control-panel_foldout {
+    border-bottom-color: rgb(153, 153, 153);
+}
+
+.unity-device-simulator__scale-label:hover {
+    background-color: rgb(203, 203, 203);
+}
+
+.unity-two-pane-split-view__dragline-anchor {
+    background-color: rgb(153, 153, 153);
+}
+
+.unity-device-simulator__control-panel_foldout {
+    border-bottom-color: rgb(153, 153, 153);
+}
+
+.unity-device-simulator__scale-label:hover {
+    background-color: rgb(203, 203, 203);
+}
+
+.unity-two-pane-split-view__dragline-anchor {
+    background-color: rgb(153, 153, 153);
+}

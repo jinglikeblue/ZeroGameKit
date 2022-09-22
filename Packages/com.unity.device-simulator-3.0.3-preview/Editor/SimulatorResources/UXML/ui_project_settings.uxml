@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement>
+        <uie:Style src="../StyleSheets/styles_settings.uss" />
+        <ui:VisualElement class="settings-container">
+            <ui:Label text="Device Simulator" class="settings-title" />
+            <ui:Label text="API Simulation" class="section-title" tooltip="Settings determining if calls to UnityEngine.SystemInfo and UnityEngine.Application will be simulated." />
+            <ui:Toggle name="system-info-toggle" label="Simulate SystemInfo Class" class="project-flex-right" binding-path="SystemInfoSimulation" tooltip="Enabling SystemInfo simulation may reduce performance significantly." />
+            <ui:Toggle name="application-toggle" label="Simulate Application Class" class="project-flex-right" binding-path="ApplicationSimulation" tooltip="Enabling Application simulation may reduce performance significantly." />
+            <ui:Label text="Simulation scope" class="section-title" tooltip="Settings determining which assemblies should have calls to UnityEngine.SystemInfo and UnityEngine.Application simulated. Device Simulator will only simulate calls coming from assemblies specified here." />
+            <ui:Toggle name="default-assembly-toggle" label="Default Assembly" class="project-flex-right" binding-path="SystemInfoDefaultAssembly" tooltip="Simulate calls from code that was not placed in a custom assembly definition." />
+            <ui:Label text="Custom Assemblies" />
+            <ui:ListView name="assembly-list" focusable="True" binding-path="SystemInfoAssemblies" item-height="20" class="project-assembly-list-view" tooltip="Names of assemblies from which Device Simulator should simulate calls to UnityEngine.SystemInfo and UnityEngine.Application." />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

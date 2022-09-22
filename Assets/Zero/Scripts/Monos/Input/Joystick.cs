@@ -161,7 +161,7 @@ namespace Zero
             }
             Vector2 screenPos = new Vector2(mousePos.x, mousePos.y);
             Vector2 localPoint;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(go.GetComponent<RectTransform>(), screenPos, camera, out localPoint);
+            UnityEngine.RectTransformUtility.ScreenPointToLocalPointInRectangle(go.GetComponent<RectTransform>(), screenPos, camera, out localPoint);
 
             return localPoint;
         }

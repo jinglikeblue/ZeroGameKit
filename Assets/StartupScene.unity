@@ -680,11 +680,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     isLogEnable: 1
-    builtinResMode: 0
+    builtinResMode: 1
     hotResMode: 2
     netRoots:
     - http://YourHotResRootUrl
-    isUseDll: 1
+    isUseDll: 0
     isLoadPdb: 1
     ilType: 0
     isTryJitBeforeILRuntime: 0

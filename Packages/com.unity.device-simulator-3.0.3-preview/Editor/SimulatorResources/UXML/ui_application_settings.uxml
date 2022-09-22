@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UXML xmlns="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements">
+        <editor:EnumField style="min-width:200px" label="System Language" value="Center" name="application-system-language" tooltip="Value returned by UnityEngine.Application.systemLanguage" />
+        <editor:EnumField style="min-width:200px" label="Internet Reachability" value="Center" name="application-internet-reachability" tooltip="Value returned by UnityEngine.Application.internetReachability" />
+        <Button style="min-width:200px" text="On Low Memory" name="application-low-memory" tooltip="Call UnityEngine.Application.lowMemory event" />
+</UXML>

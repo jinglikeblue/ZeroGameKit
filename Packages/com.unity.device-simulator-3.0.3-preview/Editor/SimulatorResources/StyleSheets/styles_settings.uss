@@ -1,0 +1,63 @@
+.settings-container {
+    margin-left: 8px;
+    margin-right: 0;
+    margin-top: 2px;
+    margin-bottom: 0;
+    padding-right: 1px;
+}
+
+.settings-title {
+    margin-bottom: 10px;
+    font-size: 20px;
+    -unity-font-style: bold;
+}
+
+.section-title {
+    -unity-font-style: bold;
+    margin-top: 5px;
+    margin-bottom: 3px;
+}
+
+/*Styles for project settings*/
+.project-flex-right {
+    flex-direction: row;
+    height: 16px;
+    margin-left: 0;
+}
+
+.project-flex-right > Label
+{
+    min-width: 210px;
+}
+
+.project-assembly-list-view {
+    flex-shrink: 1;
+    flex-grow: 1;
+    height: 400px;
+}
+
+/*Styles for user settings*/
+.user-device-directory-container, .user-safe-area-line-width-container, .user-maximum-visible-device-count-container {
+    flex-direction: row;
+}
+
+.user-device-directory-field {
+    width: 100px;
+    flex-grow: 0.9;
+}
+
+.user-device-directory-button {
+    flex-grow: 0.1;
+    min-width: 30px;
+}
+
+.user-safe-area-line-color, .user-maximum-visible-device-count {
+    flex-grow: 1;
+}
+
+.user-safe-area-line-width-label, .user-maximum-visible-device-count-label {
+    margin-left: 3px;
+    margin-right: 3px;
+    width: 15px;
+    -unity-text-align: middle-center;
+}

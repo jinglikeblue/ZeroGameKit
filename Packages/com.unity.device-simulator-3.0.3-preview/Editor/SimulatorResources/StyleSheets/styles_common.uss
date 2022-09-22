@@ -1,0 +1,169 @@
+.unity-device-simulator__toolbar {
+    min-width: 300px;
+    min-height: 20px;
+}
+
+.unity-device-simulator__control-panel {
+    flex-direction: column;
+    min-height: 200px;
+    padding: 3px;
+    padding-left:0px;
+    padding-right:0px;
+}
+
+.unity-device-simulator__control-panel_foldout {
+    border-bottom-width: 1px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.unity-device-simulator__control-panel-label {
+    margin-bottom: 3px;
+}
+
+.unity-device-simulator__screen-resolution-field {
+    flex-direction: row;
+    margin-left: 3px;
+}
+
+.unity-device-simulator__screen-resolution-field > Label {
+    -unity-text-align:middle-left;
+    width: 132px;
+}
+
+.unity-device-simulator__screen-resolution-field > IntegerField {
+    width: 37px;
+}
+
+.unity-device-simulator__screen-resolution-field > Button {
+    flex-grow: 1;
+}
+
+.unity-device-simulator__allowed-orientations > Label {
+    -unity-font-style: bold;
+    margin-top: 5px;
+    margin-left: 3px;
+    margin-bottom: 3px;
+}
+
+.unity-device-simulator__orientation_static {
+    flex-direction:row;
+    margin-top:1px;
+    margin-bottom:3px;
+}
+
+.unity-device-simulator__preview-panel, .unity-device-simulator__control-panel  {
+    overflow: hidden;
+    min-height: 50px;
+    min-width: 50px;
+}
+
+.unity-device-simulator__scale-value-label {
+    width: 25px;
+    margin-right: 5px;
+}
+
+.unity-device-simulator__scale-slider
+{
+    margin-bottom: 5px;
+    width: 100px;
+}
+
+.unity-device-simulator__scale-label, .unity-device-simulator__scale-manipulate-label {
+    border-left-width: 1px;
+    border-right-width: 0px;
+}
+
+.unity-device-simulator__scale-label, .unity-device-simulator__rotate-label, .unity-device-simulator__scale-value-label {
+    height: 15px;
+    padding-top: 0px;
+    align-self: Center;
+    padding-left: 5px;
+}
+
+.unity-device-simulator__rotate-image-container {
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    border-width: 0px;
+}
+
+.unity-device-simulator__rotate-cw-image, .unity-device-simulator__rotate-ccw-image {
+    margin-left: 3px;
+    margin-bottom : 2px;
+    width: 16px;
+    height: 16px;
+}
+
+.unity-device-simulator__rotate-ccw-image {
+    margin-right: 3px;
+}
+
+.unity-device-simulator__toolbar-align-right-container {
+    flex-direction: row;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+.unity-device-simulator__inactive-msg-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 21px;
+    padding-left: 10px;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    background-color: rgb(246, 178, 107);
+}
+
+.unity-device-simulator__preview-scrollview, .unity-device-simulator__preview-panel {
+    flex-grow: 1;
+}
+
+.unity-device-simulator__preview-container {
+    align-items: center;
+}
+
+.unity-two-pane-split-view {
+    flex-grow: 1;
+}
+
+.unity-two-pane-split-view--horizontal {
+    flex-direction: row;
+}
+
+.unity-two-pane-split-view__content-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.unity-two-pane-split-view__handle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.unity-two-pane-split-view__dragline {
+    background-color: rgba(0, 0, 0, 0);
+    position: absolute;
+    width: 10px;
+    left: -5px;
+    top: 0px;
+    bottom: 0px;
+    cursor: resize-horizontal;
+}
+
+.unity-two-pane-split-view__dragline-anchor {
+    position: absolute;
+    width: 1px;
+    top: 0px;
+    bottom: 0px;
+}

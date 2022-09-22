@@ -1,0 +1,27 @@
+{
+    "friendlyName": "MinimalTestDevice1",
+    "version": 1,
+    "screens": [
+        {
+            "width": 750,
+            "height": 1334,
+            "navigationBarHeight": 0,
+            "dpi": 326.0,
+            "presentation": {
+                "overlayPath": "MinimalTestDevice1_Overlay1.png"
+            }
+        },
+        {
+            "width": 750,
+            "height": 1334,
+            "navigationBarHeight": 0,
+            "dpi": 326.0,
+            "presentation": {
+                "overlayPath": "Packages/com.unity.device-simulator/Tests/Editor/TestResources/CustomDevices/MinimalTestDevice1_Overlay2.png"
+            }
+        }
+    ],
+    "systemInfo": {
+        "operatingSystem": "iOS"
+    }
+}
