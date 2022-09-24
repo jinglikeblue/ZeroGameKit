@@ -681,7 +681,7 @@ MonoBehaviour:
   data:
     isLogEnable: 1
     builtinResMode: 1
-    hotResMode: 2
+    hotResMode: 0
     netRoots:
     - http://YourHotResRootUrl
     isUseDll: 0
