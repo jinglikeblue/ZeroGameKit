@@ -55,7 +55,7 @@ namespace Zero
         public event BaseInitiator.InitiatorProgress onProgress;
 
         /// <summary>
-        /// Preload加热失败
+        /// Launcher启动失败
         /// </summary>
         public event Action<string> onError;
 
@@ -67,9 +67,17 @@ namespace Zero
 
         StartupResInitiator _startupResInitiator;
 
-        public Launcher(LauncherSettingData data)
+        bool _isAutoOffline = false;
+
+        /// <summary>
+        /// 启动配置数据
+        /// </summary>
+        /// <param name="data">启动配置数据</param>
+        /// <param name="isAutoOffline">「热补丁模式」时，如果访问不到网络资源，是否自动切换为离线模式（使用内嵌资源继续运行）</param>
+        public Launcher(LauncherSettingData data, bool isAutoOffline = false)
         {
             this.launcherData = data;
+            _isAutoOffline = isAutoOffline;
         }
 
         /// <summary>
@@ -138,12 +146,20 @@ namespace Zero
 
             if (initiator.error != null)
             {
-                Error(initiator.error);
+                if (_isAutoOffline && EBuiltinResMode.HOT_PATCH == launcherData.builtinResMode)
+                {
+                    Debug.Log(Zero.Log.Zero1("自动切换为「仅使用内嵌资源模式」"));
+                    launcherData.builtinResMode = EBuiltinResMode.ONLY_USE;
+                }
+                else
+                {
+                    Error(initiator.error);
+                    return;
+                }
             }
-            else
-            {
-                AppClientInit();
-            }
+
+            AppClientInit();
+
         }
 
         #endregion
@@ -244,7 +260,7 @@ namespace Zero
 
         void ScriptsInit()
         {
-            ChangeState(EState.STARTUP);           
+            ChangeState(EState.STARTUP);
             new ScriptsInitiator().Start();
         }
     }

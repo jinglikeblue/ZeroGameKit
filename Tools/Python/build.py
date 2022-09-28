@@ -1,6 +1,4 @@
 import subprocess
-import os
-import sys
 
 # 获取传参 sys.argv[i]
 
