@@ -8,7 +8,7 @@ namespace Jing
     /// </summary>
     public class FileUtility
     {
-                public enum EPathType
+        public enum EPathType
         {
             FILE,
             DIRECTORY,
@@ -48,7 +48,7 @@ namespace Jing
             if (false == ext.StartsWith("."))
             {
                 ext = "." + ext;
-            }            
+            }
 
             string[] files = Directory.GetFiles(dirPath, "*" + ext, searchOption);
             foreach (string file in files)
@@ -291,7 +291,7 @@ namespace Jing
 
             return result;
         }
-    
+
 
         /// <summary>
         /// 检查路径是否指向文件
@@ -302,7 +302,7 @@ namespace Jing
         {
             return File.Exists(path);
         }
-        
+
         /// <summary>
         /// 检查路径是否指向文件夹
         /// </summary>

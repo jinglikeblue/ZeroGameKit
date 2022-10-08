@@ -84,13 +84,13 @@ namespace ZeroEditor
                 isAddPathToResourcesBuildPhase = vo.isAddPathToResourcesBuildPhase;
             }
 
-            [InfoBox("相对于Unity工程目录的路径", InfoMessageType.None)]
+            [InfoBox("相对于Unity工程目录的路径(可以指向文件或文件夹)", InfoMessageType.None)]
             /// <summary>
             /// 相对于Unity工程目录的路径
             /// </summary>
             public string fromPath;
 
-            [InfoBox("相对于XCode工程目录的路径", InfoMessageType.None)]            
+            [InfoBox("相对于XCode工程目录的路径(可以指向文件或文件夹)", InfoMessageType.None)]            
             /// <summary>
             /// 相对于XCode工程目录的路径
             /// </summary>
