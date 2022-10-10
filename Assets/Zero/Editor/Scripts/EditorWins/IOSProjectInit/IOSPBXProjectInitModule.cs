@@ -59,10 +59,17 @@ namespace ZeroEditor
             editorWin.ShowTip("保存成功!");
         }
 
+        IOSProjectInitConfigVO.FrameworkInfoVO AddFramework()
+        {
+            return new IOSProjectInitConfigVO.FrameworkInfoVO();
+        }
+
         [Space(20)]
         [InfoBox("把指定的 framework 文件添加到 [Build Phases] 中的 [Link Binary With Libraries]")]
-        [LabelText("AddFrameworkToProject"), ListDrawerSettings(DraggableItems = false, NumberOfItemsPerPage = 5, Expanded = true)]
-        public string[] frameworkToProjectList;
+        [LabelText("AddFrameworkToProject"), ListDrawerSettings(DraggableItems = false, NumberOfItemsPerPage = 5, Expanded = true, CustomAddFunction = "AddFramework")]
+        [ShowInInspector]        
+        [HideReferenceObjectPicker]        
+        public IOSProjectInitConfigVO.FrameworkInfoVO[] frameworkToProjectList;
 
         [Space(20)]
         [ShowInInspector]

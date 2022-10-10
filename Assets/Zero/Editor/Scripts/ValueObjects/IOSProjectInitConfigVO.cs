@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ZeroEditor
 {
@@ -57,7 +53,7 @@ namespace ZeroEditor
             /// <summary>
             /// framework库配置
             /// </summary>
-            public string[] frameworkToProjectList = new string[0];
+            public FrameworkInfoVO[] frameworkToProjectList = new FrameworkInfoVO[0];
 
             /// <summary>
             /// lib库配置
@@ -68,6 +64,23 @@ namespace ZeroEditor
             /// build参数配置
             /// </summary>
             public Dictionary<string, string> buildPropertyList = new Dictionary<string, string>();
+        }
+
+        /// <summary>
+        /// 添加的framework库的信息
+        /// </summary>
+        public class FrameworkInfoVO
+        {            
+            /// <summary>            
+            /// 库名称，扩展名必须是".framework"
+            /// </summary>
+            public string name;
+
+            /// <summary>
+            /// true 表示 optinal; 
+            /// false 表示 required
+            /// </summary>
+            public bool isWeak = false;
         }
 
         public class CopyInfoVO

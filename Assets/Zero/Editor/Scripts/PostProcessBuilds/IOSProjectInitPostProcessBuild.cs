@@ -158,7 +158,7 @@ namespace ZeroEditor.IOS
         {
             foreach (var framework in vo.frameworkToProjectList)
             {
-                pbx.AddFrameworkToProject(targetGuid, framework, false);
+                pbx.AddFrameworkToProject(targetGuid, framework.name, framework.isWeak);
             }
 
             foreach (var entry in vo.file2BuildList)
