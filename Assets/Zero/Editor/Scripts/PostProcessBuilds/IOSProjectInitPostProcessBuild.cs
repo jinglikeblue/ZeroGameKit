@@ -50,6 +50,10 @@ namespace ZeroEditor.IOS
         public void Process()
         {
             _cfg = EditorConfigUtil.LoadConfig<IOSProjectInitConfigVO>(IOSInfoplistInitModule.CONFIG_NAME);
+            if(false == _cfg.isEnable)
+            {
+                return;
+            }
             _pbxProjectPath = PBXProject.GetPBXProjectPath(_xcodeProjectPath);
             _pbx = new PBXProject();
             _pbx.ReadFromString(File.ReadAllText(_pbxProjectPath));

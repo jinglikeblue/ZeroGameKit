@@ -8,6 +8,11 @@ namespace ZeroEditor
     public class IOSProjectInitConfigVO
     {
         /// <summary>
+        /// 是否激活自动化配置功能
+        /// </summary>
+        public bool isEnable = true;
+
+        /// <summary>
         /// 要拷贝的文件
         /// </summary>
         public CopyInfoVO[] copyInfoList = new CopyInfoVO[0];

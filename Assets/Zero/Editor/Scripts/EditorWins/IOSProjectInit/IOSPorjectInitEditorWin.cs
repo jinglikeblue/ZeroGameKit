@@ -33,11 +33,12 @@ namespace ZeroEditor
         protected override OdinMenuTree BuildMenuTree()
         {
             OdinMenuTree tree = new OdinMenuTree();
-            tree.Config.DrawSearchToolbar = false;            
+            tree.Config.DrawSearchToolbar = false;
+            tree.Add("全局配置", new IOSGlobalSettingModule(this));
             tree.Add("Info.plist 配置", new IOSInfoplistInitModule(this));
             tree.Add("CopyFiles 配置", new IOSCopyFilesToXCodeModule(this));
-            tree.Add("MainTarget 配置", new IOSPBXProjectInitModule(this, IOSPBXProjectInitModule.ETargetGuid.MAIN));
-            tree.Add("FrameworkTarget 配置", new IOSPBXProjectInitModule(this, IOSPBXProjectInitModule.ETargetGuid.FRAMEWORK));            
+            tree.Add("Unity-iPhone 配置", new IOSPBXProjectInitModule(this, IOSPBXProjectInitModule.ETargetGuid.MAIN));
+            tree.Add("UnityFramework 配置", new IOSPBXProjectInitModule(this, IOSPBXProjectInitModule.ETargetGuid.FRAMEWORK));            
             return tree;
         }
     }
