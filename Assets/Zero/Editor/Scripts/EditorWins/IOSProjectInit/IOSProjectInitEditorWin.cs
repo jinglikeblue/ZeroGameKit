@@ -13,14 +13,14 @@ using UnityEngine;
 
 namespace ZeroEditor
 {
-    class IOSPorjectInitEditorWin : OdinMenuEditorWindow
+    class IOSProjectInitEditorWin : OdinMenuEditorWindow
     {
         /// <summary>
         /// 打开窗口
         /// </summary>
         public static void Open()
         {
-            var win = GetWindow<IOSPorjectInitEditorWin>("iOS构建自动化配置", true);
+            var win = GetWindow<IOSProjectInitEditorWin>("iOS构建自动化配置", true);
             var rect = GUIHelper.GetEditorWindowRect().AlignCenter(1000, 600);
             win.position = rect;
         }
