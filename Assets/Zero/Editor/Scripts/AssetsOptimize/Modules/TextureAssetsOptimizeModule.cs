@@ -22,7 +22,7 @@ namespace ZeroEditor
             base.OnEnable();
 
             isEnable = AssetsOptimizeUtility.Config.isTextureOptimizeEnable;
-            settings = AssetsOptimizeUtility.Config.textureSetting;
+            settings = AssetsOptimizeUtility.Config.textureSettings;
         }
 
         [PropertyOrder(0)]
@@ -30,7 +30,7 @@ namespace ZeroEditor
         void SaveConfig()
         {
             AssetsOptimizeUtility.Config.isTextureOptimizeEnable = isEnable;
-            AssetsOptimizeUtility.Config.textureSetting = settings;
+            AssetsOptimizeUtility.Config.textureSettings = settings;
             AssetsOptimizeUtility.SaveConfig();
         }
 
@@ -83,10 +83,13 @@ namespace ZeroEditor
         [Button("执行优化", ButtonSizes.Large)]
         void OptimizeAll()
         {
-            if (EditorUtility.DisplayDialog("提示", "是否立刻执行优化设置?", "确认", "取消"))
+            if (!EditorUtility.DisplayDialog("提示", "是否立刻执行优化设置?", "确认", "取消"))
             {
-
+                return;
             }
+
+            SaveConfig();
+            AssetsOptimizeUtility.OptimizeTextures();
         }
 
     }

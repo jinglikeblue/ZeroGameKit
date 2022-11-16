@@ -10,9 +10,9 @@ namespace ZeroEditor
     class AssetsOptimizeConfigVO
     {
         public bool isTextureOptimizeEnable;               
-        public List<TextureOptimizeSettingVO> textureSetting = new List<TextureOptimizeSettingVO>();
+        public List<TextureOptimizeSettingVO> textureSettings = new List<TextureOptimizeSettingVO>();
 
         public bool isAudioOptimizeEnable;
-        public List<AudioOptimizeSettingVO> audioSetting = new List<AudioOptimizeSettingVO>();
+        public List<AudioOptimizeSettingVO> audioSettings = new List<AudioOptimizeSettingVO>();
     }
 }

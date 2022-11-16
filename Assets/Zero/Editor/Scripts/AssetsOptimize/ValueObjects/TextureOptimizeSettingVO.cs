@@ -22,8 +22,14 @@ namespace ZeroEditor
         [LabelText("Texture Type")]
         public TextureImporterType textureType = TextureImporterType.Sprite;
 
+        [LabelText("Non-Power of 2")]
+        public TextureImporterNPOTScale npotScale = TextureImporterNPOTScale.None;
+
+        [LabelText("Read/Write Enabled")]
+        public bool isReadable = false;
+
         [LabelText("Generate Mip Maps")]
-        public bool generateMipMaps = false;
+        public bool mipmapEnabled = false;
 
         [LabelText("Filter Mode")]
         public FilterMode filterMode = FilterMode.Point;
