@@ -77,6 +77,12 @@ namespace ZeroEditor
             SpriteAtlasToolsEditorWin.Open();
         }
 
+        [MenuItem("Zero/工具/资源优化工具", false, 402)]
+        public static void AssetsOptimizeTools()
+        {
+            AssetsOptimizeEditorWindow.Open();
+        }
+
         [MenuItem("Zero/热更代码框架/ILRuntime", false, 450)]
         public static void OpenILRuntimeEditorWindow()
         {

@@ -1,0 +1,67 @@
+﻿
+{
+    "isTextureOptimizeEnable" : true,
+    "textureSetting"          : [
+        {
+            "folder" : "Assets/Examples",
+            "textureType" : 8,
+            "generateMipMaps" : false,
+            "filterMode"      : 0,
+            "defaultSetting"  : {
+                "name" : null,
+                "maxTextureSize" : 2048,
+                "format"         : -1
+            },
+            "isOverrideForStandalone" : true,
+            "standaloneSetting"       : {
+                "name" : "Standalone",
+                "maxTextureSize" : 2048,
+                "format"         : 4
+            },
+            "isOverrideForAndroid"    : true,
+            "androidSetting"          : {
+                "name" : "Android",
+                "maxTextureSize" : 2048,
+                "format"         : 47
+            },
+            "isOverrideForiOS"        : true,
+            "iOSSetting"              : {
+                "name" : "iPhone",
+                "maxTextureSize" : 2048,
+                "format"         : 50
+            }
+        },
+        {
+            "folder" : "Assets/@Resources",
+            "textureType" : 8,
+            "generateMipMaps" : false,
+            "filterMode"      : 0,
+            "defaultSetting"  : {
+                "name" : null,
+                "maxTextureSize" : 2048,
+                "format"         : -1
+            },
+            "isOverrideForStandalone" : false,
+            "standaloneSetting"       : {
+                "name" : "Standalone",
+                "maxTextureSize" : 2048,
+                "format"         : 4
+            },
+            "isOverrideForAndroid"    : true,
+            "androidSetting"          : {
+                "name" : "Android",
+                "maxTextureSize" : 2048,
+                "format"         : 47
+            },
+            "isOverrideForiOS"        : true,
+            "iOSSetting"              : {
+                "name" : "iPhone",
+                "maxTextureSize" : 2048,
+                "format"         : 50
+            }
+        }
+    ],
+    "isAudioOptimizeEnable"   : false,
+    "audioSetting"            : [
+    ]
+}
