@@ -59,7 +59,7 @@ namespace Jing
         {
             string[] nameList = new string[ChildrenCount];
             var children = _childTreeMap.Values.ToArray();
-            Array.Sort(children);            
+            Array.Sort(children);
             for (var i = 0; i < children.Length; i++)
             {
                 nameList[i] = children[i].Name;
@@ -186,15 +186,15 @@ namespace Jing
         }
 
         /// <summary>
-        /// 输出节点信息
+        /// 将节点的路径字符串形式返回
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
+        public string ToPathString()
         {
             List<string> pathForwardList = new List<string>();
 
             PathTree<T> forwardNode = this;
-            while(null != forwardNode && false == forwardNode.IsRoot)
+            while (null != forwardNode && false == forwardNode.IsRoot)
             {
                 pathForwardList.Add(forwardNode.Name);
                 forwardNode = forwardNode.Parent;
@@ -211,64 +211,74 @@ namespace Jing
         }
 
         /// <summary>
-        /// 转换完整的树描述信息
-        /// </summary>
-        /// <returns></returns>
-        public string ToFullString()
-        {
-            var list = FindLastNodes();
-            List<string> pathList = new List<string>();            
-            foreach(var tree in list)
-            {
-                var treePath = tree.ToString();
-                if (string.IsNullOrEmpty(treePath))
-                {
-                    continue;
-                }
-
-                pathList.Add(treePath);
-            }
-            pathList.Sort();
-
-            StringBuilder sb = new StringBuilder();
-            for (var i = 0; i < pathList.Count; i++)
-            {
-                sb.AppendLine(pathList[i]);
-            }
-            
-            return sb.ToString();
-        }
-
-        /// <summary>
         /// 找到所有的末端节点并返回
         /// </summary>
         /// <returns></returns>
         public List<PathTree<T>> FindLastNodes()
         {
-            var list = new List<PathTree<T>>();
-            FindLastNodes(list);
+            var list = SearchNodes((node) =>
+            {
+                if(node.ChildrenCount == 0)
+                {
+                    return true;
+                }
+                return false;
+            });
+
             return list;
         }
 
-        void FindLastNodes(List<PathTree<T>> cacheList)
+        /// <summary>
+        /// 搜索PathTree下的节点，在func中返回true表示将该节点加入列表
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public List<PathTree<T>> SearchNodes(Func<PathTree<T>, bool> action)
         {
-            if(ChildrenCount == 0)
+            //遍历所有的节点，并且根据action的返回值确定是否加入到返回列表
+            var list = new List<PathTree<T>>();
+            IterateThroughNodes(this, (node) =>
             {
-                cacheList.Add(this);
-                //末端节点，直接return就行
-                return;
+                if (action.Invoke(node))
+                {
+                    list.Add(node);
+                }
+            });
+            return list;
+        }
+
+        /// <summary>
+        /// 迭代树下所有的节点，并通过回调传递引用。
+        /// 注意：传入的PathTree并不会通过回调传递
+        /// </summary>
+        /// <param name="pathTree"></param>
+        /// <param name="onIteratedNode"></param>
+        public static void IterateThroughNodes(PathTree<T> pathTree, Action<PathTree<T>> onIteratedNode)
+        {
+            foreach (var childNode in pathTree._childTreeMap.Values)
+            {
+                onIteratedNode?.Invoke(childNode);
+                IterateThroughNodes(childNode, onIteratedNode);
+            }
+        }
+
+        /// <summary>
+        /// 从指定节点，开始向上查找最近的一个data不为null的节点
+        /// </summary>
+        /// <returns></returns>
+        public static PathTree<T> FindLastNodeWithNonNullDataForward(PathTree<T> pathTree)
+        {
+            if(pathTree.data != null)
+            {
+                return pathTree;
             }
 
-            if (ChildrenCount >= 2)
+            if (pathTree.IsRoot)
             {
-                //分支节点，也是关键节点
-                cacheList.Add(this);
+                return null;
             }
 
-            foreach (var tree in _childTreeMap)
-            {
-                tree.Value.FindLastNodes(cacheList);
-            }
+            return FindLastNodeWithNonNullDataForward(pathTree.Parent);
         }
     }
 }
