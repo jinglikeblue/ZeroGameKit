@@ -35,17 +35,22 @@ namespace ZeroEditor
         public FilterMode filterMode = FilterMode.Point;
 
         [HideReferenceObjectPicker]
-        [LabelText("Default Platform Setting")]
+        [BoxGroup("Default Platform Setting")]        
         public PlatformSettingVO defaultSetting = new PlatformSettingVO()
         {
             maxTextureSize = 2048,
             format = TextureImporterFormat.Automatic
         };
 
-        [LabelText("Is Override For Standalone")]
-        public bool isOverrideForStandalone = false;
+        [DisplayAsString]
+        [HideLabel]
+        public string text = "针对平台的配置(勾选Override生效，否则使用上方的默认配置)";
         
-        [LabelText("Standalone 平台配置"), ShowIf("isOverrideForStandalone")]        
+        [TabGroup("Standalone")]
+        [LabelText("Override For Standalone")]
+        public bool isOverrideForStandalone = false;
+
+        [TabGroup("Standalone")]        
         public PlatformSettingVO standaloneSetting = new PlatformSettingVO()
         {
             name = AssetsOptimizeConst.PLATFORM_STANDALONE,
@@ -53,10 +58,11 @@ namespace ZeroEditor
             format = TextureImporterFormat.RGBA32
         };
 
-        [LabelText("Is Override For Android")]
+        [TabGroup("Android")]
+        [LabelText("Override For Android")]
         public bool isOverrideForAndroid = true;
-        
-        [LabelText("Android 平台配置"), ShowIf("isOverrideForAndroid")]
+
+        [TabGroup("Android")]        
         public PlatformSettingVO androidSetting = new PlatformSettingVO()
         {
             name = AssetsOptimizeConst.PLATFORM_ANDROID,
@@ -64,19 +70,19 @@ namespace ZeroEditor
             format = TextureImporterFormat.ETC2_RGBA8
         };
 
-        [LabelText("Is Override For iOS")]
+        [TabGroup("iOS")]
+        [LabelText("Override For iOS")]
         public bool isOverrideForiOS = true;
-        
-        [LabelText("iOS 平台配置"), ShowIf("isOverrideForiOS")]        
+
+        [TabGroup("iOS")]           
         public PlatformSettingVO iOSSetting = new PlatformSettingVO()
         {
             name = AssetsOptimizeConst.PLATFORM_IOS,
             maxTextureSize = 2048,
             format = TextureImporterFormat.ASTC_6x6
-        };        
+        };                
         
-        [ReadOnly]
-        [HideReferenceObjectPicker]
+        [HideLabel, HideReferenceObjectPicker]
         public class PlatformSettingVO
         {
             /// <summary>

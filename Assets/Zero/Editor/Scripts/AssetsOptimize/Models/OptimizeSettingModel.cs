@@ -37,11 +37,20 @@ namespace ZeroEditor
                 _pathTree.Create(paths).data = setting;
             }
 
-            var info = _pathTree.ToMapString();
-            if (!string.IsNullOrEmpty(info))
+            var list = _pathTree.SearchNodes((node) =>
             {
-                Debug.Log(info);
+                return node.data == null ? false : true;
+            });
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("[");
+            foreach (var node in list)
+            {
+                sb.AppendLine($"    {FileUtility.RemoveStartPathSeparator(node.ToPathString())}");
             }
+            sb.AppendLine("]");
+            Debug.Log(sb.ToString());
+            
         }
 
         /// <summary>
@@ -58,7 +67,7 @@ namespace ZeroEditor
             }
 
             var setting = PathTree<TextureOptimizeSettingVO>.FindLastNodeWithNonNullDataForward(node);
-            if(null == setting)
+            if (null == setting)
             {
                 return null;
             }
