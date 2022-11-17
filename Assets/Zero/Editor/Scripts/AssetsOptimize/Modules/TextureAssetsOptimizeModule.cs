@@ -92,5 +92,11 @@ namespace ZeroEditor
             AssetsOptimizeUtility.OptimizeTextures();
         }
 
+        //[Button("测试")]
+        //void Test()
+        //{
+        //    AssetsOptimizeUtility.OptimizeTexturesFolder("Assets/Examples/Art/Icons");
+        //}
+
     }
 }

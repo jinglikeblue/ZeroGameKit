@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
+using Zero;
 
 namespace ZeroEditor
 {
@@ -12,7 +14,15 @@ namespace ZeroEditor
     /// </summary>
     class OptimizeSettingModel
     {
-        FolderNode root = new FolderNode();
+        PathTree<TextureOptimizeSettingVO> _pathTree = new PathTree<TextureOptimizeSettingVO>();
+
+        string[] SplitFolderPath(string folder)
+        {
+            var path = FileUtility.StandardizeBackslashSeparator(folder);
+            path = FileUtility.RemoveStartPathSeparator(path);
+            var paths = path.Split('/');
+            return paths;
+        }
 
         /// <summary>
         /// 整理纹理优化配置，方便查找
@@ -20,9 +30,17 @@ namespace ZeroEditor
         /// <param name="textureSettings"></param>
         public void TidySettings(List<TextureOptimizeSettingVO> settings)
         {
-            foreach(var setting in settings)
+            _pathTree.Clear();
+            foreach (var setting in settings)
             {
-                root.AddSetting(setting);
+                var paths = SplitFolderPath(setting.folder);
+                _pathTree.Create(paths).data = setting;
+            }
+
+            var info = _pathTree.ToMapString();
+            if (!string.IsNullOrEmpty(info))
+            {
+                Debug.Log(info);
             }
         }
 
@@ -32,52 +50,19 @@ namespace ZeroEditor
         /// <param name="path"></param>
         public TextureOptimizeSettingVO FindSetting(string path)
         {
-            path = FileUtility.StandardizeBackslashSeparator(path);
-            path = FileUtility.RemoveStartPathSeparator(path);
-            var paths = path.Split('/');
-            for (var i = 0; i < paths.Length; i++)
+            var paths = SplitFolderPath(path);
+            var node = _pathTree.Find(paths, false);
+            if (null == node)
             {
-
-            }
-            return null;
-        }
-
-
-        class FolderNode
-        {
-            Dictionary<string, FolderNode> childMap= new Dictionary<string, FolderNode>();
-
-            public void AddSetting(TextureOptimizeSettingVO setting)
-            {
-                var path = FileUtility.StandardizeBackslashSeparator(setting.folder);
-                path = FileUtility.RemoveStartPathSeparator(path);
-                var paths = path.Split('/');
-                FolderNode node = this;
-                for (var i = 0; i < paths.Length; i++)
-                {
-                    node = node.AddChild(paths[i]);
-                }
-                node.vo = setting;
+                return null;
             }
 
-            public FolderNode AddChild(string folder)
+            var setting = PathTree<TextureOptimizeSettingVO>.FindLastNodeWithNonNullDataForward(node);
+            if(null == setting)
             {
-                if (false == childMap.ContainsKey(folder))
-                {
-                    childMap[folder] = new FolderNode();
-                }
-
-                return childMap[folder];
+                return null;
             }
-
-            public FolderNode GetChild(string folder)
-            {
-                FolderNode value;
-                childMap.TryGetValue(folder, out value);
-                return value;
-            }
-
-            public TextureOptimizeSettingVO vo;
+            return setting.data;
         }
     }
 }
