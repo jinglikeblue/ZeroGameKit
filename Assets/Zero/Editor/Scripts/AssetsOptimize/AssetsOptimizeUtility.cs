@@ -15,7 +15,8 @@ namespace ZeroEditor
     static class AssetsOptimizeUtility
     {
         static AssetsOptimizeConfigVO _cacheConfigVO;
-        static OptimizeSettingModel _settingModel = new OptimizeSettingModel();
+        static OptimizeSettingModel<TextureOptimizeSettingVO> _textureSettingModel = new OptimizeSettingModel<TextureOptimizeSettingVO>();
+        static OptimizeSettingModel<AudioOptimizeSettingVO> _audioSettingModel = new OptimizeSettingModel<AudioOptimizeSettingVO>();
 
         /// <summary>
         /// 配置文件
@@ -26,8 +27,8 @@ namespace ZeroEditor
             {
                 if(_cacheConfigVO == null)
                 {
-                    _cacheConfigVO = EditorConfigUtil.LoadConfig<AssetsOptimizeConfigVO>(AssetsOptimizeConst.CONFIG_NAME);                    
-                    _settingModel.TidySettings(_cacheConfigVO.textureSettings);
+                    _cacheConfigVO = EditorConfigUtil.LoadConfig<AssetsOptimizeConfigVO>(AssetsOptimizeConst.CONFIG_NAME);
+                    TidySettings();
                 }
                 return _cacheConfigVO;                
             }
@@ -41,8 +42,14 @@ namespace ZeroEditor
             if (null != _cacheConfigVO)
             {
                 EditorConfigUtil.SaveConfig(_cacheConfigVO, AssetsOptimizeConst.CONFIG_NAME);
-                _settingModel.TidySettings(_cacheConfigVO.textureSettings);
+                TidySettings();
             }
+        }
+
+        static private void TidySettings()
+        {
+            _textureSettingModel.TidySettings(_cacheConfigVO.textureSettings);
+            _audioSettingModel.TidySettings(_cacheConfigVO.audioSettings);
         }
 
         /// <summary>
@@ -75,26 +82,33 @@ namespace ZeroEditor
             for (int i = 0; i < files.Length; i++)
             {
                 EditorUtility.DisplayProgressBar(folder, FileUtility.GetRelativePath(folder, files[i]), (float)i / files.Length);
-                OptimizeTextures(files[i]);
+                OptimizeTexture(files[i]);
             }
 
             EditorUtility.ClearProgressBar();
+        }
+
+        static public void OptimizeTexture(string filePath)
+        {
+            var importer = AssetImporter.GetAtPath(filePath) as TextureImporter;
+            OptimizeTexture(importer);
         }
 
         /// <summary>
         /// 优化纹理
         /// </summary>
         /// <param name="filePath"></param>
-        static public void OptimizeTextures(string filePath)
+        static public void OptimizeTexture(TextureImporter importer)
         {
-            var importer = AssetImporter.GetAtPath(filePath) as TextureImporter;
             if (null == importer)
             {
                 //不是纹理资源
                 return;
             }
 
-            var setting = _settingModel.FindSetting(filePath);
+            var filePath = importer.assetPath;
+
+            var setting = _textureSettingModel.FindSetting(filePath);
             if(null == setting)
             {
                 //没有对应的优化配置
@@ -195,5 +209,113 @@ namespace ZeroEditor
 
             return isDirty;
         }
+
+        #region 优化声音文件
+
+        /// <summary>
+        /// 根据配置优化声音文件
+        /// </summary>
+        /// <param name="settings"></param>
+        static public void OptimizeAudios()
+        {
+            OptimizeAudiosFolder("Assets");
+        }
+
+        /// <summary>
+        /// 根据指定配置优化声音文件
+        /// </summary>
+        /// <param name="settings"></param>
+        static public void OptimizeAudios(TextureOptimizeSettingVO setting)
+        {
+            OptimizeAudiosFolder(setting.folder);
+        }
+
+        /// <summary>
+        /// 优化文件夹下的所有资源
+        /// </summary>
+        /// <param name="folder"></param>
+        static public void OptimizeAudiosFolder(string folder)
+        {
+            EditorUtility.DisplayProgressBar(folder, "", 0);
+
+            var files = Directory.GetFiles(folder, "*.*", SearchOption.AllDirectories);
+            for (int i = 0; i < files.Length; i++)
+            {
+                EditorUtility.DisplayProgressBar(folder, FileUtility.GetRelativePath(folder, files[i]), (float)i / files.Length);
+                OptimizeAudio(files[i]);
+            }
+
+            EditorUtility.ClearProgressBar();
+        }
+
+        static public void OptimizeAudio(string filePath)
+        {
+            var importer = AssetImporter.GetAtPath(filePath) as AudioImporter;
+            OptimizeAudio(importer);
+        }
+
+        static public void OptimizeAudio(AudioImporter importer)
+        {
+            if (null == importer)
+            {
+                //不是纹理资源
+                return;
+            }
+
+            var filePath = importer.assetPath;
+            AudioOptimizeSettingVO setting = _audioSettingModel.FindSetting(filePath);
+            if (null == setting)
+            {
+                //没有对应的优化配置
+                return;
+            }
+
+            bool isDirty = false;
+
+            if (importer.forceToMono != setting.forceToMono)
+            {
+                importer.forceToMono = setting.forceToMono;
+                isDirty = true;
+            }
+
+            if (importer.loadInBackground != setting.loadInBackground)
+            {
+                importer.loadInBackground = setting.loadInBackground;
+                isDirty = true;
+            }
+
+            if (importer.preloadAudioData != setting.preloadAudioData)
+            {
+                importer.preloadAudioData = setting.preloadAudioData;
+                isDirty = true;
+            }
+
+            var sampleSettings = importer.defaultSampleSettings;
+
+            if (importer.defaultSampleSettings.loadType != setting.loadType)
+            {
+                sampleSettings.loadType = setting.loadType;
+                isDirty = true;
+            }
+
+            if (importer.defaultSampleSettings.compressionFormat != setting.compressionFormat)
+            {
+                sampleSettings.compressionFormat = setting.compressionFormat;
+                isDirty = true;
+            }
+
+            if (importer.defaultSampleSettings.quality != (setting.quality / 100f))
+            {
+                sampleSettings.quality = (setting.quality / 100f);
+                isDirty = true;
+            }
+
+            if (isDirty)
+            {
+                importer.defaultSampleSettings = sampleSettings;
+                importer.SaveAndReimport();
+            }
+        }
+        #endregion
     }
 }

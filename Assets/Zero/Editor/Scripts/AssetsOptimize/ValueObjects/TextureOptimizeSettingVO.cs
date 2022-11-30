@@ -8,9 +8,9 @@ namespace ZeroEditor
     /// 纹理优化配置文件
     /// </summary>
     [ReadOnly]
-    
+
     [HideReferenceObjectPicker]
-    public class TextureOptimizeSettingVO
+    public class TextureOptimizeSettingVO : IOptimizeSettingVO
     {
         /// <summary>
         /// 对应的文件夹(如果另外配置了该文件夹的子目录，则子目录的配置会覆盖该配置)
@@ -18,6 +18,11 @@ namespace ZeroEditor
         [LabelText("对应的文件夹"), ReadOnly, FolderPath]
         [GUIColor(0.3f, 0.8f, 0f, 1f)]
         public string folder;
+
+        public string GetFolder()
+        {
+            return folder;
+        }
 
         [LabelText("Texture Type")]
         public TextureImporterType textureType = TextureImporterType.Sprite;
@@ -35,7 +40,7 @@ namespace ZeroEditor
         public FilterMode filterMode = FilterMode.Point;
 
         [HideReferenceObjectPicker]
-        [BoxGroup("Default Platform Setting")]        
+        [BoxGroup("Default Platform Setting")]
         public PlatformSettingVO defaultSetting = new PlatformSettingVO()
         {
             maxTextureSize = 2048,
@@ -45,12 +50,12 @@ namespace ZeroEditor
         [DisplayAsString]
         [HideLabel]
         public string text = "针对平台的配置(勾选Override生效，否则使用上方的默认配置)";
-        
+
         [TabGroup("Standalone")]
         [LabelText("Override For Standalone")]
         public bool isOverrideForStandalone = false;
 
-        [TabGroup("Standalone")]        
+        [TabGroup("Standalone")]
         public PlatformSettingVO standaloneSetting = new PlatformSettingVO()
         {
             name = AssetsOptimizeConst.PLATFORM_STANDALONE,
@@ -62,7 +67,7 @@ namespace ZeroEditor
         [LabelText("Override For Android")]
         public bool isOverrideForAndroid = true;
 
-        [TabGroup("Android")]        
+        [TabGroup("Android")]
         public PlatformSettingVO androidSetting = new PlatformSettingVO()
         {
             name = AssetsOptimizeConst.PLATFORM_ANDROID,
@@ -74,14 +79,16 @@ namespace ZeroEditor
         [LabelText("Override For iOS")]
         public bool isOverrideForiOS = true;
 
-        [TabGroup("iOS")]           
+        [TabGroup("iOS")]
         public PlatformSettingVO iOSSetting = new PlatformSettingVO()
         {
             name = AssetsOptimizeConst.PLATFORM_IOS,
             maxTextureSize = 2048,
             format = TextureImporterFormat.ASTC_6x6
-        };                
-        
+        };
+
+
+
         [HideLabel, HideReferenceObjectPicker]
         public class PlatformSettingVO
         {

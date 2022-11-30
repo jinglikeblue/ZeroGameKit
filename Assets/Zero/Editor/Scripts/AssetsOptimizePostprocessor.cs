@@ -15,7 +15,7 @@ namespace ZeroEditor
             //第一次导入时，进行处理
             if (assetImporter.importSettingsMissing)
             {
-                
+                AssetsOptimizeUtility.OptimizeTexture(assetImporter as TextureImporter);
             }
         }
 
@@ -27,7 +27,7 @@ namespace ZeroEditor
             //第一次导入时，进行处理
             if (assetImporter.importSettingsMissing)
             {
-                
+                AssetsOptimizeUtility.OptimizeAudio(assetImporter as AudioImporter);
             }
         }
     }
