@@ -81,7 +81,7 @@ namespace ZeroGameKit
             AddBtn(GROUP_UNIWEBVIEW, "网页浏览", UniWebViewExample.Start);
             AddBtn(GROUP_FRAMEWORK, "单例使用示例", SingletonClassExample.Start);
             AddBtn(GROUP_FRAMEWORK, "消息窗口", MsgWinExample.Start);
-            AddBtn(GROUP_FRAMEWORK, "配置使用示例", ConfigExample.Start);
+            AddBtn(GROUP_FRAMEWORK, "配置使用示例", ConfigExample.Start);            
 
             AddBtn(GROUP_TURBOCHARGESCROLLLIST, "高性能列表", TurbochargedScrollListExample.Start);
 
@@ -113,6 +113,7 @@ namespace ZeroGameKit
             AddBtn(GROUP_FRAMEWORK, "框架常量", FrameworkConstExample.Start);
 
             AddBtn(GROUP_FRAMEWORK, "CoroutineProxy协程代理", CoroutineProxyExample.Start);
+            AddBtn(GROUP_FRAMEWORK, "CoroutineQueue序列化执行协程", CoroutinesQueueExample.Start);
             AddBtn(GROUP_FRAMEWORK, "Zero UI库", ZeroUIExample.Start);
             AddBtn(GROUP_FRAMEWORK, "Zero EventListener库", ZeroEventListenerExample.Start);            
             AddBtn(GROUP_AUDIO, "音频控制", AudioDeviceExample.Start);            

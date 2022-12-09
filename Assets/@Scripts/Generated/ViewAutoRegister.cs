@@ -53,6 +53,7 @@ namespace ZeroHot
             R("examples/bitmapfont.ab", "BitmapFontExampleWin");
             R("examples/framework.ab", "ClockView");
             R("examples/framework.ab", "CoroutineProxyExampleWin");
+            R("examples/framework.ab", "CoroutinesQueueExampleWin");
             R("examples/framework.ab", "HotFilesExampleWin");
             R("examples/framework.ab", "ResMgrExampleWin");
             R("examples/framework.ab", "ResUpdateExampleWin");
