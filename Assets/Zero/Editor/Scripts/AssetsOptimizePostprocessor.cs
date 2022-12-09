@@ -20,6 +20,14 @@ namespace ZeroEditor
         }
 
         /// <summary>
+        /// 在导入模型时调用
+        /// </summary>
+        public void OnPreprocessModel()
+        {
+
+        }
+
+        /// <summary>
         /// 导入声音资源时，进行处理
         /// </summary>
         public void OnPreprocessAudio()
@@ -28,6 +36,23 @@ namespace ZeroEditor
             if (assetImporter.importSettingsMissing)
             {
                 AssetsOptimizeUtility.OptimizeAudio(assetImporter as AudioImporter);
+            }
+        }
+
+        static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+        {
+            foreach (string str in importedAssets)
+            {
+                UnityEngine.Debug.Log("Reimported Asset: " + str);
+            }
+            foreach (string str in deletedAssets)
+            {
+                UnityEngine.Debug.Log("Deleted Asset: " + str);
+            }
+
+            for (int i = 0; i < movedAssets.Length; i++)
+            {
+                UnityEngine.Debug.Log("Moved Asset: " + movedAssets[i] + " from: " + movedFromAssetPaths[i]);
             }
         }
     }
