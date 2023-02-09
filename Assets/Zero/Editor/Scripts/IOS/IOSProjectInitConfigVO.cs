@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using UnityEditor.iOS.Xcode;
 
-namespace ZeroEditor
+namespace ZeroEditor.IOS
 {
     /// <summary>
     /// iOS项目初始化配置
@@ -16,6 +17,11 @@ namespace ZeroEditor
         /// 要拷贝的文件
         /// </summary>
         public CopyInfoVO[] copyInfoList = new CopyInfoVO[0];
+
+        /// <summary>
+        /// 功能权限
+        /// </summary>
+        public CapabilitySettingVO capabilitySetting = new CapabilitySettingVO();
 
 
         #region PBXProject
@@ -36,9 +42,19 @@ namespace ZeroEditor
         #region info.plist
 
         /// <summary>
+        /// Info.plist高级参数配置
+        /// </summary>
+        public List<IOSInfoPListDictionaryItem> pListAdvancedDataList = new List<IOSInfoPListDictionaryItem>();
+
+        /// <summary>
         /// Info.plist参数配置
         /// </summary>
         public Dictionary<string, string> pListDataList = new Dictionary<string, string>();
+
+        /// <summary>
+        /// 要删除的配置列表
+        /// </summary>
+        public string[] deletePListDataKeyList = new string[0];
 
         /// <summary>
         /// urlscheme配置
@@ -61,14 +77,24 @@ namespace ZeroEditor
             public FrameworkInfoVO[] frameworkToProjectList = new FrameworkInfoVO[0];
 
             /// <summary>
+            /// 需要吧Status设置为Optional的第三方framework
+            /// </summary>
+            public string[] frameworksToOptionalList = new string[0];
+
+            /// <summary>
             /// lib库配置
             /// </summary>
             public Dictionary<string, string> file2BuildList = new Dictionary<string, string>();
 
             /// <summary>
-            /// build参数配置
+            /// build参数配置(设置的)
             /// </summary>
-            public Dictionary<string, string> buildPropertyList = new Dictionary<string, string>();
+            public Dictionary<string, string> toSetBuildPropertyList = new Dictionary<string, string>();
+
+            /// <summary>
+            /// build参数配置(添加的)
+            /// </summary>
+            public Dictionary<string, string> toAddBuildPropertyList = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -85,7 +111,7 @@ namespace ZeroEditor
             /// true 表示 optinal; 
             /// false 表示 required
             /// </summary>
-            public bool isWeak = false;
+            public bool isWeak = true;
         }
 
         public class CopyInfoVO
@@ -114,6 +140,48 @@ namespace ZeroEditor
             /// 是否将文件或目录添加到【Build Phases】的【Copy Bundle Resources】中
             /// </summary>
             public bool isAddPathToResourcesBuildPhase = false;
+        }
+
+        /// <summary>
+        /// 导出包功能需求
+        /// </summary>
+        public class CapabilitySettingVO
+        {
+            public class PushNotificationsVO
+            {
+                public bool enable = false;
+                public bool development = false;
+            }
+
+            /// <summary>
+            /// entitlement文件路径
+            /// </summary>
+            public string entitlementFilePath = "Unity-iPhone.entitlements";
+
+            /// <summary>
+            /// 苹果支付
+            /// </summary>
+            public bool inAppPurchase = false;
+
+            /// <summary>
+            /// 推送
+            /// </summary>
+            public PushNotificationsVO pushNotifications = new PushNotificationsVO();
+
+            /// <summary>
+            /// 后台推送
+            /// </summary>
+            public BackgroundModesOptions backgroundModes = BackgroundModesOptions.None;            
+
+            /// <summary>
+            /// 关联域名
+            /// </summary>
+            public string[] associatedDomains = new string[0];
+
+            /// <summary>
+            /// AppleId登录
+            /// </summary>
+            public bool signInWithApple = false;
         }
 
     }

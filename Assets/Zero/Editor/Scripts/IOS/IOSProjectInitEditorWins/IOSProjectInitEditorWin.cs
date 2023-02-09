@@ -11,13 +11,14 @@ using System.Threading;
 using UnityEditor;
 using UnityEngine;
 
-namespace ZeroEditor
+namespace ZeroEditor.IOS
 {
     class IOSProjectInitEditorWin : OdinMenuEditorWindow
     {
         /// <summary>
         /// 打开窗口
         /// </summary>
+        [MenuItem("Streetball2/工具/iOS构建自动化配置", false, 0)]
         public static void Open()
         {
             var win = GetWindow<IOSProjectInitEditorWin>("iOS构建自动化配置", true);
@@ -35,6 +36,7 @@ namespace ZeroEditor
             OdinMenuTree tree = new OdinMenuTree();
             tree.Config.DrawSearchToolbar = false;
             tree.Add("全局配置", new IOSGlobalSettingModule(this));
+            tree.Add("Capability 配置", new IOSCapabilitySettingModule(this));
             tree.Add("Info.plist 配置", new IOSInfoplistInitModule(this));
             tree.Add("CopyFiles 配置", new IOSCopyFilesToXCodeModule(this));
             tree.Add("Unity-iPhone 配置", new IOSPBXProjectInitModule(this, IOSPBXProjectInitModule.ETargetGuid.MAIN));

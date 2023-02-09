@@ -50,7 +50,7 @@ namespace ZeroEditor.IOS
         public void Process()
         {
             _cfg = EditorConfigUtil.LoadConfig<IOSProjectInitConfigVO>(IOSInfoplistInitModule.CONFIG_NAME);
-            if(false == _cfg.isEnable)
+            if (false == _cfg.isEnable)
             {
                 return;
             }
@@ -65,7 +65,9 @@ namespace ZeroEditor.IOS
 
             CopyFiles();
             ConfigurePBXProject();
-            ConfigureInfoPList();            
+            ConfigureFrameworksToOptional();
+            ConfigureInfoPList();
+            ConfigureCapability();
         }
 
         /// <summary>
@@ -73,9 +75,9 @@ namespace ZeroEditor.IOS
         /// </summary>
         /// <param name="vo">拷贝文件的信息</param>
         /// <param name="relativePath">文件的相对路径</param>
-        void AddFileToBuild(IOSProjectInitConfigVO.CopyInfoVO vo, string absolutePath)
+        void AddFileToBuild(IOSProjectInitConfigVO.CopyInfoVO vo)
         {
-            var fileGuid = _pbx.AddFile(absolutePath, vo.toPath, PBXSourceTree.Source);
+            var fileGuid = _pbx.AddFile(vo.toPath, vo.toPath, PBXSourceTree.Source);
             if (vo.isAddToMain)
             {
                 _pbx.AddFileToBuild(_mainGuid, fileGuid);
@@ -91,8 +93,8 @@ namespace ZeroEditor.IOS
         /// </summary>
         /// <param name="cfg"></param>
         void CopyFiles()
-        { 
-            var unityProjectPath = ZeroEditorConst.PROJECT_PATH;
+        {
+            var unityProjectPath = Directory.GetParent(Application.dataPath).FullName;
             var xcodeProjectPath = _xcodeProjectPath;
             foreach (var vo in _cfg.copyInfoList)
             {
@@ -100,11 +102,18 @@ namespace ZeroEditor.IOS
                 var targetPath = FileUtility.CombinePaths(xcodeProjectPath, vo.toPath);
 
                 var type = FileUtility.CheckPathType(sourcePath);
+
+                if (type == FileUtility.EPathType.OTHER)
+                {
+                    Debug.LogError($"IOSProjectInitPostProcessBuild:路径'{sourcePath}'有问题，无法进行复制操作");
+                    continue;
+                }
+
                 switch (type)
                 {
                     case FileUtility.EPathType.FILE:
                         FileUtility.CopyFile(sourcePath, targetPath, true);
-                        AddFileToBuild(vo, targetPath);
+                        AddFileToBuild(vo);
                         break;
                     case FileUtility.EPathType.DIRECTORY:
                         FileUtility.CopyDir(sourcePath, targetPath,
@@ -120,12 +129,9 @@ namespace ZeroEditor.IOS
                             (string targetFile) =>
                             {
                                 //已拷贝完
-                                AddFileToBuild(vo, targetFile);
+                                AddFileToBuild(vo);
                             }
                         );
-                        break;
-                    default:
-                        Debug.LogError($"IOSProjectInitPostProcessBuild:路径'{sourcePath}'有问题，无法进行复制操作");
                         break;
                 }
 
@@ -165,14 +171,43 @@ namespace ZeroEditor.IOS
                 pbx.AddFrameworkToProject(targetGuid, framework.name, framework.isWeak);
             }
 
+            if (vo.frameworksToOptionalList.Length > 0)
+            {
+                EditPBXProjFileToAddFrameworkWeak(_pbxProjectPath, vo.frameworksToOptionalList);
+            }
+
             foreach (var entry in vo.file2BuildList)
             {
                 pbx.AddFileToBuild(targetGuid, pbx.AddFile(entry.Key, entry.Value, PBXSourceTree.Sdk));
             }
 
-            foreach (var entry in vo.buildPropertyList)
+            foreach (var entry in vo.toSetBuildPropertyList)
             {
-                pbx.SetBuildProperty(targetGuid, entry.Key, entry.Value);
+                var key = entry.Key;
+                var value = entry.Value;
+                pbx.SetBuildProperty(targetGuid, key, value);
+                Debug.Log($"SetBuildProperty [targetGuid = {targetGuid}] [key = {key}] [value = {value}]");
+            }
+
+            foreach (var entry in vo.toAddBuildPropertyList)
+            {
+                var key = entry.Key;
+                var value = entry.Value;
+                pbx.AddBuildProperty(targetGuid, key, value);
+                Debug.Log($"AddBuildProperty [targetGuid = {targetGuid}] [key = {key}] [value = {value}]");
+            }
+        }
+
+        void ConfigureFrameworksToOptional()
+        {
+            if (_cfg.main.frameworksToOptionalList.Length > 0)
+            {
+                EditPBXProjFileToAddFrameworkWeak(_pbxProjectPath, _cfg.main.frameworksToOptionalList);
+            }
+
+            if (_cfg.framework.frameworksToOptionalList.Length > 0)
+            {
+                EditPBXProjFileToAddFrameworkWeak(_pbxProjectPath, _cfg.framework.frameworksToOptionalList);
             }
         }
 
@@ -195,7 +230,78 @@ namespace ZeroEditor.IOS
             {
                 pListEditor.AddLSApplicationQueriesScheme(whiteUrlScheme);
             }
+
+            foreach(var item in _cfg.pListAdvancedDataList)
+            {
+                pListEditor.Add(item);
+            }
+
             pListEditor.Save();
+        }
+
+        void ConfigureCapability()
+        {
+            var pcm = new ProjectCapabilityManager(_pbxProjectPath, _cfg.capabilitySetting.entitlementFilePath, "Unity-iPhone");
+
+            if (_cfg.capabilitySetting.inAppPurchase)
+            {
+                pcm.AddInAppPurchase();
+            }
+
+            if (_cfg.capabilitySetting.pushNotifications.enable)
+            {
+                pcm.AddPushNotifications(_cfg.capabilitySetting.pushNotifications.development);
+            }
+
+            if (_cfg.capabilitySetting.backgroundModes != BackgroundModesOptions.None)
+            {
+                pcm.AddBackgroundModes(_cfg.capabilitySetting.backgroundModes);
+            }
+
+            if (_cfg.capabilitySetting.associatedDomains.Length > 0)
+            {
+                pcm.AddAssociatedDomains(_cfg.capabilitySetting.associatedDomains);
+            }
+
+            if (_cfg.capabilitySetting.signInWithApple)
+            {
+                pcm.AddSignInWithApple();
+            }
+
+            pcm.WriteToFile();
+        }
+
+        /// <summary>
+        /// 修改第三方Framework Weak->Optional
+        /// </summary>
+        public static void EditPBXProjFileToAddFrameworkWeak(string path, string[] frameworkNames)
+        {
+            const string INSERT_STR = " platformFilter = ios; settings = {ATTRIBUTES = (Weak, ); };";
+            const string SEARCH_FLAG_0_FORMAT = "{0}.framework in Frameworks";
+            const string SEARCH_FLAG_1 = "= {isa = PBXBuildFile; fileRef =";
+            const string LINE_END_FLAG = " };";
+            var lines = File.ReadAllLines(path);
+            foreach (var name in frameworkNames)
+            {
+                var frameworkName = name;
+                if (frameworkName.EndsWith(".framework"))
+                {
+                    frameworkName = frameworkName.Replace(".framework", "");
+                }
+                var searchFlag0 = string.Format(SEARCH_FLAG_0_FORMAT, frameworkName);
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    var line = lines[i];
+                    if (line.Contains(searchFlag0) && line.Contains(SEARCH_FLAG_1) && !line.Contains(INSERT_STR))
+                    {
+                        Debug.Log($"{name} 的Status改为Optional");
+                        var insertIndex = line.LastIndexOf(LINE_END_FLAG);
+                        var newLine = line.Insert(insertIndex, INSERT_STR);
+                        lines[i] = newLine;
+                    }
+                }
+            }
+            File.WriteAllLines(path, lines);
         }
     }
 }

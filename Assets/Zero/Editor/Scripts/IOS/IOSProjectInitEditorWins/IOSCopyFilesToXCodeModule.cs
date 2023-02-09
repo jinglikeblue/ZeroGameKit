@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
-namespace ZeroEditor
+namespace ZeroEditor.IOS
 {
     class IOSCopyFilesToXCodeModule : AEditorModule
     {

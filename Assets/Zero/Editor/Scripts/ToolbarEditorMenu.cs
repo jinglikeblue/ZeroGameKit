@@ -30,7 +30,7 @@ namespace ZeroEditor
         [MenuItem("Zero/iOS构建自动化配置", false, 150)]
         public static void IosProjectInit()
         {
-            IOSProjectInitEditorWin.Open();
+            IOS.IOSProjectInitEditorWin.Open();
         }
 
         [MenuItem("Zero/资源优化", false, 200)]

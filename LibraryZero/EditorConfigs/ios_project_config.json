@@ -1,36 +1,326 @@
-﻿
-{
-    "isEnable" : true,
-    "copyInfoList" : [
-    ],
-    "main"         : {
-        "frameworkToProjectList" : [
-        ],
-        "file2BuildList"         : {
-        },
-        "buildPropertyList"      : {
-        }
+﻿{
+  "isEnable": true,
+  "copyInfoList": [
+    {
+      "fromPath": "Assets/Plugins/iOS/GoogleService-Info.plist",
+      "toPath": "GoogleService-Info.plist",
+      "isAddToMain": true,
+      "isAddToFramework": true,
+      "isAddPathToResourcesBuildPhase": true
+    }
+  ],
+  "capabilitySetting": {
+    "entitlementFilePath": "streetball2.entitlements",
+    "inAppPurchase": true,
+    "pushNotifications": {
+      "enable": true,
+      "development": false
     },
-    "framework"    : {
-        "frameworkToProjectList" : [
+    "backgroundModes": 384,
+    "associatedDomains": [],
+    "signInWithApple": true
+  },
+  "main": {
+    "frameworkToProjectList": [],
+    "frameworksToOptionalList": [],
+    "file2BuildList": {},
+    "toSetBuildPropertyList": {
+      "CODE_SIGN_ENTITLEMENTS": "streetball2.entitlements"
+    },
+    "toAddBuildPropertyList": {}
+  },
+  "framework": {
+    "frameworkToProjectList": [],
+    "frameworksToOptionalList": [
+      "SCSDKCreativeKit.framework",
+      "SCSDKCoreKit.framework"
+    ],
+    "file2BuildList": {},
+    "toSetBuildPropertyList": {
+      "ENABLE_BITCODE": "NO"
+    },
+    "toAddBuildPropertyList": {
+      "OTHER_LDFLAGS": "-ObjC"
+    }
+  },
+  "pListAdvancedDataList": [
+    {
+      "key": "test_array",
+      "type": 0,
+      "arrayData": [
+        {
+          "type": 1,
+          "arrayData": [
             {
-                "name" : "123",
-                "isWeak" : true
+              "type": 1,
+              "arrayData": [
+                {
+                  "type": 6,
+                  "arrayData": [],
+                  "dictData": [],
+                  "booleanData": false,
+                  "dateData": "2023-02-09T14:39:41.7433393+08:00",
+                  "integerData": 0,
+                  "floatData": 0.0,
+                  "stringData": ""
+                },
+                {
+                  "type": 6,
+                  "arrayData": [],
+                  "dictData": [],
+                  "booleanData": false,
+                  "dateData": "2023-02-09T14:39:42.2209864+08:00",
+                  "integerData": 0,
+                  "floatData": 0.0,
+                  "stringData": ""
+                },
+                {
+                  "type": 6,
+                  "arrayData": [],
+                  "dictData": [],
+                  "booleanData": false,
+                  "dateData": "2023-02-09T14:39:42.6242337+08:00",
+                  "integerData": 0,
+                  "floatData": 0.0,
+                  "stringData": ""
+                }
+              ],
+              "dictData": [
+                {
+                  "key": "new_key",
+                  "type": 6,
+                  "arrayData": [],
+                  "dictData": [],
+                  "booleanData": false,
+                  "dateData": "2023-02-09T14:39:49.3820608+08:00",
+                  "integerData": 0,
+                  "floatData": 0.0,
+                  "stringData": ""
+                },
+                {
+                  "key": "new_key",
+                  "type": 6,
+                  "arrayData": [],
+                  "dictData": [],
+                  "booleanData": false,
+                  "dateData": "2023-02-09T14:39:49.8066331+08:00",
+                  "integerData": 0,
+                  "floatData": 0.0,
+                  "stringData": ""
+                }
+              ],
+              "booleanData": false,
+              "dateData": "2023-02-09T14:39:26.670164+08:00",
+              "integerData": 0,
+              "floatData": 0.0,
+              "stringData": ""
             },
             {
-                "name" : "321",
-                "isWeak" : false
+              "type": 6,
+              "arrayData": [],
+              "dictData": [],
+              "booleanData": false,
+              "dateData": "2023-02-09T14:39:30.5419327+08:00",
+              "integerData": 0,
+              "floatData": 0.0,
+              "stringData": ""
+            },
+            {
+              "type": 6,
+              "arrayData": [],
+              "dictData": [],
+              "booleanData": false,
+              "dateData": "2023-02-09T14:39:30.87822+08:00",
+              "integerData": 0,
+              "floatData": 0.0,
+              "stringData": ""
+            },
+            {
+              "type": 6,
+              "arrayData": [],
+              "dictData": [],
+              "booleanData": false,
+              "dateData": "2023-02-09T14:39:31.3523922+08:00",
+              "integerData": 0,
+              "floatData": 0.0,
+              "stringData": ""
+            },
+            {
+              "type": 6,
+              "arrayData": [],
+              "dictData": [],
+              "booleanData": false,
+              "dateData": "2023-02-09T14:39:31.7581223+08:00",
+              "integerData": 0,
+              "floatData": 0.0,
+              "stringData": ""
             }
-        ],
-        "file2BuildList"         : {
+          ],
+          "dictData": [
+            {
+              "key": "key_0",
+              "type": 6,
+              "arrayData": [],
+              "dictData": [],
+              "booleanData": false,
+              "dateData": "2023-02-09T14:49:24.8873416+08:00",
+              "integerData": 0,
+              "floatData": 0.0,
+              "stringData": "key_0"
+            }
+          ],
+          "booleanData": false,
+          "dateData": "2023-02-09T14:39:22.4928599+08:00",
+          "integerData": 0,
+          "floatData": 0.0,
+          "stringData": ""
         },
-        "buildPropertyList"      : {
+        {
+          "type": 1,
+          "arrayData": [],
+          "dictData": [
+            {
+              "key": "key_1",
+              "type": 6,
+              "arrayData": [],
+              "dictData": [],
+              "booleanData": false,
+              "dateData": "2023-02-09T14:49:50.4283465+08:00",
+              "integerData": 0,
+              "floatData": 0.0,
+              "stringData": "key_1"
+            }
+          ],
+          "booleanData": false,
+          "dateData": "2023-02-09T14:49:46.026978+08:00",
+          "integerData": 0,
+          "floatData": 0.0,
+          "stringData": ""
         }
+      ],
+      "dictData": [],
+      "booleanData": false,
+      "dateData": "2023-02-09T14:39:15.9213878+08:00",
+      "integerData": 0,
+      "floatData": 0.0,
+      "stringData": ""
     },
-    "pListDataList" : {
+    {
+      "key": "test_dict",
+      "type": 1,
+      "arrayData": [],
+      "dictData": [
+        {
+          "key": "aaa",
+          "type": 6,
+          "arrayData": [],
+          "dictData": [],
+          "booleanData": false,
+          "dateData": "2023-02-09T14:51:35.2519962+08:00",
+          "integerData": 0,
+          "floatData": 0.0,
+          "stringData": "aaa"
+        },
+        {
+          "key": "bbb",
+          "type": 6,
+          "arrayData": [],
+          "dictData": [],
+          "booleanData": false,
+          "dateData": "2023-02-09T14:51:48.1365676+08:00",
+          "integerData": 0,
+          "floatData": 0.0,
+          "stringData": "bbb"
+        }
+      ],
+      "booleanData": false,
+      "dateData": "2023-02-09T14:51:18.5856339+08:00",
+      "integerData": 0,
+      "floatData": 0.0,
+      "stringData": ""
     },
-    "urlSchemeList" : [
-    ],
-    "appQueriesSchemeList" : [
-    ]
+    {
+      "key": "test_dict1",
+      "type": 1,
+      "arrayData": [],
+      "dictData": [
+        {
+          "key": "new_dict1_arr",
+          "type": 0,
+          "arrayData": [
+            {
+              "type": 4,
+              "arrayData": [],
+              "dictData": [],
+              "booleanData": false,
+              "dateData": "2023-02-09T14:52:25.8551563+08:00",
+              "integerData": 1,
+              "floatData": 0.0,
+              "stringData": ""
+            },
+            {
+              "type": 4,
+              "arrayData": [],
+              "dictData": [],
+              "booleanData": false,
+              "dateData": "2023-02-09T14:52:28.1863481+08:00",
+              "integerData": 2,
+              "floatData": 0.0,
+              "stringData": ""
+            }
+          ],
+          "dictData": [],
+          "booleanData": false,
+          "dateData": "2023-02-09T14:52:13.5285222+08:00",
+          "integerData": 0,
+          "floatData": 0.0,
+          "stringData": ""
+        }
+      ],
+      "booleanData": false,
+      "dateData": "2023-02-09T14:52:02.0018242+08:00",
+      "integerData": 0,
+      "floatData": 0.0,
+      "stringData": ""
+    }
+  ],
+  "pListDataList": {
+    "CFBundleDisplayName": "StreetBall2 Onfire",
+    "CFBundleIdentifier": "$(PRODUCT_BUNDLE_IDENTIFIER)",
+    "ChannelID": "10001",
+    "FacebookClientToken": "ffe742688acec7bda921d0b3ef042a79",
+    "FacebookAppID": "5880176668692489",
+    "FacebookDisplayName": "StreetBall2 Onfire",
+    "NSCameraUsageDescription": "是否允许此APP访问您的相机？",
+    "NSPhotoLibraryAddUsageDescription": "是否允许此APP访问您的相册？",
+    "NSPhotoLibraryUsageDescription": "是否允许此APP访问您的相册？",
+    "UILaunchStoryboardName": "LaunchScreen",
+    "UIRequiresPersistentWiFi": "true",
+    "NSUserTrackingUsageDescription": "Granting us access will allow us to provie you with better service and a more personalzed experience. We will never use your data for any other purposes without your express permission. You can go to\"Settings - Privacy\"to turn this off at any time."
+  },
+  "deletePListDataKeyList": [
+    "UnityCloudProjectID",
+    "UIRequiredDeviceCapabilities"
+  ],
+  "urlSchemeList": [
+    "fb5880176668692489",
+    "com.googleusercontent.apps.977089567403-9hpbunitulhjjbkg54mmge2159omabns"
+  ],
+  "appQueriesSchemeList": [
+    "fbapi",
+    "fbapi20130214",
+    "fbapi20130410",
+    "fbapi20130702",
+    "fbapi20131010",
+    "fbapi20131219",
+    "fbapi20140410",
+    "fbapi20140116",
+    "fbapi20150313",
+    "fbapi20150629",
+    "fbapi20160328",
+    "fbauth",
+    "fb-messenger-share-api",
+    "fbauth2",
+    "fbshareextension"
+  ]
 }
