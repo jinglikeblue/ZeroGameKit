@@ -161,7 +161,7 @@ namespace ZeroEditor.IOS
             /// <summary>
             /// 苹果支付
             /// </summary>
-            public bool inAppPurchase = false;
+            public bool inAppPurchase = false;            
 
             /// <summary>
             /// 推送
@@ -182,6 +182,16 @@ namespace ZeroEditor.IOS
             /// AppleId登录
             /// </summary>
             public bool signInWithApple = false;
+
+            /// <summary>
+            /// Access WiFi Information
+            /// </summary>
+            public bool accessWiFiInformation = false;
+
+            /// <summary>
+            /// Game Center
+            /// </summary>
+            public bool gameCener = false;
         }
 
     }

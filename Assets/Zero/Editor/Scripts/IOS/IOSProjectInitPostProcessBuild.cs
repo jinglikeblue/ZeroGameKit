@@ -268,6 +268,16 @@ namespace ZeroEditor.IOS
                 pcm.AddSignInWithApple();
             }
 
+            if (_cfg.capabilitySetting.accessWiFiInformation)
+            {
+                pcm.AddAccessWiFiInformation();
+            }
+
+            if (_cfg.capabilitySetting.gameCener)
+            {
+                pcm.AddGameCenter();
+            }
+
             pcm.WriteToFile();
         }
 

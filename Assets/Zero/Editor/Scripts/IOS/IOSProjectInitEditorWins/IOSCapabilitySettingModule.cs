@@ -29,7 +29,9 @@ namespace ZeroEditor.IOS
             isPushNotificationsDevelopment = _cfg.capabilitySetting.pushNotifications.development;
             backgroundModes = _cfg.capabilitySetting.backgroundModes;
             associatedDomains = _cfg.capabilitySetting.associatedDomains;
-            signInWithApple = _cfg.capabilitySetting.signInWithApple;            
+            signInWithApple = _cfg.capabilitySetting.signInWithApple;
+            accessWiFiInformation = _cfg.capabilitySetting.accessWiFiInformation;
+            gameCener = _cfg.capabilitySetting.gameCener;
         }
 
         [Title("Capability 配置", titleAlignment: TitleAlignments.Centered)]
@@ -43,37 +45,57 @@ namespace ZeroEditor.IOS
             _cfg.capabilitySetting.backgroundModes = backgroundModes;
             _cfg.capabilitySetting.associatedDomains = associatedDomains;
             _cfg.capabilitySetting.signInWithApple = signInWithApple;
+            _cfg.capabilitySetting.accessWiFiInformation = accessWiFiInformation;
+            _cfg.capabilitySetting.gameCener = gameCener;
 
             EditorConfigUtil.SaveConfig(_cfg, CONFIG_NAME);
             editorWin.ShowTip("保存成功!");
         }
 
         [Space(20)]
-        [LabelText("entitlement 文件")]
+        [Title("权限描述文件")]
+        [LabelText("entitlement file")]
         public string entitlementFilePath;
 
         [Space(20)]        
-        [LabelText("Apple Pay功能")]
+        [DisplayAsString]
+        [Title("Apple支付")]
+        [LabelText("In-App Purchase")]
         public bool inAppPurchase = false;
 
-        [Space(20)]        
-        [LabelText("推送功能")]
+        [Space(20)]
+        [Title("通知推送")]
+        [LabelText("Push Notifications")]
         public bool pushNotifications = false;
 
-        [LabelText("推送功能,是否开发模式")]
+        [LabelText("Development")]
         [ShowIf("pushNotifications")]
         public bool isPushNotificationsDevelopment = false;
 
         [Space(20)]
-        [LabelText("后台运行模式")]
+        [Title("后台运行")]
+        [LabelText("Background Modes")]
         public BackgroundModesOptions backgroundModes = BackgroundModesOptions.None;
 
         [Space(20)]
-        [LabelText("关联域名")]
+        [Title("关联域名")]
+        [LabelText("Associated Domains")]
+        [ListDrawerSettings(DraggableItems = false, Expanded = true, NumberOfItemsPerPage = 5)]
         public string[] associatedDomains = new string[0];
 
         [Space(20)]
-        [LabelText("Apple Id 登录")]
+        [Title("Apple登录")]
+        [LabelText("Sign In with Apple")]
         public bool signInWithApple = false;
+
+        [Space(20)]
+        [Title("获取WiFi信息")]
+        [LabelText("Access WiFi Information")]
+        public bool accessWiFiInformation = false;
+
+        [Space(20)]
+        [Title("苹果游戏中心")]
+        [LabelText("Game Center")]
+        public bool gameCener = false;
     }
 }
