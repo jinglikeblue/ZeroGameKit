@@ -14,6 +14,7 @@ namespace ZeroGameKit
     {
         const string GROUP_FUTURE = "研发中功能...";
         const string GROUP_DEMO = "DEMO";
+        const string GROUP_IOS = "iOS系统";
         const string GROUP_ANDROID = "Android系统";
         const string GROUP_FRAMEWORK = "框架";
         const string GROUP_DOTWEEN = "DoTween使用";
@@ -75,6 +76,8 @@ namespace ZeroGameKit
 
             AddBtn(GROUP_PERFORMANCE, "运算性能", PerformanceExample.Calculate);
             AddBtn(GROUP_PERFORMANCE, "与主工程交互性能", PerformanceExample.CallNative);
+
+            AddBtn(GROUP_IOS, "iOS交互", IOSBridgeExample.Start);
 
             AddBtn(GROUP_ANDROID, "Android交互", AndroidBridgeExample.Start);            
             AddBtn(GROUP_DOTWEEN, "DoTween", DoTweenExample.Start);

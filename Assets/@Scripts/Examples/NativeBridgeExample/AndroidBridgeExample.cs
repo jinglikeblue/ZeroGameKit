@@ -7,7 +7,7 @@ namespace Example
     {        
         public static void Start()
         {
-            if (Application.platform != RuntimePlatform.Android)
+            if (Application.platform != RuntimePlatform.IPhonePlayer)
             {
                 MsgWin.Show("提示", "当前环境并不是Android实机！");                
                 return;
