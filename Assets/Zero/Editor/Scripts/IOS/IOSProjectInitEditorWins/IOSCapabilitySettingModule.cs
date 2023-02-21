@@ -57,7 +57,8 @@ namespace ZeroEditor.IOS
 
         [Space(20)]
         [Title("权限描述文件")]
-        [LabelText("entitlement file")]
+        [InfoBox("如果不需要创建权限描述文件，则填写空字符串即可。权限描述文件的填写必须以后缀名.entitlements结尾")]
+        [LabelText("entitlements file")]
         public string entitlementFilePath;
 
         [Space(20)]        

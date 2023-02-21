@@ -263,6 +263,11 @@ namespace ZeroEditor.IOS
 
         void ConfigureCapability()
         {
+            if (string.IsNullOrEmpty(_cfg.capabilitySetting.entitlementFilePath) || false == _cfg.capabilitySetting.entitlementFilePath.EndsWith(".entitlements"))
+            {
+                return;
+            }
+
             var pcm = new ProjectCapabilityManager(_pbxProjectPath, _cfg.capabilitySetting.entitlementFilePath, "Unity-iPhone");
 
             if (_cfg.capabilitySetting.inAppPurchase)

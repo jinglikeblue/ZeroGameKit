@@ -11,7 +11,7 @@
     }
   ],
   "capabilitySetting": {
-    "entitlementFilePath": "Unity-iPhone.entitlements",
+    "entitlementFilePath": "zero_game_kit.entitlements",
     "inAppPurchase": true,
     "pushNotifications": {
       "enable": true,
