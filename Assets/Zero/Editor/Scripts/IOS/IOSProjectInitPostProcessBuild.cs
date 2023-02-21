@@ -63,6 +63,7 @@ namespace ZeroEditor.IOS
             //UnityFramework
             _frameworkGuid = _pbx.GetUnityFrameworkTargetGuid();
 
+            CopyAppIconSets();
             CopyFiles();
             ConfigurePBXProject();
             ConfigureFrameworksToOptional();
@@ -86,6 +87,27 @@ namespace ZeroEditor.IOS
             {
                 _pbx.AddFileToBuild(_frameworkGuid, fileGuid);
             }
+        }
+
+        /// <summary>
+        /// 拷贝图标集合
+        /// </summary>
+        void CopyAppIconSets()
+        {
+            if(_cfg.appIconSetList.Length == 0)
+            {
+                return;
+            }
+
+            foreach(var appIconSet in _cfg.appIconSetList)
+            {
+                var name = Path.GetFileName(appIconSet);
+                var targetPath = FileUtility.CombineDirs(true, _xcodeProjectPath, "Unity-iPhone/Images.xcassets" , name);
+                FileUtility.CopyDir(appIconSet, targetPath);
+            }
+
+            //将工程Build Settings中 Include all app icon assets改为 YES
+            _pbx.SetBuildProperty(_mainGuid, "ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS", "YES");
         }
 
         /// <summary>

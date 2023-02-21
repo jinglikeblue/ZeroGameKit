@@ -1,5 +1,6 @@
 ﻿{
   "isEnable": true,
+  "appIconSetList": [],
   "copyInfoList": [
     {
       "fromPath": "Assets/Plugins/iOS/GoogleService-Info.plist",
@@ -10,7 +11,7 @@
     }
   ],
   "capabilitySetting": {
-    "entitlementFilePath": "streetball2.entitlements",
+    "entitlementFilePath": "Unity-iPhone.entitlements",
     "inAppPurchase": true,
     "pushNotifications": {
       "enable": true,
@@ -18,7 +19,9 @@
     },
     "backgroundModes": 384,
     "associatedDomains": [],
-    "signInWithApple": true
+    "signInWithApple": true,
+    "accessWiFiInformation": false,
+    "gameCener": false
   },
   "main": {
     "frameworkToProjectList": [],
@@ -59,7 +62,7 @@
                   "arrayData": [],
                   "dictData": [],
                   "booleanData": false,
-                  "dateData": "2023-02-09T14:39:41.7433393+08:00",
+                  "dateData": "2023-02-09T14:39:41",
                   "integerData": 0,
                   "floatData": 0.0,
                   "stringData": ""
@@ -69,7 +72,7 @@
                   "arrayData": [],
                   "dictData": [],
                   "booleanData": false,
-                  "dateData": "2023-02-09T14:39:42.2209864+08:00",
+                  "dateData": "2023-02-09T14:39:42",
                   "integerData": 0,
                   "floatData": 0.0,
                   "stringData": ""
@@ -79,7 +82,7 @@
                   "arrayData": [],
                   "dictData": [],
                   "booleanData": false,
-                  "dateData": "2023-02-09T14:39:42.6242337+08:00",
+                  "dateData": "2023-02-09T14:39:42",
                   "integerData": 0,
                   "floatData": 0.0,
                   "stringData": ""
@@ -92,7 +95,7 @@
                   "arrayData": [],
                   "dictData": [],
                   "booleanData": false,
-                  "dateData": "2023-02-09T14:39:49.3820608+08:00",
+                  "dateData": "2023-02-09T14:39:49",
                   "integerData": 0,
                   "floatData": 0.0,
                   "stringData": ""
@@ -103,14 +106,14 @@
                   "arrayData": [],
                   "dictData": [],
                   "booleanData": false,
-                  "dateData": "2023-02-09T14:39:49.8066331+08:00",
+                  "dateData": "2023-02-09T14:39:49",
                   "integerData": 0,
                   "floatData": 0.0,
                   "stringData": ""
                 }
               ],
               "booleanData": false,
-              "dateData": "2023-02-09T14:39:26.670164+08:00",
+              "dateData": "2023-02-09T14:39:26",
               "integerData": 0,
               "floatData": 0.0,
               "stringData": ""
@@ -120,7 +123,7 @@
               "arrayData": [],
               "dictData": [],
               "booleanData": false,
-              "dateData": "2023-02-09T14:39:30.5419327+08:00",
+              "dateData": "2023-02-09T14:39:30",
               "integerData": 0,
               "floatData": 0.0,
               "stringData": ""
@@ -130,7 +133,7 @@
               "arrayData": [],
               "dictData": [],
               "booleanData": false,
-              "dateData": "2023-02-09T14:39:30.87822+08:00",
+              "dateData": "2023-02-09T14:39:30",
               "integerData": 0,
               "floatData": 0.0,
               "stringData": ""
@@ -140,7 +143,7 @@
               "arrayData": [],
               "dictData": [],
               "booleanData": false,
-              "dateData": "2023-02-09T14:39:31.3523922+08:00",
+              "dateData": "2023-02-09T14:39:31",
               "integerData": 0,
               "floatData": 0.0,
               "stringData": ""
@@ -150,7 +153,7 @@
               "arrayData": [],
               "dictData": [],
               "booleanData": false,
-              "dateData": "2023-02-09T14:39:31.7581223+08:00",
+              "dateData": "2023-02-09T14:39:31",
               "integerData": 0,
               "floatData": 0.0,
               "stringData": ""
@@ -163,14 +166,14 @@
               "arrayData": [],
               "dictData": [],
               "booleanData": false,
-              "dateData": "2023-02-09T14:49:24.8873416+08:00",
+              "dateData": "2023-02-09T14:49:24",
               "integerData": 0,
               "floatData": 0.0,
               "stringData": "key_0"
             }
           ],
           "booleanData": false,
-          "dateData": "2023-02-09T14:39:22.4928599+08:00",
+          "dateData": "2023-02-09T14:39:22",
           "integerData": 0,
           "floatData": 0.0,
           "stringData": ""
@@ -185,14 +188,14 @@
               "arrayData": [],
               "dictData": [],
               "booleanData": false,
-              "dateData": "2023-02-09T14:49:50.4283465+08:00",
+              "dateData": "2023-02-09T14:49:50",
               "integerData": 0,
               "floatData": 0.0,
               "stringData": "key_1"
             }
           ],
           "booleanData": false,
-          "dateData": "2023-02-09T14:49:46.026978+08:00",
+          "dateData": "2023-02-09T14:49:46",
           "integerData": 0,
           "floatData": 0.0,
           "stringData": ""
@@ -200,7 +203,7 @@
       ],
       "dictData": [],
       "booleanData": false,
-      "dateData": "2023-02-09T14:39:15.9213878+08:00",
+      "dateData": "2023-02-09T14:39:15",
       "integerData": 0,
       "floatData": 0.0,
       "stringData": ""
@@ -216,7 +219,7 @@
           "arrayData": [],
           "dictData": [],
           "booleanData": false,
-          "dateData": "2023-02-09T14:51:35.2519962+08:00",
+          "dateData": "2023-02-09T14:51:35",
           "integerData": 0,
           "floatData": 0.0,
           "stringData": "aaa"
@@ -227,14 +230,14 @@
           "arrayData": [],
           "dictData": [],
           "booleanData": false,
-          "dateData": "2023-02-09T14:51:48.1365676+08:00",
+          "dateData": "2023-02-09T14:51:48",
           "integerData": 0,
           "floatData": 0.0,
           "stringData": "bbb"
         }
       ],
       "booleanData": false,
-      "dateData": "2023-02-09T14:51:18.5856339+08:00",
+      "dateData": "2023-02-09T14:51:18",
       "integerData": 0,
       "floatData": 0.0,
       "stringData": ""
@@ -253,7 +256,7 @@
               "arrayData": [],
               "dictData": [],
               "booleanData": false,
-              "dateData": "2023-02-09T14:52:25.8551563+08:00",
+              "dateData": "2023-02-09T14:52:25",
               "integerData": 1,
               "floatData": 0.0,
               "stringData": ""
@@ -263,7 +266,7 @@
               "arrayData": [],
               "dictData": [],
               "booleanData": false,
-              "dateData": "2023-02-09T14:52:28.1863481+08:00",
+              "dateData": "2023-02-09T14:52:28",
               "integerData": 2,
               "floatData": 0.0,
               "stringData": ""
@@ -271,14 +274,14 @@
           ],
           "dictData": [],
           "booleanData": false,
-          "dateData": "2023-02-09T14:52:13.5285222+08:00",
+          "dateData": "2023-02-09T14:52:13",
           "integerData": 0,
           "floatData": 0.0,
           "stringData": ""
         }
       ],
       "booleanData": false,
-      "dateData": "2023-02-09T14:52:02.0018242+08:00",
+      "dateData": "2023-02-09T14:52:02",
       "integerData": 0,
       "floatData": 0.0,
       "stringData": ""

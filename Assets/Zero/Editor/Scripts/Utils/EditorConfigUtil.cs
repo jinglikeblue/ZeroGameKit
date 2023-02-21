@@ -1,5 +1,5 @@
 ﻿using Jing;
-using LitJson;
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -34,9 +34,8 @@ namespace ZeroEditor
         /// <param name="data">配置的数据</param>
         /// <param name="fileName">文件名</param>
         public static void SaveConfig(object data, string fileName)
-        {
-            string json = JsonMapper.ToPrettyJson(data);
-            json = Regex.Unescape(json);
+        {            
+            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
             File.WriteAllText(FileUtility.CombinePaths(ConfigDir, fileName), json, Encoding.UTF8);
         }
 
@@ -52,7 +51,7 @@ namespace ZeroEditor
             if (File.Exists(path))
             {
                 string json = File.ReadAllText(path, Encoding.UTF8);
-                return JsonMapper.ToObject<T>(json);
+                return JsonConvert.DeserializeObject<T>(json);
             }
 
             var obj = default(T);

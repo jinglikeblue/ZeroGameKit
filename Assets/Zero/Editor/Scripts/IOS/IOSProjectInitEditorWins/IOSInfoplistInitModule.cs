@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using ZeroEditor.IOS;
 
-namespace ZeroEditor
+namespace ZeroEditor.IOS
 {
     class IOSInfoplistInitModule : AEditorModule
     {

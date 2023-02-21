@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
-using UnityEditor.iOS.Xcode;
 using UnityEngine;
 
 namespace ZeroEditor.IOS
@@ -27,7 +26,9 @@ namespace ZeroEditor.IOS
             inAppPurchase = _cfg.capabilitySetting.inAppPurchase;
             pushNotifications = _cfg.capabilitySetting.pushNotifications.enable;
             isPushNotificationsDevelopment = _cfg.capabilitySetting.pushNotifications.development;
+#if UNITY_IPHONE
             backgroundModes = _cfg.capabilitySetting.backgroundModes;
+#endif
             associatedDomains = _cfg.capabilitySetting.associatedDomains;
             signInWithApple = _cfg.capabilitySetting.signInWithApple;
             accessWiFiInformation = _cfg.capabilitySetting.accessWiFiInformation;
@@ -42,7 +43,9 @@ namespace ZeroEditor.IOS
             _cfg.capabilitySetting.inAppPurchase = inAppPurchase;
             _cfg.capabilitySetting.pushNotifications.enable = pushNotifications;
             _cfg.capabilitySetting.pushNotifications.development = isPushNotificationsDevelopment;
+#if UNITY_IPHONE
             _cfg.capabilitySetting.backgroundModes = backgroundModes;
+#endif
             _cfg.capabilitySetting.associatedDomains = associatedDomains;
             _cfg.capabilitySetting.signInWithApple = signInWithApple;
             _cfg.capabilitySetting.accessWiFiInformation = accessWiFiInformation;
@@ -72,10 +75,14 @@ namespace ZeroEditor.IOS
         [ShowIf("pushNotifications")]
         public bool isPushNotificationsDevelopment = false;
 
+#if UNITY_IPHONE
+
         [Space(20)]
         [Title("后台运行")]
         [LabelText("Background Modes")]
-        public BackgroundModesOptions backgroundModes = BackgroundModesOptions.None;
+        public UnityEditor.iOS.Xcode.BackgroundModesOptions backgroundModes = UnityEditor.iOS.Xcode.BackgroundModesOptions.None;
+
+#endif
 
         [Space(20)]
         [Title("关联域名")]

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEditor.iOS.Xcode;
 
 namespace ZeroEditor.IOS
 {
@@ -14,6 +13,9 @@ namespace ZeroEditor.IOS
         public bool isEnable = true;
 
         /// <summary>
+        /// APP图标集合列表
+        /// </summary>
+        public string[] appIconSetList = new string[0];
         /// 要拷贝的文件
         /// </summary>
         public CopyInfoVO[] copyInfoList = new CopyInfoVO[0];
@@ -168,10 +170,12 @@ namespace ZeroEditor.IOS
             /// </summary>
             public PushNotificationsVO pushNotifications = new PushNotificationsVO();
 
+#if UNITY_IPHONE
             /// <summary>
             /// 后台推送
             /// </summary>
-            public BackgroundModesOptions backgroundModes = BackgroundModesOptions.None;            
+            public UnityEditor.iOS.Xcode.BackgroundModesOptions backgroundModes = UnityEditor.iOS.Xcode.BackgroundModesOptions.None;
+#endif
 
             /// <summary>
             /// 关联域名
