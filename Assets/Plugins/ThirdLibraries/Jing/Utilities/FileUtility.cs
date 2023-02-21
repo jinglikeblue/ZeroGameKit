@@ -332,5 +332,28 @@ namespace Jing
 
             return EPathType.OTHER;
         }
+        /// <summary>
+        /// 保留文件夹的情况下，删除文件夹下的所有内容(当文件夹为链接时非常有用)
+        /// </summary>
+        /// <param name="path"></param>
+        public static void CleanFolder(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                return;
+            }
+
+            var files = Directory.GetFiles(path);
+            foreach(var file in files)
+            {
+                File.Delete(file);
+            }
+
+            var folders = Directory.GetDirectories(path);
+            foreach(var folder in folders)
+            {
+                Directory.Delete(folder, true);
+            }
+        }
     }
 }
