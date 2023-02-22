@@ -1,11 +1,12 @@
 #import "ZeroBridge.h"
 #import <Foundation/Foundation.h>
+#import "ZeroSwiftBridgeHeader.h"
 
 @implementation  ZeroBridge
 
 + (NSString *)Test:(NSString *)content{    
     NSLog(@"%@", content);
-    return @"ZeroBridge::Test Called";
+    return @"[Object-C] ZeroBridge::Test Called";
 }
 
 /*
@@ -66,7 +67,12 @@ char* __NSStringToCharStr(NSString *str){
 
 char* _test(const char *value){
     NSString *nsValue = [NSString stringWithUTF8String:value];
+    //调用object-c类静态方法
     NSString *response = [ZeroBridge Test:nsValue];
+    //调用swift方法测试
+    _swift_showLog("c call swift test!");
+    NSLog(@"c call swift add 1+2=%d", _swift_test(1,2));
+
     return __NSStringToCharStr(response);
 }
 

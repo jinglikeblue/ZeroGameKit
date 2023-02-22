@@ -26,7 +26,7 @@ namespace Example
 
 
 #if !UNITY_EDITOR && UNITY_IPHONE
-            var response = _test("Unity Call Object-C Test");
+            var response = _test("Unity Call C Test");
             MsgWin.Show("response", response);
 #endif
         }
