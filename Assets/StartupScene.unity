@@ -993,8 +993,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     isLogEnable: 1
-    builtinResMode: 1
-    hotResMode: 0
+    builtinResMode: 0
+    hotResMode: 2
     netRoots:
     - http://YourHotResRootUrl
     isUseDll: 0
