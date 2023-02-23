@@ -14,6 +14,7 @@ namespace ZeroGameKit
     {
         const string GROUP_FUTURE = "研发中功能...";
         const string GROUP_DEMO = "DEMO";
+        const string GROUP_IOS = "iOS系统";
         const string GROUP_ANDROID = "Android系统";
         const string GROUP_FRAMEWORK = "框架";
         const string GROUP_DOTWEEN = "DoTween使用";
@@ -76,12 +77,14 @@ namespace ZeroGameKit
             AddBtn(GROUP_PERFORMANCE, "运算性能", PerformanceExample.Calculate);
             AddBtn(GROUP_PERFORMANCE, "与主工程交互性能", PerformanceExample.CallNative);
 
+            AddBtn(GROUP_IOS, "iOS交互", IOSBridgeExample.Start);
+
             AddBtn(GROUP_ANDROID, "Android交互", AndroidBridgeExample.Start);            
             AddBtn(GROUP_DOTWEEN, "DoTween", DoTweenExample.Start);
             AddBtn(GROUP_UNIWEBVIEW, "网页浏览", UniWebViewExample.Start);
             AddBtn(GROUP_FRAMEWORK, "单例使用示例", SingletonClassExample.Start);
             AddBtn(GROUP_FRAMEWORK, "消息窗口", MsgWinExample.Start);
-            AddBtn(GROUP_FRAMEWORK, "配置使用示例", ConfigExample.Start);
+            AddBtn(GROUP_FRAMEWORK, "配置使用示例", ConfigExample.Start);            
 
             AddBtn(GROUP_TURBOCHARGESCROLLLIST, "高性能列表", TurbochargedScrollListExample.Start);
 
@@ -113,6 +116,7 @@ namespace ZeroGameKit
             AddBtn(GROUP_FRAMEWORK, "框架常量", FrameworkConstExample.Start);
 
             AddBtn(GROUP_FRAMEWORK, "CoroutineProxy协程代理", CoroutineProxyExample.Start);
+            AddBtn(GROUP_FRAMEWORK, "CoroutineQueue序列化执行协程", CoroutinesQueueExample.Start);
             AddBtn(GROUP_FRAMEWORK, "Zero UI库", ZeroUIExample.Start);
             AddBtn(GROUP_FRAMEWORK, "Zero EventListener库", ZeroEventListenerExample.Start);            
             AddBtn(GROUP_AUDIO, "音频控制", AudioDeviceExample.Start);            

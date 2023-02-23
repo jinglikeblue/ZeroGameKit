@@ -1,4 +1,5 @@
 ﻿#if UNITY_IPHONE
+using System;
 using System.IO;
 using UnityEditor.iOS.Xcode;
 
@@ -50,7 +51,115 @@ namespace ZeroEditor.IOS
         public void Add(string key, string value)
         {
             PlistElementDict root = _plist.root;
-            root.SetString(key, value);
+            root.SetString(key, value); 
+        }
+
+        public void Add(IOSInfoPListDictionaryItem item)
+        {
+            PlistElementDict root = _plist.root;
+            Add(root, item);
+        }
+
+        void Add(PlistElementDict element, IOSInfoPListDictionaryItem item)
+        {
+            switch (item.type)
+            {
+                case EIOSInfoPListItemDataType.ARRAY:
+                    {
+                        PlistElementArray childElement = element[item.key] as PlistElementArray;
+                        if (null == childElement)
+                        {
+                            childElement = element.CreateArray(item.key);
+                        }
+                        
+                        foreach(var data in item.arrayData)
+                        {
+                            Add(childElement, data);
+                        }
+                    }
+                    break;
+                case EIOSInfoPListItemDataType.DICTIONARY:
+                    {
+                        PlistElementDict childElement = element[item.key] as PlistElementDict;
+                        if (null == childElement)
+                        {
+                            childElement = element.CreateDict(item.key);
+                        }
+
+                        foreach (var data in item.dictData)
+                        {
+                            Add(childElement, data);
+                        }
+                    }
+                    break;
+                case EIOSInfoPListItemDataType.BOOLEAN:
+                    element.SetBoolean(item.key, item.booleanData);
+                    break;
+                case EIOSInfoPListItemDataType.DATE:
+                    element.SetDate(item.key, item.dateData);
+                    break;
+                case EIOSInfoPListItemDataType.INTEGER:
+                    element.SetInteger(item.key, item.integerData);
+                    break;
+                case EIOSInfoPListItemDataType.FLOAT:
+                    element.SetReal(item.key, item.floatData);
+                    break;
+                case EIOSInfoPListItemDataType.STRING:
+                    element.SetString(item.key, item.stringData);
+                    break;
+            }
+        }
+
+        void Add(PlistElementArray element,  IOSInfoPListItem item)
+        {
+            switch (item.type)
+            {
+                case EIOSInfoPListItemDataType.ARRAY:
+                    {
+                        var childElemen = element.AddArray();
+                        foreach (var data in item.arrayData)
+                        {
+                            Add(childElemen, data);
+                        }
+                    }
+                    break;
+                case EIOSInfoPListItemDataType.DICTIONARY:
+                    {
+                        var childElement = element.AddDict();
+                        foreach (var data in item.dictData)
+                        {
+                            Add(childElement, data);
+                        }
+                    }
+                    break;
+                case EIOSInfoPListItemDataType.BOOLEAN:
+                    element.AddBoolean(item.booleanData);                    
+                    break;
+                case EIOSInfoPListItemDataType.DATE:
+                    element.AddDate(item.dateData);                    
+                    break;
+                case EIOSInfoPListItemDataType.INTEGER:
+                    element.AddInteger(item.integerData);                    
+                    break;
+                case EIOSInfoPListItemDataType.FLOAT:
+                    element.AddReal(item.floatData);                    
+                    break;
+                case EIOSInfoPListItemDataType.STRING:
+                    element.AddString(item.stringData);                    
+                    break;
+            }
+        }
+
+
+
+        /// <summary>
+        /// 移除PList中的内容
+        /// </summary>
+        /// <param name="key"></param>
+        public void Remove(string key)
+        {
+            PlistElementDict root = _plist.root;
+            root.values.Remove(key);
         }
 
         /// <summary>
@@ -91,7 +200,7 @@ namespace ZeroEditor.IOS
         /// <param name="identifier">Identifier.</param>
         /// <param name="urlScheme">URL scheme.</param>
         public void AddUrlScheme(string identifier, string urlScheme)
-        {
+        {            
             const string KEY = "CFBundleURLTypes";
             const string IDENTIFIER_KEY = "CFBundleURLName";
             const string URLSCHEMES_KEY = "CFBundleURLSchemes";
@@ -142,6 +251,8 @@ namespace ZeroEditor.IOS
                 urlSchemes.AddString(urlScheme);
             }
         }
+
+
     }
 }
 #endif

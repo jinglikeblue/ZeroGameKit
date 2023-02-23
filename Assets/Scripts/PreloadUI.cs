@@ -9,13 +9,14 @@ namespace Demo
     {
 
         public Text text;
+        public Toggle toggle;
 
         void Start()
         {    
             SetProgress(0, 1);
 
             var vo = LauncherSetting.LoadLauncherSettingDataFromResources();
-            var launcher = new Launcher(vo);
+            var launcher = new Launcher(vo, toggle.isOn);
 
             //Preload preload = GetComponent<Preload>();
             launcher.onProgress += SetProgress;

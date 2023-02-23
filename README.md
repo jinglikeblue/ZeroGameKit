@@ -4,6 +4,22 @@
 「ZeroGameKit」则是基于「Zero」的基础上，进行了大量功能整合的开发套件，在保证功能丰富的前提下，提供了大量的演示实例来让套件更容易上手。
 
 # 更新日志
+
+## 2023-02-23
+- 开发一键打包
+- 增加网络不好时自动切换为离线模式的功能
+- 更新BuildTools相关内容
+- ios打包配置，添加framework增加weak选项
+- iOS自动化配置，增加一个全局开关
+- iOS自动化配置，支持复杂的Info.PList设置
+- iOS自动化配置，支持设置第三方framework的status为Optional
+- iOS自动化配置，支持对App权限（支付、后台推送等等）的设置
+- ios自动化配置增加图标配置。
+- 资源优化工具
+- 声音文件优化
+- 协程队列化执行工具
+- iOS交互示例，ios增加一个自定义的AppController以及swift代码桥接示例
+
 ## 2022-09-06
 - 添加纹理集管理工具SpriteAtlas Tools，基于Unity的SpriteAtlas机制对纹理集进行简单实用的管理
 - ZeroEditorUtil.cs 重命名为 ZeroEditorUtility.cs
