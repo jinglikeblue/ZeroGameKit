@@ -268,6 +268,9 @@ namespace ZeroEditor.IOS
                 return;
             }
 
+            //将工程Build Settings 的 Code Signing Entitlements 设置为文件路径
+            _pbx.SetBuildProperty(_mainGuid, "CODE_SIGN_ENTITLEMENTS", _cfg.capabilitySetting.entitlementFilePath);
+
             var pcm = new ProjectCapabilityManager(_pbxProjectPath, _cfg.capabilitySetting.entitlementFilePath, "Unity-iPhone");
 
             if (_cfg.capabilitySetting.inAppPurchase)
