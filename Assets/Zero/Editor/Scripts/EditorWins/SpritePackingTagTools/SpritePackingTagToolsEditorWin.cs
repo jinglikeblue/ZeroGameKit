@@ -14,14 +14,14 @@ using UnityEngine;
 
 namespace ZeroEditor
 {
-    public class AssetsOptimizesEditorWin : OdinMenuEditorWindow
+    public class SpritePackingTagToolsEditorWin : OdinMenuEditorWindow
     {
         /// <summary>
         /// 打开窗口
         /// </summary>
         public static void Open()
         {
-            var win = GetWindow<AssetsOptimizesEditorWin>("资源优化", true);
+            var win = GetWindow<SpritePackingTagToolsEditorWin>("Sprite Packing Tag 管理", true);
             var rect = GUIHelper.GetEditorWindowRect().AlignCenter(1000, 600);
             win.position = rect;
         }
@@ -32,12 +32,12 @@ namespace ZeroEditor
         }
 
         protected override OdinMenuTree BuildMenuTree()
-        {
+        {            
             OdinMenuTree tree = new OdinMenuTree();
             tree.Config.DrawSearchToolbar = true;
-            tree.Add("Sprite Packing Tag 管理/批量删除", new PackingTagDeleteModule(this));
-            tree.Add("Sprite Packing Tag 管理/批量设置", new PackingTagBatchSetModule(this));
-            tree.Add("查找项目无用资源", new UselessAssetsOptimizesModule(this));
+            tree.Add("批量删除", new PackingTagDeleteModule(this));
+            tree.Add("批量设置", new PackingTagBatchSetModule(this));
+            //tree.Add("查找项目无用资源", new UselessAssetsOptimizesModule(this));
             return tree;
         }
     }

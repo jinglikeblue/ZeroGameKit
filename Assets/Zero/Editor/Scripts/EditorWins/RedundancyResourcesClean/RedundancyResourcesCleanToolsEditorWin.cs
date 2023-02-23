@@ -13,10 +13,13 @@ using UnityEngine;
 
 namespace ZeroEditor
 {
-    public class UselessAssetsOptimizesModule : AEditorModule
+    public class RedundancyResourcesCleanToolsEditorWin : OdinEditorWindow
     {
-        public UselessAssetsOptimizesModule(EditorWindow editorWin) : base(editorWin)
+        public static RedundancyResourcesCleanToolsEditorWin Open()
         {
+            var win = GetWindow<RedundancyResourcesCleanToolsEditorWin>("冗余资源管理");
+            var rect = GUIHelper.GetEditorWindowRect().AlignCenter(1000, 600);
+            return win;
         }
 
         /// <summary>

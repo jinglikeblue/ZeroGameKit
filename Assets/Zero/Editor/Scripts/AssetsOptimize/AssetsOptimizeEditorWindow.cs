@@ -16,7 +16,7 @@ namespace ZeroEditor
         /// </summary>
         public static void Open()
         {
-            var win = GetWindow<AssetsOptimizeEditorWindow>("资源优化工具", true);
+            var win = GetWindow<AssetsOptimizeEditorWindow>("AssetImporter 工具", true);
             var rect = GUIHelper.GetEditorWindowRect().AlignCenter(1000, 800);
             win.position = rect;
         }

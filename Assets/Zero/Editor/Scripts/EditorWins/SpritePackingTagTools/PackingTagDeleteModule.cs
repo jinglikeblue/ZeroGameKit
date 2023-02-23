@@ -11,6 +11,7 @@ namespace ZeroEditor
         {
         }
 
+        [InfoBox("建议从Unity2019开始，使用SpriteAtlas进行纹理集的管理。Zero已提供配套的管理配置工具。",InfoMessageType.Warning)]
         [Title("Sprite Packing Tag 管理", TitleAlignment = TitleAlignments.Centered)]
         [LabelText("扫描项目中的 Packing Tag 标记"), Button(size: ButtonSizes.Large), PropertyOrder(-1)]
         void RefreshPackingTags()

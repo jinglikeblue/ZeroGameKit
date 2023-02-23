@@ -15,10 +15,6 @@ namespace ZeroEditor.IOS
 {
     class IOSProjectInitEditorWin : OdinMenuEditorWindow
     {
-        /// <summary>
-        /// 打开窗口
-        /// </summary>
-        [MenuItem("Streetball2/工具/iOS构建自动化配置", false, 0)]
         public static void Open()
         {
             var win = GetWindow<IOSProjectInitEditorWin>("iOS构建自动化配置", true);

@@ -9,7 +9,7 @@ namespace ZeroEditor
     /// </summary>
     public class ToolbarEditorMenu
     {
-        [MenuItem("Zero/热更新", false, 0)]
+        [MenuItem("Zero/热更资源构建", false, 0)]
         public static void HotResBuild()
         {            
             BuildHotResEditorWin.Open();
@@ -27,16 +27,10 @@ namespace ZeroEditor
             GenerateCodeEditorWin.Open();            
         }
 
-        [MenuItem("Zero/iOS构建自动化配置", false, 150)]
+        [MenuItem("Zero/发布构建/iOS构建自动化配置", false, 150)]
         public static void IosProjectInit()
         {
             IOS.IOSProjectInitEditorWin.Open();
-        }
-
-        [MenuItem("Zero/资源优化", false, 200)]
-        public static void PackingTagEdit()
-        {
-            AssetsOptimizesEditorWin.Open();
         }
 
         [MenuItem("Zero/调试/清理[Caches]目录", false, 250)]
@@ -71,16 +65,28 @@ namespace ZeroEditor
             BitmapFontCreaterMenu.CreateBitmapFontGUITools();            
         }
 
-        [MenuItem("Zero/工具/SpriteAtlas Tools", false, 401)]
+        [MenuItem("Zero/工具/SpriteAtlas 管理", false, 401)]
         public static void SpriteAtlasTools()
         {
             SpriteAtlasToolsEditorWin.Open();
         }
 
-        [MenuItem("Zero/工具/资源优化工具", false, 402)]
+        [MenuItem("Zero/工具/AssetImporter 管理", false, 402)]
         public static void AssetsOptimizeTools()
         {
             AssetsOptimizeEditorWindow.Open();
+        }
+
+        [MenuItem("Zero/工具/Sprite Packing Tag 管理", false, 403)]
+        public static void SpritePackingTagTools()
+        {
+            SpritePackingTagToolsEditorWin.Open();
+        }
+
+        [MenuItem("Zero/工具/冗余资源管理", false, 403)]
+        public static void RedundancyResourcesCleanTools()
+        {
+            RedundancyResourcesCleanToolsEditorWin.Open();
         }
 
         [MenuItem("Zero/热更代码框架/ILRuntime", false, 450)]
