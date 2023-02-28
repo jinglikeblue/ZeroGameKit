@@ -93,10 +93,10 @@ namespace ZeroGameKit
             AddBtn(GROUP_NET, "WebSocket通信", WebSocketExample.Start);            
             AddBtn(GROUP_NET, "Web请求", WebExample.Start);
             AddBtn(GROUP_NET, "网络文件下载", DownloadFileExample.Start);
+            AddBtn(GROUP_NET, "Protobuf使用", ProtoBufExample.Start);
+            AddBtn(GROUP_NET, "Kcp使用", KcpExample.Start);
 
 
-            AddBtn(GROUP_FILE, "Protobuf使用", ProtoBufExample.Start);
-                    
             AddBtn(GROUP_FILE, "字节数组操作", ByteArrayExample.Start);
             AddBtn(GROUP_FILE, "CSV文件操作", CSVFileExample.Start);
             AddBtn(GROUP_EXTEND, "DateTime扩展", DateTimeExtendExample.Start);
