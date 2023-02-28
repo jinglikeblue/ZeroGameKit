@@ -120,7 +120,7 @@ namespace Jing
         public uint MSS
         {
             get
-            {
+            {                
                 return _kcp.Mss - PACK_HEAD_SIZE;
             }
         }
@@ -167,7 +167,7 @@ namespace Jing
             /*
              * 因为已经自行封装了协议分包机制（KCP自带的发超大数据有问题)，这里直接为false就行。
              */
-            _kcp.SetStreamMode(true);
+            _kcp.SetStreamMode(false);
         }
         #endregion
 
