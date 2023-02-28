@@ -167,7 +167,7 @@ namespace Jing
             /*
              * 因为已经自行封装了协议分包机制（KCP自带的发超大数据有问题)，这里直接为false就行。
              */
-            _kcp.SetStreamMode(false);
+            _kcp.SetStreamMode(true);
         }
         #endregion
 
@@ -202,7 +202,7 @@ namespace Jing
             if (0 == _checkTime || _kcp.CurrentMS > _checkTime)
             {
                 //Debug.Log($"KCP更新 {DateTime.UtcNow.Millisecond}");
-                _kcp.Update();
+                _kcp.Update();                
                 _checkTime = _kcp.Check();
             }
         }
