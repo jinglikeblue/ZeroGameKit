@@ -1,4 +1,5 @@
-﻿using One;
+﻿using Jing;
+using One;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -129,7 +130,7 @@ namespace Example
         {
             if (null == client)
             {
-                L("连接服务器...");
+                L($"连接服务器... {UdpExample.SERVER_PORT}  本地端口：{UdpExample.CLIENT_PORT}");
                 client = new UdpClient();
                 client.onReceiveData += OnReceiveData;
                 client.Bind("127.0.0.1", UdpExample.SERVER_PORT, UdpExample.CLIENT_PORT, 4096);
@@ -208,7 +209,7 @@ namespace Example
         {
             if (null == server)
             {
-                L("启动服务....");
+                L($"启动服务.... {UdpExample.SERVER_PORT}");
                 server = new UdpServer();
                 server.onReceiveData += OnReceiveData;                
                 server.Bind(UdpExample.SERVER_PORT, 4096);

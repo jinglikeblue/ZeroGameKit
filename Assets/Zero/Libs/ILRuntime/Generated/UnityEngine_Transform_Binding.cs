@@ -43,21 +43,21 @@ namespace ILRuntime.Runtime.Generated
             args = new Type[]{};
             method = type.GetMethod("SetAsLastSibling", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, SetAsLastSibling_6);
-            args = new Type[]{typeof(System.Int32)};
-            method = type.GetMethod("GetChild", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, GetChild_7);
             args = new Type[]{};
             method = type.GetMethod("get_localPosition", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, get_localPosition_8);
+            app.RegisterCLRMethodRedirection(method, get_localPosition_7);
             args = new Type[]{};
             method = type.GetMethod("get_eulerAngles", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, get_eulerAngles_9);
+            app.RegisterCLRMethodRedirection(method, get_eulerAngles_8);
             args = new Type[]{typeof(UnityEngine.Transform)};
             method = type.GetMethod("LookAt", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, LookAt_10);
+            app.RegisterCLRMethodRedirection(method, LookAt_9);
             args = new Type[]{};
             method = type.GetMethod("get_position", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, get_position_11);
+            app.RegisterCLRMethodRedirection(method, get_position_10);
+            args = new Type[]{typeof(System.Int32)};
+            method = type.GetMethod("GetChild", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, GetChild_11);
             args = new Type[]{typeof(UnityEngine.Vector3)};
             method = type.GetMethod("set_localPosition", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, set_localPosition_12);
@@ -191,25 +191,7 @@ namespace ILRuntime.Runtime.Generated
             return __ret;
         }
 
-        static StackObject* GetChild_7(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
-        {
-            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            StackObject* ptr_of_this_method;
-            StackObject* __ret = ILIntepreter.Minus(__esp, 2);
-
-            ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            System.Int32 @index = ptr_of_this_method->Value;
-
-            ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
-            UnityEngine.Transform instance_of_this_method = (UnityEngine.Transform)typeof(UnityEngine.Transform).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
-            __intp.Free(ptr_of_this_method);
-
-            var result_of_this_method = instance_of_this_method.GetChild(@index);
-
-            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
-        }
-
-        static StackObject* get_localPosition_8(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        static StackObject* get_localPosition_7(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             StackObject* ptr_of_this_method;
@@ -224,7 +206,7 @@ namespace ILRuntime.Runtime.Generated
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }
 
-        static StackObject* get_eulerAngles_9(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        static StackObject* get_eulerAngles_8(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             StackObject* ptr_of_this_method;
@@ -239,7 +221,7 @@ namespace ILRuntime.Runtime.Generated
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }
 
-        static StackObject* LookAt_10(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        static StackObject* LookAt_9(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             StackObject* ptr_of_this_method;
@@ -258,7 +240,7 @@ namespace ILRuntime.Runtime.Generated
             return __ret;
         }
 
-        static StackObject* get_position_11(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        static StackObject* get_position_10(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             StackObject* ptr_of_this_method;
@@ -269,6 +251,24 @@ namespace ILRuntime.Runtime.Generated
             __intp.Free(ptr_of_this_method);
 
             var result_of_this_method = instance_of_this_method.position;
+
+            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
+        }
+
+        static StackObject* GetChild_11(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* ptr_of_this_method;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 2);
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
+            System.Int32 @index = ptr_of_this_method->Value;
+
+            ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
+            UnityEngine.Transform instance_of_this_method = (UnityEngine.Transform)typeof(UnityEngine.Transform).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            __intp.Free(ptr_of_this_method);
+
+            var result_of_this_method = instance_of_this_method.GetChild(@index);
 
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }

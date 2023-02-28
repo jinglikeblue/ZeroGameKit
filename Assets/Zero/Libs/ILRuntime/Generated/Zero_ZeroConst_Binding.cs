@@ -31,10 +31,10 @@ namespace ILRuntime.Runtime.Generated
             app.RegisterCLRFieldGetter(field, get_GENERATES_PERSISTENT_DATA_PATH_1);
             app.RegisterCLRFieldSetter(field, set_GENERATES_PERSISTENT_DATA_PATH_1);
             app.RegisterCLRFieldBinding(field, CopyToStack_GENERATES_PERSISTENT_DATA_PATH_1, AssignFromStack_GENERATES_PERSISTENT_DATA_PATH_1);
-            field = type.GetField("STREAMING_ASSETS_RES_DATA_PATH", flag);
-            app.RegisterCLRFieldGetter(field, get_STREAMING_ASSETS_RES_DATA_PATH_2);
-            app.RegisterCLRFieldSetter(field, set_STREAMING_ASSETS_RES_DATA_PATH_2);
-            app.RegisterCLRFieldBinding(field, CopyToStack_STREAMING_ASSETS_RES_DATA_PATH_2, AssignFromStack_STREAMING_ASSETS_RES_DATA_PATH_2);
+            field = type.GetField("STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW", flag);
+            app.RegisterCLRFieldGetter(field, get_STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW_2);
+            app.RegisterCLRFieldSetter(field, set_STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW_2);
+            app.RegisterCLRFieldBinding(field, CopyToStack_STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW_2, AssignFromStack_STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW_2);
 
 
         }
@@ -89,27 +89,27 @@ namespace ILRuntime.Runtime.Generated
             return ptr_of_this_method;
         }
 
-        static object get_STREAMING_ASSETS_RES_DATA_PATH_2(ref object o)
+        static object get_STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW_2(ref object o)
         {
-            return Zero.ZeroConst.STREAMING_ASSETS_RES_DATA_PATH;
+            return Zero.ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW;
         }
 
-        static StackObject* CopyToStack_STREAMING_ASSETS_RES_DATA_PATH_2(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
+        static StackObject* CopyToStack_STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW_2(ref object o, ILIntepreter __intp, StackObject* __ret, IList<object> __mStack)
         {
-            var result_of_this_method = Zero.ZeroConst.STREAMING_ASSETS_RES_DATA_PATH;
+            var result_of_this_method = Zero.ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW;
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }
 
-        static void set_STREAMING_ASSETS_RES_DATA_PATH_2(ref object o, object v)
+        static void set_STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW_2(ref object o, object v)
         {
-            Zero.ZeroConst.STREAMING_ASSETS_RES_DATA_PATH = (System.String)v;
+            Zero.ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW = (System.String)v;
         }
 
-        static StackObject* AssignFromStack_STREAMING_ASSETS_RES_DATA_PATH_2(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
+        static StackObject* AssignFromStack_STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW_2(ref object o, ILIntepreter __intp, StackObject* ptr_of_this_method, IList<object> __mStack)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            System.String @STREAMING_ASSETS_RES_DATA_PATH = (System.String)typeof(System.String).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
-            Zero.ZeroConst.STREAMING_ASSETS_RES_DATA_PATH = @STREAMING_ASSETS_RES_DATA_PATH;
+            System.String @STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW = (System.String)typeof(System.String).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            Zero.ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW = @STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW;
             return ptr_of_this_method;
         }
 

@@ -108,7 +108,7 @@ namespace Jing
         /// <summary>
         /// 剩余可写入的数据长度
         /// </summary>
-        public int WriteEnableSize
+        public int WriteableSize
         {
             get
             {
@@ -119,7 +119,7 @@ namespace Jing
         /// <summary>
         /// 根据Available以及Pos计算出的剩余可读取的数据长度
         /// </summary>
-        public int ReadEnableSize
+        public int ReadableSize
         {
             get
             {
@@ -313,6 +313,11 @@ namespace Jing
             MovePos(1);
         }
 
+        public void Write(bool v)
+        {
+            Write((byte)(v ? 1 : 0));
+        }
+
         public void Write(byte[] sourceBytes)
         {
             Write(sourceBytes, 0, sourceBytes.Length);            
@@ -453,6 +458,12 @@ namespace Jing
             byte v = Bytes[Pos];
             MovePos(BYTE_SIZE);
             return v;
+        }
+
+        public bool ReadBool()
+        {
+            byte v = ReadByte();
+            return v == 1 ? true : false;
         }
 
         public byte[] ReadBytes(int length)

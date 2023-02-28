@@ -997,7 +997,7 @@ MonoBehaviour:
     hotResMode: 2
     netRoots:
     - http://YourHotResRootUrl
-    isUseDll: 0
+    isUseDll: 1
     isLoadPdb: 1
     ilType: 0
     isTryJitBeforeILRuntime: 0

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jing;
+using System;
 using System.Collections.Generic;
 
 namespace One
@@ -18,11 +19,11 @@ namespace One
         {
             ByteArray ba = new ByteArray(buffer, available);
             int used = 0;
-            while (ba.ReadEnableSize > ByteArray.USHORT_SIZE)
+            while (ba.ReadableSize > ByteArray.USHORT_SIZE)
             {
                 //获取协议数据长度
                 ushort protocolSize = ba.ReadUShort();
-                if (ba.ReadEnableSize >= protocolSize)
+                if (ba.ReadableSize >= protocolSize)
                 {
                     byte[] protocolData = ba.ReadBytes(protocolSize);
                     onReceiveData?.Invoke(protocolData);

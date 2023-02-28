@@ -14,40 +14,36 @@ using ILRuntime.CLR.Utils;
 
 namespace ILRuntime.Runtime.Generated
 {
-    unsafe class UnityEngine_Random_Binding
+    unsafe class Zero_RectTransformUtility_Binding
     {
         public static void Register(ILRuntime.Runtime.Enviorment.AppDomain app)
         {
             BindingFlags flag = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
             MethodBase method;
             Type[] args;
-            Type type = typeof(UnityEngine.Random);
-            args = new Type[]{typeof(System.Int32), typeof(System.Int32)};
-            method = type.GetMethod("Range", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, Range_0);
+            Type type = typeof(Zero.RectTransformUtility);
+            args = new Type[]{typeof(UnityEngine.RectTransform)};
+            method = type.GetMethod("FitScreenSafeArea", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, FitScreenSafeArea_0);
 
 
         }
 
 
-        static StackObject* Range_0(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        static StackObject* FitScreenSafeArea_0(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             StackObject* ptr_of_this_method;
-            StackObject* __ret = ILIntepreter.Minus(__esp, 2);
+            StackObject* __ret = ILIntepreter.Minus(__esp, 1);
 
             ptr_of_this_method = ILIntepreter.Minus(__esp, 1);
-            System.Int32 @max = ptr_of_this_method->Value;
-
-            ptr_of_this_method = ILIntepreter.Minus(__esp, 2);
-            System.Int32 @min = ptr_of_this_method->Value;
+            UnityEngine.RectTransform @rectTransform = (UnityEngine.RectTransform)typeof(UnityEngine.RectTransform).CheckCLRTypes(StackObject.ToObject(ptr_of_this_method, __domain, __mStack));
+            __intp.Free(ptr_of_this_method);
 
 
-            var result_of_this_method = UnityEngine.Random.Range(@min, @max);
+            Zero.RectTransformUtility.FitScreenSafeArea(@rectTransform);
 
-            __ret->ObjectType = ObjectTypes.Integer;
-            __ret->Value = result_of_this_method;
-            return __ret + 1;
+            return __ret;
         }
 
 

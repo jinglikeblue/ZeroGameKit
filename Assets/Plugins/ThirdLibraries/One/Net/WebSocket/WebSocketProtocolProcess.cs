@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jing;
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
@@ -50,7 +51,7 @@ namespace One
 
         void Unpack(ByteArray ba, ref int used, Action<EOpcode, byte[]> onReceiveData)
         {
-            if (ba.ReadEnableSize < 2 * ByteArray.BYTE_SIZE)
+            if (ba.ReadableSize < 2 * ByteArray.BYTE_SIZE)
             {
                 //数据存在半包问题
                 return;
@@ -73,7 +74,7 @@ namespace One
             switch (payloadLen)
             {
                 case 127:
-                    if (ba.ReadEnableSize < 2 * ByteArray.ULONG_SIZE)
+                    if (ba.ReadableSize < 2 * ByteArray.ULONG_SIZE)
                     {
                         //数据存在半包问题
                         return;
@@ -81,7 +82,7 @@ namespace One
                     dataSize = (int)ba.ReadULong();
                     break;
                 case 126:
-                    if (ba.ReadEnableSize < 2 * ByteArray.USHORT_SIZE)
+                    if (ba.ReadableSize < 2 * ByteArray.USHORT_SIZE)
                     {
                         //数据存在半包问题
                         return;
@@ -96,7 +97,7 @@ namespace One
             byte[] maskKeys = null;
             if (mask)
             {
-                if (ba.ReadEnableSize < 4 * ByteArray.BYTE_SIZE)
+                if (ba.ReadableSize < 4 * ByteArray.BYTE_SIZE)
                 {
                     //数据存在半包问题
                     return;
@@ -122,7 +123,7 @@ namespace One
                 case EOpcode.BYTE:
                     if (dataSize > 0)
                     {
-                        if (ba.ReadEnableSize < dataSize)
+                        if (ba.ReadableSize < dataSize)
                         {
                             //数据存在半包问题
                             return;

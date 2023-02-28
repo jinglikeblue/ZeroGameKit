@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jing;
+using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
@@ -102,7 +103,7 @@ namespace One
         {
             //获取客户端发来的升级协议KEY
             ByteArray ba = new ByteArray(buffer, bufferAvailable);
-            string clientRequest = ba.ReadStringBytes(Encoding.ASCII, ba.ReadEnableSize);
+            string clientRequest = ba.ReadStringBytes(Encoding.ASCII, ba.ReadableSize);
             string[] datas = clientRequest.Split(new String[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             string value = null;
             try
@@ -148,7 +149,7 @@ namespace One
         {
             //获取服务器发来的升级确认
             ByteArray ba = new ByteArray(buffer, bufferAvailable);
-            string clientRequest = ba.ReadStringBytes(Encoding.ASCII, ba.ReadEnableSize);
+            string clientRequest = ba.ReadStringBytes(Encoding.ASCII, ba.ReadableSize);
             string[] datas = clientRequest.Split(new String[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             try
             {
