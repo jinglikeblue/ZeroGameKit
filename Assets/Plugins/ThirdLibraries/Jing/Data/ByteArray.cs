@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using UnityEngine;
 
 namespace Jing
 {
@@ -88,10 +89,10 @@ namespace Jing
         /// <summary>
         /// 字节序是否是大端
         /// </summary>
-        bool _isBigEndian;
+        public bool IsBigEndian { get; private set; }
 
         /// <summary>
-        /// 是否需要转换字节序
+        /// 是否需要转换字节序（默认false)
         /// </summary>
         bool _isNeedConvertEndian = false;
 
@@ -156,19 +157,43 @@ namespace Jing
         }
 
         public ByteArray(int bufferSize, bool isBigEndian = true)
-        {                       
-            Init(new byte[bufferSize], isBigEndian);            
+        {
+            Init(new byte[bufferSize], isBigEndian);
         }
 
         void Init(byte[] bytes, bool isBigEndian = true)
         {
-            _isBigEndian = isBigEndian;
-            if(isBigEndian != BitConverter.IsLittleEndian)
-            {
-                _isNeedConvertEndian = true;
-            }
+            IsBigEndian = isBigEndian;
+            //TestNeedConvertEndian(isBigEndian);
+            _isNeedConvertEndian = CheckNeedConvertEndian(isBigEndian);
             Bytes = bytes;
             SetPos(0);
+        }
+
+        static bool CheckNeedConvertEndian(bool isBigEndian)
+        {
+            if (isBigEndian && BitConverter.IsLittleEndian)
+            {
+                //如果定义ByteArray字节序为BigEndian，但是机器序列为LittleEndian，则需要转换                
+                return true;
+            }
+
+            if (!isBigEndian && !BitConverter.IsLittleEndian)
+            {
+                //如果定义ByteArray字节序为LittleEndian，但是机器序列为BigEndian，则需要转换
+                return true;
+            }
+
+            return false;
+        }
+
+        public static void TestNeedConvertEndian(bool isBigEndian)
+        {
+            var convertEndianInfo = CheckNeedConvertEndian(isBigEndian) ? "需要" : "不需要";
+            var bytesEndianInfo = isBigEndian ? "BigEndian" : "LittleEndian";
+            var matchineEndianInfo = BitConverter.IsLittleEndian ? "LittleEndian" : "BigEndian";
+
+            Debug.Log($"目标字节序 :{bytesEndianInfo}  机器字节序:{matchineEndianInfo}  是否需要做字节序转换:{convertEndianInfo}");
         }
 
         /// <summary>
@@ -176,7 +201,7 @@ namespace Jing
         /// </summary>
         public void Reset()
         {
-            if(Bytes.Length != defaultBufferSize)
+            if (Bytes.Length != defaultBufferSize)
             {
                 Bytes = new byte[defaultBufferSize];
             }
@@ -189,7 +214,7 @@ namespace Jing
         /// </summary>
         /// <param name="v">移动的偏移值</param>
         public void MovePos(int v)
-        {            
+        {
             SetPos(Pos + v);
         }
 
@@ -206,7 +231,7 @@ namespace Jing
         #region write
         public void Write(short v)
         {
-            if(_isNeedConvertEndian)
+            if (_isNeedConvertEndian)
             {
                 v = IPAddress.HostToNetworkOrder(v);
             }
@@ -222,11 +247,11 @@ namespace Jing
         public void Write(int v)
         {
             if (_isNeedConvertEndian)
-            {                
+            {
                 v = IPAddress.HostToNetworkOrder(v);
             }
 
-            Write(BitConverter.GetBytes(v));            
+            Write(BitConverter.GetBytes(v));
         }
 
         public void Write(uint v)
@@ -293,7 +318,7 @@ namespace Jing
         public void WriteStringBytes(string v)
         {
             WriteStringBytes(v, defaultEncoding);
-        }  
+        }
 
         /// <summary>
         /// 直接以指定格式写入字符串的编码数据
@@ -320,7 +345,7 @@ namespace Jing
 
         public void Write(byte[] sourceBytes)
         {
-            Write(sourceBytes, 0, sourceBytes.Length);            
+            Write(sourceBytes, 0, sourceBytes.Length);
         }
 
         /// <summary>
@@ -390,7 +415,7 @@ namespace Jing
         }
 
         public float ReadFloat()
-        {            
+        {
             float v = BitConverter.ToSingle(Bytes, Pos);
             MovePos(FLOAT_SIZE);
             return v;

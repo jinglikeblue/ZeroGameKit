@@ -43,7 +43,7 @@ namespace One
 
         public int Unpack(byte[] buf, int available, Action<EOpcode, byte[]> onReceiveData)
         {
-            ByteArray ba = new ByteArray(buf, available, false);
+            ByteArray ba = new ByteArray(buf, available);
             int used = 0;
             Unpack(ba, ref used, onReceiveData);
             return used;
@@ -180,7 +180,7 @@ namespace One
                 bufferSize += data.Length;
             }
 
-            ByteArray ba = new ByteArray(bufferSize, false);
+            ByteArray ba = new ByteArray(bufferSize);
 
             int b1 = 0;
             if (isFin)
