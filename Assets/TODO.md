@@ -49,6 +49,7 @@
 - 整理旧的资源优化模块, sprite packing tag 模块中提示建议使用sprite atlas
 
 ## BUG
+- ByteArray的大小端处理可能有BUG，则重新梳理
 
 # 注意事项
 - 之后做工具类开发时尽量在单独的文件夹中完成，方便抽离为unitypackage
