@@ -103,8 +103,8 @@ namespace Zero
         {
             if (ENCRYPT_ENABLE)
             {
-                key = CryptoUtility.AESEncryptString(key, DATA_ENCRYPT_KEY);
-                value = CryptoUtility.AESEncryptString(value, DATA_ENCRYPT_KEY);
+                key = AESHelper.Encrypt(key, DATA_ENCRYPT_KEY);
+                value = AESHelper.Encrypt(value, DATA_ENCRYPT_KEY);
             }
             _vo.localValueDic[key] = value;
             Save2Local();
@@ -119,14 +119,14 @@ namespace Zero
         {
             if (ENCRYPT_ENABLE)
             {
-                key = CryptoUtility.AESEncryptString(key, DATA_ENCRYPT_KEY);
+                key = AESHelper.Encrypt(key, DATA_ENCRYPT_KEY);
             }
             if (_vo.localValueDic.ContainsKey(key))
             {                
                 var value = _vo.localValueDic[key];
                 if (ENCRYPT_ENABLE)
                 {
-                    value = CryptoUtility.AESDecryptString(value, DATA_ENCRYPT_KEY);
+                    value = AESHelper.Decrypt(value, DATA_ENCRYPT_KEY);
                 }
                 return value;
             }

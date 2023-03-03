@@ -10,6 +10,13 @@
        - 丢包测试（利用clumsy）
        - 速度测试（收发的UTC时间差）
 
+- 实现一个帧同步框架
+       - 固定数系统       
+       - TCP/UDP自适应
+
+- 二进制数据加解密      
+       - 重新整理加解密库
+
 - [setting.json]增加是否使用反射执行DLL，标注“在Editor下不适用，仅适用于Player下”
 
 - 实现一个基于线程的计时器，TimerThreaded，可以应用在逻辑开发中，不依赖Unity的API
