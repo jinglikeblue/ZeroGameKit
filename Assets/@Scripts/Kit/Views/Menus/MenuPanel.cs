@@ -84,7 +84,8 @@ namespace ZeroGameKit
             AddBtn(GROUP_UNIWEBVIEW, "网页浏览", UniWebViewExample.Start);
             AddBtn(GROUP_FRAMEWORK, "单例使用示例", SingletonClassExample.Start);
             AddBtn(GROUP_FRAMEWORK, "消息窗口", MsgWinExample.Start);
-            AddBtn(GROUP_FRAMEWORK, "配置使用示例", ConfigExample.Start);            
+            AddBtn(GROUP_FRAMEWORK, "配置使用示例", ConfigExample.Start);
+            AddBtn(GROUP_FRAMEWORK, "定点数示例", FixedPointNumberExample.Start);
 
             AddBtn(GROUP_TURBOCHARGESCROLLLIST, "高性能列表", TurbochargedScrollListExample.Start);
 
