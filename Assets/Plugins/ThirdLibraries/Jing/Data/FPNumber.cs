@@ -1,6 +1,8 @@
-﻿/// <summary>
-/// 定点数
-/// fixed-point number
+﻿using System;
+/// <summary>
+/// 定点数。
+/// fixed-point number。
+/// 使用建议：通过静态方法Create创建定点数，效率略高于使用new关键字实例化
 /// </summary>
 public struct FPNumber
 {
@@ -33,28 +35,58 @@ public struct FPNumber
     /// </summary>
     public const long MAX_VALUE = long.MaxValue >> TOTAL_BIT_COUNT;
 
+    long _raw;
+
     /// <summary>
     /// 原始数据:前面的表示整数，后8位为小数
     /// </summary>
-    public long Raw { get; private set; }
+    public long Raw
+    {
+        set
+        {
+            _raw = value;
+        }
+
+        get
+        {
+            return _raw;
+        }
+    }
+
+    public string Info
+    {
+        get
+        {
+            return $"[FPNumber]  VALUE:{ToString()}  RAW:{_raw}  BINARY:{System.Convert.ToString(_raw, 2).PadLeft(64, '-')}";
+        }
+    }
+
+    public FPNumber(long raw)
+    {
+        _raw = raw;
+    }
 
     public FPNumber(int integer)
     {
-        Raw = integer << FRACTIONAL_BIT_COUNT;
+        _raw = integer << FRACTIONAL_BIT_COUNT;
     }
 
-    private FPNumber(long raw)
+    public FPNumber(int numerator, int denominator)
     {
-        Raw = raw;
+        var temp = Create(numerator, denominator);
+        _raw = temp.Raw;
     }
 
-    /// <summary>
-    /// 设置原始数据
-    /// </summary>
-    /// <param name="raw"></param>
-    public void SetRaw(long raw)
+    public FPNumber(double floatingPointNumber)
     {
-        Raw = raw;
+        var temp = Create(floatingPointNumber);
+        _raw = temp.Raw;
+    }
+
+    public FPNumber(float floatingPointNumber)
+    {
+        var temp = Create(floatingPointNumber);
+        _raw = temp.Raw;
     }
 
     /// <summary>
@@ -64,6 +96,16 @@ public struct FPNumber
     public bool IsInteger()
     {
         return (Raw & FRACTION_MASK) == 0;
+    }
+
+    /// <summary>
+    /// 通过原始数据直接创建定点数
+    /// </summary>
+    /// <param name="raw"></param>
+    /// <returns></returns>
+    public static FPNumber Create(long raw)
+    {
+        return new FPNumber(raw);
     }
 
     public static FPNumber Create(int integer)
@@ -78,19 +120,50 @@ public struct FPNumber
 
     public static FPNumber Create(double floatingPointNumber)
     {
-        var str = string.Format("0:N4", floatingPointNumber);
+        ////数学方式获得分母
+        //{
+        //    int denominator = 0;
+        //    while (num % 1 > 0)
+        //    {
+        //        num *= 10;
+        //        bits++;
+        //    }
+        //    return bits;
+        //}
+
+
+        var str = ToString(floatingPointNumber);
+        //从小数点分割整数部分和小数部分
         var nd = str.Split('.');
-        return Create(int.Parse(nd[0]), int.Parse(nd[1]));
+        //整数部分的值
+        int integerValue = int.Parse(nd[0]);
+        if (1 == nd.Length)
+        {
+            //按照整数处理
+            return Create(integerValue);
+        }
+
+        //得到分子
+        int numerator = int.Parse(nd[0] + nd[1]);
+
+        #region 得到分母
+        //首先获取小数点后有多少位
+        var digitsAfterDecimalPoint = str.Length - str.IndexOf('.') - 1;
+        var denominator = 10;
+
+        //这里不用Math.Pow因为返回的是double
+        while (--digitsAfterDecimalPoint > 0)
+        {
+            denominator *= 10;
+        }
+        #endregion
+
+        return Create(numerator, denominator);
     }
 
     public static FPNumber Create(float floatingPointNumber)
     {
         return Create((double)floatingPointNumber);
-    }
-
-    public static FPNumber CreateFromRaw(long raw)
-    {
-        return new FPNumber(raw);
     }
 
     public int ToInt()
@@ -112,6 +185,20 @@ public struct FPNumber
     {
         return (float)ToDouble();
     }
+
+    static string ToString(double floatingPointNumber)
+    {
+        var t = floatingPointNumber.ToString("F4");
+        var str = floatingPointNumber.ToString("F4").TrimEnd('0').TrimEnd('.');
+        return str;
+    }
+
+    public override string ToString()
+    {
+        return ToString(ToDouble());
+    }
+
+
 
     //强转重写
     //public static explicit operator double(FPNumber a)
@@ -222,6 +309,11 @@ public struct FPNumber
     }
     #endregion
 
+    public override bool Equals(object obj)
+    {
+        return obj != null && GetType() == obj.GetType() && this == (FPNumber)obj;
+    }
+
     #region override operator + 
     public static FPNumber operator +(FPNumber a, FPNumber b)
     {
@@ -309,6 +401,11 @@ public struct FPNumber
     {
         a.Raw = -a.Raw;
         return a;
+    }
+
+    public override int GetHashCode()
+    {
+        return _raw.GetHashCode();
     }
 
     #endregion
