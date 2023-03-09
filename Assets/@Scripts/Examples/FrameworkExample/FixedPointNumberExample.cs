@@ -1,4 +1,5 @@
 ﻿using Jing;
+using Jing.FixedPointNumber;
 using System;
 using System.Collections;
 using System.Collections.Generic;

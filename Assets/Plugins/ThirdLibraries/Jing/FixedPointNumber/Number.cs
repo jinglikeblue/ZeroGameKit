@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Jing
+﻿namespace Jing.FixedPointNumber
 {
     /// <summary>
     /// 定点数。精度为小数点后4位。
@@ -12,21 +10,21 @@ namespace Jing
         /// <summary>
         /// 总的位数
         /// </summary>
-        const int TOTAL_BIT_COUNT = sizeof(long) * 8;
+        public const int TOTAL_BIT_COUNT = sizeof(long) * 8;
 
         /// <summary>
         /// 用于保存小数的位数，16位可以保留小数点后4位的进度
         /// </summary>
-        const int FRACTIONAL_BIT_COUNT = 16;
+        public const int FRACTIONAL_BIT_COUNT = 16;
 
         /// <summary>
         /// 用于保存整数的位数
         /// </summary>
-        const int INTEGER_BIT_COUNT = TOTAL_BIT_COUNT - FRACTIONAL_BIT_COUNT;
+        public const int INTEGER_BIT_COUNT = TOTAL_BIT_COUNT - FRACTIONAL_BIT_COUNT;
 
-        const long FRACTION_MASK = (long)(ulong.MaxValue >> INTEGER_BIT_COUNT);
-        const long INTEGER_MASK = -1L & ~FRACTION_MASK;
-        const long FRACTION_RANGE = FRACTION_MASK + 1;
+        public const long FRACTION_MASK = (long)(ulong.MaxValue >> INTEGER_BIT_COUNT);
+        public const long INTEGER_MASK = -1L & ~FRACTION_MASK;
+        public const long FRACTION_RANGE = FRACTION_MASK + 1;
 
         /// <summary>
         /// 最小值
@@ -37,6 +35,21 @@ namespace Jing
         /// 最大值
         /// </summary>
         public const long MAX_VALUE = long.MaxValue >> TOTAL_BIT_COUNT;
+
+
+        /// <summary>
+        /// -1
+        /// </summary>
+        public readonly static Number negativeOne = new Number(-1);
+        /// <summary>
+        /// 0
+        /// </summary>
+        public readonly static Number zero = new Number(0);
+        /// <summary>
+        /// 1
+        /// </summary>
+        public readonly static Number one = new Number(1);
+
 
         long _raw;
 
@@ -101,7 +114,7 @@ namespace Jing
         }
 
         /// <summary>
-        /// 通过浮点数生成Raw
+        /// 通过浮点数生成Raw(字符串方式)
         /// </summary>
         /// <param name="floatingPointNumber"></param>
         /// <returns></returns>
@@ -142,26 +155,21 @@ namespace Jing
             if (0 == floatingPointNumber)
             {
                 return IntegerToRaw(0);
-            }
-
+            }            
+            
             //保留4位精度
-            var roundFloatingPointNumber = Math.Round(floatingPointNumber, 4);
+            var roundFloatingPointNumber = System.Math.Round(floatingPointNumber, 4);
             //拿到绝对值
-            var absolute = Math.Abs(roundFloatingPointNumber);
+            var absolute = System.Math.Abs(roundFloatingPointNumber);
             int denominator = 1;
 
             while (denominator < 10000 && (absolute * denominator) % 1 > 0)
             {
                 denominator *= 10;
-                //if (denominator > 10000)
-                //{
-                //    UnityEngine.Debug.LogError($"数值无法正常处理 {floatingPointNumber}");                
-                //    break;
-                //}
             }
 
             //分子
-            int numerator = Convert.ToInt32(roundFloatingPointNumber * denominator);
+            int numerator = System.Convert.ToInt32(roundFloatingPointNumber * denominator);
 
             return NumeratorAndDenominatorToRaw(numerator, denominator);
         }
@@ -438,6 +446,27 @@ namespace Jing
         }
         #endregion
 
+        #region override operator %
+        public static Number operator %(Number a, Number b)
+        {
+            return new Number(
+                a.Raw == MIN_VALUE & b.Raw == -1 ?
+                0 :
+                a.Raw % b.Raw);
+        }
+
+        public static Number operator %(Number a, int b)
+        {
+            return a % new Number(b);
+        }
+
+        public static Number operator %(int a, Number b)
+        {
+            return new Number(a) % b;
+        }
+        #endregion
+
+
         #region override operator <<
         public static Number operator <<(Number a, int b)
         {
@@ -451,6 +480,7 @@ namespace Jing
             return new Number(a.Raw >> b);
         }
         #endregion
+
 
         public static Number operator -(Number a)
         {
