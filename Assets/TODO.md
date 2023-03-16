@@ -47,7 +47,8 @@
 - iOS真机测试
 
 ## 优先
-- 增加http下载的断点续传
+- 重写HttpDownloader(替代WebDownloader),HttpGroupDownloader(替代GroupWebDownloader)
+       - 增加http下载的断点续传
 - 整理旧的资源优化模块, sprite packing tag 模块中提示建议使用sprite atlas
 
 ## BUG

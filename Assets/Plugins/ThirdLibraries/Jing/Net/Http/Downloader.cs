@@ -118,7 +118,7 @@ namespace Jing
 
                     //创建本地文件写入流
                     FileStream fs = new FileStream(SavePath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
-                    byte[] buffer = new byte[BUFFER_SIZE];
+                    byte[] buffer = new byte[BUFFER_SIZE];                    
 
                     while (_thread != null)
                     {
