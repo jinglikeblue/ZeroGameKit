@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -40,7 +41,7 @@ namespace Zero
         {
             get
             {
-                return _handler.totalFileSize;
+                return _handler.totalSize;
             }
         }
 
@@ -73,6 +74,7 @@ namespace Zero
         /// </summary>
         public string savePath { get; private set; }
 
+        UnityWebRequestAsyncOperation _asyncOperation;
 
         /// <summary>
         /// 初始化下载类
@@ -104,16 +106,32 @@ namespace Zero
             Debug.Log($"下载文件:{url}  保存位置:{savePath}  版本号:{version} 是否断点续传:{isResumeable}");
 
             _handler = new HttpDownloadHandler(savePath, isResumeable);
+            _handler.onReceivedData += OnHandlerReceivedData;
             request = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET, _handler, null);
             if (isResumeable)
             {
                 //断点续传的头数据
                 request.SetRequestHeader("Range", "bytes=" + _handler.downloadedSize + "-");
             }
-            request.SendWebRequest();
+            var asyncOperation = request.SendWebRequest();
+            asyncOperation.completed += OnRequestCompleted;
         }
 
-        
+        private void OnRequestCompleted(AsyncOperation ao)
+        {
+            if (ao.isDone)
+            {
+                Debug.Log($"OnRequestCompleted ======== request.isDone {ao.progress}  {request.isDone} {ao.priority}");
+            }
+        }
+
+        private void OnHandlerReceivedData(int contentLength)
+        {
+            if (request.isDone)
+            {
+                Debug.Log($"OnReceivedData ======== request.isDone");
+            }
+        }
 
         public void Dispose(bool isCleanTmepFile = false)
         {

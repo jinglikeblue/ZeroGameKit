@@ -11,10 +11,12 @@ using UnityEngine.Networking;
 namespace Zero
 {
     /// <summary>
-    /// TODO：考虑是否下载的文件保存为临时文件，后缀.temp下载完成后再改名，这样断点续传好处理
+    /// 下载的文件保存为临时文件，后缀.temp。下载完成后再改名，这样断点续传好处理
     /// </summary>    
     public class HttpDownloadHandler : DownloadHandlerScript
     {
+        public delegate void ReceivedData(int contentLength);
+
         /// <summary>
         /// 保存路径
         /// </summary>
@@ -33,7 +35,7 @@ namespace Zero
         /// <summary>
         /// 文件大小
         /// </summary>
-        public long totalFileSize { get; private set; } = 0;
+        public long totalSize { get; private set; } = 0;
 
         /// <summary>
         /// 下载进度
@@ -48,6 +50,11 @@ namespace Zero
         FileStream _fileStream;
 
         string _tempSavePath;
+
+        /// <summary>
+        /// 下载到了数据的更新
+        /// </summary>
+        public event ReceivedData onReceivedData;
 
         public HttpDownloadHandler(string savePath, bool isResumeable)
         {            
@@ -80,8 +87,8 @@ namespace Zero
 
         protected override void ReceiveContentLengthHeader(ulong contentLength)
         {            
-            totalFileSize = (long)contentLength + downloadedSize;
-            Debug.Log($"收到下载内容大小:{contentLength} 文件总大小:{totalFileSize}");            
+            totalSize = (long)contentLength + downloadedSize;
+            Debug.Log($"收到下载内容大小:{contentLength} 文件总大小:{totalSize}");            
         }
 
         protected override bool ReceiveData(byte[] data, int dataLength)
@@ -98,21 +105,18 @@ namespace Zero
 
             _fileStream.Write(data, 0, dataLength);
             downloadedSize += dataLength;
-            progress = (float)downloadedSize / totalFileSize;
+            progress = (float)downloadedSize / totalSize;
 
-            Debug.Log($"下载到数据大小:{dataLength} 完成度:{GetProgress()} 已下载内容大小:{downloadedSize}/{totalFileSize}");
+            Debug.Log($"下载到数据大小:{dataLength} 完成度:{GetProgress()} 已下载内容大小:{downloadedSize}/{totalSize}");
 
-            //onReceivedData?.Invoke(dataLength);
+            onReceivedData?.Invoke(dataLength);
+
             return true;
         }
 
         protected override void CompleteContent()
-        {                       
-            Debug.Log($"下载完成:{savePath}");
-            _fileStream.Flush();
-            _fileStream.Close();
-            _fileStream.Dispose();
-            _fileStream = null;
+        {                      
+            CloseFileStream();
             FileUtility.MoveFile(_tempSavePath, savePath, true);
         }
 
@@ -145,15 +149,21 @@ namespace Zero
         /// <param name="isCleanTmepFile">是否清理已下载的临时文件</param>
         public void DisposeSafely(bool isCleanTmepFile)
         {
-            _fileStream.Flush();
-            _fileStream.Close();
-            _fileStream.Dispose();
+            CloseFileStream();
 
             if (isCleanTmepFile && File.Exists(_tempSavePath))
             {
                 File.Delete(_tempSavePath);
             }
             Dispose();
+        }
+
+        void CloseFileStream()
+        {
+            _fileStream.Flush();
+            _fileStream.Close();
+            _fileStream.Dispose();
+            _fileStream = null;
         }
     }
 }
