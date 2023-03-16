@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jing;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -35,20 +36,23 @@ namespace Zero
         public long totalFileSize { get; private set; } = 0;
 
         /// <summary>
+        /// 下载进度
+        /// </summary>
+        public float progress { get; private set; } = 0;
+
+        /// <summary>
         /// 收到数据的事件，参数是这次收到的数据长度
         /// </summary>
-        public event Action<ulong> onReceivedData;
+        //public event Action<int> onReceivedData;
 
         FileStream _fileStream;
-        HttpDownloader _downloader;
 
         string _tempSavePath;
 
-        public HttpDownloadHandler(string savePath, bool isResumeable, HttpDownloader downloader)
+        public HttpDownloadHandler(string savePath, bool isResumeable)
         {            
             this.savePath = savePath;
             this.isResumeable = isResumeable;
-            _downloader = downloader;
             _tempSavePath = savePath + ".temp";
 
             string saveDir = Path.GetDirectoryName(savePath);
@@ -57,7 +61,7 @@ namespace Zero
                 Directory.CreateDirectory(saveDir);
             }
 
-            FileMode mode = isResumeable ? FileMode.OpenOrCreate : FileMode.Create;
+            FileMode mode = isResumeable ? FileMode.Append : FileMode.OpenOrCreate;
 
             _fileStream = new FileStream(_tempSavePath, mode, FileAccess.Write, FileShare.ReadWrite);
 
@@ -75,22 +79,13 @@ namespace Zero
         }
 
         protected override void ReceiveContentLengthHeader(ulong contentLength)
-        {
-            var headers = _downloader.request.GetResponseHeaders();
-            if (headers != null)
-            {
-                foreach (var kv in headers)
-                {
-                    Debug.Log($"Header: {kv.Key} = {kv.Value}");
-                }
-            }
-            
+        {            
             totalFileSize = (long)contentLength + downloadedSize;
             Debug.Log($"收到下载内容大小:{contentLength} 文件总大小:{totalFileSize}");            
         }
 
         protected override bool ReceiveData(byte[] data, int dataLength)
-        {
+        {            
             if(data == null || data.Length == 0)
             {
                 return false;
@@ -103,10 +98,11 @@ namespace Zero
 
             _fileStream.Write(data, 0, dataLength);
             downloadedSize += dataLength;
+            progress = (float)downloadedSize / totalFileSize;
 
             Debug.Log($"下载到数据大小:{dataLength} 完成度:{GetProgress()} 已下载内容大小:{downloadedSize}/{totalFileSize}");
 
-
+            //onReceivedData?.Invoke(dataLength);
             return true;
         }
 
@@ -115,12 +111,14 @@ namespace Zero
             Debug.Log($"下载完成:{savePath}");
             _fileStream.Flush();
             _fileStream.Close();
-            _fileStream = null;            
+            _fileStream.Dispose();
+            _fileStream = null;
+            FileUtility.MoveFile(_tempSavePath, savePath, true);
         }
 
         protected override float GetProgress()
         {
-            return base.GetProgress();
+            return progress;
         }
 
         protected override byte[] GetData()
@@ -139,6 +137,23 @@ namespace Zero
                 return null;
             }
             return File.ReadAllText(savePath);
+        }
+
+        /// <summary>
+        /// 停止下载，并销毁
+        /// </summary>
+        /// <param name="isCleanTmepFile">是否清理已下载的临时文件</param>
+        public void DisposeSafely(bool isCleanTmepFile)
+        {
+            _fileStream.Flush();
+            _fileStream.Close();
+            _fileStream.Dispose();
+
+            if (isCleanTmepFile && File.Exists(_tempSavePath))
+            {
+                File.Delete(_tempSavePath);
+            }
+            Dispose();
         }
     }
 }

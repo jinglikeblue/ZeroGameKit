@@ -60,10 +60,7 @@ namespace Zero
         /// 是否已销毁
         /// TODO 应该叫isDisposed
         /// </summary>
-        public bool isDisposeed
-        {
-            get { return _handler == null ? true : false; }
-        }
+        public bool isDisposeed { get; private set; } = false;
 
         /// <summary>
         /// 下载的URL地址
@@ -106,7 +103,7 @@ namespace Zero
 
             Debug.Log($"下载文件:{url}  保存位置:{savePath}  版本号:{version} 是否断点续传:{isResumeable}");
 
-            _handler = new HttpDownloadHandler(savePath, isResumeable, this);
+            _handler = new HttpDownloadHandler(savePath, isResumeable);
             request = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET, _handler, null);
             if (isResumeable)
             {
@@ -116,10 +113,17 @@ namespace Zero
             request.SendWebRequest();
         }
 
-        public void Dispose()
+        
+
+        public void Dispose(bool isCleanTmepFile = false)
         {
-            _handler.Dispose();
-            _handler = null;
+            if (false == isDisposeed)
+            {
+                Debug.Log($"Handler is Done: {_handler.isDone}");
+                _handler.DisposeSafely(isCleanTmepFile);
+                isDisposeed = true;
+            }
+            //_handler = null;
         }
     }
 }

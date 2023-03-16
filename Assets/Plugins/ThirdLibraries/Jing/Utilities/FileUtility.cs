@@ -355,5 +355,19 @@ namespace Jing
                 Directory.Delete(folder, true);
             }
         }
+
+        /// <summary>
+        /// 移动文件
+        /// </summary>
+        /// <param name="sourcePath"></param>
+        /// <param name="targetPath"></param>
+        public static void MoveFile(string sourcePath, string targetPath, bool isOverride = false)
+        {
+            if (isOverride && File.Exists(targetPath))
+            {
+                File.Delete(targetPath);
+            }
+            File.Move(sourcePath, targetPath);
+        }
     }
 }

@@ -44,9 +44,14 @@ namespace Example
                 //    }
                 //}
                 Debug.LogWarning($"progress:{hd.progress} size:{hd.loadedSize}/{hd.totalSize}");
+                //if (hd.progress > 0.8)
+                //{
+                //    Debug.LogWarning($"中止下载");
+                //    hd.Dispose();
+                //}
                 yield return null;
             }
-            Debug.LogWarning($"下载完成:{hd.progress} error:{hd.error}");
+            Debug.LogWarning($"下载结束:{hd.progress} error:{hd.error}");
         }
 
 
