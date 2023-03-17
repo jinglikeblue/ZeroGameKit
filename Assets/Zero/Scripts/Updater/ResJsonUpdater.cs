@@ -41,9 +41,11 @@ namespace Zero
         {
             Debug.Log(Log.Zero1("「ResJsonUpdater」res.json文件更新中..."));
             
-            var version = DateTime.UtcNow.ToFileTimeUtc().ToString();        
-            
-            Downloader loader = new Downloader(url, localPath, version);
+            var version = DateTime.UtcNow.ToFileTimeUtc().ToString();
+
+            HttpDownloader loader = new HttpDownloader(url, localPath, version);
+            loader.Start();
+
             while (false == loader.isDone)
             {
                 yield return new WaitForEndOfFrame();
@@ -55,8 +57,7 @@ namespace Zero
                 End(loader.error);
                 yield break;
             }
-
-            loader.Dispose();
+            
             End();
         }
     }

@@ -994,9 +994,9 @@ MonoBehaviour:
   data:
     isLogEnable: 1
     builtinResMode: 0
-    hotResMode: 2
+    hotResMode: 0
     netRoots:
-    - http://YourHotResRootUrl
+    - http://127.0.0.1/zero/res
     isUseDll: 0
     isLoadPdb: 1
     ilType: 0

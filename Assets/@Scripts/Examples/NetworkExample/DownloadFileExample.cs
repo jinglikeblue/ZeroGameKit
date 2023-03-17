@@ -65,7 +65,7 @@ namespace Example
 
         private void StopDownload()
         {
-            _downloader?.Stop();
+            _downloader?.StopAndDispose();
         }
 
         private void StartDownload()

@@ -81,12 +81,12 @@ namespace Zero
             {
                 var settingFileUrl = FileUtility.CombinePaths(list[i], "setting.json");
                 Debug.Log(Log.Zero1("开始下载setting.json: {0}", settingFileUrl));
-                Downloader loader = new Downloader(settingFileUrl, _localPath, DateTime.UtcNow.ToFileTimeUtc().ToString());
+                HttpDownloader loader = new HttpDownloader(settingFileUrl, _localPath, DateTime.UtcNow.ToFileTimeUtc().ToString());
+                loader.Start();
                 while (false == loader.isDone)
                 {
                     yield return new WaitForEndOfFrame();
-                }
-                loader.Dispose();
+                }                
                 if (null == loader.error)
                 {
                     LoadSettingFromCache();

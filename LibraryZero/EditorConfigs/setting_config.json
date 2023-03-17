@@ -1,18 +1,35 @@
-﻿
-{
-    "client" : {
-        "version" : "0.1",
-        "url"     : "http://www.baidu.com"
-    },
-    "netResRoot" : "http://192.168.0.4:8800/res",
-    "startupResGroups" : [
-        "dll",
-        "configs",
-        "ab/examples.ab",
-        "ab/root_assets.ab",
-        "ab/manifest.ab"
-    ],
-    "startupParams"    : {
-    },
-    "isOnlyUseResInStreamingAssets" : false
+﻿{
+  "client": {
+    "version": "0.1",
+    "url": "http://www.baidu.com"
+  },
+  "netResRoot": "http://127.0.0.1/zero",
+  "startupResGroups": [
+    "dll",
+    "configs",
+    "ab/examples.ab",
+    "ab/root_assets.ab",
+    "ab/manifest.ab"
+  ],
+  "startupParams": {},
+  "lsLogEnable": {
+    "isOverride": false,
+    "value": false
+  },
+  "lsUseDll": {
+    "isOverride": false,
+    "value": false
+  },
+  "lsLoadPdb": {
+    "isOverride": false,
+    "value": false
+  },
+  "lsTryJitBeforeILRuntime": {
+    "isOverride": false,
+    "value": false
+  },
+  "lsDebugIL": {
+    "isOverride": false,
+    "value": false
+  }
 }

@@ -47,16 +47,16 @@ namespace Zero
         IEnumerator UpdateGroups()
         {
             //实例化一个资源组下载器
-            GroupDownloader groupLoader = new GroupDownloader();
+            GroupHttpDownloader groupLoader = new GroupHttpDownloader();
             foreach (var resName in UpdateResNameList)
             {
                 var netItem = Runtime.Ins.netResVer.Get(resName);
 
                 //将要下载的文件依次添加入下载器
-                groupLoader.AddLoad(FileUtility.CombinePaths(Runtime.Ins.netResDir, resName), FileUtility.CombinePaths(Runtime.Ins.localResDir, resName), netItem.version, netItem.size, OnItemLoaded, netItem);
+                groupLoader.AddTask(FileUtility.CombinePaths(Runtime.Ins.netResDir, resName), FileUtility.CombinePaths(Runtime.Ins.localResDir, resName), netItem.version, netItem.size, OnItemLoaded, netItem);
             }
             //启动下载器开始下载
-            groupLoader.StartLoad();
+            groupLoader.Start();
 
             //判断是否所有资源下载完成，如果没有，返回一个下载的进度（该进度表示的整体进度）
             do

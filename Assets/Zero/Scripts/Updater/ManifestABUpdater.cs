@@ -43,7 +43,8 @@ namespace Zero
 
             var localPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, manifestABPath);
 
-            Downloader loader = new Downloader(url, localPath, ver);
+            HttpDownloader loader = new HttpDownloader(url, localPath, ver);
+            loader.Start();
             while (false == loader.isDone)
             {
                 yield return new WaitForEndOfFrame();
@@ -54,8 +55,7 @@ namespace Zero
                 Debug.LogError(loader.error);
                 End(loader.error);
                 yield break;
-            }
-            loader.Dispose();
+            }            
 
             //保存文件版本号
             Runtime.Ins.localResVer.SetVerAndSave(manifestABPath, ver);

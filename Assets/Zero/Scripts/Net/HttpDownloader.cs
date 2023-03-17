@@ -121,7 +121,7 @@ namespace Zero
             //Debug.Log($"下载文件:{url}  保存位置:{savePath}  版本号:{version} 是否断点续传:{isResumeable}");
 
             _handler = new HttpDownloadHandler(savePath, isResumeable);            
-            request = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET, _handler, null);
+            request = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET, _handler, null);            
             if (isResumeable)
             {
                 //断点续传的头数据
@@ -163,7 +163,7 @@ namespace Zero
             onCompleted?.Invoke(this);
         }
 
-        public void Stop(bool isCleanTmepFile = false)
+        public void StopAndDispose(bool isCleanTmepFile = false)
         {
             if(null == _asyncOperation)
             {
@@ -184,6 +184,5 @@ namespace Zero
             _handler.DisposeSafely(isCleanTmepFile);
             isDisposed = true;
         }
-
     }
 }

@@ -174,10 +174,13 @@ namespace Zero
 
         void CloseFileStream()
         {
-            _fileStream.Flush();
-            _fileStream.Close();
-            _fileStream.Dispose();
-            _fileStream = null;
+            if (null != _fileStream)
+            {
+                _fileStream.Flush();
+                _fileStream.Close();
+                _fileStream.Dispose();
+                _fileStream = null;
+            }
         }
     }
 }
