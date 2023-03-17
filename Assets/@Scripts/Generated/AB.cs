@@ -169,6 +169,8 @@ namespace ZeroHot
 		{
 			public const string NAME = "examples/network.ab";
 
+			public const string DownloadFileExampleWin = "DownloadFileExampleWin.prefab";
+			public const string DownloadFileExampleWin_assetPath = "examples/network/DownloadFileExampleWin.prefab";
 			public const string KcpExampleWin = "KcpExampleWin.prefab";
 			public const string KcpExampleWin_assetPath = "examples/network/KcpExampleWin.prefab";
 			public const string TcpExampleWin = "TcpExampleWin.prefab";

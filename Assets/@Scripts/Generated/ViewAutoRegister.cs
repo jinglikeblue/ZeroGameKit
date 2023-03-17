@@ -68,6 +68,7 @@ namespace ZeroHot
             R("examples/knight.ab", "KnightMenuPanel");
             R("examples/knight.ab", "KnightSettingWin");
             R("examples/menus.ab", "MenuPanel");
+            R("examples/network.ab", "DownloadFileExampleWin");
             R("examples/network.ab", "KcpExampleWin");
             R("examples/network.ab", "TcpExampleWin");
             R("examples/network.ab", "UdpExampleWin");

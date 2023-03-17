@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -10,8 +11,32 @@ namespace Zero
     /// </summary>
     public class HttpDownloader
     {
+        //下载进度更新事件
+        public delegate void ProgressEvent(HttpDownloader downloader, float progress, int contentLength);
+
+        //下载结束事件
+        public delegate void CompletedEvent(HttpDownloader downloader);
+
+        //收到请求返回的Headers数据
+        public delegate void ReceivedResponseHeadersEvent(HttpDownloader downloader, Dictionary<string, string> responseHeaders);
+
         HttpDownloadHandler _handler;
         public UnityWebRequest request { get; private set; }
+
+        /// <summary>
+        /// 事件：收到请求返回的协议头数据
+        /// </summary>
+        public event ReceivedResponseHeadersEvent onResponseHeaders;
+
+        /// <summary>
+        /// 事件：下载进度更新
+        /// </summary>
+        public event ProgressEvent onProgress;
+
+        /// <summary>
+        /// 事件：下载完成
+        /// </summary>
+        public event CompletedEvent onCompleted;
 
         public bool isDone
         {
@@ -59,9 +84,8 @@ namespace Zero
 
         /// <summary>
         /// 是否已销毁
-        /// TODO 应该叫isDisposed
         /// </summary>
-        public bool isDisposeed { get; private set; } = false;
+        public bool isDisposed { get; private set; } = false;
 
         /// <summary>
         /// 下载的URL地址
@@ -90,58 +114,76 @@ namespace Zero
 
             if (null != version)
             {
-                string flag;
-                if (url.Contains("?"))
-                {
-                    flag = "&";
-                }
-                else
-                {
-                    flag = "?";
-                }
-
+                string flag = url.Contains("?")?"&":"?";
                 url += string.Format("{0}unity_download_ver={1}", flag, version);
             }
 
-            Debug.Log($"下载文件:{url}  保存位置:{savePath}  版本号:{version} 是否断点续传:{isResumeable}");
+            //Debug.Log($"下载文件:{url}  保存位置:{savePath}  版本号:{version} 是否断点续传:{isResumeable}");
 
-            _handler = new HttpDownloadHandler(savePath, isResumeable);
-            _handler.onReceivedData += OnHandlerReceivedData;
+            _handler = new HttpDownloadHandler(savePath, isResumeable);            
             request = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET, _handler, null);
             if (isResumeable)
             {
                 //断点续传的头数据
                 request.SetRequestHeader("Range", "bytes=" + _handler.downloadedSize + "-");
-            }
-            var asyncOperation = request.SendWebRequest();
-            asyncOperation.completed += OnRequestCompleted;
+            }         
         }
 
-        private void OnRequestCompleted(AsyncOperation ao)
+        /// <summary>
+        /// 发送请求
+        /// </summary>
+        public void Start()
         {
-            if (ao.isDone)
+            if(null != _asyncOperation)
             {
-                Debug.Log($"OnRequestCompleted ======== request.isDone {ao.progress}  {request.isDone} {ao.priority}");
+                Debug.LogWarning("HttpDownloader的Start不能重复调用");
+                return;
             }
+
+            _handler.onReceivedHeaders += OnReceivedHeaders;
+            _handler.onReceivedData += OnHandlerReceivedData;            
+
+            _asyncOperation = request.SendWebRequest();
+            _asyncOperation.completed += OnRequestCompleted;
+        }
+
+        private void OnReceivedHeaders()
+        {
+            var headers = request.GetResponseHeaders();
+            onResponseHeaders?.Invoke(this, headers);
         }
 
         private void OnHandlerReceivedData(int contentLength)
         {
-            if (request.isDone)
-            {
-                Debug.Log($"OnReceivedData ======== request.isDone");
-            }
+            onProgress?.Invoke(this, _handler.progress, contentLength);
         }
 
-        public void Dispose(bool isCleanTmepFile = false)
+        private void OnRequestCompleted(AsyncOperation ao)
         {
-            if (false == isDisposeed)
-            {
-                Debug.Log($"Handler is Done: {_handler.isDone}");
-                _handler.DisposeSafely(isCleanTmepFile);
-                isDisposeed = true;
-            }
-            //_handler = null;
+            onCompleted?.Invoke(this);
         }
+
+        public void Stop(bool isCleanTmepFile = false)
+        {
+            if(null == _asyncOperation)
+            {
+                Debug.LogWarning("HttpDownloader并未Start");
+                return;
+            }
+
+            if (isDisposed)
+            {
+                Debug.LogWarning("HttpDownloader的Stop不能重复调用");
+                return;
+            }
+
+            _handler.onReceivedHeaders -= OnReceivedHeaders;
+            _handler.onReceivedData -= OnHandlerReceivedData;
+            _asyncOperation.completed -= OnRequestCompleted;
+
+            _handler.DisposeSafely(isCleanTmepFile);
+            isDisposed = true;
+        }
+
     }
 }

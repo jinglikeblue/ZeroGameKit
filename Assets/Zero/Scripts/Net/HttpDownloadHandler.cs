@@ -56,6 +56,11 @@ namespace Zero
         /// </summary>
         public event ReceivedData onReceivedData;
 
+        /// <summary>
+        /// 收到了ResponseHeader数据
+        /// </summary>
+        public event Action onReceivedHeaders;
+
         public HttpDownloadHandler(string savePath, bool isResumeable)
         {            
             this.savePath = savePath;
@@ -78,17 +83,17 @@ namespace Zero
                 downloadedSize = _fileStream.Length;
 
 
-                if(downloadedSize > 0)
-                {
-                    Debug.Log($"断点续传下载文件，已下载:{downloadedSize}");
-                }                
+                //if(downloadedSize > 0)
+                //{
+                //    Debug.Log($"断点续传下载文件，已下载:{downloadedSize}");
+                //}                
             }
         }
 
         protected override void ReceiveContentLengthHeader(ulong contentLength)
         {            
-            totalSize = (long)contentLength + downloadedSize;
-            Debug.Log($"收到下载内容大小:{contentLength} 文件总大小:{totalSize}");            
+            totalSize = (long)contentLength + downloadedSize;                        
+            onReceivedHeaders?.Invoke();
         }
 
         protected override bool ReceiveData(byte[] data, int dataLength)
@@ -107,7 +112,7 @@ namespace Zero
             downloadedSize += dataLength;
             progress = (float)downloadedSize / totalSize;
 
-            Debug.Log($"下载到数据大小:{dataLength} 完成度:{GetProgress()} 已下载内容大小:{downloadedSize}/{totalSize}");
+            //Debug.Log($"下载到数据大小:{dataLength} 完成度:{GetProgress()} 已下载内容大小:{downloadedSize}/{totalSize}");
 
             onReceivedData?.Invoke(dataLength);
 
