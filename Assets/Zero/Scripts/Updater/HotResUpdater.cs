@@ -53,8 +53,11 @@ namespace Zero
                 var netItem = Runtime.Ins.netResVer.Get(resName);
 
                 //将要下载的文件依次添加入下载器
-                groupLoader.AddTask(FileUtility.CombinePaths(Runtime.Ins.netResDir, resName), FileUtility.CombinePaths(Runtime.Ins.localResDir, resName), netItem.version, netItem.size, OnItemLoaded, netItem);
+                groupLoader.AddTask(FileUtility.CombinePaths(Runtime.Ins.netResDir, resName), FileUtility.CombinePaths(Runtime.Ins.localResDir, resName), netItem.version, netItem.size, netItem);
             }
+
+            groupLoader.onTaskCompleted += OnGroupHttpDownloaderTaskCompleted;
+
             //启动下载器开始下载
             groupLoader.Start();
 
@@ -66,6 +69,8 @@ namespace Zero
             }
             while (false == groupLoader.isDone);
 
+            groupLoader.onTaskCompleted -= OnGroupHttpDownloaderTaskCompleted;
+
             //判断下载是否返回错误
             if (null != groupLoader.error)
             {
@@ -76,13 +81,13 @@ namespace Zero
             End();
         }
 
-        private void OnItemLoaded(object obj)
+        private void OnGroupHttpDownloaderTaskCompleted(GroupHttpDownloader groupDownloader, GroupHttpDownloader.TaskInfo taskInfo)
         {
-            var item = (ResVerVO.Item)obj;
-            Debug.Log(Log.Zero1("下载完成：{0} Ver:{1}", item.name, item.version));
+            var item = (ResVerVO.Item)taskInfo.data;
+            double size =  Math.Round((double)groupDownloader.currentDownloader.totalSize / 1024 / 1024, 2);
+            Debug.Log(Log.Zero1($"下载完成:{item.name} Size:{size}MB Ver:{item.version}"));
             Runtime.Ins.localResVer.SetVerAndSave(item.name, item.version);
         }
-
 
         #region 检查要更新的资源列表
 

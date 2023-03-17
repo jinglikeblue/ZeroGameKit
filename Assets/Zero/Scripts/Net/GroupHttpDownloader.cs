@@ -12,6 +12,20 @@ namespace Zero
     /// </summary>
     public class GroupHttpDownloader
     {
+        #region 委托定义
+        //下载进度更新事件
+        public delegate void ProgressEvent(GroupHttpDownloader groupDownloader, float progress, int contentLength);
+
+        //单个任务开始的事件
+        public delegate void TaskStartedEvent(GroupHttpDownloader groupDownloader, TaskInfo taskInfo, Dictionary<string, string> responseHeaders);
+
+        //单个任务完成的事件
+        public delegate void TaskCompletedEvent(GroupHttpDownloader groupDownloader, TaskInfo taskInfo);
+
+        //队列完成的事件
+        public delegate void CompletedEvent(GroupHttpDownloader groupDownloader);
+        #endregion
+
         #region 下载内容信息结构体
         /// <summary>
         /// 加载信息
@@ -34,12 +48,7 @@ namespace Zero
             public string version;
 
             /// <summary>
-            /// 加载完成的回调
-            /// </summary>
-            public Action<object> onLoaded;
-
-            /// <summary>
-            /// 加载完成回调携带的数据
+            /// 附加的数据
             /// </summary>
             public object data;
 
@@ -48,17 +57,36 @@ namespace Zero
             /// </summary>
             public long fileVirtualSize;
 
-            public TaskInfo(string url, string savePath, string version, long fileVirtualSize, Action<object> onLoaded, object data)
+            public TaskInfo(string url, string savePath, string version, long fileVirtualSize, object data)
             {
                 this.url = url;
                 this.savePath = savePath;
                 this.version = version;
-                this.fileVirtualSize = fileVirtualSize;
-                this.onLoaded = onLoaded;
+                this.fileVirtualSize = fileVirtualSize;                
                 this.data = data;
             }
         }
         #endregion
+
+        /// <summary>
+        /// 下载进度更新事件
+        /// </summary>
+        public event ProgressEvent onProgress;
+
+        /// <summary>
+        /// 单个任务开始的事件
+        /// </summary>
+        public event TaskStartedEvent onTaskStarted;
+
+        /// <summary>
+        /// 单个任务完成的事件
+        /// </summary>
+        public event TaskCompletedEvent onTaskCompleted;
+
+        /// <summary>
+        /// 队列完成的事件
+        /// </summary>
+        public event CompletedEvent onCompleted;
 
         /// <summary>
         /// 已下载的文件大小
@@ -101,17 +129,17 @@ namespace Zero
         /// <summary>
         /// 当前下载任务的序号
         /// </summary>
-        int _currentTaskIndex = -1;
+        public int currentTaskIndex { get; private set; } = -1;
 
         /// <summary>
         /// 当前下载任务的信息
         /// </summary>
-        TaskInfo _currentTaskInfo;
+        public TaskInfo currentTaskInfo { get; private set; } = null;
 
         /// <summary>
         /// 当前下载任务的下载器
         /// </summary>
-        HttpDownloader _currentDownloader;
+        public HttpDownloader currentDownloader { get; private set; } = null;
 
         /// <summary>
         /// 标记是否正在下载中
@@ -120,7 +148,7 @@ namespace Zero
         {
             get
             {
-                return _currentTaskIndex > -1 ? true : false;
+                return currentTaskIndex > -1 ? true : false;
             }
         }
 
@@ -146,10 +174,9 @@ namespace Zero
         /// <param name="url">下载文件地址</param>
         /// <param name="savePath">保存文件路径</param>
         /// <param name="version">版本号</param>
-        /// <param name="fileSize">文件大小（虚拟值，用来计算列表下载进度）</param>
-        /// <param name="onLoaded">任务完成后的回调</param>
+        /// <param name="fileSize">文件大小（虚拟值，用来计算列表下载进度）</param>        
         /// <param name="data">任务完成后，回调是返回的数据</param>
-        public void AddTask(string url, string savePath, string version, long fileSize = 1, Action<object> onLoaded = null, object data = null)
+        public void AddTask(string url, string savePath, string version, long fileSize = 1, object data = null)
         {
             if (IsStarted)
             {
@@ -157,7 +184,7 @@ namespace Zero
                 return;
             }
 
-            _infoList.Add(new TaskInfo(url, savePath, version, fileSize, onLoaded, data));
+            _infoList.Add(new TaskInfo(url, savePath, version, fileSize, data));
             totalSize += fileSize;
         }
 
@@ -180,21 +207,27 @@ namespace Zero
 
         void DownloadNext()
         {
-            _currentTaskIndex++;
-            if(_currentTaskIndex < _infoList.Count)
+            currentTaskIndex++;
+            if(currentTaskIndex < _infoList.Count)
             {
                 //继续下载                
-                _currentTaskInfo = _infoList[_currentTaskIndex];
-                _currentDownloader = new HttpDownloader(_currentTaskInfo.url, _currentTaskInfo.savePath, _currentTaskInfo.version, _isResumeable);                
-                _currentDownloader.onProgress += OnHttpDownloaderProgress;
-                _currentDownloader.onCompleted += OnHttpDownloaderCompleted;
-                _currentDownloader.Start();
+                currentTaskInfo = _infoList[currentTaskIndex];
+                currentDownloader = new HttpDownloader(currentTaskInfo.url, currentTaskInfo.savePath, currentTaskInfo.version, _isResumeable);                
+                currentDownloader.onProgress += OnHttpDownloaderProgress;
+                currentDownloader.onCompleted += OnHttpDownloaderCompleted;
+                currentDownloader.onResponseHeaders += OnHttpDownloaderResponseHeaders;
+                currentDownloader.Start();
             }
             else
             {                
                 //下载完成
                 End();
             }
+        }
+
+        private void OnHttpDownloaderResponseHeaders(HttpDownloader downloader, Dictionary<string, string> responseHeaders)
+        {
+            onTaskStarted?.Invoke(this, currentTaskInfo, responseHeaders);
         }
 
         private void OnHttpDownloaderCompleted(HttpDownloader downloader)
@@ -206,21 +239,24 @@ namespace Zero
                 End(error);
             }
 
-            _loadCompletedFileSize += _currentTaskInfo.fileVirtualSize;
-            loadedSize = _loadCompletedFileSize;
+            _loadCompletedFileSize += currentTaskInfo.fileVirtualSize;
+            loadedSize = _loadCompletedFileSize;            
 
-            _currentTaskInfo.onLoaded?.Invoke(_currentTaskInfo.data);
+            onTaskCompleted?.Invoke(this, currentTaskInfo);
+
             DownloadNext();
         }
 
         private void OnHttpDownloaderProgress(HttpDownloader downloader, float progress, int contentLength)
         {
-            var virtualSize = progress * _currentTaskInfo.fileVirtualSize;
+            var virtualSize = progress * currentTaskInfo.fileVirtualSize;
 
             loadedSize = _loadCompletedFileSize + (long)virtualSize;
             this.progress = (float)Math.Round((double)loadedSize / totalSize, 4);
 
-            Debug.Log($"[GroupHttpDownloader] progress:{this.progress} loaded:{loadedSize}/{totalSize}");
+            //Debug.Log($"[GroupHttpDownloader] progress:{this.progress} loaded:{loadedSize}/{totalSize}");
+
+            onProgress?.Invoke(this, this.progress, contentLength);
         }
 
         public void StopAndDispose(bool isCleanTmepFile = false)
@@ -242,17 +278,19 @@ namespace Zero
 
         void End(string error = null, bool isCleanTmepFile = false)
         {
-            _currentTaskInfo = null;
-            if (_currentDownloader != null)
+            currentTaskInfo = null;
+            if (currentDownloader != null)
             {
-                _currentDownloader.onProgress -= OnHttpDownloaderProgress;
-                _currentDownloader.onCompleted -= OnHttpDownloaderCompleted;
-                _currentDownloader.StopAndDispose(isCleanTmepFile);
-                _currentDownloader = null;
+                currentDownloader.onProgress -= OnHttpDownloaderProgress;
+                currentDownloader.onCompleted -= OnHttpDownloaderCompleted;
+                currentDownloader.onResponseHeaders -= OnHttpDownloaderResponseHeaders;
+                currentDownloader.StopAndDispose(isCleanTmepFile);
+                currentDownloader = null;
             }            
-            _currentTaskIndex = int.MaxValue;
+            currentTaskIndex = int.MaxValue;
             this.error = error;            
-            isDone = true;            
+            isDone = true;
+            onCompleted?.Invoke(this);
         }
     }
 }
