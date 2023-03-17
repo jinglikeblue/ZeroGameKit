@@ -75,19 +75,28 @@ namespace Zero
 
             FileMode mode = isResumeable ? FileMode.Append : FileMode.OpenOrCreate;
 
-            _fileStream = new FileStream(_tempSavePath, mode, FileAccess.Write, FileShare.ReadWrite);
-
-            if (isResumeable)
+            try
             {
-                //断点续传的话，则先记录已下载的文件尺寸
-                downloadedSize = _fileStream.Length;
+                _fileStream = new FileStream(_tempSavePath, mode, FileAccess.Write, FileShare.None);
+                if (isResumeable)
+                {
+                    //断点续传的话，则先记录已下载的文件尺寸
+                    downloadedSize = _fileStream.Length;
 
 
-                //if(downloadedSize > 0)
-                //{
-                //    Debug.Log($"断点续传下载文件，已下载:{downloadedSize}");
-                //}                
+                    //if(downloadedSize > 0)
+                    //{
+                    //    Debug.Log($"断点续传下载文件，已下载:{downloadedSize}");
+                    //}                
+                }
             }
+            catch(Exception e)
+            {
+                Debug.Log(e);
+                _fileStream = null;
+            }
+
+
         }
 
         protected override void ReceiveContentLengthHeader(ulong contentLength)
