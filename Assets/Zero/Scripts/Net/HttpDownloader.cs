@@ -98,6 +98,11 @@ namespace Zero
         /// </summary>
         public string savePath { get; private set; }
 
+        /// <summary>
+        /// 请求超时秒数
+        /// </summary>
+        public int timeout = 60;
+
         UnityWebRequestAsyncOperation _asyncOperation;
 
         /// <summary>
@@ -141,9 +146,9 @@ namespace Zero
             }
 
             _handler.onReceivedHeaders += OnReceivedHeaders;
-            _handler.onReceivedData += OnHandlerReceivedData;            
-
-            _asyncOperation = request.SendWebRequest();
+            _handler.onReceivedData += OnHandlerReceivedData;
+            request.timeout = timeout;
+            _asyncOperation = request.SendWebRequest();            
             _asyncOperation.completed += OnRequestCompleted;
         }
 

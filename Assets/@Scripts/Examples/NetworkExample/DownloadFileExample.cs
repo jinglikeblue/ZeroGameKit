@@ -134,7 +134,7 @@ namespace Example
         void TestDownload(string url, string savePath, string version)
         {
             _downloader = new HttpDownloader(url, savePath, version, toggleResumeable.isOn);
-
+            
             L($"下载文件:{url}  保存位置:{savePath}  版本号:{version} 是否断点续传:{toggleResumeable.isOn}");
 
             if (toggleResumeable.isOn)

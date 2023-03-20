@@ -142,6 +142,11 @@ namespace Zero
         public HttpDownloader currentDownloader { get; private set; } = null;
 
         /// <summary>
+        /// 请求超时秒数
+        /// </summary>
+        public int timeout = 60;
+
+        /// <summary>
         /// 标记是否正在下载中
         /// </summary>
         public bool IsStarted
@@ -212,7 +217,8 @@ namespace Zero
             {
                 //继续下载                
                 currentTaskInfo = _infoList[currentTaskIndex];
-                currentDownloader = new HttpDownloader(currentTaskInfo.url, currentTaskInfo.savePath, currentTaskInfo.version, _isResumeable);                
+                currentDownloader = new HttpDownloader(currentTaskInfo.url, currentTaskInfo.savePath, currentTaskInfo.version, _isResumeable);
+                currentDownloader.timeout = timeout;
                 currentDownloader.onProgress += OnHttpDownloaderProgress;
                 currentDownloader.onCompleted += OnHttpDownloaderCompleted;
                 currentDownloader.onResponseHeaders += OnHttpDownloaderResponseHeaders;

@@ -994,10 +994,10 @@ MonoBehaviour:
   data:
     isLogEnable: 1
     builtinResMode: 0
-    hotResMode: 0
+    hotResMode: 2
     netRoots:
     - http://127.0.0.1/zero/res
-    isUseDll: 1
+    isUseDll: 0
     isLoadPdb: 1
     ilType: 0
     isTryJitBeforeILRuntime: 0
