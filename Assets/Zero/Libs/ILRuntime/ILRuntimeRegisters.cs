@@ -75,6 +75,7 @@ namespace Zero
             appdomain.DelegateManager.RegisterMethodDelegate<Zero.Timer>();
             appdomain.DelegateManager.RegisterMethodDelegate<System.Single, System.Int64>();            appdomain.DelegateManager.RegisterMethodDelegate<System.String>();            appdomain.DelegateManager.RegisterFunctionDelegate<global::Adapt_IMessage.Adaptor>();
             appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.Object[]>();
+            appdomain.DelegateManager.RegisterMethodDelegate<Zero.HttpDownloader, System.Collections.Generic.Dictionary<System.String, System.String>>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.HttpDownloader, System.Single, System.Int32>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.HttpDownloader>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.GroupHttpDownloader>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.GroupHttpDownloader, System.Single, System.Int32>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.GroupHttpDownloader, Zero.GroupHttpDownloader.TaskInfo>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.GroupHttpDownloader, Zero.GroupHttpDownloader.TaskInfo, System.Collections.Generic.Dictionary<System.String, System.String>>();
             #endregion
 
             appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.Vector2>();
@@ -126,6 +127,56 @@ namespace Zero
                     return ((Func<ILRuntime.Runtime.Intepreter.ILTypeInstance, ILRuntime.Runtime.Intepreter.ILTypeInstance, System.Int32>)act)(x, y);
                 });
             });
+
+            appdomain.DelegateManager.RegisterDelegateConvertor<Zero.HttpDownloader.ReceivedResponseHeadersEvent>((act) =>
+            {
+                return new Zero.HttpDownloader.ReceivedResponseHeadersEvent((downloader, responseHeaders) =>
+                {
+                    ((Action<Zero.HttpDownloader, System.Collections.Generic.Dictionary<System.String, System.String>>)act)(downloader, responseHeaders);
+                });
+            });
+            appdomain.DelegateManager.RegisterDelegateConvertor<Zero.HttpDownloader.ProgressEvent>((act) =>
+            {
+                return new Zero.HttpDownloader.ProgressEvent((downloader, progress, contentLength) =>
+                {
+                    ((Action<Zero.HttpDownloader, System.Single, System.Int32>)act)(downloader, progress, contentLength);
+                });
+            });
+            appdomain.DelegateManager.RegisterDelegateConvertor<Zero.HttpDownloader.CompletedEvent>((act) =>
+            {
+                return new Zero.HttpDownloader.CompletedEvent((downloader) =>
+                {
+                    ((Action<Zero.HttpDownloader>)act)(downloader);
+                });
+            });
+            appdomain.DelegateManager.RegisterDelegateConvertor<Zero.GroupHttpDownloader.CompletedEvent>((act) =>
+            {
+                return new Zero.GroupHttpDownloader.CompletedEvent((groupDownloader) =>
+                {
+                    ((Action<Zero.GroupHttpDownloader>)act)(groupDownloader);
+                });
+            });
+            appdomain.DelegateManager.RegisterDelegateConvertor<Zero.GroupHttpDownloader.ProgressEvent>((act) =>
+            {
+                return new Zero.GroupHttpDownloader.ProgressEvent((groupDownloader, progress, contentLength) =>
+                {
+                    ((Action<Zero.GroupHttpDownloader, System.Single, System.Int32>)act)(groupDownloader, progress, contentLength);
+                });
+            });
+            appdomain.DelegateManager.RegisterDelegateConvertor<Zero.GroupHttpDownloader.TaskCompletedEvent>((act) =>
+            {
+                return new Zero.GroupHttpDownloader.TaskCompletedEvent((groupDownloader, taskInfo) =>
+                {
+                    ((Action<Zero.GroupHttpDownloader, Zero.GroupHttpDownloader.TaskInfo>)act)(groupDownloader, taskInfo);
+                });
+            });
+            appdomain.DelegateManager.RegisterDelegateConvertor<Zero.GroupHttpDownloader.TaskStartedEvent>((act) =>
+            {
+                return new Zero.GroupHttpDownloader.TaskStartedEvent((groupDownloader, taskInfo, responseHeaders) =>
+                {
+                    ((Action<Zero.GroupHttpDownloader, Zero.GroupHttpDownloader.TaskInfo, System.Collections.Generic.Dictionary<System.String, System.String>>)act)(groupDownloader, taskInfo, responseHeaders);
+                });
+            });
             #endregion
 
             appdomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction<System.Boolean>>((act) =>

@@ -34,9 +34,11 @@ namespace Example
         public Button btnStart;
         public Button btnPause;
         public Toggle toggleResumeable;
+        public Toggle toggleGroupDownload;
         public Text textLog;
 
         HttpDownloader _downloader;
+        GroupHttpDownloader _groupDownloader;
 
         /// <summary>
         /// 是否使用协程方式加载的开关 true：使用协程方式下载  false：使用事件方式下载
@@ -80,6 +82,57 @@ namespace Example
 
             string version = null;
 
+            if (toggleGroupDownload.isOn)
+            {
+                TestGroupDownload(url, savePath, version);
+            }
+            else
+            {
+                TestDownload(url, savePath, version);
+            }
+        }
+
+        #region GroupHttpDownloader
+
+        void TestGroupDownload(string url, string savePath, string version)
+        {
+            _groupDownloader = new GroupHttpDownloader(toggleResumeable.isOn);
+            _groupDownloader.onCompleted += OnGroupDownloaderCompleted;
+            _groupDownloader.onProgress += OnGroupDownloaderProgress;
+            _groupDownloader.onTaskCompleted += OnGroupDownloaderTaskCompleted;
+            _groupDownloader.onTaskStarted += OnGroupDownloaderTaskStarted;
+            _groupDownloader.AddTask(url, savePath, version, 10000);
+            L($"添加队列下载任务 文件:{url}  保存位置:{savePath}  版本号:{version} 是否断点续传:{toggleResumeable.isOn}");
+            _groupDownloader.AddTask(url, savePath, version, 10000);
+            L($"添加队列下载任务 文件:{url}  保存位置:{savePath}  版本号:{version} 是否断点续传:{toggleResumeable.isOn}");
+            _groupDownloader.Start();
+        }
+
+        private void OnGroupDownloaderCompleted(GroupHttpDownloader groupDownloader)
+        {
+            L($"下载完成 error:{groupDownloader.error}");
+        }
+
+        private void OnGroupDownloaderProgress(GroupHttpDownloader groupDownloader, float progress, int contentLength)
+        {
+            L($"下载到数据大小:{contentLength} 完成度:{progress} 已下载内容大小:{groupDownloader.loadedSize}/{groupDownloader.totalSize}");
+        }
+
+        private void OnGroupDownloaderTaskCompleted(GroupHttpDownloader groupDownloader, GroupHttpDownloader.TaskInfo taskInfo)
+        {
+            L($"下载任务完成 index:{groupDownloader.currentTaskIndex} url:{taskInfo.url}");
+        }
+
+        private void OnGroupDownloaderTaskStarted(GroupHttpDownloader groupDownloader, GroupHttpDownloader.TaskInfo taskInfo, Dictionary<string, string> responseHeaders)
+        {
+            L($"下载任务开始 index:{groupDownloader.currentTaskIndex} url:{taskInfo.url}");
+        }
+
+        #endregion
+
+        #region HttpDownloader
+        void TestDownload(string url, string savePath, string version)
+        {
             _downloader = new HttpDownloader(url, savePath, version, toggleResumeable.isOn);
 
             L($"下载文件:{url}  保存位置:{savePath}  版本号:{version} 是否断点续传:{toggleResumeable.isOn}");
@@ -145,5 +198,6 @@ namespace Example
         }
         #endregion
 
+        #endregion
     }
 }

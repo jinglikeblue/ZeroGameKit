@@ -1005,6 +1005,7 @@ namespace ILRuntime.Runtime.Intepreter
                     sb.AppendLine(">();");
                 }
             }
+            sb.AppendLine("[Zero] 添加上方代码到 ILRuntimeRegisters.cs");
             throw new KeyNotFoundException(sb.ToString());
         }
     }
