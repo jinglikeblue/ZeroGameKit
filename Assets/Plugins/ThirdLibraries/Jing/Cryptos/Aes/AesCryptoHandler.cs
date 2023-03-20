@@ -121,19 +121,6 @@ namespace Jing
                         break;
                     }
 
-                    if (false == isEncrypt && count < BUFFER_SIZE)
-                    {
-                        //精简输出块
-                        for (int i = 0; i < buffer.Length; i++)
-                        {
-                            if (buffer[i] == '\0')
-                            {
-                                count = i;
-                                break;
-                            }
-                        }
-                    }
-
                     writeStream.Write(buffer, 0, count);
                 } while (true);
 
