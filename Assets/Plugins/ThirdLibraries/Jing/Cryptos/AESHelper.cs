@@ -1,11 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace Jing
 {
     /// <summary>
-    /// AES加密辅助类
+    /// AES加密辅助类(对称加密)
     /// </summary>
     public class AESHelper
     {
@@ -16,6 +17,16 @@ namespace Jing
             byte[] key128Bit = new byte[16];
             Array.Copy(keyBytes, 0, key128Bit, 0, keyBytes.Length);
             return key128Bit;
+        }
+
+        public static void Encrypt(Stream input, Stream output, string key, string iv = null)
+        {
+
+        }
+
+        public static void Decrypt(Stream input, Stream output, string key, string iv = null)
+        {
+
         }
 
         /// <summary>
