@@ -1,9 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading;
-using UnityEngine;
 
 namespace Jing
 {
@@ -14,35 +11,35 @@ namespace Jing
     {
         #region 测试代码
 
-        [UnityEditor.MenuItem("Test/CryptoFile/AES_Encrypt")]
-        public static void TestEncrypt()
-        {
-            var filePath = UnityEditor.EditorUtility.OpenFilePanel("test", "", "");
-            var outputPath = FileUtility.StandardizeBackslashSeparator(filePath);
-            outputPath = FileUtility.CombinePaths(Path.GetDirectoryName(outputPath), Path.GetFileName(outputPath) + ".crypto");
+        //[UnityEditor.MenuItem("Test/CryptoFile/AES_Encrypt")]
+        //public static void TestEncrypt()
+        //{
+        //    var filePath = UnityEditor.EditorUtility.OpenFilePanel("test", "", "");
+        //    var outputPath = FileUtility.StandardizeBackslashSeparator(filePath);
+        //    outputPath = FileUtility.CombinePaths(Path.GetDirectoryName(outputPath), Path.GetFileName(outputPath) + ".crypto");
 
-            var bytes = Encrypt(File.ReadAllBytes(filePath), "test");
-            File.WriteAllBytes(outputPath, bytes);
+        //    var bytes = Encrypt(File.ReadAllBytes(filePath), "test");
+        //    File.WriteAllBytes(outputPath, bytes);
 
-            Debug.Log($"[{Thread.CurrentThread.ManagedThreadId}] 加密完成!");
+        //    Debug.Log($"[{Thread.CurrentThread.ManagedThreadId}] 加密完成!");
 
-            UnityEngine.Application.OpenURL(Path.GetDirectoryName(outputPath));
-        }
+        //    UnityEngine.Application.OpenURL(Path.GetDirectoryName(outputPath));
+        //}
 
-        [UnityEditor.MenuItem("Test/CryptoFile/AES_Decrypt")]
-        public static void TestDecrypt()
-        {
-            var filePath = UnityEditor.EditorUtility.OpenFilePanel("test", "", "");
-            var outputPath = FileUtility.StandardizeBackslashSeparator(filePath);
-            outputPath = FileUtility.CombinePaths(Path.GetDirectoryName(outputPath), Path.GetFileNameWithoutExtension(outputPath));
+        //[UnityEditor.MenuItem("Test/CryptoFile/AES_Decrypt")]
+        //public static void TestDecrypt()
+        //{
+        //    var filePath = UnityEditor.EditorUtility.OpenFilePanel("test", "", "");
+        //    var outputPath = FileUtility.StandardizeBackslashSeparator(filePath);
+        //    outputPath = FileUtility.CombinePaths(Path.GetDirectoryName(outputPath), Path.GetFileNameWithoutExtension(outputPath));
 
-            var bytes = Decrypt(File.ReadAllBytes(filePath), "test");
-            File.WriteAllBytes(outputPath, bytes);
+        //    var bytes = Decrypt(File.ReadAllBytes(filePath), "test");
+        //    File.WriteAllBytes(outputPath, bytes);
 
-            Debug.Log($"[{Thread.CurrentThread.ManagedThreadId}] 加密完成!");
+        //    Debug.Log($"[{Thread.CurrentThread.ManagedThreadId}] 加密完成!");
 
-            UnityEngine.Application.OpenURL(Path.GetDirectoryName(outputPath));
-        }
+        //    UnityEngine.Application.OpenURL(Path.GetDirectoryName(outputPath));
+        //}
 
         #endregion
 

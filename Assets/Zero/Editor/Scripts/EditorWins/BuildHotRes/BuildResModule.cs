@@ -70,6 +70,8 @@ namespace ZeroEditor
             {
                 BuildPart2();
             }
+
+            AssetDatabase.Refresh();
         }
 
 
@@ -90,9 +92,8 @@ namespace ZeroEditor
         {
             if (EditorUtility.DisplayDialog("确定窗口", "确定拷贝构建内容到'StreamingAssets/res'？", "是", "否"))
             {
-                FileUtility.CopyDir(ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.STREAMING_ASSETS_RES_DATA_PATH);
-                AssetDatabase.Refresh();
-            }
+                FileUtility.CopyDir(ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.STREAMING_ASSETS_RES_DATA_PATH);                
+            }            
         }
 
         [LabelText("Build StreamingAssets/res中的res.json"), Button(ButtonSizes.Large), PropertyOrder(901)]

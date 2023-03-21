@@ -75,7 +75,7 @@ namespace Zero
             appdomain.DelegateManager.RegisterMethodDelegate<Zero.Timer>();
             appdomain.DelegateManager.RegisterMethodDelegate<System.Single, System.Int64>();            appdomain.DelegateManager.RegisterMethodDelegate<System.String>();            appdomain.DelegateManager.RegisterFunctionDelegate<global::Adapt_IMessage.Adaptor>();
             appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.Object[]>();
-            appdomain.DelegateManager.RegisterMethodDelegate<Zero.HttpDownloader, System.Collections.Generic.Dictionary<System.String, System.String>>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.HttpDownloader, System.Single, System.Int32>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.HttpDownloader>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.GroupHttpDownloader>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.GroupHttpDownloader, System.Single, System.Int32>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.GroupHttpDownloader, Zero.GroupHttpDownloader.TaskInfo>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.GroupHttpDownloader, Zero.GroupHttpDownloader.TaskInfo, System.Collections.Generic.Dictionary<System.String, System.String>>();
+            appdomain.DelegateManager.RegisterMethodDelegate<Zero.HttpDownloader, System.Collections.Generic.Dictionary<System.String, System.String>>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.HttpDownloader, System.Single, System.Int32>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.HttpDownloader>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.GroupHttpDownloader>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.GroupHttpDownloader, System.Single, System.Int32>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.GroupHttpDownloader, Zero.GroupHttpDownloader.TaskInfo>();            appdomain.DelegateManager.RegisterMethodDelegate<Zero.GroupHttpDownloader, Zero.GroupHttpDownloader.TaskInfo, System.Collections.Generic.Dictionary<System.String, System.String>>();            appdomain.DelegateManager.RegisterMethodDelegate<System.String, System.Byte[]>();
             #endregion
 
             appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.Vector2>();
@@ -175,6 +175,18 @@ namespace Zero
                 return new Zero.GroupHttpDownloader.TaskStartedEvent((groupDownloader, taskInfo, responseHeaders) =>
                 {
                     ((Action<Zero.GroupHttpDownloader, Zero.GroupHttpDownloader.TaskInfo, System.Collections.Generic.Dictionary<System.String, System.String>>)act)(groupDownloader, taskInfo, responseHeaders);
+                });
+            });            appdomain.DelegateManager.RegisterDelegateConvertor<Zero.StreamingAssetsUtility.StreamingAssetsTextLoadedEvent>((act) =>
+            {
+                return new Zero.StreamingAssetsUtility.StreamingAssetsTextLoadedEvent((path, text) =>
+                {
+                    ((Action<System.String, System.String>)act)(path, text);
+                });
+            });            appdomain.DelegateManager.RegisterDelegateConvertor<Zero.StreamingAssetsUtility.StreamingAssetsDataLoadedEvent>((act) =>
+            {
+                return new Zero.StreamingAssetsUtility.StreamingAssetsDataLoadedEvent((path, bytes) =>
+                {
+                    ((Action<System.String, System.Byte[]>)act)(path, bytes);
                 });
             });
             #endregion

@@ -26,12 +26,15 @@ namespace Example
     }
 
     class StreamingAssetsLoadFutureWin : WithCloseButtonWin
-    {        
+    {
         public Button btnLoadResJson;
         public Button btnLoadSettingJson;
         public Button btnLoadAssetBundle;
         public Button btnLoadDll;
         public Button btnLoadConfigs;
+
+        public Button btnCheckExist;
+        public Button btnCheckInexistence;
 
         public Text textLog;
 
@@ -50,6 +53,9 @@ namespace Example
             btnLoadAssetBundle.onClick.AddListener(LoadAssetBundle);
             btnLoadDll.onClick.AddListener(LoadDll);
             btnLoadConfigs.onClick.AddListener(LoadConfigs);
+
+            btnCheckExist.onClick.AddListener(CheckExist);
+            btnCheckInexistence.onClick.AddListener(CheckInexistence);
         }
 
         protected override void OnDisable()
@@ -61,28 +67,46 @@ namespace Example
             btnLoadAssetBundle.onClick.RemoveListener(LoadAssetBundle);
             btnLoadDll.onClick.RemoveListener(LoadDll);
             btnLoadConfigs.onClick.RemoveListener(LoadConfigs);
+
+            btnCheckExist.onClick.RemoveListener(CheckExist);
+            btnCheckInexistence.onClick.RemoveListener(CheckInexistence);
+        }
+
+        private void CheckExist()
+        {
+            StreamingAssetsUtility.CheckFileExist(FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_PATH, "build_info"), (isExist) =>
+            {
+                L($"StreamingAssets中是否存在文件[build_info]: {isExist}");
+            });
+        }
+
+        private void CheckInexistence()
+        {
+            StreamingAssetsUtility.CheckFileExist(FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_PATH, "build_info_test"), (isExist) =>
+            {
+                L($"StreamingAssets中是否存在文件[build_info_test]: {isExist}");
+            });
         }
 
         private void LoadResJson()
         {
             L("加载 res.json");
             var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, "res.json");
-            this.StartCoroutine(Load(path));
+            Load(path, true);
         }
 
         private void LoadSettingJson()
         {
             L("加载 setting.json");
             var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, "setting.json");
-            this.StartCoroutine(Load(path));
+            Load(path, true);
         }
 
         private void LoadAssetBundle()
         {
             L("加载 AssetBundle");
-            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, "ab", "examples.ab");
-
-            var ab = AssetBundle.LoadFromFile(path);
+            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, "ab", "examples.ab");
+            var ab = StreamingAssetsUtility.LoadAssetBundle(path);
             if (null != ab)
             {
                 L($"加载成功: {path}");
@@ -104,29 +128,29 @@ namespace Example
         {
             L("加载 dll");
             var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, "dll", "scripts.dll");
-            this.StartCoroutine(Load(path));
+            Load(path, false);
             path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, "dll", "scripts.pdb");
-            this.StartCoroutine(Load(path));
+            Load(path, false);
         }
 
         private void LoadConfigs()
         {
             L("加载 configs");
 
-            LoadAB(AB.CONFIGS_TESTS.NAME, AB.CONFIGS_TESTS.test_json);            
+            LoadAB(AB.CONFIGS_TESTS.NAME, AB.CONFIGS_TESTS.test_json);
 
             L("------------------------------------------------------------");
         }
 
         void LoadAB(string abName, string assetName)
         {
-            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.AB_DIR_NAME, abName);
-            var ab = AssetBundle.LoadFromFile(path);
+            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.AB_DIR_NAME, abName);
+            var ab = StreamingAssetsUtility.LoadAssetBundle(path);
             if (null != ab)
             {
                 L($"加载成功: {path}");
                 var obj = ab.LoadAsset(assetName);
-                L($"加载到AB资源: {obj.name}");                
+                L($"加载到AB资源: {obj.name}");
             }
             else
             {
@@ -134,25 +158,40 @@ namespace Example
             }
         }
 
-        IEnumerator Load(string path)
+        void Load(string path, bool isText)
         {
             L($"加载路径: {path}");
-            var uwr = UnityWebRequest.Get(path);
-            uwr.SendWebRequest();
-            while (!uwr.isDone)
+            if (isText)
             {
-                yield return 0;
+                StreamingAssetsUtility.LoadText(path, OnTextLoaded);
+            }
+            else
+            {
+                StreamingAssetsUtility.LoadData(path, OnDataLoaded);
+            }
+        }
+
+        private void OnDataLoaded(string path, byte[] bytes)
+        {
+            if (null == bytes)
+            {
+                L($"加载失败：{path}");
+                return;
             }
 
-            if (uwr.error != null)
+            L($"加载内容长度: {bytes.Length}");
+            L("------------------------------------------------------------");
+        }
+
+        private void OnTextLoaded(string path, string text)
+        {
+            if (null == text)
             {
-                L(uwr.error);
-                yield break;
+                L($"加载失败: {path}");
+                return;
             }
 
-            var content = uwr.downloadHandler.text;
-            Debug.Log(content);
-            L($"加载内容长度: {uwr.downloadedBytes}");
+            L($"加载内容长度: {text.Length}");
             L("------------------------------------------------------------");
         }
     }

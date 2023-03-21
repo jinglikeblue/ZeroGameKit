@@ -133,7 +133,7 @@ namespace Zero
             {
                 var absolutePath = GetStreamingAssetsPath();
                 var uwr = UnityWebRequest.Get(absolutePath);
-                uwr.SendWebRequest();
+                uwr.SendWebRequest();                
                 while (false == uwr.isDone)
                 {
                     if (isCanceled)
