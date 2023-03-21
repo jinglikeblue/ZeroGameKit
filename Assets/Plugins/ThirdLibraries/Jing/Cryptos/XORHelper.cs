@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Jing
@@ -11,26 +8,37 @@ namespace Jing
     /// <summary>
     /// 通过异或运算对数据加密(优点是文件大小不会改变)
     /// </summary>
-    class XORHelper
+    public class XORHelper
     {
-        [UnityEditor.MenuItem("Test/CryptoFile/XOR_Encrypt")]
-        public static void TestEncrypt()
-        {
-            var filePath = UnityEditor.EditorUtility.OpenFilePanel("test", "", "");
-            var outputPath = FileUtility.StandardizeBackslashSeparator(filePath);
-            outputPath = FileUtility.CombinePaths(Path.GetDirectoryName(outputPath), Path.GetFileName(outputPath) + ".crypto");
+        //[UnityEditor.MenuItem("Test/CryptoFile/XOR_Encrypt")]
+        //public static void TestEncrypt()
+        //{
+        //    var filePath = UnityEditor.EditorUtility.OpenFilePanel("test", "", "");
+        //    var outputPath = FileUtility.StandardizeBackslashSeparator(filePath);
+        //    outputPath = FileUtility.CombinePaths(Path.GetDirectoryName(outputPath), Path.GetFileName(outputPath) + ".crypto");
 
-            XORHelper.Transform(filePath, outputPath, "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest");
-        }
+        //    Debug.Log($"[{Thread.CurrentThread.ManagedThreadId}] 加密开始1");
+        //    var handler = XORHelper.TransformAsync(filePath, outputPath, "test");
+        //    handler.onAsyncCompleted += () =>
+        //    {
+        //        Debug.Log($"[{Thread.CurrentThread.ManagedThreadId}] 加密完成!");
+        //    };
+        //    Debug.Log($"[{Thread.CurrentThread.ManagedThreadId}] 加密开始2");
+        //}
 
-        [UnityEditor.MenuItem("Test/CryptoFile/XOR_Decrypt")]
-        public static void TestDecrypt()
-        {
-            var filePath = UnityEditor.EditorUtility.OpenFilePanel("test", "", "");
-            var outputPath = FileUtility.StandardizeBackslashSeparator(filePath);
-            outputPath = FileUtility.CombinePaths(Path.GetDirectoryName(outputPath), Path.GetFileNameWithoutExtension(outputPath));
-            XORHelper.Transform(filePath, outputPath, "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest");
-        }
+        //[UnityEditor.MenuItem("Test/CryptoFile/XOR_Decrypt")]
+        //public static void TestDecrypt()
+        //{
+        //    var filePath = UnityEditor.EditorUtility.OpenFilePanel("test", "", "");
+        //    var outputPath = FileUtility.StandardizeBackslashSeparator(filePath);
+        //    outputPath = FileUtility.CombinePaths(Path.GetDirectoryName(outputPath), Path.GetFileNameWithoutExtension(outputPath));
+        //    var handler = XORHelper.TransformAsync(filePath, outputPath, "test");
+        //    handler.onAsyncCompleted += () =>
+        //    {
+        //        Debug.Log($"[{Thread.CurrentThread.ManagedThreadId}] 处理完成!");
+        //    };
+        //    Debug.Log($"[{Thread.CurrentThread.ManagedThreadId}] 处理开始");
+        //}
 
         public static byte[] Transform(byte[] input, string key)
         {
@@ -44,70 +52,27 @@ namespace Jing
             return output;
         }
 
-        public static void Transform(Stream input, Stream output, string key)
+        public static XORCryptoHandler TransformAsync(Stream input, Stream output, string key)
         {
             var handler = new XORCryptoHandler(input, output, key);
-            handler.Transform();            
+            handler.TransformAsync();
+            return handler;
         }
 
-        public static void Transform(string input, string output, string key)
+        public static XORCryptoHandler TransformAsync(string input, string output, string key)
         {
             var inputStream = new FileStream(input, FileMode.Open);
             var outputStream = new FileStream(output, FileMode.Create);
 
             var handler = new XORCryptoHandler(inputStream, outputStream, key);
-            handler.Transform();
-
-            inputStream.Close();
-            outputStream.Close();
-        }
-    }
-
-    class XORCryptoHandler
-    {
-        Stream _input;
-        Stream _output;
-
-        string _key;
-
-        public bool isDone { get; private set; } = false;
-
-
-        public XORCryptoHandler(Stream input, Stream output, string key)
-        {
-            _input = input;
-            _output = output;
-            _key = key;           
-        }
-
-        public void Transform()
-        {
-            isDone = false;
-
-            byte[] xorKeys = _key.Length > 1024 ? Encoding.ASCII.GetBytes(MD5Helper.GetMD5(_key)): Encoding.ASCII.GetBytes(_key);
-
-            var bufferSize = xorKeys.Length > 256 ? xorKeys.Length : 256;
-
-            var buffer = new byte[bufferSize];            
-
-            int count;
-            while ((count = _input.Read(buffer,0, bufferSize)) > 0)
+            handler.onAsyncCompleted += () =>
             {
-                for(int i = 0; i < count; i++)
-                {
-                    var o = buffer[i];
-                    var key = xorKeys[i % xorKeys.Length];
-                    buffer[i] = (byte)(o ^ key);                   
-                }
-                _output.Write(buffer, 0, count);
-            }
-
-            isDone = true;
+                inputStream.Close();
+                outputStream.Close();
+            };
+            
+            handler.TransformAsync();            
+            return handler;
         }
-
-        public void TransformAsync()
-        {
-            new Thread(Transform).Start();
-        }        
     }
 }

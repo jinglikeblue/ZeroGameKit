@@ -14,28 +14,6 @@ namespace Jing
     /// </summary>
     public class AesCryptoHandler
     {
-        [UnityEditor.MenuItem("Test/CryptoFile/Encrypt")]
-        public static void TestEncrypt()
-        {
-            var filePath = UnityEditor.EditorUtility.OpenFilePanel("test", "", "");
-            var outputPath = FileUtility.StandardizeBackslashSeparator(filePath);
-            outputPath = FileUtility.CombinePaths(Path.GetDirectoryName(outputPath), Path.GetFileName(outputPath) + ".crypto");
-            var ach = new AesCryptoHandler(filePath, outputPath, "test");
-            ach.Encrypt();
-            Debug.Log("加密完成");
-        }
-
-        [UnityEditor.MenuItem("Test/CryptoFile/Decrypt")]
-        public static void TestDecrypt()
-        {
-            var filePath = UnityEditor.EditorUtility.OpenFilePanel("test", "", "");
-            var outputPath = FileUtility.StandardizeBackslashSeparator(filePath);
-            outputPath = FileUtility.CombinePaths(Path.GetDirectoryName(outputPath), Path.GetFileNameWithoutExtension(outputPath));
-            var ach = new AesCryptoHandler(filePath, outputPath, "test");
-            ach.Decrypt();
-            Debug.Log("解密完成");
-        }
-
         public static byte[] GenerateKey(string key)
         {
             byte[] keyBytes = Encoding.ASCII.GetBytes(key);
@@ -65,23 +43,25 @@ namespace Jing
         Stream _input;
         Stream _output;
 
-        public string inputPath { get; private set; }
-        public string outputPath { get; private set; }
+        public bool isDone { get; private set; } = false;
 
-        public AesCryptoHandler(string inputPath, string outputPath, string key, string iv = null)
+        public event Action onAsyncCompleted;
+
+        public AesCryptoHandler(Stream input, Stream output, string key, string iv = null)
         {
-            _input = new FileStream(inputPath, FileMode.Open);
-            _output = new FileStream(outputPath, FileMode.Create);
+            _input = input;
+            _output = output;
             this.key = key;
             this.iv = iv;
-            this.inputPath = inputPath;
-            this.outputPath = outputPath;
         }
 
         void Transform(bool isEncrypt)
         {
-            _input.Seek(0, SeekOrigin.Begin);
-            _output.Seek(0, SeekOrigin.Begin);
+            if (isDone)
+            {
+                throw new Exception("Transofrm is Done!");
+            }
+
             using (Aes aes = Aes.Create())
             {
                 aes.Padding = PaddingMode.Zeros;
@@ -125,29 +105,31 @@ namespace Jing
                 } while (true);
 
                 writeStream.Flush();
-                writeStream.Close();
             }
 
-            _input.Close();
-            _output.Close();
+            isDone = true;
         }
 
         public void Encrypt()
         {
             Transform(true);
+        }
 
-            var inputFile = new FileInfo(inputPath);
-            var outputFile = new FileInfo(outputPath);
-            Debug.Log($"加密数据: {inputFile.Length} => {outputFile.Length}");
+        public async void EncryptAsync()
+        {
+            await Task.Run(() => { Transform(true); });
+            onAsyncCompleted?.Invoke();
         }
 
         public void Decrypt()
         {
             Transform(false);
+        }
 
-            var inputFile = new FileInfo(inputPath);
-            var outputFile = new FileInfo(outputPath);
-            Debug.Log($"解密数据: {inputFile.Length} => {outputFile.Length}");
+        public async void DecryptAsync()
+        {
+            await Task.Run(() => { Transform(false); });
+            onAsyncCompleted?.Invoke();
         }
     }
 }

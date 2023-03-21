@@ -2,6 +2,8 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
+using UnityEngine;
 
 namespace Jing
 {
@@ -10,23 +12,118 @@ namespace Jing
     /// </summary>
     public class AESHelper
     {
-        static byte[] GenerateAESKey(string key)
+        #region 测试代码
+
+        [UnityEditor.MenuItem("Test/CryptoFile/AES_Encrypt")]
+        public static void TestEncrypt()
         {
-            key = MD5Helper.GetShortMD5(key);
-            byte[] keyBytes = Encoding.ASCII.GetBytes(key);
-            byte[] key128Bit = new byte[16];
-            Array.Copy(keyBytes, 0, key128Bit, 0, keyBytes.Length);
-            return key128Bit;
+            var filePath = UnityEditor.EditorUtility.OpenFilePanel("test", "", "");
+            var outputPath = FileUtility.StandardizeBackslashSeparator(filePath);
+            outputPath = FileUtility.CombinePaths(Path.GetDirectoryName(outputPath), Path.GetFileName(outputPath) + ".crypto");
+
+            var bytes = Encrypt(File.ReadAllBytes(filePath), "test");
+            File.WriteAllBytes(outputPath, bytes);
+
+            Debug.Log($"[{Thread.CurrentThread.ManagedThreadId}] 加密完成!");
+
+            UnityEngine.Application.OpenURL(Path.GetDirectoryName(outputPath));
         }
 
-        public static void Encrypt(Stream input, Stream output, string key, string iv = null)
+        [UnityEditor.MenuItem("Test/CryptoFile/AES_Decrypt")]
+        public static void TestDecrypt()
         {
+            var filePath = UnityEditor.EditorUtility.OpenFilePanel("test", "", "");
+            var outputPath = FileUtility.StandardizeBackslashSeparator(filePath);
+            outputPath = FileUtility.CombinePaths(Path.GetDirectoryName(outputPath), Path.GetFileNameWithoutExtension(outputPath));
 
+            var bytes = Decrypt(File.ReadAllBytes(filePath), "test");
+            File.WriteAllBytes(outputPath, bytes);
+
+            Debug.Log($"[{Thread.CurrentThread.ManagedThreadId}] 加密完成!");
+
+            UnityEngine.Application.OpenURL(Path.GetDirectoryName(outputPath));
         }
 
-        public static void Decrypt(Stream input, Stream output, string key, string iv = null)
-        {
+        #endregion
 
+
+        static byte[] TrimBytes(byte[] input)
+        {
+            int outputSize = input.Length;
+            //精简输出块
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (input[i] == '\0')
+                {
+                    outputSize = i;
+                    break;
+                }
+            }
+            var output = new byte[outputSize];
+            Array.Copy(input, 0, output, 0, outputSize);
+            return output;
+        }
+
+        public static byte[] Encrypt(byte[] inputBytes, string key, string iv = null)
+        {
+            var input = new MemoryStream(inputBytes);
+            var output = new MemoryStream();
+
+            var handler = new AesCryptoHandler(input, output, key, iv);
+            handler.Encrypt();
+            var tempOutput = output.ToArray();
+            return tempOutput;
+        }
+
+        public static byte[] Decrypt(byte[] inputBytes, string key, string iv = null)
+        {
+            var input = new MemoryStream(inputBytes);
+            var output = new MemoryStream();
+
+            var handler = new AesCryptoHandler(input, output, key, iv);
+            handler.Decrypt();
+            var tempOutput = output.ToArray();
+            return tempOutput;
+        }
+
+        public static AesCryptoHandler EncryptAsync(Stream input, Stream output, string key, string iv = null)
+        {
+            var handler = new AesCryptoHandler(input, output, key, iv);
+            handler.EncryptAsync();
+            return handler;
+        }
+
+        public static AesCryptoHandler DecryptAsync(Stream input, Stream output, string key, string iv = null)
+        {
+            var handler = new AesCryptoHandler(input, output, key, iv);
+            handler.DecryptAsync();
+            return handler;
+        }
+
+        public static AesCryptoHandler EncryptAsync(string inputPath, string outputPath, string key, string iv = null)
+        {
+            var input = new FileStream(inputPath, FileMode.Open);
+            var output = new FileStream(outputPath, FileMode.Create);
+            var handler = EncryptAsync(input, output, key, iv);
+            handler.onAsyncCompleted += () =>
+            {
+                input.Close();
+                output.Close();
+            };
+            return handler;
+        }
+
+        public static AesCryptoHandler DecryptAsync(string inputPath, string outputPath, string key, string iv = null)
+        {
+            var input = new FileStream(inputPath, FileMode.Open);
+            var output = new FileStream(outputPath, FileMode.Create);
+            var handler = DecryptAsync(input, output, key, iv);
+            handler.onAsyncCompleted += () =>
+            {
+                input.Close();
+                output.Close();
+            };
+            return handler;
         }
 
         /// <summary>
@@ -58,129 +155,6 @@ namespace Jing
             return Encoding.UTF8.GetString(data);
         }
 
-        /// <summary>
-        /// AES加密
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="key"></param>
-        /// <param name="iv"></param>
-        /// <returns></returns>
-        public static byte[] Encrypt(byte[] input, string key, string iv = null)
-        {
-            return new AesCrypto(input, key, iv).Encrypt();
-        }
 
-        /// <summary>
-        /// AES解密
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="key"></param>
-        /// <param name="iv"></param>
-        /// <returns></returns>
-        public static byte[] Decrypt(byte[] input, string key, string iv = null)
-        {
-            return new AesCrypto(input, key, iv).Decrypt();
-        }
-    }
-
-
-    public sealed class AesCrypto
-    {
-        public byte[] input { get; private set; }
-        public string key { get; private set; }
-        public string iv { get; private set; }
-
-        public AesCrypto(byte[] input, string key, string iv = null)
-        {
-            if (input == null || input.Length <= 0)
-            {
-                throw new ArgumentNullException("input");
-            }
-
-            if (key == null || key.Length <= 0)
-            {
-                throw new ArgumentNullException("key");
-            }
-
-            this.input = input;
-            this.key = key;
-            this.iv = iv;
-        }
-
-        /// <summary>
-        /// 加密
-        /// </summary>
-        /// <returns></returns>
-        public byte[] Encrypt()
-        {
-            byte[] output;
-
-            using (System.Security.Cryptography.Aes aes = System.Security.Cryptography.Aes.Create())
-            {
-                aes.Padding = PaddingMode.Zeros;
-                aes.Key = GenerateKey();
-                aes.IV = GenerateIV(aes);
-
-                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-                output = encryptor.TransformFinalBlock(input, 0, input.Length);
-            }
-
-            return output;
-        }
-
-        /// <summary>
-        /// 解密
-        /// </summary>
-        /// <returns></returns>
-        public byte[] Decrypt()
-        {
-            byte[] output;
-            using (System.Security.Cryptography.Aes aes = System.Security.Cryptography.Aes.Create())
-            {
-                aes.Padding = PaddingMode.Zeros;
-                aes.Key = GenerateKey();
-                aes.IV = GenerateIV(aes);
-
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-                var tempOutput = decryptor.TransformFinalBlock(input, 0, input.Length);
-
-                int outputSize = tempOutput.Length;
-                //精简输出块
-                for (int i = 0; i < tempOutput.Length; i++)
-                {
-                    if (tempOutput[i] == '\0')
-                    {
-                        outputSize = i;
-                        break;
-                    }
-                }
-                output = new byte[outputSize];
-                Array.Copy(tempOutput, 0, output, 0, outputSize);
-            }
-            return output;
-        }
-
-        byte[] GenerateKey()
-        {
-            byte[] keyBytes = Encoding.ASCII.GetBytes(key);
-            byte[] key128Bit = new byte[16];
-            var copyLength = keyBytes.Length < key128Bit.Length ? keyBytes.Length : key128Bit.Length;
-            Array.Copy(keyBytes, 0, key128Bit, 0, copyLength);
-            return key128Bit;
-        }
-
-        byte[] GenerateIV(SymmetricAlgorithm sa)
-        {
-            if(null == iv)
-            {
-                iv = "aes";
-            }
-
-            var tempBytes = Encoding.ASCII.GetBytes(iv);
-            var ivBytes = new byte[sa.BlockSize >> 3];
-            var copyLength = tempBytes.Length < ivBytes.Length ? tempBytes.Length : ivBytes.Length;
-            Array.Copy(tempBytes, 0, ivBytes, 0, copyLength);
-            return ivBytes;
-        }
     }
 }
