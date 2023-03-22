@@ -40,6 +40,8 @@ namespace Example
         HttpDownloader _downloader;
         GroupHttpDownloader _groupDownloader;
 
+        DateTime time = DateTime.Now;
+
         /// <summary>
         /// 是否使用协程方式加载的开关 true：使用协程方式下载  false：使用事件方式下载
         /// </summary>
@@ -56,6 +58,8 @@ namespace Example
             btnStart.onClick.AddListener(StartDownload);
             btnPause.onClick.AddListener(StopDownload);
             base.OnEnable();
+
+            SwitchState(false);
         }
 
         protected override void OnDisable()
@@ -66,12 +70,20 @@ namespace Example
         }
 
         private void StopDownload()
-        {
+        {            
+            StopAllCoroutines();
             _downloader?.StopAndDispose();
+            _downloader = null;
+            SwitchState(false);
         }
 
         private void StartDownload()
         {
+            if (null != _downloader)
+            {
+                return;
+            }
+
             textLog.text = "";
 
             var url = inputURL.text;
@@ -90,6 +102,8 @@ namespace Example
             {
                 TestDownload(url, savePath, version);
             }
+
+            SwitchState(true);
         }
 
         #region GroupHttpDownloader
@@ -115,7 +129,10 @@ namespace Example
 
         private void OnGroupDownloaderProgress(GroupHttpDownloader groupDownloader, float progress, int contentLength)
         {
-            L($"下载到数据大小:{contentLength} 完成度:{progress} 已下载内容大小:{groupDownloader.loadedSize}/{groupDownloader.totalSize}");
+            if (CheckPastSeconds(1) || progress == 1)
+            {
+                L($"下载到数据大小:{contentLength} 完成度:{progress} 已下载内容大小:{groupDownloader.loadedSize}/{groupDownloader.totalSize}");
+            }
         }
 
         private void OnGroupDownloaderTaskCompleted(GroupHttpDownloader groupDownloader, GroupHttpDownloader.TaskInfo taskInfo)
@@ -166,10 +183,15 @@ namespace Example
             _downloader.Start();
             while (false == _downloader.isDone)
             {
-                L($"完成度:{_downloader.progress} 已下载内容大小:{_downloader.loadedSize}/{_downloader.totalSize}");
+                if (CheckPastSeconds(1) || _downloader.progress == 1)
+                {
+                    L($"完成度:{_downloader.progress} 已下载内容大小:{_downloader.loadedSize}/{_downloader.totalSize}");
+                }
                 yield return null;
             }
             L($"下载完成 error:{_downloader.error}");
+            _downloader = null;
+            StopDownload();
         }
         #endregion
 
@@ -189,15 +211,37 @@ namespace Example
 
         private void OnProgress(HttpDownloader downloader, float progress, int contentLength)
         {
-            L($"下载到数据大小:{contentLength} 完成度:{progress} 已下载内容大小:{_downloader.loadedSize}/{_downloader.totalSize}");
+            if (CheckPastSeconds(1) || progress == 1)
+            {
+                L($"下载到数据大小:{contentLength} 完成度:{progress} 已下载内容大小:{_downloader.loadedSize}/{_downloader.totalSize}");
+            }
         }
 
         private void OnCompleted(HttpDownloader downloader)
         {
             L($"下载完成 error:{_downloader.error}");
+            _downloader = null;
+            StopDownload();
         }
         #endregion
 
+        bool CheckPastSeconds(int seconds)
+        {
+            var tn = DateTime.Now - time;
+            if(tn.TotalSeconds >= seconds)
+            {
+                time = DateTime.Now;
+                return true;
+            }
+            return false;
+        }
+
         #endregion
+
+        void SwitchState(bool isDownloading)
+        {
+            btnStart.gameObject.SetActive(!isDownloading);
+            btnPause.gameObject.SetActive(isDownloading);
+        }
     }
 }

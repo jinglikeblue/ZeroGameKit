@@ -288,12 +288,10 @@
     }
   ],
   "pListDataList": {
-    "CFBundleDisplayName": "StreetBall2 Onfire",
     "CFBundleIdentifier": "$(PRODUCT_BUNDLE_IDENTIFIER)",
     "ChannelID": "10001",
     "FacebookClientToken": "ffe742688acec7bda921d0b3ef042a79",
     "FacebookAppID": "5880176668692489",
-    "FacebookDisplayName": "StreetBall2 Onfire",
     "NSCameraUsageDescription": "是否允许此APP访问您的相机？",
     "NSPhotoLibraryAddUsageDescription": "是否允许此APP访问您的相册？",
     "NSPhotoLibraryUsageDescription": "是否允许此APP访问您的相册？",

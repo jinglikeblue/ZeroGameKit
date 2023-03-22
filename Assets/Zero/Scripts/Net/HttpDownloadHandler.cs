@@ -61,7 +61,7 @@ namespace Zero
         /// </summary>
         public event Action onReceivedHeaders;
 
-        public HttpDownloadHandler(string savePath, bool isResumeable)
+        public HttpDownloadHandler(string savePath, bool isResumeable):base(new byte[200 << 10])
         {            
             this.savePath = savePath;
             this.isResumeable = isResumeable;
@@ -81,13 +81,7 @@ namespace Zero
                 if (isResumeable)
                 {
                     //断点续传的话，则先记录已下载的文件尺寸
-                    downloadedSize = _fileStream.Length;
-
-
-                    //if(downloadedSize > 0)
-                    //{
-                    //    Debug.Log($"断点续传下载文件，已下载:{downloadedSize}");
-                    //}                
+                    downloadedSize = _fileStream.Length;           
                 }
             }
             catch(Exception e)
@@ -95,12 +89,16 @@ namespace Zero
                 Debug.Log(e);
                 _fileStream = null;
             }
-
-
         }
 
         protected override void ReceiveContentLengthHeader(ulong contentLength)
         {            
+            //已收到过长度(iOS下可能重复收到)，或者长度为0，则直接返回
+            if(0 == contentLength || totalSize > 0)
+            {
+                //Debug.Log($"重复收到ReceiveContentLengthHeader:{totalSize}");
+                return;
+            }            
             totalSize = (long)contentLength + downloadedSize;                        
             onReceivedHeaders?.Invoke();
         }
@@ -117,7 +115,14 @@ namespace Zero
                 return false;
             }
 
-            _fileStream.Write(data, 0, dataLength);
+            try
+            {
+                _fileStream.Write(data, 0, dataLength);                
+            }
+            catch
+            {
+                return false;
+            }
             downloadedSize += dataLength;
             progress = (float)downloadedSize / totalSize;
 
