@@ -101,7 +101,7 @@ namespace Zero
         /// <summary>
         /// 请求超时秒数
         /// </summary>
-        public int timeout = 60;
+        public int timeout = 0;
 
         UnityWebRequestAsyncOperation _asyncOperation;
 

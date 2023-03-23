@@ -70,10 +70,18 @@ namespace Example
         }
 
         private void StopDownload()
-        {            
-            StopAllCoroutines();
-            _downloader?.StopAndDispose();
-            _downloader = null;
+        {
+            if (toggleGroupDownload.isOn)
+            {
+                _groupDownloader.StopAndDispose();
+                _groupDownloader = null;
+            }
+            else
+            {
+                StopAllCoroutines();
+                _downloader?.StopAndDispose();
+                _downloader = null;
+            }
             SwitchState(false);
         }
 
@@ -125,6 +133,7 @@ namespace Example
         private void OnGroupDownloaderCompleted(GroupHttpDownloader groupDownloader)
         {
             L($"下载完成 error:{groupDownloader.error}");
+            StopDownload();
         }
 
         private void OnGroupDownloaderProgress(GroupHttpDownloader groupDownloader, float progress, int contentLength)
