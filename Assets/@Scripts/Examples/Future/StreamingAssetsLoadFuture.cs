@@ -74,10 +74,13 @@ namespace Example
 
         private void CheckExist()
         {
-            StreamingAssetsUtility.CheckFileExist(FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_PATH, "build_info"), (isExist) =>
-            {
-                L($"StreamingAssets中是否存在文件[build_info]: {isExist}");
-            });
+
+            var b = StreamingAssetsUtility.CheckFileExist(FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_PATH, "build_info"));
+            L($"StreamingAssets中是否存在文件[build_info]: {b}");
+            //StreamingAssetsUtility.CheckFileExist(FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_PATH, "build_info"), (isExist) =>
+            //{
+            //    L($"StreamingAssets中是否存在文件[build_info]: {isExist}");
+            //});
         }
 
         private void CheckInexistence()
@@ -163,17 +166,23 @@ namespace Example
             L($"加载路径: {path}");
             if (isText)
             {
-                StreamingAssetsUtility.LoadText(path, OnTextLoaded);
+                //StreamingAssetsUtility.LoadText(path, OnTextLoaded);
+
+                var text = StreamingAssetsUtility.LoadText(path);
+                OnTextLoaded(path, text);
             }
             else
             {
-                StreamingAssetsUtility.LoadData(path, OnDataLoaded);
+                //StreamingAssetsUtility.LoadData(path, OnDataLoaded);
+
+                var bytes = StreamingAssetsUtility.LoadData(path);
+                OnDataLoaded(path, bytes);
             }
         }
 
         private void OnDataLoaded(string path, byte[] bytes)
         {
-            if (null == bytes)
+            if (null == bytes || bytes.Length == 0)
             {
                 L($"加载失败：{path}");
                 return;
@@ -185,7 +194,7 @@ namespace Example
 
         private void OnTextLoaded(string path, string text)
         {
-            if (null == text)
+            if (string.IsNullOrEmpty(text))
             {
                 L($"加载失败: {path}");
                 return;

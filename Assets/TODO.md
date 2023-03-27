@@ -19,7 +19,7 @@
 
 - 重写框架中一些传回调的地方，改成事件委托方式
 
-- 框架中异步的地方，需要返回一个对象，可以用来终止异步操作
+- 框架中异步的地方，需要返回一个对象，可以用来终止异步操作(考虑使用async/await)
        - ResUpdate
        - ResMgr
        - AudioDevice
@@ -42,14 +42,18 @@
 
 - ************** 通过AssetsImporter来判断是否需要动态创建ViewAutoRegister.cs或AB.cs
 
+- 写一个帧同步DEMO，采用以下技术点：
+       - UDP通信
+       - KCP协议
+       - ECS模式
+       - 3D
+
 ## HybridCLR
 - Android真机测试
 - iOS真机测试
 
 ## 优先
-- 重写HttpDownloader(替代WebDownloader),HttpGroupDownloader(替代GroupWebDownloader)
-       - 增加http下载的断点续传
-- 整理旧的资源优化模块, sprite packing tag 模块中提示建议使用sprite atlas
+
 
 ## BUG
 - ByteArray的大小端处理可能有BUG，则重新梳理
@@ -66,4 +70,9 @@
        - 分片大小超过测试
        - 丢包测试（利用clumsy）
        - 速度测试（收发的UTC时间差）
+
+- 重写HttpDownloader(替代WebDownloader),HttpGroupDownloader(替代GroupWebDownloader)
+       - 增加http下载的断点续传
+
+- 整理旧的资源优化模块, sprite packing tag 模块中提示建议使用sprite atlas       
 
