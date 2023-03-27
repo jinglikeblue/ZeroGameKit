@@ -123,16 +123,9 @@ namespace Jing
         /// <returns></returns>
         public static string RemoveStartPathSeparator(string path)
         {
-            if (path.StartsWith("/"))
-            {
-                return path.Substring(1);
-            }
-            else if (path.StartsWith("\\"))
-            {
-                return path.Substring(2);
-            }
-
-            return path;
+            char[] pathSeparators = { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar };
+            string trimmedPath = path.TrimStart(pathSeparators);
+            return trimmedPath;
         }
 
         /// <summary>
@@ -142,16 +135,9 @@ namespace Jing
         /// <returns></returns>
         public static string RemoveEndPathSeparator(string path)
         {
-            if (path.EndsWith("/"))
-            {
-                return path.Substring(1);
-            }
-            else if (path.EndsWith("\\"))
-            {
-                return path.Substring(2);
-            }
-
-            return path;
+            char[] pathSeparators = { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar };
+            string trimmedPath = path.TrimEnd(pathSeparators);
+            return trimmedPath;
         }
 
         /// <summary>

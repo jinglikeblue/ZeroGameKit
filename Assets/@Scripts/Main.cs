@@ -11,8 +11,7 @@ namespace ZeroHot
         /// </summary>
         public static void Startup()
         {
-            ViewAutoRegister.Register();                       
-
+            ViewAutoRegister.Register();
             new Main();
         }
 
