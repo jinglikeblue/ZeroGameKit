@@ -18,6 +18,16 @@ namespace Zero
         public delegate void StreamingAssetsTextLoadedEvent(string path, string text);
 
         /// <summary>
+        /// 通过相对路径获取绝对路径
+        /// </summary>
+        /// <param name="relativePath"></param>
+        /// <returns></returns>
+        public static string MakeAbsolutePath(string relativePath)
+        {
+            return FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_PATH, relativePath);
+        }
+
+        /// <summary>
         /// 检查文件是否存在(同步方法)
         /// </summary>
         /// <param name="path"></param>
