@@ -5,6 +5,12 @@
 
 # 更新日志
 
+## 2023-03-28
+- 增加ZIP文件压缩/解压缩辅助类ZipHelper以及其用例
+- StreamingAssetsUtility.cs，StreamingAssets中的文件读取，增加同步方法
+- 丰富加密库
+- HttpDownloader以及GroupHttpDownloader，优化过后的网络资源下载类，支持断点续传
+
 ## 2023-03-07
 - 增加了定点数Number.cs及其使用示例
 
