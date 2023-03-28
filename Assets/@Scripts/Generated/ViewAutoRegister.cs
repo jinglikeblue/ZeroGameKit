@@ -51,6 +51,7 @@ namespace ZeroHot
             R("examples.ab", "MainStartupPanel");
             R("examples/audio_device.ab", "AudioDeviceExampleWin");
             R("examples/bitmapfont.ab", "BitmapFontExampleWin");
+            R("examples/files.ab", "ZipExampleWin");
             R("examples/framework.ab", "ClockView");
             R("examples/framework.ab", "CoroutineProxyExampleWin");
             R("examples/framework.ab", "CoroutinesQueueExampleWin");

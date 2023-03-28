@@ -1,22 +1,51 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
-using Jing;
+﻿using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Zero
 {
     /// <summary>
-    /// Zip解压助手
+    /// Zip压缩/解压助手
     /// </summary>
     public class ZipHelper
     {
+        public struct ProgressInfo
+        {
+            /// <summary>
+            /// 处理的文件名称
+            /// </summary>
+            public string fileName;
+
+            /// <summary>
+            /// 完成进度
+            /// </summary>
+            public float progress;
+
+            /// <summary>
+            /// 已处理的字节数
+            /// </summary>
+            public long processedSize;
+
+            /// <summary>
+            /// 要处理的字节数
+            /// </summary>
+            public long totalSize;
+
+            public override string ToString()
+            {
+                return $"[{fileName}] {progress}({processedSize}/{totalSize})";
+            }
+        }
+
+        const string CANCEL_ERROR = "Canceled";
+
         /// <summary>
         /// 进度
         /// </summary>
-        public float progress { get; private set; } = 0f;
+        public ProgressInfo progressInfo { get; private set; }
 
         /// <summary>
         /// 是否完成
@@ -29,242 +58,161 @@ namespace Zero
         public string error { get; private set; } = null;
 
         /// <summary>
-        /// 已解压的字节数
+        /// 是否销毁
         /// </summary>
-        public long decompessSize { get; private set; } = 0;
+        public bool isDisposed { get; private set; } = false;
 
         /// <summary>
-        /// 总字节数
+        /// 压缩文件名称
         /// </summary>
-        public long totalSize { get; private set; } = 0;
-
-        string _zipFile;
-        string _targetDir;
-        byte[] _zipBytes;
-
-
-        public ZipHelper()
-        {
-
-        }
+        public string zipFileName { get; private set; } = null;
 
         /// <summary>
-        /// 解压文件
+        /// 对应的文件目录
         /// </summary>
-        /// <param name="zipFile">压缩文件路径</param>
-        /// <param name="targetDir">解压目录</param>
-        public void UnZip(string zipFile, string targetDir)
-        {
-            _zipFile = zipFile;
-            UnZip(targetDir);
-        }
+        public string processDirectory { get; private set; } = null;
 
         /// <summary>
-        /// 解压文件
+        /// 密码
         /// </summary>
-        /// <param name="stream">压缩文件流</param>
-        /// <param name="targetDir">解压目录</param>
-        void UnZip(string targetDir)
-        {
-            _targetDir = targetDir;
-            ZipConstants.DefaultCodePage = 0;
-            //解决中文乱码问题
-            //ZipConstants.DefaultCodePage = Encoding.GetEncoding("gbk").CodePage;
-            Thread thread = new Thread(new ThreadStart(ProcessUnZip));
-            thread.Start();
-        }
+        public string password { get; private set; } = null;
+        
+        FastZip _zip;
 
         /// <summary>
-        /// 解压文件
+        /// 是否取消了处理
         /// </summary>
-        /// <param name="bytes">二进制数据</param>
-        /// <param name="targetDir">解压目录</param>
-        public void UnZip(byte[] bytes, string targetDir)
+        public bool isCanceled { get; private set; } = false;
+
+        public ZipHelper(string password = null)
         {
-            _zipBytes = bytes;
-            UnZip(targetDir);
+            this.password = password;
         }
 
-
-        Stream GetNewStream()
+        private void OnProgress(object sender, ProgressEventArgs e)
         {
-            if (_zipBytes != null)
+            ProgressInfo progressInfo;
+            progressInfo.fileName = e.Name;
+            progressInfo.progress = e.PercentComplete;
+            progressInfo.processedSize = e.Processed;
+            progressInfo.totalSize = e.Target;
+            this.progressInfo = progressInfo;
+
+            if(isCanceled)
             {
-                return new MemoryStream(_zipBytes);
+                //取消了压缩/解压
+                e.ContinueRunning = false;
             }
-            else if (_zipFile != null)
-            {
-                return File.OpenRead(_zipFile);
-            }
-            return null;
         }
 
         /// <summary>
-        /// 压缩文件夹
+        /// 压缩文件
         /// </summary>
-        /// <param name="targetDir">压缩文件夹路径</param>
-        /// <param name="zipFile">压缩文件夹保存位置</param>
-        /// <param name="whiteExtList">扩展名白名单，如果不为null，则只压缩白名单中指定后缀的文件</param>
-        //public void Zip(string targetDir, string zipFile, string[] whiteExtList = null)
-        //{            
-        //    _targetDir = targetDir;
-        //    _zipFile = zipFile;
-
-        //    try
-        //    {
-        //        ZipOutputStream s = new ZipOutputStream(File.Create(zipFile));                
-        //        s.SetLevel(9); 
-        //        byte[] buffer = new byte[4096];
-        //        AddEntrys(s, buffer, targetDir, whiteExtList);                    
-        //        s.Finish();                    
-        //        s.Close();                
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        error = e.Message;
-        //    }
-
-        //    isDone = true;
-        //    progress = 1f;
-        //}
-
-        //void AddEntrys(ZipOutputStream s, byte[] buffer, string dir, string[] whiteExtList)
-        //{
-        //    string[] filenames = Directory.GetFiles(dir);
-        //    string[] dirs = Directory.GetDirectories(dir);            
-
-        //    //处理文件
-        //    foreach (string file in filenames)
-        //    {
-        //        #region 扩展名白名单校验
-        //        if (null != whiteExtList)
-        //        {
-        //            string ext = Path.GetExtension(file);
-
-        //            bool isExtInWhiteList = false;
-        //            for(int i = 0; i < whiteExtList.Length; i++)
-        //            {
-        //                if(whiteExtList[i] == ext)
-        //                {
-        //                    isExtInWhiteList = true;
-        //                    break;
-        //                }
-        //            }
-
-        //            if (false == isExtInWhiteList)
-        //            {
-        //                continue;
-        //            }
-        //        }
-        //        #endregion
-
-        //        string saveFile = file.Replace(_targetDir, "");
-        //        ZipEntry entry = new ZipEntry(saveFile);                
-        //        entry.DateTime = DateTime.Now;
-        //        s.PutNextEntry(entry);
-
-        //        using (FileStream fs = File.OpenRead(file))
-        //        {
-        //            int sourceBytes;
-        //            do
-        //            {
-        //                sourceBytes = fs.Read(buffer, 0, buffer.Length);
-        //                s.Write(buffer, 0, sourceBytes);
-        //            } while (sourceBytes > 0);
-        //        }
-        //    }
-
-        //    //处理文件夹
-        //    foreach (string subDir in dirs)
-        //    {
-        //        AddEntrys(s, buffer, subDir, whiteExtList);
-        //    }
-        //}
-
-        void ProcessUnZip()
+        /// <param name="zipFileName"></param>
+        /// <param name="sourceDirectory"></param>
+        public void Compress(string zipFileName, string sourceDirectory)
         {
+            Process(zipFileName, sourceDirectory, true);
+        }
+
+        /// <summary>
+        /// 异步压缩文件
+        /// </summary>
+        /// <param name="zipFileName"></param>
+        /// <param name="sourceDirectory"></param>
+        public void CompressAsync(string zipFileName, string sourceDirectory)
+        {
+            Task.Run(() =>
+            {
+                ProcessAsync(zipFileName, sourceDirectory, true);
+            });
+        }
+
+        /// <summary>
+        /// 解压文件
+        /// </summary>
+        /// <param name="zipFileName"></param>
+        /// <param name="targetDirectory"></param>
+        public void Uncompress(string zipFileName, string targetDirectory)
+        {
+            Process(zipFileName, targetDirectory, false);
+        }
+
+        public void UncompressAsync(string zipFileName, string targetDirectory)
+        {
+            Task.Run(() =>
+            {
+                ProcessAsync(zipFileName, targetDirectory, false);
+            });
+        }
+
+        void ProcessAsync(string zipFileName, string processDirectory, bool isCompress)
+        {
+            var events = new FastZipEvents();
+            var tn = new TimeSpan(TimeSpan.TicksPerSecond);
+            events.ProgressInterval = tn;
+            events.Progress += OnProgress;
+
+            Process(zipFileName, processDirectory, isCompress, events);
+
+            events.Progress -= OnProgress;
+
+            if(isCanceled)
+            {
+                //清理文件
+                if (isCompress)
+                {
+                    File.Delete(zipFileName);
+                }
+                else
+                {
+                    Directory.Delete(processDirectory);
+                }
+            }
+        }
+
+        void Process(string zipFileName, string processDirectory, bool isCompress, FastZipEvents events = null)
+        {
+            if(_zip != null)
+            {
+                throw new Exception($"实例化新的ZipHelper以进行新的压缩/解压缩任务");
+            }
+
             try
-            {              
-                ///第一次打开 获取文件总数
-                ZipInputStream s = new ZipInputStream(GetNewStream());
-                //total = s.Length;
-                List<ZipEntry> entryList = new List<ZipEntry>();
-                long totalSize = 0;
-                ZipEntry entry;
-                while ((entry = s.GetNextEntry()) != null)
+            {
+                _zip = events == null ? new FastZip() : new FastZip(events);
+                _zip.Password = password;
+
+                this.zipFileName = zipFileName;
+                this.processDirectory = processDirectory;
+                if (isCompress)
                 {
-                    if (entry.IsFile)
-                    {
-                        entryList.Add(entry);
-                        totalSize += entry.Size;
-                    }
+                    _zip.CreateZip(zipFileName, processDirectory, true, "");
                 }
-                this.totalSize = totalSize;
-                decompessSize = 0;
-
-                long total = entryList.Count;
-                long current = 0;
-                entryList.Clear();
-                s.Close();
-
-                //创建LUA脚本目录
-                if (false == Directory.Exists(_targetDir))
+                else
                 {
-                    Directory.CreateDirectory(_targetDir);
-                }
-
-                ///第二次打开 
-                s = new ZipInputStream(GetNewStream());
-
-                while ((entry = s.GetNextEntry()) != null)
-                {
-                    string targetPath = FileUtility.CombinePaths(_targetDir, entry.Name);
-
-                    if (entry.IsDirectory)
-                    {
-                        Directory.CreateDirectory(targetPath);
-                    }
-                    else if (entry.IsFile)
-                    {                        
-                        string dirName = Path.GetDirectoryName(targetPath);
-                        if (false == Directory.Exists(dirName))
-                        {
-                            Directory.CreateDirectory(dirName);
-                        }
-
-                        FileStream fs = File.Create(targetPath);
-                        int size = 2048;
-                        byte[] data = new byte[2048];
-                        while (true)
-                        {
-                            size = s.Read(data, 0, data.Length);
-                            if (size > 0)
-                            {
-                                fs.Write(data, 0, size);
-                                decompessSize += size;
-                            }
-                            else
-                            {
-                                fs.Close();
-                                break;
-                            }
-                        }
-                        progress = ++current / (float)total;
-                        Thread.Sleep(1);
-                    }
-                }
-
-                s.Close();
+                    _zip.ExtractZip(zipFileName, processDirectory, FastZip.Overwrite.Always, null, "", "", true);
+                }                            
             }
             catch (Exception e)
             {
                 error = e.Message;
             }
 
+            if (isCanceled)
+            {
+                error = CANCEL_ERROR;
+            }
+
             isDone = true;
-            progress = 1f;
         }
 
-
+        /// <summary>
+        /// 取消操作，并清理缓存(仅适用于异步模式)
+        /// </summary>
+        public void Cancel()
+        {
+            isCanceled = true;
+        }
     }
 }

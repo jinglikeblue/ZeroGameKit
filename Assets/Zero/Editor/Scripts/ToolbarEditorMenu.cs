@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using UnityEditor;
+using UnityEngine;
 using Zero;
 
 namespace ZeroEditor
@@ -32,7 +33,7 @@ namespace ZeroEditor
         {
             IOS.IOSProjectInitEditorWin.Open();
         }
-
+        
         [MenuItem("Zero/调试/清理[Caches]目录", false, 250)]
         public static void ClearCachesDir()
         {
@@ -51,6 +52,12 @@ namespace ZeroEditor
             {
                 ZeroEditorUtility.OpenDirectory(cacheDir.FullName);
             }
+        }
+
+        [MenuItem("Zero/调试/打开[Application.temporaryCachePath]目录", false, 310)]
+        public static void OpenTemporaryCacheDir()
+        {
+            Application.OpenURL(Application.temporaryCachePath);
         }
 
         [MenuItem("Zero/调试/GC", false, 350)]

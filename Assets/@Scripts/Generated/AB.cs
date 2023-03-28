@@ -107,6 +107,14 @@ namespace ZeroHot
             
 		}
 
+		public sealed class EXAMPLES_FILES
+		{
+			public const string NAME = "examples/files.ab";
+
+			public const string ZipExampleWin = "ZipExampleWin.prefab";
+			public const string ZipExampleWin_assetPath = "examples/files/ZipExampleWin.prefab";            
+		}
+
 		public sealed class EXAMPLES_FRAMEWORK
 		{
 			public const string NAME = "examples/framework.ab";
