@@ -166,7 +166,7 @@ namespace Zero
                 }
                 else
                 {
-                    Directory.Delete(processDirectory);
+                    Directory.Delete(processDirectory, true);
                 }
             }
         }

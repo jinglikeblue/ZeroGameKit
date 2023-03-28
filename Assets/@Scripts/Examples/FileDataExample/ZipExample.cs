@@ -72,7 +72,7 @@ namespace Example
             //销毁临时文件            
             if (Directory.Exists(_rootDir))
             {
-                Directory.Delete(_rootDir);
+                Directory.Delete(_rootDir, true);
             }
         }
 
