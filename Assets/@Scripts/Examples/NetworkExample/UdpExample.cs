@@ -88,8 +88,6 @@ namespace Example
             }
         }
 
-
-
         protected override void OnDisable()
         {
             base.OnDisable();

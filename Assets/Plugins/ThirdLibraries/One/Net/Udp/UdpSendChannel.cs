@@ -90,6 +90,11 @@ namespace One
             //SendBufferList();
         }
 
+        public void SendTo(byte[] bytes, IPEndPoint endPoint)
+        {
+            _socket.SendTo(bytes, endPoint);
+        }
+
         //void SendBufferList()
         //{
         //    //如果没有在发送状态，则调用发送

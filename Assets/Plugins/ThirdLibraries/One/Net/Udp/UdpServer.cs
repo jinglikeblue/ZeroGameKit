@@ -64,5 +64,28 @@ namespace One
             var channel = new UdpSendChannel(_listener.Socket, remoteEndPoint, _tsa);
             return channel;
         }
+
+        /// <summary>
+        /// 局域网数据广播
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="port">目标端口</param>
+        public void Broadcast(byte[] bytes, int port)
+        {
+            _listener.Socket.SendTo(bytes, new IPEndPoint(IPAddress.Broadcast, port));
+        }
+
+        /// <summary>
+        /// 局域网数据广播
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="ports">目标端口集合</param>
+        public void Broadcast(byte[] bytes, int[] ports)
+        {
+            foreach (var port in ports)
+            {
+                Broadcast(bytes, port);
+            }
+        }
     }
 }

@@ -60,24 +60,59 @@ namespace Zero
             handler.Start();
         }
 
+        #region 同步加载方式
+
+        /// <summary>
+        /// 加载文本(同步方式)
+        /// PS:过大的文件不要用这个
+        /// </summary>
+        /// <param name="path">路径</param>
+        /// <param name="timeoutSeconds">超时限制，如果占用线程超过这个时间，则返回null</param>
+        /// <returns></returns>
+        public static string LoadText(string path, float timeoutSeconds = 60)
+        {
+            var www = LoadSync(path, timeoutSeconds);
+            return null == www ? null : www.downloadHandler.text;
+        }
+
         /// <summary>
         /// 加载数据(同步方式)
+        /// PS:过大的文件不要用这个
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">路径</param>
+        /// <param name="timeoutSeconds">超时限制，如果占用线程超过这个时间，则返回null</param>
         /// <returns></returns>
-        public static byte[] LoadData(string path)
+        public static byte[] LoadData(string path, float timeoutSeconds = 60)
         {
-            var handler = new StreamingAssetsFileLoadHandler(path);
-            handler.Start();            
-            while (true)
-            {
-                if (handler.request.isDone)
-                {                   
-                    break;
-                }
-            }            
-            return handler.request.downloadHandler.data;
+            var www = LoadSync(path, timeoutSeconds);
+            return null == www ? null : www.downloadHandler.data;
         }
+
+        static UnityWebRequest LoadSync(string path, float timeoutSeconds)
+        {
+            var www = UnityWebRequest.Get(path);
+            www.SendWebRequest();
+
+            var startTime = DateTime.Now;
+            while (!www.isDone)
+            {
+                var tn = DateTime.Now - startTime;
+                if (tn.TotalSeconds > timeoutSeconds)
+                {
+                    //超时处理
+                    return null;
+                }
+            }
+
+            if (www.error != null)
+            {
+                return null;
+            }
+
+            return www;
+        }
+
+        #endregion
 
         /// <summary>
         /// 加载数据(异步方式)
@@ -94,24 +129,7 @@ namespace Zero
             handler.Start();
         }
 
-        /// <summary>
-        /// 加载文本(同步方式)
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static string LoadText(string path)
-        {
-            var handler = new StreamingAssetsFileLoadHandler(path);
-            handler.Start();
-            while (true)
-            {
-                if (handler.request.isDone)
-                {
-                    break;
-                }
-            }
-            return handler.request.downloadHandler.text;
-        }
+
 
         /// <summary>
         /// 加载文本(异步方式)
