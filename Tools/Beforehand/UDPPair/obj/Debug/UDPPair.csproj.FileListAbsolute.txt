@@ -5,3 +5,10 @@ P:\Temp\UDPPair\UDPPair\obj\Debug\UDPPair.csproj.AssemblyReference.cache
 P:\Temp\UDPPair\UDPPair\obj\Debug\UDPPair.csproj.CoreCompileInputs.cache
 P:\Temp\UDPPair\UDPPair\obj\Debug\UDPPair.exe
 P:\Temp\UDPPair\UDPPair\obj\Debug\UDPPair.pdb
+P:\projects\jing\CodeUp\ZeroGameKit\Tools\Beforehand\UDPPair\bin\Debug\UDPPair.exe.config
+P:\projects\jing\CodeUp\ZeroGameKit\Tools\Beforehand\UDPPair\bin\Debug\UDPPair.exe
+P:\projects\jing\CodeUp\ZeroGameKit\Tools\Beforehand\UDPPair\bin\Debug\UDPPair.pdb
+P:\projects\jing\CodeUp\ZeroGameKit\Tools\Beforehand\UDPPair\obj\Debug\UDPPair.csproj.AssemblyReference.cache
+P:\projects\jing\CodeUp\ZeroGameKit\Tools\Beforehand\UDPPair\obj\Debug\UDPPair.csproj.CoreCompileInputs.cache
+P:\projects\jing\CodeUp\ZeroGameKit\Tools\Beforehand\UDPPair\obj\Debug\UDPPair.exe
+P:\projects\jing\CodeUp\ZeroGameKit\Tools\Beforehand\UDPPair\obj\Debug\UDPPair.pdb

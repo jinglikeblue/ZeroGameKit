@@ -18,6 +18,8 @@ namespace UDPPair.Pair
 
         MatchingInfoVO info;
 
+        Dictionary<string, MatchingInfoVO> _matchingMap = new Dictionary<string, MatchingInfoVO>();
+
         public MatchingClient(int messagePort)
         {
             port = 9000;
@@ -67,8 +69,26 @@ namespace UDPPair.Pair
                 //是我自己发的消息，过滤
                 return;
             }
+
+            List<string> oldKeys = new List<string>();
+            //删除过时的数据
+            foreach(var kv in _matchingMap)
+            {
+                if((DateTime.Now - kv.Value.refreshTime).TotalSeconds > 10)
+                {
+                    oldKeys.Add(kv.Key);
+                }
+            }
+
+            foreach(var key in oldKeys)
+            {
+                _matchingMap.Remove(key);
+            }
+
+            vo.refreshTime = DateTime.Now;
+            _matchingMap[vo.ToString()] = vo;
             
-            Console.WriteLine($"收到的消息:{vo.ToString()}");
+            Console.WriteLine($"[Matching]:{vo.ToString()}");
 
             Notice.Send("PAIR", vo);
         }

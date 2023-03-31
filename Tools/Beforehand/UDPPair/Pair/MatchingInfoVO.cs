@@ -12,6 +12,7 @@ namespace UDPPair.Pair
         public string host;
         public int messagePort;
         public int matchingPort;
+        public DateTime refreshTime;
 
         public byte[] Serialize()
         {

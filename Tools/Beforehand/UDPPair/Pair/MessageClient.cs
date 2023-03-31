@@ -1,4 +1,5 @@
-﻿using One;
+﻿using Jing;
+using One;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,6 +30,16 @@ namespace UDPPair.Pair
             udp.Bind(port, 4096);
 
             Task.Run(Loop);
+
+
+            Notice.AddListener("PAIR", OnNotice);
+        }
+
+        private void OnNotice(string noticeName, object[] datas)
+        {
+            var vo = datas[0] as MatchingInfoVO;
+            var channel = udp.CreateSendChannel(new IPEndPoint(IPAddress.Parse(vo.host), vo.messagePort));
+            channel.Send(Encoding.UTF8.GetBytes($"This Message From {port}"));
         }
 
         void Loop()
@@ -36,16 +47,16 @@ namespace UDPPair.Pair
             while (true)
             {
                 udp.Refresh();
-                Thread.Sleep(1000);
+                Thread.Sleep(10);
             }
         }
 
         private void OnReceiveData(UdpServer udp, EndPoint remote, byte[] datas)
         {
             var msg = Encoding.UTF8.GetString(datas);
-            Console.WriteLine($"收到的消息:{msg}");
-            var sendChannel = udp.CreateSendChannel(remote);
-            sendChannel.Send(datas);
+            Console.WriteLine($"[Message]: {msg}");
+            //var sendChannel = udp.CreateSendChannel(remote);
+            //sendChannel.Send(datas);
         }
     }
 }
