@@ -32,7 +32,7 @@ namespace UDPPair.Pair
             Task.Run(Loop);
 
 
-            Notice.AddListener("PAIR", OnNotice);
+            Notice.AddListener(NoticeDefines.PAIR, OnNotice);
         }
 
         private void OnNotice(string noticeName, object[] datas)

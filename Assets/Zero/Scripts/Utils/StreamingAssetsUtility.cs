@@ -39,12 +39,18 @@ namespace Zero
             bool isExist = false;
             while (!www.isDone)
             {
-                if(www.downloadProgress > 0)
+                if(www.downloadedBytes > 0)
                 {
                     isExist = true;
                     break;
                 }
             }
+
+            if(www.error != null)
+            {
+                return false;
+            }
+
             return isExist;
         }
 

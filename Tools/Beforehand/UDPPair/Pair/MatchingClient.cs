@@ -20,6 +20,11 @@ namespace UDPPair.Pair
 
         Dictionary<string, MatchingInfoVO> _matchingMap = new Dictionary<string, MatchingInfoVO>();
 
+        public MatchingInfoVO[] GetMatchingInfoList()
+        {
+            return _matchingMap.Values.ToArray();
+        }
+
         public MatchingClient(int messagePort)
         {
             port = 9000;
@@ -62,7 +67,21 @@ namespace UDPPair.Pair
         private void OnReceiveData(UdpServer udp, EndPoint remote, byte[] datas)
         {
             var vo = new MatchingInfoVO();
-            vo.Deserialize(datas);
+
+            try
+            {
+                vo.Deserialize(datas);
+            }
+            catch
+            {
+                //数据有问题
+                vo = null;
+            }
+
+            if(null == vo)
+            {
+                return;
+            }
 
             if(vo.matchingPort == port)
             {
@@ -90,7 +109,7 @@ namespace UDPPair.Pair
             
             Console.WriteLine($"[Matching]:{vo.ToString()}");
 
-            Notice.Send("PAIR", vo);
+            Notice.Send(NoticeDefines.PAIR, vo);
         }
     }
 }

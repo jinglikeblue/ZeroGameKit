@@ -85,10 +85,13 @@ namespace Example
 
         private void CheckInexistence()
         {
-            StreamingAssetsUtility.CheckFileExist(FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_PATH, "build_info_test"), (isExist) =>
-            {
-                L($"StreamingAssets中是否存在文件[build_info_test]: {isExist}");
-            });
+            var b = StreamingAssetsUtility.CheckFileExist(FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_PATH, "build_info_test"));
+            L($"StreamingAssets中是否存在文件[build_info]: {b}");
+
+            //StreamingAssetsUtility.CheckFileExist(FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_PATH, "build_info_test"), (isExist) =>
+            //{
+            //    L($"StreamingAssets中是否存在文件[build_info_test]: {isExist}");
+            //});
         }
 
         private void LoadResJson()
