@@ -34,14 +34,28 @@ namespace ZeroHot
         }
 
         /// <summary>
-        /// 注册的用来
+        /// 注册的命名空间
         /// </summary>
         string[] namespaceList = new string[] {
 [PARAMS]        };
 
         private ViewAutoRegister()
         {
-[FIELD LIST]        }
+            #region 明确关联的AView和Prefab
+
+[SPECIFIC R LIST]
+            #endregion            
+
+            #region 自动查找关联
+
+[FIELD LIST]        
+            #endregion   
+}
+
+        void R(string abName, string viewName, string typeName)
+        {
+            ViewFactory.Register(abName, viewName, Type.GetType(typeName));
+        }
 
         void R(string abName, string viewName)
         {
@@ -69,3 +83,5 @@ namespace ZeroHot
 R("[FIELD NAME]", "[FIELD VALUE]");
 ------------------------------Split--------------------------------
             "[NAMESPACE]",
+------------------------------Split--------------------------------            
+R("[FIELD NAME]", "[FIELD VALUE]", "[TYPE NAME]");            

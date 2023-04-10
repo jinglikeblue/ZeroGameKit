@@ -34,7 +34,7 @@ namespace ZeroHot
         }
 
         /// <summary>
-        /// 注册的用来
+        /// 注册的命名空间
         /// </summary>
         string[] namespaceList = new string[] {
             "Roushan.",
@@ -46,6 +46,14 @@ namespace ZeroHot
 
         private ViewAutoRegister()
         {
+            #region 明确关联的AView和Prefab
+
+            R("examples/framework.ab", "CoroutineProxyExampleWin", "Example.FrameSyncGame.MatchingPanel");            
+
+            #endregion            
+
+            #region 自动查找关联
+
             R("root_assets.ab", "ILContent");
             R("commons.ab", "MsgWin");
             R("examples.ab", "MainStartupPanel");
@@ -53,7 +61,6 @@ namespace ZeroHot
             R("examples/bitmapfont.ab", "BitmapFontExampleWin");
             R("examples/files.ab", "ZipExampleWin");
             R("examples/framework.ab", "ClockView");
-            R("examples/framework.ab", "CoroutineProxyExampleWin");
             R("examples/framework.ab", "CoroutinesQueueExampleWin");
             R("examples/framework.ab", "FixedPointNumberExampleWin");
             R("examples/framework.ab", "HotFilesExampleWin");
@@ -106,6 +113,13 @@ namespace ZeroHot
             R("examples/sokoban/prefabs/game.ab", "Box");
             R("examples/sokoban/prefabs/game.ab", "Role");
             R("examples/sokoban/prefabs/game.ab", "Target");
+        
+            #endregion   
+}
+
+        void R(string abName, string viewName, string typeName)
+        {
+            ViewFactory.Register(abName, viewName, Type.GetType(typeName));
         }
 
         void R(string abName, string viewName)

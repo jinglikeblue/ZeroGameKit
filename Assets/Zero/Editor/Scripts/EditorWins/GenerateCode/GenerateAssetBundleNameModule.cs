@@ -70,9 +70,12 @@ namespace ZeroEditor
         [LabelText("开始生成"), Button(size: ButtonSizes.Large), PropertyOrder(-1)]
         void GeneratedAssetBundleNameClass()
         {
+            var startTime = DateTime.Now;
             new GenerateABClassCommand(abList).Excute();
             new GenerateAutoViewRegisterClassCommand(abList, viewClassNamespaceList).Excute();
-            editorWin.ShowTip("生成完毕!");
+
+            var tn = DateTime.Now - startTime;
+            editorWin.ShowTip($"生成完毕! 耗时:{(long)tn.TotalMilliseconds}ms");
         }
 
         [Space(10)]

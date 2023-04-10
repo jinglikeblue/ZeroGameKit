@@ -269,7 +269,7 @@ namespace Zero
                 assetPath = "";
             }
 
-            abName = Path.GetDirectoryName(assetPath);
+            abName = FileUtility.StandardizeBackslashSeparator(Path.GetDirectoryName(assetPath));
             assetName = Path.GetFileName(assetPath);
         }
 

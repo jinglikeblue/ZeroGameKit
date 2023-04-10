@@ -48,7 +48,7 @@ namespace ZeroHot
         /// <param name="viewName"></param>
         /// <param name="type">Prefab的Type</param>
         static public void Register(string abName, string viewName, Type type)
-        {            
+        {                       
             ViewEntry entry = new ViewEntry(abName, viewName, type);
             if (false == _ab2view2EntryDic.ContainsKey(abName))
             {
@@ -69,8 +69,6 @@ namespace ZeroHot
         {
             Register(abName, viewName, typeof(AViewType));
         }
-
-
 
         /// <summary>
         /// 创建视图

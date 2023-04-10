@@ -12,9 +12,10 @@ namespace ZeroEditor
 
         #region 替换标记
         public const string CLASS_NAME_FLAG = "[CLASS NAME]";
+        public const string TYPE_NAME_FLAG = "[TYPE NAME]";
         public const string CLASS_LIST_FLAG = "[CLASS LIST]";
         public const string FIELD_LIST_FLAG = "[FIELD LIST]";
-        public const string FIELD_NAME_FLAG = "[FIELD NAME]";
+        public const string FIELD_NAME_FLAG = "[FIELD NAME]";        
         public const string FIELD_VALUE_FLAG = "[FIELD VALUE]";
         public const string EXPLAIN_FLAG = "[EXPLAIN]";
         public const string NAMESPACE_FLAG = "[NAMESPACE]";

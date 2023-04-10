@@ -88,10 +88,14 @@ public class RightClickEditorMenu
         var findCmd = new FindAssetBundlesCommand(false);
         findCmd.onFinished += (cmd, list) =>
         {
+            var startTime = DateTime.Now;
+
             new GenerateABClassCommand(list).Excute();
-            new GenerateAutoViewRegisterClassCommand(list, cmd.cfg.viewClassNamespaceList).Excute();
-            Debug.Log(Log.Zero1("生成完毕!"));
+            new GenerateAutoViewRegisterClassCommand(list, cmd.cfg.viewClassNamespaceList).Excute();            
             AssetDatabase.Refresh();
+
+            var tn = DateTime.Now - startTime;
+            Debug.Log(Log.Zero1($"生成完毕! 耗时:{(long)tn.TotalMilliseconds}ms"));
         };
         findCmd.Excute();
     }

@@ -63,7 +63,7 @@ namespace ZeroEditor
                     continue;
                 }
 
-                Debug.Log(path);
+                //Debug.Log(path);
 
                 var hotFilePath = FileUtility.GetRelativePath(ZeroConst.HOT_FILES_ROOT_DIR, path);
 
