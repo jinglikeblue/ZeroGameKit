@@ -89,9 +89,7 @@ public class RightClickEditorMenu
         findCmd.onFinished += (cmd, list) =>
         {
             var startTime = DateTime.Now;
-
-            new GenerateABClassCommand(list).Excute();
-            new GenerateAutoViewRegisterClassCommand(list, cmd.cfg.viewClassNamespaceList).Excute();            
+            new GenerateABClassCommand(list).Excute();                     
             AssetDatabase.Refresh();
 
             var tn = DateTime.Now - startTime;

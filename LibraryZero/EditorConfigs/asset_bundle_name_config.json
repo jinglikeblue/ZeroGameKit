@@ -1,368 +1,410 @@
-﻿
-{
-    "abList" : [
-        {
-            "explain" : "@Resources根目录下资源",
-            "assetbundle" : "root_assets.ab",
-            "assetList"   : [
-                "ILContent.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "commons.ab",
-            "assetList"   : [
-                "MsgWin.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples.ab",
-            "assetList"   : [
-                "MainStartupPanel.prefab",
-                "TexturesAtlas_2019.spriteatlas"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "test.ab",
-            "assetList"   : [
-                "test 1.json"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/audios.ab",
-            "assetList"   : [
-                "bgm.mp3",
-                "click.mp3",
-                "effect_0.mp3",
-                "effect_1.mp3",
-                "effect_2.mp3",
-                "effect_3.mp3",
-                "effect_4.mp3",
-                "effect_5.mp3",
-                "effect_6.mp3",
-                "effect_7.mp3",
-                "effect_8.mp3",
-                "effect_9.mp3"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/audio_device.ab",
-            "assetList"   : [
-                "AudioDeviceExampleWin.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/bitmapfont.ab",
-            "assetList"   : [
-                "BitmapFontExampleWin.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/cross_depend_test.ab",
-            "assetList"   : [
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/framework.ab",
-            "assetList"   : [
-                "ClockView.prefab",
-                "CoroutineProxyExampleWin.prefab",
-                "ResMgrExampleWin.prefab",
-                "ResUpdateExampleWin.prefab",
-                "TimerExampleWin.prefab",
-                "ViewFactoryExampleWin.prefab",
-                "ZeroEventListenerExampleWin.prefab",
-                "ZeroUIExampleWin.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/knight.ab",
-            "assetList"   : [
-                "KnightLoadingPanel.prefab",
-                "KnightMenuPanel.prefab",
-                "KnightSettingWin.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/menus.ab",
-            "assetList"   : [
-                "MenuPanel.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/network.ab",
-            "assetList"   : [
-                "TcpExampleWin.prefab",
-                "UdpExampleWin.prefab",
-                "WebSocketExampleWin.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/performance.ab",
-            "assetList"   : [
-                "CallNativeCodePerformanceWin.prefab",
-                "FibonacciPerformanceWin.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/roushan.ab",
-            "assetList"   : [
-                "Block.prefab",
-                "GamePanel.prefab",
-                "GameStage.prefab",
-                "HelpWin.prefab",
-                "StartupPanel.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/sokoban.ab",
-            "assetList"   : [
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/textures.ab",
-            "assetList"   : [
-                "04_pic_drts.png",
-                "04_pic_dtts.png",
-                "04_pic_fwlc.png",
-                "04_pic_fwsd.png",
-                "04_pic_juesetisheng.png",
-                "04_pic_lt.png",
-                "04_pic_tongyong.png",
-                "04_pic_yinxiongzhaomu.png",
-                "04_pic_zd.png",
-                "04_pic_zhuangbeiqianghua.png",
-                "activity_blue_ore.png",
-                "activity_licence.png",
-                "activity_red_ore.png",
-                "activity_yellow_ore.png",
-                "activity_yellow_ore_01.png",
-                "anypiece.png",
-                "banyungong.png",
-                "gift_candy.png",
-                "gift_castle.png",
-                "gift_diamond.png",
-                "gift_pudding.png",
-                "gift_sundae.png",
-                "golden_finger.png",
-                "gongchengshi.png",
-                "item_01.png",
-                "item_02.png",
-                "item_06.png",
-                "TexturesAtlas_2019.spriteatlas",
-                "TexturesWin.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/turbocharged_scroll_list.ab",
-            "assetList"   : [
-                "GridScrollListDemoPanel.prefab",
-                "HorizontalScrollListDemoPanel.prefab",
-                "ScrollListDemoMenuPanel.prefab",
-                "VerticalScrollListDemoPanel.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/utility.ab",
-            "assetList"   : [
-                "CryptoExampleWin.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/cross_depend_test/a.ab",
-            "assetList"   : [
-                "A.prefab",
-                "C.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/cross_depend_test/b.ab",
-            "assetList"   : [
-                "B.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/knight/audios.ab",
-            "assetList"   : [
-                "BattleBGM.mp3",
-                "MenuBGM.mp3"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/knight/game.ab",
-            "assetList"   : [
-                "KnightGamePanel.prefab",
-                "KnightGameStage.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/sokoban/audios.ab",
-            "assetList"   : [
-                "bgm.mp3",
-                "boot.mp3",
-                "push.mp3"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/sokoban/configs.ab",
-            "assetList"   : [
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/sokoban/prefabs.ab",
-            "assetList"   : [
-                "CreditsWin.prefab",
-                "LevelSelectWin.prefab",
-                "LoadingWin.prefab",
-                "SokobanGamePanel.prefab",
-                "SokobanGameStage.prefab",
-                "SokobanMenuPanel.prefab",
-                "SokobanMsgWin.prefab"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/sokoban/configs/levels.ab",
-            "assetList"   : [
-                "level1.xml",
-                "level10.xml",
-                "level11.xml",
-                "level12.xml",
-                "level13.xml",
-                "level14.xml",
-                "level15.xml",
-                "level16.xml",
-                "level17.xml",
-                "level18.xml",
-                "level19.xml",
-                "level2.xml",
-                "level20.xml",
-                "level21.xml",
-                "level22.xml",
-                "level23.xml",
-                "level24.xml",
-                "level25.xml",
-                "level26.xml",
-                "level27.xml",
-                "level28.xml",
-                "level29.xml",
-                "level3.xml",
-                "level30.xml",
-                "level31.xml",
-                "level32.xml",
-                "level33.xml",
-                "level34.xml",
-                "level35.xml",
-                "level36.xml",
-                "level37.xml",
-                "level38.xml",
-                "level39.xml",
-                "level4.xml",
-                "level40.xml",
-                "level41.xml",
-                "level42.xml",
-                "level43.xml",
-                "level44.xml",
-                "level45.xml",
-                "level46.xml",
-                "level47.xml",
-                "level48.xml",
-                "level49.xml",
-                "level5.xml",
-                "level50.xml",
-                "level51.xml",
-                "level52.xml",
-                "level53.xml",
-                "level54.xml",
-                "level55.xml",
-                "level56.xml",
-                "level57.xml",
-                "level58.xml",
-                "level59.xml",
-                "level6.xml",
-                "level60.xml",
-                "level61.xml",
-                "level62.xml",
-                "level63.xml",
-                "level64.xml",
-                "level65.xml",
-                "level66.xml",
-                "level67.xml",
-                "level68.xml",
-                "level69.xml",
-                "level7.xml",
-                "level70.xml",
-                "level71.xml",
-                "level72.xml",
-                "level73.xml",
-                "level74.xml",
-                "level75.xml",
-                "level76.xml",
-                "level77.xml",
-                "level78.xml",
-                "level79.xml",
-                "level8.xml",
-                "level80.xml",
-                "level81.xml",
-                "level82.xml",
-                "level83.xml",
-                "level84.xml",
-                "level85.xml",
-                "level86.xml",
-                "level87.xml",
-                "level88.xml",
-                "level89.xml",
-                "level9.xml",
-                "level90.xml",
-                "level91.xml",
-                "level92.xml",
-                "level93.xml",
-                "level94.xml",
-                "level95.xml",
-                "level96.xml",
-                "level97.xml"
-            ]
-        },
-        {
-            "explain" : null,
-            "assetbundle" : "examples/sokoban/prefabs/Game.ab",
-            "assetList"   : [
-                "BangEffect.prefab",
-                "Block.prefab",
-                "Box.prefab",
-                "Role.prefab",
-                "Target.prefab"
-            ]
-        }
-    ],
-    "viewClassNamespaceList" : [
-        "Roushan.",
-        "ZeroGameKit.",
-        "Example.",
-        "Sokoban.",
-        "Knight."
-    ]
+﻿{
+  "abList": [
+    {
+      "explain": "@Resources根目录下资源",
+      "assetbundle": "root_assets.ab",
+      "assetList": [
+        "ILContent.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "commons.ab",
+      "assetList": [
+        "MsgWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "configs.ab",
+      "assetList": []
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples.ab",
+      "assetList": [
+        "MainStartupPanel.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "test.ab",
+      "assetList": [
+        "test 1.json"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "configs/tests.ab",
+      "assetList": [
+        "test.json"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/audios.ab",
+      "assetList": [
+        "bgm.mp3",
+        "click.mp3",
+        "effect_0.mp3",
+        "effect_1.mp3",
+        "effect_2.mp3",
+        "effect_3.mp3",
+        "effect_4.mp3",
+        "effect_5.mp3",
+        "effect_6.mp3",
+        "effect_7.mp3",
+        "effect_8.mp3",
+        "effect_9.mp3"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/audio_device.ab",
+      "assetList": [
+        "AudioDeviceExampleWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/bitmapfont.ab",
+      "assetList": [
+        "BitmapFontExampleWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/cross_depend_test.ab",
+      "assetList": []
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/files.ab",
+      "assetList": [
+        "ZipExampleWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/framework.ab",
+      "assetList": [
+        "ClockView.prefab",
+        "CoroutineProxyExampleWin.prefab",
+        "CoroutinesQueueExampleWin.prefab",
+        "FixedPointNumberExampleWin.prefab",
+        "HotFilesExampleWin.prefab",
+        "ResMgrExampleWin.prefab",
+        "ResUpdateExampleWin.prefab",
+        "ScreenSafeAreaExampleWin.prefab",
+        "TimerExampleWin.prefab",
+        "ViewFactoryExampleWin.prefab",
+        "ZeroEventListenerExampleWin.prefab",
+        "ZeroUIExampleWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/future.ab",
+      "assetList": [
+        "StreamingAssetsLoadFutureWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/knight.ab",
+      "assetList": [
+        "KnightLoadingPanel.prefab",
+        "KnightMenuPanel.prefab",
+        "KnightSettingWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/menus.ab",
+      "assetList": [
+        "MenuPanel.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/network.ab",
+      "assetList": [
+        "DownloadFileExampleWin.prefab",
+        "KcpExampleWin.prefab",
+        "TcpExampleWin.prefab",
+        "UdpExampleWin.prefab",
+        "WebSocketExampleWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/performance.ab",
+      "assetList": [
+        "CallNativeCodePerformanceWin.prefab",
+        "FibonacciPerformanceWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/roushan.ab",
+      "assetList": [
+        "Block.prefab",
+        "GamePanel.prefab",
+        "GameStage.prefab",
+        "HelpWin.prefab",
+        "StartupPanel.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/sokoban.ab",
+      "assetList": []
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/textures.ab",
+      "assetList": [
+        "04_pic_drts.png",
+        "04_pic_dtts.png",
+        "04_pic_fwlc.png",
+        "04_pic_fwsd.png",
+        "04_pic_juesetisheng.png",
+        "04_pic_lt.png",
+        "04_pic_tongyong.png",
+        "04_pic_yinxiongzhaomu.png",
+        "04_pic_zd.png",
+        "04_pic_zhuangbeiqianghua.png",
+        "activity_blue_ore.png",
+        "activity_licence.png",
+        "activity_red_ore.png",
+        "activity_yellow_ore.png",
+        "activity_yellow_ore_01.png",
+        "anypiece.png",
+        "banyungong.png",
+        "gift_candy.png",
+        "gift_castle.png",
+        "gift_diamond.png",
+        "gift_pudding.png",
+        "gift_sundae.png",
+        "golden_finger.png",
+        "gongchengshi.png",
+        "item_01.png",
+        "item_02.png",
+        "item_03.png",
+        "item_05.png",
+        "item_06.png",
+        "TexturesWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/turbocharged_scroll_list.ab",
+      "assetList": [
+        "GridScrollListDemoPanel.prefab",
+        "HorizontalScrollListDemoPanel.prefab",
+        "ScrollListDemoMenuPanel.prefab",
+        "VerticalScrollListDemoPanel.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/uniwebview.ab",
+      "assetList": [
+        "UniWebViewExampleWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/utility.ab",
+      "assetList": [
+        "CryptoExampleWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/video.ab",
+      "assetList": [
+        "VideoExampleWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/cross_depend_test/a.ab",
+      "assetList": [
+        "A.prefab",
+        "C.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/cross_depend_test/b.ab",
+      "assetList": [
+        "B.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/knight/audios.ab",
+      "assetList": [
+        "BattleBGM.mp3",
+        "MenuBGM.mp3"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/knight/game.ab",
+      "assetList": [
+        "KnightGamePanel.prefab",
+        "KnightGameStage.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/sokoban/audios.ab",
+      "assetList": [
+        "bgm.mp3",
+        "boot.mp3",
+        "push.mp3"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/sokoban/configs.ab",
+      "assetList": []
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/sokoban/prefabs.ab",
+      "assetList": [
+        "CreditsWin.prefab",
+        "LevelSelectWin.prefab",
+        "LoadingWin.prefab",
+        "SokobanGamePanel.prefab",
+        "SokobanGameStage.prefab",
+        "SokobanMenuPanel.prefab",
+        "SokobanMsgWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/sokoban/configs/levels.ab",
+      "assetList": [
+        "level1.xml",
+        "level10.xml",
+        "level11.xml",
+        "level12.xml",
+        "level13.xml",
+        "level14.xml",
+        "level15.xml",
+        "level16.xml",
+        "level17.xml",
+        "level18.xml",
+        "level19.xml",
+        "level2.xml",
+        "level20.xml",
+        "level21.xml",
+        "level22.xml",
+        "level23.xml",
+        "level24.xml",
+        "level25.xml",
+        "level26.xml",
+        "level27.xml",
+        "level28.xml",
+        "level29.xml",
+        "level3.xml",
+        "level30.xml",
+        "level31.xml",
+        "level32.xml",
+        "level33.xml",
+        "level34.xml",
+        "level35.xml",
+        "level36.xml",
+        "level37.xml",
+        "level38.xml",
+        "level39.xml",
+        "level4.xml",
+        "level40.xml",
+        "level41.xml",
+        "level42.xml",
+        "level43.xml",
+        "level44.xml",
+        "level45.xml",
+        "level46.xml",
+        "level47.xml",
+        "level48.xml",
+        "level49.xml",
+        "level5.xml",
+        "level50.xml",
+        "level51.xml",
+        "level52.xml",
+        "level53.xml",
+        "level54.xml",
+        "level55.xml",
+        "level56.xml",
+        "level57.xml",
+        "level58.xml",
+        "level59.xml",
+        "level6.xml",
+        "level60.xml",
+        "level61.xml",
+        "level62.xml",
+        "level63.xml",
+        "level64.xml",
+        "level65.xml",
+        "level66.xml",
+        "level67.xml",
+        "level68.xml",
+        "level69.xml",
+        "level7.xml",
+        "level70.xml",
+        "level71.xml",
+        "level72.xml",
+        "level73.xml",
+        "level74.xml",
+        "level75.xml",
+        "level76.xml",
+        "level77.xml",
+        "level78.xml",
+        "level79.xml",
+        "level8.xml",
+        "level80.xml",
+        "level81.xml",
+        "level82.xml",
+        "level83.xml",
+        "level84.xml",
+        "level85.xml",
+        "level86.xml",
+        "level87.xml",
+        "level88.xml",
+        "level89.xml",
+        "level9.xml",
+        "level90.xml",
+        "level91.xml",
+        "level92.xml",
+        "level93.xml",
+        "level94.xml",
+        "level95.xml",
+        "level96.xml",
+        "level97.xml"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/sokoban/prefabs/game.ab",
+      "assetList": [
+        "BangEffect.prefab",
+        "Block.prefab",
+        "Box.prefab",
+        "Role.prefab",
+        "Target.prefab"
+      ]
+    }
+  ],
+  "viewClassNamespaceList": [
+    "Roushan.",
+    "ZeroGameKit.",
+    "Example.",
+    "Sokoban.",
+    "Knight."
+  ]
 }

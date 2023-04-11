@@ -46,8 +46,7 @@ namespace ZeroEditor
         private void OnFindFinished(FindAssetBundlesCommand cmd, List<AssetBundleItemVO> list)
         {
             abList = list;
-            cfg = cmd.cfg;            
-            viewClassNamespaceList = cfg.viewClassNamespaceList;
+            cfg = cmd.cfg;                        
             _isFindingAB = false;
         }
 
@@ -60,8 +59,7 @@ namespace ZeroEditor
         [LabelText("保存配置"), Button(size: ButtonSizes.Large), PropertyOrder(-1)]
         void SaveConfig()
         {            
-            cfg.abList = abList;
-            cfg.viewClassNamespaceList = viewClassNamespaceList;
+            cfg.abList = abList;            
             EditorConfigUtil.SaveConfig(cfg, CONFIG_NAME);
             //this.ShowTip("保存完毕");
         }
@@ -71,8 +69,7 @@ namespace ZeroEditor
         void GeneratedAssetBundleNameClass()
         {
             var startTime = DateTime.Now;
-            new GenerateABClassCommand(abList).Excute();
-            new GenerateAutoViewRegisterClassCommand(abList, viewClassNamespaceList).Excute();
+            new GenerateABClassCommand(abList).Excute();            
 
             var tn = DateTime.Now - startTime;
             editorWin.ShowTip($"生成完毕! 耗时:{(long)tn.TotalMilliseconds}ms");
@@ -84,23 +81,9 @@ namespace ZeroEditor
         [InlineButton("OpenABClassFile", "Open")]
         public string abClassPath = GenerateABClassCommand.OUTPUT_FILE;
 
-        [LabelText("视图类命名空间前缀(以点号[.]结尾)")]
-        [ListDrawerSettings(Expanded = true)]
-        public string[] viewClassNamespaceList;
-
-        [LabelText("视图注册类生成地址")]
-        [DisplayAsString]
-        [InlineButton("OpenRegisterClassFile", "Open")]
-        public string registerClassPath = GenerateAutoViewRegisterClassCommand.OUTPUT_FILE;
-
         void OpenABClassFile()
         {
             OpenFile(GenerateABClassCommand.OUTPUT_FILE);
-        }
-
-        void OpenRegisterClassFile()
-        {
-            OpenFile(GenerateAutoViewRegisterClassCommand.OUTPUT_FILE);
         }
 
         void OpenFile(string file)

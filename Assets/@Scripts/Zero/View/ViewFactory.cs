@@ -59,64 +59,41 @@ namespace ZeroHot
             Debug.Log(s);
         }
 
-        /// <summary>
-        /// 视图单元的数据
-        /// </summary>
-        struct ViewEntry
-        {
-            /// <summary>
-            /// AB包名字
-            /// </summary>
-            public string abName;
-
-            /// <summary>
-            /// 视图名字
-            /// </summary>
-            public string viewName;
-
-            /// <summary>
-            /// 类型
-            /// </summary>
-            public Type type;
-
-            public ViewEntry(string abName, string viewName, Type type)
-            {
-                this.abName = abName;
-                this.viewName = viewName;
-                this.type = type;
-            }
-        }
-
-        static Dictionary<string, Dictionary<string, ViewEntry>> _ab2view2EntryDic = new Dictionary<string, Dictionary<string, ViewEntry>>();
-        static Dictionary<Type, ViewEntry> _type2EntryDic = new Dictionary<Type, ViewEntry>();
+        static readonly Type _viewRegisterAttr = typeof(ViewRegisterAttribute);
 
         /// <summary>
-        /// 注册一个界面
+        /// 查找Type对应的AB信息
         /// </summary>
+        /// <param name="type"></param>
         /// <param name="abName"></param>
         /// <param name="viewName"></param>
-        /// <param name="type">Prefab的Type</param>
-        static public void Register(string abName, string viewName, Type type)
-        {                       
-            ViewEntry entry = new ViewEntry(abName, viewName, type);
-            if (false == _ab2view2EntryDic.ContainsKey(abName))
+        /// <returns></returns>
+        static bool FindAssetBundleInfo(Type type, out string abName, out string viewName)
+        {            
+            var attrs = type.GetCustomAttributes(_viewRegisterAttr, false);
+            if(attrs.Length == 0)
             {
-                _ab2view2EntryDic[abName] = new Dictionary<string, ViewEntry>();
+                //从自动表查找
+                if (false == _viewAssetBundleSearchDic.ContainsKey(type.Name))
+                {
+                    abName = null;
+                    viewName = null;
+                    return false;
+                }
+                
+                viewName = type.Name;
+                abName = _viewAssetBundleSearchDic[viewName];
+            }
+            else
+            {
+                var attr = attrs[0] as ViewRegisterAttribute;
+                ResMgr.Ins.SeparateAssetPath(attr.prefabPath, out abName, out viewName);
+
+                //abName += ".ab";
+                //viewName = Path.GetFileNameWithoutExtension(viewName);                
             }
 
-            _ab2view2EntryDic[abName][viewName] = entry;
-            _type2EntryDic[type] = entry;
-        }
-
-        /// <summary>
-        /// 注册一个界面
-        /// </summary>
-        /// <typeparam name="AViewType">AView类</typeparam>
-        /// <param name="abName">Prefab所在AssetBundle的名称</param>
-        /// <param name="viewName">Prefab的名称</param>
-        static public void Register<AViewType>(string abName, string viewName) where AViewType:AView
-        {
-            Register(abName, viewName, typeof(AViewType));
+            return true;
         }
 
         /// <summary>
@@ -174,14 +151,14 @@ namespace ZeroHot
 
         public static AView Create(Type type, Transform parent, object data = null)
         {
-            if(_type2EntryDic.ContainsKey(type))
-            {
-                ViewEntry ve = _type2EntryDic[type];
-                return Create(ve.type, ve.abName, ve.viewName, parent, data);
+            string abName, viewName;                                
+            if (FindAssetBundleInfo(type, out abName, out viewName))
+            {                
+                return Create(type, abName, viewName, parent, data);
             }
             else
             {
-                Debug.LogErrorFormat("AView类[{0}]并没有对应的已注册视图", type.FullName);
+                Debug.LogErrorFormat("AView类[{0}]并没有适用的视图", type.FullName);
             }
             return null;
         }
@@ -190,22 +167,7 @@ namespace ZeroHot
         {
             Type type = typeof(T);
             return Create(type, parent, data) as T;
-        }
-
-        public static AView Create(string abName, string viewName, Transform parent, object data = null)
-        {
-            if (_ab2view2EntryDic.ContainsKey(abName))
-            {
-                var v2eDic = _ab2view2EntryDic[abName];
-                if (v2eDic.ContainsKey(viewName))
-                {
-                    ViewEntry ve = v2eDic[viewName];
-                    return Create(ve.type, ve.abName, ve.viewName, parent, data);
-                }
-            }
-
-            return null;            
-        }       
+        }    
 
         public static void CreateAsync(Type type, string abName, string viewName, Transform parent, object data = null, Action<AView> onCreated = null, Action<float> onProgress = null, Action<UnityEngine.Object> onLoaded = null)
         {
@@ -218,42 +180,29 @@ namespace ZeroHot
         }
 
         public static void CreateAsync(Type type, Transform parent, object data = null, Action<AView> onCreated = null, Action<float> onProgress = null, Action<UnityEngine.Object> onLoaded = null)
-        {            
-            if (_type2EntryDic.ContainsKey(type))
+        {
+            string abName, viewName;
+            if (FindAssetBundleInfo(type, out abName, out viewName))
             {
-                ViewEntry ve = _type2EntryDic[type];
-                new ViewAsyncCreater<AView>(ve.type, ve.abName, ve.viewName).Create(parent, data, onCreated, onProgress, onLoaded);
+                new ViewAsyncCreater<AView>(type, abName, viewName).Create(parent, data, onCreated, onProgress, onLoaded);
             }
             else
             {
-                Debug.LogErrorFormat("AView类[{0}]并没有对应的已注册视图", type.FullName);
+                Debug.LogErrorFormat("AView类[{0}]并没有适用的视图", type.FullName);
             }
         }
 
         public static void CreateAsync<T>(Transform parent, object data = null, Action<T> onCreated = null, Action<float> onProgress = null, Action<UnityEngine.Object> onLoaded = null) where T : AView
         {
             Type type = typeof(T);
-            if (_type2EntryDic.ContainsKey(type))
+            string abName, viewName;
+            if (FindAssetBundleInfo(type, out abName, out viewName))
             {
-                ViewEntry ve = _type2EntryDic[type];
-                new ViewAsyncCreater<T>(ve.type, ve.abName, ve.viewName).Create(parent, data, onCreated, onProgress, onLoaded);
+                new ViewAsyncCreater<T>(type, abName, viewName).Create(parent, data, onCreated, onProgress, onLoaded);
             }
             else
             {
-                Debug.LogErrorFormat("AView类[{0}]并没有对应的已注册视图", type.FullName);
-            }
-        }
-
-        public static void CreateAsync(string abName, string viewName, Transform parent, object data = null, Action<AView> onCreated = null, Action<float> onProgress = null, Action<UnityEngine.Object> onLoaded = null)
-        {
-            if (_ab2view2EntryDic.ContainsKey(abName))
-            {
-                var v2eDic = _ab2view2EntryDic[abName];
-                if (v2eDic.ContainsKey(viewName))
-                {
-                    ViewEntry ve = v2eDic[viewName];
-                    new ViewAsyncCreater<AView>(ve.type, ve.abName, ve.viewName).Create(parent, data, onCreated, onProgress, onLoaded);
-                }
+                Debug.LogErrorFormat("AView类[{0}]并没有适用的视图", type.FullName);
             }
         }
     }

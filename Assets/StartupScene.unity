@@ -1001,7 +1001,7 @@ MonoBehaviour:
     isLoadPdb: 1
     ilType: 0
     isTryJitBeforeILRuntime: 0
-    isDebugIL: 0
+    isDebugIL: 1
 --- !u!114 &1440188156
 MonoBehaviour:
   m_ObjectHideFlags: 0

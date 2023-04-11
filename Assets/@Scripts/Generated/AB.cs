@@ -1,7 +1,4 @@
 //该类由 [Zero → 自动生成代码 → Assets资源名生成] 工具自动创建
-using UnityEditor;
-using UnityEngine;
-
 namespace ZeroHot
 {
     /// <summary>
@@ -9,12 +6,6 @@ namespace ZeroHot
     /// </summary>
     public sealed class AB
     {
-		[MenuItem("Test/AB")]
-		public static void Find()
-        {
-			ViewFactory.CreateViewAssetBundleSearchDictionary();
-        }
-
 		/// <summary>
 		/// @Resources根目录下资源
 		/// </summary>
