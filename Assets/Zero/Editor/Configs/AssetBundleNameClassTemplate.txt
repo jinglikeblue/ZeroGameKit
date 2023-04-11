@@ -1,11 +1,22 @@
 ﻿//该类由 [Zero → 自动生成代码 → Assets资源名生成] 工具自动创建
+using System.Collections.Generic;
+
 namespace ZeroHot
 {
     /// <summary>
     /// [自动生成的]AssetBundle数据
     /// </summary>
     public sealed class [CLASS NAME]
-    {[CLASS LIST]	}
+    {[CLASS LIST]
+        /// <summary>
+        /// 创建视图的AssetBundle查找表（多个视图同名的话，则表中没有该视图的记录，因为不精确）
+        /// </summary>
+		public static Dictionary<string,string> CreateViewAssetBundleSearchDictionary()
+        {
+			var dic = new Dictionary<string, string>();[KEY VALUE LIST]
+			return dic;
+        }
+    }
 }
 ------------------------------Split--------------------------------		/// <summary>
 		/// [EXPLAIN]
@@ -16,3 +27,5 @@ namespace ZeroHot
 		}
 ------------------------------Split--------------------------------
 			public const string [FIELD NAME] = "[FIELD VALUE]";
+------------------------------Split--------------------------------
+			dic["[FIELD NAME]"] = "[FIELD VALUE]";

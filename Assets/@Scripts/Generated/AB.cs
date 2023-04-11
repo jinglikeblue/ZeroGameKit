@@ -1,4 +1,6 @@
 //该类由 [Zero → 自动生成代码 → Assets资源名生成] 工具自动创建
+using System.Collections.Generic;
+
 namespace ZeroHot
 {
     /// <summary>
@@ -23,12 +25,6 @@ namespace ZeroHot
 
 			public const string MsgWin = "MsgWin.prefab";
 			public const string MsgWin_assetPath = "commons/MsgWin.prefab";            
-		}
-
-		public sealed class CONFIGS
-		{
-			public const string NAME = "configs.ab";
-            
 		}
 
 		public sealed class EXAMPLES
@@ -99,12 +95,6 @@ namespace ZeroHot
 
 			public const string BitmapFontExampleWin = "BitmapFontExampleWin.prefab";
 			public const string BitmapFontExampleWin_assetPath = "examples/bitmapfont/BitmapFontExampleWin.prefab";            
-		}
-
-		public sealed class EXAMPLES_CROSS_DEPEND_TEST
-		{
-			public const string NAME = "examples/cross_depend_test.ab";
-            
 		}
 
 		public sealed class EXAMPLES_FILES
@@ -213,12 +203,6 @@ namespace ZeroHot
 			public const string HelpWin_assetPath = "examples/roushan/HelpWin.prefab";
 			public const string StartupPanel = "StartupPanel.prefab";
 			public const string StartupPanel_assetPath = "examples/roushan/StartupPanel.prefab";            
-		}
-
-		public sealed class EXAMPLES_SOKOBAN
-		{
-			public const string NAME = "examples/sokoban.ab";
-            
 		}
 
 		public sealed class EXAMPLES_TEXTURES
@@ -373,12 +357,6 @@ namespace ZeroHot
 			public const string boot_mp3_assetPath = "examples/sokoban/audios/boot.mp3";
 			public const string push_mp3 = "push.mp3";
 			public const string push_mp3_assetPath = "examples/sokoban/audios/push.mp3";            
-		}
-
-		public sealed class EXAMPLES_SOKOBAN_CONFIGS
-		{
-			public const string NAME = "examples/sokoban/configs.ab";
-            
 		}
 
 		public sealed class EXAMPLES_SOKOBAN_PREFABS
@@ -616,5 +594,72 @@ namespace ZeroHot
 			public const string Target = "Target.prefab";
 			public const string Target_assetPath = "examples/sokoban/prefabs/game/Target.prefab";            
 		}
-	}
+
+		/// <summary>
+		/// 创建视图的AssetBundle查找表（不精确，因为多个视图同名的话，则只会保留一个）
+		/// </summary>
+		public static Dictionary<string,string> CreateViewAssetBundleSearchDictionary()
+        {
+			var dic = new Dictionary<string, string>();
+			dic["ILContent"] = "root_assets.ab";
+			dic["MsgWin"] = "commons.ab";
+			dic["MainStartupPanel"] = "examples.ab";
+			dic["AudioDeviceExampleWin"] = "examples/audio_device.ab";
+			dic["BitmapFontExampleWin"] = "examples/bitmapfont.ab";
+			dic["ZipExampleWin"] = "examples/files.ab";
+			dic["ClockView"] = "examples/framework.ab";
+			dic["CoroutineProxyExampleWin"] = "examples/framework.ab";
+			dic["CoroutinesQueueExampleWin"] = "examples/framework.ab";
+			dic["FixedPointNumberExampleWin"] = "examples/framework.ab";
+			dic["HotFilesExampleWin"] = "examples/framework.ab";
+			dic["ResMgrExampleWin"] = "examples/framework.ab";
+			dic["ResUpdateExampleWin"] = "examples/framework.ab";
+			dic["ScreenSafeAreaExampleWin"] = "examples/framework.ab";
+			dic["TimerExampleWin"] = "examples/framework.ab";
+			dic["ViewFactoryExampleWin"] = "examples/framework.ab";
+			dic["ZeroEventListenerExampleWin"] = "examples/framework.ab";
+			dic["ZeroUIExampleWin"] = "examples/framework.ab";
+			dic["StreamingAssetsLoadFutureWin"] = "examples/future.ab";
+			dic["KnightLoadingPanel"] = "examples/knight.ab";
+			dic["KnightMenuPanel"] = "examples/knight.ab";
+			dic["KnightSettingWin"] = "examples/knight.ab";
+			dic["MenuPanel"] = "examples/menus.ab";
+			dic["DownloadFileExampleWin"] = "examples/network.ab";
+			dic["KcpExampleWin"] = "examples/network.ab";
+			dic["TcpExampleWin"] = "examples/network.ab";
+			dic["UdpExampleWin"] = "examples/network.ab";
+			dic["WebSocketExampleWin"] = "examples/network.ab";
+			dic["CallNativeCodePerformanceWin"] = "examples/performance.ab";
+			dic["FibonacciPerformanceWin"] = "examples/performance.ab";
+			dic["GamePanel"] = "examples/roushan.ab";
+			dic["GameStage"] = "examples/roushan.ab";
+			dic["HelpWin"] = "examples/roushan.ab";
+			dic["StartupPanel"] = "examples/roushan.ab";
+			dic["TexturesWin"] = "examples/textures.ab";
+			dic["GridScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
+			dic["HorizontalScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
+			dic["ScrollListDemoMenuPanel"] = "examples/turbocharged_scroll_list.ab";
+			dic["VerticalScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
+			dic["UniWebViewExampleWin"] = "examples/uniwebview.ab";
+			dic["CryptoExampleWin"] = "examples/utility.ab";
+			dic["VideoExampleWin"] = "examples/video.ab";
+			dic["A"] = "examples/cross_depend_test/a.ab";
+			dic["C"] = "examples/cross_depend_test/a.ab";
+			dic["B"] = "examples/cross_depend_test/b.ab";
+			dic["KnightGamePanel"] = "examples/knight/game.ab";
+			dic["KnightGameStage"] = "examples/knight/game.ab";
+			dic["CreditsWin"] = "examples/sokoban/prefabs.ab";
+			dic["LevelSelectWin"] = "examples/sokoban/prefabs.ab";
+			dic["LoadingWin"] = "examples/sokoban/prefabs.ab";
+			dic["SokobanGamePanel"] = "examples/sokoban/prefabs.ab";
+			dic["SokobanGameStage"] = "examples/sokoban/prefabs.ab";
+			dic["SokobanMenuPanel"] = "examples/sokoban/prefabs.ab";
+			dic["SokobanMsgWin"] = "examples/sokoban/prefabs.ab";
+			dic["BangEffect"] = "examples/sokoban/prefabs/game.ab";
+			dic["Box"] = "examples/sokoban/prefabs/game.ab";
+			dic["Role"] = "examples/sokoban/prefabs/game.ab";
+			dic["Target"] = "examples/sokoban/prefabs/game.ab";
+			return dic;
+        }
+    }
 }

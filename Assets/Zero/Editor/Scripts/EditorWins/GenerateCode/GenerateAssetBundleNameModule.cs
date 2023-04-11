@@ -90,8 +90,7 @@ namespace ZeroEditor
         {
             if (File.Exists(file))
             {
-                EditorUtility.OpenWithDefaultApp(file);                
-                //UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(file, 0);
+                EditorUtility.OpenWithDefaultApp(file);                                
             }
             else
             {

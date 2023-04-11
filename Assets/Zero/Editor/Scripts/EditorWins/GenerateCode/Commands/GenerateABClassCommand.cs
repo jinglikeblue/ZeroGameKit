@@ -24,6 +24,7 @@ namespace ZeroEditor
         string _explainT;
         string _classT;
         string _fieldT;
+        string _dicAddT;
 
         public readonly List<AssetBundleItemVO> abList;
 
@@ -44,14 +45,57 @@ namespace ZeroEditor
             _mainClassT = template[0];
             _explainT = template[1];
             _classT = template[2];
-            _fieldT = template[3];
+            _fieldT = template[3].TrimEnd();
+            _dicAddT = template[4].TrimEnd();
 
             string classContent;
             var mainClassName = Path.GetFileNameWithoutExtension(OUTPUT_FILE);
             classContent = _mainClassT.Replace(CLASS_NAME_FLAG, mainClassName);
             classContent = classContent.Replace(CLASS_LIST_FLAG, GenerateClassList());
+            classContent = classContent.Replace("[KEY VALUE LIST]", GenerateKeyValueList());
 
             File.WriteAllText(OUTPUT_FILE, classContent);
+        }
+
+        /// <summary>
+        /// 创建视图的AssetBundle查找表（多个视图同名的话，则表中没有该视图的记录，因为不精确）
+        /// </summary>
+        string GenerateKeyValueList()
+        {
+            HashSet<string> repeatViewNameSet = new HashSet<string>();
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+
+            foreach (var vo in abList)
+            {
+                foreach(var viewName in vo.assetList)
+                {                    
+                    var ext = Path.GetExtension(viewName);
+                    if (ext.Equals(".prefab"))
+                    {
+                        string fieldName = Path.GetFileNameWithoutExtension(viewName);
+                        if (dic.ContainsKey(fieldName))
+                        {
+                            repeatViewNameSet.Add(fieldName);
+                            continue;
+                        }
+                        dic[fieldName] = vo.assetbundle;
+                    }                    
+                }
+            }
+
+            //剔除重名的view
+            foreach(var viewName in repeatViewNameSet)
+            {
+                dic.Remove(viewName);
+            }
+
+            StringBuilder sb = new StringBuilder();
+            foreach(var kv in dic)
+            {
+                sb.Append(_dicAddT.Replace(FIELD_NAME_FLAG, kv.Key).Replace(FIELD_VALUE_FLAG, kv.Value));
+            }            
+            
+            return sb.ToString();
         }
 
         string GenerateClassList()
@@ -60,6 +104,11 @@ namespace ZeroEditor
 
             foreach (var vo in abList)
             {
+                if(0 == vo.assetList.Count)
+                {
+                    continue;
+                }
+
                 var classContent = GenerateClass(vo);
                 sb.Append(classContent);
                 //sb.AppendLine();
@@ -111,11 +160,11 @@ namespace ZeroEditor
                 {
                     fieldName = string.Format("{0}_{1}", fieldName, ext.Replace(".", ""));
                 }
+
                 sb.Append(GenerateFiled(fieldName, viewName));
                 //添加全名
                 var assetPath = ResMgr.Ins.LinkAssetPath(abNameWithoutExt, viewName);
                 sb.Append(GenerateFiled(fieldName + "_assetPath", assetPath));
-                //sb.AppendLine();
             }
 
             return sb.ToString();
