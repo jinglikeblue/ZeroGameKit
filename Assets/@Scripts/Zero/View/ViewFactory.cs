@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Zero;
 
@@ -10,6 +11,54 @@ namespace ZeroHot
     /// </summary>
     public sealed class ViewFactory
     {
+        /// <summary>
+        /// [视图名称] => [AssestBundle]
+        /// </summary>
+        static Dictionary<string, string> _viewAssetBundleSearchDic;
+        static ViewFactory()
+        {
+            CreateViewAssetBundleSearchDictionary();
+        }
+
+        /// <summary>
+        /// 创建视图的AssetBundle查找表（不精确，因为多个视图同名的话，则只会保留一个）
+        /// </summary>
+        public static void CreateViewAssetBundleSearchDictionary()
+        {
+            if(_viewAssetBundleSearchDic != null)
+            {
+                return;
+            }
+
+            _viewAssetBundleSearchDic = new Dictionary<string, string>();
+
+            var abType = typeof(AB);
+            foreach (var abInfoCls in abType.GetNestedTypes())
+            {
+                var abName = abInfoCls.GetField("NAME").GetValue(abInfoCls) as string;                
+                var fields = abInfoCls.GetFields();
+                foreach (var field in fields)
+                {
+                    if (field.Name.EndsWith("_assetPath"))
+                    {
+                        continue;
+                    }
+
+                    string value = field.GetValue(abInfoCls) as string;
+
+                    if(false == value.EndsWith(".prefab"))
+                    {
+                        continue;
+                    }
+
+                    _viewAssetBundleSearchDic[field.Name] = abName;
+                }
+            }
+
+            var s = LitJson.JsonMapper.ToJson(_viewAssetBundleSearchDic);
+            Debug.Log(s);
+        }
+
         /// <summary>
         /// 视图单元的数据
         /// </summary>
