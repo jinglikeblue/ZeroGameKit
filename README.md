@@ -5,6 +5,9 @@
 
 # 更新日志
 
+## 2023-04-11
+- 优化视图逻辑，移除ViewRegister的操作。并且现在一个prefab视图可以被多个AView子类关联，实现复用
+
 ## 2023-03-28
 - 增加ZIP文件压缩/解压缩辅助类ZipHelper以及其用例
 - StreamingAssetsUtility.cs，StreamingAssets中的文件读取，增加同步方法
