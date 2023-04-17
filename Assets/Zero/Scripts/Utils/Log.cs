@@ -75,11 +75,11 @@ namespace Zero
         /// <returns></returns>
         public static string Zero1(string format, params object[] args)
         {
-            string color = COLOR_ZERO1;
+            string color = COLOR_ZERO1_PRO;
 #if UNITY_EDITOR            
-            if(UnityEditor.EditorGUIUtility.isProSkin)
+            if(!UnityEditor.EditorGUIUtility.isProSkin)
             {
-                color = COLOR_ZERO1_PRO;
+                color = COLOR_ZERO1;
             }
 #endif
             return C(color, format, args);
@@ -93,11 +93,11 @@ namespace Zero
         /// <returns></returns>
         public static string Zero2(string format, params object[] args)
         {
-            string color = COLOR_ZERO2;
+            string color = COLOR_ZERO2_PRO;
 #if UNITY_EDITOR            
-            if (UnityEditor.EditorGUIUtility.isProSkin)
+            if (!UnityEditor.EditorGUIUtility.isProSkin)
             {
-                color = COLOR_ZERO2_PRO;
+                color = COLOR_ZERO2;
             }
 #endif
             return C(color, format, args);

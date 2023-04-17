@@ -269,6 +269,7 @@ public class Reporter : MonoBehaviour
 	GUIStyle buttonActiveStyle;
 
 	GUIStyle nonStyle;
+	GUIStyle nonStyleWithWriteLog;
 	GUIStyle lowerLeftFontStyle;
 	GUIStyle backStyle;
 	GUIStyle evenLogStyle;
@@ -284,6 +285,8 @@ public class Reporter : MonoBehaviour
 	GUISkin toolbarScrollerSkin;
 	GUISkin logScrollerSkin;
 	GUISkin graphScrollerSkin;
+
+	readonly Color LOG_COLOR = new Color(198f / 255f, 198f / 255f, 198f / 255f);
 
 	public Vector2 size = new Vector2(32, 32);
 	public float maxSize = 20;
@@ -479,14 +482,16 @@ public class Reporter : MonoBehaviour
 		nonStyle.fontSize = (int)(size.y / 2);
 		nonStyle.alignment = TextAnchor.MiddleCenter;
 
+		nonStyleWithWriteLog = new GUIStyle(nonStyle);
+		nonStyleWithWriteLog.normal.textColor = LOG_COLOR;
+
 		lowerLeftFontStyle = new GUIStyle();
 		lowerLeftFontStyle.clipping = TextClipping.Clip;
 		lowerLeftFontStyle.border = new RectOffset(0, 0, 0, 0);
 		lowerLeftFontStyle.normal.background = null;
 		lowerLeftFontStyle.fontSize = (int)(size.y / 2);
 		lowerLeftFontStyle.fontStyle = FontStyle.Bold;
-		lowerLeftFontStyle.alignment = TextAnchor.LowerLeft;
-
+		lowerLeftFontStyle.alignment = TextAnchor.LowerLeft;	
 
 		barStyle = new GUIStyle();
 		barStyle.border = new RectOffset(1, 1, 1, 1);
@@ -521,6 +526,7 @@ public class Reporter : MonoBehaviour
 		evenLogStyle.alignment = TextAnchor.UpperLeft;
 		evenLogStyle.imagePosition = ImagePosition.ImageLeft;
 		evenLogStyle.fontSize = (int)(size.y / 2);
+		evenLogStyle.normal.textColor = LOG_COLOR;
 		//evenLogStyle.wordWrap = true;
 
 		oddLogStyle = new GUIStyle();
@@ -530,6 +536,7 @@ public class Reporter : MonoBehaviour
 		oddLogStyle.alignment = TextAnchor.UpperLeft;
 		oddLogStyle.imagePosition = ImagePosition.ImageLeft;
 		oddLogStyle.fontSize = (int)(size.y / 2);
+		oddLogStyle.normal.textColor = LOG_COLOR;
 		//oddLogStyle.wordWrap = true ;
 
 		logButtonStyle = new GUIStyle();
@@ -541,6 +548,7 @@ public class Reporter : MonoBehaviour
 		//logButtonStyle.wordWrap = true;
 		logButtonStyle.fontSize = (int)(size.y / 2);
 		logButtonStyle.padding = new RectOffset(paddingX, paddingX, paddingY, paddingY);
+		logButtonStyle.normal.textColor = LOG_COLOR;
 
 		selectedLogStyle = new GUIStyle();
 		selectedLogStyle.normal.background = images.selectedImage;
@@ -565,6 +573,7 @@ public class Reporter : MonoBehaviour
 		stackLabelStyle.wordWrap = true;
 		stackLabelStyle.fontSize = (int)(size.y / 2);
 		stackLabelStyle.padding = new RectOffset(paddingX, paddingX, paddingY, paddingY);
+		stackLabelStyle.normal.textColor = LOG_COLOR;
 
 		scrollerStyle = new GUIStyle();
 		scrollerStyle.normal.background = images.barImage;
@@ -745,6 +754,8 @@ public class Reporter : MonoBehaviour
 	Vector2 oldInfoDrag;
 	void DrawInfo()
 	{
+
+		var nonStyle = nonStyleWithWriteLog;
 
 		GUILayout.BeginArea(screenRect, backStyle);
 
@@ -1606,19 +1617,19 @@ public class Reporter : MonoBehaviour
 			GUILayout.BeginHorizontal();
 
 			GUILayout.Box(showTimeContent, nonStyle, GUILayout.Width(size.x), GUILayout.Height(size.y));
-			GUILayout.Label(selectedSample.time.ToString("0.000"), nonStyle);
+			GUILayout.Label(selectedSample.time.ToString("0.000"), nonStyleWithWriteLog);
 			GUILayout.Space(size.x);
 
 			GUILayout.Box(showSceneContent, nonStyle, GUILayout.Width(size.x), GUILayout.Height(size.y));
-			GUILayout.Label(selectedSample.GetSceneName(), nonStyle);
+			GUILayout.Label(selectedSample.GetSceneName(), nonStyleWithWriteLog);
 			GUILayout.Space(size.x);
 
 			GUILayout.Box(showMemoryContent, nonStyle, GUILayout.Width(size.x), GUILayout.Height(size.y));
-			GUILayout.Label(selectedSample.memory.ToString("0.000"), nonStyle);
+			GUILayout.Label(selectedSample.memory.ToString("0.000"), nonStyleWithWriteLog);
 			GUILayout.Space(size.x);
 
 			GUILayout.Box(showFpsContent, nonStyle, GUILayout.Width(size.x), GUILayout.Height(size.y));
-			GUILayout.Label(selectedSample.fpsText, nonStyle);
+			GUILayout.Label(selectedSample.fpsText, nonStyleWithWriteLog);
 			/*GUILayout.Space( size.x );
 			GUILayout.Box( graphContent ,nonStyle, GUILayout.Width(size.x) ,GUILayout.Height(size.y));
 			GUILayout.Label( selectedLog.sampleId.ToString() ,nonStyle  );*/
