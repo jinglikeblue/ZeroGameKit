@@ -55,6 +55,10 @@ namespace ZeroEditor
             CheckExistsAndRefreshPreviewList();
         }
 
+        [Title("link.xml 生成", TitleAlignment = TitleAlignments.Centered)]
+        [InfoBox("IL2CPP在打包时会自动对Unity工程的DLL进行裁剪，将代码中没有引用到的类型裁剪掉，以达到减小发布后ipa包的尺寸的目的。然而在实际使用过程中，很多类型有可能会被意外剪裁掉，造成运行时抛出找不到某个类型的异常。特别是通过反射等方式在编译时无法得知的函数调用，在运行时都很有可能遇到问题。" +
+            "Unity提供了一个方式来告诉Unity引擎，哪些类型是不能够被剪裁掉的。具体做法就是在Unity工程的Assets目录中建立一个叫link.xml的XML文件指定你需要保留的类型")]
+        [Button("保存配置", ButtonSizes.Large), PropertyOrder(-9999)]
         void SaveConfig()
         {
             for (int i = 0; i < includeDirs.Count; i++)
@@ -67,19 +71,13 @@ namespace ZeroEditor
                 includeDlls[i] = includeDlls[i].Replace(NONEXISTENT_FLAG, "");
             }
 
-            EditorConfigUtil.SaveConfig(_cfg, CONFIG_NAME);
+            EditorConfigUtil.SaveConfig(_cfg, CONFIG_NAME);            
+        }      
 
-            CheckExistsAndRefreshPreviewList();
-        }
-
-        [Title("link.xml 生成", TitleAlignment = TitleAlignments.Centered)]
-        [InfoBox("IL2CPP在打包时会自动对Unity工程的DLL进行裁剪，将代码中没有引用到的类型裁剪掉，以达到减小发布后ipa包的尺寸的目的。然而在实际使用过程中，很多类型有可能会被意外剪裁掉，造成运行时抛出找不到某个类型的异常。特别是通过反射等方式在编译时无法得知的函数调用，在运行时都很有可能遇到问题。" +
-            "Unity提供了一个方式来告诉Unity引擎，哪些类型是不能够被剪裁掉的。具体做法就是在Unity工程的Assets目录中建立一个叫link.xml的XML文件指定你需要保留的类型")]
-        [LabelText("导出位置"), DisplayAsString, PropertyOrder(-999)]
-        public string path = "assets/link.xml";
-
-        [HorizontalGroup("AddButtons", order: -1)]
+        [PropertySpace(10)]
+        [Title("配置相关")]        
         [LabelText("添加扫描目录"), Button(size: ButtonSizes.Large)]
+        [PropertyOrder(-100)]
         void AddDir()
         {
             string dir = EditorUtility.OpenFolderPanel("扫描目录", Application.dataPath, "");
@@ -97,9 +95,15 @@ namespace ZeroEditor
             includeDirs.Add(dir);
             OnListChange();
         }
+        
+        [LabelText("扫描的Dll文件夹列表"), ListDrawerSettings(Expanded = true, HideAddButton = true, DraggableItems = false)]
+        [DisplayAsString]
+        [OnValueChanged("OnListChange", includeChildren: true)]
+        [PropertyOrder(-99)]
+        public List<string> includeDirs = new List<string>();
 
-        [HorizontalGroup("AddButtons")]
         [LabelText("添加Dll文件"), Button(size: ButtonSizes.Large)]
+        [PropertyOrder(-98)]
         void AddDll()
         {
             string dll = EditorUtility.OpenFilePanel("Dll文件", Application.dataPath, "dll");
@@ -119,26 +123,30 @@ namespace ZeroEditor
             includeDlls.Add(dll);
             OnListChange();
         }
-
-        [PropertySpace(10)]
-        [LabelText("扫描的Dll文件夹列表"), ListDrawerSettings(Expanded = true, HideAddButton = true, DraggableItems = false)]
-        [DisplayAsString]
-        [OnValueChanged("OnListChange", includeChildren: true)]        
-        public List<string> includeDirs = new List<string>();
-
-        [PropertySpace(10)]
+        
         [LabelText("添加的Dll文件列表"), ListDrawerSettings(Expanded = true, HideAddButton = true, DraggableItems = false)]
         [DisplayAsString]
         [OnValueChanged("OnListChange", includeChildren: true)]
+        [PropertyOrder(-97)]
         public List<string> includeDlls = new List<string>();
 
         void OnListChange()
         {
             Debug.Log("列表数据变化");            
             SaveConfig();
+            CheckExistsAndRefreshPreviewList();
         }
 
+        [LabelText("是否保留Editor DLL文件"), OnValueChanged("CheckExistsAndRefreshPreviewList")]
+        [PropertyOrder(-96)]
+        public bool isKeepEditorAssembly = false;
+
+
+        [Title("导出相关")]
         [PropertySpace(10)]
+        [LabelText("导出位置"), PropertyOrder(-80), DisplayAsString]
+        public string path = "assets/link.xml";
+
         [LabelText("导出 [link.xml]"), Button(size: ButtonSizes.Large)]
         void CreateLinkXML()
         {
@@ -150,7 +158,7 @@ namespace ZeroEditor
             ShowTip("[{0}] 导出完毕!", OUTPUT_FILE);
         }
 
-        [Button("刷新预览", ButtonSizes.Large)]
+        [Button("刷新列表", ButtonSizes.Large)]
         void CheckExistsAndRefreshPreviewList()
         {
             for (int i = 0; i < includeDirs.Count; i++)
@@ -179,10 +187,8 @@ namespace ZeroEditor
             RefreshPreviewList();
         }
 
-        [LabelText("是否保留Editor DLL文件"), ToggleLeft, OnValueChanged("CheckExistsAndRefreshPreviewList")]
-        public bool isKeepEditorAssembly = false;
 
-        [PropertySpace(10)]
+        
         [LabelText("保留类型预览"), DisplayAsString, PropertyOrder(999), ListDrawerSettings(DraggableItems = false, HideRemoveButton = true, HideAddButton = true, NumberOfItemsPerPage = 20)]
         public List<string> outputPreviewList;
 
