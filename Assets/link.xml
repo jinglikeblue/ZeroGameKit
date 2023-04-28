@@ -1,345 +1,46 @@
 ﻿<linker>
     <assembly fullname="ICSharpCode.SharpZipLib" preserve="all" />
-    <assembly fullname="Assembly-CSharp-Editor-firstpass" preserve="all" />
-    <assembly fullname="Assembly-CSharp-Editor" preserve="all" />
     <assembly fullname="Assembly-CSharp-firstpass" preserve="all" />
     <assembly fullname="Assembly-CSharp" preserve="all" />
-    <assembly fullname="AVProVideo.Editor" preserve="all" />
     <assembly fullname="AVProVideo.Extensions.Timeline" preserve="all" />
     <assembly fullname="AVProVideo.Extensions.UnityUI" preserve="all" />
-    <assembly fullname="AVProVideo.Extensions.UnityUI.Editor" preserve="all" />
     <assembly fullname="AVProVideo.Extensions.VisualEffectGraph" preserve="all" />
     <assembly fullname="AVProVideo.Runtime" preserve="all" />
     <assembly fullname="Sirenix.OdinInspector.CompatibilityLayer" preserve="all" />
-    <assembly fullname="Sirenix.OdinInspector.CompatibilityLayer.Editor" preserve="all" />
     <assembly fullname="Sirenix.OdinValidator" preserve="all" />
-    <assembly fullname="Unity.2D.Sprite.Editor" preserve="all" />
-    <assembly fullname="Unity.2D.Tilemap.Editor" preserve="all" />
-    <assembly fullname="Unity.DeviceSimulator.Editor" preserve="all" />
-    <assembly fullname="Unity.Rider.Editor" preserve="all" />
     <assembly fullname="Unity.Timeline" preserve="all" />
-    <assembly fullname="Unity.Timeline.Editor" preserve="all" />
-    <assembly fullname="Unity.VisualStudio.Editor" preserve="all" />
-    <assembly fullname="Unity.VSCode.Editor" preserve="all" />
-    <assembly fullname="UnityEditor.SpatialTracking" preserve="all" />
-    <assembly fullname="UnityEditor.TestRunner" preserve="all" />
-    <assembly fullname="UnityEditor.UI" preserve="all" />
-    <assembly fullname="UnityEditor.XR.LegacyInputHelpers" preserve="all" />
     <assembly fullname="UnityEngine.SpatialTracking" preserve="all" />
     <assembly fullname="UnityEngine.TestRunner" preserve="all" />
     <assembly fullname="UnityEngine.UI" preserve="all" />
     <assembly fullname="UnityEngine.XR.LegacyInputHelpers" preserve="all" />
     <assembly fullname="UniWebView-CSharp" preserve="all" />
-    <assembly fullname="UniWebView-CSharp.Editor" preserve="all" />
-    <assembly fullname="csc" preserve="all" />
-    <assembly fullname="Microsoft.CodeAnalysis.CSharp" preserve="all" />
-    <assembly fullname="Microsoft.CodeAnalysis" preserve="all" />
-    <assembly fullname="Microsoft.CodeAnalysis.VisualBasic" preserve="all" />
-    <assembly fullname="System.Collections.Immutable" preserve="all" />
-    <assembly fullname="System.Reflection.Metadata" preserve="all" />
-    <assembly fullname="System.Runtime.CompilerServices.Unsafe" preserve="all" />
-    <assembly fullname="vbc" preserve="all" />
-    <assembly fullname="VBCSCompiler" preserve="all" />
-    <assembly fullname="Microsoft.CodeAnalysis.CSharp.resources" preserve="all" />
-    <assembly fullname="Microsoft.CodeAnalysis.resources" preserve="all" />
-    <assembly fullname="Microsoft.CodeAnalysis.VisualBasic.resources" preserve="all" />
     <assembly fullname="System.Runtime.WindowsRuntime" preserve="all" />
     <assembly fullname="System.Runtime.WindowsRuntime.UI.Xaml" preserve="all" />
-    <assembly fullname="api-ms-win-core-console-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-console-l1-2-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-datetime-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-debug-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-errorhandling-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-file-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-file-l1-2-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-file-l2-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-handle-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-heap-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-interlocked-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-libraryloader-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-localization-l1-2-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-memory-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-namedpipe-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-processenvironment-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-processthreads-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-processthreads-l1-1-1" preserve="all" />
-    <assembly fullname="api-ms-win-core-profile-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-rtlsupport-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-string-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-synch-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-synch-l1-2-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-sysinfo-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-timezone-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-core-util-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-conio-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-convert-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-environment-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-filesystem-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-heap-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-locale-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-math-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-multibyte-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-private-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-process-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-runtime-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-stdio-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-string-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-time-l1-1-0" preserve="all" />
-    <assembly fullname="api-ms-win-crt-utility-l1-1-0" preserve="all" />
-    <assembly fullname="Bee.BeeDriver" preserve="all" />
-    <assembly fullname="Bee.Core" preserve="all" />
-    <assembly fullname="Bee.CSharpSupport" preserve="all" />
-    <assembly fullname="Bee.DotNet" preserve="all" />
-    <assembly fullname="Bee.NativeProgramSupport" preserve="all" />
-    <assembly fullname="Bee.Toolchain.Android" preserve="all" />
-    <assembly fullname="Bee.Toolchain.Emscripten" preserve="all" />
-    <assembly fullname="Bee.Toolchain.GNU" preserve="all" />
-    <assembly fullname="Bee.Toolchain.Linux" preserve="all" />
-    <assembly fullname="Bee.Toolchain.LLVM" preserve="all" />
-    <assembly fullname="Bee.Toolchain.MacOS" preserve="all" />
-    <assembly fullname="Bee.Toolchain.VisualStudio" preserve="all" />
-    <assembly fullname="Bee.Toolchain.Windows" preserve="all" />
-    <assembly fullname="Bee.Toolchain.Xcode" preserve="all" />
-    <assembly fullname="Bee.Tools" preserve="all" />
-    <assembly fullname="Bee.TundraBackend" preserve="all" />
-    <assembly fullname="Bee.VisualStudioSolution" preserve="all" />
-    <assembly fullname="clrcompression" preserve="all" />
-    <assembly fullname="clretwrc" preserve="all" />
-    <assembly fullname="clrjit" preserve="all" />
-    <assembly fullname="coreclr" preserve="all" />
-    <assembly fullname="dbgshim" preserve="all" />
-    <assembly fullname="hostfxr" preserve="all" />
-    <assembly fullname="hostpolicy" preserve="all" />
-    <assembly fullname="il2cpp" preserve="all" />
-    <assembly fullname="JetBrains.Profiler.Api" preserve="all" />
-    <assembly fullname="Microsoft.Bcl.HashCode" preserve="all" />
-    <assembly fullname="Microsoft.CSharp" preserve="all" />
-    <assembly fullname="Microsoft.DiaSymReader.Native.amd64" preserve="all" />
-    <assembly fullname="Microsoft.VisualBasic.Core" preserve="all" />
-    <assembly fullname="Microsoft.VisualBasic" preserve="all" />
-    <assembly fullname="Microsoft.Win32.Primitives" preserve="all" />
-    <assembly fullname="Microsoft.Win32.Registry" preserve="all" />
     <assembly fullname="MiniProfiler" preserve="all" />
     <assembly fullname="Mono.Cecil" preserve="all" />
     <assembly fullname="Mono.Cecil.Mdb" preserve="all" />
     <assembly fullname="Mono.Cecil.Pdb" preserve="all" />
     <assembly fullname="Mono.Cecil.Rocks" preserve="all" />
-    <assembly fullname="monolinker" preserve="all" />
-    <assembly fullname="mscordaccore" preserve="all" />
-    <assembly fullname="mscordaccore_amd64_amd64_5.0.1321.56516" preserve="all" />
-    <assembly fullname="mscordbi" preserve="all" />
-    <assembly fullname="mscorlib" preserve="all" />
-    <assembly fullname="mscorrc" preserve="all" />
-    <assembly fullname="netstandard" preserve="all" />
-    <assembly fullname="Newtonsoft.Json" preserve="all" />
-    <assembly fullname="NiceIO" preserve="all" />
     <assembly fullname="SharpYaml" preserve="all" />
-    <assembly fullname="System.AppContext" preserve="all" />
-    <assembly fullname="System.Buffers" preserve="all" />
-    <assembly fullname="System.Collections.Concurrent" preserve="all" />
-    <assembly fullname="System.Collections" preserve="all" />
-    <assembly fullname="System.Collections.NonGeneric" preserve="all" />
-    <assembly fullname="System.Collections.Specialized" preserve="all" />
-    <assembly fullname="System.ComponentModel.Annotations" preserve="all" />
-    <assembly fullname="System.ComponentModel.DataAnnotations" preserve="all" />
-    <assembly fullname="System.ComponentModel" preserve="all" />
-    <assembly fullname="System.ComponentModel.EventBasedAsync" preserve="all" />
-    <assembly fullname="System.ComponentModel.Primitives" preserve="all" />
-    <assembly fullname="System.ComponentModel.TypeConverter" preserve="all" />
-    <assembly fullname="System.Configuration" preserve="all" />
-    <assembly fullname="System.Console" preserve="all" />
-    <assembly fullname="System.Core" preserve="all" />
-    <assembly fullname="System.Data.Common" preserve="all" />
-    <assembly fullname="System.Data.DataSetExtensions" preserve="all" />
-    <assembly fullname="System.Data" preserve="all" />
-    <assembly fullname="System.Diagnostics.Contracts" preserve="all" />
-    <assembly fullname="System.Diagnostics.Debug" preserve="all" />
-    <assembly fullname="System.Diagnostics.DiagnosticSource" preserve="all" />
-    <assembly fullname="System.Diagnostics.FileVersionInfo" preserve="all" />
-    <assembly fullname="System.Diagnostics.Process" preserve="all" />
-    <assembly fullname="System.Diagnostics.StackTrace" preserve="all" />
-    <assembly fullname="System.Diagnostics.TextWriterTraceListener" preserve="all" />
-    <assembly fullname="System.Diagnostics.Tools" preserve="all" />
-    <assembly fullname="System.Diagnostics.TraceSource" preserve="all" />
-    <assembly fullname="System.Diagnostics.Tracing" preserve="all" />
-    <assembly fullname="System" preserve="all" />
-    <assembly fullname="System.Drawing" preserve="all" />
-    <assembly fullname="System.Drawing.Primitives" preserve="all" />
-    <assembly fullname="System.Dynamic.Runtime" preserve="all" />
-    <assembly fullname="System.Formats.Asn1" preserve="all" />
-    <assembly fullname="System.Globalization.Calendars" preserve="all" />
-    <assembly fullname="System.Globalization" preserve="all" />
-    <assembly fullname="System.Globalization.Extensions" preserve="all" />
-    <assembly fullname="System.IO.Compression.Brotli" preserve="all" />
-    <assembly fullname="System.IO.Compression" preserve="all" />
-    <assembly fullname="System.IO.Compression.FileSystem" preserve="all" />
-    <assembly fullname="System.IO.Compression.ZipFile" preserve="all" />
-    <assembly fullname="System.IO" preserve="all" />
-    <assembly fullname="System.IO.FileSystem.AccessControl" preserve="all" />
-    <assembly fullname="System.IO.FileSystem" preserve="all" />
-    <assembly fullname="System.IO.FileSystem.DriveInfo" preserve="all" />
-    <assembly fullname="System.IO.FileSystem.Primitives" preserve="all" />
-    <assembly fullname="System.IO.FileSystem.Watcher" preserve="all" />
-    <assembly fullname="System.IO.IsolatedStorage" preserve="all" />
-    <assembly fullname="System.IO.MemoryMappedFiles" preserve="all" />
-    <assembly fullname="System.IO.Pipes.AccessControl" preserve="all" />
-    <assembly fullname="System.IO.Pipes" preserve="all" />
-    <assembly fullname="System.IO.UnmanagedMemoryStream" preserve="all" />
-    <assembly fullname="System.Linq" preserve="all" />
-    <assembly fullname="System.Linq.Expressions" preserve="all" />
-    <assembly fullname="System.Linq.Parallel" preserve="all" />
-    <assembly fullname="System.Linq.Queryable" preserve="all" />
-    <assembly fullname="System.Memory" preserve="all" />
-    <assembly fullname="System.Net" preserve="all" />
-    <assembly fullname="System.Net.Http" preserve="all" />
-    <assembly fullname="System.Net.Http.Json" preserve="all" />
-    <assembly fullname="System.Net.HttpListener" preserve="all" />
-    <assembly fullname="System.Net.Mail" preserve="all" />
-    <assembly fullname="System.Net.NameResolution" preserve="all" />
-    <assembly fullname="System.Net.NetworkInformation" preserve="all" />
-    <assembly fullname="System.Net.Ping" preserve="all" />
-    <assembly fullname="System.Net.Primitives" preserve="all" />
-    <assembly fullname="System.Net.Requests" preserve="all" />
-    <assembly fullname="System.Net.Security" preserve="all" />
-    <assembly fullname="System.Net.ServicePoint" preserve="all" />
-    <assembly fullname="System.Net.Sockets" preserve="all" />
-    <assembly fullname="System.Net.WebClient" preserve="all" />
-    <assembly fullname="System.Net.WebHeaderCollection" preserve="all" />
-    <assembly fullname="System.Net.WebProxy" preserve="all" />
-    <assembly fullname="System.Net.WebSockets.Client" preserve="all" />
-    <assembly fullname="System.Net.WebSockets" preserve="all" />
-    <assembly fullname="System.Numerics" preserve="all" />
-    <assembly fullname="System.Numerics.Vectors" preserve="all" />
-    <assembly fullname="System.ObjectModel" preserve="all" />
-    <assembly fullname="System.Private.CoreLib" preserve="all" />
-    <assembly fullname="System.Private.DataContractSerialization" preserve="all" />
-    <assembly fullname="System.Private.Uri" preserve="all" />
-    <assembly fullname="System.Private.Xml" preserve="all" />
-    <assembly fullname="System.Private.Xml.Linq" preserve="all" />
-    <assembly fullname="System.Reflection.DispatchProxy" preserve="all" />
-    <assembly fullname="System.Reflection" preserve="all" />
-    <assembly fullname="System.Reflection.Emit" preserve="all" />
-    <assembly fullname="System.Reflection.Emit.ILGeneration" preserve="all" />
-    <assembly fullname="System.Reflection.Emit.Lightweight" preserve="all" />
-    <assembly fullname="System.Reflection.Extensions" preserve="all" />
-    <assembly fullname="System.Reflection.Primitives" preserve="all" />
-    <assembly fullname="System.Reflection.TypeExtensions" preserve="all" />
-    <assembly fullname="System.Resources.Reader" preserve="all" />
-    <assembly fullname="System.Resources.ResourceManager" preserve="all" />
-    <assembly fullname="System.Resources.Writer" preserve="all" />
-    <assembly fullname="System.Runtime.CompilerServices.VisualC" preserve="all" />
-    <assembly fullname="System.Runtime" preserve="all" />
-    <assembly fullname="System.Runtime.Extensions" preserve="all" />
-    <assembly fullname="System.Runtime.Handles" preserve="all" />
-    <assembly fullname="System.Runtime.InteropServices" preserve="all" />
-    <assembly fullname="System.Runtime.InteropServices.RuntimeInformation" preserve="all" />
-    <assembly fullname="System.Runtime.Intrinsics" preserve="all" />
-    <assembly fullname="System.Runtime.Loader" preserve="all" />
-    <assembly fullname="System.Runtime.Numerics" preserve="all" />
-    <assembly fullname="System.Runtime.Serialization" preserve="all" />
-    <assembly fullname="System.Runtime.Serialization.Formatters" preserve="all" />
-    <assembly fullname="System.Runtime.Serialization.Json" preserve="all" />
-    <assembly fullname="System.Runtime.Serialization.Primitives" preserve="all" />
-    <assembly fullname="System.Runtime.Serialization.Xml" preserve="all" />
-    <assembly fullname="System.Security.AccessControl" preserve="all" />
-    <assembly fullname="System.Security.Claims" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.Algorithms" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.Cng" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.Csp" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.Encoding" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.OpenSsl" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.Primitives" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.X509Certificates" preserve="all" />
-    <assembly fullname="System.Security" preserve="all" />
-    <assembly fullname="System.Security.Principal" preserve="all" />
-    <assembly fullname="System.Security.Principal.Windows" preserve="all" />
-    <assembly fullname="System.Security.SecureString" preserve="all" />
-    <assembly fullname="System.ServiceModel.Web" preserve="all" />
-    <assembly fullname="System.ServiceProcess" preserve="all" />
-    <assembly fullname="System.Text.Encoding.CodePages" preserve="all" />
-    <assembly fullname="System.Text.Encoding" preserve="all" />
-    <assembly fullname="System.Text.Encoding.Extensions" preserve="all" />
-    <assembly fullname="System.Text.Encodings.Web" preserve="all" />
-    <assembly fullname="System.Text.Json" preserve="all" />
-    <assembly fullname="System.Text.RegularExpressions" preserve="all" />
-    <assembly fullname="System.Threading.Channels" preserve="all" />
-    <assembly fullname="System.Threading" preserve="all" />
-    <assembly fullname="System.Threading.Overlapped" preserve="all" />
-    <assembly fullname="System.Threading.Tasks.Dataflow" preserve="all" />
-    <assembly fullname="System.Threading.Tasks" preserve="all" />
-    <assembly fullname="System.Threading.Tasks.Extensions" preserve="all" />
-    <assembly fullname="System.Threading.Tasks.Parallel" preserve="all" />
-    <assembly fullname="System.Threading.Thread" preserve="all" />
-    <assembly fullname="System.Threading.ThreadPool" preserve="all" />
-    <assembly fullname="System.Threading.Timer" preserve="all" />
-    <assembly fullname="System.Transactions" preserve="all" />
-    <assembly fullname="System.Transactions.Local" preserve="all" />
-    <assembly fullname="System.ValueTuple" preserve="all" />
-    <assembly fullname="System.Web" preserve="all" />
-    <assembly fullname="System.Web.HttpUtility" preserve="all" />
-    <assembly fullname="System.Windows" preserve="all" />
-    <assembly fullname="System.Xml" preserve="all" />
-    <assembly fullname="System.Xml.Linq" preserve="all" />
-    <assembly fullname="System.Xml.ReaderWriter" preserve="all" />
-    <assembly fullname="System.Xml.Serialization" preserve="all" />
-    <assembly fullname="System.Xml.XDocument" preserve="all" />
-    <assembly fullname="System.Xml.XmlDocument" preserve="all" />
-    <assembly fullname="System.Xml.XmlSerializer" preserve="all" />
-    <assembly fullname="System.Xml.XPath" preserve="all" />
-    <assembly fullname="System.Xml.XPath.XDocument" preserve="all" />
-    <assembly fullname="ucrtbase" preserve="all" />
-    <assembly fullname="Unity.Api.Attributes" preserve="all" />
-    <assembly fullname="Unity.Cecil.Awesome" preserve="all" />
     <assembly fullname="Unity.Cecil.Visitor" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.Api" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.Bee.BuildLogic.Android" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.Bee.BuildLogic" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.Bee.BuildLogic.Linux" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.Bee.BuildLogic.MacOSX" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.Bee.BuildLogic.WebGL" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.Bee.BuildLogic.WindowsDesktop" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.Bee.IL2CPPExeCompileCppBuildProgram.Data" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.Bee.IL2CPPExeCompileCppBuildProgram" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.Bee.PinnedToolChains" preserve="all" />
     <assembly fullname="Unity.IL2CPP.Building" preserve="all" />
     <assembly fullname="Unity.IL2CPP.Common" preserve="all" />
     <assembly fullname="Unity.IL2CPP.Common35" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.DataModel" preserve="all" />
+    <assembly fullname="Unity.IL2CPP.CompilerServices" preserve="all" />
     <assembly fullname="Unity.IL2CPP" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.RuntimeServices" preserve="all" />
+    <assembly fullname="Unity.IL2CPP.Running" preserve="all" />
     <assembly fullname="Unity.IL2CPP.Shell" preserve="all" />
-    <assembly fullname="Unity.Linker.Api" preserve="all" />
     <assembly fullname="Unity.Options" preserve="all" />
-    <assembly fullname="UnityLinker" preserve="all" />
-    <assembly fullname="WindowsBase" preserve="all" />
-    <assembly fullname="BeeBuildProgramCommon.Data" preserve="all" />
     <assembly fullname="ExCSS.Unity" preserve="all" />
-    <assembly fullname="PlayerBuildProgramLibrary.Data" preserve="all" />
-    <assembly fullname="ScriptCompilationBuildProgram.Data" preserve="all" />
     <assembly fullname="Unity.Cecil" preserve="all" />
     <assembly fullname="Unity.Cecil.Mdb" preserve="all" />
     <assembly fullname="Unity.Cecil.Pdb" preserve="all" />
     <assembly fullname="Unity.Cecil.Rocks" preserve="all" />
     <assembly fullname="Unity.CecilTools" preserve="all" />
     <assembly fullname="Unity.CompilationPipeline.Common" preserve="all" />
+    <assembly fullname="Unity.Legacy.NRefactory" preserve="all" />
     <assembly fullname="Unity.SerializationLogic" preserve="all" />
-    <assembly fullname="UnityEditor" preserve="all" />
-    <assembly fullname="UnityEditor.Graphs" preserve="all" />
     <assembly fullname="UnityEngine" preserve="all" />
-    <assembly fullname="UnityEditor.CoreModule" preserve="all" />
-    <assembly fullname="UnityEditor.DeviceSimulatorModule" preserve="all" />
-    <assembly fullname="UnityEditor.DiagnosticsModule" preserve="all" />
-    <assembly fullname="UnityEditor.GraphViewModule" preserve="all" />
-    <assembly fullname="UnityEditor.PackageManagerUIModule" preserve="all" />
-    <assembly fullname="UnityEditor.QuickSearchModule" preserve="all" />
-    <assembly fullname="UnityEditor.SceneTemplateModule" preserve="all" />
-    <assembly fullname="UnityEditor.TextCoreFontEngineModule" preserve="all" />
-    <assembly fullname="UnityEditor.TextCoreTextEngineModule" preserve="all" />
-    <assembly fullname="UnityEditor.UIBuilderModule" preserve="all" />
-    <assembly fullname="UnityEditor.UIElementsModule" preserve="all" />
-    <assembly fullname="UnityEditor.UIElementsSamplesModule" preserve="all" />
-    <assembly fullname="UnityEditor.UIServiceModule" preserve="all" />
-    <assembly fullname="UnityEditor.UnityConnectModule" preserve="all" />
     <assembly fullname="UnityEngine.AccessibilityModule" preserve="all" />
     <assembly fullname="UnityEngine.AIModule" preserve="all" />
     <assembly fullname="UnityEngine.AndroidJNIModule" preserve="all" />
@@ -347,7 +48,6 @@
     <assembly fullname="UnityEngine.ARModule" preserve="all" />
     <assembly fullname="UnityEngine.AssetBundleModule" preserve="all" />
     <assembly fullname="UnityEngine.AudioModule" preserve="all" />
-    <assembly fullname="UnityEngine.AutoStreamingModule" preserve="all" />
     <assembly fullname="UnityEngine.ClothModule" preserve="all" />
     <assembly fullname="UnityEngine.ClusterInputModule" preserve="all" />
     <assembly fullname="UnityEngine.ClusterRendererModule" preserve="all" />
@@ -356,7 +56,6 @@
     <assembly fullname="UnityEngine.DirectorModule" preserve="all" />
     <assembly fullname="UnityEngine.DSPGraphModule" preserve="all" />
     <assembly fullname="UnityEngine.GameCenterModule" preserve="all" />
-    <assembly fullname="UnityEngine.GIModule" preserve="all" />
     <assembly fullname="UnityEngine.GridModule" preserve="all" />
     <assembly fullname="UnityEngine.HotReloadModule" preserve="all" />
     <assembly fullname="UnityEngine.ImageConversionModule" preserve="all" />
@@ -365,13 +64,11 @@
     <assembly fullname="UnityEngine.InputModule" preserve="all" />
     <assembly fullname="UnityEngine.JSONSerializeModule" preserve="all" />
     <assembly fullname="UnityEngine.LocalizationModule" preserve="all" />
-    <assembly fullname="UnityEngine.NVIDIAModule" preserve="all" />
     <assembly fullname="UnityEngine.ParticleSystemModule" preserve="all" />
     <assembly fullname="UnityEngine.PerformanceReportingModule" preserve="all" />
     <assembly fullname="UnityEngine.Physics2DModule" preserve="all" />
     <assembly fullname="UnityEngine.PhysicsModule" preserve="all" />
     <assembly fullname="UnityEngine.ProfilerModule" preserve="all" />
-    <assembly fullname="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule" preserve="all" />
     <assembly fullname="UnityEngine.ScreenCaptureModule" preserve="all" />
     <assembly fullname="UnityEngine.SharedInternalsModule" preserve="all" />
     <assembly fullname="UnityEngine.SpriteMaskModule" preserve="all" />
@@ -381,19 +78,16 @@
     <assembly fullname="UnityEngine.SubsystemsModule" preserve="all" />
     <assembly fullname="UnityEngine.TerrainModule" preserve="all" />
     <assembly fullname="UnityEngine.TerrainPhysicsModule" preserve="all" />
-    <assembly fullname="UnityEngine.TextCoreFontEngineModule" preserve="all" />
-    <assembly fullname="UnityEngine.TextCoreTextEngineModule" preserve="all" />
+    <assembly fullname="UnityEngine.TextCoreModule" preserve="all" />
     <assembly fullname="UnityEngine.TextRenderingModule" preserve="all" />
     <assembly fullname="UnityEngine.TilemapModule" preserve="all" />
     <assembly fullname="UnityEngine.TLSModule" preserve="all" />
     <assembly fullname="UnityEngine.UIElementsModule" preserve="all" />
-    <assembly fullname="UnityEngine.UIElementsNativeModule" preserve="all" />
     <assembly fullname="UnityEngine.UIModule" preserve="all" />
     <assembly fullname="UnityEngine.UmbraModule" preserve="all" />
     <assembly fullname="UnityEngine.UNETModule" preserve="all" />
     <assembly fullname="UnityEngine.UnityAnalyticsModule" preserve="all" />
     <assembly fullname="UnityEngine.UnityConnectModule" preserve="all" />
-    <assembly fullname="UnityEngine.UnityCurlModule" preserve="all" />
     <assembly fullname="UnityEngine.UnityTestProtocolModule" preserve="all" />
     <assembly fullname="UnityEngine.UnityWebRequestAssetBundleModule" preserve="all" />
     <assembly fullname="UnityEngine.UnityWebRequestAudioModule" preserve="all" />
@@ -403,7 +97,6 @@
     <assembly fullname="UnityEngine.VehiclesModule" preserve="all" />
     <assembly fullname="UnityEngine.VFXModule" preserve="all" />
     <assembly fullname="UnityEngine.VideoModule" preserve="all" />
-    <assembly fullname="UnityEngine.VirtualTexturingModule" preserve="all" />
     <assembly fullname="UnityEngine.VRModule" preserve="all" />
     <assembly fullname="UnityEngine.WindModule" preserve="all" />
     <assembly fullname="UnityEngine.XRModule" preserve="all" />
@@ -411,6 +104,12 @@
     <assembly fullname="mono-2.0-sgen" preserve="all" />
     <assembly fullname="MonoPosixHelper" preserve="all" />
     <assembly fullname="Accessibility" preserve="all" />
+    <assembly fullname="Boo.Lang.Compiler" preserve="all" />
+    <assembly fullname="Boo.Lang" preserve="all" />
+    <assembly fullname="Boo.Lang.Extensions" preserve="all" />
+    <assembly fullname="Boo.Lang.Parser" preserve="all" />
+    <assembly fullname="Boo.Lang.PatternMatching" preserve="all" />
+    <assembly fullname="Boo.Lang.Useful" preserve="all" />
     <assembly fullname="Commons.Xml.Relaxng" preserve="all" />
     <assembly fullname="cscompmgd" preserve="all" />
     <assembly fullname="CustomMarshalers" preserve="all" />
@@ -425,6 +124,7 @@
     <assembly fullname="Microsoft.Build.Framework" preserve="all" />
     <assembly fullname="Microsoft.Build.Tasks" preserve="all" />
     <assembly fullname="Microsoft.Build.Utilities" preserve="all" />
+    <assembly fullname="Microsoft.VisualBasic" preserve="all" />
     <assembly fullname="Microsoft.VisualC" preserve="all" />
     <assembly fullname="Microsoft.Web.Infrastructure" preserve="all" />
     <assembly fullname="Mono.C5" preserve="all" />
@@ -447,11 +147,17 @@
     <assembly fullname="Mono.Simd" preserve="all" />
     <assembly fullname="Mono.Tasklets" preserve="all" />
     <assembly fullname="Mono.WebBrowser" preserve="all" />
+    <assembly fullname="mscorlib" preserve="all" />
     <assembly fullname="Novell.Directory.Ldap" preserve="all" />
     <assembly fullname="PEAPI" preserve="all" />
     <assembly fullname="RabbitMQ.Client" preserve="all" />
     <assembly fullname="SMDiagnostics" preserve="all" />
+    <assembly fullname="System.ComponentModel.DataAnnotations" preserve="all" />
+    <assembly fullname="System.Configuration" preserve="all" />
     <assembly fullname="System.Configuration.Install" preserve="all" />
+    <assembly fullname="System.Core" preserve="all" />
+    <assembly fullname="System.Data.DataSetExtensions" preserve="all" />
+    <assembly fullname="System.Data" preserve="all" />
     <assembly fullname="System.Data.Linq" preserve="all" />
     <assembly fullname="System.Data.OracleClient" preserve="all" />
     <assembly fullname="System.Data.Services.Client" preserve="all" />
@@ -459,7 +165,9 @@
     <assembly fullname="System.Design" preserve="all" />
     <assembly fullname="System.DirectoryServices" preserve="all" />
     <assembly fullname="System.DirectoryServices.Protocols" preserve="all" />
+    <assembly fullname="System" preserve="all" />
     <assembly fullname="System.Drawing.Design" preserve="all" />
+    <assembly fullname="System.Drawing" preserve="all" />
     <assembly fullname="System.EnterpriseServices" preserve="all" />
     <assembly fullname="System.IdentityModel" preserve="all" />
     <assembly fullname="System.IdentityModel.Selectors" preserve="all" />
@@ -467,7 +175,9 @@
     <assembly fullname="System.Json.Microsoft" preserve="all" />
     <assembly fullname="System.Management" preserve="all" />
     <assembly fullname="System.Messaging" preserve="all" />
+    <assembly fullname="System.Net" preserve="all" />
     <assembly fullname="System.Net.Http.Formatting" preserve="all" />
+    <assembly fullname="System.Numerics.Vectors" preserve="all" />
     <assembly fullname="System.Reactive.Core" preserve="all" />
     <assembly fullname="System.Reactive.Debugger" preserve="all" />
     <assembly fullname="System.Reactive.Experimental" preserve="all" />
@@ -480,9 +190,16 @@
     <assembly fullname="System.Reactive.Windows.Forms" preserve="all" />
     <assembly fullname="System.Reactive.Windows.Threading" preserve="all" />
     <assembly fullname="System.Runtime.Remoting" preserve="all" />
+    <assembly fullname="System.Runtime.Serialization" preserve="all" />
     <assembly fullname="System.Runtime.Serialization.Formatters.Soap" preserve="all" />
+    <assembly fullname="System.Security" preserve="all" />
     <assembly fullname="System.ServiceModel" preserve="all" />
+    <assembly fullname="System.ServiceModel.Web" preserve="all" />
+    <assembly fullname="System.ServiceProcess" preserve="all" />
+    <assembly fullname="System.Threading.Tasks.Dataflow" preserve="all" />
+    <assembly fullname="System.Transactions" preserve="all" />
     <assembly fullname="System.Web.Abstractions" preserve="all" />
+    <assembly fullname="System.Web" preserve="all" />
     <assembly fullname="System.Web.DynamicData" preserve="all" />
     <assembly fullname="System.Web.Extensions.Design" preserve="all" />
     <assembly fullname="System.Web.Extensions" preserve="all" />
@@ -497,14 +214,21 @@
     <assembly fullname="System.Web.WebPages" preserve="all" />
     <assembly fullname="System.Web.WebPages.Razor" preserve="all" />
     <assembly fullname="System.Windows.Forms" preserve="all" />
+    <assembly fullname="System.Xml" preserve="all" />
+    <assembly fullname="System.Xml.Linq" preserve="all" />
+    <assembly fullname="UnityScript" preserve="all" />
+    <assembly fullname="UnityScript.Lang" preserve="all" />
     <assembly fullname="WebMatrix.Data" preserve="all" />
+    <assembly fullname="WindowsBase" preserve="all" />
     <assembly fullname="Microsoft.Build.Tasks.v3.5" preserve="all" />
     <assembly fullname="Microsoft.Build.Utilities.v3.5" preserve="all" />
     <assembly fullname="Microsoft.Build" preserve="all" />
     <assembly fullname="Microsoft.Build.Tasks.v4.0" preserve="all" />
     <assembly fullname="Microsoft.Build.Utilities.v4.0" preserve="all" />
+    <assembly fullname="Microsoft.CSharp" preserve="all" />
     <assembly fullname="System.ComponentModel.Composition" preserve="all" />
     <assembly fullname="System.Dynamic" preserve="all" />
+    <assembly fullname="System.Numerics" preserve="all" />
     <assembly fullname="System.Runtime.Caching" preserve="all" />
     <assembly fullname="System.Runtime.DurableInstancing" preserve="all" />
     <assembly fullname="System.ServiceModel.Activation" preserve="all" />
@@ -513,356 +237,13 @@
     <assembly fullname="System.Web.ApplicationServices" preserve="all" />
     <assembly fullname="System.Windows.Forms.DataVisualization" preserve="all" />
     <assembly fullname="System.Xaml" preserve="all" />
+    <assembly fullname="Microsoft.CodeAnalysis.CSharp" preserve="all" />
     <assembly fullname="Microsoft.CodeAnalysis.CSharp.Scripting" preserve="all" />
+    <assembly fullname="Microsoft.CodeAnalysis" preserve="all" />
     <assembly fullname="Microsoft.CodeAnalysis.Scripting" preserve="all" />
-    <assembly fullname="Mono.Btls.Interface" preserve="all" />
+    <assembly fullname="Microsoft.CodeAnalysis.VisualBasic" preserve="all" />
     <assembly fullname="Mono.Profiler.Log" preserve="all" />
     <assembly fullname="Mono.XBuild.Tasks" preserve="all" />
-    <assembly fullname="System.Data.Entity" preserve="all" />
-    <assembly fullname="System.Deployment" preserve="all" />
-    <assembly fullname="System.Net.Http.WebRequest" preserve="all" />
-    <assembly fullname="System.Reflection.Context" preserve="all" />
-    <assembly fullname="System.ServiceModel.Internals" preserve="all" />
-    <assembly fullname="System.Web.Mobile" preserve="all" />
-    <assembly fullname="System.Web.RegularExpressions" preserve="all" />
-    <assembly fullname="System.Workflow.Activities" preserve="all" />
-    <assembly fullname="System.Workflow.ComponentModel" preserve="all" />
-    <assembly fullname="System.Workflow.Runtime" preserve="all" />
-    <assembly fullname="Microsoft.Win32.Registry.AccessControl" preserve="all" />
-    <assembly fullname="System.Data.SqlClient" preserve="all" />
-    <assembly fullname="System.Diagnostics.TraceEvent" preserve="all" />
-    <assembly fullname="System.Net.AuthenticationManager" preserve="all" />
-    <assembly fullname="System.Net.Cache" preserve="all" />
-    <assembly fullname="System.Net.Http.Rtc" preserve="all" />
-    <assembly fullname="System.Net.Utilities" preserve="all" />
-    <assembly fullname="System.Resources.ReaderWriter" preserve="all" />
-    <assembly fullname="System.Runtime.InteropServices.WindowsRuntime" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.DeriveBytes" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.Encryption.Aes" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.Encryption" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.Encryption.ECDiffieHellman" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.Encryption.ECDsa" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.Hashing.Algorithms" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.Hashing" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.Pkcs" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.ProtectedData" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.RandomNumberGenerator" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.RSA" preserve="all" />
-    <assembly fullname="System.ServiceModel.Duplex" preserve="all" />
-    <assembly fullname="System.ServiceModel.Http" preserve="all" />
-    <assembly fullname="System.ServiceModel.NetTcp" preserve="all" />
-    <assembly fullname="System.ServiceModel.Primitives" preserve="all" />
-    <assembly fullname="System.ServiceModel.Security" preserve="all" />
-    <assembly fullname="System.ServiceProcess.ServiceController" preserve="all" />
-    <assembly fullname="System.Threading.AccessControl" preserve="all" />
-    <assembly fullname="System.Xml.XPath.XmlDocument" preserve="all" />
-    <assembly fullname="System.Xml.Xsl.Primitives" preserve="all" />
-    <assembly fullname="Microsoft.Build.Tasks.Core" preserve="all" />
-    <assembly fullname="Microsoft.Build.Tasks.v12.0" preserve="all" />
-    <assembly fullname="Microsoft.Build.Utilities.Core" preserve="all" />
-    <assembly fullname="Microsoft.Build.Utilities.v12.0" preserve="all" />
-    <assembly fullname="monodoc" preserve="all" />
-    <assembly fullname="Mono.Configuration.Crypto" preserve="all" />
-    <assembly fullname="Microsoft.Build.Tasks.CodeAnalysis" preserve="all" />
-    <assembly fullname="SystemWebTestShim" preserve="all" />
-    <assembly fullname="System.Drawing.Common" preserve="all" />
-    <assembly fullname="Microsoft.NuGet.Build.Tasks" preserve="all" />
-    <assembly fullname="mscordaccore_amd64_amd64_5.0.321.7212" preserve="all" />
-    <assembly fullname="AndroidPlayerBuildProgram.Data" preserve="all" />
-    <assembly fullname="Unity.Android.Gradle" preserve="all" />
-    <assembly fullname="Unity.Android.Types" preserve="all" />
-    <assembly fullname="UnityEditor.Android.Extensions" preserve="all" />
-    <assembly fullname="libpython2.7" preserve="all" />
-    <assembly fullname="libsimpleperf_report" preserve="all" />
-    <assembly fullname="libwinpthread-1" preserve="all" />
-    <assembly fullname="LLVMgold" preserve="all" />
-    <assembly fullname="liblldb" preserve="all" />
-    <assembly fullname="python27" preserve="all" />
-    <assembly fullname="CheckerDependencyHandlingAnalyzerPlugin" preserve="all" />
-    <assembly fullname="CheckerOptionHandlingAnalyzerPlugin" preserve="all" />
-    <assembly fullname="SampleAnalyzerPlugin" preserve="all" />
-    <assembly fullname="libbcc" preserve="all" />
-    <assembly fullname="libbcinfo" preserve="all" />
-    <assembly fullname="libclang" preserve="all" />
-    <assembly fullname="libLLVM" preserve="all" />
-    <assembly fullname="jli" preserve="all" />
-    <assembly fullname="msvcr100" preserve="all" />
-    <assembly fullname="attach" preserve="all" />
-    <assembly fullname="awt" preserve="all" />
-    <assembly fullname="dt_shmem" preserve="all" />
-    <assembly fullname="dt_socket" preserve="all" />
-    <assembly fullname="fontmanager" preserve="all" />
-    <assembly fullname="freetype" preserve="all" />
-    <assembly fullname="hprof" preserve="all" />
-    <assembly fullname="instrument" preserve="all" />
-    <assembly fullname="j2pcsc" preserve="all" />
-    <assembly fullname="j2pkcs11" preserve="all" />
-    <assembly fullname="jaas_nt" preserve="all" />
-    <assembly fullname="java" preserve="all" />
-    <assembly fullname="JavaAccessBridge-64" preserve="all" />
-    <assembly fullname="java_crw_demo" preserve="all" />
-    <assembly fullname="jawt" preserve="all" />
-    <assembly fullname="JAWTAccessBridge-64" preserve="all" />
-    <assembly fullname="jdwp" preserve="all" />
-    <assembly fullname="jpeg" preserve="all" />
-    <assembly fullname="jsdt" preserve="all" />
-    <assembly fullname="jsound" preserve="all" />
-    <assembly fullname="jsoundds" preserve="all" />
-    <assembly fullname="lcms" preserve="all" />
-    <assembly fullname="management" preserve="all" />
-    <assembly fullname="mlib_image" preserve="all" />
-    <assembly fullname="net" preserve="all" />
-    <assembly fullname="nio" preserve="all" />
-    <assembly fullname="npt" preserve="all" />
-    <assembly fullname="sawindbg" preserve="all" />
-    <assembly fullname="splashscreen" preserve="all" />
-    <assembly fullname="sunec" preserve="all" />
-    <assembly fullname="sunmscapi" preserve="all" />
-    <assembly fullname="unpack" preserve="all" />
-    <assembly fullname="verify" preserve="all" />
-    <assembly fullname="w2k_lsa_auth" preserve="all" />
-    <assembly fullname="WindowsAccessBridge-64" preserve="all" />
-    <assembly fullname="zip" preserve="all" />
-    <assembly fullname="jvm" preserve="all" />
-    <assembly fullname="libaapt2_jni" preserve="all" />
-    <assembly fullname="libclang_android" preserve="all" />
-    <assembly fullname="libLLVM_android" preserve="all" />
-    <assembly fullname="AdbWinApi" preserve="all" />
-    <assembly fullname="AdbWinUsbApi" preserve="all" />
-    <assembly fullname="eclipse_1503" preserve="all" />
-    <assembly fullname="pram" preserve="all" />
-    <assembly fullname="System.CodeDom" preserve="all" />
-    <assembly fullname="Pram.Platform.Android" preserve="all" />
-    <assembly fullname="UnityEditor.iOS.Extensions.Common" preserve="all" />
-    <assembly fullname="UnityEditor.iOS.Extensions" preserve="all" />
-    <assembly fullname="UnityEditor.iOS.Extensions.Xcode" preserve="all" />
-    <assembly fullname="UnityEditor.iOS.Native" preserve="all" />
-    <assembly fullname="UnityEditor.WindowsStandalone.Extensions" preserve="all" />
-    <assembly fullname="WinPlayerBuildProgram.Data" preserve="all" />
-    <assembly fullname="UnityPlayer" preserve="all" />
-    <assembly fullname="nvngx_dlss" preserve="all" />
-    <assembly fullname="NVUnityPlugin" preserve="all" />
-    <assembly fullname="WinPixEventRuntime" preserve="all" />
-    <assembly fullname="bindings" preserve="all" />
-    <assembly fullname="CommandLine" preserve="all" />
-    <assembly fullname="log4net" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.Caching.Abstractions" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.Caching.Memory" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.Configuration.Abstractions" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.Configuration.Binder" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.Configuration" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.Configuration.FileExtensions" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.Configuration.Json" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.DependencyInjection.Abstractions" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.DependencyInjection" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.FileProviders.Abstractions" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.FileProviders.Physical" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.FileSystemGlobbing" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.Http" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.Http.Polly" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.Logging.Abstractions" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.Logging" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.Options" preserve="all" />
-    <assembly fullname="Microsoft.Extensions.Primitives" preserve="all" />
-    <assembly fullname="Microsoft.Net.Http.Headers" preserve="all" />
-    <assembly fullname="Microsoft.Win32.SystemEvents" preserve="all" />
-    <assembly fullname="mscordaccore_amd64_amd64_5.0.621.22011" preserve="all" />
-    <assembly fullname="Polly.Contrib.WaitAndRetry" preserve="all" />
-    <assembly fullname="Polly" preserve="all" />
-    <assembly fullname="Polly.Extensions.Http" preserve="all" />
-    <assembly fullname="System.Configuration.ConfigurationManager" preserve="all" />
-    <assembly fullname="System.DirectoryServices.AccountManagement" preserve="all" />
-    <assembly fullname="System.Security.Cryptography.Xml" preserve="all" />
-    <assembly fullname="System.Security.Permissions" preserve="all" />
-    <assembly fullname="System.Windows.Extensions" preserve="all" />
-    <assembly fullname="Unity.Licensing.Client" preserve="all" />
-    <assembly fullname="Unity.Licensing.EntitlementContext" preserve="all" />
-    <assembly fullname="Unity.Licensing.EntitlementResolver" preserve="all" />
-    <assembly fullname="Unity.Licensing.Genesis" preserve="all" />
-    <assembly fullname="Unity.Licensing.Infrastructure" preserve="all" />
-    <assembly fullname="Unity.Licensing.Ipc" preserve="all" />
-    <assembly fullname="Unity.Licensing.Platform" preserve="all" />
-    <assembly fullname="Unity.Licensing.Server.Shared" preserve="all" />
-    <assembly fullname="PsdPlugin" preserve="all" />
-    <assembly fullname="PsdPlugin.ref" preserve="all" />
-    <assembly fullname="Unity.2D.Animation.Editor" preserve="all" />
-    <assembly fullname="Unity.2D.Animation.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.2D.Animation.Runtime" preserve="all" />
-    <assembly fullname="Unity.2D.Animation.Runtime.ref" preserve="all" />
-    <assembly fullname="Unity.2D.Common.Editor" preserve="all" />
-    <assembly fullname="Unity.2D.Common.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.2D.Common.Runtime" preserve="all" />
-    <assembly fullname="Unity.2D.Common.Runtime.ref" preserve="all" />
-    <assembly fullname="Unity.2D.IK.Editor" preserve="all" />
-    <assembly fullname="Unity.2D.IK.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.2D.IK.Runtime" preserve="all" />
-    <assembly fullname="Unity.2D.IK.Runtime.ref" preserve="all" />
-    <assembly fullname="Unity.2D.Path.Editor" preserve="all" />
-    <assembly fullname="Unity.2D.Path.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.2D.PixelPerfect" preserve="all" />
-    <assembly fullname="Unity.2D.PixelPerfect.Editor" preserve="all" />
-    <assembly fullname="Unity.2D.PixelPerfect.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.2D.PixelPerfect.ref" preserve="all" />
-    <assembly fullname="Unity.2D.Psdimporter.Editor" preserve="all" />
-    <assembly fullname="Unity.2D.Psdimporter.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.2D.Sprite.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.2D.SpriteShape.Editor" preserve="all" />
-    <assembly fullname="Unity.2D.SpriteShape.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.2D.SpriteShape.Runtime" preserve="all" />
-    <assembly fullname="Unity.2D.SpriteShape.Runtime.ref" preserve="all" />
-    <assembly fullname="Unity.2D.Tilemap.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.2D.Tilemap.Extras" preserve="all" />
-    <assembly fullname="Unity.2D.Tilemap.Extras.Editor" preserve="all" />
-    <assembly fullname="Unity.2D.Tilemap.Extras.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.2D.Tilemap.Extras.ref" preserve="all" />
-    <assembly fullname="Unity.Burst.CodeGen" preserve="all" />
-    <assembly fullname="Unity.Burst.CodeGen.ref" preserve="all" />
-    <assembly fullname="Unity.Burst" preserve="all" />
-    <assembly fullname="Unity.Burst.Editor" preserve="all" />
-    <assembly fullname="Unity.Burst.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.Burst.ref" preserve="all" />
-    <assembly fullname="Unity.CollabProxy.Editor" preserve="all" />
-    <assembly fullname="Unity.CollabProxy.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.InternalAPIEditorBridge.001" preserve="all" />
-    <assembly fullname="Unity.InternalAPIEditorBridge.001.ref" preserve="all" />
-    <assembly fullname="Unity.InternalAPIEngineBridge.001" preserve="all" />
-    <assembly fullname="Unity.InternalAPIEngineBridge.001.ref" preserve="all" />
-    <assembly fullname="Unity.Mathematics" preserve="all" />
-    <assembly fullname="Unity.Mathematics.Editor" preserve="all" />
-    <assembly fullname="Unity.Mathematics.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.Mathematics.ref" preserve="all" />
-    <assembly fullname="Unity.PlasticSCM.Editor" preserve="all" />
-    <assembly fullname="Unity.PlasticSCM.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.Rider.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Analytics" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Analytics.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Configuration" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Configuration.Editor" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Configuration.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Configuration.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Device" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Device.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Editor" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Environments" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Environments.Internal" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Environments.Internal.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Environments.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Internal" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Internal.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Networking" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Networking.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Registration" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Registration.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Scheduler" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Scheduler.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Telemetry" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Telemetry.ref" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Threading" preserve="all" />
-    <assembly fullname="Unity.Services.Core.Threading.ref" preserve="all" />
-    <assembly fullname="Unity.TextMeshPro" preserve="all" />
-    <assembly fullname="Unity.TextMeshPro.Editor" preserve="all" />
-    <assembly fullname="Unity.TextMeshPro.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.TextMeshPro.ref" preserve="all" />
-    <assembly fullname="Unity.Timeline.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.Timeline.ref" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.Core" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.Core.Editor" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.Core.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.Core.ref" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.Flow" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.Flow.Editor" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.Flow.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.Flow.ref" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.SettingsProvider.Editor" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.SettingsProvider.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.Shared.Editor" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.Shared.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.State" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.State.Editor" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.State.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.VisualScripting.State.ref" preserve="all" />
-    <assembly fullname="Unity.VisualStudio.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.VSCode.Editor.ref" preserve="all" />
-    <assembly fullname="UnityEditor.TestRunner.ref" preserve="all" />
-    <assembly fullname="UnityEditor.UI.ref" preserve="all" />
-    <assembly fullname="UnityEngine.TestRunner.ref" preserve="all" />
-    <assembly fullname="UnityEngine.UI.ref" preserve="all" />
-    <assembly fullname="Unity.EditorCoroutines.Editor" preserve="all" />
-    <assembly fullname="Unity.EditorCoroutines.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.Performance.Profile-Analyzer.Editor" preserve="all" />
-    <assembly fullname="Unity.Performance.Profile-Analyzer.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.Settings.Editor" preserve="all" />
-    <assembly fullname="Unity.Settings.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.TestTools.CodeCoverage.Editor" preserve="all" />
-    <assembly fullname="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model" preserve="all" />
-    <assembly fullname="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.ref" preserve="all" />
-    <assembly fullname="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection" preserve="all" />
-    <assembly fullname="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.ref" preserve="all" />
-    <assembly fullname="Unity.TestTools.CodeCoverage.Editor.ref" preserve="all" />
-    <assembly fullname="PPv2URPConverters" preserve="all" />
-    <assembly fullname="PPv2URPConverters.ref" preserve="all" />
-    <assembly fullname="Unity.RenderPipeline.Universal.ShaderLibrary" preserve="all" />
-    <assembly fullname="Unity.RenderPipeline.Universal.ShaderLibrary.ref" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.Core.Editor" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.Core.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.Core.Runtime" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.Core.Runtime.ref" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.Core.ShaderLibrary" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.Core.ShaderLibrary.ref" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.ref" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.Universal.Editor" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.Universal.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.Universal.Runtime" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.Universal.Runtime.ref" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.Universal.Shaders" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.Universal.Shaders.ref" preserve="all" />
-    <assembly fullname="Unity.Searcher.Editor" preserve="all" />
-    <assembly fullname="Unity.Searcher.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.ShaderGraph.Editor" preserve="all" />
-    <assembly fullname="Unity.ShaderGraph.Editor.ref" preserve="all" />
-    <assembly fullname="Unity.ShaderGraph.Utilities" preserve="all" />
-    <assembly fullname="Unity.ShaderGraph.Utilities.ref" preserve="all" />
-    <assembly fullname="upmhash" preserve="all" />
-    <assembly fullname="astcenc-avx2" preserve="all" />
-    <assembly fullname="astcenc-sse2" preserve="all" />
-    <assembly fullname="astcenc-sse42" preserve="all" />
-    <assembly fullname="D3DCompiler_47" preserve="all" />
-    <assembly fullname="dxcompiler" preserve="all" />
-    <assembly fullname="dxil" preserve="all" />
-    <assembly fullname="GeometryToolbox" preserve="all" />
-    <assembly fullname="glslang" preserve="all" />
-    <assembly fullname="spirv-cross-c-shared" preserve="all" />
-    <assembly fullname="umbraoptimizer64" preserve="all" />
-    <assembly fullname="Unwrap" preserve="all" />
-    <assembly fullname="Bee.BuildTools" preserve="all" />
-    <assembly fullname="Bee.TinyProfiler2" preserve="all" />
-    <assembly fullname="BeeBuildProgramCommon" preserve="all" />
-    <assembly fullname="PlayerBuildProgramLibrary" preserve="all" />
-    <assembly fullname="libmp3lame64" preserve="all" />
-    <assembly fullname="libogg64" preserve="all" />
-    <assembly fullname="libvorbis64" preserve="all" />
-    <assembly fullname="libvorbisfile64" preserve="all" />
-    <assembly fullname="msvcr120" preserve="all" />
-    <assembly fullname="netcorerun" preserve="all" />
-    <assembly fullname="APIUpdater.Framework" preserve="all" />
-    <assembly fullname="CSharpUpdater" preserve="all" />
-    <assembly fullname="UnityEtwProvider" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.CompilerServices" preserve="all" />
-    <assembly fullname="Unity.IL2CPP.Running" preserve="all" />
-    <assembly fullname="Unity.Legacy.NRefactory" preserve="all" />
-    <assembly fullname="UnityEngine.TextCoreModule" preserve="all" />
-    <assembly fullname="Boo.Lang.Compiler" preserve="all" />
-    <assembly fullname="Boo.Lang" preserve="all" />
-    <assembly fullname="Boo.Lang.Extensions" preserve="all" />
-    <assembly fullname="Boo.Lang.Parser" preserve="all" />
-    <assembly fullname="Boo.Lang.PatternMatching" preserve="all" />
-    <assembly fullname="Boo.Lang.Useful" preserve="all" />
-    <assembly fullname="UnityScript" preserve="all" />
-    <assembly fullname="UnityScript.Lang" preserve="all" />
     <assembly fullname="nunit-console-runner" preserve="all" />
     <assembly fullname="nunit.core" preserve="all" />
     <assembly fullname="nunit.core.extensions" preserve="all" />
@@ -871,6 +252,173 @@
     <assembly fullname="nunit.framework.extensions" preserve="all" />
     <assembly fullname="nunit.mocks" preserve="all" />
     <assembly fullname="nunit.util" preserve="all" />
+    <assembly fullname="System.Collections.Immutable" preserve="all" />
+    <assembly fullname="System.Data.Entity" preserve="all" />
+    <assembly fullname="System.Deployment" preserve="all" />
+    <assembly fullname="System.IO.Compression" preserve="all" />
+    <assembly fullname="System.IO.Compression.FileSystem" preserve="all" />
+    <assembly fullname="System.Net.Http" preserve="all" />
+    <assembly fullname="System.Net.Http.WebRequest" preserve="all" />
+    <assembly fullname="System.Reflection.Context" preserve="all" />
+    <assembly fullname="System.Reflection.Metadata" preserve="all" />
+    <assembly fullname="System.ServiceModel.Internals" preserve="all" />
+    <assembly fullname="System.Web.Mobile" preserve="all" />
+    <assembly fullname="System.Web.RegularExpressions" preserve="all" />
+    <assembly fullname="System.Windows" preserve="all" />
+    <assembly fullname="System.Workflow.Activities" preserve="all" />
+    <assembly fullname="System.Workflow.ComponentModel" preserve="all" />
+    <assembly fullname="System.Workflow.Runtime" preserve="all" />
+    <assembly fullname="System.Xml.Serialization" preserve="all" />
+    <assembly fullname="Microsoft.Win32.Primitives" preserve="all" />
+    <assembly fullname="Microsoft.Win32.Registry.AccessControl" preserve="all" />
+    <assembly fullname="Microsoft.Win32.Registry" preserve="all" />
+    <assembly fullname="netstandard" preserve="all" />
+    <assembly fullname="System.AppContext" preserve="all" />
+    <assembly fullname="System.Collections.Concurrent" preserve="all" />
+    <assembly fullname="System.Collections" preserve="all" />
+    <assembly fullname="System.Collections.NonGeneric" preserve="all" />
+    <assembly fullname="System.Collections.Specialized" preserve="all" />
+    <assembly fullname="System.ComponentModel.Annotations" preserve="all" />
+    <assembly fullname="System.ComponentModel" preserve="all" />
+    <assembly fullname="System.ComponentModel.EventBasedAsync" preserve="all" />
+    <assembly fullname="System.ComponentModel.Primitives" preserve="all" />
+    <assembly fullname="System.ComponentModel.TypeConverter" preserve="all" />
+    <assembly fullname="System.Console" preserve="all" />
+    <assembly fullname="System.Data.Common" preserve="all" />
+    <assembly fullname="System.Data.SqlClient" preserve="all" />
+    <assembly fullname="System.Diagnostics.Contracts" preserve="all" />
+    <assembly fullname="System.Diagnostics.Debug" preserve="all" />
+    <assembly fullname="System.Diagnostics.FileVersionInfo" preserve="all" />
+    <assembly fullname="System.Diagnostics.Process" preserve="all" />
+    <assembly fullname="System.Diagnostics.StackTrace" preserve="all" />
+    <assembly fullname="System.Diagnostics.TextWriterTraceListener" preserve="all" />
+    <assembly fullname="System.Diagnostics.Tools" preserve="all" />
+    <assembly fullname="System.Diagnostics.TraceEvent" preserve="all" />
+    <assembly fullname="System.Diagnostics.TraceSource" preserve="all" />
+    <assembly fullname="System.Diagnostics.Tracing" preserve="all" />
+    <assembly fullname="System.Drawing.Primitives" preserve="all" />
+    <assembly fullname="System.Dynamic.Runtime" preserve="all" />
+    <assembly fullname="System.Globalization.Calendars" preserve="all" />
+    <assembly fullname="System.Globalization" preserve="all" />
+    <assembly fullname="System.Globalization.Extensions" preserve="all" />
+    <assembly fullname="System.IO.Compression.ZipFile" preserve="all" />
+    <assembly fullname="System.IO" preserve="all" />
+    <assembly fullname="System.IO.FileSystem.AccessControl" preserve="all" />
+    <assembly fullname="System.IO.FileSystem" preserve="all" />
+    <assembly fullname="System.IO.FileSystem.DriveInfo" preserve="all" />
+    <assembly fullname="System.IO.FileSystem.Primitives" preserve="all" />
+    <assembly fullname="System.IO.FileSystem.Watcher" preserve="all" />
+    <assembly fullname="System.IO.IsolatedStorage" preserve="all" />
+    <assembly fullname="System.IO.MemoryMappedFiles" preserve="all" />
+    <assembly fullname="System.IO.Pipes" preserve="all" />
+    <assembly fullname="System.IO.UnmanagedMemoryStream" preserve="all" />
+    <assembly fullname="System.Linq" preserve="all" />
+    <assembly fullname="System.Linq.Expressions" preserve="all" />
+    <assembly fullname="System.Linq.Parallel" preserve="all" />
+    <assembly fullname="System.Linq.Queryable" preserve="all" />
+    <assembly fullname="System.Net.AuthenticationManager" preserve="all" />
+    <assembly fullname="System.Net.Cache" preserve="all" />
+    <assembly fullname="System.Net.Http.Rtc" preserve="all" />
+    <assembly fullname="System.Net.HttpListener" preserve="all" />
+    <assembly fullname="System.Net.Mail" preserve="all" />
+    <assembly fullname="System.Net.NameResolution" preserve="all" />
+    <assembly fullname="System.Net.NetworkInformation" preserve="all" />
+    <assembly fullname="System.Net.Ping" preserve="all" />
+    <assembly fullname="System.Net.Primitives" preserve="all" />
+    <assembly fullname="System.Net.Requests" preserve="all" />
+    <assembly fullname="System.Net.Security" preserve="all" />
+    <assembly fullname="System.Net.ServicePoint" preserve="all" />
+    <assembly fullname="System.Net.Sockets" preserve="all" />
+    <assembly fullname="System.Net.Utilities" preserve="all" />
+    <assembly fullname="System.Net.WebHeaderCollection" preserve="all" />
+    <assembly fullname="System.Net.WebSockets.Client" preserve="all" />
+    <assembly fullname="System.Net.WebSockets" preserve="all" />
+    <assembly fullname="System.ObjectModel" preserve="all" />
+    <assembly fullname="System.Reflection" preserve="all" />
+    <assembly fullname="System.Reflection.Emit" preserve="all" />
+    <assembly fullname="System.Reflection.Emit.ILGeneration" preserve="all" />
+    <assembly fullname="System.Reflection.Emit.Lightweight" preserve="all" />
+    <assembly fullname="System.Reflection.Extensions" preserve="all" />
+    <assembly fullname="System.Reflection.Primitives" preserve="all" />
+    <assembly fullname="System.Reflection.TypeExtensions" preserve="all" />
+    <assembly fullname="System.Resources.Reader" preserve="all" />
+    <assembly fullname="System.Resources.ReaderWriter" preserve="all" />
+    <assembly fullname="System.Resources.ResourceManager" preserve="all" />
+    <assembly fullname="System.Resources.Writer" preserve="all" />
+    <assembly fullname="System.Runtime.CompilerServices.VisualC" preserve="all" />
+    <assembly fullname="System.Runtime" preserve="all" />
+    <assembly fullname="System.Runtime.Extensions" preserve="all" />
+    <assembly fullname="System.Runtime.Handles" preserve="all" />
+    <assembly fullname="System.Runtime.InteropServices" preserve="all" />
+    <assembly fullname="System.Runtime.InteropServices.RuntimeInformation" preserve="all" />
+    <assembly fullname="System.Runtime.InteropServices.WindowsRuntime" preserve="all" />
+    <assembly fullname="System.Runtime.Numerics" preserve="all" />
+    <assembly fullname="System.Runtime.Serialization.Formatters" preserve="all" />
+    <assembly fullname="System.Runtime.Serialization.Json" preserve="all" />
+    <assembly fullname="System.Runtime.Serialization.Primitives" preserve="all" />
+    <assembly fullname="System.Runtime.Serialization.Xml" preserve="all" />
+    <assembly fullname="System.Security.AccessControl" preserve="all" />
+    <assembly fullname="System.Security.Claims" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.Algorithms" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.Csp" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.DeriveBytes" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.Encoding" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.Encryption.Aes" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.Encryption" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.Encryption.ECDiffieHellman" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.Encryption.ECDsa" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.Hashing.Algorithms" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.Hashing" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.Primitives" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.ProtectedData" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.RandomNumberGenerator" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.RSA" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.X509Certificates" preserve="all" />
+    <assembly fullname="System.Security.Principal" preserve="all" />
+    <assembly fullname="System.Security.Principal.Windows" preserve="all" />
+    <assembly fullname="System.Security.SecureString" preserve="all" />
+    <assembly fullname="System.ServiceModel.Duplex" preserve="all" />
+    <assembly fullname="System.ServiceModel.Http" preserve="all" />
+    <assembly fullname="System.ServiceModel.NetTcp" preserve="all" />
+    <assembly fullname="System.ServiceModel.Primitives" preserve="all" />
+    <assembly fullname="System.ServiceModel.Security" preserve="all" />
+    <assembly fullname="System.ServiceProcess.ServiceController" preserve="all" />
+    <assembly fullname="System.Text.Encoding.CodePages" preserve="all" />
+    <assembly fullname="System.Text.Encoding" preserve="all" />
+    <assembly fullname="System.Text.Encoding.Extensions" preserve="all" />
+    <assembly fullname="System.Text.RegularExpressions" preserve="all" />
+    <assembly fullname="System.Threading.AccessControl" preserve="all" />
+    <assembly fullname="System.Threading" preserve="all" />
+    <assembly fullname="System.Threading.Overlapped" preserve="all" />
+    <assembly fullname="System.Threading.Tasks" preserve="all" />
+    <assembly fullname="System.Threading.Tasks.Parallel" preserve="all" />
+    <assembly fullname="System.Threading.Thread" preserve="all" />
+    <assembly fullname="System.Threading.ThreadPool" preserve="all" />
+    <assembly fullname="System.Threading.Timer" preserve="all" />
+    <assembly fullname="System.ValueTuple" preserve="all" />
+    <assembly fullname="System.Xml.ReaderWriter" preserve="all" />
+    <assembly fullname="System.Xml.XDocument" preserve="all" />
+    <assembly fullname="System.Xml.XmlDocument" preserve="all" />
+    <assembly fullname="System.Xml.XmlSerializer" preserve="all" />
+    <assembly fullname="System.Xml.XPath" preserve="all" />
+    <assembly fullname="System.Xml.XPath.XDocument" preserve="all" />
+    <assembly fullname="System.Xml.Xsl.Primitives" preserve="all" />
+    <assembly fullname="Microsoft.Build.Tasks.Core" preserve="all" />
+    <assembly fullname="Microsoft.Build.Tasks.v12.0" preserve="all" />
+    <assembly fullname="Microsoft.Build.Utilities.Core" preserve="all" />
+    <assembly fullname="Microsoft.Build.Utilities.v12.0" preserve="all" />
+    <assembly fullname="monodoc" preserve="all" />
+    <assembly fullname="Mono.Configuration.Crypto" preserve="all" />
+    <assembly fullname="Microsoft.Build.Tasks.CodeAnalysis" preserve="all" />
+    <assembly fullname="System.Reflection.DispatchProxy" preserve="all" />
+    <assembly fullname="System.Runtime.Loader" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.Cng" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.OpenSsl" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.Pkcs" preserve="all" />
+    <assembly fullname="System.Xml.XPath.XmlDocument" preserve="all" />
+    <assembly fullname="SystemWebTestShim" preserve="all" />
+    <assembly fullname="Microsoft.NuGet.Build.Tasks" preserve="all" />
+    <assembly fullname="hostfxr" preserve="all" />
     <assembly fullname="datacollector" preserve="all" />
     <assembly fullname="dotnet" preserve="all" />
     <assembly fullname="Microsoft.ApplicationInsights" preserve="all" />
@@ -905,6 +453,7 @@
     <assembly fullname="Microsoft.VisualStudio.TestPlatform.Common" preserve="all" />
     <assembly fullname="Microsoft.VisualStudio.TestPlatform.ObjectModel" preserve="all" />
     <assembly fullname="MSBuild" preserve="all" />
+    <assembly fullname="Newtonsoft.Json" preserve="all" />
     <assembly fullname="NuGet.Build.Tasks" preserve="all" />
     <assembly fullname="NuGet.CommandLine.XPlat" preserve="all" />
     <assembly fullname="NuGet.Commands" preserve="all" />
@@ -919,25 +468,41 @@
     <assembly fullname="NuGet.ProjectModel" preserve="all" />
     <assembly fullname="NuGet.Protocol" preserve="all" />
     <assembly fullname="NuGet.Versioning" preserve="all" />
+    <assembly fullname="System.CodeDom" preserve="all" />
     <assembly fullname="vstest.console" preserve="all" />
     <assembly fullname="dotnet-dev-certs" preserve="all" />
     <assembly fullname="dotnet-ef" preserve="all" />
     <assembly fullname="ef" preserve="all" />
     <assembly fullname="dotnet-sql-cache" preserve="all" />
+    <assembly fullname="System.Runtime.CompilerServices.Unsafe" preserve="all" />
     <assembly fullname="sni" preserve="all" />
     <assembly fullname="dotnet-user-secrets" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.Configuration.Abstractions" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.Configuration" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.Configuration.FileExtensions" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.Configuration.Json" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Configuration.UserSecrets" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.FileProviders.Abstractions" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.FileProviders.Physical" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.FileSystemGlobbing" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.Primitives" preserve="all" />
     <assembly fullname="dotnet-watch" preserve="all" />
     <assembly fullname="Microsoft.TestPlatform.Extensions.BlameDataCollector" preserve="all" />
     <assembly fullname="Microsoft.TestPlatform.Extensions.EventLogCollector" preserve="all" />
     <assembly fullname="Microsoft.TestPlatform.TestHostRuntimeProvider" preserve="all" />
-    <assembly fullname="Microsoft.VisualStudio.TestPlatform.Extensions.Trx.TestLogger" preserve="all" />
+    <assembly fullname="Microsoft.VisualStudio.TestPlatform.Extensions.Trx.TestLogger"
+        preserve="all" />
     <assembly fullname="FSharp.Build" preserve="all" />
     <assembly fullname="FSharp.Compiler.Interactive.Settings" preserve="all" />
     <assembly fullname="FSharp.Compiler.Private" preserve="all" />
     <assembly fullname="FSharp.Core" preserve="all" />
     <assembly fullname="netfx.force.conflicts" preserve="all" />
     <assembly fullname="Microsoft.NET.Build.Extensions.Tasks" preserve="all" />
+    <assembly fullname="csc" preserve="all" />
+    <assembly fullname="vbc" preserve="all" />
+    <assembly fullname="VBCSCompiler" preserve="all" />
+    <assembly fullname="System.IO.Pipes.AccessControl" preserve="all" />
+    <assembly fullname="Microsoft.DiaSymReader.Native.amd64" preserve="all" />
     <assembly fullname="Microsoft.DiaSymReader.Native.arm" preserve="all" />
     <assembly fullname="Microsoft.DiaSymReader.Native.x86" preserve="all" />
     <assembly fullname="Microsoft.NET.Build.Tasks" preserve="all" />
@@ -1085,12 +650,17 @@
     <assembly fullname="Microsoft.EntityFrameworkCore.InMemory" preserve="all" />
     <assembly fullname="Microsoft.EntityFrameworkCore.Relational" preserve="all" />
     <assembly fullname="Microsoft.EntityFrameworkCore.SqlServer" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.Caching.Abstractions" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.Caching.Memory" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Caching.SqlServer" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.Configuration.Binder" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Configuration.CommandLine" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Configuration.EnvironmentVariables" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Configuration.Ini" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Configuration.KeyPerFile" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Configuration.Xml" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.DependencyInjection.Abstractions" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.DependencyInjection" preserve="all" />
     <assembly fullname="Microsoft.Extensions.DiagnosticAdapter" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Diagnostics.HealthChecks" preserve="all" />
@@ -1098,18 +668,22 @@
     <assembly fullname="Microsoft.Extensions.FileProviders.Embedded" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Hosting.Abstractions" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Hosting" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.Http" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Identity.Core" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Identity.Stores" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Localization.Abstractions" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Localization" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.Logging.Abstractions" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Logging.Configuration" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Logging.Console" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Logging.Debug" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.Logging" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Logging.EventSource" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Logging.TraceSource" preserve="all" />
     <assembly fullname="Microsoft.Extensions.ObjectPool" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Options.ConfigurationExtensions" preserve="all" />
     <assembly fullname="Microsoft.Extensions.Options.DataAnnotations" preserve="all" />
+    <assembly fullname="Microsoft.Extensions.Options" preserve="all" />
     <assembly fullname="Microsoft.Extensions.WebEncoders" preserve="all" />
     <assembly fullname="Microsoft.IdentityModel.JsonWebTokens" preserve="all" />
     <assembly fullname="Microsoft.IdentityModel.Logging" preserve="all" />
@@ -1119,28 +693,183 @@
     <assembly fullname="Microsoft.IdentityModel.Tokens" preserve="all" />
     <assembly fullname="Microsoft.IdentityModel.Tokens.Saml" preserve="all" />
     <assembly fullname="Microsoft.IdentityModel.Xml" preserve="all" />
+    <assembly fullname="Microsoft.Net.Http.Headers" preserve="all" />
     <assembly fullname="Newtonsoft.Json.Bson" preserve="all" />
     <assembly fullname="Remotion.Linq" preserve="all" />
     <assembly fullname="System.IdentityModel.Tokens.Jwt" preserve="all" />
     <assembly fullname="System.Interactive.Async" preserve="all" />
     <assembly fullname="System.IO.Pipelines" preserve="all" />
     <assembly fullname="System.Net.WebSockets.WebSocketProtocol" preserve="all" />
+    <assembly fullname="System.Security.Cryptography.Xml" preserve="all" />
+    <assembly fullname="System.Security.Permissions" preserve="all" />
+    <assembly fullname="System.Text.Encodings.Web" preserve="all" />
+    <assembly fullname="System.Threading.Channels" preserve="all" />
+    <assembly fullname="api-ms-win-core-console-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-datetime-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-debug-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-errorhandling-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-file-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-file-l1-2-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-file-l2-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-handle-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-heap-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-interlocked-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-libraryloader-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-localization-l1-2-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-memory-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-namedpipe-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-processenvironment-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-processthreads-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-processthreads-l1-1-1" preserve="all" />
+    <assembly fullname="api-ms-win-core-profile-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-rtlsupport-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-string-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-synch-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-synch-l1-2-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-sysinfo-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-timezone-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-core-util-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-conio-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-convert-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-environment-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-filesystem-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-heap-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-locale-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-math-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-multibyte-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-private-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-process-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-runtime-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-stdio-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-string-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-time-l1-1-0" preserve="all" />
+    <assembly fullname="api-ms-win-crt-utility-l1-1-0" preserve="all" />
+    <assembly fullname="clrcompression" preserve="all" />
+    <assembly fullname="clretwrc" preserve="all" />
+    <assembly fullname="clrjit" preserve="all" />
+    <assembly fullname="coreclr" preserve="all" />
+    <assembly fullname="dbgshim" preserve="all" />
+    <assembly fullname="hostpolicy" preserve="all" />
+    <assembly fullname="mscordaccore" preserve="all" />
     <assembly fullname="mscordaccore_amd64_amd64_4.6.27617.05" preserve="all" />
+    <assembly fullname="mscordbi" preserve="all" />
     <assembly fullname="mscorrc.debug" preserve="all" />
+    <assembly fullname="mscorrc" preserve="all" />
     <assembly fullname="sos" preserve="all" />
     <assembly fullname="SOS.NETCore" preserve="all" />
     <assembly fullname="sos_amd64_amd64_4.6.27617.05" preserve="all" />
-    <assembly fullname="mscordaccore_amd64_amd64_4.700.20.26901" preserve="all" />
+    <assembly fullname="System.Buffers" preserve="all" />
+    <assembly fullname="System.Diagnostics.DiagnosticSource" preserve="all" />
+    <assembly fullname="System.IO.Compression.Brotli" preserve="all" />
+    <assembly fullname="System.Memory" preserve="all" />
+    <assembly fullname="System.Net.WebClient" preserve="all" />
+    <assembly fullname="System.Net.WebProxy" preserve="all" />
+    <assembly fullname="System.Private.CoreLib" preserve="all" />
+    <assembly fullname="System.Private.DataContractSerialization" preserve="all" />
+    <assembly fullname="System.Private.Uri" preserve="all" />
+    <assembly fullname="System.Private.Xml" preserve="all" />
+    <assembly fullname="System.Private.Xml.Linq" preserve="all" />
+    <assembly fullname="System.Threading.Tasks.Extensions" preserve="all" />
+    <assembly fullname="System.Transactions.Local" preserve="all" />
+    <assembly fullname="System.Web.HttpUtility" preserve="all" />
+    <assembly fullname="ucrtbase" preserve="all" />
+    <assembly fullname="libpython2.7" preserve="all" />
+    <assembly fullname="libsimpleperf_report" preserve="all" />
+    <assembly fullname="libwinpthread-1" preserve="all" />
+    <assembly fullname="LLVMgold" preserve="all" />
+    <assembly fullname="libbcc" preserve="all" />
+    <assembly fullname="libbcinfo" preserve="all" />
+    <assembly fullname="libclang" preserve="all" />
+    <assembly fullname="libLLVM" preserve="all" />
+    <assembly fullname="jli" preserve="all" />
+    <assembly fullname="msvcr100" preserve="all" />
+    <assembly fullname="attach" preserve="all" />
+    <assembly fullname="awt" preserve="all" />
+    <assembly fullname="dt_shmem" preserve="all" />
+    <assembly fullname="dt_socket" preserve="all" />
+    <assembly fullname="fontmanager" preserve="all" />
+    <assembly fullname="freetype" preserve="all" />
+    <assembly fullname="hprof" preserve="all" />
+    <assembly fullname="instrument" preserve="all" />
+    <assembly fullname="j2pcsc" preserve="all" />
+    <assembly fullname="j2pkcs11" preserve="all" />
+    <assembly fullname="jaas_nt" preserve="all" />
+    <assembly fullname="java" preserve="all" />
+    <assembly fullname="JavaAccessBridge-64" preserve="all" />
+    <assembly fullname="java_crw_demo" preserve="all" />
+    <assembly fullname="jawt" preserve="all" />
+    <assembly fullname="JAWTAccessBridge-64" preserve="all" />
+    <assembly fullname="jdwp" preserve="all" />
+    <assembly fullname="jpeg" preserve="all" />
+    <assembly fullname="jsdt" preserve="all" />
+    <assembly fullname="jsound" preserve="all" />
+    <assembly fullname="jsoundds" preserve="all" />
+    <assembly fullname="lcms" preserve="all" />
+    <assembly fullname="management" preserve="all" />
+    <assembly fullname="mlib_image" preserve="all" />
+    <assembly fullname="net" preserve="all" />
+    <assembly fullname="nio" preserve="all" />
+    <assembly fullname="npt" preserve="all" />
+    <assembly fullname="sawindbg" preserve="all" />
+    <assembly fullname="splashscreen" preserve="all" />
+    <assembly fullname="sunec" preserve="all" />
+    <assembly fullname="sunmscapi" preserve="all" />
+    <assembly fullname="unpack" preserve="all" />
+    <assembly fullname="verify" preserve="all" />
+    <assembly fullname="w2k_lsa_auth" preserve="all" />
+    <assembly fullname="WindowsAccessBridge-64" preserve="all" />
+    <assembly fullname="zip" preserve="all" />
+    <assembly fullname="jvm" preserve="all" />
+    <assembly fullname="libaapt2_jni" preserve="all" />
+    <assembly fullname="libclang_android" preserve="all" />
+    <assembly fullname="libLLVM_android" preserve="all" />
+    <assembly fullname="AdbWinApi" preserve="all" />
+    <assembly fullname="AdbWinUsbApi" preserve="all" />
+    <assembly fullname="eclipse_1503" preserve="all" />
+    <assembly fullname="native-platform-file-events" preserve="all" />
+    <assembly fullname="native-platform" preserve="all" />
+    <assembly fullname="jansi" preserve="all" />
+    <assembly fullname="UnityPlayer" preserve="all" />
+    <assembly fullname="WinPixEventRuntime" preserve="all" />
+    <assembly fullname="PsdPlugin" preserve="all" />
+    <assembly fullname="Unity.2D.Animation.Runtime" preserve="all" />
     <assembly fullname="Unity.2D.Animation.Triangle.Runtime" preserve="all" />
-    <assembly fullname="Unity.Postprocessing.Editor" preserve="all" />
+    <assembly fullname="Unity.2D.Common.Runtime" preserve="all" />
+    <assembly fullname="Unity.2D.PixelPerfect" preserve="all" />
+    <assembly fullname="Unity.2D.SpriteShape.Runtime" preserve="all" />
+    <assembly fullname="Unity.InternalAPIEngineBridge.001" preserve="all" />
+    <assembly fullname="Unity.Mathematics" preserve="all" />
+    <assembly fullname="Unity.TextMeshPro" preserve="all" />
     <assembly fullname="Unity.Postprocessing.Runtime" preserve="all" />
+    <assembly fullname="Unity.RenderPipelines.Core.Runtime" preserve="all" />
+    <assembly fullname="Unity.RenderPipelines.Core.ShaderLibrary" preserve="all" />
     <assembly fullname="Unity.RenderPipelines.HighDefinition.Config.Runtime" preserve="all" />
-    <assembly fullname="Unity.RenderPipelines.HighDefinition.Editor" preserve="all" />
     <assembly fullname="Unity.RenderPipelines.HighDefinition.Runtime" preserve="all" />
-    <assembly fullname="Unity.VisualEffectGraph.Editor" preserve="all" />
+    <assembly fullname="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary" preserve="all" />
+    <assembly fullname="Unity.ShaderGraph.Utilities" preserve="all" />
     <assembly fullname="Unity.VisualEffectGraph.Runtime" preserve="all" />
+    <assembly fullname="Unity.RenderPipeline.Universal.ShaderLibrary" preserve="all" />
+    <assembly fullname="Unity.RenderPipelines.Universal.Runtime" preserve="all" />
+    <assembly fullname="Unity.RenderPipelines.Universal.Shaders" preserve="all" />
     <assembly fullname="D3Dcompiler_47" preserve="all" />
+    <assembly fullname="dxcompiler" preserve="all" />
+    <assembly fullname="dxil" preserve="all" />
+    <assembly fullname="GeometryToolbox" preserve="all" />
+    <assembly fullname="glslang" preserve="all" />
+    <assembly fullname="umbraoptimizer64" preserve="all" />
+    <assembly fullname="Unwrap" preserve="all" />
+    <assembly fullname="libmp3lame64" preserve="all" />
+    <assembly fullname="libogg64" preserve="all" />
+    <assembly fullname="libvorbis64" preserve="all" />
+    <assembly fullname="libvorbisfile64" preserve="all" />
+    <assembly fullname="msvcr120" preserve="all" />
     <assembly fullname="mscordaccore_amd64_amd64_4.6.26328.01" preserve="all" />
     <assembly fullname="sos_amd64_amd64_4.6.26328.01" preserve="all" />
-    <assembly fullname="UnityEditor.VR" preserve="all" />
+    <assembly fullname="Microsoft.CodeAnalysis.CSharp.resources" preserve="all" />
+    <assembly fullname="Microsoft.CodeAnalysis.resources" preserve="all" />
+    <assembly fullname="Microsoft.CodeAnalysis.VisualBasic.resources" preserve="all" />
+    <assembly fullname="APIUpdater.Framework" preserve="all" />
+    <assembly fullname="CommandLine" preserve="all" />
+    <assembly fullname="CSharpUpdater" preserve="all" />
+    <assembly fullname="UnityEtwProvider" preserve="all" />
 </linker>

@@ -55,34 +55,6 @@ namespace ZeroEditor
             CheckExistsAndRefreshPreviewList();
         }
 
-        void CheckExistsAndRefreshPreviewList()
-        {
-            for (int i = 0; i < includeDirs.Count; i++)
-            {
-                if (false == Directory.Exists(includeDirs[i]))
-                {
-                    includeDirs[i] = $"{NONEXISTENT_FLAG}{includeDirs[i]}";
-                }
-            }
-
-            for (int i = 0; i < includeDlls.Count; i++)
-            {
-                if (false == File.Exists(includeDlls[i]))
-                {
-                    includeDlls[i] = $"{NONEXISTENT_FLAG}{includeDlls[i]}";
-                }
-            }
-
-            var defaultDir = FileUtility.CombineDirs(true, EditorApplication.applicationContentsPath);
-            if (false == includeDirs.Contains(defaultDir))
-            {
-                includeDirs.Add(defaultDir);
-                Debug.LogFormat("[{0}]是必须的", defaultDir);                
-            }
-
-            RefreshPreviewList();
-        }
-
         void SaveConfig()
         {
             for (int i = 0; i < includeDirs.Count; i++)
@@ -151,7 +123,7 @@ namespace ZeroEditor
         [PropertySpace(10)]
         [LabelText("扫描的Dll文件夹列表"), ListDrawerSettings(Expanded = true, HideAddButton = true, DraggableItems = false)]
         [DisplayAsString]
-        [OnValueChanged("OnListChange", includeChildren: true)]
+        [OnValueChanged("OnListChange", includeChildren: true)]        
         public List<string> includeDirs = new List<string>();
 
         [PropertySpace(10)]
@@ -177,6 +149,38 @@ namespace ZeroEditor
             AssetDatabase.Refresh();
             ShowTip("[{0}] 导出完毕!", OUTPUT_FILE);
         }
+
+        [Button("刷新预览", ButtonSizes.Large)]
+        void CheckExistsAndRefreshPreviewList()
+        {
+            for (int i = 0; i < includeDirs.Count; i++)
+            {
+                if (false == Directory.Exists(includeDirs[i]))
+                {
+                    includeDirs[i] = $"{NONEXISTENT_FLAG}{includeDirs[i]}";
+                }
+            }
+
+            for (int i = 0; i < includeDlls.Count; i++)
+            {
+                if (false == File.Exists(includeDlls[i]))
+                {
+                    includeDlls[i] = $"{NONEXISTENT_FLAG}{includeDlls[i]}";
+                }
+            }
+
+            var defaultDir = FileUtility.CombineDirs(true, EditorApplication.applicationContentsPath);
+            if (false == includeDirs.Contains(defaultDir))
+            {
+                includeDirs.Add(defaultDir);
+                Debug.LogFormat("[{0}]是必须的", defaultDir);
+            }
+
+            RefreshPreviewList();
+        }
+
+        [LabelText("是否保留Editor DLL文件"), ToggleLeft, OnValueChanged("CheckExistsAndRefreshPreviewList")]
+        public bool isKeepEditorAssembly = false;
 
         [PropertySpace(10)]
         [LabelText("保留类型预览"), DisplayAsString, PropertyOrder(999), ListDrawerSettings(DraggableItems = false, HideRemoveButton = true, HideAddButton = true, NumberOfItemsPerPage = 20)]
@@ -217,6 +221,24 @@ namespace ZeroEditor
             else
             {
                 outputPreviewList.Clear();
+            }
+
+            if (false == isKeepEditorAssembly)
+            {
+                HashSet<string> filterSet = new HashSet<string>();
+                foreach (var set in assemblySet)
+                {
+                    var lowerSet = set.ToLower();
+                    if (lowerSet.Contains("editor"))
+                    {
+                        Debug.LogWarning($"[Link.xml] 排除的Assembly: {set}");                        
+                    }
+                    else
+                    {
+                        filterSet.Add(set);
+                    }
+                }
+                assemblySet = filterSet;
             }
             outputPreviewList.AddRange(assemblySet);
         }
