@@ -43,16 +43,16 @@ namespace ZeroEditor
         {
             foreach (string str in importedAssets)
             {
-                UnityEngine.Debug.Log("Reimported Asset: " + str);
+                UnityEngine.Debug.LogWarning("Reimported Asset: " + str);
             }
             foreach (string str in deletedAssets)
             {
-                UnityEngine.Debug.Log("Deleted Asset: " + str);
+                UnityEngine.Debug.LogWarning("Deleted Asset: " + str);
             }
 
             for (int i = 0; i < movedAssets.Length; i++)
             {
-                UnityEngine.Debug.Log("Moved Asset: " + movedAssets[i] + " from: " + movedFromAssetPaths[i]);
+                UnityEngine.Debug.LogWarning("Moved Asset: " + movedAssets[i] + " from: " + movedFromAssetPaths[i]);
             }
         }
     }

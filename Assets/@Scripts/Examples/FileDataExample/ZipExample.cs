@@ -111,8 +111,9 @@ namespace Example
                 L($"压缩进度:{_compressHelper.progressInfo}");
                 yield return new WaitForSeconds(1f);
             }
+            L($"压缩进度:{_compressHelper.progressInfo}");
 
-            L($"压缩结束 error:{compressHelper.error}");
+            L($"压缩结束 error:{(compressHelper.error == null?"none":compressHelper.error)}");
         }
 
         private void CancelCompress()
