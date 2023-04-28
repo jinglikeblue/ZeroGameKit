@@ -5,5 +5,12 @@
   ],
   "includeDlls": [
     "Assets/Plugins/ThirdLibraries/SharpZipLib/ICSharpCode.SharpZipLib.dll"
+  ],
+  "folderItemList": [
+    {
+      "folderPath": "Library/ScriptAssemblies",
+      "whitelist": [],
+      "blacklist": []
+    }
   ]
 }

@@ -18,8 +18,32 @@ namespace ZeroEditor
         
         const string NONEXISTENT_FLAG = "[*不存在*]";
 
-        struct ConfigVO
+        public class ConfigVO
         {
+            [HideReferenceObjectPicker]
+            [HideLabel]
+            public class FolderItemVO
+            {
+                /// <summary>
+                /// 文件夹名称
+                /// </summary>
+                [FolderPath(RequireExistingPath = true)]
+                [LabelText("文件夹路径")]
+                public string folderPath;
+                /// <summary>
+                /// 白名单
+                /// </summary>
+                [LabelText("关键词白名单")]
+                [ListDrawerSettings(Expanded = true, DraggableItems = false)]
+                public List<string> whitelist = new List<string>();
+                /// <summary>
+                /// 黑名单
+                /// </summary>
+                [LabelText("关键词黑名单")]
+                [ListDrawerSettings(Expanded = true, DraggableItems = false)]
+                public List<string> blacklist = new List<string>();
+            }
+
             /// <summary>
             /// 要引入的文件夹
             /// </summary>
@@ -29,6 +53,8 @@ namespace ZeroEditor
             /// 要引入的Dll列表
             /// </summary>
             public List<string> includeDlls;
+
+            public List<FolderItemVO> folderItemList;
         }
 
         ConfigVO _cfg;
@@ -44,9 +70,14 @@ namespace ZeroEditor
             {
                 _cfg.includeDlls = new List<string>();
             }
+            if (null == _cfg.folderItemList)
+            {
+                _cfg.folderItemList = new List<ConfigVO.FolderItemVO>();
+            }
 
             includeDirs = _cfg.includeDirs;
-            includeDlls = _cfg.includeDlls;               
+            includeDlls = _cfg.includeDlls;
+            folders = _cfg.folderItemList;
         }
 
         public override void OnEnable()
@@ -70,6 +101,8 @@ namespace ZeroEditor
             {
                 includeDlls[i] = includeDlls[i].Replace(NONEXISTENT_FLAG, "");
             }
+
+            _cfg.folderItemList = folders;
 
             EditorConfigUtil.SaveConfig(_cfg, CONFIG_NAME);            
         }      
@@ -101,6 +134,15 @@ namespace ZeroEditor
         [OnValueChanged("OnListChange", includeChildren: true)]
         [PropertyOrder(-99)]
         public List<string> includeDirs = new List<string>();
+
+        [ListDrawerSettings(AlwaysAddDefaultValue = true, CustomAddFunction = "AddSearchFolder", DraggableItems = false)]
+        [LabelText("测试列表")][ShowInInspector]
+        public List<ConfigVO.FolderItemVO> folders = new List<ConfigVO.FolderItemVO>();
+
+        void AddSearchFolder()
+        {
+            folders.Add(new ConfigVO.FolderItemVO());
+        }
 
         [LabelText("添加Dll文件"), Button(size: ButtonSizes.Large)]
         [PropertyOrder(-98)]
