@@ -36,17 +36,19 @@ namespace Zero
         {
             var www = UnityWebRequest.Get(path);
             www.SendWebRequest();
+            
             bool isExist = false;
             while (!www.isDone)
             {
                 if(www.downloadedBytes > 0)
                 {
                     isExist = true;
+                    www.Dispose();
                     break;
                 }
-            }
+            }            
 
-            if(www.error != null)
+            if (www?.error != null)
             {
                 return false;
             }
