@@ -44,6 +44,7 @@ namespace Zero
                 {
                     isExist = true;
                     www.Dispose();
+                    www = null;
                     break;
                 }
             }            
