@@ -1,6 +1,7 @@
 ﻿using Jing;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +36,8 @@ namespace Zero
         public static bool CheckFileExist(string path)
         {
             var www = UnityWebRequest.Get(path);
+            var tempFilePath = FileUtility.CombinePaths(Application.temporaryCachePath, $"streaming_assets_check_{Path.GetFileNameWithoutExtension(path)}.bytes");
+            www.downloadHandler = new DownloadHandlerFile(tempFilePath);
             www.SendWebRequest();
             
             bool isExist = false;
@@ -42,16 +45,24 @@ namespace Zero
             {
                 if(www.downloadedBytes > 0)
                 {
-                    isExist = true;
+                    www.downloadHandler.Dispose();
                     www.Dispose();
                     www = null;
+                    Debug.Log($"[CheckStreamingAssetsFileExist] 存在: {path}");
+
+                    isExist = true;
                     break;
                 }
-            }            
+            }
 
-            if (www?.error != null)
+            if (File.Exists(tempFilePath))
             {
-                return false;
+                File.Delete(tempFilePath);
+            }
+
+            if (false == isExist)
+            {
+                Debug.Log($"[CheckStreamingAssetsFileExist] 不存在({www.error}): {path}");
             }
 
             return isExist;
