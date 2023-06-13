@@ -54,7 +54,14 @@ namespace Jing
         public CSVFile(byte[] data, Encoding encoding)
         {            
             var content = encoding.GetString(data);
-            string[] rows = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+            string lf = "\n";
+            if (content.Contains("\r\n"))
+            {
+                lf = "\r\n";
+            }
+
+            string[] rows = content.Split(new string[] { lf }, StringSplitOptions.None);
             ParseRows(rows);
         }
 
