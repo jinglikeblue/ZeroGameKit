@@ -7,6 +7,16 @@ namespace Jing
 {
     public class CSVFile
     {
+        //[UnityEditor.MenuItem("Test/LoadCSV")]
+        //public static void TestCSVFile()
+        //{
+        //    var path = UnityEditor.EditorUtility.OpenFilePanel("", "", "csv");
+        //    if (!string.IsNullOrEmpty(path))
+        //    {
+        //        var csv = new CSVFile(path);
+        //    }
+        //}
+
         List<string[]> _data = new List<string[]>();
 
         /// <summary>
