@@ -35,7 +35,7 @@ namespace ZeroGameKit
 
         Dictionary<string, MenuButtonGroupItem> _groupItemDic = new Dictionary<string, MenuButtonGroupItem>();
 
-        GameObject buttonGroupItem;        
+        GameObject buttonGroupItem;
         Transform content;
         Toggle toggleShowTodo;
 
@@ -43,7 +43,7 @@ namespace ZeroGameKit
         {
             base.OnDisable();
             toggleShowTodo.onValueChanged.RemoveListener(OnToggleShowTodoValueChanged);
-        } 
+        }
 
         protected override void OnEnable()
         {
@@ -65,10 +65,11 @@ namespace ZeroGameKit
             base.OnInit(data);
             buttonGroupItem.SetActive(false);
 
+            AddBtn(GROUP_DEBUG, "测试包下载地址", () => { Application.OpenURL("https://tt.appc02.com/y8b6"); });
             AddBtn(GROUP_DEBUG, "清空缓存", ClearCache);
-            AddBtn(GROUP_DEBUG, "GC", ResMgr.Ins.DoGC);
+            AddBtn(GROUP_DEBUG, "GC", ResMgr.Ins.DoGC);            
 
-            AddBtn(GROUP_FUTURE, "加载StreamingAssets", StreamingAssetsLoadFuture.Start);            
+            AddBtn(GROUP_FUTURE, "加载StreamingAssets", StreamingAssetsLoadFuture.Start);
 
             AddBtn(GROUP_DEMO, "DEMO_2D物理游戏", RoushanExample.Start);
             AddBtn(GROUP_DEMO, "DEMO_推箱子游戏", SokobanExample.Start);
@@ -80,7 +81,7 @@ namespace ZeroGameKit
 
             AddBtn(GROUP_IOS, "iOS交互", IOSBridgeExample.Start);
 
-            AddBtn(GROUP_ANDROID, "Android交互", AndroidBridgeExample.Start);            
+            AddBtn(GROUP_ANDROID, "Android交互", AndroidBridgeExample.Start);
             AddBtn(GROUP_DOTWEEN, "DoTween", DoTweenExample.Start);
             AddBtn(GROUP_UNIWEBVIEW, "网页浏览", UniWebViewExample.Start);
             AddBtn(GROUP_FRAMEWORK, "单例使用示例", SingletonClassExample.Start);
@@ -92,7 +93,7 @@ namespace ZeroGameKit
 
             AddBtn(GROUP_NET, "Tcp通信", TcpExample.Start);
             AddBtn(GROUP_NET, "Udp通信", UdpExample.Start);
-            AddBtn(GROUP_NET, "WebSocket通信", WebSocketExample.Start);            
+            AddBtn(GROUP_NET, "WebSocket通信", WebSocketExample.Start);
             AddBtn(GROUP_NET, "Web请求", WebExample.Start);
             AddBtn(GROUP_NET, "网络文件下载", DownloadFileExample.Start);
             AddBtn(GROUP_NET, "Protobuf使用", ProtoBufExample.Start);
@@ -102,9 +103,9 @@ namespace ZeroGameKit
             AddBtn(GROUP_FILE, "字节数组操作", ByteArrayExample.Start);
             AddBtn(GROUP_FILE, "CSV文件操作", CSVFileExample.Start);
             AddBtn(GROUP_EXTEND, "DateTime扩展", DateTimeExtendExample.Start);
-            AddBtn(GROUP_EXTEND, "Transform扩展", TransformExtendExample.Start);                        
+            AddBtn(GROUP_EXTEND, "Transform扩展", TransformExtendExample.Start);
             AddBtn(GROUP_FRAMEWORK, "线程同步器", ThreadSyncExample.Start);
-            AddBtn(GROUP_UTILS, "文件操作实用工具", FileUtilityExample.Start);            
+            AddBtn(GROUP_UTILS, "文件操作实用工具", FileUtilityExample.Start);
             AddBtn(GROUP_UTILS, "字符串操作实用工具", StringUtilityExample.Start);
             AddBtn(GROUP_UTILS, "时间操作实用工具", TimeUtilityExample.Start);
             AddBtn(GROUP_UTILS, "加密实用工具", CryptoExample.Start);
@@ -120,8 +121,8 @@ namespace ZeroGameKit
             AddBtn(GROUP_FRAMEWORK, "CoroutineProxy协程代理", CoroutineProxyExample.Start);
             AddBtn(GROUP_FRAMEWORK, "CoroutineQueue序列化执行协程", CoroutinesQueueExample.Start);
             AddBtn(GROUP_FRAMEWORK, "Zero UI库", ZeroUIExample.Start);
-            AddBtn(GROUP_FRAMEWORK, "Zero EventListener库", ZeroEventListenerExample.Start);            
-            AddBtn(GROUP_AUDIO, "音频控制", AudioDeviceExample.Start);            
+            AddBtn(GROUP_FRAMEWORK, "Zero EventListener库", ZeroEventListenerExample.Start);
+            AddBtn(GROUP_AUDIO, "音频控制", AudioDeviceExample.Start);
             AddBtn(GROUP_FRAMEWORK, "Zero 资源操作", ResMgrExample.Start);
             AddBtn(GROUP_FRAMEWORK, "Zero 资源更新", ResUpdateExample.Start);
             AddBtn(GROUP_FRAMEWORK, "HotFiles资源", HotFilesExample.Start);
@@ -133,22 +134,22 @@ namespace ZeroGameKit
             AddBtn(GROUP_AI, "行为树", BehaviacExample.Start);
             AddBtn(GROUP_AI, "有限状态机", FiniteStateMachineExample.Start);
 
-            AddBtn(GROUP_UNITY, "纹理显示", TexturesExample.Start);            
+            AddBtn(GROUP_UNITY, "纹理显示", TexturesExample.Start);
             AddBtn(GROUP_UNITY, "常用数据", UnityConstsExample.Start);
 
             AddBtn(GROUP_VIDEO, "视频播放", VideoExample.Start);
 
             OnToggleShowTodoValueChanged(toggleShowTodo.isOn);
-        }   
+        }
 
         void AddBtn(string group, string label, Action action)
-        {                        
+        {
             if (false == _groupItemDic.ContainsKey(group))
             {
-                var go = GameObject.Instantiate(buttonGroupItem, content);                
+                var go = GameObject.Instantiate(buttonGroupItem, content);
                 go.name = $"MenuButtonGroupItem[{group}]";
                 go.SetActive(true);
-                _groupItemDic[group] = CreateChildView<MenuButtonGroupItem>(go, group); 
+                _groupItemDic[group] = CreateChildView<MenuButtonGroupItem>(go, group);
             }
             var groupItem = _groupItemDic[group];
             groupItem.AddBtn(label, action);
@@ -156,7 +157,7 @@ namespace ZeroGameKit
 
         private void OnToggleShowTodoValueChanged(bool isOn)
         {
-            foreach(var item in _groupItemDic)
+            foreach (var item in _groupItemDic)
             {
                 item.Value.SwitchButtonShow(isOn);
             }
@@ -164,12 +165,12 @@ namespace ZeroGameKit
             //以下代码为了强制刷新Layout组件
             this.gameObject.SetActive(false);
             //使用ILBridge来启动协程，避免因为GameObject的Active状态为false时，自身的协程不执行的问题
-            ILBridge.Ins.StartCoroutine(DelayRefresh(this.gameObject));             
+            ILBridge.Ins.StartCoroutine(DelayRefresh(this.gameObject));
         }
 
         IEnumerator DelayRefresh(GameObject obj)
-        {            
-            yield return new WaitForEndOfFrame();            
+        {
+            yield return new WaitForEndOfFrame();
             obj.SetActive(true);
         }
     }

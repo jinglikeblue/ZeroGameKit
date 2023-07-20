@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Zero
 {
@@ -27,6 +28,11 @@ namespace Zero
         /// 摇杆图
         /// </summary>
         Transform stick;
+
+        /// <summary>
+        /// 坐标信息文本
+        /// </summary>
+        Text textValue;
 
         /// <summary>
         /// 触摸的起始位置
@@ -59,6 +65,7 @@ namespace Zero
         {
             stickBorder = transform.GetChild(0);
             stick = stickBorder.GetChild(0);
+            textValue = stickBorder.Find("TextValue")?.GetComponent<Text>();
             _borderDefaultAlpha = stickBorder.GetComponent<CanvasGroup>().alpha;
         }
 
@@ -107,8 +114,13 @@ namespace Zero
 
         void SetValue(Vector2 value)
         {
+            //调整精度            
             if (Value != value)
             {
+                if (textValue != null)
+                {
+                    textValue.text = $"(x={value.x},y={value.y})";
+                }
                 Value = value;
                 onValueChange?.Invoke(Value);
             }
@@ -259,7 +271,9 @@ namespace Zero
             Vector2 value = Vector2.zero;
             if (moveVector.magnitude >= minRadius)
             {
-                value = new Vector2(moveVector.x / maxRadius, moveVector.y / maxRadius);
+                var x = (float)Math.Round(moveVector.x / maxRadius, 2);
+                var y = (float)Math.Round(moveVector.y / maxRadius, 2);
+                value = new Vector2(x, y);
             }
 
             SetValue(value);

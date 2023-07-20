@@ -6,7 +6,7 @@ namespace Knight
 {
     class KnightGameStage : AView
     {
-        public Camera Camera { get; private set; }
+        public Camera StageCamera { get; private set; }
 
         Vector2 _move;
         Vector2 _sign;
@@ -27,7 +27,7 @@ namespace Knight
 
         protected override void OnInit(object data)
         {
-            Camera = GetChildComponent<Camera>("Camera");
+            StageCamera = GetChildComponent<Camera>("Camera");
             _cameraController = GetChildComponent<CameraController>("Camera");            
             _knight = CreateChildView<Knight>("Knight");
             _blackKnight = CreateChildView<BlackKnight>("BlackKnight");
@@ -61,7 +61,7 @@ namespace Knight
 
         private void OnUpdate()
         {
-            _blackKnight.canvas?.transform.LookAt(Camera.transform);
+            _blackKnight.canvas?.transform.LookAt(StageCamera.transform);
             ReviseDirByCamera();
         }
 
@@ -71,7 +71,7 @@ namespace Knight
         void ReviseDirByCamera()
         {
             //人物和摄像机之间的向量
-            _c2p = _knight.gameObject.transform.position - Camera.main.transform.position;
+            _c2p = _knight.gameObject.transform.position - StageCamera.transform.position;
             _c2p.y = 0;
             //计算出这个向量和正前方的旋转角度
             Quaternion q = Quaternion.FromToRotation(Vector3.forward, _c2p);
