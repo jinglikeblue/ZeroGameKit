@@ -28,6 +28,35 @@ namespace Example
 
     }
 
+    class UdpExampleCommon
+    {
+        public static string LocalIP
+        {
+            get
+            {
+                // 获取本机的主机名
+                string hostName = System.Net.Dns.GetHostName();
+
+                // 根据主机名获取本机的IP地址列表
+                System.Net.IPAddress[] addresses = System.Net.Dns.GetHostAddresses(hostName);
+
+                foreach (System.Net.IPAddress address in addresses)
+                {
+                    // 判断IP地址是否为IPv4地址以排除IPv6地址
+                    if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    {
+                        // 输出IP地址
+                        return address.ToString();
+                    }
+                }
+
+                return null;
+            }
+        }
+    }
+
+
+
     class UdpExampleWin : WithCloseButtonWin
     {
         UdpExampleClientControlView clientView;
@@ -48,6 +77,7 @@ namespace Example
         public InputField textInput;
         public Button btnSend;
         public Text textLog;
+        public InputField textInputIP;
 
         UdpClient client;
 
@@ -55,6 +85,7 @@ namespace Example
         {
             base.OnInit(data);
             RefreshUI();
+            textInputIP.text = UdpExampleCommon.LocalIP;
         }
 
 
@@ -128,10 +159,10 @@ namespace Example
         {
             if (null == client)
             {
-                L($"连接服务器... {UdpExample.SERVER_PORT}  本地端口：{UdpExample.CLIENT_PORT}");
+                L($"连接服务器... {textInputIP.text}:{UdpExample.SERVER_PORT}  本地端口：{UdpExample.CLIENT_PORT}");
                 client = new UdpClient();
                 client.onReceiveData += OnReceiveData;
-                client.Bind("127.0.0.1", UdpExample.SERVER_PORT, UdpExample.CLIENT_PORT, 4096);
+                client.Bind(textInputIP.text, UdpExample.SERVER_PORT, UdpExample.CLIENT_PORT, 4096);
             }
         }
 
@@ -207,9 +238,9 @@ namespace Example
         {
             if (null == server)
             {
-                L($"启动服务.... {UdpExample.SERVER_PORT}");
+                L($"启动服务.... {UdpExampleCommon.LocalIP}:{UdpExample.SERVER_PORT}");
                 server = new UdpServer();
-                server.onReceiveData += OnReceiveData;                
+                server.onReceiveData += OnReceiveData;
                 server.Bind(UdpExample.SERVER_PORT, 4096);
 
             }
