@@ -124,13 +124,18 @@ namespace Zero
             }
 
             //Debug.Log($"下载文件:{url}  保存位置:{savePath}  版本号:{version} 是否断点续传:{isResumeable}");
-
-            _handler = new HttpDownloadHandler(savePath, isResumeable);            
-            request = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET, _handler, null);            
+                   
+            request = new UnityWebRequest(url, UnityWebRequest.kHttpVerbGET);
+            _handler = new HttpDownloadHandler(savePath, isResumeable, request);
+            request.downloadHandler = _handler;
             if (isResumeable)
-            {
-                //断点续传的头数据
-                request.SetRequestHeader("Range", "bytes=" + _handler.downloadedSize + "-");
+            {                           
+                if (_handler.downloadedSize > 0)
+                {
+                    Debug.Log($"[HttpDownloader] 断点续传文件[{Path.GetFileName(savePath)}] 从字节数[{_handler.downloadedSize}]开始");
+                    //断点续传的头数据
+                    request.SetRequestHeader("Range", "bytes=" + _handler.downloadedSize + "-");
+                }
             }         
         }
 
@@ -147,7 +152,7 @@ namespace Zero
 
             _handler.onReceivedHeaders += OnReceivedHeaders;
             _handler.onReceivedData += OnHandlerReceivedData;
-            request.timeout = timeout;
+            request.timeout = timeout;            
             _asyncOperation = request.SendWebRequest();            
             _asyncOperation.completed += OnRequestCompleted;
         }
