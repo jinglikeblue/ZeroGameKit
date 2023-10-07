@@ -40,6 +40,8 @@
 
 -  框架代码不放在DontDestroyOnLoad里。确保Scene.Load(0)能够完整重启项目。
 
+- 摇杆死区范围应该是基于X轴偏移和Y轴偏移，而不是圆形区域
+
 - ************** 通过AssetsImporter来判断是否需要动态创建ViewAutoRegister.cs或AB.cs
 
 - 写一个帧同步DEMO，采用以下技术点：
