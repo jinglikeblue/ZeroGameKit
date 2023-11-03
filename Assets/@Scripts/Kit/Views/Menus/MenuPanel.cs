@@ -88,6 +88,7 @@ namespace ZeroGameKit
             AddBtn(GROUP_FRAMEWORK, "消息窗口", MsgWinExample.Start);
             AddBtn(GROUP_FRAMEWORK, "配置使用示例", ConfigExample.Start);
             AddBtn(GROUP_FRAMEWORK, "定点数示例", FixedPointNumberExample.Start);
+            AddBtn(GROUP_FRAMEWORK, "高性能文本描边", TextOutlineExample.Start);
 
             AddBtn(GROUP_TURBOCHARGESCROLLLIST, "高性能列表", TurbochargedScrollListExample.Start);
 

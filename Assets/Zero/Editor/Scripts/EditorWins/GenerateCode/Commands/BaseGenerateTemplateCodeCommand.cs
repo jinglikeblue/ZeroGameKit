@@ -45,6 +45,12 @@ namespace ZeroEditor
                 Debug.LogWarningFormat($"字段不是合法的(已自动替换'.'为'_'): {fieldName}");                
                 fieldName = fieldName.Replace('.', '_');
             }
+
+            if (fieldName.IndexOf('-') > -1)
+            {
+                Debug.LogWarningFormat($"字段不是合法的(已自动替换'-'为'_'): {fieldName}");
+                fieldName = fieldName.Replace('-', '_');
+            }
             return fieldName;
         }
     }

@@ -271,6 +271,16 @@ namespace ZeroHot
 			public const string TexturesWin_assetPath = "examples/textures/TexturesWin.prefab";            
 		}
 
+		public sealed class EXAMPLES_TEXT_OUTLINE
+		{
+			public const string NAME = "examples/text_outline.ab";
+
+			public const string TextOutlineExampleWin = "TextOutlineExampleWin.prefab";
+			public const string TextOutlineExampleWin_assetPath = "examples/text_outline/TextOutlineExampleWin.prefab";
+			public const string TextOutlineMaterial_mat = "TextOutlineMaterial.mat";
+			public const string TextOutlineMaterial_mat_assetPath = "examples/text_outline/TextOutlineMaterial.mat";            
+		}
+
 		public sealed class EXAMPLES_TURBOCHARGED_SCROLL_LIST
 		{
 			public const string NAME = "examples/turbocharged_scroll_list.ab";
@@ -595,9 +605,17 @@ namespace ZeroHot
 			public const string Target_assetPath = "examples/sokoban/prefabs/game/Target.prefab";            
 		}
 
-		/// <summary>
-		/// 创建视图的AssetBundle查找表（不精确，因为多个视图同名的话，则只会保留一个）
-		/// </summary>
+		public sealed class FONTS_POPPINS
+		{
+			public const string NAME = "fonts/poppins.ab";
+
+			public const string Poppins_Medium_ttf = "Poppins-Medium.ttf";
+			public const string Poppins_Medium_ttf_assetPath = "fonts/poppins/Poppins-Medium.ttf";            
+		}
+
+        /// <summary>
+        /// 创建视图的AssetBundle查找表（多个视图同名的话，则表中没有该视图的记录，因为不精确）
+        /// </summary>
 		public static Dictionary<string,string> CreateViewAssetBundleSearchDictionary()
         {
 			var dic = new Dictionary<string, string>();
@@ -636,6 +654,7 @@ namespace ZeroHot
 			dic["HelpWin"] = "examples/roushan.ab";
 			dic["StartupPanel"] = "examples/roushan.ab";
 			dic["TexturesWin"] = "examples/textures.ab";
+			dic["TextOutlineExampleWin"] = "examples/text_outline.ab";
 			dic["GridScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
 			dic["HorizontalScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
 			dic["ScrollListDemoMenuPanel"] = "examples/turbocharged_scroll_list.ab";
