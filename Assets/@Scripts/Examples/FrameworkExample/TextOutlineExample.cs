@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Zero;
 using ZeroGameKit;
+using ZeroHot;
 
 namespace Example
 {
@@ -15,6 +17,7 @@ namespace Example
         }
     }
 
+    [ViewRegister(AB.EXAMPLES_TEXT_OUTLINE.TextOutlineExampleWin_assetPath)]
     class TextOutlineExampleWin : WithCloseButtonWin
     {
 

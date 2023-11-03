@@ -32,8 +32,7 @@ namespace ZeroHot
                 return;
             }
 
-            _viewAssetBundleSearchDic = AB.CreateViewAssetBundleSearchDictionary();
-
+            _viewAssetBundleSearchDic = AB.CreateViewAssetBundleSearchDictionary();            
             var s = LitJson.JsonMapper.ToJson(_viewAssetBundleSearchDic);
             Debug.Log(s);
         }        

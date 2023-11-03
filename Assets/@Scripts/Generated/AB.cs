@@ -654,8 +654,8 @@ namespace ZeroHot
 			dic["HelpWin"] = "examples/roushan.ab";
 			dic["StartupPanel"] = "examples/roushan.ab";
 			dic["TexturesWin"] = "examples/textures.ab";
-			dic["TextOutlineExampleWin"] = "examples/text_outline.ab";
-			dic["GridScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
+            dic["TextOutlineExampleWin"] = "examples/text_outline.ab";
+            dic["GridScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
 			dic["HorizontalScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
 			dic["ScrollListDemoMenuPanel"] = "examples/turbocharged_scroll_list.ab";
 			dic["VerticalScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
