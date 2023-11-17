@@ -996,12 +996,12 @@ MonoBehaviour:
     builtinResMode: 0
     hotResMode: 2
     netRoots:
-    - http://127.0.0.1/zero/res
-    isUseDll: 1
+    - http://YourHotResRootUrl
+    isUseDll: 0
     isLoadPdb: 1
     ilType: 0
     isTryJitBeforeILRuntime: 0
-    isDebugIL: 1
+    isDebugIL: 0
 --- !u!114 &1440188156
 MonoBehaviour:
   m_ObjectHideFlags: 0
