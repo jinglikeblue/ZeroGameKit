@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace PingPong
 {
-    public class GameCore
+    /// <summary>
+    /// 移动系统
+    /// </summary>
+    public static class MoveSystem
     {
-        
     }
 }
