@@ -9,7 +9,7 @@
 
         public Number y;
 
-        public Vector2(float x, float y, float z)
+        public Vector2(int x, int y)
         {
             this.x = new Number(x);
             this.y = new Number(y);
