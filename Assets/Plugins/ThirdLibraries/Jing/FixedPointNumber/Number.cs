@@ -40,15 +40,15 @@
         /// <summary>
         /// -1
         /// </summary>
-        public readonly static Number negativeOne = new Number(-1);
+        public readonly static Number NEGATIVE_ONE = new Number(-1);
         /// <summary>
         /// 0
         /// </summary>
-        public readonly static Number zero = new Number(0);
+        public readonly static Number ZERO = new Number(0);
         /// <summary>
         /// 1
         /// </summary>
-        public readonly static Number one = new Number(1);
+        public readonly static Number ONE = new Number(1);
 
 
         long _raw;

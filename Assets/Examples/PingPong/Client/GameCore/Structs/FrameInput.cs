@@ -12,11 +12,6 @@ namespace PingPong
     public class FrameInput
     {
         /// <summary>
-        /// 帧号
-        /// </summary>
-        public int frameCount = 0;
-
-        /// <summary>
         /// 玩家输入数据
         /// </summary>
         public PlayerInput[] playerInputs = new PlayerInput[2];

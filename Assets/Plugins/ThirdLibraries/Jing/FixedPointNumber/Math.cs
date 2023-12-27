@@ -65,13 +65,13 @@ namespace Jing.FixedPointNumber
         {
             if(value > 0)
             {
-                return Number.one;
+                return Number.ONE;
             }
             else if(value < 0)
             {
-                return Number.negativeOne;
+                return Number.NEGATIVE_ONE;
             }
-            return Number.zero;
+            return Number.ZERO;
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Jing.FixedPointNumber
             if (value.Raw < 0)
                 throw new ArgumentOutOfRangeException("value", "Value must be non-negative.");
             if (value.Raw == 0)
-                return Number.zero;
+                return Number.ZERO;
 
             return new Number((int)(SqrtULong((ulong)value.Raw << (Number.FRACTIONAL_BIT_COUNT + 2)) + 1) >> 1);
         }
