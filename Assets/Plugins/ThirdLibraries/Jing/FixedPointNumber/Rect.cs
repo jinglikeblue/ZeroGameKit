@@ -79,5 +79,13 @@ namespace Jing.FixedPointNumber
             _w = width;
             _h = height;
         }
+
+        public Rect(int x, int y, int width, int height)
+        {
+            _x = new Number(x);
+            _y = new Number(y);
+            _w = new Number(width);
+            _h = new Number(height);
+        }
     }
 }

@@ -126,6 +126,11 @@ namespace Jing.FixedPointNumber
             return new Number((n.Raw + (Number.FRACTION_RANGE >> 1)) & ~Number.FRACTION_MASK);
         }
 
+        /// <summary>
+        /// 开平方根
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static Number Sqrt(Number value)
         {
             if (value.Raw < 0)
