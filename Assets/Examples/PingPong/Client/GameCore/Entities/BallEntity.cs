@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PingPong
 {
-    public struct BallEntity
+    public class BallEntity
     {
         /// <summary>
         /// 位置

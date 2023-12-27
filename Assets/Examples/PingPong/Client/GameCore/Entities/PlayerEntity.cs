@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace PingPong
 {
-    public struct PlayerEntity
+    public class PlayerEntity
     {
-        /// <summary>
-        /// ID
-        /// </summary>
-        public int id;
-
         /// <summary>
         /// 位置
         /// </summary>

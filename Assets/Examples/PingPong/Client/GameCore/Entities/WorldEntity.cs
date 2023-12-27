@@ -10,7 +10,7 @@ namespace PingPong
     /// <summary>
     /// 世界实体
     /// </summary>
-    public struct WorldEntity
+    public class WorldEntity
     {
         /// <summary>
         /// 球

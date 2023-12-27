@@ -11,5 +11,9 @@ namespace PingPong
     /// </summary>
     public static class JudgeSystem
     {
+        public static void Update(RuntimeModel runtime)
+        {
+
+        }
     }
 }

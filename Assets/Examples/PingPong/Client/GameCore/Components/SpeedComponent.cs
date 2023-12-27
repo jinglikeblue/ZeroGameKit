@@ -12,6 +12,14 @@ namespace PingPong
     /// </summary>
     public struct SpeedComponent
     {               
-        public Number speed;
+        /// <summary>
+        /// X轴移动速度
+        /// </summary>
+        public Number x;
+
+        /// <summary>
+        /// Y轴移动速度
+        /// </summary>
+        public Number y;
     }
 }
