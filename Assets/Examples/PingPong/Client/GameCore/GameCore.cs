@@ -23,7 +23,7 @@ namespace PingPong
         /// <summary>
         /// 缓存的帧数据
         /// </summary>
-        List<FrameData> cachedFrameDatas;
+        LinkedList<FrameData> _cachedFrameDatas;
 
         /// <summary>
         /// 最新的一帧的数据
@@ -35,7 +35,7 @@ namespace PingPong
         /// </summary>
         /// <param name="frameIntervalSeconds">帧间隔时间(单位/秒)</param>
         /// <param name="catchedFrameDataCount">缓存的帧数据数量</param>
-        public void Init(Number frameInterval, int catchedFrameDataLimit = 1)
+        public void Init(Number frameInterval, int catchedFrameDataLimit = 10)
         {
             this.frameInterval = frameInterval;
             _runtimeFrameData = new FrameData();
@@ -43,7 +43,7 @@ namespace PingPong
             _runtimeFrameData.elapsedTime = Number.ZERO;
 
             _catchedFrameDataLimit = catchedFrameDataLimit;
-            cachedFrameDatas = new List<FrameData>(catchedFrameDataLimit);
+            _cachedFrameDatas = new LinkedList<FrameData>();
         }
 
         public void Update(FrameInput frameInput)
@@ -58,10 +58,10 @@ namespace PingPong
 
             #region 缓存帧数据
             lastFrameData = _runtimeFrameData.Clone();
-            cachedFrameDatas.Add(lastFrameData);
-            if(cachedFrameDatas.Count > _catchedFrameDataLimit)
+            _cachedFrameDatas.AddLast(lastFrameData);
+            if(_cachedFrameDatas.Count > _catchedFrameDataLimit)
             {
-                cachedFrameDatas.RemoveAt(0);
+                _cachedFrameDatas.RemoveFirst();
             }
             #endregion
         }

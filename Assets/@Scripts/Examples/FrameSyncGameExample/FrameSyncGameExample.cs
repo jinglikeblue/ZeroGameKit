@@ -26,6 +26,14 @@ namespace Example
             a.players = null;
             var c = CopyUtility.DeepCopy(a);
 
+            GameCore core = new GameCore();
+            core.Init(new Number(0.033f), 1);
+            var input1 = FrameInput.Default;
+            input1.playerInputs[0].moveDir = EMoveDir.LEFT;
+            core.Update(input1);
+            input1.playerInputs[0].moveDir = EMoveDir.NONE;
+            core.Update(input1);
+
             //a.players[0].id = 321;
 
             //Debug.Log($"c:{LitJson.JsonMapper.ToJson(a.ball.speed.speed)}");
