@@ -17,5 +17,10 @@ namespace PingPong
         /// 速度
         /// </summary>
         public SpeedComponent speed;
+
+        /// <summary>
+        /// 大小
+        /// </summary>
+        public RoundSizeComponent size;
     }
 }

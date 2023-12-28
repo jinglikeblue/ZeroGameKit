@@ -43,12 +43,24 @@ namespace PingPong
             vo.runtimeFrameData.input = frameInput;
         }
 
+        public void SystemStart()
+        {
+            CenterSystem.Start(this);
+        }
+
         /// <summary>
         /// 系统更新
         /// </summary>
         public void SystemUpdate()
         {
             CenterSystem.Update(this);
+
+            CenterSystem.LateUpdate(this);
+        }
+
+        public void SystemEnd()
+        {
+            CenterSystem.End(this);
         }
 
         /// <summary>

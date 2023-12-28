@@ -87,5 +87,58 @@ namespace Jing.FixedPointNumber
             _w = new Number(width);
             _h = new Number(height);
         }
+
+        /// <summary>
+        /// 矩形的中心点
+        /// </summary>
+        public Vector2 center
+        {
+            get
+            {
+                return new Vector2(_x + _w / 2, _y + _h / 2);
+            }
+        }
+
+        public Number left
+        {
+            get
+            {
+                return _x;
+            }
+        }
+
+        public Number right
+        {
+            get
+            {
+                return _x + _w;
+            }
+        }
+
+        public Number top
+        {
+            get
+            {
+                return _y;
+            }
+        }
+
+        public Number bottom
+        {
+            get
+            {
+                return _y + _h;
+            }
+        }
+
+        /// <summary>
+        /// 矩形是否包含目标点
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public bool Contains(Vector2 point)
+        {
+            return (point.x >= left) && (point.x < right) && (point.y >= top) && (point.y < bottom);
+        }
     }
 }

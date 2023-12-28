@@ -21,6 +21,7 @@ namespace PingPong
         public void Init(Number frameInterval, int frameDataCacheLimit = 10)
         {
             runtime = new RuntimeModel(frameInterval, frameDataCacheLimit);
+            runtime.SystemStart();
         }
 
         public void Update(FrameInput frameInput)
@@ -33,6 +34,14 @@ namespace PingPong
             runtime.ConfirmFrameData();
             //缓存帧数据
             runtime.CacheFrameData();          
+        }
+
+        /// <summary>
+        /// 结束GameCore生命周期
+        /// </summary>
+        public void Close()
+        {
+            runtime.SystemEnd();
         }
 
         public override string ToString()

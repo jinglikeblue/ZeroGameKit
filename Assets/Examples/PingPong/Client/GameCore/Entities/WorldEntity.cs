@@ -26,5 +26,15 @@ namespace PingPong
         /// 大小
         /// </summary>
         public RectSizeComponent size;
+
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public EWorldState state;
+
+        /// <summary>
+        /// 赢家
+        /// </summary>
+        public int winner;
     }
 }

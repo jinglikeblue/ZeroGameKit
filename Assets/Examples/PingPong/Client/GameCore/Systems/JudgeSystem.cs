@@ -13,7 +13,27 @@ namespace PingPong
     {
         public static void Update(RuntimeModel runtime)
         {
+            var world = runtime.vo.runtimeFrameData.world;
 
+            var ball = world.ball;
+
+            if (ball.position.y < world.size.size.top)
+            {
+                GameOver(world, 0);
+                return;
+            }
+
+            if (ball.position.y > world.size.size.bottom)
+            {
+                GameOver(world, 1);
+                return;
+            }
+        }
+
+        static void GameOver(WorldEntity world, int winner)
+        {
+            world.winner = winner;
+            world.state = EWorldState.END;
         }
     }
 }

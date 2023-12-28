@@ -39,14 +39,65 @@ namespace PingPong
             EnsureBallPositionProperly(ballEntity, runtime.vo.runtimeFrameData.world);
         }
 
+        /// <summary>
+        /// 确保玩家位置是在合理范围内
+        /// </summary>
+        /// <param name="playerEntity"></param>
+        /// <param name="worldEntity"></param>
         static void EnsurePlayerPositionProperly(PlayerEntity playerEntity, WorldEntity worldEntity)
         {
-            
+            var playerRect = playerEntity.size.size;
+            var worldRect = worldEntity.size.size;
+
+            var leftDistance = worldRect.left - playerRect.left;
+            if(leftDistance > 0)
+            {
+                //说明超出左边边界了
+                playerEntity.position.x = worldRect.left + playerRect.width / 2;
+                return;
+            }
+
+            var rightDistance = playerRect.right - worldRect.right;
+            if(rightDistance > 0)
+            {
+                //说明超出右边边界了
+                playerEntity.position.x = worldRect.right - playerRect.width / 2;
+                return;
+            }
         }
 
+        /// <summary>
+        /// 确保球的位置是在合理范围内
+        /// </summary>
+        /// <param name="ballEntity"></param>
+        /// <param name="worldEntity"></param>
         static void EnsureBallPositionProperly(BallEntity ballEntity, WorldEntity worldEntity)
         {
+            var ballPosX = ballEntity.position.x;
+            var ballPosY = ballEntity.position.y;
+            var worldRect = worldEntity.size.size;
 
+            var leftDistance = worldRect.left - ballPosX;
+            if (leftDistance > 0)
+            {
+                //说明超出左边边界了
+                ballEntity.position.x = worldRect.left;
+
+                //反弹变向
+                ballEntity.speed.x *= -1;
+                return;
+            }
+
+            var rightDistance = ballPosX - worldRect.right;
+            if (rightDistance > 0)
+            {
+                //说明超出右边边界了
+                ballEntity.position.x = worldRect.right;
+
+                //反弹变向
+                ballEntity.speed.x *= -1;
+                return;
+            }
         }
     }
 }
