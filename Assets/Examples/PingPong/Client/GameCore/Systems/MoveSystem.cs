@@ -29,22 +29,22 @@ namespace PingPong
 
                 PlayerEntity playerEntity = runtime.vo.runtimeFrameData.world.players[i];
                 playerEntity.position.x += moveVector;
-                EnsurePlayerPositionProperly(playerEntity);
+                EnsurePlayerPositionProperly(playerEntity, runtime.vo.runtimeFrameData.world);
             }
 
             //移动球
             BallEntity ballEntity = runtime.vo.runtimeFrameData.world.ball;
             ballEntity.position.x += ballEntity.speed.x * runtime.vo.frameInterval;
             ballEntity.position.y += ballEntity.speed.y * runtime.vo.frameInterval;
-            EnsureBallPositionProperly(ballEntity);
+            EnsureBallPositionProperly(ballEntity, runtime.vo.runtimeFrameData.world);
         }
 
-        static void EnsurePlayerPositionProperly(PlayerEntity playerEntity)
+        static void EnsurePlayerPositionProperly(PlayerEntity playerEntity, WorldEntity worldEntity)
         {
-
+            
         }
 
-        static void EnsureBallPositionProperly(BallEntity ballEntity)
+        static void EnsureBallPositionProperly(BallEntity ballEntity, WorldEntity worldEntity)
         {
 
         }
