@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1028,12 +1028,12 @@ MonoBehaviour:
     builtinResMode: 0
     hotResMode: 2
     netRoots:
-    - http://YourHotResRootUrl
+    - http://127.0.0.1/zero/res
     isUseDll: 0
     isLoadPdb: 1
     ilType: 0
     isTryJitBeforeILRuntime: 0
-    isDebugIL: 0
+    isDebugIL: 1
 --- !u!114 &1440188156
 MonoBehaviour:
   m_ObjectHideFlags: 0
