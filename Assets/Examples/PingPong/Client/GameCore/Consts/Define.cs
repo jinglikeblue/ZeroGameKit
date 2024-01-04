@@ -25,13 +25,28 @@ namespace PingPong
         public static readonly Vector2 BALL_INITIAL_POSITION = new Vector2(0, 0);
 
         /// <summary>
-        /// 玩家的大小
+        /// 球的起始移动速度（Y轴）
         /// </summary>
-        public static readonly Vector2 PLAYER_SIZE = new Vector2(3, 1);
+        public static readonly Number BALL_MOVE_SPEED = new Number(10);
+
+        /// <summary>
+        /// 球每秒增加的速度（Y轴）
+        /// </summary>
+        public static readonly Number BALL_ACCELERATED_SPEED = new Number(1, 10);
+
+        /// <summary>
+        /// 玩家的大小（宽，长）
+        /// </summary>
+        public static readonly Vector2 PLAYER_SIZE = new Vector2(3, 1);        
 
         /// <summary>
         /// 玩家的初始位置[Player0,Player1]
         /// </summary>
         public static readonly Vector2[] PLAYER_INITIAL_POSITION = new Vector2[] { new Vector2(0, -13), new Vector2(0, 13) };
+
+        /// <summary>
+        /// 玩家的移动速度(X轴)
+        /// </summary>
+        public static readonly Number PLAYER_MOVE_SPEED = new Number(15);
     }
 }
