@@ -15,24 +15,34 @@ namespace Example
     {
         static public void Start()
         {
-            PingPong.WorldEntity a = new PingPong.WorldEntity();
-            PingPong.WorldEntity b = a;
+            if(Screen.orientation != ScreenOrientation.Portrait)
+            {                
+                Screen.orientation = ScreenOrientation.Portrait;
+            }
+            else
+            {
+                Screen.orientation = ScreenOrientation.Landscape;
+            }
+            Debug.Log($"切换屏幕方向：{Screen.orientation}");
 
-            //Debug.Log($"a:{a.ball.speed.speed}");
-            //Debug.Log($"b:{b.ball.speed.speed}");
+            //PingPong.WorldEntity a = new PingPong.WorldEntity();
+            //PingPong.WorldEntity b = a;
 
-            a.players = new PlayerEntity[2];
+            ////Debug.Log($"a:{a.ball.speed.speed}");
+            ////Debug.Log($"b:{b.ball.speed.speed}");
 
-            a.players = null;
-            var c = CopyUtility.DeepCopy(a);
+            //a.players = new PlayerEntity[2];
 
-            GameCore core = new GameCore();
-            core.Init(new Number(0.033f), 1);
-            var input1 = FrameInput.Default;
-            input1.playerInputs[0].moveDir = EMoveDir.LEFT;
-            core.Update(input1);
-            input1.playerInputs[0].moveDir = EMoveDir.NONE;
-            core.Update(input1);
+            //a.players = null;
+            //var c = CopyUtility.DeepCopy(a);
+
+            //GameCore core = new GameCore();
+            //core.Init(new Number(0.033f), 1);
+            //var input1 = FrameInput.Default;
+            //input1.playerInputs[0].moveDir = EMoveDir.LEFT;
+            //core.Update(input1);
+            //input1.playerInputs[0].moveDir = EMoveDir.NONE;
+            //core.Update(input1);
 
             //a.players[0].id = 321;
 
