@@ -189,6 +189,18 @@ namespace ZeroHot
 			public const string FibonacciPerformanceWin_assetPath = "examples/performance/FibonacciPerformanceWin.prefab";            
 		}
 
+		public sealed class EXAMPLES_PING_PONG
+		{
+			public const string NAME = "examples/ping_pong.ab";
+
+			public const string PingPongGameResultWin = "PingPongGameResultWin.prefab";
+			public const string PingPongGameResultWin_assetPath = "examples/ping_pong/PingPongGameResultWin.prefab";
+			public const string PingPongMenuPanel = "PingPongMenuPanel.prefab";
+			public const string PingPongMenuPanel_assetPath = "examples/ping_pong/PingPongMenuPanel.prefab";
+			public const string PingPongStage = "PingPongStage.prefab";
+			public const string PingPongStage_assetPath = "examples/ping_pong/PingPongStage.prefab";            
+		}
+
 		public sealed class EXAMPLES_ROUSHAN
 		{
 			public const string NAME = "examples/roushan.ab";
@@ -277,8 +289,10 @@ namespace ZeroHot
 
 			public const string TextOutlineExampleWin = "TextOutlineExampleWin.prefab";
 			public const string TextOutlineExampleWin_assetPath = "examples/text_outline/TextOutlineExampleWin.prefab";
-			public const string TextOutlineMaterial_mat = "TextOutlineMaterial.mat";
-			public const string TextOutlineMaterial_mat_assetPath = "examples/text_outline/TextOutlineMaterial.mat";            
+			public const string TextOutlineMaterial_Black_mat = "TextOutlineMaterial_Black.mat";
+			public const string TextOutlineMaterial_Black_mat_assetPath = "examples/text_outline/TextOutlineMaterial_Black.mat";
+			public const string TextOutlineMaterial_White_mat = "TextOutlineMaterial_White.mat";
+			public const string TextOutlineMaterial_White_mat_assetPath = "examples/text_outline/TextOutlineMaterial_White.mat";            
 		}
 
 		public sealed class EXAMPLES_TURBOCHARGED_SCROLL_LIST
@@ -649,13 +663,16 @@ namespace ZeroHot
 			dic["WebSocketExampleWin"] = "examples/network.ab";
 			dic["CallNativeCodePerformanceWin"] = "examples/performance.ab";
 			dic["FibonacciPerformanceWin"] = "examples/performance.ab";
+			dic["PingPongGameResultWin"] = "examples/ping_pong.ab";
+			dic["PingPongMenuPanel"] = "examples/ping_pong.ab";
+			dic["PingPongStage"] = "examples/ping_pong.ab";
 			dic["GamePanel"] = "examples/roushan.ab";
 			dic["GameStage"] = "examples/roushan.ab";
 			dic["HelpWin"] = "examples/roushan.ab";
 			dic["StartupPanel"] = "examples/roushan.ab";
 			dic["TexturesWin"] = "examples/textures.ab";
-            dic["TextOutlineExampleWin"] = "examples/text_outline.ab";
-            dic["GridScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
+			dic["TextOutlineExampleWin"] = "examples/text_outline.ab";
+			dic["GridScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
 			dic["HorizontalScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
 			dic["ScrollListDemoMenuPanel"] = "examples/turbocharged_scroll_list.ab";
 			dic["VerticalScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
