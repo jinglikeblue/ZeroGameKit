@@ -39,6 +39,11 @@ namespace ZeroEditor
         /// </summary>
         Dictionary<string, HashSet<string>> _dependsDic;
 
+        /// <summary>
+        /// 附加AssetBundle中使用到的资源
+        /// </summary>
+        HashSet<string> _appendAssetsSet;
+
 
         public AssetBundleBuildCommand(string resRootDir, string outputDir)
         {
@@ -46,6 +51,7 @@ namespace ZeroEditor
             this.outputDir = outputDir;
             _abDic = new Dictionary<string, List<string>>();
             _dependsDic = new Dictionary<string, HashSet<string>>();
+            _appendAssetsSet = new HashSet<string>();
         }
 
         public void Execute()
@@ -54,7 +60,7 @@ namespace ZeroEditor
             FindAssetBundles();
 
             //附加要打包的资源
-            //AppendAssetBundles();
+            AppendAssetBundles();
 
             //根据交叉引用算法优化AssetBundle
             CreateCrossAssetBundle();
@@ -121,19 +127,36 @@ namespace ZeroEditor
             var appenderTypes = TypeUtility.FindSubclasses(typeof(BaseAssetBundleAppender));
             if(null != appenderTypes && appenderTypes.Length > 0)
             {
+                //遍历每一个派生类
                 foreach(var type in appenderTypes)
                 {
                     BaseAssetBundleAppender appender = Activator.CreateInstance(type) as BaseAssetBundleAppender;
                     var assetBundleBuilds = appender.AssetBundles();
+
+                    //遍历每一个派生类的接口返回的AssetBundleBuild对象数组
                     foreach(var abb in assetBundleBuilds)
                     {
                         var abName = abb.assetBundleName + ZeroConst.AB_EXTENSION;
                         var assetList = GetAssetList(abName);
                         foreach(var assetPath in abb.assetNames)
                         {
+                            //如果指定的资源是resRootDir下的，就不用处理
+                            if (assetPath.StartsWith(resRootDir))
+                            {
+                                Debug.LogWarning($"附加的AssetBundle中，不应该存在[{resRootDir}]目录下的资源: {assetPath} !!! 已自动忽略。");
+                                continue;
+                            }
+
+                            if (_appendAssetsSet.Contains(assetPath))
+                            {
+                                throw new Exception($"资源对象不能同时打包到多个AssetBundle中： [{assetPath}]");
+                            }
+
+                            _appendAssetsSet.Add(assetPath);
+
                             assetList.Add(assetPath);
                             //找出依赖的资源
-                            FindDepends(assetPath, GetDependsSet(abName));                            
+                            FindDepends(assetPath, GetDependsSet(abName));
                         }
                     }
                 }
@@ -195,6 +218,12 @@ namespace ZeroEditor
             {
                 foreach (var asset in ab.Value)
                 {
+                    if (_appendAssetsSet.Contains(asset))
+                    {
+                        //如果这个资源是附加AssetBundle中添加的资源，则忽略掉依赖处理
+                        continue;
+                    }
+
                     if (false == asset2ABDic.ContainsKey(asset))
                     {
                         asset2ABDic[asset] = new HashSet<string>();
