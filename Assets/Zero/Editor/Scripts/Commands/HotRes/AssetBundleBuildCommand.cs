@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using Zero;
@@ -51,6 +52,9 @@ namespace ZeroEditor
         {
             //找出所有要打包的资源
             FindAssetBundles();
+
+            //附加要打包的资源
+            //AppendAssetBundles();
 
             //根据交叉引用算法优化AssetBundle
             CreateCrossAssetBundle();
@@ -103,7 +107,36 @@ namespace ZeroEditor
 
                 GetAssetList(abName).Add(ai.assetPath);
                 //找出依赖资源
-                FindDepends(ai, GetDependsSet(abName));
+                FindDepends(ai.assetPath, GetDependsSet(abName));
+            }
+        }
+
+        /// <summary>
+        /// 附加要打包的资源。
+        /// 对于没有（或无法）放置在@Resources下的资源，通过接口添加到AssetBundles打包清单中
+        /// </summary>
+        private void AppendAssetBundles()
+        {
+            //AssetBundle 打包扩展
+            var appenderTypes = TypeUtility.FindSubclasses(typeof(BaseAssetBundleAppender));
+            if(null != appenderTypes && appenderTypes.Length > 0)
+            {
+                foreach(var type in appenderTypes)
+                {
+                    BaseAssetBundleAppender appender = Activator.CreateInstance(type) as BaseAssetBundleAppender;
+                    var assetBundleBuilds = appender.AssetBundles();
+                    foreach(var abb in assetBundleBuilds)
+                    {
+                        var abName = abb.assetBundleName + ZeroConst.AB_EXTENSION;
+                        var assetList = GetAssetList(abName);
+                        foreach(var assetPath in abb.assetNames)
+                        {
+                            assetList.Add(assetPath);
+                            //找出依赖的资源
+                            FindDepends(assetPath, GetDependsSet(abName));                            
+                        }
+                    }
+                }
             }
         }
 
@@ -111,10 +144,10 @@ namespace ZeroEditor
         /// 找出资源依赖的资源（如果依赖的资源已标记为AB，则忽略）
         /// </summary>
         /// <param name="ai"></param>
-        void FindDepends(AssetImporter ai, HashSet<string> dependsSet)
+        void FindDepends(string assetPath, HashSet<string> dependsSet)
         {
             //获取依赖的资源
-            string[] dps = AssetDatabase.GetDependencies(ai.assetPath);
+            string[] dps = AssetDatabase.GetDependencies(assetPath);
             foreach (string dependPath in dps)
             {
                 if (dependPath.StartsWith(resRootDir) || dependPath.Contains(".cs"))

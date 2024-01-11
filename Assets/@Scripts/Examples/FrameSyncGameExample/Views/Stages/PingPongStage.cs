@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Zero;
 using ZeroHot;
 
 namespace PingPong
@@ -15,6 +16,8 @@ namespace PingPong
         protected override void OnInit(object data)
         {
             base.OnInit(data);
+            var svc = ResMgr.Ins.Load<ShaderVariantCollection>(AB.EXAMPLES_PING_PONG_MATERIALS.SV_shadervariants_assetPath);
+            svc.WarmUp();
             _game = new PingPongGame(gameObject, OnReceiveBridgeMessage);
             _game.Start();
         }
