@@ -380,9 +380,7 @@ namespace ZeroHot
 			public const string Player0_mat = "Player0.mat";
 			public const string Player0_mat_assetPath = "examples/ping_pong/materials/Player0.mat";
 			public const string Player1_mat = "Player1.mat";
-			public const string Player1_mat_assetPath = "examples/ping_pong/materials/Player1.mat";
-			public const string SV_shadervariants = "SV.shadervariants";
-			public const string SV_shadervariants_assetPath = "examples/ping_pong/materials/SV.shadervariants";            
+			public const string Player1_mat_assetPath = "examples/ping_pong/materials/Player1.mat";            
 		}
 
 		public sealed class EXAMPLES_SOKOBAN_AUDIOS

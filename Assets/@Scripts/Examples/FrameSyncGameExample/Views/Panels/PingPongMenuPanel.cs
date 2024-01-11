@@ -24,6 +24,11 @@ namespace PingPong
 
             Screen.orientation = ScreenOrientation.Portrait;
             Debug.Log($"切换屏幕方向：{Screen.orientation}");
+            var text = btnPVE.transform.GetComponentInChildren<Text>();
+            var mat = text.material;
+            var shader = mat.shader;
+
+            mat.shader = Shader.Find(shader.name);
         }        
 
         protected override void OnEnable()
