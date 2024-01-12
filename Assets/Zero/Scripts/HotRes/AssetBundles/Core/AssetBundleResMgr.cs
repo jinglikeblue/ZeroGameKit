@@ -35,22 +35,32 @@ namespace Zero
             _loadedABDic = new Dictionary<string, AssetBundle>();
 
             HotResAssetBundleRoot = FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.AB_DIR_NAME);
-            BuiltinAssetBundleRoot = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.AB_DIR_NAME);           
+            BuiltinAssetBundleRoot = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.AB_DIR_NAME);
 
             //优先使用热更的
             var manifestPath = FileUtility.CombinePaths(HotResAssetBundleRoot, manifestFileName);
-            if(false == File.Exists(manifestPath))
+            if (false == File.Exists(manifestPath))
             {
                 //使用内嵌的
-                manifestPath = FileUtility.CombinePaths(BuiltinAssetBundleRoot, manifestFileName);                
+                manifestPath = FileUtility.CombinePaths(BuiltinAssetBundleRoot, manifestFileName);
             }
 
             AssetBundle ab = AssetBundle.LoadFromFile(manifestPath);
-            if(null == ab)
+            if (null == ab)
             {
                 throw new Exception($"[{manifestFileName}] 不存在: {manifestPath}");
             }
             _manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+            //var assetBundles = _manifest.GetAllAssetBundles();
+            //foreach(var assetBundle in assetBundles)
+            //{
+            //    Debug.Log($"AssetBundle: {assetBundle}");
+            //    var depends = _manifest.GetAllDependencies(assetBundle);
+            //    foreach(var depend in depends)
+            //    {
+            //        Debug.Log($"Depend: {depend}");
+            //    }
+            //}
             if (_manifest == null)
             {
                 throw new Exception(string.Format("错误的 Manifest File: {0}", manifestFileName));
@@ -77,7 +87,7 @@ namespace Zero
             if (string.IsNullOrEmpty(abName))
             {
                 abName = ZeroConst.ROOT_AB_FILE_NAME;
-            }            
+            }
         }
 
         public override string[] GetDepends(string abName)
@@ -92,9 +102,9 @@ namespace Zero
         {
             MakeABNameNotEmpty(ref abName);
             abName = ABNameWithExtension(abName);
-            AssetBundle ab = LoadAssetBundle(abName); 
-            string [] assetNames = ab.GetAllAssetNames();
-            for(int i = 0; i < assetNames.Length; i++)
+            AssetBundle ab = LoadAssetBundle(abName);
+            string[] assetNames = ab.GetAllAssetNames();
+            for (int i = 0; i < assetNames.Length; i++)
             {
                 assetNames[i] = Path.GetFileName(assetNames[i]);
             }
@@ -106,7 +116,7 @@ namespace Zero
             MakeABNameNotEmpty(ref abName);
             abName = ABNameWithExtension(abName);
             AssetBundle ab = LoadAssetBundle(abName);
-            if(null == ab)
+            if (null == ab)
             {
                 Debug.LogErrorFormat("AB资源不存在  abName: {0}", abName);
                 return null;
@@ -136,7 +146,7 @@ namespace Zero
         {
             MakeABNameNotEmpty(ref abName);
             abName = ABNameWithExtension(abName);
-            AssetBundle ab = LoadAssetBundle(abName);                   
+            AssetBundle ab = LoadAssetBundle(abName);
             return ab.LoadAllAssets();
         }
 
@@ -233,12 +243,12 @@ namespace Zero
         /// <returns></returns>
         bool CheckDependencies(string ab)
         {
-            foreach(var loadedEntry in _loadedABDic)
+            foreach (var loadedEntry in _loadedABDic)
             {
                 var entryDepends = _manifest.GetAllDependencies(loadedEntry.Key);
-                foreach(var entryDepend in entryDepends)
+                foreach (var entryDepend in entryDepends)
                 {
-                    if(ab == entryDepend)
+                    if (ab == entryDepend)
                     {
                         return true;
                     }
@@ -271,10 +281,15 @@ namespace Zero
                 abPath = FileUtility.CombinePaths(BuiltinAssetBundleRoot, abName);
             }
 
+            if (ZeroLogSettings.ASSET_BUNDLE_LOAD_LOG_ENABLE)
+            {
+                Debug.Log($"[AssetBundle] 加载AssetBundle:{abPath}");
+            }
+
             AssetBundle ab = AssetBundle.LoadFromFile(abPath);
             if (null == ab)
             {
-                Debug.LogErrorFormat($"AssetBundle文件 [{abName}] 不存在: {abPath}");                
+                Debug.LogErrorFormat($"[AssetBundle] 文件 [{abName}] 不存在: {abPath}");
             }
             return ab;
         }
@@ -297,10 +312,10 @@ namespace Zero
             else
             {
                 ab = LoadAssetBundleFromFile(abName);
-                if(null == ab)
+                if (null == ab)
                 {
                     return null;
-                }                
+                }
                 _loadedABDic[abName] = ab;
             }
 

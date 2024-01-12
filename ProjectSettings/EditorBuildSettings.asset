@@ -5,10 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/#Temp/PingPong.unity
-    guid: 5327489e4f6a59442802219bc4e083ba
   - enabled: 1
     path: Assets/StartupScene.unity
     guid: 6015799b897e81d47901b9de6cb66782
+  - enabled: 0
+    path: Assets/$UnitTest/URPAssetBundleTest/TestAB.unity
+    guid: 01e201adc4f0ffd4fa427a5081fd18cc
+  - enabled: 0
+    path: Assets/#Temp/PingPong.unity
+    guid: 5327489e4f6a59442802219bc4e083ba
   m_configObjects: {}

@@ -123,6 +123,11 @@ namespace ZeroEditor
         /// </summary>
         private void AppendAssetBundles()
         {
+            if (false == ZeroEditorSettings.ASSET_BUNDLE_APPENDER_ENABLE)
+            {
+                return;
+            }
+
             //AssetBundle 打包扩展
             var appenderTypes = TypeUtility.FindSubclasses(typeof(BaseAssetBundleAppender));
             if(null != appenderTypes && appenderTypes.Length > 0)
@@ -212,6 +217,11 @@ namespace ZeroEditor
         /// </summary>
         void CreateCrossAssetBundle()
         {
+            if (false == ZeroEditorSettings.CREATE_CROSS_ASSET_BUNDLE_ENABLE)
+            {
+                return;
+            }
+
             #region 找出每一个资源依赖它的AB集合Set
             Dictionary<string, HashSet<string>> asset2ABDic = new Dictionary<string, HashSet<string>>();
             foreach (var ab in _dependsDic)
@@ -317,13 +327,27 @@ namespace ZeroEditor
             {
                 Directory.CreateDirectory(ZeroEditorConst.ASSET_BUNDLE_CACHE_DIR);
             }
-
-            assetBundleManifest = BuildPipeline.BuildAssetBundles(ZeroEditorConst.ASSET_BUNDLE_CACHE_DIR, abbList, BuildAssetBundleOptions.ChunkBasedCompression | BuildAssetBundleOptions.DeterministicAssetBundle, ZeroEditorConst.BUILD_PLATFORM);
+            
+            assetBundleManifest = BuildPipeline.BuildAssetBundles(ZeroEditorConst.ASSET_BUNDLE_CACHE_DIR, abbList, BuildAssetBundleOptions.ChunkBasedCompression | BuildAssetBundleOptions.DeterministicAssetBundle, EditorUserBuildSettings.activeBuildTarget);
 
             if (null != assetBundleManifest)
             {
                 //清理不再需要的资源(需要修改算法，只保留需要的，完全清理不需要的资源)
                 CleanCahceDir();
+
+                #region 生成一个依赖文件表
+                var dependenciesTable = new Dictionary<string, string[]>();
+                var assetBundles = assetBundleManifest.GetAllAssetBundles();
+                foreach (var ab in assetBundles)
+                {
+                    var dependencies = assetBundleManifest.GetAllDependencies(ab);
+                    dependenciesTable[ab] = dependencies;
+                }
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(dependenciesTable, Newtonsoft.Json.Formatting.Indented);
+                var filePath = FileUtility.CombinePaths(ZeroEditorConst.ASSET_BUNDLE_CACHE_DIR, "dependencies.json");
+                File.WriteAllText(filePath, json);
+                Debug.Log($"生成的依赖文件查找表: {filePath}");
+                #endregion
             }
             else
             {

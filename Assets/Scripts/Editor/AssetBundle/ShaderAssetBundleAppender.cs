@@ -16,7 +16,7 @@ class ShaderAssetBundleAppender : BaseAssetBundleAppender
         AssetBundleBuild abb = new AssetBundleBuild();
         abb.assetBundleName = "appends/shaders";
         abb.assetNames = new string[] { 
-        "Assets/SVC.shadervariants",
+        "Assets/SVC.shadervariants",        
         "Packages/com.unity.render-pipelines.universal/Shaders/Lit.shader",
         "Assets/Zero/Shaders/UI/TextOutline.shader"
         };
