@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zero;
@@ -45,6 +46,8 @@ namespace Roushan
         private void Exit()
         {
             UIPanelMgr.Ins.Switch<MenuPanel>();
+            Screen.orientation = ScreenOrientation.Landscape;
+            Debug.Log($"切换屏幕方向：{Screen.orientation}");
         }
 
         void OnTouchPadClick(PointerEventData e)

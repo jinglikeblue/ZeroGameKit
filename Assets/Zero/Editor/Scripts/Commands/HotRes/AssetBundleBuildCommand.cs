@@ -416,16 +416,16 @@ namespace ZeroEditor
             string targetManifestPath = FileUtility.CombinePaths(outputDir, ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION);
             FileUtility.CopyFile(sourceManifestPath, targetManifestPath, true);
 
-            #region 打印这个Manifest文件的内容
-            {
-                var ab = AssetBundle.LoadFromFile(targetManifestPath);
-                var manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
-                var filePath = FileUtility.CombinePaths(ZeroEditorConst.ASSET_BUNDLE_CACHE_DIR, "dependencies_ab.json");
-                AssetBundleUtility.CreateDependenciesJson(manifest, filePath);
-                Debug.Log($"生成的依赖文件查找表: {filePath}");
-                ab.Unload(true);
-            }
-            #endregion
+            //#region 打印这个Manifest文件的内容
+            //{
+            //    var ab = AssetBundle.LoadFromFile(targetManifestPath);
+            //    var manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+            //    var filePath = FileUtility.CombinePaths(ZeroEditorConst.ASSET_BUNDLE_CACHE_DIR, "dependencies_ab.json");
+            //    AssetBundleUtility.CreateDependenciesJson(manifest, filePath);
+            //    Debug.Log($"生成的依赖文件查找表: {filePath}");
+            //    ab.Unload(true);
+            //}
+            //#endregion
         }
     }    
 }

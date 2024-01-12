@@ -16,7 +16,7 @@ namespace ZeroEditor
         /// <summary>
         /// 是否启用AssetBundle资源附加器功能
         /// </summary>
-        public const bool ASSET_BUNDLE_APPENDER_ENABLE = false;
+        public const bool ASSET_BUNDLE_APPENDER_ENABLE = true;
 
         /// <summary>
         /// 是否启用AssetBundle优化资源交叉引用的情况。
