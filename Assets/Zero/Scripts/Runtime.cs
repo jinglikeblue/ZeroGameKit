@@ -28,6 +28,17 @@ namespace Zero
         public EBuiltinResMode BuiltinResMode => VO.builtinResMode;
 
         /// <summary>
+        /// 资源模式是否仅使用包内资源（离线资源模式）
+        /// </summary>
+        public bool IsOnlyUseBuiltinRes
+        {
+            get
+            {
+                return BuiltinResMode == EBuiltinResMode.ONLY_USE ? true : false;
+            }
+        }
+
+        /// <summary>
         /// 热更资源模式
         /// </summary>
         public EHotResMode HotResMode => VO.hotResMode;

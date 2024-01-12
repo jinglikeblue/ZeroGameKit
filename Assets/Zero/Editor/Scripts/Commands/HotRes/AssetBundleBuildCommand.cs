@@ -336,16 +336,8 @@ namespace ZeroEditor
                 CleanCahceDir();
 
                 #region 生成一个依赖文件表
-                var dependenciesTable = new Dictionary<string, string[]>();
-                var assetBundles = assetBundleManifest.GetAllAssetBundles();
-                foreach (var ab in assetBundles)
-                {
-                    var dependencies = assetBundleManifest.GetAllDependencies(ab);
-                    dependenciesTable[ab] = dependencies;
-                }
-                var json = Newtonsoft.Json.JsonConvert.SerializeObject(dependenciesTable, Newtonsoft.Json.Formatting.Indented);
                 var filePath = FileUtility.CombinePaths(ZeroEditorConst.ASSET_BUNDLE_CACHE_DIR, "dependencies.json");
-                File.WriteAllText(filePath, json);
+                AssetBundleUtility.CreateDependenciesJson(assetBundleManifest, filePath);
                 Debug.Log($"生成的依赖文件查找表: {filePath}");
                 #endregion
             }
@@ -423,6 +415,17 @@ namespace ZeroEditor
             string sourceManifestPath = FileUtility.CombinePaths(ZeroEditorConst.ASSET_BUNDLE_CACHE_DIR, ZeroConst.AB_DIR_NAME);
             string targetManifestPath = FileUtility.CombinePaths(outputDir, ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION);
             FileUtility.CopyFile(sourceManifestPath, targetManifestPath, true);
+
+            #region 打印这个Manifest文件的内容
+            {
+                var ab = AssetBundle.LoadFromFile(targetManifestPath);
+                var manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+                var filePath = FileUtility.CombinePaths(ZeroEditorConst.ASSET_BUNDLE_CACHE_DIR, "dependencies_ab.json");
+                AssetBundleUtility.CreateDependenciesJson(manifest, filePath);
+                Debug.Log($"生成的依赖文件查找表: {filePath}");
+                ab.Unload(true);
+            }
+            #endregion
         }
     }    
 }

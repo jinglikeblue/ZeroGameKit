@@ -39,7 +39,7 @@ namespace Zero
 
             //优先使用热更的
             var manifestPath = FileUtility.CombinePaths(HotResAssetBundleRoot, manifestFileName);
-            if (false == File.Exists(manifestPath))
+            if (false == File.Exists(manifestPath) || Runtime.Ins.IsOnlyUseBuiltinRes)
             {
                 //使用内嵌的
                 manifestPath = FileUtility.CombinePaths(BuiltinAssetBundleRoot, manifestFileName);
@@ -51,16 +51,20 @@ namespace Zero
                 throw new Exception($"[{manifestFileName}] 不存在: {manifestPath}");
             }
             _manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
-            //var assetBundles = _manifest.GetAllAssetBundles();
-            //foreach(var assetBundle in assetBundles)
+
             //{
-            //    Debug.Log($"AssetBundle: {assetBundle}");
-            //    var depends = _manifest.GetAllDependencies(assetBundle);
-            //    foreach(var depend in depends)
+            //    var dependenciesTable = new Dictionary<string, string[]>();
+            //    var assetBundles = _manifest.GetAllAssetBundles();
+            //    foreach (var assetBundle in assetBundles)
             //    {
-            //        Debug.Log($"Depend: {depend}");
+            //        var dependencies = _manifest.GetAllDependencies(assetBundle);
+            //        dependenciesTable[assetBundle] = dependencies;
             //    }
+                
+            //    var json = LitJson.JsonMapper.ToPrettyJson(dependenciesTable);
+            //    Debug.Log(json);
             //}
+
             if (_manifest == null)
             {
                 throw new Exception(string.Format("错误的 Manifest File: {0}", manifestFileName));
@@ -275,7 +279,7 @@ namespace Zero
         {
             //优先使用热更的
             var abPath = FileUtility.CombinePaths(HotResAssetBundleRoot, abName);
-            if (false == File.Exists(abPath))
+            if (false == File.Exists(abPath) || Runtime.Ins.IsOnlyUseBuiltinRes)
             {
                 //使用内嵌的
                 abPath = FileUtility.CombinePaths(BuiltinAssetBundleRoot, abName);
@@ -304,6 +308,17 @@ namespace Zero
             MakeABNameNotEmpty(ref abName);
             abName = ABNameWithExtension(abName);
 
+            //依赖检查
+            string[] dependList = _manifest.GetAllDependencies(abName);
+            foreach (string depend in dependList)
+            {
+                //string dependPath = Path.Combine(_rootDir, depend);
+                if (false == _loadedABDic.ContainsKey(depend))
+                {
+                    _loadedABDic[depend] = LoadAssetBundle(depend);
+                }
+            }
+
             AssetBundle ab = null;
             if (_loadedABDic.ContainsKey(abName))
             {
@@ -317,17 +332,6 @@ namespace Zero
                     return null;
                 }
                 _loadedABDic[abName] = ab;
-            }
-
-            //依赖检查
-            string[] dependList = _manifest.GetAllDependencies(abName);
-            foreach (string depend in dependList)
-            {
-                //string dependPath = Path.Combine(_rootDir, depend);
-                if (false == _loadedABDic.ContainsKey(depend))
-                {
-                    _loadedABDic[depend] = LoadAssetBundle(depend);
-                }
             }
 
             return ab;
