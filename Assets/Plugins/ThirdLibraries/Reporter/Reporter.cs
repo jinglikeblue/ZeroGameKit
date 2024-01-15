@@ -309,13 +309,18 @@ public class Reporter : MonoBehaviour
 	/// </summary>
 	public Rect SafeScreenArea { get; private set; }
 
-	void Awake()
-	{
+	void UpdateSafeArea()
+    {
 #if UNITY_2017_2_OR_NEWER
 		SafeScreenArea = Screen.safeArea;
 #else
 		safeScreenArea = new Rect(0, 0, Screen.width, Screen.height);
-#endif		
+#endif
+	}
+
+	void Awake()
+	{
+		UpdateSafeArea();
         if (!Initialized)
 			Initialize();
 
@@ -1656,6 +1661,8 @@ public class Reporter : MonoBehaviour
 		if (!show) {
 			return;
 		}
+
+		UpdateSafeArea();
 
 		screenRect.x = SafeScreenArea.x;
 		screenRect.y = SafeScreenArea.y;
