@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/$UnitTest/ScreenSwitch/ScreenSwitchScene.unity
     guid: 8f7af10e6b0e06d42979d9f1b7881203
-  - enabled: 0
+  - enabled: 1
     path: Assets/StartupScene.unity
     guid: 6015799b897e81d47901b9de6cb66782
   - enabled: 0

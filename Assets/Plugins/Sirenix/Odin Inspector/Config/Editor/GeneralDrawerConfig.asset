@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: OdinModuleConfig
+  m_Script: {fileID: -645759843, guid: a4865f1ab4504ed8a368670db22f409c, type: 3}
+  m_Name: GeneralDrawerConfig
   m_EditorClassIdentifier: 
-  configurations: []
-  ModuleTogglingSettings: 0
-  ModuleUpdateSettings: 0
+  enableUIToolkitSupport: 1
