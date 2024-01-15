@@ -32,7 +32,7 @@ namespace ZeroEditor
         }
 
         
-        [LabelText("保存配置"), Button(size: ButtonSizes.Large), PropertyOrder(-1)]
+        [Button("保存配置", ButtonSizes.Large), PropertyOrder(-1)]
         void SaveConfig()
         {
             _vo.isAutoBuildBuiltinRes = isAutoBuildBuiltinRes;
@@ -47,7 +47,7 @@ namespace ZeroEditor
         [LabelText("是否自动构建内嵌资源"), PropertyOrder(0)]
         public bool isAutoBuildBuiltinRes = false;
 
-        [LabelText("构建当前平台"), Button(size: ButtonSizes.Large), PropertyOrder(10)]
+        [Button("构建当前平台", ButtonSizes.Large), PropertyOrder(10)]
         void BuildCurrentPlatform()
         {
 

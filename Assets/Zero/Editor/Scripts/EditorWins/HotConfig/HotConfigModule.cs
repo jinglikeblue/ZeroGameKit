@@ -43,7 +43,7 @@ namespace ZeroEditor
         [HideReferenceObjectPicker]
         public object vo;
 
-        [LabelText("保存"), Button(size: ButtonSizes.Large), PropertyOrder(-1)]
+        [Button("保存", ButtonSizes.Large), PropertyOrder(-1)]
         public void Save()
         {
             string json = JsonMapper.ToPrettyJson(vo);

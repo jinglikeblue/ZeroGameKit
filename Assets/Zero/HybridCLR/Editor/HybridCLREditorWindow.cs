@@ -126,7 +126,7 @@ namespace ZeroEditor
         public string textMethodBridgeInfo = "参考官方文档<AOT-interpreter桥接函数>";
 
         [PropertyOrder(4)]
-        [Button(ButtonSizes.Large), LabelText("AOT-interpreter桥接函数生成")]
+        [Button("AOT-interpreter桥接函数生成", ButtonSizes.Large)]
         [EnableIf("IsHybridCLRInstalled")]
         void GenerateMethodBridge()
         {
@@ -165,14 +165,14 @@ namespace ZeroEditor
 
         [PropertyOrder(5)]        
         [EnableIf("IsHybridCLRInstalled")]
-        [Button(ButtonSizes.Large), LabelText("拷贝Aot Dll到Resources")]
+        [Button("拷贝Aot Dll到Resources", ButtonSizes.Large)]
         void CopyAotDll()
         {
             HybridCLRUtility.CopyAotDllToResources();
         }
 
         [PropertyOrder(6)]
-        [Button(ButtonSizes.Large), LabelText("打开Aot Dll存放目录")]
+        [Button("打开Aot Dll存放目录", ButtonSizes.Large)]
         void OpenMethodBridgeDir()
         {
             if (false == Directory.Exists(HybridCLREditorConst.AOT_DLL_SOURCE_DIR))
@@ -186,7 +186,7 @@ namespace ZeroEditor
 
         [TitleGroup("缓存")]
         [PropertyOrder(7)]
-        [Button(ButtonSizes.Large), LabelText("清理IL2CPP构建缓存目录")]
+        [Button("清理IL2CPP构建缓存目录", ButtonSizes.Large)]
         void CleanIl2CppBuildCache()
         {
             if (!Directory.Exists(HybridCLREditorConst.IL2CPP_BUILD_CACHE_DIR))
@@ -200,7 +200,7 @@ namespace ZeroEditor
 
         [TitleGroup("资料")]
         [PropertyOrder(8)]
-        [Button(ButtonSizes.Large), LabelText("HybridCLR官方文档")]
+        [Button("HybridCLR官方文档", ButtonSizes.Large)]
         void OpenHuaTuoWebSite()
         {
             Application.OpenURL("https://focus-creative-games.github.io/hybridclr/");

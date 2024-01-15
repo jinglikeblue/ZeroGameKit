@@ -56,7 +56,7 @@ namespace ZeroEditor
         bool _isFindingAB = true;
 
         [Title("资源相关代码生成", TitleAlignment = TitleAlignments.Centered)]
-        [LabelText("保存配置"), Button(size: ButtonSizes.Large), PropertyOrder(-1)]
+        [Button("保存配置", ButtonSizes.Large), PropertyOrder(-1)]
         void SaveConfig()
         {            
             cfg.abList = abList;            
@@ -65,7 +65,7 @@ namespace ZeroEditor
         }
 
         [PropertySpace(10)]
-        [LabelText("开始生成"), Button(size: ButtonSizes.Large), PropertyOrder(-1)]
+        [Button("开始生成", ButtonSizes.Large), PropertyOrder(-1)]
         void GeneratedAssetBundleNameClass()
         {
             var startTime = DateTime.Now;

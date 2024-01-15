@@ -109,7 +109,7 @@ namespace ZeroEditor
 
         [PropertySpace(10)]
         [Title("配置相关")]        
-        [LabelText("添加扫描目录"), Button(size: ButtonSizes.Large)]
+        [Button("添加扫描目录", ButtonSizes.Large)]
         [PropertyOrder(-100)]
         void AddDir()
         {
@@ -144,7 +144,7 @@ namespace ZeroEditor
             folders.Add(new ConfigVO.FolderItemVO());
         }
 
-        [LabelText("添加Dll文件"), Button(size: ButtonSizes.Large)]
+        [Button("添加Dll文件", ButtonSizes.Large)]
         [PropertyOrder(-98)]
         void AddDll()
         {
@@ -189,7 +189,7 @@ namespace ZeroEditor
         [LabelText("导出位置"), PropertyOrder(-80), DisplayAsString]
         public string path = "assets/link.xml";
 
-        [LabelText("导出 [link.xml]"), Button(size: ButtonSizes.Large)]
+        [Button("导出 [link.xml]", ButtonSizes.Large)]
         void CreateLinkXML()
         {
             const string OUTPUT_FILE = "Assets/link.xml";

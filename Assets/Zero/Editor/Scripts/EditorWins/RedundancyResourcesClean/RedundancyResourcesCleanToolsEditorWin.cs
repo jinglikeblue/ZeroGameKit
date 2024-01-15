@@ -33,7 +33,7 @@ namespace ZeroEditor
         }
 
         [Title("查找项目无用资源", TitleAlignment = TitleAlignments.Centered)]
-        [LabelText("重置扫描库"), Button(size: ButtonSizes.Large), PropertyOrder(-1)]
+        [Button("重置扫描库", ButtonSizes.Large), PropertyOrder(-1)]
         void ResetUsefulAssetsSet()
         {
             if (EditorUtility.DisplayDialog("提示", "构建扫描库根据项目大小耗费时间可能很长！", "继续", "取消"))
@@ -42,7 +42,7 @@ namespace ZeroEditor
             }
         }
 
-        [LabelText("从选中文件中扫描无用的资源"), Button(size: ButtonSizes.Large), PropertyOrder(-1), ShowIf("IsUsefulAssetsInited")]
+        [Button("从选中文件中扫描无用的资源", ButtonSizes.Large), PropertyOrder(-1), ShowIf("IsUsefulAssetsInited")]
         void FindUselessAssets()
         {
             var uselessAssets = GetUselessAssets(_usefulAssets);
@@ -73,7 +73,7 @@ namespace ZeroEditor
             public bool select = false;
 
             [HorizontalGroup("UselessItem", width: 60)]
-            [Button, LabelText("Select"), LabelWidth(60)]
+            [Button("Select"), LabelWidth(60)]
             void Select()
             {                          
                 var obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(asset);
@@ -105,7 +105,7 @@ namespace ZeroEditor
         }
 
         [HorizontalGroup("BottomButtons", 200)]
-        [LabelText("$SelectAllButtonLabel"), Button(size: ButtonSizes.Large), ShowIf("HasUselessAssets")]
+        [Button("$SelectAllButtonLabel", ButtonSizes.Large), ShowIf("HasUselessAssets")]
         void SelectAll()
         {
             //判断是否都是选中状态
@@ -127,7 +127,7 @@ namespace ZeroEditor
         }
 
         [HorizontalGroup("BottomButtons")]
-        [LabelText("删除选中的资源"), Button(size: ButtonSizes.Large), ShowIf("HasUselessAssets")]
+        [Button("删除选中的资源", ButtonSizes.Large), ShowIf("HasUselessAssets")]
         void DeleteSelected()
         {
             List<UselessItemVO> toDelList = new List<UselessItemVO>();

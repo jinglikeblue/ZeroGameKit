@@ -30,21 +30,21 @@ namespace ZeroEditor
         public string version = "2.0";
 
         [Title("相关链接")]        
-        [LabelText("文档"), Button]
+        [Button("文档")]
         void OpenDocument()
         {
             //访问网站
             Application.OpenURL(@"https://jinglikeblue.github.io/Zero/Docs/Intro");
         }
          
-        [LabelText("[Zero] GitHub"), Button]
+        [Button("[Zero] GitHub")]
         void OpenGitHub()
         {
             //访问网站
             Application.OpenURL(@"https://github.com/jinglikeblue/Zero");
         }
 
-        [LabelText("[ZeroGameKit] GitHub"), Button]
+        [Button("[ZeroGameKit] GitHub")]
         void OpenGameKitGitHub()
         {
             //访问网站

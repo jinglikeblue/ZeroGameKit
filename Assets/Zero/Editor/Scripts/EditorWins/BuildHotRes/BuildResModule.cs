@@ -31,7 +31,7 @@ namespace ZeroEditor
         [LabelText("Build res.json (构建资源版本号)"), ToggleLeft]
         public bool isBuildResJson = true;        
 
-        [LabelText("发布热更资源"), Button(ButtonSizes.Large)]
+        [Button("发布热更资源", ButtonSizes.Large)]
         void BuildPart1()
         {
             if (isCopyFiles)
@@ -87,7 +87,7 @@ namespace ZeroEditor
         public bool isCopyToBuiltinDir = false;
 
         [HorizontalGroup("BuiltinResCopy")]
-        [LabelText("拷贝到内嵌资源目录"), Button(ButtonSizes.Large), PropertyOrder(901)]
+        [Button("拷贝到内嵌资源目录", ButtonSizes.Large), PropertyOrder(901)]
         void CopyToBuiltinDir()
         {
             if (EditorUtility.DisplayDialog("确定窗口", "确定拷贝构建内容到'StreamingAssets/res'？", "是", "否"))
@@ -96,14 +96,14 @@ namespace ZeroEditor
             }            
         }
 
-        [LabelText("Build StreamingAssets/res中的res.json"), Button(ButtonSizes.Large), PropertyOrder(901)]
+        [Button("Build StreamingAssets/res中的res.json", ButtonSizes.Large), PropertyOrder(901)]
         void BuildBuiltinResJson()
         {
             new ResJsonBuildCommand(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH).Execute();
         }
 
         [HorizontalGroup("BuiltinResCopy")]
-        [LabelText("清空内嵌资源目录"), Button(ButtonSizes.Large), PropertyOrder(901)]
+        [Button("清空内嵌资源目录", ButtonSizes.Large), PropertyOrder(901)]
         void CleanBuiltinDir()
         {
             if (EditorUtility.DisplayDialog("确定窗口", "确定清空'StreamingAssets/res'目录？", "是", "否"))

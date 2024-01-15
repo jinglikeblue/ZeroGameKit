@@ -28,7 +28,7 @@ namespace ZeroEditor.IOS
         }
 
         [Title("全局配置", titleAlignment: TitleAlignments.Centered)]
-        [LabelText("保存配置"), Button(size: ButtonSizes.Large), PropertyOrder(-1)]
+        [Button("保存配置", ButtonSizes.Large), PropertyOrder(-1)]
         void SaveConfig()
         {
             _cfg.isEnable = isEnable;

@@ -58,7 +58,7 @@ namespace ZeroEditor
             }
         }
 
-        [LabelText("保存配置"), Button(size: ButtonSizes.Large), PropertyOrder(0)]
+        [Button("保存配置", ButtonSizes.Large), PropertyOrder(0)]
         void SaveConfig()
         {
             _cfg.spriteAtlasSaveDirPath = spriteAtlasSaveDirPath;

@@ -13,7 +13,7 @@ namespace ZeroEditor
 
         [InfoBox("建议从Unity2019开始，使用SpriteAtlas进行纹理集的管理。Zero已提供配套的管理配置工具。",InfoMessageType.Warning)]
         [Title("Sprite Packing Tag 管理", TitleAlignment = TitleAlignments.Centered)]
-        [LabelText("扫描项目中的 Packing Tag 标记"), Button(size: ButtonSizes.Large), PropertyOrder(-1)]
+        [Button("扫描项目中的 Packing Tag 标记", ButtonSizes.Large), PropertyOrder(-1)]
         void RefreshPackingTags()
         {
             var ptData = new FindAllPackingTagCommand().Excute();
@@ -30,7 +30,7 @@ namespace ZeroEditor
             }
         }
 
-        [LabelText("删除选中的 Packing Tag 标记"), Button(size: ButtonSizes.Medium)]
+        [Button("删除选中的 Packing Tag 标记", ButtonSizes.Medium)]
         public void DeleteSelected()
         {
             List<ItemVO> delList = new List<ItemVO>();
@@ -101,7 +101,7 @@ namespace ZeroEditor
                 public TextureImporter ti;
 
                 [HorizontalGroup("Sprite", width: 60)]
-                [Button, LabelText("Select"), LabelWidth(60)]
+                [Button("Select"), LabelWidth(60)]
                 void Select()
                 {
                     Selection.objects = new UnityEngine.Object[] { ti };

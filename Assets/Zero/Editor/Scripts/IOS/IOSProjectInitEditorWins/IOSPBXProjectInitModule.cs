@@ -50,7 +50,7 @@ namespace ZeroEditor.IOS
         }
 
         [Title("PBXProject 配置", titleAlignment: TitleAlignments.Centered)]
-        [LabelText("保存配置"), Button(size: ButtonSizes.Large), PropertyOrder(-1)]
+        [Button("保存配置", ButtonSizes.Large), PropertyOrder(-1)]
         void SaveConfig()
         {
             _pbxVO.frameworkToProjectList = frameworkToProjectList;

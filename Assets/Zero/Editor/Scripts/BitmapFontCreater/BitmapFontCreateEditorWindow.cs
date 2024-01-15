@@ -22,7 +22,7 @@ namespace ZeroEditor
 
         [PropertySpace(10)]
         [PropertyOrder(-2)]
-        [Button(ButtonSizes.Large), LabelText("生成"), GUIColor(0, 1, 0)]
+        [Button("生成", ButtonSizes.Large), GUIColor(0, 1, 0)]
         void Build()
         {
             var chars = charContent.Replace("\n", "");
@@ -64,7 +64,7 @@ namespace ZeroEditor
         public string outputPath;
 
         [Title("输出路径")]
-        [Button(ButtonSizes.Medium), LabelText("@GetOutputPath()")]
+        [Button("@GetOutputPath()", ButtonSizes.Medium)]
         [PropertyOrder(-1)]
         void SelectOutputPath()
         {

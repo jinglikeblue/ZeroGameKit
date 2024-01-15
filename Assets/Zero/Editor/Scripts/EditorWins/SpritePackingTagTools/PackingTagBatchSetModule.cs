@@ -70,7 +70,7 @@ namespace ZeroEditor
         }
 
         [HorizontalGroup("Scan", order:-999)]
-        [Button(size:ButtonSizes.Medium), LabelText("显示选中内容的Packing Tag"), PropertyOrder(1)]
+        [Button("显示选中内容的Packing Tag", ButtonSizes.Medium), PropertyOrder(1)]
         void ScanPackingTags()
         {
             List<string> assetPaths = new List<string>();
@@ -90,7 +90,7 @@ namespace ZeroEditor
         
 
         [Title("设置Packing Tag")]
-        [LabelText("批量设置"), Button(size: ButtonSizes.Large), PropertyOrder(-1)]
+        [Button("批量设置", ButtonSizes.Large), PropertyOrder(-1)]
         void BatchSet()
         {
             foreach (var ta in taList)

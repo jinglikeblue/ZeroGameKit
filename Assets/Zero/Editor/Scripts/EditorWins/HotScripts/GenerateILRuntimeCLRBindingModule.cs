@@ -24,7 +24,7 @@ namespace ZeroEditor
 
         [PropertySpace(10)]
         [HorizontalGroup("BottomButtons")]
-        [LabelText("生成绑定代码"), Button(ButtonSizes.Large)]
+        [Button("生成绑定代码", ButtonSizes.Large)]
         void GenerateCLRBindingScripts()
         {
             EditorUtility.DisplayProgressBar("生成绑定代码", "清空旧的绑定代码", 0f);
@@ -68,7 +68,7 @@ namespace ZeroEditor
 
         [PropertySpace(10)]
         [HorizontalGroup("BottomButtons")]
-        [LabelText("清空绑定代码"), Button(ButtonSizes.Large)]
+        [Button("清空绑定代码", ButtonSizes.Large)]
         void ClearCLRBindingScripts()
         {
             if (FileUtil.DeleteFileOrDirectory(GENERATED_OUTPUT_DIR))
