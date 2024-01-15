@@ -30,7 +30,7 @@ namespace Roushan
             btnTap = GetChild("BtnTap").gameObject;
             btnHelp = GetChildComponent<Button>("BtnHelp");
 
-            Screen.orientation = ScreenOrientation.Portrait;
+            ScreenUtility.SwitchToPortrait();            
             Debug.Log($"切换屏幕方向：{Screen.orientation}");
         }
 

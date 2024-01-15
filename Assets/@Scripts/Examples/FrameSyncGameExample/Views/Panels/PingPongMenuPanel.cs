@@ -22,7 +22,7 @@ namespace PingPong
         {
             base.OnInit(data);
 
-            Screen.orientation = ScreenOrientation.Portrait;
+            ScreenUtility.SwitchToPortrait();            
             Debug.Log($"切换屏幕方向：{Screen.orientation}");       
         }        
 
@@ -51,7 +51,7 @@ namespace PingPong
         private void Exit()
         {
             UIPanelMgr.Ins.Switch<MenuPanel>();
-            Screen.orientation = ScreenOrientation.Landscape;
+            ScreenUtility.SwitchToLandscape();
             Debug.Log($"切换屏幕方向：{Screen.orientation}");
         }
 

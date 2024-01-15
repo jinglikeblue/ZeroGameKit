@@ -46,7 +46,7 @@ namespace Roushan
         private void Exit()
         {
             UIPanelMgr.Ins.Switch<MenuPanel>();
-            Screen.orientation = ScreenOrientation.Landscape;
+            ScreenUtility.SwitchToLandscape();
             Debug.Log($"切换屏幕方向：{Screen.orientation}");
         }
 
