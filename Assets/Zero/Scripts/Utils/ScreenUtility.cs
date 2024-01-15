@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Zero
 {
@@ -15,21 +10,43 @@ namespace Zero
         /// <summary>
         /// 切换为竖屏
         /// </summary>
-        /// <param name="isPortrait">true表示垂直方向，false表示倒立模式</param>
-        /// <param name="isLockOrientation">是否锁定竖屏方向，不随设备翻转而颠倒</param>
-        public static void SwitchToPortrait(bool isPortrait, bool isLockOrientation)
+        /// <param name="isPortrait">true表示垂直方向，false表示倒立模式(PortraitUpsideDown)</param>
+        /// <param name="isLockOrientation">是否锁定竖屏方向，不随设备翻转而翻转画面</param>
+        public static void SwitchToPortrait(bool isPortrait = true, bool isLockOrientation = false)
         {
+            Screen.orientation = isPortrait ? ScreenOrientation.Portrait : ScreenOrientation.PortraitUpsideDown;
+
             if (isLockOrientation)
             {
-                Screen.orientation = isPortrait ? ScreenOrientation.Portrait : ScreenOrientation.PortraitUpsideDown;
+                SetAutoRotation(false, false, false, false);
             }
             else
             {
                 SetAutoRotation(true, true, false, false);
-                //TODO 是设备屏幕旋转为isPortrait指定的方向
             }
 
         }
+
+        /// <summary>
+        /// 切换为横屏
+        /// </summary>
+        /// <param name="isLandscapeLeft">true表示默认切换为左横屏模式，false表示右横屏模式(LandscapeRight)</param>
+        /// <param name="isLockOrientation">是否锁定竖屏方向，不随设备翻转而翻转画面</param>
+        public static void SwitchToLandscape(bool isLandscapeLeft = true, bool isLockOrientation = false)
+        {
+            Screen.orientation = isLandscapeLeft ? ScreenOrientation.LandscapeLeft : ScreenOrientation.LandscapeRight;
+
+            if (isLockOrientation)
+            {
+                SetAutoRotation(false, false, false, false);
+            }
+            else
+            {
+                SetAutoRotation(false, false, true, true);
+            }
+        }
+
+        #region 属性
 
         /// <summary>
         /// 是否是竖屏模式
@@ -38,12 +55,12 @@ namespace Zero
         {
             get
             {
-                if(Screen.orientation == ScreenOrientation.Portrait || Screen.orientation == ScreenOrientation.PortraitUpsideDown)
+                if (Screen.orientation == ScreenOrientation.Portrait || Screen.orientation == ScreenOrientation.PortraitUpsideDown)
                 {
                     return true;
                 }
 
-                if(Screen.orientation == ScreenOrientation.AutoRotation)
+                if (Screen.orientation == ScreenOrientation.AutoRotation)
                 {
                     if (false == Screen.autorotateToLandscapeLeft && false == Screen.autorotateToLandscapeRight)
                     {
@@ -53,14 +70,6 @@ namespace Zero
 
                 return false;
             }
-        }
-
-        /// <summary>
-        /// 切换为横屏
-        /// </summary>
-        public static void SwitchToLandscape()
-        {
-            SetAutoRotation(false, false, true, true);
         }
 
         /// <summary>
@@ -85,41 +94,9 @@ namespace Zero
 
                 return false;
             }
-        }                
-
-        /// <summary>
-        /// 横竖屏自由旋转
-        /// </summary>
-        public static void SwitchToPortraitAndLandscape()
-        {
-            SetAutoRotation(true, true, true, true);
         }
+        #endregion
 
-        /// <summary>
-        /// 是否可以横竖屏自由切换
-        /// </summary>
-        /// <returns></returns>
-        public static bool IsPortraitAndLandscape()
-        {
-            if(Screen.orientation != ScreenOrientation.AutoRotation)
-            {
-                return false;
-            }
-
-            if (false == Screen.autorotateToPortrait && false == Screen.autorotateToPortraitUpsideDown)
-            {
-                //不能旋转为竖屏
-                return false;
-            }
-
-            if (false == Screen.autorotateToLandscapeLeft && false == Screen.autorotateToLandscapeRight)
-            {
-                //不能旋转为横屏
-                return false;
-            }
-
-            return true;
-        }
 
         /// <summary>
         /// 自定义设置屏幕旋转
