@@ -193,12 +193,14 @@ namespace ZeroHot
 		{
 			public const string NAME = "examples/ping_pong.ab";
 
+			public const string PingPongGamePanel = "PingPongGamePanel.prefab";
+			public const string PingPongGamePanel_assetPath = "examples/ping_pong/PingPongGamePanel.prefab";
 			public const string PingPongGameResultWin = "PingPongGameResultWin.prefab";
 			public const string PingPongGameResultWin_assetPath = "examples/ping_pong/PingPongGameResultWin.prefab";
+			public const string PingPongGameStage = "PingPongGameStage.prefab";
+			public const string PingPongGameStage_assetPath = "examples/ping_pong/PingPongGameStage.prefab";
 			public const string PingPongMenuPanel = "PingPongMenuPanel.prefab";
-			public const string PingPongMenuPanel_assetPath = "examples/ping_pong/PingPongMenuPanel.prefab";
-			public const string PingPongStage = "PingPongStage.prefab";
-			public const string PingPongStage_assetPath = "examples/ping_pong/PingPongStage.prefab";            
+			public const string PingPongMenuPanel_assetPath = "examples/ping_pong/PingPongMenuPanel.prefab";            
 		}
 
 		public sealed class EXAMPLES_ROUSHAN
@@ -288,11 +290,7 @@ namespace ZeroHot
 			public const string NAME = "examples/text_outline.ab";
 
 			public const string TextOutlineExampleWin = "TextOutlineExampleWin.prefab";
-			public const string TextOutlineExampleWin_assetPath = "examples/text_outline/TextOutlineExampleWin.prefab";
-			public const string TextOutlineMaterial_Black_mat = "TextOutlineMaterial_Black.mat";
-			public const string TextOutlineMaterial_Black_mat_assetPath = "examples/text_outline/TextOutlineMaterial_Black.mat";
-			public const string TextOutlineMaterial_White_mat = "TextOutlineMaterial_White.mat";
-			public const string TextOutlineMaterial_White_mat_assetPath = "examples/text_outline/TextOutlineMaterial_White.mat";            
+			public const string TextOutlineExampleWin_assetPath = "examples/text_outline/TextOutlineExampleWin.prefab";            
 		}
 
 		public sealed class EXAMPLES_TURBOCHARGED_SCROLL_LIST
@@ -369,18 +367,6 @@ namespace ZeroHot
 			public const string KnightGamePanel_assetPath = "examples/knight/game/KnightGamePanel.prefab";
 			public const string KnightGameStage = "KnightGameStage.prefab";
 			public const string KnightGameStage_assetPath = "examples/knight/game/KnightGameStage.prefab";            
-		}
-
-		public sealed class EXAMPLES_PING_PONG_MATERIALS
-		{
-			public const string NAME = "examples/ping_pong/materials.ab";
-
-			public const string Ball_mat = "Ball.mat";
-			public const string Ball_mat_assetPath = "examples/ping_pong/materials/Ball.mat";
-			public const string Player0_mat = "Player0.mat";
-			public const string Player0_mat_assetPath = "examples/ping_pong/materials/Player0.mat";
-			public const string Player1_mat = "Player1.mat";
-			public const string Player1_mat_assetPath = "examples/ping_pong/materials/Player1.mat";            
 		}
 
 		public sealed class EXAMPLES_SOKOBAN_AUDIOS
@@ -675,9 +661,10 @@ namespace ZeroHot
 			dic["WebSocketExampleWin"] = "examples/network.ab";
 			dic["CallNativeCodePerformanceWin"] = "examples/performance.ab";
 			dic["FibonacciPerformanceWin"] = "examples/performance.ab";
+			dic["PingPongGamePanel"] = "examples/ping_pong.ab";
 			dic["PingPongGameResultWin"] = "examples/ping_pong.ab";
+			//dic["PingPongGameStage"] = "examples/ping_pong.ab";
 			dic["PingPongMenuPanel"] = "examples/ping_pong.ab";
-			dic["PingPongStage"] = "examples/ping_pong.ab";
 			dic["GamePanel"] = "examples/roushan.ab";
 			dic["GameStage"] = "examples/roushan.ab";
 			dic["HelpWin"] = "examples/roushan.ab";

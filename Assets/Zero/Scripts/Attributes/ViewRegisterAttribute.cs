@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,12 @@ namespace Zero
         /// </summary>
         /// <param name="prefabPath">预制体路径(参考AB.cs类)</param>
         public ViewRegisterAttribute(string prefabPath)
-        {
+        {            
+            if (prefabPath.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
+            {
+                prefabPath = prefabPath.Replace(ZeroConst.HOT_RESOURCES_ROOT_DIR, "");
+                prefabPath = FileUtility.RemoveStartPathSeparator(prefabPath);
+            }
             this.prefabPath = prefabPath;
         }
     }

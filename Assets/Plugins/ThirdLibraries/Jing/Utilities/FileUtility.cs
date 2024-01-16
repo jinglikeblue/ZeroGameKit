@@ -129,6 +129,21 @@ namespace Jing
         }
 
         /// <summary>
+        /// 如果路径结尾没有文件分隔符，则添加
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string AddEndPathSeparator(string path)
+        {
+            path = StandardizeBackslashSeparator(path);
+            if (false == path.EndsWith("/"))
+            {
+                path += "/";
+            }
+            return path;
+        }
+
+        /// <summary>
         /// 如果路径结尾有文件分隔符，则移除
         /// </summary>
         /// <param name="path"></param>
