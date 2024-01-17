@@ -66,14 +66,6 @@ namespace PingPong
             //只要逻辑线程的引用还存在，则线程持续迭代
             while (_logicThread != null)
             {
-#if UNITY_EDITOR
-                if (UnityEditor.EditorApplication.isPaused)
-                {
-                    Thread.Sleep(1);
-                    continue;
-                }
-#endif
-
                 //距离线程启动经过了的时间
                 var threadPastTime = TimeUtility.NowUtcMilliseconds - threadStartTime;
                 //距离上次游戏核心更新，经过了的时间
