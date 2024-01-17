@@ -128,7 +128,8 @@ namespace ZeroGameKit
             AddBtn(GROUP_FRAMEWORK, "Zero 资源更新", ResUpdateExample.Start);
             AddBtn(GROUP_FRAMEWORK, "HotFiles资源", HotFilesExample.Start);
 
-            AddBtn(GROUP_FRAMEWORK, "高级计时器", TimerExample.Start);
+            AddBtn(GROUP_FRAMEWORK, "高级定时器", TimerExample.Start);
+            AddBtn(GROUP_FRAMEWORK, "高级计时器", ChronographExample.Start);
             AddBtn(GROUP_FILE, "Zip 压缩/解压", ZipExample.Start);
             AddBtn(GROUP_BITMAPFONT, "位图字体使用", BitmapFontExample.Start);
 

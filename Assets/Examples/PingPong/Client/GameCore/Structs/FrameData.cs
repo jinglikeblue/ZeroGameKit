@@ -6,7 +6,7 @@ namespace PingPong
     /// <summary>
     /// 帧数据
     /// </summary>
-    public struct FrameData : ISerializable<FrameData>, ILog
+    public class FrameData : ISerializable<FrameData>, ILog
     {
         /// <summary>
         /// 经过了的帧数

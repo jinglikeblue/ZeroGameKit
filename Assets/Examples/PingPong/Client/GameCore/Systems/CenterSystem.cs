@@ -15,6 +15,7 @@ namespace PingPong
         {
             var world = new WorldEntity();
             world.state = EWorldState.PLAYING;
+            world.players = new PlayerEntity[] { new PlayerEntity(), new PlayerEntity() };
 
             runtime.vo.runtimeFrameData.world = world;
         }

@@ -15,12 +15,12 @@ namespace PingPong
         /// <summary>
         /// 球
         /// </summary>
-        public BallEntity ball;
+        public BallEntity ball = new BallEntity();
 
         /// <summary>
         /// 玩家
         /// </summary>
-        public PlayerEntity[] players;
+        public PlayerEntity[] players = new PlayerEntity[2];
 
         /// <summary>
         /// 大小

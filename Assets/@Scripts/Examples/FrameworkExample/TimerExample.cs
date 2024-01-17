@@ -19,7 +19,7 @@ namespace Example
     }
 
     /// <summary>
-    /// 斐波拉契数列计算
+    /// 
     /// </summary>
     public class TimerExampleWin : WithCloseButtonWin
     {
@@ -134,8 +134,5 @@ namespace Example
         {
             textLog.text += "\r\n" + v;
         }
-
-
-
     }
 }

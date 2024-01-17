@@ -14,11 +14,23 @@ namespace PingPong
         RuntimeModel runtime;
 
         /// <summary>
+        /// 刷新间隔
+        /// </summary>
+        public int FrameInterval
+        {
+            get
+            {
+                var ms = runtime.vo.frameInterval * 1000;
+                return ms.ToInt();
+            }
+        }
+
+        /// <summary>
         /// 初始化游戏核心
         /// </summary>
         /// <param name="frameIntervalSeconds">帧间隔时间(单位/秒)</param>
         /// <param name="catchedFrameDataCount">缓存的帧数据数量</param>
-        public void Init(Number frameInterval, int frameDataCacheLimit = 10)
+        public GameCore(Number frameInterval, int frameDataCacheLimit = 10)
         {
             runtime = new RuntimeModel(frameInterval, frameDataCacheLimit);
             runtime.SystemStart();

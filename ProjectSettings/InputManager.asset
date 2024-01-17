@@ -6,8 +6,8 @@ InputManager:
   serializedVersion: 2
   m_Axes:
   - serializedVersion: 3
-    m_Name: Horizontal
-    descriptiveName: 
+    m_Name: Move
+    descriptiveName: Move Player
     descriptiveNegativeName: 
     negativeButton: left
     positiveButton: right

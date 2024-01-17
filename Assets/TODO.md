@@ -13,7 +13,7 @@
 
 - [setting.json]增加是否使用反射执行DLL，标注“在Editor下不适用，仅适用于Player下”
 
-- 实现一个基于线程的计时器，TimerThreaded，可以应用在逻辑开发中，不依赖Unity的API
+- 实现一个基于线程的定时器，TimerThreaded，可以应用在逻辑开发中，不依赖Unity的API。可以利用新增的Chronograph(计时器)来实现。
 
 - ResMgr的异步加载，没有取消的办法
 

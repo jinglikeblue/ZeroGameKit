@@ -109,6 +109,8 @@ namespace ZeroHot
 		{
 			public const string NAME = "examples/framework.ab";
 
+			public const string ChronographExampleWin = "ChronographExampleWin.prefab";
+			public const string ChronographExampleWin_assetPath = "examples/framework/ChronographExampleWin.prefab";
 			public const string ClockView = "ClockView.prefab";
 			public const string ClockView_assetPath = "examples/framework/ClockView.prefab";
 			public const string CoroutineProxyExampleWin = "CoroutineProxyExampleWin.prefab";
@@ -637,6 +639,7 @@ namespace ZeroHot
 			dic["AudioDeviceExampleWin"] = "examples/audio_device.ab";
 			dic["BitmapFontExampleWin"] = "examples/bitmapfont.ab";
 			dic["ZipExampleWin"] = "examples/files.ab";
+			dic["ChronographExampleWin"] = "examples/framework.ab";
 			dic["ClockView"] = "examples/framework.ab";
 			dic["CoroutineProxyExampleWin"] = "examples/framework.ab";
 			dic["CoroutinesQueueExampleWin"] = "examples/framework.ab";
@@ -663,7 +666,7 @@ namespace ZeroHot
 			dic["FibonacciPerformanceWin"] = "examples/performance.ab";
 			dic["PingPongGamePanel"] = "examples/ping_pong.ab";
 			dic["PingPongGameResultWin"] = "examples/ping_pong.ab";
-			//dic["PingPongGameStage"] = "examples/ping_pong.ab";
+			dic["PingPongGameStage"] = "examples/ping_pong.ab";
 			dic["PingPongMenuPanel"] = "examples/ping_pong.ab";
 			dic["GamePanel"] = "examples/roushan.ab";
 			dic["GameStage"] = "examples/roushan.ab";
