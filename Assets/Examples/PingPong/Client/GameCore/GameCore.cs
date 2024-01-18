@@ -25,6 +25,14 @@ namespace PingPong
             }
         }
 
+        public FrameData FrameData
+        {
+            get
+            {
+                return runtime.vo.confirmedFrameData;
+            }
+        }
+
         /// <summary>
         /// 初始化游戏核心
         /// </summary>

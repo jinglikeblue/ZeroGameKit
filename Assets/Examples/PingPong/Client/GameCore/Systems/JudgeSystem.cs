@@ -17,13 +17,13 @@ namespace PingPong
 
             var ball = world.ball;
 
-            if (ball.position.y < world.size.size.top)
+            if (ball.position.y < world.size.top)
             {
                 GameOver(world, 0);
                 return;
             }
 
-            if (ball.position.y > world.size.size.bottom)
+            if (ball.position.y > world.size.bottom)
             {
                 GameOver(world, 1);
                 return;

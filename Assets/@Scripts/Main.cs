@@ -24,7 +24,7 @@ namespace ZeroHot
             Application.targetFrameRate = 60;
 
             //在左上角显示FPS
-            GUIDeviceInfo.Show();
+            //GUIDeviceInfo.Show();
 
             //加载ILContent所在的Prefab;
             GameObject mainPrefab = ResMgr.Ins.Load<GameObject>(AB.ROOT_ASSETS.NAME, AB.ROOT_ASSETS.ILContent);

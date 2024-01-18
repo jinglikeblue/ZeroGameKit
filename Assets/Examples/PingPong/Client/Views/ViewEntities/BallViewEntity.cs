@@ -23,7 +23,8 @@ namespace PingPong
 
         public void Update(WorldEntity worldEntity)
         {
-
+            var ball = worldEntity.ball;
+            transform.position = new Vector3(ball.position.x.ToFloat(), 0, ball.position.y.ToFloat());
         }
     }
 }

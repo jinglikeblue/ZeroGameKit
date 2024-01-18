@@ -18,10 +18,11 @@ namespace PingPong
         protected override void OnInit(object data)
         {
             base.OnInit(data);
+            
+            _game = new PingPongGame(gameObject, OnReceiveBridgeMessage);            
+            _game.Start();
 
-            UIPanelMgr.Ins.Switch<PingPongGamePanel>();
-            _game = new PingPongGame(gameObject, OnReceiveBridgeMessage);
-            _game.Start();            
+            UIPanelMgr.Ins.Switch<PingPongGamePanel>(_game);
         }
 
         void OnReceiveBridgeMessage(object msg)

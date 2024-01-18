@@ -23,9 +23,9 @@ namespace PingPong
         public PlayerEntity[] players = new PlayerEntity[2];
 
         /// <summary>
-        /// 大小
+        /// 大小范围
         /// </summary>
-        public RectSizeComponent size;
+        public Rect size;
 
         /// <summary>
         /// 状态

@@ -17,16 +17,19 @@ namespace PingPong
     {
         GameObject _gameObject;
         Action<object> _bridge;
-        GameCore _gameCore;
+        public GameCore gameCore { get; private set; }
 
         Thread _logicThread;
+
+        WorldViewEntity _worldView;
 
         public PingPongGame(GameObject gameObject, Action<object> bridge)
         {
             _gameObject = gameObject;
             _bridge = bridge;
 
-            _gameCore = new GameCore(new Number(33, 1000));
+            gameCore = new GameCore(new Number(33, 1000));
+            _worldView = new WorldViewEntity(gameObject);
 
             var renderBridge = _gameObject.AddComponent<RenderBridgeComponent>();
             renderBridge.onRenderUpdate += RenderUpdate;
@@ -37,9 +40,15 @@ namespace PingPong
         /// </summary>
         private void RenderUpdate()
         {
-            //更新渲染
+            #region 更新渲染
+            if (gameCore.FrameData != null)
+            {
+                _worldView.Update(gameCore.FrameData.world);
+            }
+            #endregion
 
-            //渲染完成后，采集输入
+            #region 渲染完成后，采集输入
+            #endregion
         }
 
         public void Start()
@@ -56,7 +65,7 @@ namespace PingPong
         private void LogicUpdate()
         {
             //GameCore刷新间隔
-            var interval = _gameCore.FrameInterval;
+            var interval = gameCore.FrameInterval;
 
             var threadStartTime = TimeUtility.NowUtcMilliseconds;
 
@@ -71,7 +80,7 @@ namespace PingPong
                 //距离上次游戏核心更新，经过了的时间
                 var pastTime = threadPastTime - lastGameCoreUpdateTime;
                 //距离上次游戏核心更新，经过了的帧数
-                var pastFrameCount = pastTime / interval;                
+                var pastFrameCount = pastTime / interval;
 
                 if (0 == pastFrameCount)
                 {
@@ -79,21 +88,21 @@ namespace PingPong
                     Thread.Sleep(1);
                 }
                 else
-                {                    
+                {
                     if (pastFrameCount > 1)
                     {
                         //说明设备卡顿了，需要进行优化
                         Debug.LogWarning($"[LogicUpdate] 更新帧数");
                     }
 
-                    for(var i = 0; i < pastFrameCount; i++)
+                    for (var i = 0; i < pastFrameCount; i++)
                     {
                         //刷新游戏核心最后一次更新时间
                         lastGameCoreUpdateTime += interval;
 
                         //TODO 更新逻辑线程，这个时候需要传入输入数据
                         FrameInput input = FrameInput.Default;
-                        _gameCore.Update(input);
+                        gameCore.Update(input);
                     }
                 }
             }
@@ -107,7 +116,7 @@ namespace PingPong
         public void Destroy()
         {
             var renderBridge = _gameObject.GetComponent<RenderBridgeComponent>();
-            renderBridge.onRenderUpdate -= RenderUpdate; 
+            renderBridge.onRenderUpdate -= RenderUpdate;
         }
     }
 }

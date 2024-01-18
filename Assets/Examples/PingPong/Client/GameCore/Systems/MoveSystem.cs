@@ -46,8 +46,8 @@ namespace PingPong
         /// <param name="worldEntity"></param>
         static void EnsurePlayerPositionProperly(PlayerEntity playerEntity, WorldEntity worldEntity)
         {
-            var playerRect = playerEntity.size.size;
-            var worldRect = worldEntity.size.size;
+            var playerRect = playerEntity.size;
+            var worldRect = worldEntity.size;
 
             var leftDistance = worldRect.left - playerRect.left;
             if(leftDistance > 0)
@@ -75,7 +75,7 @@ namespace PingPong
         {
             var ballPosX = ballEntity.position.x;
             var ballPosY = ballEntity.position.y;
-            var worldRect = worldEntity.size.size;
+            var worldRect = worldEntity.size;
 
             var leftDistance = worldRect.left - ballPosX;
             if (leftDistance > 0)

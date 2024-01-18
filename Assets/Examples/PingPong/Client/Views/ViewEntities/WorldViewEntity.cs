@@ -17,9 +17,9 @@ namespace PingPong
 
         public WorldViewEntity(GameObject gameObject) : base(gameObject)
         {
-            ball = new BallViewEntity(transform.Find("Objects/Ball").gameObject);
-            players[0] = new PlayerViewEntity(transform.Find("Objects/Player0").gameObject);
-            players[1] = new PlayerViewEntity(transform.Find("Objects/Player1").gameObject);
+            ball = new BallViewEntity(transform.Find("Objects/ViewEntities/Ball").gameObject);
+            players[0] = new PlayerViewEntity(transform.Find("Objects/ViewEntities/Player0").gameObject);
+            players[1] = new PlayerViewEntity(transform.Find("Objects/ViewEntities/Player1").gameObject);
         }
 
         public void Update(WorldEntity worldEntity)

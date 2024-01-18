@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jing.FixedPointNumber;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,16 +12,16 @@ namespace PingPong
         /// <summary>
         /// 位置
         /// </summary>
-        public PositionComponent position;
+        public Vector2 position;
 
         /// <summary>
         /// 速度
         /// </summary>
-        public SpeedComponent speed;
+        public Vector2 speed;
 
         /// <summary>
         /// 大小
         /// </summary>
-        public RectSizeComponent size;
+        public Rect size;
     }
 }
