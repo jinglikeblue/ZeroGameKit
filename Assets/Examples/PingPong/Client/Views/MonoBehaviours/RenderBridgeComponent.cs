@@ -15,11 +15,21 @@ namespace PingPong
         /// <summary>
         /// 渲染更新
         /// </summary>
-        public event Action onRenderUpdate;        
+        public event Action onRenderUpdate;
+
+        /// <summary>
+        /// 被销毁
+        /// </summary>
+        public event Action onDestroy;
 
         private void Update()
         {
             onRenderUpdate?.Invoke();
+        }
+
+        private void OnDestroy()
+        {
+            onDestroy?.Invoke();
         }
     }
 }

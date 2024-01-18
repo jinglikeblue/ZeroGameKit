@@ -17,7 +17,7 @@ namespace PingPong
         /// <summary>
         /// 速度
         /// </summary>
-        public Vector2 speed;
+        public Number speed;
 
         /// <summary>
         /// 大小

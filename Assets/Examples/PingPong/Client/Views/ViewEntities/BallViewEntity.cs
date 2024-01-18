@@ -24,7 +24,10 @@ namespace PingPong
         public void Update(WorldEntity worldEntity)
         {
             var ball = worldEntity.ball;
-            transform.position = new Vector3(ball.position.x.ToFloat(), 0, ball.position.y.ToFloat());
+            var pos = transform.localPosition;
+            pos.x = ball.position.x.ToFloat();
+            pos.z = ball.position.y.ToFloat();
+            transform.localPosition = pos;
         }
     }
 }

@@ -11,6 +11,14 @@
         public Number x;
         public Number y;
 
+        public Number HalfX => x >> 1;
+        public Number HalfY => y >> 1;
+
+        public Number DoubleX => x << 1;
+        public Number DoubleY => y << 1;
+
+
+
         public Vector2(int x, int y)
         {
             this.x = new Number(x);

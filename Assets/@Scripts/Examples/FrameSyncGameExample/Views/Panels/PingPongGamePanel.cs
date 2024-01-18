@@ -20,6 +20,7 @@ namespace PingPong
         {
             base.OnInit(data);
             _game = data as PingPongGame;
+            textFrames.text = "";
         }
 
         protected override void OnEnable()
@@ -38,7 +39,10 @@ namespace PingPong
                 {
                     continue;
                 }
-                textFrames.text = $"Frames: {_game.gameCore.FrameData.elapsedFrames}";                
+
+                Zero.GUIDeviceInfo.SetInfo("Frames", _game.gameCore.FrameData.elapsedFrames);
+
+                //textFrames.text = $"Frames: {_game.gameCore.FrameData.elapsedFrames}";                
             }
         }
     }

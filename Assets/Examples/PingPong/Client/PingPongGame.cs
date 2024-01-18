@@ -33,6 +33,7 @@ namespace PingPong
 
             var renderBridge = _gameObject.AddComponent<RenderBridgeComponent>();
             renderBridge.onRenderUpdate += RenderUpdate;
+            renderBridge.onDestroy += Destroy;
         }
 
         /// <summary>
@@ -55,6 +56,7 @@ namespace PingPong
         {
             //启动逻辑线程            
             _logicThread = new Thread(LogicUpdate);
+            _logicThread.IsBackground = true;
             _logicThread.Name = "GameCoreThread";
             _logicThread.Start();
         }
@@ -106,6 +108,8 @@ namespace PingPong
                     }
                 }
             }
+
+            Debug.Log($"[LogicUpdate] GameCore线程结束");
         }
 
         public void Pause()
@@ -117,6 +121,8 @@ namespace PingPong
         {
             var renderBridge = _gameObject.GetComponent<RenderBridgeComponent>();
             renderBridge.onRenderUpdate -= RenderUpdate;
+
+            _logicThread = null;
         }
     }
 }

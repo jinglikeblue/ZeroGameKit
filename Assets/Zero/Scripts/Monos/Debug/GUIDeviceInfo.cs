@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Zero
 {
@@ -8,6 +9,8 @@ namespace Zero
     public class GUIDeviceInfo : MonoBehaviour
     {
         public static GUIDeviceInfo _ins;
+
+        static Dictionary<string, object> _infoDic = new Dictionary<string, object>();
 
         public static void Show()
         {
@@ -48,7 +51,21 @@ namespace Zero
 
         private void OnGUI()
         {
-            GUILayout.Label(string.Format("FPS:{0}", _avgFps));
+            GUILayout.Label(string.Format("FPS:{0}", _avgFps));       
+            foreach(var kv in _infoDic)
+            {
+                GUILayout.Label($"{kv.Key}:{kv.Value}");
+            }
+        }
+
+        public static void SetInfo(string key, object value)
+        {
+            _infoDic[key] = value;
+        }
+
+        public static void CleanInfo(string key)
+        {
+            _infoDic.Remove(key);
         }
     }
 }

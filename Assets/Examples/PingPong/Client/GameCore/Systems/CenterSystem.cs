@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jing.FixedPointNumber;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +16,25 @@ namespace PingPong
         {
             var world = new WorldEntity();
             world.state = EWorldState.PLAYING;
-            world.players = new PlayerEntity[] { new PlayerEntity(), new PlayerEntity() };
+            world.size = new Rect(Vector2.ZERO, Define.WORLD_SIZE);
+
+            #region BallEntity初始化
+            world.ball.speed.x = Number.ZERO;
             world.ball.speed.y = Define.BALL_MOVE_SPEED;
+            world.ball.position = Define.BALL_INITIAL_POSITION;
+            world.ball.radius = Define.BALL_SIZE;
+            #endregion
+
+            #region PlayerEntity初始化
+            world.players = new PlayerEntity[] { new PlayerEntity(), new PlayerEntity() };
+            for(var i = 0; i < world.players.Length; i++)
+            {
+                var player = world.players[i];
+                player.position = Define.PLAYER_INITIAL_POSITION[i];
+                player.size = new Rect(player.position.x - Define.PLAYER_SIZE.x / 2, player.position.y - Define.PLAYER_SIZE.y / 2, Define.PLAYER_SIZE.x, Define.PLAYER_SIZE.y);
+                player.speed = Define.PLAYER_MOVE_SPEED;                
+            }
+            #endregion
 
             runtime.vo.runtimeFrameData.world = world;
         }

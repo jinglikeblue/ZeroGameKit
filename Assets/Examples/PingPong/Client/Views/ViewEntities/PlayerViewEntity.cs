@@ -18,7 +18,10 @@ namespace PingPong
 
         public void Update(WorldEntity worldEntity, PlayerEntity playerEntity)
         {
-
+            var pos = transform.localPosition;
+            pos.x = (playerEntity.position.x).ToFloat();
+            pos.z = (playerEntity.position.y).ToFloat();
+            transform.localPosition = pos;
         }
     }
 }

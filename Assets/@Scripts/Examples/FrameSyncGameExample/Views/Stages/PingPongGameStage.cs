@@ -28,7 +28,7 @@ namespace PingPong
         void OnReceiveBridgeMessage(object msg)
         {
             var pe = msg as PlayerEntity;
-            Debug.Log($"Receive Bridge Message: {pe.speed.x}");
+            Debug.Log($"Receive Bridge Message: {pe.speed}");
         }
     }
 }
