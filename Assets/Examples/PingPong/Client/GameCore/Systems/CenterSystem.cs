@@ -1,9 +1,4 @@
 ﻿using Jing.FixedPointNumber;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PingPong
 {
@@ -17,6 +12,8 @@ namespace PingPong
             var world = new WorldEntity();
             world.state = EWorldState.PLAYING;
             world.size = new Rect(Vector2.ZERO, Define.WORLD_SIZE);
+            world.size.center = Vector2.ZERO;            
+            UnityEngine.Debug.Log($"World Size: {world.size}");
 
             #region BallEntity初始化
             world.ball.speed.x = Number.ZERO;
@@ -31,7 +28,7 @@ namespace PingPong
             {
                 var player = world.players[i];
                 player.position = Define.PLAYER_INITIAL_POSITION[i];
-                player.size = new Rect(player.position.x - Define.PLAYER_SIZE.x / 2, player.position.y - Define.PLAYER_SIZE.y / 2, Define.PLAYER_SIZE.x, Define.PLAYER_SIZE.y);
+                player.size = new Vector2(Define.PLAYER_SIZE.x, Define.PLAYER_SIZE.y);
                 player.speed = Define.PLAYER_MOVE_SPEED;                
             }
             #endregion

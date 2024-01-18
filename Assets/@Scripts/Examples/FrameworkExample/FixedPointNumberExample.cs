@@ -88,8 +88,13 @@ namespace Example
             L($"a - b = {fixedA - fixedB}");
             L($"a * b = {fixedA * fixedB}");
             L($"a / b = {fixedA / fixedB}");
+            L("");
 
-
+            L($"定点数位移运算：");            
+            L($"a << 1 = {fixedA << 1}");
+            L($"a >> 1 = {fixedA >> 1}");
+            L($"b << 1 = {fixedB << 1}");
+            L($"b >> 1 = {fixedB >> 1}");
         }
     }
 }

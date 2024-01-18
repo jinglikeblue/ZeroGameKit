@@ -22,6 +22,6 @@ namespace PingPong
         /// <summary>
         /// 大小
         /// </summary>
-        public Rect size;
+        public Vector2 size;
     }
 }

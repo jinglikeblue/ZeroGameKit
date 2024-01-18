@@ -17,7 +17,8 @@ namespace PingPong
             for(int i = 0; i < world.players.Length; i++)
             {
                 var player = world.players[i];
-                if (player.size.Contains(new Vector2(ball.position.x, ball.position.y)))
+                var playerRect = PlayerUtility.CreatePlayerBody(player);                
+                if (playerRect.Contains(new Vector2(ball.position.x, ball.position.y)))
                 {
                     //击打球，球速度翻转
                     ball.speed.y *= -1;

@@ -95,7 +95,14 @@ namespace Jing.FixedPointNumber
         {
             get
             {
-                return new Vector2(_x + _w / 2, _y + _h / 2);
+                return new Vector2(_x + (_w >> 1), _y + (_h >> 1));
+            }
+            set
+            {
+                var centerX = value.x;
+                var centerY = value.y;
+                _x = centerX - (_w >> 1);
+                _y = centerY - (_h >> 1);
             }
         }
 
@@ -139,6 +146,11 @@ namespace Jing.FixedPointNumber
         public bool Contains(Vector2 point)
         {
             return (point.x >= left) && (point.x < right) && (point.y >= top) && (point.y < bottom);
+        }
+
+        public override string ToString()
+        {
+            return $"[x={x},y={y},w={width},h={height}]";
         }
     }
 }

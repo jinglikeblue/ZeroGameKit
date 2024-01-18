@@ -46,7 +46,7 @@ namespace PingPong
         /// <param name="worldEntity"></param>
         static void EnsurePlayerPositionProperly(PlayerEntity playerEntity, WorldEntity worldEntity)
         {
-            var playerRect = playerEntity.size;
+            var playerRect = PlayerUtility.CreatePlayerBody(playerEntity);
             var worldRect = worldEntity.size;
 
             var leftDistance = worldRect.left - playerRect.left;
