@@ -111,7 +111,7 @@ namespace Jing.FixedPointNumber
             {
                 return false;
             }
-            return true;            
+            return true;
         }
 
         public override string ToString()

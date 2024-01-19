@@ -40,7 +40,7 @@ namespace PingPong
                     continue;
                 }
 
-                Zero.GUIDeviceInfo.SetInfo("Frames", _game.gameCore.FrameData.elapsedFrames);
+                Zero.GUIDebugInfo.SetInfo("Frames", _game.gameCore.FrameData.elapsedFrames);
 
                 //textFrames.text = $"Frames: {_game.gameCore.FrameData.elapsedFrames}";                
             }

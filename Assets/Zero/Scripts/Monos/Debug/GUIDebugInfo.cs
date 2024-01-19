@@ -7,7 +7,7 @@ namespace Zero
     /// <summary>
     /// 设备信息
     /// </summary>
-    public class GUIDeviceInfo : MonoBehaviour
+    public class GUIDebugInfo : MonoBehaviour
     {
         class InfoItem
         {
@@ -28,7 +28,7 @@ namespace Zero
         }
 
 
-        public static GUIDeviceInfo _ins;
+        public static GUIDebugInfo _ins;
 
         static Dictionary<string, InfoItem> _infoItemDic = new Dictionary<string, InfoItem>();
         static List<InfoItem> _infoItems = new List<InfoItem>();
@@ -40,7 +40,7 @@ namespace Zero
                 const string NAME = "GUIDeviceInfo";
                 GameObject go = new GameObject();
                 go.name = NAME;
-                _ins = go.AddComponent<GUIDeviceInfo>();
+                _ins = go.AddComponent<GUIDebugInfo>();
                 DontDestroyOnLoad(go);
             }
         }
