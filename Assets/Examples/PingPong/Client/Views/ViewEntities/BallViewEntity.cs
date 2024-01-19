@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jing.FixedPointNumber;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,13 +22,14 @@ namespace PingPong
             base.OnInited();
         }
 
-        public void Update(WorldEntity worldEntity)
+        public void Update(WorldEntity worldEntity, Number deltaTime)
         {
             var ball = worldEntity.ball;
+            var newPos = MoveSystem.CalculateBallPosition(ball, deltaTime);
             var pos = transform.localPosition;
-            pos.x = ball.position.x.ToFloat();
-            pos.z = ball.position.y.ToFloat();
-            transform.localPosition = pos;
+            pos.x = newPos.x.ToFloat();
+            pos.z = newPos.y.ToFloat();
+            transform.localPosition = pos;                                                 
         }
     }
 }

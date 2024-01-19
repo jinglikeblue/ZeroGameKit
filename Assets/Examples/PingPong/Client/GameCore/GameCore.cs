@@ -17,12 +17,12 @@ namespace PingPong
         /// <summary>
         /// 刷新间隔
         /// </summary>
-        public int FrameInterval
+        public Number FrameInterval
         {
             get
             {
-                var ms = runtime.vo.frameInterval * 1000;
-                return ms.ToInt();
+                var ms = runtime.vo.frameInterval;
+                return ms;
             }
         }
 
@@ -43,6 +43,7 @@ namespace PingPong
         {
             runtime = new RuntimeModel(frameInterval, frameDataCacheLimit);
             runtime.SystemStart();
+            runtime.ConfirmFrameData();
         }
 
         public void Update(FrameInput frameInput)
@@ -61,7 +62,7 @@ namespace PingPong
             PerformanceAnalysis.EndAnalysis("GameCore_Update:ConfirmFrameData");
 
             //缓存帧数据
-            runtime.CacheFrameData();          
+            runtime.CacheFrameData();
         }
 
         /// <summary>

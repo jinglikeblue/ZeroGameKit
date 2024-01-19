@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jing.FixedPointNumber;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,18 @@ namespace PingPong
             ballEntity.position.x += ballEntity.speed.x * runtime.vo.frameInterval;
             ballEntity.position.y += ballEntity.speed.y * runtime.vo.frameInterval;
             EnsureBallPositionProperly(ballEntity, runtime.vo.runtimeFrameData.world);
+        }
+
+        /// <summary>
+        /// 计算球的位置
+        /// </summary>
+        /// <param name="ballEntity"></param>
+        /// <param name="pastTime"></param>
+        /// <returns></returns>
+        public static Vector2 CalculateBallPosition(BallEntity ballEntity, Number pastTime)
+        {
+            var moveVector = ballEntity.speed * pastTime;
+            return ballEntity.position + moveVector;
         }
 
         /// <summary>

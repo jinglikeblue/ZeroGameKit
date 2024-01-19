@@ -27,6 +27,7 @@ namespace Zero
             public object value;
         }
 
+        static object _threadLocker = new object();
 
         public static GUIDebugInfo _ins;
 
@@ -53,39 +54,45 @@ namespace Zero
         /// <param name="priority">信息的排序优先级</param>
         public static void SetInfo(string key, object value, int priority = int.MaxValue)
         {
-            bool isNeedReorder = false;
-            if (false == _infoItemDic.ContainsKey(key))
+            lock (_threadLocker)
             {
-                //没有信息记录，则添加一个
-                _infoItemDic[key] = new InfoItem();
-                _infoItemDic[key].key = key;
-                isNeedReorder = true;
-            }
+                bool isNeedReorder = false;
+                if (false == _infoItemDic.ContainsKey(key))
+                {
+                    //没有信息记录，则添加一个
+                    _infoItemDic[key] = new InfoItem();
+                    _infoItemDic[key].key = key;
+                    isNeedReorder = true;
+                }
 
-            var item = _infoItemDic[key];
-            item.value = value;
-            if (item.priority != priority)
-            {
-                item.priority = priority;
-                isNeedReorder = true;
-            }
+                var item = _infoItemDic[key];
+                item.value = value;
+                if (item.priority != priority)
+                {
+                    item.priority = priority;
+                    isNeedReorder = true;
+                }
 
-            if (isNeedReorder)
-            {
-                _infoItems = _infoItemDic.Values.OrderBy(x => x.priority).ToList();
+                if (isNeedReorder)
+                {
+                    _infoItems = _infoItemDic.Values.OrderBy(x => x.priority).ToList();
+                }
             }
         }
 
         public static void CleanInfo(string key)
         {
-            if (false == _infoItemDic.ContainsKey(key))
+            lock (_threadLocker)
             {
-                return;
-            }
+                if (false == _infoItemDic.ContainsKey(key))
+                {
+                    return;
+                }
 
-            var item = _infoItemDic[key];
-            _infoItemDic.Remove(key);
-            _infoItems.Remove(item);
+                var item = _infoItemDic[key];
+                _infoItemDic.Remove(key);
+                _infoItems.Remove(item);
+            }
         }
 
         public static void Close()

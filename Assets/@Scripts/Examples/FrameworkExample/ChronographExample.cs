@@ -24,8 +24,10 @@ namespace Example
         public Button btnPause;        
         public Button btnStop;
         public Text textTime;
+        public Text textTime1;
         Chronograph _chronograph;
 
+        DateTime _startDT;
 
         protected override void OnInit(object data)
         {
@@ -35,6 +37,7 @@ namespace Example
 
             btnStart.onClick.AddListener(() => {
                 _chronograph.Start();
+                _startDT = DateTime.Now;
             });
 
             btnPause.onClick.AddListener(() => {
@@ -68,13 +71,18 @@ namespace Example
             {
                 btnPause.interactable = true;
                 //btnStop.interactable = true;
+
+
+                var tn = DateTime.Now - _startDT;
+                textTime1.text = tn.TotalMilliseconds.ToString();
+
+                textTime.text = _chronograph.ElapsedMilliseconds.ToString();
+
             }
             else
             {
                 btnStart.interactable = true;
-            }
-
-            textTime.text = _chronograph.ElapsedMilliseconds.ToString();
+            }          
         }
     }
 }

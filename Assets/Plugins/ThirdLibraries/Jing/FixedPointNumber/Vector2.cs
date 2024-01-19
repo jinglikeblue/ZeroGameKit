@@ -30,5 +30,40 @@
             this.x = x;
             this.y = y;
         }
+
+        public static Vector2 operator +(Vector2 a, Vector2 b)
+        {
+            return new Vector2(a.x + a.x, a.y + b.y);
+        }
+
+        public static Vector2 operator -(Vector2 a, Vector2 b)
+        {
+            return new Vector2(a.x - a.x, a.y - b.y);
+        }
+
+        public static Vector2 operator *(Vector2 a, Number b)
+        {
+            return new Vector2(a.x * b, a.y * b);
+        }
+
+        public static Vector2 operator *(Number b, Vector2 a)
+        {
+            return new Vector2(a.x * b, a.y * b);
+        }
+
+        public static Vector2 operator /(Vector2 a, Number b)
+        {
+            return new Vector2(a.x / b, a.y / b);
+        }
+
+        public static bool operator ==(Vector2 a, Vector2 b)
+        {
+            return (a.x == b.x && a.y == b.y) ? true : false;
+        }
+
+        public static bool operator !=(Vector2 a, Vector2 b)
+        {
+            return !(a == b);
+        }
     }
 }

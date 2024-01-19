@@ -16,6 +16,11 @@ namespace PingPong
     /// </summary>
     public class PingPongGame
     {
+        /// <summary>
+        /// GameCore每秒刷新率
+        /// </summary>
+        const int GAME_CORE_FPS = 30;
+
         GameObject _gameObject;
         Action<object> _bridge;
         public GameCore gameCore { get; private set; }
@@ -24,12 +29,19 @@ namespace PingPong
 
         WorldViewEntity _worldView;
 
+        /// <summary>
+        /// 计时器
+        /// </summary>
+        Chronograph _chronographer;
+
         public PingPongGame(GameObject gameObject, Action<object> bridge)
         {
             _gameObject = gameObject;
             _bridge = bridge;
 
-            gameCore = new GameCore(new Number(33, 1000));
+            _chronographer = new Chronograph();
+
+            gameCore = new GameCore(Number.ONE / GAME_CORE_FPS);
             _worldView = new WorldViewEntity(gameObject);
 
             var renderBridge = _gameObject.AddComponent<RenderBridgeComponent>();
@@ -42,10 +54,14 @@ namespace PingPong
         /// </summary>
         private void RenderUpdate()
         {
+            Number deltaTime = getDeltaTime();
+
+            GUIDebugInfo.SetInfo("DeltaTime", deltaTime);
+
             #region 更新渲染
             if (gameCore.FrameData != null)
             {
-                _worldView.Update(gameCore.FrameData.world);
+                _worldView.Update(gameCore.FrameData.world, deltaTime);
             }
             #endregion
 
@@ -62,28 +78,29 @@ namespace PingPong
             _logicThread.Start();
         }
 
+        Number getDeltaTime()
+        {
+            var chronographerElapsedSeconds = new Number((int)_chronographer.ElapsedMilliseconds, 1000);
+            //距离上次游戏核心更新，经过了的时间
+            var pastTime = chronographerElapsedSeconds - gameCore.FrameData.elapsedTime;
+            return pastTime;
+        }
+
         /// <summary>
         /// 逻辑线程更新
         /// </summary>
         private void LogicUpdate()
         {
-            //GameCore刷新间隔
-            var interval = gameCore.FrameInterval;
-
-            var threadStartTime = TimeUtility.NowUtcMilliseconds;
-
-            //游戏核心最后一次更新的时间
-            var lastGameCoreUpdateTime = 0;
+            _chronographer.Start();
 
             //只要逻辑线程的引用还存在，则线程持续迭代
             while (_logicThread != null)
             {
-                //距离线程启动经过了的时间
-                var threadPastTime = TimeUtility.NowUtcMilliseconds - threadStartTime;
+                //var chronographerElapsedSeconds = new Number((int)_chronographer.ElapsedMilliseconds, 1000);
                 //距离上次游戏核心更新，经过了的时间
-                var pastTime = threadPastTime - lastGameCoreUpdateTime;
+                var pastTime = getDeltaTime();
                 //距离上次游戏核心更新，经过了的帧数
-                var pastFrameCount = pastTime / interval;
+                var pastFrameCount = (pastTime / gameCore.FrameInterval).ToInt();
 
                 if (0 == pastFrameCount)
                 {
@@ -99,10 +116,7 @@ namespace PingPong
                     }
 
                     for (var i = 0; i < pastFrameCount; i++)
-                    {
-                        //刷新游戏核心最后一次更新时间
-                        lastGameCoreUpdateTime += interval;
-
+                    {                 
                         //TODO 更新逻辑线程，这个时候需要传入输入数据
                         FrameInput input = FrameInput.Default;
 

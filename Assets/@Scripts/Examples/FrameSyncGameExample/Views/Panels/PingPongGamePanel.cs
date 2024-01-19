@@ -31,16 +31,29 @@ namespace PingPong
 
         IEnumerator RefreshInfo()
         {
+            ulong lastFrame = 0;
+            var time = DateTime.Now;
             while (true)
             {
-                yield return new WaitForSeconds(1);
-
                 if (_game.gameCore.FrameData == null)
                 {
+                    yield return null;
                     continue;
                 }
 
-                Zero.GUIDebugInfo.SetInfo("Frames", _game.gameCore.FrameData.elapsedFrames);
+                var now = DateTime.Now;
+                var tn = now - time;
+                if(tn.TotalSeconds < 1)
+                {
+                    yield return null;
+                    continue;
+                }
+
+                time = now;
+
+                var diffFrame = _game.gameCore.FrameData.elapsedFrames - lastFrame;
+                lastFrame = _game.gameCore.FrameData.elapsedFrames;
+                Zero.GUIDebugInfo.SetInfo("Frames", $"{lastFrame}(+{diffFrame}) TimeInterval:{tn.TotalSeconds}");
 
                 //textFrames.text = $"Frames: {_game.gameCore.FrameData.elapsedFrames}";                
             }

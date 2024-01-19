@@ -8,7 +8,6 @@ namespace Zero
     /// <summary>
     /// (毫秒)计时器
     /// 可以记录从调用Start开始后经过的时间。中途可以暂停时间流逝。
-    /// 时间流逝统计会在独立线程中执行，不会受到其它线程干扰。
     /// </summary>
     public class Chronograph
     {
@@ -33,7 +32,7 @@ namespace Zero
         Thread _thread;
         EState _state = EState.STOPPED;
 
-        long _elapsedMilliseconds = 0;
+        double _milliseconds = 0;        
 
         /// <summary>
         /// 经过的毫秒数
@@ -42,7 +41,7 @@ namespace Zero
         {
             get
             {
-                return _elapsedMilliseconds;
+                return Convert.ToInt64(_milliseconds);
             }
         }
 
@@ -111,7 +110,7 @@ namespace Zero
         void Reset()
         {
             Stop();
-            _elapsedMilliseconds = 0;
+            _milliseconds = 0;
         }
 
         void ThreadUpdate()
@@ -120,20 +119,19 @@ namespace Zero
             /// 最后标记的时间
             /// </summary>
             DateTime lastMarkedTime = DateTime.UtcNow;
-
+            
             while (true)
             {
                 Thread.Sleep(1);
 
+                var tn = DateTime.UtcNow - lastMarkedTime;
+                lastMarkedTime = DateTime.UtcNow;
+                _milliseconds += tn.TotalMilliseconds;
+
                 if (_state == EState.STOPPED || _state == EState.PAUSED)
                 {
                     break;
-                }
-
-                var tn = DateTime.UtcNow - lastMarkedTime;
-                lastMarkedTime = DateTime.UtcNow;
-                var pastMS = Convert.ToInt64(tn.TotalMilliseconds);
-                _elapsedMilliseconds += pastMS;                
+                }            
             }
 
             //线程置空表示结束使用
