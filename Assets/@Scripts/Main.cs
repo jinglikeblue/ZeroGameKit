@@ -26,6 +26,11 @@ namespace ZeroHot
             //在左上角显示FPS
             GUIDebugInfo.Show();
 
+            if (Application.isEditor)
+            {
+                PerformanceAnalysis.SetEnable(true);
+            }
+
             //加载ILContent所在的Prefab;
             GameObject mainPrefab = ResMgr.Ins.Load<GameObject>(AB.ROOT_ASSETS.NAME, AB.ROOT_ASSETS.ILContent);
             //实例化ILContent界面

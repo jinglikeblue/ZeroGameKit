@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using Zero;
 
 namespace PingPong
 {
@@ -104,7 +105,10 @@ namespace PingPong
 
                         //TODO 更新逻辑线程，这个时候需要传入输入数据
                         FrameInput input = FrameInput.Default;
+
+                        PerformanceAnalysis.BeginAnalysis("GameCore_Update");
                         gameCore.Update(input);
+                        PerformanceAnalysis.EndAnalysis("GameCore_Update");
                     }
                 }
             }

@@ -1,5 +1,6 @@
 ﻿using Jing.FixedPointNumber;
 using System.Collections.Generic;
+using Zero;
 
 namespace PingPong
 {
@@ -48,10 +49,17 @@ namespace PingPong
         {
             //增加新的一帧
             runtime.IncreaseFrame(frameInput);
+
             //系统更新
+            PerformanceAnalysis.BeginAnalysis("GameCore_Update:SystemUpdate");
             runtime.SystemUpdate();
+            PerformanceAnalysis.EndAnalysis("GameCore_Update:SystemUpdate");
+
             //固化帧数据
+            PerformanceAnalysis.BeginAnalysis("GameCore_Update:ConfirmFrameData");
             runtime.ConfirmFrameData();
+            PerformanceAnalysis.EndAnalysis("GameCore_Update:ConfirmFrameData");
+
             //缓存帧数据
             runtime.CacheFrameData();          
         }
