@@ -28,11 +28,18 @@ namespace Zero
             /// </summary>
             PAUSED,
         }
-
-        Thread _thread;
+        
         EState _state = EState.STOPPED;
 
-        double _milliseconds = 0;        
+        /// <summary>
+        /// 开始时间
+        /// </summary>
+        DateTime _startTime;
+
+        /// <summary>
+        /// 暂停之前经过了的时间
+        /// </summary>
+        double _elapsedTimeBeforePause = 0;
 
         /// <summary>
         /// 经过的毫秒数
@@ -41,7 +48,14 @@ namespace Zero
         {
             get
             {
-                return Convert.ToInt64(_milliseconds);
+                double elapsedMilliseconds = _elapsedTimeBeforePause;
+                if (_state == EState.RUNNING)
+                {
+                    var delta = DateTime.UtcNow - _startTime;
+                    elapsedMilliseconds += delta.TotalMilliseconds;
+                }                
+                
+                return Convert.ToInt64(elapsedMilliseconds);
             }
         }
 
@@ -67,22 +81,13 @@ namespace Zero
                 return;
             }
 
-            if (null != _thread)
-            {
-                throw new System.Exception("[Chronograph] 计时器错误，需要排查BUG!!!");
-            }
-
             if(_state == EState.STOPPED)
             {
                 Reset();
             }
 
             _state = EState.RUNNING;
-
-            _thread = new Thread(ThreadUpdate);
-            _thread.IsBackground = true;
-            _thread.Name = $"chronograph_{_thread.ManagedThreadId}";
-            _thread.Start();
+            _startTime = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -92,6 +97,9 @@ namespace Zero
         {
             if (_state == EState.RUNNING)
             {
+                var delta = DateTime.UtcNow - _startTime;
+                _elapsedTimeBeforePause += delta.TotalMilliseconds;
+
                 _state = EState.PAUSED;
             }
         }
@@ -101,6 +109,10 @@ namespace Zero
         /// </summary>
         public void Stop()
         {
+            if (_state == EState.RUNNING)
+            {
+                Pause();
+            }
             _state = EState.STOPPED;
         }
 
@@ -110,32 +122,7 @@ namespace Zero
         void Reset()
         {
             Stop();
-            _milliseconds = 0;
-        }
-
-        void ThreadUpdate()
-        {
-            /// <summary>
-            /// 最后标记的时间
-            /// </summary>
-            DateTime lastMarkedTime = DateTime.UtcNow;
-            
-            while (true)
-            {
-                Thread.Sleep(1);
-
-                var tn = DateTime.UtcNow - lastMarkedTime;
-                lastMarkedTime = DateTime.UtcNow;
-                _milliseconds += tn.TotalMilliseconds;
-
-                if (_state == EState.STOPPED || _state == EState.PAUSED)
-                {
-                    break;
-                }            
-            }
-
-            //线程置空表示结束使用
-            _thread = null;
+            _elapsedTimeBeforePause = 0;
         }
     }
 }

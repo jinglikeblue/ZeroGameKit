@@ -27,8 +27,8 @@ namespace PingPong
             var ball = worldEntity.ball;
             var newPos = MoveSystem.CalculateBallPosition(ball, deltaTime);
             var pos = transform.localPosition;
-            pos.x = newPos.x.ToFloat();
-            pos.z = newPos.y.ToFloat();
+            pos.x = (float)System.Math.Round(newPos.x.ToDouble(), 2);
+            pos.z = (float)System.Math.Round(newPos.y.ToDouble(), 2);
             transform.localPosition = pos;                                                 
         }
     }
