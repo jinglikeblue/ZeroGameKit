@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Zero
@@ -8,9 +9,29 @@ namespace Zero
     /// </summary>
     public class GUIDeviceInfo : MonoBehaviour
     {
+        class InfoItem
+        {
+            /// <summary>
+            /// KEY
+            /// </summary>
+            public string key = null;
+
+            /// <summary>
+            /// 优先级(值越小越靠前)
+            /// </summary>
+            public int priority = -1;
+
+            /// <summary>
+            /// 值
+            /// </summary>
+            public object value;
+        }
+
+
         public static GUIDeviceInfo _ins;
 
-        static Dictionary<string, object> _infoDic = new Dictionary<string, object>();
+        static Dictionary<string, InfoItem> _infoItemDic = new Dictionary<string, InfoItem>();
+        static List<InfoItem> _infoItems = new List<InfoItem>();
 
         public static void Show()
         {
@@ -22,6 +43,49 @@ namespace Zero
                 _ins = go.AddComponent<GUIDeviceInfo>();
                 DontDestroyOnLoad(go);
             }
+        }
+
+        /// <summary>
+        /// 设置要限制的信息
+        /// </summary>
+        /// <param name="key">信息的KEY</param>
+        /// <param name="value">信息的值</param>
+        /// <param name="priority">信息的排序优先级</param>
+        public static void SetInfo(string key, object value, int priority = int.MaxValue)
+        {
+            bool isNeedReorder = false;
+            if (false == _infoItemDic.ContainsKey(key))
+            {
+                //没有信息记录，则添加一个
+                _infoItemDic[key] = new InfoItem();
+                _infoItemDic[key].key = key;
+                isNeedReorder = true;
+            }
+
+            var item = _infoItemDic[key];
+            item.value = value;
+            if (item.priority != priority)
+            {
+                item.priority = priority;
+                isNeedReorder = true;
+            }
+
+            if (isNeedReorder)
+            {
+                _infoItems = _infoItemDic.Values.OrderBy(x => x.priority).ToList();
+            }
+        }
+
+        public static void CleanInfo(string key)
+        {
+            if (false == _infoItemDic.ContainsKey(key))
+            {
+                return;
+            }
+
+            var item = _infoItemDic[key];
+            _infoItemDic.Remove(key);
+            _infoItems.Remove(item);
         }
 
         public static void Close()
@@ -46,26 +110,27 @@ namespace Zero
                 _avgFps = _frameCount;
                 _frameCount = 0;
                 _cd = 1f;
+
+                SetInfo("FPS", _avgFps, int.MinValue);
             }
         }
 
         private void OnGUI()
         {
-            GUILayout.Label(string.Format("FPS:{0}", _avgFps));       
-            foreach(var kv in _infoDic)
+            // 创建实际文本的GUIStyle，将颜色设置为白色
+            var labelStyle = new GUIStyle(GUI.skin.label);
+            labelStyle.normal.textColor = Color.white;
+            labelStyle.fontSize = 16;
+            labelStyle.fontStyle = FontStyle.Bold;
+
+            for (int i = 0; i < _infoItems.Count; i++)
             {
-                GUILayout.Label($"{kv.Key}:{kv.Value}");
+                var item = _infoItems[i];
+                GUILayout.Label($"{item.key}:{item.value}", labelStyle);
+                GUILayout.Space(-10);
             }
         }
 
-        public static void SetInfo(string key, object value)
-        {
-            _infoDic[key] = value;
-        }
 
-        public static void CleanInfo(string key)
-        {
-            _infoDic.Remove(key);
-        }
     }
 }
