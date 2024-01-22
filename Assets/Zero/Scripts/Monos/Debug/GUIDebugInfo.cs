@@ -127,7 +127,7 @@ namespace Zero
             // 创建实际文本的GUIStyle，将颜色设置为白色
             var labelStyle = new GUIStyle(GUI.skin.label);
             labelStyle.normal.textColor = Color.white;
-            labelStyle.fontSize = 16;
+            labelStyle.fontSize = 20;
             labelStyle.fontStyle = FontStyle.Bold;
 
             for (int i = 0; i < _infoItems.Count; i++)
