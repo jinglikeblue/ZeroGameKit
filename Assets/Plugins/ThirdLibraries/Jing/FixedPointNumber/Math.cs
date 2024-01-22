@@ -63,11 +63,11 @@ namespace Jing.FixedPointNumber
         /// <returns></returns>
         public static Number Sign(Number value)
         {
-            if(value > 0)
+            if (value > 0)
             {
                 return Number.ONE;
             }
-            else if(value < 0)
+            else if (value < 0)
             {
                 return Number.NEGATIVE_ONE;
             }
@@ -102,7 +102,7 @@ namespace Jing.FixedPointNumber
         /// <param name="n"></param>
         /// <returns></returns>
         public static Number Ceil(Number n)
-        {            
+        {
             return new Number((n.Raw + Number.FRACTION_MASK) & Number.INTEGER_MASK);
         }
 
@@ -153,14 +153,47 @@ namespace Jing.FixedPointNumber
             }
         }
 
+        /// <summary>
+        /// 计算给定弧度的正弦值
+        /// </summary>
+        /// <param name="radian">给定的弧度</param>
+        /// <returns>弧度对应的正弦值</returns>
         public static Number Sin(Number radian)
         {
             return SinCosTable.SinByRadian(radian);
         }
 
+        /// <summary>
+        /// 计算给定弧度的余弦值
+        /// </summary>
+        /// <param name="radian">给定的弧度</param>
+        /// <returns>弧度对应的余弦值</returns>
         public static Number Cos(Number radian)
         {
             return SinCosTable.CosByRadian(radian);
+        }
+
+        /// <summary>
+        /// 将给定的值限定在指定的最小值和最大值之间
+        /// </summary>
+        /// <param name="value">要限定的值</param>
+        /// <param name="min">最小值</param>
+        /// <param name="max">最大值</param>
+        /// <returns>如果值小于最小值，则返回最小值；如果值大于最大值，则返回最大值；否则返回原始值</returns>
+        public static Number Clamp(Number value, Number min, Number max)
+        {
+            if (value < min)
+            {
+                return min;
+            }
+            else if (value > max)
+            {
+                return max;
+            }
+            else
+            {
+                return value;
+            }
         }
     }
 }
