@@ -24,6 +24,7 @@ namespace PingPong
                     //击打球，球速度翻转
                     //ball.speed.y *= -1;
 
+                    #region 计算球的竖向速度
                     if (i == 0)
                     {
                         ball.speed.y = Math.Abs(ball.speed.y);
@@ -32,6 +33,12 @@ namespace PingPong
                     {
                         ball.speed.y = -Math.Abs(ball.speed.y);
                     }
+                    #endregion
+
+                    #region 计算求的横向速度
+                    //获取球拍的击打位置
+
+                    #endregion
                     return;
                 }
             }
