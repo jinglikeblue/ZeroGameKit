@@ -34,15 +34,27 @@ namespace PingPong
         /// </summary>
         Chronograph _chronographer;
 
+        /// <summary>
+        /// 输入控制器
+        /// </summary>
+        InputController _inputController;
+
+        /// <summary>
+        /// 插值信息数据
+        /// </summary>
+        InterpolationInfoVO _interpolationInfo;
+
         public PingPongGame(GameObject gameObject, Action<object> bridge)
         {
             _gameObject = gameObject;
             _bridge = bridge;
 
             _chronographer = new Chronograph();
+            _inputController = new InputController();
 
             gameCore = new GameCore(Number.ONE / GAME_CORE_FPS);
             _worldView = new WorldViewEntity(gameObject);
+            _interpolationInfo = new InterpolationInfoVO();
 
             var renderBridge = _gameObject.AddComponent<RenderBridgeComponent>();
             renderBridge.onRenderUpdate += RenderUpdate;
@@ -54,18 +66,19 @@ namespace PingPong
         /// </summary>
         private void RenderUpdate()
         {
-            Number deltaTime = getDeltaTime();
+            UpdateInterpolationInfo();
 
-            GUIDebugInfo.SetInfo("DeltaTime", deltaTime);
+            GUIDebugInfo.SetInfo("DeltaTime", _interpolationInfo);
 
             #region 更新渲染
             if (gameCore.FrameData != null)
             {
-                _worldView.Update(gameCore.FrameData.world, deltaTime);
+                _worldView.Update(gameCore.FrameData.world, _interpolationInfo);
             }
             #endregion
 
             #region 渲染完成后，采集输入
+            _inputController.CollectInput();
             #endregion
         }
 
@@ -78,12 +91,26 @@ namespace PingPong
             _logicThread.Start();
         }
 
-        Number getDeltaTime()
+        /// <summary>
+        /// 距离上次游戏核心更新，经过了的时间
+        /// </summary>
+        /// <returns></returns>
+        Number getPastTime()
         {
             var chronographerElapsedSeconds = new Number((int)_chronographer.ElapsedMilliseconds, 1000);
-            //距离上次游戏核心更新，经过了的时间
             var pastTime = chronographerElapsedSeconds - gameCore.FrameData.elapsedTime;
             return pastTime;
+        }
+
+        /// <summary>
+        /// 创建插值信息数据
+        /// </summary>
+        /// <returns></returns>
+        void UpdateInterpolationInfo()
+        {            
+            var deltaSeconds = getPastTime();                        
+            _interpolationInfo.deltaMS = (deltaSeconds * 1000).ToInt();
+            _interpolationInfo.lerpValue = (deltaSeconds / gameCore.FrameInterval).ToFloat();
         }
 
         /// <summary>
@@ -98,7 +125,7 @@ namespace PingPong
             {
                 //var chronographerElapsedSeconds = new Number((int)_chronographer.ElapsedMilliseconds, 1000);
                 //距离上次游戏核心更新，经过了的时间
-                var pastTime = getDeltaTime();
+                var pastTime = getPastTime();
                 //距离上次游戏核心更新，经过了的帧数
                 var pastFrameCount = (pastTime / gameCore.FrameInterval).ToInt();
 
@@ -116,9 +143,15 @@ namespace PingPong
                     }
 
                     for (var i = 0; i < pastFrameCount; i++)
-                    {                 
+                    {
                         //TODO 更新逻辑线程，这个时候需要传入输入数据
                         FrameInput input = FrameInput.Default;
+                        var playerInput = _inputController.ExtractInput();
+                        //if (playerInput.moveDir != EMoveDir.NONE)
+                        //{
+                        //    Debug.Log($"移动方向:{playerInput.moveDir}");
+                        //}
+                        input.playerInputs[0] = playerInput;
 
                         PerformanceAnalysis.BeginAnalysis("GameCore_Update");
                         gameCore.Update(input);

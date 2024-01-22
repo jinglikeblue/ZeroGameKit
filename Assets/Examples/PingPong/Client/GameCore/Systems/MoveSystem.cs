@@ -20,15 +20,17 @@ namespace PingPong
             {
                 PlayerInput playerInput = playerInputs[i];
 
-                if(playerInput.moveDir == EMoveDir.NONE)
+                PlayerEntity playerEntity = runtime.vo.runtimeFrameData.world.players[i];
+
+                if (playerInput.moveDir == EMoveDir.NONE)
                 {
+                    playerEntity.speed = Number.ZERO;
                     continue;
                 }
 
                 int speedDir = playerInput.moveDir == EMoveDir.LEFT ? -1 : 1;
-                var moveVector = speedDir * runtime.vo.frameInterval * playerInput.moveSpeed;
-
-                PlayerEntity playerEntity = runtime.vo.runtimeFrameData.world.players[i];
+                playerEntity.speed = speedDir * playerInput.moveSpeed;
+                var moveVector = playerEntity.speed * runtime.vo.frameInterval;                
                 playerEntity.position.x += moveVector;
                 EnsurePlayerPositionProperly(playerEntity, runtime.vo.runtimeFrameData.world);
             }
@@ -50,6 +52,18 @@ namespace PingPong
         {
             var moveVector = ballEntity.speed * pastTime;
             return ballEntity.position + moveVector;
+        }
+
+        /// <summary>
+        /// 计算球员的位置
+        /// </summary>
+        /// <param name="playerEntity"></param>
+        /// <param name="pastTime"></param>
+        /// <returns></returns>
+        public static Number CalculatePlayerPosition(PlayerEntity playerEntity, Number pastTime)
+        {
+            var moveVector = playerEntity.speed * pastTime;
+            return playerEntity.position.x + moveVector;
         }
 
         /// <summary>

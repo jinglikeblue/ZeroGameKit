@@ -23,12 +23,12 @@ namespace PingPong
             players[1] = new PlayerViewEntity(transform.Find("Objects/ViewEntities/Player1").gameObject);
         }
 
-        public void Update(WorldEntity worldEntity, Number deltaTime)
+        public void Update(WorldEntity worldEntity, InterpolationInfoVO interpolationInfo)
         {            
-            ball.Update(worldEntity, deltaTime);
+            ball.Update(worldEntity, interpolationInfo);
             for(int i = 0; i < worldEntity.players.Length; i++)
             {
-                players[i].Update(worldEntity, worldEntity.players[i]);
+                players[i].Update(worldEntity, worldEntity.players[i], interpolationInfo);
             }
         }
     }

@@ -19,7 +19,7 @@ namespace PingPong
         {
             get
             {
-                return new PlayerInput(EMoveDir.NONE, new Number(0));
+                return new PlayerInput(EMoveDir.NONE, Define.PLAYER_MOVE_SPEED);
             }
         }
 

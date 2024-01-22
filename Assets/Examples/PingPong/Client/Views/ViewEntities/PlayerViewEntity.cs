@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace PingPong
 {
@@ -16,12 +11,12 @@ namespace PingPong
         {
         }
 
-        public void Update(WorldEntity worldEntity, PlayerEntity playerEntity)
+        public void Update(WorldEntity worldEntity, PlayerEntity playerEntity, InterpolationInfoVO interpolationInfo)
         {
             var pos = transform.localPosition;
-            pos.x = (playerEntity.position.x).ToFloat();
-            pos.z = (playerEntity.position.y).ToFloat();
-            transform.localPosition = pos;
+            var targetPos = new Vector3(playerEntity.position.x.ToFloat(), 0, playerEntity.position.y.ToFloat());
+            var lerpPos = Vector3.Lerp(transform.localPosition, targetPos, interpolationInfo.lerpValue);
+            transform.localPosition = lerpPos;
         }
     }
 }

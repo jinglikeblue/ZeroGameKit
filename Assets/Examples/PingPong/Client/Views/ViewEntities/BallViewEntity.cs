@@ -1,10 +1,4 @@
-﻿using Jing.FixedPointNumber;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace PingPong
 {
@@ -22,14 +16,13 @@ namespace PingPong
             base.OnInited();
         }
 
-        public void Update(WorldEntity worldEntity, Number deltaTime)
+        public void Update(WorldEntity worldEntity, InterpolationInfoVO interpolationInfo)
         {
             var ball = worldEntity.ball;
-            var newPos = MoveSystem.CalculateBallPosition(ball, deltaTime);
-            var pos = transform.localPosition;
-            pos.x = (float)System.Math.Round(newPos.x.ToDouble(), 2);
-            pos.z = (float)System.Math.Round(newPos.y.ToDouble(), 2);
-            transform.localPosition = pos;                                                 
+
+            var targetPos = new Vector3(ball.position.x.ToFloat(), 0, ball.position.y.ToFloat());
+            var lerpPos = Vector3.Lerp(transform.localPosition, targetPos, interpolationInfo.lerpValue);
+            transform.localPosition = lerpPos;                                                 
         }
     }
 }
