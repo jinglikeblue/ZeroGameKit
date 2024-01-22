@@ -79,8 +79,8 @@ namespace Example
             L("");
 
 
-            var fixedA = new Number(a);
-            var fixedB = new Number(b);
+            var fixedA = Number.CreateFromDouble(a);
+            var fixedB = Number.CreateFromDouble(b);
             L($"定点数运算：");
             L($"{fixedA.Info}");
             L($"{fixedB.Info}");

@@ -82,6 +82,28 @@
         }
 
         /// <summary>
+        /// 通过浮点数来创建定点数(精度自动四舍五入到4位)。
+        /// 相比Number(int numerator, int denominator)，开销更大
+        /// </summary>
+        /// <param name="floatingPointNumber"></param>
+        public static Number CreateFromDouble(double floatingPointNumber)
+        {
+            var raw = DoubleToRaw(floatingPointNumber);
+            return CreateFromRaw(raw);
+        }
+
+        /// <summary>
+        /// 通过浮点数来创建定点数(精度自动四舍五入到4位)
+        /// 相比Number(int numerator, int denominator)，开销更大
+        /// </summary>
+        /// <param name="floatingPointNumber"></param>
+        public static Number CreateFromFloat(float floatingPointNumber)
+        {
+            var raw = FloatToRaw(floatingPointNumber);
+            return CreateFromRaw(raw);
+        }
+
+        /// <summary>
         /// 整数转换成Raw
         /// </summary>
         /// <param name="integer"></param>
@@ -200,26 +222,6 @@
         public Number(int numerator, int denominator)
         {
             _raw = NumeratorAndDenominatorToRaw(numerator, denominator);
-        }
-
-        /// <summary>
-        /// 通过浮点数来创建定点数(精度自动四舍五入到4位)。
-        /// 相比Number(int numerator, int denominator)，开销更大
-        /// </summary>
-        /// <param name="floatingPointNumber"></param>
-        public Number(double floatingPointNumber)
-        {
-            _raw = DoubleToRaw(floatingPointNumber);
-        }
-
-        /// <summary>
-        /// 通过浮点数来创建定点数(精度自动四舍五入到4位)
-        /// 相比Number(int numerator, int denominator)，开销更大
-        /// </summary>
-        /// <param name="floatingPointNumber"></param>
-        public Number(float floatingPointNumber)
-        {
-            _raw = FloatToRaw(floatingPointNumber);
         }
 
         /// <summary>

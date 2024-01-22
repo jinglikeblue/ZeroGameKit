@@ -37,10 +37,10 @@ namespace Jing.FixedPointNumber
             for (int i = 0; i < accuracy; i++)
             {
                 var sin = System.Math.Sin(radianScale * i);
-                _sinTable[i] = new Number(sin);
+                _sinTable[i] = Number.CreateFromDouble(sin);
 
                 var cos = System.Math.Cos(radianScale * i);
-                _cosTable[i] = new Number(cos);
+                _cosTable[i] = Number.CreateFromDouble(cos);
             }            
         }
 
@@ -59,7 +59,7 @@ namespace Jing.FixedPointNumber
             for (int i = 0; i < table.Length; i++)
             {
                 var result = System.Math.Sin(radianScale * i);
-                table[i] = new Number(result);
+                table[i] = Number.CreateFromDouble(result);
             }
 
             _sinTable = table;
@@ -109,7 +109,7 @@ namespace Jing.FixedPointNumber
             {
                 var result = System.Math.Cos(radianScale * i);
                 result = System.Math.Round(result, 4);
-                table[i] = new Number(result);
+                table[i] = Number.CreateFromDouble(result);
             }
 
             _cosTable = table;

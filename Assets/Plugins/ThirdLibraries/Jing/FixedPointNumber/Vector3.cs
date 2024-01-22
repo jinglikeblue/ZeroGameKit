@@ -14,9 +14,9 @@
 
         public Vector3(float x, float y, float z)
         {
-            this.x = new Number(x);
-            this.y = new Number(y);
-            this.z = new Number(z);
+            this.x = Number.CreateFromFloat(x);
+            this.y = Number.CreateFromFloat(y);
+            this.z = Number.CreateFromFloat(z);
         }
 
         public Vector3(Number x, Number y, Number z)

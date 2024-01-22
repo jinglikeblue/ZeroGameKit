@@ -22,6 +22,9 @@ namespace PingPong
         /// </summary>
         public event Action onDestroy;
 
+        [Header("是否允许GameCore更新")]
+        public bool isGameCoreUpdateEnable = true;
+
         private void Update()
         {
             onRenderUpdate?.Invoke();

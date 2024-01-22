@@ -52,8 +52,8 @@ namespace Jing.FixedPointNumber
         /// <param name="n"></param>
         /// <returns></returns>
         public static Number Abs(Number n)
-        {
-            return n.Raw < 0 ? new Number(-n.Raw) : n;
+        {            
+            return n.Raw < 0 ? Number.CreateFromRaw(-n.Raw) : n;
         }
 
         /// <summary>
@@ -102,8 +102,8 @@ namespace Jing.FixedPointNumber
         /// <param name="n"></param>
         /// <returns></returns>
         public static Number Ceil(Number n)
-        {
-            return new Number((n.Raw + Number.FRACTION_MASK) & Number.INTEGER_MASK);
+        {            
+            return Number.CreateFromRaw((n.Raw + Number.FRACTION_MASK) & Number.INTEGER_MASK);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Jing.FixedPointNumber
         /// <returns></returns>
         public static Number Floor(Number n)
         {
-            return new Number(n.Raw & Number.INTEGER_MASK);
+            return Number.CreateFromRaw(n.Raw & Number.INTEGER_MASK);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Jing.FixedPointNumber
         /// <returns></returns>
         public static Number Round(Number n)
         {
-            return new Number((n.Raw + (Number.FRACTION_RANGE >> 1)) & ~Number.FRACTION_MASK);
+            return Number.CreateFromRaw((n.Raw + (Number.FRACTION_RANGE >> 1)) & ~Number.FRACTION_MASK);
         }
 
         /// <summary>

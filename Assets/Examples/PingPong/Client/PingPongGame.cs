@@ -80,6 +80,18 @@ namespace PingPong
             #region 渲染完成后，采集输入
             _inputController.CollectInput();
             #endregion
+
+            #region 检查GameCore更新控制
+            var renderBridge = _gameObject.GetComponent<RenderBridgeComponent>();
+            if (renderBridge.isGameCoreUpdateEnable && false == _chronographer.IsRunning)
+            {
+                _chronographer.Start();
+            }
+            else if(false == renderBridge.isGameCoreUpdateEnable && true == _chronographer.IsRunning)
+            {
+                _chronographer.Pause();
+            }
+            #endregion
         }
 
         public void Start()
