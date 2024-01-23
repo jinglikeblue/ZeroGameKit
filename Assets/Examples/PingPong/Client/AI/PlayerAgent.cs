@@ -28,11 +28,12 @@ namespace PingPong
             var player = gameCore.FrameData.world.players[_playerIndex];
             var ball = gameCore.FrameData.world.ball;
             var distance = ball.position.x - player.position.x;
-            if(distance > 1)
+            Number minMoveDistance = new Number(5, 10);
+            if (distance > minMoveDistance)
             {
                 _playerInput.moveDir = _playerIndex == 0 ? EMoveDir.LEFT : EMoveDir.RIGHT;
             }
-            else if(distance < -1)
+            else if(distance < -minMoveDistance)
             {
                 _playerInput.moveDir = _playerIndex == 0 ? EMoveDir.RIGHT : EMoveDir.LEFT;
             }
