@@ -17,20 +17,13 @@
         public Number DoubleX => x << 1;
         public Number DoubleY => y << 1;
 
-
-
-        public Vector2(int x, int y)
-        {
-            this.x = new Number(x);
-            this.y = new Number(y);
-        }
-
         public Vector2(Number x, Number y)
         {
             this.x = x;
             this.y = y;
         }
 
+        #region override operator
         public static Vector2 operator +(Vector2 a, Vector2 b)
         {
             return new Vector2(a.x + a.x, a.y + b.y);
@@ -64,6 +57,27 @@
         public static bool operator !=(Vector2 a, Vector2 b)
         {
             return !(a == b);
+        }
+        public override bool Equals(object other)
+        {
+            if (!(other is Vector2)) return false;
+
+            return Equals((Vector2)other);
+        }
+        public override int GetHashCode()
+        {
+            return x.GetHashCode() ^ (y.GetHashCode() << 2);
+        }
+        #endregion
+
+        public bool Equals(Vector2 other)
+        {
+            return x == other.x && y == other.y;
+        }
+
+        public override string ToString()
+        {
+            return $"(x={x},y={y})";
         }
     }
 }

@@ -490,6 +490,20 @@
             return a;
         }
 
+        #region override operator explicit
+        public static explicit operator int(Number a)
+        {
+            return a.ToInt();
+        }
+        #endregion
+
+        #region override operator implicit
+        public static implicit operator Number(int a)
+        {
+            return new Number(a);
+        }
+        #endregion
+
         public override int GetHashCode()
         {
             return _raw.GetHashCode();
