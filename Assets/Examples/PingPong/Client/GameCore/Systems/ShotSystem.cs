@@ -1,5 +1,4 @@
 ﻿using Jing.FixedPointNumber;
-using System.Linq;
 using Zero;
 
 namespace PingPong

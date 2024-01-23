@@ -44,6 +44,17 @@ namespace PingPong
         /// </summary>
         InterpolationInfoVO _interpolationInfo;
 
+        /// <summary>
+        /// AI核心
+        /// </summary>
+        AICore _aiCore;
+
+        /// <summary>
+        /// AI线程
+        /// </summary>
+        Thread _aiThread;
+
+
         public PingPongGame(GameObject gameObject, Action<object> bridge)
         {
             _gameObject = gameObject;
@@ -101,6 +112,12 @@ namespace PingPong
             _logicThread.IsBackground = true;
             _logicThread.Name = "GameCoreThread";
             _logicThread.Start();
+
+            //AI线程
+            _aiThread = new Thread(AIUpdate);
+            _aiThread.IsBackground = true;
+            _aiThread.Name = "AIThread";
+            _aiThread.Start();
         }
 
         /// <summary>
@@ -125,10 +142,27 @@ namespace PingPong
             _interpolationInfo.lerpValue = (deltaSeconds / gameCore.FrameInterval).ToFloat();
         }
 
+        void AIUpdate()
+        {
+            while(_aiThread != null)
+            {
+                //更新AI核心
+                var isUpdated = _aiCore.Update(gameCore);
+                if (false == isUpdated)
+                {
+                    Thread.Sleep(1);
+                    continue;
+                }
+
+                //从AI核心中提取操作数据
+
+            }
+        }
+
         /// <summary>
         /// 逻辑线程更新
         /// </summary>
-        private void LogicUpdate()
+        void LogicUpdate()
         {
             _chronographer.Start();
 
