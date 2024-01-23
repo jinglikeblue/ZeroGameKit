@@ -50,5 +50,10 @@ namespace PingPong
         {
             return _playerInput;
         }
+
+        public void Reset()
+        {
+            _playerInput = PlayerInput.Default;
+        }
     }
 }

@@ -54,6 +54,8 @@ namespace PingPong
         /// </summary>
         Thread _aiThread;
 
+        RenderBridgeComponent _renderBridge;
+
 
         public PingPongGame(GameObject gameObject, Action<object> bridge)
         {
@@ -67,12 +69,18 @@ namespace PingPong
             _worldView = new WorldViewEntity(gameObject);
             _interpolationInfo = new InterpolationInfoVO();
 
-            var renderBridge = _gameObject.AddComponent<RenderBridgeComponent>();
-            renderBridge.onRenderUpdate += RenderUpdate;
-            renderBridge.onDestroy += Destroy;
+            _renderBridge = _gameObject.AddComponent<RenderBridgeComponent>();
+            _renderBridge.onRenderUpdate += RenderUpdate;
+            _renderBridge.onDestroy += Destroy;
+            _renderBridge.onAICoreUpdateEnableChanged += OnAICoreUpdateEnableChanged;
 
             _aiCore = new AICore();
             _aiCore.Init(new int[] { 1 });
+        }
+
+        private void OnAICoreUpdateEnableChanged(bool isEnable)
+        {
+            _aiCore.enabled = isEnable;
         }
 
         /// <summary>
@@ -80,6 +88,7 @@ namespace PingPong
         /// </summary>
         private void RenderUpdate()
         {
+            GUIDebugInfo.SetInfo("Render线程", Thread.CurrentThread.ManagedThreadId);
             UpdateInterpolationInfo();
 
             GUIDebugInfo.SetInfo("DeltaTime", _interpolationInfo);
@@ -95,13 +104,12 @@ namespace PingPong
             _inputController.CollectInput();
             #endregion
 
-            #region 检查GameCore更新控制
-            var renderBridge = _gameObject.GetComponent<RenderBridgeComponent>();
-            if (renderBridge.isGameCoreUpdateEnable && false == _chronographer.IsRunning)
+            #region 检查GameCore更新控制            
+            if (_renderBridge.isGameCoreUpdateEnable && false == _chronographer.IsRunning)
             {
                 _chronographer.Start();
             }
-            else if (false == renderBridge.isGameCoreUpdateEnable && true == _chronographer.IsRunning)
+            else if (false == _renderBridge.isGameCoreUpdateEnable && true == _chronographer.IsRunning)
             {
                 _chronographer.Pause();
             }
@@ -111,7 +119,7 @@ namespace PingPong
         public void Start()
         {
             //启动逻辑线程            
-            _logicThread = new Thread(LogicUpdate);
+            _logicThread = new Thread(GameCoreUpdate);
             _logicThread.IsBackground = true;
             _logicThread.Name = "GameCoreThread";
             _logicThread.Start();
@@ -147,6 +155,7 @@ namespace PingPong
 
         void AIUpdate()
         {
+            GUIDebugInfo.SetInfo("AI线程", Thread.CurrentThread.ManagedThreadId);
             while (_aiThread != null)
             {
                 PerformanceAnalysis.BeginAnalysis("AICore_Update");
@@ -157,14 +166,15 @@ namespace PingPong
                 if (false == isUpdated)
                 {
                     Thread.Sleep(1);
-                    continue;
                 }
-
-                //从AI核心中提取操作数据
-                var agents = _aiCore.GetAgents();
-                foreach (var agent in agents)
-                {                    
-                    _inputController.CollectAIBehavior(agent.PlayerIndex, agent.GetInput());
+                else
+                {
+                    //从AI核心中提取操作数据
+                    var agents = _aiCore.GetAgents();
+                    foreach (var agent in agents)
+                    {
+                        _inputController.CollectAIBehavior(agent.PlayerIndex, agent.GetInput());
+                    }
                 }
             }
         }
@@ -172,8 +182,9 @@ namespace PingPong
         /// <summary>
         /// 逻辑线程更新
         /// </summary>
-        void LogicUpdate()
+        void GameCoreUpdate()
         {
+            GUIDebugInfo.SetInfo("GameCore线程", Thread.CurrentThread.ManagedThreadId);
             _chronographer.Start();
 
             //只要逻辑线程的引用还存在，则线程持续迭代
@@ -231,9 +242,8 @@ namespace PingPong
         }
 
         public void Destroy()
-        {
-            var renderBridge = _gameObject.GetComponent<RenderBridgeComponent>();
-            renderBridge.onRenderUpdate -= RenderUpdate;
+        {            
+            _renderBridge.onRenderUpdate -= RenderUpdate;
 
             _logicThread = null;
         }

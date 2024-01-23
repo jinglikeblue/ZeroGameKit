@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Zero;
 
 namespace PingPong
 {
@@ -30,7 +31,8 @@ namespace PingPong
 
                 int speedDir = playerInput.moveDir == EMoveDir.LEFT ? -1 : 1;
                 playerEntity.speed = speedDir * playerInput.moveSpeed;
-                var moveVector = playerEntity.speed * runtime.vo.frameInterval;                
+                var moveVector = playerEntity.speed * runtime.vo.frameInterval;
+                GUIDebugInfo.SetInfo("Move_Speed", moveVector);
                 playerEntity.position.x += moveVector;
                 EnsurePlayerPositionProperly(playerEntity, runtime.vo.runtimeFrameData.world);
             }

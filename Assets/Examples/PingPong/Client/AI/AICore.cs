@@ -14,6 +14,8 @@ namespace PingPong
 
         List<PlayerAgent> _agentList;
 
+        public bool enabled = true;
+
         /// <summary>
         /// AI核心初始化
         /// </summary>
@@ -33,7 +35,7 @@ namespace PingPong
         /// <returns>返回是否AI核心进行了更新</returns>
         public bool Update(GameCore gameCore)
         {
-            if (_lastUpdateFrame == gameCore.FrameData.elapsedFrames)
+            if (_lastUpdateFrame == gameCore.FrameData.elapsedFrames || false == enabled)
             {
                 return false;
             }
