@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace PingPong
 {
@@ -9,10 +10,7 @@ namespace PingPong
     {
         object _threadLock = new object();
 
-        /// <summary>
-        /// 玩家输入缓存
-        /// </summary>
-        PlayerInput _playerInputCache = PlayerInput.Default;
+        Dictionary<int, PlayerInput> _playerInputDic = new Dictionary<int, PlayerInput>();
 
         /// <summary>
         /// 采集用户输入
@@ -21,29 +19,49 @@ namespace PingPong
         {
             lock (_threadLock)
             {
+                PlayerInput playerInput = PlayerInput.Default;
                 if (Input.GetKey(KeyCode.LeftArrow))
                 {
-                    _playerInputCache.moveDir = EMoveDir.LEFT;
+                    playerInput.moveDir = EMoveDir.LEFT;
                 }
                 else if (Input.GetKey(KeyCode.RightArrow))
                 {
-                    _playerInputCache.moveDir = EMoveDir.RIGHT;
+                    playerInput.moveDir = EMoveDir.RIGHT;
                 }
                 else
                 {
-                    _playerInputCache.moveDir = EMoveDir.NONE;
+                    playerInput.moveDir = EMoveDir.NONE;
                 }
+                _playerInputDic[0] = playerInput;
+            }
+        }
+
+        /// <summary>
+        /// 收集AI行为
+        /// </summary>
+        /// <param name="playerIndex"></param>
+        /// <param name="input"></param>
+        public void CollectAIBehavior(int playerIndex, PlayerInput input)
+        {
+            lock (_threadLock)
+            {
+                _playerInputDic[playerIndex] = input;
             }
         }
 
         /// <summary>
         /// 提取用户输入
         /// </summary>
-        public PlayerInput ExtractInput()
-        {            
+        public PlayerInput[] ExtractInput()
+        {
             lock (_threadLock)
             {
-                return _playerInputCache;
+                PlayerInput[] inputs = new PlayerInput[_playerInputDic.Count];
+                for (int i = 0; i < inputs.Length; i++)
+                {
+                    inputs[i] = _playerInputDic[i];
+                }
+                return inputs;
             }
         }
     }

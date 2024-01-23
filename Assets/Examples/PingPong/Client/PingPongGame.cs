@@ -70,6 +70,9 @@ namespace PingPong
             var renderBridge = _gameObject.AddComponent<RenderBridgeComponent>();
             renderBridge.onRenderUpdate += RenderUpdate;
             renderBridge.onDestroy += Destroy;
+
+            _aiCore = new AICore();
+            _aiCore.Init(new int[] { 1 });
         }
 
         /// <summary>
@@ -98,7 +101,7 @@ namespace PingPong
             {
                 _chronographer.Start();
             }
-            else if(false == renderBridge.isGameCoreUpdateEnable && true == _chronographer.IsRunning)
+            else if (false == renderBridge.isGameCoreUpdateEnable && true == _chronographer.IsRunning)
             {
                 _chronographer.Pause();
             }
@@ -136,18 +139,21 @@ namespace PingPong
         /// </summary>
         /// <returns></returns>
         void UpdateInterpolationInfo()
-        {            
-            var deltaSeconds = getPastTime();                        
+        {
+            var deltaSeconds = getPastTime();
             _interpolationInfo.deltaMS = (deltaSeconds * 1000).ToInt();
             _interpolationInfo.lerpValue = (deltaSeconds / gameCore.FrameInterval).ToFloat();
         }
 
         void AIUpdate()
         {
-            while(_aiThread != null)
+            while (_aiThread != null)
             {
+                PerformanceAnalysis.BeginAnalysis("AICore_Update");
                 //更新AI核心
                 var isUpdated = _aiCore.Update(gameCore);
+                PerformanceAnalysis.EndAnalysis("AICore_Update");
+
                 if (false == isUpdated)
                 {
                     Thread.Sleep(1);
@@ -155,7 +161,11 @@ namespace PingPong
                 }
 
                 //从AI核心中提取操作数据
-
+                var agents = _aiCore.GetAgents();
+                foreach (var agent in agents)
+                {                    
+                    _inputController.CollectAIBehavior(agent.PlayerIndex, agent.GetInput());
+                }
             }
         }
 
@@ -169,7 +179,7 @@ namespace PingPong
             //只要逻辑线程的引用还存在，则线程持续迭代
             while (_logicThread != null)
             {
-                if(gameCore.FrameData.world.state == EWorldState.END)
+                if (gameCore.FrameData.world.state == EWorldState.END)
                 {
                     //游戏结束了
                     break;
@@ -202,7 +212,7 @@ namespace PingPong
                         //{
                         //    Debug.Log($"移动方向:{playerInput.moveDir}");
                         //}
-                        input.playerInputs[0] = playerInput;
+                        input.playerInputs = playerInput;
 
                         PerformanceAnalysis.BeginAnalysis("GameCore_Update");
                         gameCore.Update(input);
