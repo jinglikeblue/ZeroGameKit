@@ -37,7 +37,7 @@ namespace PingPong
         /// <summary>
         /// 玩家的大小（宽，长）
         /// </summary>
-        public static readonly Vector2 PLAYER_SIZE = new Vector2(3, 1);        
+        public static readonly Vector2 PLAYER_SIZE = new Vector2(3, 1);
 
         /// <summary>
         /// 玩家的初始位置[Player0,Player1]

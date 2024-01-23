@@ -103,6 +103,13 @@ namespace PingPong
             var ballPosX = ballEntity.position.x;
             var ballPosY = ballEntity.position.y;
             var worldRect = worldEntity.size;
+            var worldCenter = worldRect.center;
+            //球的直径
+            var ballDiameter = ballEntity.radius << 1;
+            //宽度减少
+            worldRect.width -= ballDiameter;
+            worldRect.height -= ballDiameter;
+            worldRect.center = worldCenter;
 
             var leftDistance = worldRect.left - ballPosX;
             if (leftDistance > 0)

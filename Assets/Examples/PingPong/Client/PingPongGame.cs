@@ -135,6 +135,11 @@ namespace PingPong
             //只要逻辑线程的引用还存在，则线程持续迭代
             while (_logicThread != null)
             {
+                if(gameCore.FrameData.world.state == EWorldState.END)
+                {
+                    //游戏结束了
+                    break;
+                }
                 //var chronographerElapsedSeconds = new Number((int)_chronographer.ElapsedMilliseconds, 1000);
                 //距离上次游戏核心更新，经过了的时间
                 var pastTime = getPastTime();
@@ -172,6 +177,7 @@ namespace PingPong
                 }
             }
 
+            _chronographer.Stop();
             Debug.Log($"[LogicUpdate] GameCore线程结束");
         }
 

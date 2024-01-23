@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Zero;
 
 namespace PingPong
 {
@@ -34,6 +35,7 @@ namespace PingPong
         {
             world.winner = winner;
             world.state = EWorldState.END;
+            GUIDebugInfo.SetInfo("World", $"state {world.state}");
         }
     }
 }

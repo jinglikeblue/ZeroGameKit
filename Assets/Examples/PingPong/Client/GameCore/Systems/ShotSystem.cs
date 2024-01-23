@@ -1,5 +1,6 @@
 ﻿using Jing.FixedPointNumber;
 using System.Linq;
+using Zero;
 
 namespace PingPong
 {
@@ -23,7 +24,8 @@ namespace PingPong
                 {
                     //击打球，球速度翻转
                     //ball.speed.y *= -1;
-
+                    Number aaa = 1;
+                    int bbb = (int)aaa;
                     #region 计算球的竖向速度
                     if (i == 0)
                     {
@@ -36,8 +38,15 @@ namespace PingPong
                     #endregion
 
                     #region 计算求的横向速度
-                    //获取球拍的击打位置
-
+                    //计算球的X轴距离Player的中心点的距离
+                    var distanceX = ball.position.x - player.position.x;
+                    var halfSize = Define.PLAYER_SIZE.x >> 1;
+                    var pow = distanceX / halfSize;
+                    GUIDebugInfo.SetInfo($"Player_{i} Hit", $"distance {distanceX}, pow {pow}");
+                    pow = Math.Clamp(pow, -1, 1);
+                    var speedX = pow * 15;
+                    ball.speed.x = speedX;
+                    GUIDebugInfo.SetInfo("Ball", $"speed {ball.speed}");
                     #endregion
                     return;
                 }
