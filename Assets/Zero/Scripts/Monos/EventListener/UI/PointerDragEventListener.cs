@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 namespace Zero
 {
     /// <summary>
-    /// 按钮弹起的事件
+    /// 拖拽操作的事件监听器
     /// </summary>
     public class PointerDragEventListener : AEventListener<PointerDragEventListener>, IDragHandler
     {

@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 namespace Zero
 {
     /// <summary>
-    /// 按钮弹起的事件
+    /// 指针从对象上抬起时的事件监听器
     /// </summary>
     public class PointerUpEventListener : AEventListener<PointerUpEventListener>, IPointerUpHandler
     {

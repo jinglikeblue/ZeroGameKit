@@ -1,11 +1,10 @@
 ﻿using System;
-using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Zero
 {
     /// <summary>
-    /// 按钮弹起的事件
+    /// 监听点击退出事件的监听器
     /// </summary>
     public class PointerExitEventListener : AEventListener<PointerExitEventListener>, IPointerExitHandler
     {
