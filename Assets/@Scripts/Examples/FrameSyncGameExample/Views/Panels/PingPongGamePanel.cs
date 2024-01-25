@@ -23,7 +23,8 @@ namespace PingPong
         protected override void OnInit(object data)
         {
             base.OnInit(data);
-            _game = data as PingPongGame;
+            var stage = StageMgr.Ins.Switch<PingPongGameStage>();
+            _game = stage.Game;
         }
 
         protected override void OnEnable()
@@ -51,6 +52,12 @@ namespace PingPong
             win.onContinueSelected += () =>
             {
                 _game.Continue();
+            };
+            win.onRestartSelected += () =>
+            {
+                _game.Destroy();
+                var stage = StageMgr.Ins.Switch<PingPongGameStage>();
+                _game = stage.Game;
             };
             win.onExitSelected += () =>
             {

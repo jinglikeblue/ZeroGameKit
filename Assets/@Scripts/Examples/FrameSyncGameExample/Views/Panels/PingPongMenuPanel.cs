@@ -44,7 +44,7 @@ namespace PingPong
 
         private void EnterPVE()
         {
-            StageMgr.Ins.Switch<PingPongGameStage>();            
+            UIPanelMgr.Ins.Switch<PingPongGamePanel>();            
         }
 
         private void Exit()

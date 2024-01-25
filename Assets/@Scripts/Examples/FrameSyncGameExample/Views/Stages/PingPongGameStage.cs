@@ -15,14 +15,14 @@ namespace PingPong
     {
         PingPongGame _game;
 
+        public PingPongGame Game => _game;
+
         protected override void OnInit(object data)
         {
             base.OnInit(data);
             
             _game = new PingPongGame(gameObject, OnReceiveBridgeMessage);            
-            _game.Start();
-
-            UIPanelMgr.Ins.Switch<PingPongGamePanel>(_game);
+            _game.Start();            
         }
 
         void OnReceiveBridgeMessage(object msg)

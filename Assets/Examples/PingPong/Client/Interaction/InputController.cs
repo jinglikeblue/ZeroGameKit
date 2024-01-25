@@ -97,7 +97,7 @@ namespace PingPong
                 PlayerInput[] inputs = new PlayerInput[_playerInputDic.Count];
                 for (int i = 0; i < inputs.Length; i++)
                 {
-                    inputs[i] = _playerInputDic[i];
+                    inputs[i] = _playerInputDic.ContainsKey(i) ? _playerInputDic[i] : PlayerInput.Default;
                 }
                 return inputs;
             }

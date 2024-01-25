@@ -103,7 +103,15 @@ namespace PingPong
 
         public void Restart()
         {
+            _chronographer = new Chronograph();
+            _inputController = new InputController();
 
+            gameCore = new GameCore(Number.ONE / GAME_CORE_FPS);
+            _worldView = new WorldViewEntity(_gameObject);
+            _interpolationInfo = new InterpolationInfoVO();
+
+            _aiCore = new AICore();
+            _aiCore.Init(new int[] { 1 });
         }
 
         public void Continue()
