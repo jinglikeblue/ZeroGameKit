@@ -5,7 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Zero;
+using ZeroGameKit;
 using ZeroHot;
 
 namespace PingPong
@@ -14,19 +17,34 @@ namespace PingPong
     {
         PingPongGame _game;
 
-        Text textFrames;
+        RectTransform inputCatcher;
 
         protected override void OnInit(object data)
         {
             base.OnInit(data);
             _game = data as PingPongGame;
-            textFrames.text = "";
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
             StartCoroutine(RefreshInfo());
+            
+            inputCatcher.GetComponent<PointerDragEventListener>().onEvent += OnPointerDrag;
+        }
+
+        private void OnPointerDrag(PointerEventData obj)
+        {
+            var camera = CameraMgr.Ins.GetUICamera();
+            Vector2 localPos;
+            UnityEngine.RectTransformUtility.ScreenPointToLocalPointInRectangle(inputCatcher, obj.position, camera, out localPos);
+            GUIDebugInfo.SetInfo("[Drag] Mouse Position:", $"{obj.position}_{localPos}");
+
+            var moveCoefficient = localPos.x / (inputCatcher.rect.width / 2);
+            moveCoefficient = Mathf.Clamp(moveCoefficient, -1, 1);
+            GUIDebugInfo.SetInfo("[Drag] Move Coefficient:", $"{moveCoefficient}");
+
+            _game.SetMoveCoefficient(moveCoefficient);
         }
 
         IEnumerator RefreshInfo()
@@ -43,7 +61,7 @@ namespace PingPong
 
                 var now = DateTime.Now;
                 var tn = now - time;
-                if(tn.TotalSeconds < 1)
+                if (tn.TotalSeconds < 1)
                 {
                     yield return null;
                     continue;

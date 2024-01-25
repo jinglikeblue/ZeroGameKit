@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Jing.FixedPointNumber;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PingPong
@@ -12,6 +13,13 @@ namespace PingPong
 
         Dictionary<int, PlayerInput> _playerInputDic = new Dictionary<int, PlayerInput>();
 
+
+        Number _moveCoefficient = 0;
+        public void SetMoveCoefficient(Number value)
+        {
+            _moveCoefficient = value;
+        }
+
         /// <summary>
         /// 采集用户输入
         /// </summary>
@@ -20,18 +28,37 @@ namespace PingPong
             lock (_threadLock)
             {
                 PlayerInput playerInput = PlayerInput.Default;
-                if (Input.GetKey(KeyCode.LeftArrow))
+                if (_moveCoefficient != 0)
                 {
-                    playerInput.moveDir = EMoveDir.LEFT;
-                }
-                else if (Input.GetKey(KeyCode.RightArrow))
-                {
-                    playerInput.moveDir = EMoveDir.RIGHT;
+                    #region 检测触摸输入
+                    if(_moveCoefficient < 0)
+                    {
+                        playerInput.moveDir = EMoveDir.LEFT;
+                    }
+                    else
+                    {
+                        playerInput.moveDir = EMoveDir.RIGHT;
+                    }
+                    #endregion
                 }
                 else
                 {
-                    playerInput.moveDir = EMoveDir.NONE;
+                    #region 检测键盘输入                    
+                    if (Input.GetKey(KeyCode.LeftArrow))
+                    {
+                        playerInput.moveDir = EMoveDir.LEFT;
+                    }
+                    else if (Input.GetKey(KeyCode.RightArrow))
+                    {
+                        playerInput.moveDir = EMoveDir.RIGHT;
+                    }
+                    else
+                    {
+                        playerInput.moveDir = EMoveDir.NONE;
+                    }
+                    #endregion
                 }
+
                 _playerInputDic[0] = playerInput;
             }
         }

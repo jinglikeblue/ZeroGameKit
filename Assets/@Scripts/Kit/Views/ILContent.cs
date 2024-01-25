@@ -11,6 +11,8 @@ namespace ZeroGameKit
         {
             base.OnInit(data);
 
+            CameraMgr.Ins.RegisterUICamera(transform.Find("UICamera").GetComponent<Camera>());
+
             var stage = CreateChildView<StageMgr>("Stage");
             var uiPanel = CreateChildView<UIPanelMgr>("UICanvas/UIPanel");
             var uiWin = CreateChildView<UIWinMgr>("UICanvas/UIWin");

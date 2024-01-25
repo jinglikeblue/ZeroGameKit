@@ -84,6 +84,15 @@ namespace PingPong
         }
 
         /// <summary>
+        /// 设置移动系数
+        /// </summary>
+        /// <param name="moveCoefficient"></param>
+        public void SetMoveCoefficient(float moveCoefficient)
+        {
+            _inputController.SetMoveCoefficient(Number.CreateFromFloat(moveCoefficient));
+        }
+
+        /// <summary>
         /// 渲染更新
         /// </summary>
         private void RenderUpdate()

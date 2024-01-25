@@ -203,7 +203,7 @@ MonoBehaviour:
       type: 2}
   size: {x: 32, y: 32}
   maxSize: 20
-  numOfCircleToShow: 3
+  numOfCircleToShow: 10
   Initialized: 0
 --- !u!4 &6305282
 Transform:
@@ -1026,7 +1026,7 @@ MonoBehaviour:
   data:
     isLogEnable: 1
     builtinResMode: 1
-    hotResMode: 0
+    hotResMode: 2
     netRoots:
     - http://127.0.0.1/zero/res
     isUseDll: 0
