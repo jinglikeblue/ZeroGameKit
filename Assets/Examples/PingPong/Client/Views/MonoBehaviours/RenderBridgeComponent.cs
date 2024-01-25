@@ -23,6 +23,10 @@ namespace PingPong
         public event Action onDestroy;
 
         public event Action<bool> onAICoreUpdateEnableChanged;
+        public event Action<bool> onGameCoreUpdateEnableChanged;
+
+
+        bool _lastGameCoreUpdateEnable;
 
         [Header("是否允许GameCore更新")]
         public bool isGameCoreUpdateEnable = true;
@@ -35,6 +39,7 @@ namespace PingPong
         private void Awake()
         {
             _lastAICoreUpdateEnable = isAICoreUpdateEnable;
+            _lastGameCoreUpdateEnable = isGameCoreUpdateEnable;
         }
 
         private void Update()
@@ -44,6 +49,12 @@ namespace PingPong
             {
                 _lastAICoreUpdateEnable = isAICoreUpdateEnable;
                 onAICoreUpdateEnableChanged?.Invoke(_lastAICoreUpdateEnable);
+            }
+
+            if (_lastGameCoreUpdateEnable != isGameCoreUpdateEnable)
+            {
+                _lastGameCoreUpdateEnable = isGameCoreUpdateEnable;
+                onGameCoreUpdateEnableChanged?.Invoke(_lastGameCoreUpdateEnable);
             }
         }
 

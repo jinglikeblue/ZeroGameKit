@@ -1,6 +1,7 @@
 ﻿using Jing.FixedPointNumber;
 using System.Collections.Generic;
 using UnityEngine;
+using Zero;
 
 namespace PingPong
 {
@@ -13,7 +14,6 @@ namespace PingPong
 
         Dictionary<int, PlayerInput> _playerInputDic = new Dictionary<int, PlayerInput>();
 
-
         Number _moveCoefficient = 0;
         public void SetMoveCoefficient(Number value)
         {
@@ -23,21 +23,32 @@ namespace PingPong
         /// <summary>
         /// 采集用户输入
         /// </summary>
-        public void CollectInput()
+        public void CollectInput(GameCore gameCore)
         {
             lock (_threadLock)
             {
                 PlayerInput playerInput = PlayerInput.Default;
                 if (_moveCoefficient != 0)
                 {
+                    //TODO 通过Define.WROLD_SIZE算出Player限定的位置。然后如果Player超出了这个位置，则不移动了
+                    var limitPos = Define.WORLD_SIZE.HalfX * _moveCoefficient;
+                    var playerPos = gameCore.FrameData.world.players[0].position.x;
+                    GUIDebugInfo.SetInfo("Move Pos", $"Limit:{limitPos},Player:{playerPos}");
+
                     #region 检测触摸输入
-                    if(_moveCoefficient < 0)
+                    if (_moveCoefficient < 0)
                     {
-                        playerInput.moveDir = EMoveDir.LEFT;
+                        //if (playerPos > limitPos)
+                        //{
+                            playerInput.moveDir = EMoveDir.LEFT;
+                        //}
                     }
                     else
                     {
-                        playerInput.moveDir = EMoveDir.RIGHT;
+                        //if (playerPos < limitPos)
+                        //{
+                            playerInput.moveDir = EMoveDir.RIGHT;
+                        //}
                     }
                     #endregion
                 }

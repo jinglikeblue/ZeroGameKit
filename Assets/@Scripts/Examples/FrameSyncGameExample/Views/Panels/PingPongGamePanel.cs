@@ -19,6 +19,8 @@ namespace PingPong
 
         RectTransform inputCatcher;
 
+        Button btnSetting;
+
         protected override void OnInit(object data)
         {
             base.OnInit(data);
@@ -29,8 +31,25 @@ namespace PingPong
         {
             base.OnEnable();
             StartCoroutine(RefreshInfo());
-            
+
             inputCatcher.GetComponent<PointerDragEventListener>().onEvent += OnPointerDrag;
+
+            btnSetting.onClick.AddListener(OpenSettingWin);
+        }
+
+        private void OpenSettingWin()
+        {
+            _game.Pause();
+            var win = UIWinMgr.Ins.Open<PingPongGameControlWin>();
+            win.SetText("设置", "游戏已暂停");
+            win.onContinueSelected += () =>
+            {
+                _game.Continue();
+            };
+            win.onExitSelected += () =>
+            {
+                UIPanelMgr.Ins.Switch<MenuPanel>();
+            };
         }
 
         private void OnPointerDrag(PointerEventData obj)

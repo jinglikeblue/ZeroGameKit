@@ -63,6 +63,9 @@ namespace ZeroGameKit
         protected override void OnInit(object data)
         {
             base.OnInit(data);
+
+            StageMgr.Ins.Clear();
+
             buttonGroupItem.SetActive(false);
 
             AddBtn(GROUP_DEBUG, "测试包下载地址", () => { Application.OpenURL("https://tt.appc02.com/y8b6"); });
@@ -141,7 +144,7 @@ namespace ZeroGameKit
 
             AddBtn(GROUP_VIDEO, "视频播放", VideoExample.Start);
 
-            OnToggleShowTodoValueChanged(toggleShowTodo.isOn);
+            OnToggleShowTodoValueChanged(toggleShowTodo.isOn);            
         }
 
         void AddBtn(string group, string label, Action action)

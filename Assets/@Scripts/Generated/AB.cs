@@ -195,10 +195,10 @@ namespace ZeroHot
 		{
 			public const string NAME = "examples/ping_pong.ab";
 
+			public const string PingPongGameControlWin = "PingPongGameControlWin.prefab";
+			public const string PingPongGameControlWin_assetPath = "examples/ping_pong/PingPongGameControlWin.prefab";
 			public const string PingPongGamePanel = "PingPongGamePanel.prefab";
 			public const string PingPongGamePanel_assetPath = "examples/ping_pong/PingPongGamePanel.prefab";
-			public const string PingPongGameResultWin = "PingPongGameResultWin.prefab";
-			public const string PingPongGameResultWin_assetPath = "examples/ping_pong/PingPongGameResultWin.prefab";
 			public const string PingPongGameStage = "PingPongGameStage.prefab";
 			public const string PingPongGameStage_assetPath = "examples/ping_pong/PingPongGameStage.prefab";
 			public const string PingPongMenuPanel = "PingPongMenuPanel.prefab";
@@ -664,8 +664,8 @@ namespace ZeroHot
 			dic["WebSocketExampleWin"] = "examples/network.ab";
 			dic["CallNativeCodePerformanceWin"] = "examples/performance.ab";
 			dic["FibonacciPerformanceWin"] = "examples/performance.ab";
+			dic["PingPongGameControlWin"] = "examples/ping_pong.ab";
 			dic["PingPongGamePanel"] = "examples/ping_pong.ab";
-			dic["PingPongGameResultWin"] = "examples/ping_pong.ab";
 			dic["PingPongGameStage"] = "examples/ping_pong.ab";
 			dic["PingPongMenuPanel"] = "examples/ping_pong.ab";
 			dic["GamePanel"] = "examples/roushan.ab";

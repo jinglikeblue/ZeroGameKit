@@ -73,14 +73,42 @@ namespace PingPong
             _renderBridge.onRenderUpdate += RenderUpdate;
             _renderBridge.onDestroy += Destroy;
             _renderBridge.onAICoreUpdateEnableChanged += OnAICoreUpdateEnableChanged;
+            _renderBridge.onGameCoreUpdateEnableChanged += OnGameCoreUpdateEnableChanged;
 
             _aiCore = new AICore();
             _aiCore.Init(new int[] { 1 });
         }
 
+        private void OnGameCoreUpdateEnableChanged(bool isEnable)
+        {
+            if (isEnable)
+            {
+                _chronographer.Start();
+            }
+            else
+            {
+                _chronographer.Pause();
+            }
+        }
+
         private void OnAICoreUpdateEnableChanged(bool isEnable)
         {
             _aiCore.enabled = isEnable;
+        }
+
+        public void Pause()
+        {
+            _chronographer.Pause();
+        }
+
+        public void Restart()
+        {
+
+        }
+
+        public void Continue()
+        {
+            _chronographer.Start();
         }
 
         /// <summary>
@@ -110,18 +138,7 @@ namespace PingPong
             #endregion
 
             #region 渲染完成后，采集输入
-            _inputController.CollectInput();
-            #endregion
-
-            #region 检查GameCore更新控制            
-            if (_renderBridge.isGameCoreUpdateEnable && false == _chronographer.IsRunning)
-            {
-                _chronographer.Start();
-            }
-            else if (false == _renderBridge.isGameCoreUpdateEnable && true == _chronographer.IsRunning)
-            {
-                _chronographer.Pause();
-            }
+            _inputController.CollectInput(gameCore);
             #endregion
         }
 
@@ -186,6 +203,8 @@ namespace PingPong
                     }
                 }
             }
+
+            Debug.Log($"[PingPong] AI线程结束");
         }
 
         /// <summary>
@@ -242,12 +261,7 @@ namespace PingPong
             }
 
             _chronographer.Stop();
-            Debug.Log($"[LogicUpdate] GameCore线程结束");
-        }
-
-        public void Pause()
-        {
-
+            Debug.Log($"[PingPong] GameCore线程结束");
         }
 
         public void Destroy()
@@ -255,6 +269,7 @@ namespace PingPong
             _renderBridge.onRenderUpdate -= RenderUpdate;
 
             _logicThread = null;
+            _aiThread = null;
         }
     }
 }
