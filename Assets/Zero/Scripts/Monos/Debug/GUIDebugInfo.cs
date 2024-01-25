@@ -130,9 +130,15 @@ namespace Zero
             labelStyle.fontSize = 20;
             labelStyle.fontStyle = FontStyle.Bold;
 
-            for (int i = 0; i < _infoItems.Count; i++)
+            InfoItem[] items = null;
+            lock (_threadLocker)
             {
-                var item = _infoItems[i];
+                items = _infoItems.ToArray();
+            }
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                var item = items[i];
                 GUILayout.Label($"{item.key}:{item.value}", labelStyle);
                 GUILayout.Space(-10);
             }

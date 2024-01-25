@@ -16,7 +16,6 @@ namespace PingPong
     public class PingPongGamePanel : AView
     {
         PingPongGame _game;
-
         RectTransform inputCatcher;
 
         Button btnSetting;
@@ -33,6 +32,13 @@ namespace PingPong
             StartCoroutine(RefreshInfo());
 
             inputCatcher.GetComponent<PointerDragEventListener>().onEvent += OnPointerDrag;
+
+            PointerDownEventListener.Get(inputCatcher.gameObject).onEvent += OnPointerDrag;
+
+            PointerUpEventListener.Get(inputCatcher.gameObject).onEvent += (e) =>
+            {                
+                _game.SetMoveCoefficient(0);
+            };
 
             btnSetting.onClick.AddListener(OpenSettingWin);
         }
@@ -54,12 +60,13 @@ namespace PingPong
 
         private void OnPointerDrag(PointerEventData obj)
         {
+            float moveCoefficient = 0;
             var camera = CameraMgr.Ins.GetUICamera();
             Vector2 localPos;
             UnityEngine.RectTransformUtility.ScreenPointToLocalPointInRectangle(inputCatcher, obj.position, camera, out localPos);
             GUIDebugInfo.SetInfo("[Drag] Mouse Position:", $"{obj.position}_{localPos}");
 
-            var moveCoefficient = localPos.x / (inputCatcher.rect.width / 2);
+            moveCoefficient = localPos.x / (inputCatcher.rect.width / 2);
             moveCoefficient = Mathf.Clamp(moveCoefficient, -1, 1);
             GUIDebugInfo.SetInfo("[Drag] Move Coefficient:", $"{moveCoefficient}");
 
