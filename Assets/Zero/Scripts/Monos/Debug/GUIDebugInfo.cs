@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -65,7 +66,7 @@ namespace Zero
                     isNeedReorder = true;
                 }
 
-                var item = _infoItemDic[key];
+                var item = _infoItemDic[key];                
                 item.value = value;
                 if (item.priority != priority)
                 {
@@ -92,6 +93,18 @@ namespace Zero
                 var item = _infoItemDic[key];
                 _infoItemDic.Remove(key);
                 _infoItems.Remove(item);
+            }
+        }
+
+        /// <summary>
+        /// 清理所有信息
+        /// </summary>
+        public static void Clear()
+        {
+            lock (_threadLocker)
+            {
+                _infoItemDic.Clear();
+                _infoItems.Clear();
             }
         }
 
