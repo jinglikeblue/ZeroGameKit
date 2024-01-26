@@ -43,7 +43,7 @@ namespace Zero
                 GameObject go = new GameObject();
                 go.name = NAME;
                 _ins = go.AddComponent<GUIDebugInfo>();
-                DontDestroyOnLoad(go);
+                DontDestroyOnLoad(go);                
             }
         }
 
