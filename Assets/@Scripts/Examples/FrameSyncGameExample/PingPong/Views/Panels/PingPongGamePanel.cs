@@ -79,7 +79,7 @@ namespace PingPong
             };
             win.onExitSelected += () =>
             {
-                UIPanelMgr.Ins.Switch<MenuPanel>();
+                UIPanelMgr.Ins.Switch<PingPongMenuPanel>();
             };
         }
 
