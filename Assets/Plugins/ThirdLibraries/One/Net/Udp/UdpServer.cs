@@ -37,7 +37,7 @@ namespace One
         /// <summary>
         /// 启动Socket服务
         /// </summary>        
-        /// <param name="localPort">坚挺的端口</param>
+        /// <param name="localPort">监听的端口</param>
         /// <param name="bufferSize">每一个连接的缓冲区大小</param>
         public void Bind(int localPort, ushort bufferSize)
         {

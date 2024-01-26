@@ -38,7 +38,7 @@ namespace Zero
         {
             if (null == _ins)
             {
-                const string NAME = "GUIDeviceInfo";
+                const string NAME = "GUIDebugInfo";
                 GameObject go = new GameObject();
                 go.name = NAME;
                 _ins = go.AddComponent<GUIDebugInfo>();

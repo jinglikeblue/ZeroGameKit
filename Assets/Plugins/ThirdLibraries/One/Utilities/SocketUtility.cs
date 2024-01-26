@@ -42,6 +42,7 @@ namespace One
         /// <returns></returns>
         public static IPAddress GetIPv4Address()
         {
+            #region 方案1
             NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
 
             foreach (NetworkInterface iface in interfaces)
@@ -58,6 +59,25 @@ namespace One
                     }
                 }
             }
+            #endregion
+
+            #region 如果方案1没有找到，这是方案2
+            // 获取本机的主机名
+            string hostName = System.Net.Dns.GetHostName();
+
+            // 根据主机名获取本机的IP地址列表
+            System.Net.IPAddress[] addresses = System.Net.Dns.GetHostAddresses(hostName);
+
+            foreach (System.Net.IPAddress address in addresses)
+            {
+                // 判断IP地址是否为IPv4地址以排除IPv6地址
+                if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    // 输出IP地址
+                    return address;
+                }
+            }
+            #endregion
 
             return null;
         }
