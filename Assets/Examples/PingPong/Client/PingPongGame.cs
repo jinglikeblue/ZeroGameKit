@@ -56,11 +56,17 @@ namespace PingPong
 
         RenderBridgeComponent _renderBridge;
 
+        /// <summary>
+        /// 数据寄存器
+        /// </summary>
+        public TemporaryStorageThreadSafe tempStorage { get; private set; }       
 
         public PingPongGame(GameObject gameObject, Action<object> bridge)
         {
             _gameObject = gameObject;
             _bridge = bridge;
+
+            tempStorage = new TemporaryStorageThreadSafe();
 
             _chronographer = new Chronograph();
             _inputController = new InputController();
@@ -99,19 +105,6 @@ namespace PingPong
         public void Pause()
         {
             _chronographer.Pause();
-        }
-
-        public void Restart()
-        {
-            _chronographer = new Chronograph();
-            _inputController = new InputController();
-
-            gameCore = new GameCore(Number.ONE / GAME_CORE_FPS);
-            _worldView = new WorldViewEntity(_gameObject);
-            _interpolationInfo = new InterpolationInfoVO();
-
-            _aiCore = new AICore();
-            _aiCore.Init(new int[] { 1 });
         }
 
         public void Continue()
@@ -169,7 +162,7 @@ namespace PingPong
         /// 距离上次游戏核心更新，经过了的时间
         /// </summary>
         /// <returns></returns>
-        Number getPastTime()
+        Number GetPastTime()
         {
             var chronographerElapsedSeconds = new Number((int)_chronographer.ElapsedMilliseconds, 1000);
             var pastTime = chronographerElapsedSeconds - gameCore.FrameData.elapsedTime;
@@ -182,7 +175,7 @@ namespace PingPong
         /// <returns></returns>
         void UpdateInterpolationInfo()
         {
-            var deltaSeconds = getPastTime();
+            var deltaSeconds = GetPastTime();
             _interpolationInfo.deltaMS = (deltaSeconds * 1000).ToInt();
             _interpolationInfo.lerpValue = (deltaSeconds / gameCore.FrameInterval).ToFloat();
         }
@@ -229,11 +222,12 @@ namespace PingPong
                 if (gameCore.FrameData.world.state == EWorldState.END)
                 {
                     //游戏结束了
+                    tempStorage.Set(Define.WINNER_STORAGE_KEY, gameCore.FrameData.world.winner);
                     break;
                 }
                 //var chronographerElapsedSeconds = new Number((int)_chronographer.ElapsedMilliseconds, 1000);
                 //距离上次游戏核心更新，经过了的时间
-                var pastTime = getPastTime();
+                var pastTime = GetPastTime();
                 //距离上次游戏核心更新，经过了的帧数
                 var pastFrameCount = (pastTime / gameCore.FrameInterval).ToInt();
 

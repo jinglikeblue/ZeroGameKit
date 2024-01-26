@@ -134,7 +134,7 @@ namespace ZeroHot
             }
             else
             {
-                Debug.LogErrorFormat("AView类[{0}]并没有适用的视图", type.FullName);
+                Debug.LogErrorFormat("AView类[{0}]并没有适用的视图。请检查是否配置或生成了资源名清单", type.FullName);
             }
             return null;
         }

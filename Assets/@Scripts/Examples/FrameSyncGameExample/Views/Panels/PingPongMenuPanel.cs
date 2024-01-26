@@ -32,7 +32,10 @@ namespace PingPong
 
             btnExit.onClick.AddListener(Exit);
             btnPVE.onClick.AddListener(EnterPVE);
+            btnPVP.onClick.AddListener(EnterPVP);
         }
+
+
 
         protected override void OnDisable()
         {
@@ -40,6 +43,12 @@ namespace PingPong
 
             btnExit.onClick.RemoveListener(Exit);
             btnPVE.onClick.RemoveListener(EnterPVE);
+            btnPVP.onClick.RemoveListener(EnterPVP);
+        }
+
+        private void EnterPVP()
+        {
+            UIWinMgr.Ins.Open<PingPongNetBattleMenuWin>();
         }
 
         private void EnterPVE()

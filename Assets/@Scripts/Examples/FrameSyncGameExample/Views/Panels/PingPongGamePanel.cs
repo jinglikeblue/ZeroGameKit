@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -37,18 +33,37 @@ namespace PingPong
             PointerDownEventListener.Get(inputCatcher.gameObject).onEvent += OnPointerDrag;
 
             PointerUpEventListener.Get(inputCatcher.gameObject).onEvent += (e) =>
-            {                
+            {
                 _game.SetMoveCoefficient(0);
             };
 
             btnSetting.onClick.AddListener(OpenSettingWin);
+
+            StartCoroutine(GameEndCheck());
         }
 
-        private void OpenSettingWin()
+        IEnumerator GameEndCheck()
         {
-            _game.Pause();
+            WaitForSeconds halfSeconds = new WaitForSeconds(0.5f);
+            while (true)
+            {
+                var value = _game.tempStorage.Get(Define.WINNER_STORAGE_KEY);
+                if (null == value)
+                {
+                    yield return halfSeconds;
+                    continue;
+                }
+                int winner = (int)value;
+                ShowControllerWin("结束", winner == 0 ? "你赢了" : "你输了", false);
+                break;
+            }
+        }
+
+        void ShowControllerWin(string title, string content, bool isShowContinueButton = true)
+        {
             var win = UIWinMgr.Ins.Open<PingPongGameControlWin>();
-            win.SetText("设置", "游戏已暂停");
+            win.btnContinue.gameObject.SetActive(isShowContinueButton);
+            win.SetText(title, content);
             win.onContinueSelected += () =>
             {
                 _game.Continue();
@@ -58,11 +73,20 @@ namespace PingPong
                 _game.Destroy();
                 var stage = StageMgr.Ins.Switch<PingPongGameStage>();
                 _game = stage.Game;
+                StopAllCoroutines();
+                StartCoroutine(RefreshInfo());
+                StartCoroutine(GameEndCheck());
             };
             win.onExitSelected += () =>
             {
                 UIPanelMgr.Ins.Switch<MenuPanel>();
             };
+        }
+
+        private void OpenSettingWin()
+        {
+            _game.Pause();
+            ShowControllerWin("设置", "游戏已暂停");
         }
 
         private void OnPointerDrag(PointerEventData obj)

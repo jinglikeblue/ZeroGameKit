@@ -202,7 +202,13 @@ namespace ZeroHot
 			public const string PingPongGameStage = "PingPongGameStage.prefab";
 			public const string PingPongGameStage_assetPath = "examples/ping_pong/PingPongGameStage.prefab";
 			public const string PingPongMenuPanel = "PingPongMenuPanel.prefab";
-			public const string PingPongMenuPanel_assetPath = "examples/ping_pong/PingPongMenuPanel.prefab";            
+			public const string PingPongMenuPanel_assetPath = "examples/ping_pong/PingPongMenuPanel.prefab";
+			public const string PingPongNetBattleHostWin = "PingPongNetBattleHostWin.prefab";
+			public const string PingPongNetBattleHostWin_assetPath = "examples/ping_pong/PingPongNetBattleHostWin.prefab";
+			public const string PingPongNetBattleJoinWin = "PingPongNetBattleJoinWin.prefab";
+			public const string PingPongNetBattleJoinWin_assetPath = "examples/ping_pong/PingPongNetBattleJoinWin.prefab";
+			public const string PingPongNetBattleMenuWin = "PingPongNetBattleMenuWin.prefab";
+			public const string PingPongNetBattleMenuWin_assetPath = "examples/ping_pong/PingPongNetBattleMenuWin.prefab";            
 		}
 
 		public sealed class EXAMPLES_ROUSHAN
@@ -668,6 +674,9 @@ namespace ZeroHot
 			dic["PingPongGamePanel"] = "examples/ping_pong.ab";
 			dic["PingPongGameStage"] = "examples/ping_pong.ab";
 			dic["PingPongMenuPanel"] = "examples/ping_pong.ab";
+			dic["PingPongNetBattleHostWin"] = "examples/ping_pong.ab";
+			dic["PingPongNetBattleJoinWin"] = "examples/ping_pong.ab";
+			dic["PingPongNetBattleMenuWin"] = "examples/ping_pong.ab";
 			dic["GamePanel"] = "examples/roushan.ab";
 			dic["GameStage"] = "examples/roushan.ab";
 			dic["HelpWin"] = "examples/roushan.ab";

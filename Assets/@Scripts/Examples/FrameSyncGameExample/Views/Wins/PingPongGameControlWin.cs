@@ -17,7 +17,7 @@ namespace PingPong
         /// <summary>
         /// 重启按钮
         /// </summary>
-        Button btnContinue;
+        public Button btnContinue;
 
         /// <summary>
         /// 重启按钮

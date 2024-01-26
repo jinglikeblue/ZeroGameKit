@@ -10,6 +10,11 @@ namespace PingPong
     public static class Define
     {
         /// <summary>
+        /// 游戏赢家的临时数据KEY
+        /// </summary>
+        public const string WINNER_STORAGE_KEY = "winner";
+
+        /// <summary>
         /// 场地的大小
         /// </summary>
         public static readonly Vector2 WORLD_SIZE = new Vector2(20, 30);
