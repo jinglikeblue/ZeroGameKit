@@ -58,7 +58,7 @@ namespace ZeroEditor.IOS
             _pbxVO.file2BuildList = file2BuildList;
             _pbxVO.toSetBuildPropertyList = setBuildProperty;
             _pbxVO.toAddBuildPropertyList = addBuildProperty;
-
+            
             EditorConfigUtil.SaveConfig(_cfg, CONFIG_NAME);
             editorWin.ShowTip("保存成功!");
         }

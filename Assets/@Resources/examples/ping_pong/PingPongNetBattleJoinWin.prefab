@@ -140,9 +140,9 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 0
+    m_FontSize: 20
     m_FontStyle: 1
-    m_BestFit: 1
+    m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
@@ -151,7 +151,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u94FE\u63A5\u4E3B\u673A"
+  m_Text: "\uFF08IP:192.168.0.1\uFF09\u94FE\u63A5\u4E3B\u673A"
 --- !u!1 &2529154026461385463
 GameObject:
   m_ObjectHideFlags: 0

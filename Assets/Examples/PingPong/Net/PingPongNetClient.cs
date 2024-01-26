@@ -6,14 +6,7 @@ using System.Threading.Tasks;
 
 namespace PingPong
 {
-    public class PingPongServer
+    public class PingPongNetClient
     {
-        /// <summary>
-        /// 启动服务
-        /// </summary>
-        public void Start()
-        {
-
-        }
     }
 }

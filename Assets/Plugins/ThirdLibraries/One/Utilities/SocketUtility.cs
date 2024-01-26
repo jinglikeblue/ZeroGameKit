@@ -42,17 +42,23 @@ namespace One
         /// <returns></returns>
         public static IPAddress GetIPv4Address()
         {
-            // 获取本机的所有IP地址
-            IPAddress[] localIPs = Dns.GetHostAddresses(Dns.GetHostName());
+            NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
 
-            // 输出所有IP地址
-            foreach (IPAddress addr in localIPs)
+            foreach (NetworkInterface iface in interfaces)
             {
-                if (addr.AddressFamily == AddressFamily.InterNetwork)
-                {                    
-                    return addr;
+                if (iface.OperationalStatus == OperationalStatus.Up)
+                {
+                    IPInterfaceProperties adapterProperties = iface.GetIPProperties();
+                    foreach (UnicastIPAddressInformation ip in adapterProperties.UnicastAddresses)
+                    {
+                        if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        {
+                            return ip.Address;
+                        }
+                    }
                 }
             }
+
             return null;
         }
 

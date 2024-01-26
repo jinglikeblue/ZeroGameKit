@@ -1,4 +1,5 @@
-﻿using System;
+﻿using One;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,13 @@ namespace PingPong
 {
     public class PingPongNetBattleHostWin : WithCloseButtonWin
     {
-        Text textContent;        
+        Text textTitle;
+        Text textContent;
+
+        protected override void OnInit(object data)
+        {
+            base.OnInit(data);
+            textTitle.text = $"(IP:{SocketUtility.GetIPv4Address()})等待加入...";
+        }
     }
 }
