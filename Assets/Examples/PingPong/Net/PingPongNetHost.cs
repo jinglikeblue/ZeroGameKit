@@ -60,6 +60,7 @@ namespace PingPong
 
         public void Update()
         {
+            _kcp.Update();
             _server.Refresh();
         }
 

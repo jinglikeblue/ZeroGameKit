@@ -2,7 +2,7 @@
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 
-namespace One
+namespace Jing
 {
     public static class SocketUtility
     {

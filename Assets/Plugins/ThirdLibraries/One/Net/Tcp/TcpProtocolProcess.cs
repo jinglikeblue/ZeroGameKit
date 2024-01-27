@@ -1,6 +1,5 @@
 ﻿using Jing;
 using System;
-using System.Collections.Generic;
 
 namespace One
 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jing;
+using System;
 using System.Net;
 using System.Net.Sockets;
 
@@ -19,7 +20,7 @@ namespace One
         ThreadSyncActions _tsa = new ThreadSyncActions();        
 
         /// <summary>
-        /// 刷新网络，如果网络线程中有收到数据，会通过onReceivedData事件
+        /// 刷新网络，如果网络线程中有收到数据，会触发onReceivedData事件回调数据。
         /// </summary>
         public void Refresh()
         {            
@@ -44,7 +45,7 @@ namespace One
         /// <param name="bufferSize">每一个连接的缓冲区大小</param>
         public void Bind(int localPort, ushort bufferSize)
         {
-            Log.CI(ConsoleColor.DarkGreen, "Bind Udp Lisening {0}:{1}", IPAddress.Any, localPort);           
+            Log.I($"Bind Udp Lisening {IPAddress.Any}:{localPort}");           
 
             _listener = new UdpListener();
             _listener.onReceivedData += OnReceivedData;

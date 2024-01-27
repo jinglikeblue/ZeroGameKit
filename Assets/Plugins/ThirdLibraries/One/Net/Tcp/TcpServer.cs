@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jing;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -62,7 +63,7 @@ namespace One
         /// <param name="bufferSize">每一个连接的缓冲区大小</param>
         public void Start(int port, int bufferSize)
         {
-            Log.CI(ConsoleColor.DarkGreen, "Tcp Server Start! Lisening {0}:{1}", IPAddress.Any, port);
+            Log.I($"Tcp Server Start! Lisening {IPAddress.Any}:{port}");
 
             _bufferSize = bufferSize;
             _socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
@@ -152,7 +153,7 @@ namespace One
             TcpChannel channel = new TcpChannel(clientSocket, _bufferSize);           
             channel.onShutdown += OnClientShutdown;
             _channelList.Add(channel);            
-            Log.I("新的连接，连接总数:{0}", ClientCount);
+            Log.I($"新的连接，连接总数:{ClientCount}");
             onClientEnter?.Invoke(channel);            
         }
         
@@ -170,7 +171,7 @@ namespace One
                 foreach (var channel in _shutdownSet)
                 {
                     _channelList.Remove(channel);
-                    Log.I("连接断开，连接总数:{0}", ClientCount);
+                    Log.I($"连接断开，连接总数:{ClientCount}");
                     onClientExit?.Invoke(channel);
                 }
                 _shutdownSet.Clear();
