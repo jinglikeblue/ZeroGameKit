@@ -85,7 +85,7 @@ namespace Zero
         {
             var item = (ResVerVO.Item)taskInfo.data;
             double size =  Math.Round((double)groupDownloader.currentDownloader.totalSize / 1024 / 1024, 2);
-            Debug.Log(Log.Zero1($"下载完成:{item.name} Size:{size}MB Ver:{item.version}"));
+            Debug.Log(LogColor.Zero1($"下载完成:{item.name} Size:{size}MB Ver:{item.version}"));
             Runtime.Ins.localResVer.SetVerAndSave(item.name, item.version);
         }
 
@@ -145,13 +145,13 @@ namespace Zero
                 nameList.AddRange(depends);
 
                 var logSB = new StringBuilder();
-                logSB.AppendLine(Log.Zero2("进行版本校验的资源：{0}", item.name));
+                logSB.AppendLine(LogColor.Zero2("进行版本校验的资源：{0}", item.name));
                 if (depends.Count > 0)
                 {
-                    logSB.AppendLine(Log.Zero2("                 依赖的资源:"));
+                    logSB.AppendLine(LogColor.Zero2("                 依赖的资源:"));
                     foreach (var depend in depends)
                     {
-                        logSB.AppendLine(Log.Zero2("                 {0}", depend));
+                        logSB.AppendLine(LogColor.Zero2("                 {0}", depend));
                     }
                 }
                 if (logSB.Length > 0)

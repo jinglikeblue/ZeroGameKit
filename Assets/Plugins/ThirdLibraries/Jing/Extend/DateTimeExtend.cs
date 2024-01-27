@@ -6,7 +6,7 @@ namespace Jing
     /// 时间对象扩展方法
     /// </summary>
     public static class DateTimeExtend
-    {
+    {        
         /// <summary>
         /// UNIX时间。
         /// 这一刻标志着UNIX操作系统的诞生。UNIX时间是从1970年1月1日00:00:00开始计时的，被称为UNIX纪元或UNIX时间戳。

@@ -23,7 +23,7 @@ namespace Zero
 
             if (isDebug)
             {
-                Debug.Log(Log.Zero1("IL_RUNTIME 调试端口：56000"));
+                Debug.Log(LogColor.Zero1("IL_RUNTIME 调试端口：56000"));
                 //启动调试监听
                 appDomain.DebugService.StartDebugService(56000);
             }

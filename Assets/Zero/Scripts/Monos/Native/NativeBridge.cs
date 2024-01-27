@@ -13,7 +13,7 @@ namespace Zero
         /// <param name="json"></param>
         public void OnMessage(string json)
         {
-            Debug.Log(Log.Zero1("收到Native的消息:\n{0}", json));
+            Debug.Log(LogColor.Zero1("收到Native的消息:\n{0}", json));
         }        
     }
 }

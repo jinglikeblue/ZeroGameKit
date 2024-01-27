@@ -49,18 +49,18 @@ namespace ZeroEditor
         {
             if (IsHybridCLRInstalled())
             {
-                return Log.Zero2("HybridCLR插件已安装");
+                return LogColor.Zero2("HybridCLR插件已安装");
             }
-            return Log.Zero1("HybridCLR插件尚未安装");
+            return LogColor.Zero1("HybridCLR插件尚未安装");
         }
 
         string HybridCLREnvironmentInfo()
         {
             if (IsHybridCLREnvironmentCorrect())
             {
-                return Log.Zero2("HybridCLR环境已设置");
+                return LogColor.Zero2("HybridCLR环境已设置");
             }
-            return Log.Zero1("HybridCLR环境尚未设置");
+            return LogColor.Zero1("HybridCLR环境尚未设置");
         }
 
         protected override void OnEnable()

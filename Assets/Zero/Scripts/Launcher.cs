@@ -148,7 +148,7 @@ namespace Zero
             {
                 if (_isAutoOffline && EBuiltinResMode.HOT_PATCH == launcherData.builtinResMode)
                 {
-                    Debug.Log(Zero.Log.Zero1("自动切换为「仅使用内嵌资源模式」"));
+                    Debug.Log(Zero.LogColor.Zero1("自动切换为「仅使用内嵌资源模式」"));
                     launcherData.builtinResMode = EBuiltinResMode.ONLY_USE;
                 }
                 else
@@ -245,7 +245,7 @@ namespace Zero
         void ChangeState(EState state)
         {
             CurrentState = state;
-            Debug.Log(Log.Zero1($"Launcher State: {state}"));
+            Debug.Log(LogColor.Zero1($"Launcher State: {state}"));
             onStateChange?.Invoke(state);
         }
 

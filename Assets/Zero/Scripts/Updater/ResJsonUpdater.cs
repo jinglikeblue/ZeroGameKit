@@ -22,7 +22,7 @@ namespace Zero
         {
             base.Start();
 
-            Debug.Log(Log.Zero1("「ResJsonUpdater」res.json文件更新检查..."));
+            Debug.Log(LogColor.Zero1("「ResJsonUpdater」res.json文件更新检查..."));
 
             url = FileUtility.CombinePaths(Runtime.Ins.netResDir, ZeroConst.RES_JSON_FILE_NAME);
             localPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.RES_JSON_FILE_NAME);
@@ -39,7 +39,7 @@ namespace Zero
 
         IEnumerator UpdateResJson()
         {
-            Debug.Log(Log.Zero1("「ResJsonUpdater」res.json文件更新中..."));
+            Debug.Log(LogColor.Zero1("「ResJsonUpdater」res.json文件更新中..."));
             
             var version = DateTime.UtcNow.ToFileTimeUtc().ToString();
 

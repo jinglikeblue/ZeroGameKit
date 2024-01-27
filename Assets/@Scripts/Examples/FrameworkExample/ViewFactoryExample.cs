@@ -61,7 +61,7 @@ namespace Example
                 //同步方式之一
                 var prefab = ResMgr.Ins.Load<GameObject>(AB.EXAMPLES_FRAMEWORK.ClockView_assetPath);
                 _clock = ViewFactory.Create<ClockView>(prefab, content, DateTime.Now);
-                Debug.Log(Log.Zero1($"同步视图创建完成:{_clock.GetType()}"));
+                Debug.Log(LogColor.Zero1($"同步视图创建完成:{_clock.GetType()}"));
             }
             else
             {
@@ -69,16 +69,16 @@ namespace Example
                 ViewFactory.CreateAsync<ClockView>(AB.EXAMPLES_FRAMEWORK.NAME, AB.EXAMPLES_FRAMEWORK.ClockView, content, DateTime.Now, 
                 (ClockView view)=>
                 {
-                    Debug.Log(Log.Zero2($"异步视图创建完成:{_clock.GetType()}"));
+                    Debug.Log(LogColor.Zero2($"异步视图创建完成:{_clock.GetType()}"));
                     _clock = view;
                 }, 
                 (float progress)=>
                 {
-                    Debug.Log(Log.Zero2($"异步加载进度:{progress}"));
+                    Debug.Log(LogColor.Zero2($"异步加载进度:{progress}"));
                 }, 
                 (UnityEngine.Object obj)=>
                 {
-                    Debug.Log(Log.Zero2($"异步加载完成 name:{obj.name} type:{obj.GetType()}"));
+                    Debug.Log(LogColor.Zero2($"异步加载完成 name:{obj.name} type:{obj.GetType()}"));
                 });
             }
 

@@ -34,7 +34,7 @@ namespace Example
 
             sb.AppendLine();
             sb.AppendLine("-------------列表排序（按照Value排序）-------------");
-            var newList = Zero.ArrayUtility.Sort<TestVO>(list, (a,b) => {
+            var newList = Jing.ArrayUtility.Sort<TestVO>(list, (a,b) => {
                 return ((TestVO)a).value < ((TestVO)b).value;
             });
 

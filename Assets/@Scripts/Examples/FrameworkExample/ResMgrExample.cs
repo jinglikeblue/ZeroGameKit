@@ -75,7 +75,7 @@ namespace Example
                 },
                 (progress) =>
                 {
-                    L(Log.Zero1($"{AB.EXAMPLES_TEXTURES.gift_pudding_png_assetPath} 加载进度:{progress}"));
+                    L(LogColor.Zero1($"{AB.EXAMPLES_TEXTURES.gift_pudding_png_assetPath} 加载进度:{progress}"));
                 }
                 );            
 
@@ -87,7 +87,7 @@ namespace Example
                 },
                 (progress) =>
                 {
-                    L(Log.Zero1($"{AB.EXAMPLES_TEXTURES.gift_sundae_png_assetPath} 加载进度:{progress}"));
+                    L(LogColor.Zero1($"{AB.EXAMPLES_TEXTURES.gift_sundae_png_assetPath} 加载进度:{progress}"));
                 }
                 );
         }
@@ -125,26 +125,26 @@ namespace Example
         {
             var abName = AB.ROOT_ASSETS.NAME;
 
-            L(Log.Zero1($"获取AB中的资源名称列表:{abName}"));
+            L(LogColor.Zero1($"获取AB中的资源名称列表:{abName}"));
             var names = ResMgr.Ins.GetAllAsssetsNames(abName);
             for (int i = 0; i < names.Length; i++)
             {
-                L(Log.Zero1($"{i}:{names[i]}"));
+                L(LogColor.Zero1($"{i}:{names[i]}"));
                 var temp = ResMgr.Ins.Load(abName, names[i]);
             }
 
-            L(Log.Zero1($"开始同步加载:{abName}"));
+            L(LogColor.Zero1($"开始同步加载:{abName}"));
             var objs = ResMgr.Ins.LoadAll(abName);
-            L(Log.Zero1($"加载完成，资源数:{objs?.Length}"));
+            L(LogColor.Zero1($"加载完成，资源数:{objs?.Length}"));
 
-            L(Log.Zero1($"开始异步加载:{abName}"));
+            L(LogColor.Zero1($"开始异步加载:{abName}"));
             ResMgr.Ins.LoadAllAsync(abName, (assets) =>
             {
-                L(Log.Zero1($"加载完成，资源数:{assets?.Length}"));
+                L(LogColor.Zero1($"加载完成，资源数:{assets?.Length}"));
             },
             (progress) =>
             {
-                L(Log.Zero1($"加载进度:{progress}"));
+                L(LogColor.Zero1($"加载进度:{progress}"));
             });
         }
     }

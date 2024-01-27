@@ -121,7 +121,7 @@ namespace Zero
                             text = File.ReadAllText(absolutePath);
                             break;
                     }
-                    Debug.Log(Log.Zero2($"HotFiles读取成功[IO]: {absolutePath}"));
+                    Debug.Log(LogColor.Zero2($"HotFiles读取成功[IO]: {absolutePath}"));
                     Complete();
                     return true;
                 }
@@ -162,7 +162,7 @@ namespace Zero
                         text = uwr.downloadHandler.text;
                         break;
                 }
-                Debug.Log(Log.Zero2($"HotFiles读取成功[StreamingAssets]: {absolutePath}"));
+                Debug.Log(LogColor.Zero2($"HotFiles读取成功[StreamingAssets]: {absolutePath}"));
                 Complete();                
             }
 

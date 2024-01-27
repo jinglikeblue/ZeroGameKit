@@ -1,4 +1,5 @@
 ﻿using Example;
+using Jing;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -62,7 +63,7 @@ namespace ZeroGameKit
 
         protected override void OnInit(object data)
         {
-            base.OnInit(data);
+            base.OnInit(data);           
 
             StageMgr.Ins.Clear();
 
@@ -70,7 +71,7 @@ namespace ZeroGameKit
 
             AddBtn(GROUP_DEBUG, "测试包下载地址", () => { Application.OpenURL("https://tt.appc02.com/y8b6"); });
             AddBtn(GROUP_DEBUG, "清空缓存", ClearCache);
-            AddBtn(GROUP_DEBUG, "GC", ResMgr.Ins.DoGC);            
+            AddBtn(GROUP_DEBUG, "GC", ResMgr.Ins.DoGC);
 
             AddBtn(GROUP_FUTURE, "加载StreamingAssets", StreamingAssetsLoadFuture.Start);
 
@@ -144,7 +145,7 @@ namespace ZeroGameKit
 
             AddBtn(GROUP_VIDEO, "视频播放", VideoExample.Start);
 
-            OnToggleShowTodoValueChanged(toggleShowTodo.isOn);            
+            OnToggleShowTodoValueChanged(toggleShowTodo.isOn);
         }
 
         void AddBtn(string group, string label, Action action)

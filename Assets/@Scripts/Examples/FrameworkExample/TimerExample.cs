@@ -68,13 +68,13 @@ namespace Example
 
         private void OnTimerTriggered(Timer t)
         {
-            L(Log.Zero1($"OnTimerTriggered：repeatCount={t.repeatCount} , triggeredTimes={t.triggeredTimes}, RemainingSeconds={t.RemainingSeconds}"));
+            L(LogColor.Zero1($"OnTimerTriggered：repeatCount={t.repeatCount} , triggeredTimes={t.triggeredTimes}, RemainingSeconds={t.RemainingSeconds}"));
             RefreshUI();
         }
 
         private void OnTimerComplete(Timer t)
         {
-            L(Log.Zero2($"OnTimerComplete：repeatCount={t.repeatCount} , triggeredTimes={t.triggeredTimes}, RemainingSeconds={t.RemainingSeconds}"));
+            L(LogColor.Zero2($"OnTimerComplete：repeatCount={t.repeatCount} , triggeredTimes={t.triggeredTimes}, RemainingSeconds={t.RemainingSeconds}"));
             RefreshUI();
         }
 

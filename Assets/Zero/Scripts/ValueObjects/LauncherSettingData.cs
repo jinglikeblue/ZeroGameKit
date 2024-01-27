@@ -107,10 +107,10 @@ namespace Zero
             switch (builtinResMode)
             {
                 case EBuiltinResMode.HOT_PATCH:
-                    source = $"{Log.Zero2("热补丁模式（推荐）。优先使用通过网络更新到的资源，其次使用内嵌的资源")}";
+                    source = $"{LogColor.Zero2("热补丁模式（推荐）。优先使用通过网络更新到的资源，其次使用内嵌的资源")}";
                     break;
                 case EBuiltinResMode.ONLY_USE:
-                    source = $"{Log.Zero2("该模式可以完全脱离网络运行，非常适合用来制作[不联网的单机游戏]。")}";
+                    source = $"{LogColor.Zero2("该模式可以完全脱离网络运行，非常适合用来制作[不联网的单机游戏]。")}";
                     break;
             }
             return source;
@@ -130,13 +130,13 @@ namespace Zero
             switch (hotResMode)
             {
                 case EHotResMode.NET_ASSET_BUNDLE:
-                    source = $"[部署模式]资源来源:    {Log.Zero2("网络资源根目录")}。从网络资源目录加载资源（Release版采用）";
+                    source = $"[部署模式]资源来源:    {LogColor.Zero2("网络资源根目录")}。从网络资源目录加载资源（Release版采用）";
                     break;
                 case EHotResMode.LOCAL_ASSET_BUNDLE:
-                    source = $"[开发模式]资源来源:    {Log.Zero2(ZeroConst.PUBLISH_RES_ROOT_DIR)}。从本地资源目录加载资源（资源上传前，本地测试AB包采用）";
+                    source = $"[开发模式]资源来源:    {LogColor.Zero2(ZeroConst.PUBLISH_RES_ROOT_DIR)}。从本地资源目录加载资源（资源上传前，本地测试AB包采用）";
                     break;
                 case EHotResMode.ASSET_DATA_BASE:
-                    source = $"[开发模式]资源来源:    {Log.Zero2(ZeroConst.HOT_RESOURCES_ROOT_DIR)}。使用AssetDataBase加载资源（开发阶段使用）";
+                    source = $"[开发模式]资源来源:    {LogColor.Zero2(ZeroConst.HOT_RESOURCES_ROOT_DIR)}。使用AssetDataBase加载资源（开发阶段使用）";
                     break;
             }
             return source;

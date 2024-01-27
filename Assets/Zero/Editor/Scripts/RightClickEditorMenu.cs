@@ -17,8 +17,8 @@ public class RightClickEditorMenu
         var cmd = new DllBuildCommand(ZeroEditorConst.HOT_SCRIPT_ROOT_DIR, ZeroEditorConst.DLL_PUBLISH_DIR);
         cmd.onFinished += (DllBuildCommand self, bool isSuccess) => {
             var tip = isSuccess ? "Dll生成成功!" : "Dll生成失败!";
-            Debug.Log(Log.Zero1(tip));
-            Debug.Log(Log.Zero1("耗时:{0}秒", (DateTime.Now - now).TotalSeconds));
+            Debug.Log(LogColor.Zero1(tip));
+            Debug.Log(LogColor.Zero1("耗时:{0}秒", (DateTime.Now - now).TotalSeconds));
         };
         cmd.Execute();        
     }
@@ -93,7 +93,7 @@ public class RightClickEditorMenu
             AssetDatabase.Refresh();
 
             var tn = DateTime.Now - startTime;
-            Debug.Log(Log.Zero1($"生成完毕! 耗时:{(long)tn.TotalMilliseconds}ms"));
+            Debug.Log(LogColor.Zero1($"生成完毕! 耗时:{(long)tn.TotalMilliseconds}ms"));
         };
         findCmd.Excute();
     }
@@ -106,7 +106,7 @@ public class RightClickEditorMenu
             var obj = Selection.objects[i];
             var path = AssetDatabase.GetAssetPath(obj);
             var importer = AssetImporter.GetAtPath(path);
-            Debug.Log(Log.Zero1($"Name: {obj.name}, ObjectType: {obj.GetType()}, ImporterType: {importer.GetType().Name}, Path: {path}"));
+            Debug.Log(LogColor.Zero1($"Name: {obj.name}, ObjectType: {obj.GetType()}, ImporterType: {importer.GetType().Name}, Path: {path}"));
         }
     }
 }

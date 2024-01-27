@@ -88,8 +88,8 @@ namespace Knight
             UpdateSetting(obj);
             if (Debug.isDebugBuild)
             {
-                GUILog.Clear();
-                GUILog.Show(string.Format("{0} 分辨率设置为：{1}", DateTime.Now.ToString("HH:mm:ss"), G.Ins.Setting.resolutionSize));
+                GUIDebugInfo.Clear();
+                GUIDebugInfo.SetInfo("Resolution", string.Format("{0} 分辨率设置为：{1}", DateTime.Now.ToString("HH:mm:ss"), G.Ins.Setting.resolutionSize));
             }
         }
 

@@ -170,7 +170,7 @@ namespace Example
         {
             ByteArray ba = new ByteArray(data);
             var msg = ba.ReadString();
-            L(Zero.Log.Zero2(msg));
+            L(Zero.LogColor.Zero2(msg));
         }
 
         void RefreshUI()
@@ -251,7 +251,7 @@ namespace Example
         {
             ByteArray ba = new ByteArray(data);
             var msg = ba.ReadString();
-            L(Zero.Log.Zero2($"收到消息:{msg}"));
+            L(Zero.LogColor.Zero2($"收到消息:{msg}"));
 
             ba.Reset();
             ba.Write($"服务器收到消息:{msg}");

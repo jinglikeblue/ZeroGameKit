@@ -35,7 +35,7 @@ namespace Zero
             {
                 if(item.version != LocalResVerModel.EMPTY_VERSION && GetVer(item.name) != item.version)
                 {
-                    Debug.Log(Log.Zero1($"[LocalMixResVerModel] 混合的文件版本号 name:{item.name}  version:{item.version}"));
+                    Debug.Log(LogColor.Zero1($"[LocalMixResVerModel] 混合的文件版本号 name:{item.name}  version:{item.version}"));
                     SetVer(item.name, item.version);
                 }                
             }

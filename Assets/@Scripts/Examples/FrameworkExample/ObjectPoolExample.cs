@@ -50,12 +50,12 @@ namespace Example
 
             public void OnDiscarded()
             {
-                sb.AppendLine($"{Log.Zero2(name)}: 被对象池遗弃");
+                sb.AppendLine($"{LogColor.Zero2(name)}: 被对象池遗弃");
             }
 
             public void OnRecycled()
             {
-                sb.AppendLine($"{Log.Zero2(name)}: 被回收到对象池");
+                sb.AppendLine($"{LogColor.Zero2(name)}: 被回收到对象池");
             }
         }
 

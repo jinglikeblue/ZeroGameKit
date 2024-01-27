@@ -36,8 +36,8 @@ namespace Zero
         static List<InfoItem> _infoItems = new List<InfoItem>();
 
         public static void Show()
-        {
-            if (null == _ins)
+        {         
+            if (null == _ins && Debug.unityLogger.logEnabled)
             {
                 const string NAME = "GUIDebugInfo";
                 GameObject go = new GameObject();

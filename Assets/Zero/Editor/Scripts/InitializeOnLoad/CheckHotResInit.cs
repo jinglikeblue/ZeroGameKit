@@ -23,7 +23,7 @@ namespace ZeroEditor
                 {
                     fi.Directory.Create();
                 }
-                Debug.Log(Log.Blue($"初始化「setting.json」文件：{settingFilePath}"));
+                Debug.Log(LogColor.Blue($"初始化「setting.json」文件：{settingFilePath}"));
                 var cfg = new SettingVO();
                 string jsonStr = LitJson.JsonMapper.ToPrettyJson(cfg);
                 File.WriteAllText(settingFilePath, jsonStr);
@@ -39,7 +39,7 @@ namespace ZeroEditor
                 {
                     fi.Directory.Create();
                 }
-                Debug.Log(Log.Blue($"初始化「res.json」文件：{resFilePath}"));
+                Debug.Log(LogColor.Blue($"初始化「res.json」文件：{resFilePath}"));
                 new ResJsonBuildCommand(ZeroConst.PUBLISH_RES_ROOT_DIR).Execute();
             }
         }

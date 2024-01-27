@@ -188,7 +188,7 @@ namespace Zero
         {
             VO.isLogEnable = enable;
             //日志控制
-            Log.IsActive = enable;
+            Debug.unityLogger.logEnabled = enable;                       
         }
 
 
@@ -230,22 +230,22 @@ namespace Zero
                 localResVer = new LocalResVerModel();
             }
 
-            Debug.Log(Log.Zero1("[Runtime]Streaming Assets Dir: {0}", ZeroConst.STREAMING_ASSETS_PATH));
+            Debug.Log(LogColor.Zero1("[Runtime]Streaming Assets Dir: {0}", ZeroConst.STREAMING_ASSETS_PATH));
 
             if (null != SettingFileNetDirList)
             {
                 for (var i = 0; i < SettingFileNetDirList.Length; i++)
                 {
-                    Debug.Log(Log.Zero1($"Net Res Root {i}        : {SettingFileNetDirList[i]}"));
+                    Debug.Log(LogColor.Zero1($"Net Res Root {i}        : {SettingFileNetDirList[i]}"));
                 }
             }
             else
             {
-                Debug.Log(Log.Zero1("Net Res Root        : Empty"));
+                Debug.Log(LogColor.Zero1("Net Res Root        : Empty"));
             }
-            Debug.Log(Log.Zero1("[Runtime]Persistent Data Dir : {0}", ZeroConst.PERSISTENT_DATA_PATH));
-            Debug.Log(Log.Zero1("[Runtime]Local Res Dir       : {0}", localResDir == null ? "Empty" : localResDir));
-            Debug.Log(Log.Zero1("[Runtime]Generate Files Dir  : {0}", generateFilesDir));
+            Debug.Log(LogColor.Zero1("[Runtime]Persistent Data Dir : {0}", ZeroConst.PERSISTENT_DATA_PATH));
+            Debug.Log(LogColor.Zero1("[Runtime]Local Res Dir       : {0}", localResDir == null ? "Empty" : localResDir));
+            Debug.Log(LogColor.Zero1("[Runtime]Generate Files Dir  : {0}", generateFilesDir));
 
 
             CheckEnvironment();
@@ -285,7 +285,7 @@ namespace Zero
         /// </summary>
         void CheckEnvironment()
         {
-            Debug.Log(Log.Zero1($"内嵌资源使用模式  : {BuiltinResMode}"));
+            Debug.Log(LogColor.Zero1($"内嵌资源使用模式  : {BuiltinResMode}"));
             if (BuiltinResMode == EBuiltinResMode.ONLY_USE && false == streamingAssetsResInitiator.IsResExist)
             {
                 throw new Exception($"[仅使用内嵌资源模式]下，{ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW} 下的资源不正确");

@@ -103,19 +103,19 @@ namespace ZeroEditor
             {
                 if (!Directory.Exists(HybridCLREditorConst.HYBRID_CLR_IL2CPP_DIR))
                 {                    
-                    Debug.Log(Log.Red($"HybridCLR环境设置失败: HybridCLR插件代码尚未安装[{HybridCLREditorConst.HYBRID_CLR_IL2CPP_DIR}]"));
+                    Debug.Log(LogColor.Red($"HybridCLR环境设置失败: HybridCLR插件代码尚未安装[{HybridCLREditorConst.HYBRID_CLR_IL2CPP_DIR}]"));
                     return;
                 }
 
                 PlayerSettingUtility.AddScriptingDefineSymbols(HybridCLREditorConst.SCRIPTING_DEFINE_SYMBOL, EditorUserBuildSettings.selectedBuildTargetGroup);
 
-                Debug.Log(Log.Zero1($"HybridCLR环境设置: 添加宏[{HybridCLREditorConst.SCRIPTING_DEFINE_SYMBOL}]"));
+                Debug.Log(LogColor.Zero1($"HybridCLR环境设置: 添加宏[{HybridCLREditorConst.SCRIPTING_DEFINE_SYMBOL}]"));
 
                 Environment.SetEnvironmentVariable(HybridCLREditorConst.ENVIRONMENT_VARIABLE_KEY, HybridCLREditorConst.HYBRID_CLR_IL2CPP_DIR);
 
-                Debug.Log(Log.Zero1($"HybridCLR环境设置: 设置环境变量[{HybridCLREditorConst.ENVIRONMENT_VARIABLE_KEY} = {HybridCLREditorConst.HYBRID_CLR_IL2CPP_DIR}]"));               
+                Debug.Log(LogColor.Zero1($"HybridCLR环境设置: 设置环境变量[{HybridCLREditorConst.ENVIRONMENT_VARIABLE_KEY} = {HybridCLREditorConst.HYBRID_CLR_IL2CPP_DIR}]"));               
 
-                Debug.Log(Log.Zero1($"HybridCLR环境设置: 拷贝AotDll到[Resources/hybrid_clr]目录，为正式包的补充元数据做准备"));
+                Debug.Log(LogColor.Zero1($"HybridCLR环境设置: 拷贝AotDll到[Resources/hybrid_clr]目录，为正式包的补充元数据做准备"));
                 CopyAotDllToResources();
             }
             else
@@ -133,13 +133,13 @@ namespace ZeroEditor
             {
                 PlayerSettingUtility.RemoveScriptingDefineSymbols(HybridCLREditorConst.SCRIPTING_DEFINE_SYMBOL, EditorUserBuildSettings.selectedBuildTargetGroup);
 
-                Debug.Log(Log.Zero1($"HybridCLR环境清除: 删除宏[{HybridCLREditorConst.SCRIPTING_DEFINE_SYMBOL}]"));
+                Debug.Log(LogColor.Zero1($"HybridCLR环境清除: 删除宏[{HybridCLREditorConst.SCRIPTING_DEFINE_SYMBOL}]"));
 
                 Environment.SetEnvironmentVariable(HybridCLREditorConst.ENVIRONMENT_VARIABLE_KEY, null);
 
-                Debug.Log(Log.Zero1($"HybridCLR环境清除: 删除环境变量[{HybridCLREditorConst.ENVIRONMENT_VARIABLE_KEY}]"));
+                Debug.Log(LogColor.Zero1($"HybridCLR环境清除: 删除环境变量[{HybridCLREditorConst.ENVIRONMENT_VARIABLE_KEY}]"));
 
-                Debug.Log(Log.Zero1($"HybridCLR环境清除:  删除为正式包的补充元数据做准备的[Resources/hybrid_clr]目录"));
+                Debug.Log(LogColor.Zero1($"HybridCLR环境清除:  删除为正式包的补充元数据做准备的[Resources/hybrid_clr]目录"));
                 DeleteAotDllResourcesDir();
             }
             else
@@ -198,7 +198,7 @@ namespace ZeroEditor
         public static void UninstallHybridCLRPlugin()
         {
             Directory.Delete(HybridCLREditorConst.HYBRID_CLR_INSTALL_DIR, true);
-            Debug.Log(Log.Zero1($"HybridCLR插件卸载: 删除插件目录[{HybridCLREditorConst.HYBRID_CLR_INSTALL_DIR}]"));
+            Debug.Log(LogColor.Zero1($"HybridCLR插件卸载: 删除插件目录[{HybridCLREditorConst.HYBRID_CLR_INSTALL_DIR}]"));
 
             CleanHybridCLREnvironment();
         }

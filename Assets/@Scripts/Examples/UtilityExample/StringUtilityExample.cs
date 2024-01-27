@@ -18,8 +18,8 @@ namespace Example
             string testStr = "HelloWorld\0\0\0\0\0";
             var tucStr = StringUtility.TrimUnusefulChar(testStr);
 
-            sb.AppendLine($"原始字符串 Length：{Log.Zero1(testStr.Length.ToString())}");
-            sb.AppendLine($"字符串精简后 Length：{Log.Zero1(tucStr.Length.ToString())}");
+            sb.AppendLine($"原始字符串 Length：{LogColor.Zero1(testStr.Length.ToString())}");
+            sb.AppendLine($"字符串精简后 Length：{LogColor.Zero1(tucStr.Length.ToString())}");
 
             var msg = MsgWin.Show("StringUtilityExample", sb.ToString());            
         }

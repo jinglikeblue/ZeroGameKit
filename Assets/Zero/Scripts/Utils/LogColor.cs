@@ -1,12 +1,9 @@
-﻿using System;
-using UnityEngine;
-
-namespace Zero
+﻿namespace Zero
 {
     /// <summary>
-    /// 日志打印
+    /// 日志的颜色控制
     /// </summary>
-    public class Log
+    public static class LogColor
     {
         /// <summary>
         /// Zero框架专用配色
@@ -45,22 +42,6 @@ namespace Zero
         /// 紫色
         /// </summary>
         public const string COLOR_PURPLE = "865FC5";
-
-        /// <summary>
-        /// 日志是否激活
-        /// </summary>
-        public static bool IsActive
-        {
-            get
-            {
-                return Debug.unityLogger.logEnabled;
-            }
-
-            set
-            {                
-                Debug.unityLogger.logEnabled = value;
-            }
-        }
 
         public static string Red(string format, params object[] args)
         {
@@ -142,39 +123,6 @@ namespace Zero
 
             var message = string.Format("<color=#{0}>{1}</color>", color, string.Format(format,args));
             return message;
-        }
-
-        public static void CGUI(string color, object content)
-        {
-            var message = string.Format("<color=#{0}>{1}</color>", color, content);
-            GUI(message);
-        }
-
-        public static void CGUI(string color, string format, params object[] args)
-        {
-            var message = string.Format("<color=#{0}>{1}</color>", color, string.Format(format, args));
-            GUI(message);
-        }
-
-        public static void GUI(string format, params object[] args)
-        {
-            GUI(string.Format(format, args));
-        }
-
-        /// <summary>
-        /// 在一个UI面板中显示一条日志消息
-        /// </summary>
-        /// <param name="content"></param>
-        public static void GUI(string content)
-        {
-            if (!IsActive)
-            {
-                return;
-            }
-
-            content = string.Format("[{0}] {1}", DateTime.Now.ToString("HH:mm:ss.fff"), content);
-            Debug.Log(content);
-            GUILog.Show(content);
         }
     }
 }

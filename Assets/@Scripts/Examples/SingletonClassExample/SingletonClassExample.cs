@@ -15,19 +15,19 @@ namespace Example
 
             public override void Destroy()
             {
-                Debug.Log(Log.Blue("singleton class Destroy() run"));
+                Debug.Log(LogColor.Blue("singleton class Destroy() run"));
             }
 
             protected override void Init()
             {
-                Debug.Log(Log.Blue("singleton class Init() run"));
+                Debug.Log(LogColor.Blue("singleton class Init() run"));
             }
         }
 
         public static void Start()
         {
-            Debug.Log(Log.Blue($"访问单例类：{SingletonDemo.Ins.value}"));
-            Debug.Log(Log.Blue("销毁单例类"));
+            Debug.Log(LogColor.Blue($"访问单例类：{SingletonDemo.Ins.value}"));
+            Debug.Log(LogColor.Blue("销毁单例类"));
             SingletonDemo.ResetIns();            
         }        
     }

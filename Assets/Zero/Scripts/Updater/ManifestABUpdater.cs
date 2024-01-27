@@ -20,7 +20,7 @@ namespace Zero
         {
             base.Start();
 
-            Debug.Log(Log.Zero1("「ManifestABUpdater」manifest.ab文件更新检查..."));
+            Debug.Log(LogColor.Zero1("「ManifestABUpdater」manifest.ab文件更新检查..."));
 
             manifestABPath = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION);
 
@@ -36,7 +36,7 @@ namespace Zero
 
         IEnumerator UpdateManifestAB()
         {
-            Debug.Log(Log.Zero1("「ManifestABUpdater」manifest.ab文件更新中..."));
+            Debug.Log(LogColor.Zero1("「ManifestABUpdater」manifest.ab文件更新中..."));
 
             var url = FileUtility.CombinePaths(Runtime.Ins.netResDir, manifestABPath);
             var ver = Runtime.Ins.netResVer.GetVer(manifestABPath);

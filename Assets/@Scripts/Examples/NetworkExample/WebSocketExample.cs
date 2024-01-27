@@ -158,7 +158,7 @@ namespace Example
         {
             ByteArray ba = new ByteArray(data);
             var msg = ba.ReadString();
-            L(Zero.Log.Zero2(msg));
+            L(Zero.LogColor.Zero2(msg));
         }
 
         private void OnDisconnect(WebSocketClient client)
@@ -257,7 +257,7 @@ namespace Example
         {
             ByteArray ba = new ByteArray(data);
             var msg = ba.ReadString();
-            L($"收到消息:{Zero.Log.Zero2(msg)}");
+            L($"收到消息:{Zero.LogColor.Zero2(msg)}");
 
             ba.Reset();
             ba.Write($"服务器收到消息:{msg}");

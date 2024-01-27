@@ -12,7 +12,7 @@ namespace Example
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine(Log.Zero1("------------------Screen------------------"));
+            sb.AppendLine(LogColor.Zero1("------------------Screen------------------"));
             sb.AppendLine($"Screen.width = {Screen.width} , Screen.height = {Screen.height}");
             sb.AppendLine($"Screen.safeArea = {Screen.safeArea}");
             sb.AppendLine();

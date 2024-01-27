@@ -72,7 +72,7 @@ namespace Example
         {
             protected override void OnReceive(MessageA m)
             {
-                sb.AppendLine("MessageReceiverA:OnReceive " + Log.Zero1(m.ToString()));
+                sb.AppendLine("MessageReceiverA:OnReceive " + LogColor.Zero1(m.ToString()));
             }
         }
 
@@ -80,7 +80,7 @@ namespace Example
         {
             protected override void OnReceive(MessageB m)
             {
-                sb.AppendLine("MessageReceiverB:OnReceive " + Log.Zero1(m.ToString()));
+                sb.AppendLine("MessageReceiverB:OnReceive " + LogColor.Zero1(m.ToString()));
             }
         }
     }

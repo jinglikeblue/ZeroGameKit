@@ -12,7 +12,7 @@ namespace Zero
         internal override void Start()
         {
             base.Start();
-            Debug.Log(Log.Zero1("「SettingJsonInitiator」配置文件更新检查..."));
+            Debug.Log(LogColor.Zero1("「SettingJsonInitiator」配置文件更新检查..."));
             _localPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, "setting.json");
 
 
@@ -80,7 +80,7 @@ namespace Zero
             for (var i = 0; i < list.Length; i++)
             {
                 var settingFileUrl = FileUtility.CombinePaths(list[i], "setting.json");
-                Debug.Log(Log.Zero1("开始下载setting.json: {0}", settingFileUrl));
+                Debug.Log(LogColor.Zero1("开始下载setting.json: {0}", settingFileUrl));
                 HttpDownloader loader = new HttpDownloader(settingFileUrl, _localPath, DateTime.UtcNow.ToFileTimeUtc().ToString());
                 loader.Start();
                 while (false == loader.isDone)
@@ -94,7 +94,7 @@ namespace Zero
                 }
                 else
                 {
-                    Debug.Log(Log.Zero2($"setting.json下载失败({loader.error}): {settingFileUrl}"));
+                    Debug.Log(LogColor.Zero2($"setting.json下载失败({loader.error}): {settingFileUrl}"));
                 }
             }
 
