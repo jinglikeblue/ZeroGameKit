@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace Jing
+﻿namespace Jing
 {
     /// <summary>
     /// 日志类，跨环境兼容。根据平台逐步添加

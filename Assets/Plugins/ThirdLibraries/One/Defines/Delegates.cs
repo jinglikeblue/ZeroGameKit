@@ -37,4 +37,11 @@ namespace One
     /// <param name="client"></param>
     /// <param name="data"></param>
     public delegate void WebSocketClientReceivedDataEvent(WebSocketClient client, byte[] data);
+
+    /// <summary>
+    /// KcpClient收到数据的事件
+    /// </summary>
+    /// <param name="client"></param>
+    /// <param name="data"></param>
+    public delegate void KcpClientReceivedDataEvent(KcpClient client, byte[] data);
 }
