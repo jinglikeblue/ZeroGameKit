@@ -1,9 +1,6 @@
-﻿using Jing;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System;
 
-namespace Zero
+namespace Jing
 {
     /// <summary>
     /// (毫秒)计时器
@@ -35,6 +32,12 @@ namespace Zero
         /// 开始时间
         /// </summary>
         DateTime _startTime;
+
+        /// <summary>
+        /// 启动时刻的时间戳
+        /// </summary>
+        public long StartUtcMilliseconds => _startTime.ToUtcMilliseconds();
+        
 
         /// <summary>
         /// 暂停之前经过了的时间

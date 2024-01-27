@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Zero
 {
     /// <summary>
-    /// C#「特性」工具类
+    /// 类型工具类
     /// </summary>
-    public static class AttributeUtility
+    public static class TypeUtility
     {
         /// <summary>
-        /// 查找使用了指定特性的类
+        /// 通过基类查找他的派生类
         /// </summary>
-        /// <param name="attributeType"></param>
+        /// <param name="baseType"></param>
         /// <returns></returns>
-        public static Type[] FindClasses(Type attributeType)
+        public static Type[] FindSubclasses(Type baseType)
         {
             List<Type> findedTypes = new List<Type>();
 
@@ -27,30 +24,35 @@ namespace Zero
             // 遍历所有程序集
             foreach (Assembly assembly in assemblies)
             {
-                var types = FindClasses(assembly, attributeType);
+                var types = FindSubclasses(assembly, baseType);
                 findedTypes.AddRange(types);
             }
 
             return findedTypes.ToArray();
-        }      
+        }
 
-        static List<Type> FindClasses(Assembly assembly, Type attributeType)
+        /// <summary>
+        /// 通过基类查找他的派生类
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <param name="baseType"></param>
+        /// <returns></returns>
+        public static Type[] FindSubclasses(Assembly assembly, Type baseType)
         {
             List<Type> findedTypes = new List<Type>();
 
             // 获取程序集中所有类型
             Type[] types = assembly.GetTypes();
 
-            // 遍历所有类型，查找使用了 MyAttribute 的类
-            foreach (Type type in types)
+            foreach(Type type in types)
             {
-                if (type.GetCustomAttribute(attributeType, false) != null)
+                if (type.IsSubclassOf(baseType))
                 {
                     findedTypes.Add(type);
                 }
             }
 
-            return findedTypes;
+            return findedTypes.ToArray();
         }
     }
 }

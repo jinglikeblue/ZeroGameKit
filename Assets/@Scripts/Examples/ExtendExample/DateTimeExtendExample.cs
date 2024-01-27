@@ -13,7 +13,7 @@ namespace Example
         static public void Start()
         {
             var dt = new DateTime();
-            var ms = dt.ToMillisecondUTC();
+            var ms = dt.ToUtcMilliseconds();
 
             MsgWin.Show("DateTimeExtend", $"UTC时间戳(毫秒): {ms}");
         }
