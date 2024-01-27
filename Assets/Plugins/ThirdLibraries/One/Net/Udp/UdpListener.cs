@@ -26,7 +26,7 @@ namespace One
         /// <summary>
         /// 收到UDP数据的事件
         /// </summary>
-        public event UdpListenerReceiveDataEvent onReceiveData;
+        public event UdpListenerReceivedDataEvent onReceivedData;
 
         /// <summary>
         /// 监听的端口
@@ -103,7 +103,7 @@ namespace One
                 _socket = null;
             }
 
-            onReceiveData = null;
+            onReceivedData = null;
             _receiveBuffer = null;
             _tsa = null;
         }
@@ -130,7 +130,7 @@ namespace One
             {                
                 byte[] data = new byte[e.BytesTransferred];
                 Array.Copy(e.Buffer, data, e.BytesTransferred);
-                onReceiveData?.Invoke(e.RemoteEndPoint, data);
+                onReceivedData?.Invoke(e.RemoteEndPoint, data);
                 StartReceive();
             }
             else

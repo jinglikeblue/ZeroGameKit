@@ -211,9 +211,9 @@ namespace Zero
                     ((Action)act)();
                 });
             });
-            appdomain.DelegateManager.RegisterDelegateConvertor<One.ReceiveDataEvent>((act) =>
+            appdomain.DelegateManager.RegisterDelegateConvertor<One.ReceivedDataEvent>((act) =>
             {
-                return new One.ReceiveDataEvent((sender, data) =>
+                return new One.ReceivedDataEvent((sender, data) =>
                 {
                     ((Action<One.IChannel, System.Byte[]>)act)(sender, data);
                 });

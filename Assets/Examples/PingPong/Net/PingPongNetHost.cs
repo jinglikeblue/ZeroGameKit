@@ -36,7 +36,7 @@ namespace PingPong
             {
                 Debug.Log($"[创建HOST] IP:{SocketUtility.GetIPv4Address()}");
                 _server = new UdpServer();                
-                _server.onReceiveData += OnReceiveData;
+                _server.onReceivedData += OnReceivedData;
                 _server.Bind(PORT, 4096);
 
                 _kcp = new KCPHelper();
@@ -58,13 +58,18 @@ namespace PingPong
             }
         }
 
+        public void Update()
+        {
+            _server.Refresh();
+        }
+
         /// <summary>
         /// 收到了UDP数据
         /// </summary>
         /// <param name="server"></param>
         /// <param name="ep"></param>
         /// <param name="data"></param>
-        void OnReceiveData(UdpServer server, EndPoint ep, byte[] data)
+        void OnReceivedData(UdpServer server, EndPoint ep, byte[] data)
         {
             _kcp.KcpInput(data);
         }

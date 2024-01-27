@@ -11,7 +11,7 @@ namespace One
         /// <summary>
         /// 收到UDP数据的事件（多线程事件）
         /// </summary>
-        public event Action<UdpClient, byte[]> onReceiveData;
+        public event UdpClientReceivedDataEvent onReceivedData;
 
         /// <summary>
         /// 线程同步器，将异步方法同步到调用Refresh的线程中
@@ -30,7 +30,7 @@ namespace One
             _sendChannel.Dispose();
             _listener = null;
             _sendChannel = null;
-            onReceiveData = null;
+            onReceivedData = null;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace One
         public void Bind(string remoteHost, int remotePort, int localPort, ushort bufferSize)
         {
             _listener = new UdpListener();
-            _listener.onReceiveData += OnReceiveData;
+            _listener.onReceivedData += OnReceivedData;
             var socket = _listener.Bind(localPort, bufferSize, _tsa);
 
             _sendChannel = new UdpSendChannel(socket, remoteHost, remotePort, _tsa);
@@ -59,9 +59,9 @@ namespace One
             Bind(IPAddress.Any.ToString(), 0, localPort, bufferSize);
         }
 
-        private void OnReceiveData(EndPoint remoteEndPoint, byte[] data)
+        private void OnReceivedData(EndPoint remoteEndPoint, byte[] data)
         {
-            onReceiveData?.Invoke(this, data);
+            onReceivedData?.Invoke(this, data);
         }
 
         public void Refresh()

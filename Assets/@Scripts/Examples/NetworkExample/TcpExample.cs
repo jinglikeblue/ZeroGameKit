@@ -131,7 +131,7 @@ namespace Example
                 client = new TcpClient();
                 client.onConnectSuccess += OnConnectSuccess;
                 client.onConnectFail += OnConnectFail;
-                client.onReceiveData += OnReceiveData;
+                client.onReceivedData += OnReceivedData;
                 client.onDisconnect += OnDisconnect;
                 client.Connect("127.0.0.1", TcpExample.PORT, 4096);
             }
@@ -154,7 +154,7 @@ namespace Example
             RefreshUI();
         }
 
-        private void OnReceiveData(TcpClient client, byte[] data)
+        private void OnReceivedData(TcpClient client, byte[] data)
         {
             ByteArray ba = new ByteArray(data);
             var msg = ba.ReadString();
@@ -244,16 +244,16 @@ namespace Example
         private void OnClientExit(IChannel obj)
         {
             L("客户端断开链接....");
-            obj.onReceiveData -= OnReceiveData;
+            obj.onReceivedData -= OnReceivedData;
         }
 
         private void OnClientEnter(IChannel obj)
         {            
             L("客户端链接....");
-            obj.onReceiveData += OnReceiveData;
+            obj.onReceivedData += OnReceivedData;
         }
 
-        private void OnReceiveData(IChannel sender, byte[] data)
+        private void OnReceivedData(IChannel sender, byte[] data)
         {
             ByteArray ba = new ByteArray(data);
             var msg = ba.ReadString();

@@ -41,15 +41,15 @@ namespace One
             PONG = 10,
         }
 
-        public int Unpack(byte[] buf, int available, Action<EOpcode, byte[]> onReceiveData)
+        public int Unpack(byte[] buf, int available, Action<EOpcode, byte[]> onReceivedData)
         {
             ByteArray ba = new ByteArray(buf, available);
             int used = 0;
-            Unpack(ba, ref used, onReceiveData);
+            Unpack(ba, ref used, onReceivedData);
             return used;
         }
 
-        void Unpack(ByteArray ba, ref int used, Action<EOpcode, byte[]> onReceiveData)
+        void Unpack(ByteArray ba, ref int used, Action<EOpcode, byte[]> onReceivedData)
         {
             if (ba.ReadableSize < 2 * ByteArray.BYTE_SIZE)
             {
@@ -117,7 +117,7 @@ namespace One
                 case EOpcode.PONG:
                 case EOpcode.CLOSE:                    
                     //使用率低，暂不处理这种情况
-                    onReceiveData?.Invoke(opcode, null);
+                    onReceivedData?.Invoke(opcode, null);
                     break;
                 case EOpcode.TEXT:
                 case EOpcode.BYTE:
@@ -139,7 +139,7 @@ namespace One
                             }
                         }
 
-                        onReceiveData?.Invoke(opcode, payloadData);                        
+                        onReceivedData?.Invoke(opcode, payloadData);                        
                     }
                     break;                                                                         
                 default:
@@ -149,7 +149,7 @@ namespace One
 
             used += ba.Pos - startPos;
 
-            Unpack(ba, ref used, onReceiveData);
+            Unpack(ba, ref used, onReceivedData);
         }
 
         public byte[] CreatePingFrame()

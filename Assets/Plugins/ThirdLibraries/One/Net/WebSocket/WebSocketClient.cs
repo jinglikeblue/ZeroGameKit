@@ -36,7 +36,7 @@ namespace One
         /// <summary>
         /// 收到数据
         /// </summary>
-        public event Action<WebSocketClient, byte[]> onReceiveData;
+        public event WebSocketClientReceivedDataEvent onReceivedData;
 
         /// <summary>
         /// 主机地址
@@ -184,7 +184,7 @@ namespace One
         void InitChannel(Socket socket, int bufferSize)
         {
             Channel = new WebSocketChannel(socket, bufferSize);
-            Channel.onReceiveData += OnReceiveData;
+            Channel.onReceivedData += OnReceivedData;
             Channel.onShutdown += OnShutdown;
             Channel.onUpgradeResult += OnUpgradeResult;
             Channel.RequestUpgrade();
@@ -202,9 +202,9 @@ namespace One
             }
         }
 
-        private void OnReceiveData(IChannel sender, byte[] data)
+        private void OnReceivedData(IChannel sender, byte[] data)
         {
-            onReceiveData?.Invoke(this, data);
+            onReceivedData?.Invoke(this, data);
         }
 
         private void OnShutdown(TcpChannel obj)

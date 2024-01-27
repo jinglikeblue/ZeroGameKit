@@ -50,10 +50,10 @@ namespace One
                 }                
             }
 
-            return _protocolProcess.Unpack(_buffer, _bufferAvailable, OnReceiveData);
+            return _protocolProcess.Unpack(_buffer, _bufferAvailable, OnReceivedData);
         }
 
-        private void OnReceiveData(WebSocketProtocolProcess.EOpcode op, byte[] data)
+        private void OnReceivedData(WebSocketProtocolProcess.EOpcode op, byte[] data)
         {
             switch (op)
             {
@@ -61,7 +61,7 @@ namespace One
                     break;
                 case WebSocketProtocolProcess.EOpcode.TEXT:
                 case WebSocketProtocolProcess.EOpcode.BYTE:
-                    OnReceiveData(data);
+                    OnReceivedData(data);
                     break;
                 case WebSocketProtocolProcess.EOpcode.CLOSE:
                     Close();

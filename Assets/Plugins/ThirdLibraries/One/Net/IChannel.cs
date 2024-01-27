@@ -27,6 +27,6 @@
         /// <summary>
         /// 收到数据事件
         /// </summary>
-        event ReceiveDataEvent onReceiveData;              
+        event ReceivedDataEvent onReceivedData;              
     }
 }

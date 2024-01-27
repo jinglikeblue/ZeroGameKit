@@ -161,12 +161,12 @@ namespace Example
             {
                 L($"连接服务器... {textInputIP.text}:{UdpExample.SERVER_PORT}  本地端口：{UdpExample.CLIENT_PORT}");
                 client = new UdpClient();
-                client.onReceiveData += OnReceiveData;
+                client.onReceivedData += OnReceivedData;
                 client.Bind(textInputIP.text, UdpExample.SERVER_PORT, UdpExample.CLIENT_PORT, 4096);
             }
         }
 
-        private void OnReceiveData(UdpClient client, byte[] data)
+        private void OnReceivedData(UdpClient client, byte[] data)
         {
             ByteArray ba = new ByteArray(data);
             var msg = ba.ReadString();
@@ -240,14 +240,14 @@ namespace Example
             {
                 L($"启动服务.... {UdpExampleCommon.LocalIP}:{UdpExample.SERVER_PORT}");
                 server = new UdpServer();
-                server.onReceiveData += OnReceiveData;
+                server.onReceivedData += OnReceivedData;
                 server.Bind(UdpExample.SERVER_PORT, 4096);
 
             }
             RefreshButton();
         }
 
-        private void OnReceiveData(UdpServer server, EndPoint ep, byte[] data)
+        private void OnReceivedData(UdpServer server, EndPoint ep, byte[] data)
         {
             ByteArray ba = new ByteArray(data);
             var msg = ba.ReadString();

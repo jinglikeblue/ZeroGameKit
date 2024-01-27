@@ -15,7 +15,7 @@ namespace One
         /// </summary>
         /// <param name="buffer"></param>
         /// <returns>使用的数据长度</returns>
-        public int Unpack(byte[] buffer, int available, Action<byte[]> onReceiveData)
+        public int Unpack(byte[] buffer, int available, Action<byte[]> onReceivedData)
         {
             ByteArray ba = new ByteArray(buffer, available);
             int used = 0;
@@ -26,7 +26,7 @@ namespace One
                 if (ba.ReadableSize >= protocolSize)
                 {
                     byte[] protocolData = ba.ReadBytes(protocolSize);
-                    onReceiveData?.Invoke(protocolData);
+                    onReceivedData?.Invoke(protocolData);
                     //记录使用协议长度
                     used += ByteArray.USHORT_SIZE + protocolData.Length;
                 }

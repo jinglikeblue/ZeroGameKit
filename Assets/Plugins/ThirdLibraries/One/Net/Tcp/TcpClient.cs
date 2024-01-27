@@ -25,7 +25,7 @@ namespace One
         /// <summary>
         /// 收到数据
         /// </summary>
-        public event Action<TcpClient, byte[]> onReceiveData;
+        public event Action<TcpClient, byte[]> onReceivedData;
 
         /// <summary>
         /// 主机地址
@@ -177,13 +177,13 @@ namespace One
         void InitChannel(Socket socket, int bufferSize)
         {
             Channel = new TcpChannel(socket, bufferSize);
-            Channel.onReceiveData += OnReceiveData;
+            Channel.onReceivedData += OnReceivedData;
             Channel.onShutdown += OnShutdown;
         }
 
-        private void OnReceiveData(IChannel sender, byte[] data)
+        private void OnReceivedData(IChannel sender, byte[] data)
         {
-            onReceiveData?.Invoke(this, data);
+            onReceivedData?.Invoke(this, data);
         }
 
         private void OnShutdown(TcpChannel obj)

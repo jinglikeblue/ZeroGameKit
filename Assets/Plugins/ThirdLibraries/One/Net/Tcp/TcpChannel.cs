@@ -18,7 +18,7 @@ namespace One
         /// <summary>
         /// 收到数据
         /// </summary>
-        public event ReceiveDataEvent onReceiveData;
+        public event ReceivedDataEvent onReceivedData;
 
         /// <summary>
         /// 客户端连接关闭事件
@@ -172,7 +172,7 @@ namespace One
 
         virtual protected int UnpackProtocolData()
         {
-            return _protocolProcess.Unpack(_buffer, _bufferAvailable, OnReceiveData);
+            return _protocolProcess.Unpack(_buffer, _bufferAvailable, OnReceivedData);
         }
 
         virtual protected byte[] PackProtocolData(byte[] bytes)
@@ -184,9 +184,9 @@ namespace One
         /// 收到数据时触发
         /// </summary>
         /// <param name="protocolData"></param>
-        protected void OnReceiveData(byte[] protocolData)
+        protected void OnReceivedData(byte[] protocolData)
         {
-            onReceiveData?.Invoke(this, protocolData);
+            onReceivedData?.Invoke(this, protocolData);
         }
 
         /// <summary>
