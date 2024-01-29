@@ -25,7 +25,15 @@
         /// </summary>
         public struct InputRequest
         {
+            public byte moveDir;
+        }
 
+        /// <summary>
+        /// Ping请求
+        /// </summary>
+        public struct PingC2S
+        {
+            public long clientUTC;
         }
 
         #endregion
@@ -45,7 +53,17 @@
         /// </summary>
         public struct FrameInputNotify
         {
+            public int frame;
+            public InputRequest[] inputs;
+        }
 
+        /// <summary>
+        /// Pong回复
+        /// </summary>
+        public struct PongS2C
+        {
+            public long clientUTC;
+            public long serverUTC;
         }
 
         #endregion
