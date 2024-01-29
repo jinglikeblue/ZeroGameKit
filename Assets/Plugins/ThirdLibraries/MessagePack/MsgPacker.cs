@@ -14,21 +14,13 @@ namespace Jing
         /// </summary>
         static readonly Dictionary<Type, MessagePackSerializer> _serializerCacheDic = new Dictionary<Type, MessagePackSerializer>();
 
-        /// <summary>
-        /// 获取序列化器
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        static MessagePackSerializer GetSerializer<T>()
-        {            
-            Type type = typeof(T);
+        static MessagePackSerializer GetSerializer(Type type)
+        {
             if (_serializerCacheDic.ContainsKey(type))
             {
                 return _serializerCacheDic[type];
             }
-
-            var serializer = MessagePackSerializer.Get<T>();
+            var serializer = MessagePackSerializer.Get(type);
             _serializerCacheDic[type] = serializer;
             return serializer;
         }
@@ -45,14 +37,26 @@ namespace Jing
         /// <summary>
         /// 打包数据对象
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static byte[] Pack<T>(T obj)
+        public static byte[] Pack(object obj)
         {
-            var serializer = GetSerializer<T>();
+            var serializer = GetSerializer(obj.GetType());
             var bytes = serializer.PackSingleObject(obj);
             return bytes;
+        }
+
+        /// <summary>
+        /// 拆包数据对象
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static object Unpack(Type type, byte[] data)
+        {
+            var serializer = GetSerializer(type);
+            var obj = serializer.UnpackSingleObject(data);
+            return obj;
         }
 
         /// <summary>
@@ -63,9 +67,8 @@ namespace Jing
         /// <returns></returns>
         public static T Unpack<T>(byte[] data)
         {
-            var serializer = GetSerializer<T>();
-            var obj = serializer.UnpackSingleObject(data);
-            if(null == obj)
+            var obj = Unpack(typeof(T), data);
+            if (null == obj)
             {
                 return default(T);
             }

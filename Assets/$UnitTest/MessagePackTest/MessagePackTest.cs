@@ -23,7 +23,7 @@ public class MessagePackTest : MonoBehaviour
         var data = MsgPacker.Pack(pfi);
 
         Debug.Log($"data:{data.Length}");
-        var pfio = MsgPacker.Unpack<Protocols.FrameInputNotify>(data);
+        var pfio = MsgPacker.Unpack(typeof(Protocols.FrameInputNotify),data);
         Debug.Log(LitJson.JsonMapper.ToPrettyJson(pfio));
     }
 
