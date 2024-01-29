@@ -24,7 +24,8 @@ public class MessagePackTest : MonoBehaviour
 
         Debug.Log($"data:{data.Length}");
         var pfio = MsgPacker.Unpack(typeof(Protocols.FrameInputNotify),data);
-        Debug.Log(LitJson.JsonMapper.ToPrettyJson(pfio));
+        var json = Newtonsoft.Json.JsonConvert.SerializeObject(pfio, Newtonsoft.Json.Formatting.Indented);
+        Debug.Log(json);
     }
 
     // Update is called once per frame

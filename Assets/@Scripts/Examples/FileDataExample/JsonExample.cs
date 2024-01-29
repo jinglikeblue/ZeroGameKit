@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using ZeroGameKit;
 
 namespace Example
@@ -19,6 +20,22 @@ namespace Example
 
             var msg = MsgWin.Show("Json", LitJson.JsonMapper.ToPrettyJson(vo));
             msg.SetContentAlignment(UnityEngine.TextAnchor.MiddleLeft);
+
+            #region NewtonSoftJson
+            try
+            {
+                var jsonStr1 = Newtonsoft.Json.JsonConvert.SerializeObject(vo, Newtonsoft.Json.Formatting.Indented);
+                Debug.Log($"[NewtonsoftJson] JSON:{jsonStr1}");
+                var obj1 = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonStr1, typeof(JsonExampleTestVO));
+                var jsonStr2 = Newtonsoft.Json.JsonConvert.SerializeObject(vo, Newtonsoft.Json.Formatting.Indented);
+                Debug.Log($"[NewtonsoftJson] JSON_Deserialized:{jsonStr2}");
+            }
+            catch(Exception e)
+            {
+                Debug.LogError("[NewtonsoftJson] 测试失败！ILRuntime不支持");
+                Debug.LogError(e);
+            }
+            #endregion
         }
 
         class JsonExampleTestVO
