@@ -4,6 +4,20 @@ using UnityEngine;
 
 public class MessagePackTest : MonoBehaviour
 {
+    struct Empty
+    {
+        public int i
+        {
+            get
+            {
+                return 1;
+            }
+            set
+            {
+                i = value;
+            }
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -13,7 +27,9 @@ public class MessagePackTest : MonoBehaviour
         //var data = MsgPackSerializer.Serialize(fi);
         //FrameInput fio = MsgPackSerializer.Deserialize<FrameInput>(data);
 
-        
+        var a = MsgPacker.Pack(new Empty());
+        var empty = MsgPacker.Unpack<Empty>(a);
+
 
         Protocols.FrameInputNotify pfi = new Protocols.FrameInputNotify();
         pfi.frame = 2;

@@ -1,8 +1,10 @@
 ﻿using Jing;
 using One;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
+using ZeroHot;
 
 namespace PingPong
 {
@@ -30,12 +32,32 @@ namespace PingPong
         {
             if (null == _server)
             {
+                CreateMessageDispatcher();
                 Debug.Log($"[创建HOST] IP:{SocketUtility.GetIPv4Address()}");
                 _server.onClientEnter += OnClientEnter;
                 _server.onClientExit += OnClientExit;
                 _server.Start(PORT);   
             }
         }
+
+        /// <summary>
+        /// 创建消息派发器
+        /// </summary>
+        void CreateMessageDispatcher()
+        {
+            MessageDispatcher<int> md = new MessageDispatcher<int>();            
+
+            var protocols = Protocols.GetProtocols();
+            foreach(var protocol in protocols)
+            {
+                var id = protocol.left;
+                var type = protocol.right;
+
+                //TODO 这里还得反射找到Receiver类
+                //md.RegisterReceiver([协议ID或者结构体TYPE], [Receiver的Type])                
+            }
+        }
+
         void OnClientEnter(IChannel channel)
         {
             //一次只能接受一个连接
@@ -48,12 +70,18 @@ namespace PingPong
 
         void OnClientExit(IChannel channel)
         {
-
+            if (null != _channel)
+            {
+                _channel.onReceivedData -= OnReceiveData;
+                _channel.Close(true);
+                _channel = null;
+            }
         }
 
         void OnReceiveData(IChannel sender, byte[] data)
         {
-            
+            var obj = Protocols.Unpack(data);
+            //TODO 派发这个协议
         }
 
         /// <summary>

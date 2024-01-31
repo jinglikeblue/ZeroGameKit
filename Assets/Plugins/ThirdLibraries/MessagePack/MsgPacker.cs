@@ -19,7 +19,7 @@ namespace Jing
             if (_serializerCacheDic.ContainsKey(type))
             {
                 return _serializerCacheDic[type];
-            }
+            }            
             var serializer = MessagePackSerializer.Get(type);
             _serializerCacheDic[type] = serializer;
             return serializer;
@@ -41,7 +41,23 @@ namespace Jing
         /// <returns></returns>
         public static byte[] Pack(object obj)
         {
-            var serializer = GetSerializer(obj.GetType());
+            var type = obj.GetType();
+            var fields = type.GetFields();
+            bool isAnyPublicType = false;
+            foreach(var fieldInfo in fields)
+            {
+                if (fieldInfo.IsPublic)
+                {
+                    isAnyPublicType = true;
+                    break;
+                }
+            }
+            if(false == isAnyPublicType)
+            {
+                return new byte[0];
+            }
+
+            var serializer = GetSerializer(type);
             var bytes = serializer.PackSingleObject(obj);
             return bytes;
         }
@@ -67,6 +83,11 @@ namespace Jing
         /// <returns></returns>
         public static T Unpack<T>(byte[] data)
         {
+            if(0 == data.Length)
+            {
+                return default(T);
+            }
+
             var obj = Unpack(typeof(T), data);
             if (null == obj)
             {

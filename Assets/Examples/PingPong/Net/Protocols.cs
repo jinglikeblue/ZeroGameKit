@@ -1,16 +1,73 @@
 ﻿using Jing;
+using System;
 
 namespace PingPong
 {
     public class Protocols
-    {        
+    {
+        /// <summary>
+        /// 协议特性标记
+        /// </summary>
+        [AttributeUsage(AttributeTargets.Struct, AllowMultiple = false)]
+        public class ProtocolAttribute : Attribute
+        {
+        }
+
+        /// <summary>
+        /// 协议ID查找表
+        /// </summary>
+        static BidirectionalMap<int, Type> _protocolMap;
+
+        /// <summary>
+        /// 创建协议表
+        /// </summary>
+        public static void CreateProtocolMap()
+        {
+            _protocolMap = new BidirectionalMap<int, Type>();            
+            var protocolAttributeType = typeof(ProtocolAttribute);
+            var protocolsType = typeof(Protocols);
+            foreach (var nestedType in protocolsType.GetNestedTypes())
+            {
+                if (false == nestedType.IsValueType)
+                {
+                    //不是结构体，肯定不是协议
+                    continue;
+                }
+
+                if (nestedType.GetCustomAttributes(protocolAttributeType, true).Length > 0)
+                {
+                    //是协议对象
+
+                    //ID
+                    var id = nestedType.GetHashCode();
+                    _protocolMap.Set(id, nestedType);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 获取协议
+        /// </summary>
+        /// <returns></returns>
+        public static BidirectionalMap<int, Type>.MappingItem[] GetProtocols()
+        {
+            if(null == _protocolMap)
+            {
+                CreateProtocolMap();
+            }
+            return _protocolMap.GetMappings();
+        }
+
         /// <summary>
         /// 协议打包
         /// </summary>
         /// <returns></returns>
         public static byte[] Pack(object obj)
         {
-            return MsgPacker.Pack(obj);
+            var body = new ProtocolBody();
+            body.id = _protocolMap.Get(obj.GetType());
+            body.data = MsgPacker.Pack(obj);
+            return MsgPacker.Pack(body);
         }
 
         /// <summary>
@@ -19,9 +76,28 @@ namespace PingPong
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static T Unpack<T>(byte[] data)
+        public static object Unpack(byte[] data)
         {
-            return MsgPacker.Unpack<T>(data);
+            var body = MsgPacker.Unpack<ProtocolBody>(data);
+            var type = _protocolMap.Get(body.id);
+            var obj = MsgPacker.Unpack(type, body.data);
+            return obj;
+        }
+
+        /// <summary>
+        /// 协议体
+        /// </summary>
+        struct ProtocolBody
+        {
+            /// <summary>
+            /// 协议id
+            /// </summary>
+            public int id;
+
+            /// <summary>
+            /// 协议数据
+            /// </summary>
+            public byte[] data;
         }
 
         #region Client To Server
@@ -29,14 +105,16 @@ namespace PingPong
         /// <summary>
         /// 加入主机
         /// </summary>
+        [Protocol]
         public struct JoinHostRequest
         {
-
+            
         }
 
         /// <summary>
         /// 游戏准备好了
         /// </summary>
+        [Protocol]
         public struct GameReadyRequest
         {
 
@@ -45,6 +123,7 @@ namespace PingPong
         /// <summary>
         /// 玩家输入
         /// </summary>
+        [Protocol]
         public struct InputRequest
         {
             public byte moveDir;
@@ -53,6 +132,7 @@ namespace PingPong
         /// <summary>
         /// Ping请求
         /// </summary>
+        [Protocol]
         public struct PingC2S
         {
             public long clientUTC;
@@ -65,6 +145,7 @@ namespace PingPong
         /// <summary>
         /// 游戏开始
         /// </summary>
+        [Protocol]
         public struct GameStartNotify
         {
 
@@ -73,6 +154,7 @@ namespace PingPong
         /// <summary>
         /// 帧输入数据同步
         /// </summary>
+        [Protocol]
         public struct FrameInputNotify
         {
             public int frame;
@@ -82,6 +164,7 @@ namespace PingPong
         /// <summary>
         /// Pong回复
         /// </summary>
+        [Protocol]
         public struct PongS2C
         {
             public long clientUTC;
