@@ -62,6 +62,7 @@
 ## HybridCLR
 - Android真机测试
 - iOS真机测试
+- 验证是否能正常使用NewtonsoftJson等ILRuntime之前不能用的库。如果可以的话，则放弃ILRuntime支持。
 
 ## 优先
 - link.xml生成，选择的文件夹应该增加包含字符串的黑白名单判断，来优化生成的xml内容：
