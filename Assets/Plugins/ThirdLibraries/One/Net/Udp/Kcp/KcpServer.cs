@@ -11,6 +11,16 @@ namespace One
     public class KcpServer
     {
         /// <summary>
+        /// 新的客户端进入的事件
+        /// </summary>
+        public event KcpServerClientEnterEvent onClientEnter;
+
+        /// <summary>
+        /// 客户端退出的事件
+        /// </summary>
+        public event KcpServerClientExitEvent onClientExit;
+
+        /// <summary>
         /// UDP服务
         /// </summary>
         UdpServer _udpServer;
@@ -84,6 +94,7 @@ namespace One
                 var udpSendChannel = _udpServer.CreateSendChannel(endPoint);
                 kcpChannel = new KcpChannel(udpSendChannel);
                 _channelDic.Add(endPoint, kcpChannel);
+                onClientEnter?.Invoke(kcpChannel);
             }
             else
             {

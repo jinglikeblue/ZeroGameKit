@@ -152,7 +152,7 @@ namespace One
             _channelList.Add(channel);
             Log.I($"新的连接，连接总数:{ClientCount}");
 
-            channel.onShutdown += OnClientShutdown;
+            channel.onChannelClosed += OnClientShutdown;
 
             if (channel.IsUpgrade)
             {
@@ -177,9 +177,9 @@ namespace One
             }
         }
 
-        private void OnClientShutdown(TcpChannel channel)
+        private void OnClientShutdown(IChannel channel)
         {            
-            channel.onShutdown -= OnClientShutdown;
+            channel.onChannelClosed -= OnClientShutdown;
             //先添加到集合，稍后处理，现在处理则ChannelList会异常
             _shutdownSet.Add(channel as WebSocketChannel);
         }

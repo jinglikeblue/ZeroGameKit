@@ -24,7 +24,7 @@ namespace One
         /// <summary>
         /// 客户端连接关闭事件
         /// </summary>
-        internal event Action<TcpChannel> onShutdown;
+        public event ChannelClosedEvent onChannelClosed;
 
         protected Socket _socket;
 
@@ -286,7 +286,7 @@ namespace One
 
                 if (false == isSilently)
                 {
-                    onShutdown?.Invoke(this);
+                    onChannelClosed?.Invoke(this);
                 }
             }
         }

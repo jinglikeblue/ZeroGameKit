@@ -186,7 +186,7 @@ namespace One
         {
             Channel = new WebSocketChannel(socket, bufferSize);
             Channel.onReceivedData += OnReceivedData;
-            Channel.onShutdown += OnShutdown;
+            Channel.onChannelClosed += OnShutdown;
             Channel.onUpgradeResult += OnUpgradeResult;
             Channel.RequestUpgrade();
         }
@@ -208,7 +208,7 @@ namespace One
             onReceivedData?.Invoke(this, data);
         }
 
-        private void OnShutdown(TcpChannel obj)
+        private void OnShutdown(IChannel obj)
         {
             Channel = null;
             onDisconnect?.Invoke(this);

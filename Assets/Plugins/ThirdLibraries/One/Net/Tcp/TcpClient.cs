@@ -179,7 +179,7 @@ namespace One
         {
             Channel = new TcpChannel(socket, bufferSize);
             Channel.onReceivedData += OnReceivedData;
-            Channel.onShutdown += OnShutdown;
+            Channel.onChannelClosed += OnShutdown;
         }
 
         private void OnReceivedData(IChannel sender, byte[] data)
@@ -187,7 +187,7 @@ namespace One
             onReceivedData?.Invoke(this, data);
         }
 
-        private void OnShutdown(TcpChannel obj)
+        private void OnShutdown(IChannel obj)
         {
             Channel = null;
             onDisconnect?.Invoke(this);

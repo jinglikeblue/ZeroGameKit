@@ -7,11 +7,9 @@ namespace Jing
     /// </summary>
     public class KcpChannel : IChannel
     {
-
-        /// <summary>
-        /// 通道收到协议数据的事件
-        /// </summary>
         public event ReceivedDataEvent onReceivedData;
+
+        public event ChannelClosedEvent onChannelClosed;
 
         /// <summary>
         /// KCP辅助器

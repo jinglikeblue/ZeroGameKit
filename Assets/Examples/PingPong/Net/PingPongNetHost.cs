@@ -1,5 +1,6 @@
 ﻿using Jing;
 using One;
+using System;
 using System.Net;
 using UnityEngine;
 
@@ -15,12 +16,12 @@ namespace PingPong
         /// <summary>
         /// UDP服务
         /// </summary>
-        UdpServer _server;
+        KcpServer _server;
 
         /// <summary>
-        /// KCP
+        /// 客户端连接通道
         /// </summary>
-        KCPHelper _kcp;
+        IChannel _channel;
 
         /// <summary>
         /// 启动服务
@@ -30,14 +31,37 @@ namespace PingPong
             if (null == _server)
             {
                 Debug.Log($"[创建HOST] IP:{SocketUtility.GetIPv4Address()}");
-                _server = new UdpServer();                
-                _server.onReceivedData += OnReceivedData;
-                _server.Bind(PORT, 4096);
-
-                _kcp = new KCPHelper();
-                _kcp.onToSend += OnToSend;
-                _kcp.onReceived += OnReceived;
+                _server.onClientEnter += OnClientEnter;
+                _server.onClientExit += OnClientExit;
+                _server.Start(PORT);   
             }
+        }
+        void OnClientEnter(IChannel channel)
+        {
+            //一次只能接受一个连接
+            if (null == _channel)
+            {                
+                _channel = channel;
+                _channel.onReceivedData += OnReceiveData;
+            }
+        }
+
+        void OnClientExit(IChannel channel)
+        {
+
+        }
+
+        void OnReceiveData(IChannel sender, byte[] data)
+        {
+            
+        }
+
+        /// <summary>
+        /// 关闭通道
+        /// </summary>
+        void CloseChannel()
+        {
+            _channel?.Close();
         }
 
         /// <summary>
@@ -45,44 +69,20 @@ namespace PingPong
         /// </summary>
         public void Stop()
         {
+            CloseChannel();
             if (_server != null)
             {
                 Debug.Log($"[停止HOST]");
-                _server.Dispose();
+                _server.onClientEnter -= OnClientEnter;
+                _server.onClientExit -= OnClientExit;
+                _server.Close();
                 _server = null;
             }
         }
 
         public void Update()
         {
-            _kcp.Update();
-            _server.Refresh();
-        }
-
-        /// <summary>
-        /// 收到了UDP数据
-        /// </summary>
-        /// <param name="server"></param>
-        /// <param name="ep"></param>
-        /// <param name="data"></param>
-        void OnReceivedData(UdpServer server, EndPoint ep, byte[] data)
-        {
-            _kcp.KcpInput(data);
-        }
-
-        public void Send(byte[] data)
-        {
-            _kcp.Send(data);
-        }
-
-        private void OnToSend(byte[] data)
-        {            
-            
-        }
-
-        private void OnReceived(byte[] data)
-        {
-            
+            _server.Refresh();            
         }
     }
 }

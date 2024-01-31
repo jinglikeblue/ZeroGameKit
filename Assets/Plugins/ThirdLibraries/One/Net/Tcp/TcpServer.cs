@@ -151,17 +151,17 @@ namespace One
         void Enter(Socket clientSocket)
         {            
             TcpChannel channel = new TcpChannel(clientSocket, _bufferSize);           
-            channel.onShutdown += OnClientShutdown;
+            channel.onChannelClosed += OnClientShutdown;
             _channelList.Add(channel);            
             Log.I($"新的连接，连接总数:{ClientCount}");
             onClientEnter?.Invoke(channel);            
         }
         
-        private void OnClientShutdown(TcpChannel channel)
+        private void OnClientShutdown(IChannel channel)
         {
-            channel.onShutdown -= OnClientShutdown;
+            channel.onChannelClosed -= OnClientShutdown;
             //先添加到集合，稍后处理，现在处理则ChannelList会异常
-            _shutdownSet.Add(channel);            
+            _shutdownSet.Add((TcpChannel)channel);            
         }
 
         void RefreshShutdownSet()

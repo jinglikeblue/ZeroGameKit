@@ -27,6 +27,11 @@
         /// <summary>
         /// 收到数据事件
         /// </summary>
-        event ReceivedDataEvent onReceivedData;              
+        event ReceivedDataEvent onReceivedData;
+
+        /// <summary>
+        /// 通道关闭的事件
+        /// </summary>
+        event ChannelClosedEvent onChannelClosed;
     }
 }

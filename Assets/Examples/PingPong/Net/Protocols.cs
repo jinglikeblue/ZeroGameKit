@@ -1,7 +1,29 @@
-﻿namespace PingPong
+﻿using Jing;
+
+namespace PingPong
 {
     public class Protocols
-    {
+    {        
+        /// <summary>
+        /// 协议打包
+        /// </summary>
+        /// <returns></returns>
+        public static byte[] Pack(object obj)
+        {
+            return MsgPacker.Pack(obj);
+        }
+
+        /// <summary>
+        /// 协议解包
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static T Unpack<T>(byte[] data)
+        {
+            return MsgPacker.Unpack<T>(data);
+        }
+
         #region Client To Server
 
         /// <summary>
@@ -67,7 +89,6 @@
         }
 
         #endregion
-
 
     }
 }
