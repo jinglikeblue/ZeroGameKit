@@ -22,7 +22,7 @@ public class FixedTrigonometricFunctionTest : MonoBehaviour
         //Debug.Log(Math.Round(a, 3));
         //Debug.Log(Math.Round(a, 2));
         //Debug.Log(Math.Round(a, 1));
-
+        
         //Math.Tan((Number)1);
         Debug.Log($"Sin60: {Math.Sin(60 * Math.Deg2Rad)} = {Mathf.Sin(60 * Mathf.Deg2Rad)}");
         Debug.Log($"Cos60: {Math.Cos(60 * Math.Deg2Rad)} = {Mathf.Cos(60 * Mathf.Deg2Rad)}");
