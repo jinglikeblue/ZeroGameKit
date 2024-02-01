@@ -14,37 +14,37 @@ namespace Jing.FixedPointNumber
         /// <summary>
         /// π
         /// </summary>
-        public static Number Pi => new Number(31416, 10000);
+        public static Number PI => new Number(31416, 10000);
 
         /// <summary>
         /// 2π
         /// </summary>
-        public static Number TwoPi => new Number(62832, 10000);
+        public static Number TwoPI => PI * 2;
 
         /// <summary>
         /// π/2
         /// </summary>
-        public static Number HalfPi => new Number(15708, 10000);
+        public static Number HalfPI => PI / 2;
 
         /// <summary>
         /// 角度:360
         /// </summary>
-        public static Number Degree360 => new Number(360);
+        public static Number Degree360 => 360;
 
         /// <summary>
         /// 角度:180
         /// </summary>
-        public static Number Degree180 => new Number(180);
+        public static Number Degree180 => 180;
 
         /// <summary>
         /// 角度转弧度的系数： 弧度 = 角度 * 该变量
         /// </summary>
-        public static Number RadianCoefficient => Pi / 180;
+        public static Number Deg2Rad => PI / 180;
 
         /// <summary>
         /// 弧度转角度的系数： 角度 = 弧度 * 该变量
         /// </summary>
-        public static Number DegreeCoefficient => 180 / Pi;
+        public static Number Rad2Deg => 180 / PI;
 
         /// <summary>
         /// 绝对值
@@ -52,7 +52,7 @@ namespace Jing.FixedPointNumber
         /// <param name="n"></param>
         /// <returns></returns>
         public static Number Abs(Number n)
-        {            
+        {
             return n.Raw < 0 ? Number.CreateFromRaw(-n.Raw) : n;
         }
 
@@ -102,7 +102,7 @@ namespace Jing.FixedPointNumber
         /// <param name="n"></param>
         /// <returns></returns>
         public static Number Ceil(Number n)
-        {            
+        {
             return Number.CreateFromRaw((n.Raw + Number.FRACTION_MASK) & Number.INTEGER_MASK);
         }
 
@@ -124,6 +124,61 @@ namespace Jing.FixedPointNumber
         public static Number Round(Number n)
         {
             return Number.CreateFromRaw((n.Raw + (Number.FRACTION_RANGE >> 1)) & ~Number.FRACTION_MASK);
+        }
+
+        /// <summary>
+        /// 通过使用舍入到最接近的约定，将数字舍入到指定的小数位数。
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="digits">小数位数，最小为0，最大为4</param>
+        /// <returns></returns>
+        public static Number Round(Number n, int digits)
+        {
+            if (digits < 0 || digits > 4)
+            {
+                throw new ArgumentOutOfRangeException("小数位数只能在0到4之间");
+            }
+
+            if (0 == digits)
+            {
+                return Round(n);
+            }
+
+            if (4 == digits)
+            {
+                return n;
+            }
+
+            Number scale = Math.Pow(10, digits);
+            return Round(n * scale) / scale;
+        }
+
+        /// <summary>
+        /// 返回指定数字的指定次幂。
+        /// </summary>
+        /// <param name="x">要乘幂的数</param>
+        /// <param name="y">指定幂的数</param>
+        /// <returns>数字 x 的 y 次幂</returns>
+        public static Number Pow(Number x, int y)
+        {
+            if (y == 0)
+            {
+                return Number.ONE;
+            }
+
+            //幂可以是负数，例如，x的负y次幂可表示为1/x的y次幂。
+            if (y < 0)
+            {
+                x = 1 / x;
+                y = System.Math.Abs(y);
+            }
+
+            var result = x;
+            while (--y > 0)
+            {
+                result *= x;
+            }
+            return result;
         }
 
         /// <summary>
@@ -171,6 +226,26 @@ namespace Jing.FixedPointNumber
         public static Number Cos(Number radian)
         {
             return SinCosTable.CosByRadian(radian);
+        }
+
+        /// <summary>
+        /// 计算给定弧度的正切值
+        /// </summary>
+        /// <param name="radian"></param>
+        /// <returns></returns>
+        public static Number Tan(Number radian)
+        {
+            return TanTable.TanByRadian(radian);
+        }
+
+        /// <summary>
+        /// 计算给定弧度的余切值
+        /// </summary>
+        /// <param name="radian"></param>
+        /// <returns></returns>
+        public static Number Cot(Number radian)
+        {
+            return 1 / TanTable.TanByRadian(radian);
         }
 
         /// <summary>

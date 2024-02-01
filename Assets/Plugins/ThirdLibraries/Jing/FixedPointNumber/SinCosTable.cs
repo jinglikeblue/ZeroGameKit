@@ -26,6 +26,20 @@ namespace Jing.FixedPointNumber
             BuildTable(ACCURACY);
         }
 
+        /// <summary>
+        /// 获取表
+        /// </summary>
+        /// <param name="sinTable"></param>
+        /// <param name="cosTable"></param>
+        public static void GetTable(out Number[] sinTable, out Number[] cosTable)
+        {
+            sinTable = new Number[_sinTable.Length];
+            _sinTable.CopyTo(sinTable, 0);
+
+            cosTable = new Number[_cosTable.Length];
+            _cosTable.CopyTo(cosTable, 0);
+        }
+
         public static void BuildTable(short accuracy)
         {
             const double DOUBLE_PI = System.Math.PI * 2;
@@ -73,7 +87,7 @@ namespace Jing.FixedPointNumber
         public static Number SinByDegree(Number degree)
         {
             degree %= 360;
-            var radian = degree * Math.RadianCoefficient;
+            var radian = degree * Math.Deg2Rad;
             return SinByRadian(radian);
         }
 
@@ -84,9 +98,9 @@ namespace Jing.FixedPointNumber
         /// <returns></returns>
         public static Number SinByRadian(Number radian)
         {
-            radian %= Math.TwoPi;
+            radian %= Math.TwoPI;
 
-            var radianScale = Math.TwoPi / _sinTable.Length;
+            var radianScale = Math.TwoPI / _sinTable.Length;
             var index = (radian / radianScale).ToInt();
             var value = _sinTable[index];
             return value;
@@ -123,7 +137,7 @@ namespace Jing.FixedPointNumber
         public static Number CosByDegree(Number degree)
         {
             degree %= Math.Degree360;
-            var radian = degree * Math.RadianCoefficient;
+            var radian = degree * Math.Deg2Rad;
             return CosByRadian(radian);
         }
 
@@ -134,8 +148,8 @@ namespace Jing.FixedPointNumber
         /// <returns></returns>
         public static Number CosByRadian(Number radian)
         {
-            radian %= Math.TwoPi;
-            var radianScale = Math.TwoPi / _sinTable.Length;
+            radian %= Math.TwoPI;
+            var radianScale = Math.TwoPI / _sinTable.Length;
             var index = (radian / radianScale).ToInt();
             var value = _cosTable[index];
             return value;

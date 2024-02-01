@@ -1,5 +1,6 @@
 ﻿using Jing;
 using PingPong;
+using System.Reflection;
 using UnityEngine;
 
 public class MessagePackTest : MonoBehaviour
@@ -27,21 +28,24 @@ public class MessagePackTest : MonoBehaviour
         //var data = MsgPackSerializer.Serialize(fi);
         //FrameInput fio = MsgPackSerializer.Deserialize<FrameInput>(data);
 
-        var a = MsgPacker.Pack(new Empty());
-        var empty = MsgPacker.Unpack<Empty>(a);
+        //var a = MsgPacker.Pack(new Empty());
+        //var empty = MsgPacker.Unpack<Empty>(a);
 
 
-        Protocols.FrameInputNotify pfi = new Protocols.FrameInputNotify();
-        pfi.frame = 2;
-        pfi.inputs = new Protocols.InputRequest[2];
-        pfi.inputs[1].moveDir = 1;
+        //Protocols.FrameInputNotify pfi = new Protocols.FrameInputNotify();
+        //pfi.frame = 2;
+        //pfi.inputs = new Protocols.InputRequest[2];
+        //pfi.inputs[1].moveDir = 1;
 
-        var data = MsgPacker.Pack(pfi);
+        //var data = MsgPacker.Pack(pfi);
 
-        Debug.Log($"data:{data.Length}");
-        var pfio = MsgPacker.Unpack(typeof(Protocols.FrameInputNotify),data);
-        var json = Newtonsoft.Json.JsonConvert.SerializeObject(pfio, Newtonsoft.Json.Formatting.Indented);
-        Debug.Log(json);
+        //Debug.Log($"data:{data.Length}");
+        //var pfio = MsgPacker.Unpack(typeof(Protocols.FrameInputNotify),data);
+        //var json = Newtonsoft.Json.JsonConvert.SerializeObject(pfio, Newtonsoft.Json.Formatting.Indented);
+        //Debug.Log(json);
+        
+        
+        var list = Protocols.GetProtocols();
     }
 
     // Update is called once per frame
