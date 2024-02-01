@@ -10,11 +10,18 @@ namespace ZeroHot
     /// </summary>
     public class MessageDispatcher<TCode>
     {
-        Dictionary<TCode, Type> _receiverDic;
+        class ReceiverItem
+        {
+            public Type receiverType;
+            public MethodInfo onReceiveMethodInfo;
+            public Type messageType;
+        }
+
+        Dictionary<TCode, ReceiverItem> _receiverDic;
 
         public MessageDispatcher()
         {
-            _receiverDic = new Dictionary<TCode, Type>();
+            _receiverDic = new Dictionary<TCode, ReceiverItem>();
         }
 
         /// <summary>
@@ -30,7 +37,17 @@ namespace ZeroHot
 
         public void RegisterReceiver(TCode code, Type receiverType)
         {
-            _receiverDic[code] = receiverType;
+            //查找OnReceive方法           
+            var onReceiveMethod = receiverType.GetMethod("OnReceive", BindingFlags.NonPublic | BindingFlags.Instance);
+            //获取消息实体类型
+            var messageType = onReceiveMethod.GetParameters()[0];
+
+            var item = new ReceiverItem();
+            item.receiverType = receiverType;
+            item.onReceiveMethodInfo = onReceiveMethod;
+            item.messageType = messageType.ParameterType;
+
+            _receiverDic[code] = item;
         }
 
         /// <summary>
@@ -46,7 +63,15 @@ namespace ZeroHot
         }
 
         /// <summary>
-        /// 派送消息
+        /// 清理所有的注册信息
+        /// </summary>
+        public void ClearAllRegistered()
+        {
+            _receiverDic.Clear();
+        }
+
+        /// <summary>
+        /// 派送消息。
         /// </summary>
         /// <param name="code"></param>
         /// <param name="message"></param>
@@ -55,21 +80,19 @@ namespace ZeroHot
         {
             if (_receiverDic.ContainsKey(code))
             {
-                var receiverType = _receiverDic[code];
-                var receiver = Activator.CreateInstance(receiverType);
+                var item = _receiverDic[code];
 
                 try
                 {
-                    var receiveMethod = receiverType.GetMethod("OnReceive", BindingFlags.NonPublic | BindingFlags.Instance);
-                    var parameter = receiveMethod.GetParameters()[0];
-                    if (parameter.ParameterType != message.GetType())
+                    var receiverObj = Activator.CreateInstance(item.receiverType);
+                    if (item.messageType != message.GetType())
                     {
                         return EDispatchResult.WRONG_TYPE;
                     }
-                    receiveMethod.Invoke(receiver, new object[] { message });
+                    item.onReceiveMethodInfo.Invoke(receiverObj, new object[] { message });
                     return EDispatchResult.SUCCESS;
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Debug.LogError(e);
                     return EDispatchResult.RECEIVE_ERROR;

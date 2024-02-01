@@ -1,24 +1,12 @@
 ﻿using Jing;
 using PingPong;
+using System;
 using System.Reflection;
 using UnityEngine;
+using ZeroHot;
 
 public class MessagePackTest : MonoBehaviour
 {
-    struct Empty
-    {
-        public int i
-        {
-            get
-            {
-                return 1;
-            }
-            set
-            {
-                i = value;
-            }
-        }
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -43,14 +31,42 @@ public class MessagePackTest : MonoBehaviour
         //var pfio = MsgPacker.Unpack(typeof(Protocols.FrameInputNotify),data);
         //var json = Newtonsoft.Json.JsonConvert.SerializeObject(pfio, Newtonsoft.Json.Formatting.Indented);
         //Debug.Log(json);
-        
-        
-        var list = Protocols.GetProtocols();
+
+
+        var receiverInterfaceType = typeof(IMessageReceiver);
+
+        MessageDispatcher<int> md = new MessageDispatcher<int>();
+        var types = Assembly.GetExecutingAssembly().GetTypes();
+        foreach (var type in types)
+        {
+            if (false == type.IsAbstract)
+            {
+                if (receiverInterfaceType.IsAssignableFrom(type))
+                {
+                    var genericArguments = type.BaseType.GetGenericArguments();
+                    if (genericArguments.Length == 1)
+                    {
+                        var protocolStruct = genericArguments[0];
+                        if (protocolStruct.GetCustomAttribute(Protocols.ProtocolAttributeType) != null)
+                        {
+                            var id = Protocols.GetProtocolId(protocolStruct);
+                            Debug.Log($"Found Receiver: [{id}] => {type.FullName}");
+                            md.RegisterReceiver(id, type);
+
+                        }
+                    }
+                }
+            }
+        }
+
+        //测试Receiver
+        var body = new Protocols.GameStartNotify();
+        md.DispatchMessage(body.GetType().GetHashCode(), body);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

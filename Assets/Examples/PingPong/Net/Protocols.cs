@@ -3,8 +3,15 @@ using System;
 
 namespace PingPong
 {
-    public class Protocols
+    public static class Protocols
     {
+        public static Type ProtocolAttributeType => typeof(ProtocolAttribute);
+
+        static Protocols()
+        {
+            CreateProtocolMap();
+        }
+
         /// <summary>
         /// 协议特性标记
         /// </summary>
@@ -51,11 +58,17 @@ namespace PingPong
         /// <returns></returns>
         public static BidirectionalMap<int, Type>.MappingItem[] GetProtocols()
         {
-            if(null == _protocolMap)
-            {
-                CreateProtocolMap();
-            }
             return _protocolMap.GetMappings();
+        }
+
+        public static int GetProtocolId(Type protocolStructType)
+        {
+            return _protocolMap.Get(protocolStructType);
+        }
+
+        public static Type GetProtocolStructType(int protocolId)
+        {
+            return _protocolMap.Get(protocolId);
         }
 
         /// <summary>

@@ -3,6 +3,7 @@ using One;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Reflection;
 using UnityEngine;
 using ZeroHot;
 
@@ -26,6 +27,11 @@ namespace PingPong
         IChannel _channel;
 
         /// <summary>
+        /// 协议派发器
+        /// </summary>
+        MessageDispatcher<int> _msgDispatcher;
+
+        /// <summary>
         /// 启动服务
         /// </summary>
         public void Start()
@@ -36,7 +42,7 @@ namespace PingPong
                 Debug.Log($"[创建HOST] IP:{SocketUtility.GetIPv4Address()}");
                 _server.onClientEnter += OnClientEnter;
                 _server.onClientExit += OnClientExit;
-                _server.Start(PORT);   
+                _server.Start(PORT);
             }
         }
 
@@ -44,18 +50,36 @@ namespace PingPong
         /// 创建消息派发器
         /// </summary>
         void CreateMessageDispatcher()
-        {
+        {                             
+            var receiverInterfaceType = typeof(IMessageReceiver);
+
             MessageDispatcher<int> md = new MessageDispatcher<int>();            
-
-            var protocols = Protocols.GetProtocols();
-            foreach(var protocol in protocols)
+            var types = Assembly.GetExecutingAssembly().GetTypes();
+            foreach (var type in types)
             {
-                var id = protocol.left;
-                var type = protocol.right;
-
-                //TODO 这里还得反射找到Receiver类
-                //md.RegisterReceiver([协议ID或者结构体TYPE], [Receiver的Type])                
+                if (false == type.IsAbstract)
+                {
+                    if (receiverInterfaceType.IsAssignableFrom(type))
+                    {
+                        var genericArguments = type.BaseType.GetGenericArguments();
+                        if (genericArguments.Length == 1)
+                        {
+                            var protocolStruct = genericArguments[0];                            
+                            if (protocolStruct.GetCustomAttribute(Protocols.ProtocolAttributeType) != null)
+                            {
+                                var id = Protocols.GetProtocolId(protocolStruct);
+                                Debug.Log($"Found Receiver: [{id}] => {type.FullName}");
+                                md.RegisterReceiver(id, type);
+                            }
+                        }
+                    }
+                }
             }
+            _msgDispatcher = md;
+
+            //测试Receiver
+            //var body = new Protocols.GameStartNotify();
+            //md.DispatchMessage(body.GetHashCode(), body);
         }
 
         void OnClientEnter(IChannel channel)
