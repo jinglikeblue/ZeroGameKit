@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Jing.FixedPointNumber
 {
@@ -11,24 +7,7 @@ namespace Jing.FixedPointNumber
     /// </summary>
     public static class TanTable
     {
-        public enum EAccuracy
-        {
-            /// <summary>
-            /// 每1Degree为一个刻度
-            /// </summary>
-            NORMAL,
-
-            /// <summary>
-            /// 每0.5Degree为一个刻度
-            /// </summary>
-            HIGH
-        }
-
         static Number[] _tanTable;
-
-        const double Deg2Rad = 0.017453D;
-
-        const double Rad2Deg = 57.29578D;
 
         static TanTable()
         {
@@ -40,7 +19,7 @@ namespace Jing.FixedPointNumber
             List<Number> list = new List<Number>();
             for (int degree = 0; degree < 360; degree++)
             {
-                var radians = degree * Deg2Rad;
+                var radians = degree * TrigonometricDefine.Deg2Rad;
                 var tan = System.Math.Tan(radians);
                 list.Add(Number.CreateFromDouble(tan));
             }

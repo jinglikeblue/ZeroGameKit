@@ -490,18 +490,20 @@
             return a;
         }
 
-        #region override operator explicit
+        #region override operator explicit 显示转换规则
         public static explicit operator int(Number a)
         {
             return a.ToInt();
         }
-        #endregion
 
-        #region override operator implicit
-        public static implicit operator Number(int a)
+        public static explicit operator Number(int a)
         {
             return new Number(a);
         }
+        #endregion
+
+        #region override operator implicit 隐式转换规则
+
         #endregion
 
         public override int GetHashCode()

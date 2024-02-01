@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jing.FixedPointNumber
 {
@@ -29,12 +25,12 @@ namespace Jing.FixedPointNumber
         /// <summary>
         /// 角度:360
         /// </summary>
-        public static Number Degree360 => 360;
+        public static Number Degree360 => (Number)360;
 
         /// <summary>
         /// 角度:180
         /// </summary>
-        public static Number Degree180 => 180;
+        public static Number Degree180 => (Number)180;
 
         /// <summary>
         /// 角度转弧度的系数： 弧度 = 角度 * 该变量
@@ -149,7 +145,7 @@ namespace Jing.FixedPointNumber
                 return n;
             }
 
-            Number scale = Math.Pow(10, digits);
+            Number scale = Pow((Number)10, digits);
             return Round(n * scale) / scale;
         }
 
@@ -208,6 +204,8 @@ namespace Jing.FixedPointNumber
             }
         }
 
+        #region 通过弧度计算三角函数
+
         /// <summary>
         /// 计算给定弧度的正弦值
         /// </summary>
@@ -247,6 +245,52 @@ namespace Jing.FixedPointNumber
         {
             return 1 / TanTable.TanByRadian(radian);
         }
+
+        #endregion
+
+        #region 通过角度计算三角函数
+
+        /// <summary>
+        /// 计算给定角度的正弦值
+        /// </summary>
+        /// <param name="degree">给定的角度</param>
+        /// <returns>角度对应的正弦值</returns>
+        public static Number SinByDegree(Number degree)
+        {
+            return SinCosTable.SinByDegree(degree);
+        }
+
+        /// <summary>
+        /// 计算给定角度的余弦值
+        /// </summary>
+        /// <param name="degree">给定的角度</param>
+        /// <returns>角度对应的余弦值</returns>
+        public static Number CosByDegree(Number degree)
+        {
+            return SinCosTable.CosByDegree(degree);
+        }
+
+        /// <summary>
+        /// 计算给定角度的正切值
+        /// </summary>
+        /// <param name="degree"></param>
+        /// <returns></returns>
+        public static Number TanByDegree(Number degree)
+        {
+            return TanTable.TanByDegree(degree);
+        }
+
+        /// <summary>
+        /// 计算给定角度的余切值
+        /// </summary>
+        /// <param name="degree"></param>
+        /// <returns></returns>
+        public static Number CotByDegree(Number degree)
+        {
+            return 1 / TanTable.TanByDegree(degree);
+        }
+
+        #endregion
 
         /// <summary>
         /// 将给定的值限定在指定的最小值和最大值之间

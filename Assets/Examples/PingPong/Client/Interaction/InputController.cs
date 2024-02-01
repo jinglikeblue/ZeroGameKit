@@ -14,7 +14,7 @@ namespace PingPong
 
         Dictionary<int, PlayerInput> _playerInputDic = new Dictionary<int, PlayerInput>();
 
-        Number _moveCoefficient = 0;
+        Number _moveCoefficient = (Number)0;
         public void SetMoveCoefficient(Number value)
         {
             _moveCoefficient = value;

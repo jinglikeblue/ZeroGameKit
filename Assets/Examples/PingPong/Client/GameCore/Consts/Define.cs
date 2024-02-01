@@ -17,7 +17,7 @@ namespace PingPong
         /// <summary>
         /// 场地的大小
         /// </summary>
-        public static readonly Vector2 WORLD_SIZE = new Vector2(20, 30);
+        public static readonly Vector2 WORLD_SIZE = new Vector2((Number)20, (Number)30);
 
         /// <summary>
         /// 球的半径大小
@@ -27,7 +27,7 @@ namespace PingPong
         /// <summary>
         /// 球的初始位置
         /// </summary>
-        public static readonly Vector2 BALL_INITIAL_POSITION = new Vector2(0, 0);
+        public static readonly Vector2 BALL_INITIAL_POSITION = new Vector2((Number)0, (Number)0);
 
         /// <summary>
         /// 球的起始移动速度（Y轴）
@@ -42,12 +42,12 @@ namespace PingPong
         /// <summary>
         /// 玩家的大小（宽，长）
         /// </summary>
-        public static readonly Vector2 PLAYER_SIZE = new Vector2(3, 1);
+        public static readonly Vector2 PLAYER_SIZE = new Vector2((Number)3, (Number)1);
 
         /// <summary>
         /// 玩家的初始位置[Player0,Player1]
         /// </summary>
-        public static readonly Vector2[] PLAYER_INITIAL_POSITION = new Vector2[] { new Vector2(0, -13), new Vector2(0, 13) };
+        public static readonly Vector2[] PLAYER_INITIAL_POSITION = new Vector2[] { new Vector2((Number)0, (Number)(-13)), new Vector2((Number)0, (Number)13) };
 
         /// <summary>
         /// 玩家的移动速度(X轴)

@@ -5,8 +5,8 @@
     /// </summary>
     public struct Vector3
     {
-        public readonly static Vector3 ZERO = new Vector3(0, 0, 0);
-        public readonly static Vector3 ONE = new Vector3(1, 1, 1);
+        public readonly static Vector3 ZERO = new Vector3((Number)0, (Number)0, (Number)0);
+        public readonly static Vector3 ONE = new Vector3((Number)1, (Number)1, (Number)1);
 
         public Number x;
         public Number y;
