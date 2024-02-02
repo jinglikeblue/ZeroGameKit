@@ -51,6 +51,15 @@ namespace One
         }
 
         /// <summary>
+        /// 发送业务数据
+        /// </summary>
+        /// <param name="bytes"></param>
+        public void Send(byte[] bytes)
+        {
+            _kcpHelper?.Send(bytes);
+        }
+
+        /// <summary>
         /// KCP准备了数据需要通过UDP发送的事件
         /// </summary>
         /// <param name="data"></param>
