@@ -2,6 +2,7 @@
 using One;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Reflection;
 using UnityEngine;
@@ -20,7 +21,12 @@ namespace PingPong
         /// <summary>
         /// UDP服务
         /// </summary>
-        KcpServer _server;
+        KcpServer _kcpServer;
+
+        /// <summary>
+        /// 是否活跃中
+        /// </summary>
+        public bool IsActive => _kcpServer == null ? false : true;
 
         /// <summary>
         /// 客户端连接通道
@@ -37,13 +43,13 @@ namespace PingPong
         /// </summary>
         public void Start()
         {
-            if (null == _server)
+            if (null == _kcpServer)
             {
                 Debug.Log($"[创建HOST] IP:{SocketUtility.GetIPv4Address()}");
-                _server = new KcpServer();
-                _server.onClientEnter += OnClientEnter;
-                _server.onClientExit += OnClientExit;
-                _server.Start(PORT);
+                _kcpServer = new KcpServer();
+                _kcpServer.onClientEnter += OnClientEnter;
+                _kcpServer.onClientExit += OnClientExit;
+                _kcpServer.Start(PORT);
             }
         }
         
@@ -69,8 +75,9 @@ namespace PingPong
 
         void OnReceiveData(IChannel sender, byte[] data)
         {
-            var obj = Protocols.Unpack(data);
-            //TODO 派发这个协议
+            var md5 = MD5Helper.GetShortMD5(new MemoryStream(data), true);
+            Debug.Log($"收到协议 [size:{data.Length}] [md5:{md5}]");
+            Protocols.UnpackAndDispatch(data);
         }
 
         /// <summary>
@@ -87,29 +94,31 @@ namespace PingPong
         public void Stop()
         {
             CloseChannel();
-            if (_server != null)
+            if (_kcpServer != null)
             {
                 Debug.Log($"[停止HOST]");
-                _server.onClientEnter -= OnClientEnter;
-                _server.onClientExit -= OnClientExit;
-                _server.Close();
-                _server = null;
+                _kcpServer.onClientEnter -= OnClientEnter;
+                _kcpServer.onClientExit -= OnClientExit;
+                _kcpServer.Close();
+                _kcpServer = null;
             }
         }
 
         public void Update()
         {
-            _server.Refresh();            
+            _kcpServer?.Refresh();            
         }
 
         public void SendProtocol(object protocolBody)
         {
-            if (null == _server || null == _channel)
+            if (null == _kcpServer || null == _channel)
             {
                 return;
             }
             
             var data = Protocols.Pack(protocolBody);
+            var md5 = MD5Helper.GetShortMD5(new MemoryStream(data), true);
+            Debug.Log($"发送协议 [size:{data.Length}] [md5:{md5}]");
             _channel.Send(data);
         }
 

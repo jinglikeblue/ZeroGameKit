@@ -31,42 +31,29 @@ public class MessagePackTest : MonoBehaviour
         //var pfio = MsgPacker.Unpack(typeof(Protocols.FrameInputNotify),data);
         //var json = Newtonsoft.Json.JsonConvert.SerializeObject(pfio, Newtonsoft.Json.Formatting.Indented);
         //Debug.Log(json);
+        
+        // var body = new Protocols.ProtocolBody();
+        // body.id = 1;
+        // body.data = new byte[0];
+        // var a = MsgPacker.Pack(body);
+        // var bodyC = MsgPacker.Unpack<Protocols.ProtocolBody>(a);
 
-
-        var receiverInterfaceType = typeof(IMessageReceiver);
-
-        MessageDispatcher<int> md = new MessageDispatcher<int>();
-        var types = Assembly.GetExecutingAssembly().GetTypes();
-        foreach (var type in types)
-        {
-            if (false == type.IsAbstract)
-            {
-                if (receiverInterfaceType.IsAssignableFrom(type))
-                {
-                    var genericArguments = type.BaseType.GetGenericArguments();
-                    if (genericArguments.Length == 1)
-                    {
-                        var protocolStruct = genericArguments[0];
-                        if (protocolStruct.GetCustomAttribute(Protocols.ProtocolAttributeType) != null)
-                        {
-                            var id = Protocols.GetProtocolId(protocolStruct);
-                            Debug.Log($"Found Receiver: [{id}] => {type.FullName}");
-                            md.RegisterReceiver(id, type);
-
-                        }
-                    }
-                }
-            }
-        }
-
-        //测试Receiver
-        var body = new Protocols.GameStartNotify();
-        md.DispatchMessage(body.GetType().GetHashCode(), body);
+        var a = T2(typeof(FUCK));
+        var b = T1<FUCK>();
     }
 
-    // Update is called once per frame
-    void Update()
+    struct FUCK
     {
+        public int a;
+    }
 
+    object T1<T>()
+    {
+        return T2(typeof(T));
+    }
+
+    object T2(Type a)
+    {
+        return Activator.CreateInstance(a);
     }
 }

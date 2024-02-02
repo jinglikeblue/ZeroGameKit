@@ -10,16 +10,17 @@ namespace PingPong
     public static class Protocols
     {
         public static Type ProtocolAttributeType => typeof(ProtocolAttribute);
-        
+
         /// <summary>
         /// 协议派发器
         /// </summary>
         public static MessageDispatcher<int> dispatcher { get; private set; }
-        
+
         /// <summary>
         /// 是否进行了初始化
         /// </summary>
         private static bool _inited = false;
+
         static Protocols()
         {
             Init();
@@ -39,15 +40,15 @@ namespace PingPong
             var cost = PerformanceAnalysis.EndAnalysis("CreateMessageDispatcher");
             Debug.Log($"PingPong 协议构建耗时: {cost}");
         }
-        
+
         /// <summary>
         /// 创建消息派发器
         /// </summary>
         static void CreateMessageDispatcher()
-        {                             
+        {
             var receiverInterfaceType = typeof(IMessageReceiver);
 
-            MessageDispatcher<int> md = new MessageDispatcher<int>();            
+            MessageDispatcher<int> md = new MessageDispatcher<int>();
             var types = Assembly.GetExecutingAssembly().GetTypes();
             foreach (var type in types)
             {
@@ -58,17 +59,18 @@ namespace PingPong
                         var genericArguments = type.BaseType.GetGenericArguments();
                         if (genericArguments.Length == 1)
                         {
-                            var protocolStruct = genericArguments[0];                            
+                            var protocolStruct = genericArguments[0];
                             if (protocolStruct.GetCustomAttribute(Protocols.ProtocolAttributeType) != null)
                             {
                                 var id = Protocols.GetProtocolId(protocolStruct);
-                                // Debug.Log($"Found Receiver: [{id}] => {type.FullName}");
+                                Debug.Log($"注册协议接收器: [{id}] => {type.FullName}");
                                 md.RegisterReceiver(id, type);
                             }
                         }
                     }
                 }
             }
+
             dispatcher = md;
 
             //测试Receiver
@@ -82,19 +84,25 @@ namespace PingPong
         [AttributeUsage(AttributeTargets.Struct, AllowMultiple = false)]
         public class ProtocolAttribute : Attribute
         {
+            public byte Id { get; private set; }
+
+            public ProtocolAttribute(byte id)
+            {
+                Id = id;
+            }
         }
 
         /// <summary>
         /// 协议ID查找表
         /// </summary>
-        static BidirectionalMap<int, Type> _protocolMap;
+        static BidirectionalMap<byte, Type> _protocolMap;
 
         /// <summary>
         /// 创建协议表
         /// </summary>
         static void CreateProtocolMap()
         {
-            _protocolMap = new BidirectionalMap<int, Type>();            
+            _protocolMap = new BidirectionalMap<byte, Type>();
             var protocolAttributeType = typeof(ProtocolAttribute);
             var protocolsType = typeof(Protocols);
             foreach (var nestedType in protocolsType.GetNestedTypes())
@@ -105,13 +113,14 @@ namespace PingPong
                     continue;
                 }
 
-                if (nestedType.GetCustomAttributes(protocolAttributeType, true).Length > 0)
+                var protocolAttr = nestedType.GetCustomAttribute<ProtocolAttribute>();
+                if (protocolAttr != null)
                 {
                     //是协议对象
-
                     //ID
-                    var id = nestedType.GetHashCode();
+                    var id = protocolAttr.Id;
                     _protocolMap.Set(id, nestedType);
+                    // Debug.Log($"注册协议:[{id}]({nestedType.FullName})");
                 }
             }
         }
@@ -120,7 +129,7 @@ namespace PingPong
         /// 获取协议
         /// </summary>
         /// <returns></returns>
-        public static BidirectionalMap<int, Type>.MappingItem[] GetProtocols()
+        public static BidirectionalMap<byte, Type>.MappingItem[] GetProtocols()
         {
             return _protocolMap.GetMappings();
         }
@@ -130,7 +139,7 @@ namespace PingPong
             return _protocolMap.Get(protocolStructType);
         }
 
-        public static Type GetProtocolStructType(int protocolId)
+        public static Type GetProtocolStructType(byte protocolId)
         {
             return _protocolMap.Get(protocolId);
         }
@@ -157,6 +166,11 @@ namespace PingPong
         {
             var body = MsgPacker.Unpack<ProtocolBody>(data);
             var type = _protocolMap.Get(body.id);
+            if (null == type)
+            {
+                throw new Exception($"协议处理器不存在 [协议ID: {body.id}]");
+            }
+
             var obj = MsgPacker.Unpack(type, body.data);
             return obj;
         }
@@ -169,7 +183,16 @@ namespace PingPong
         {
             var body = Unpack(data);
             var id = _protocolMap.Get(body.GetType());
-            dispatcher.DispatchMessage(id, body);
+            var dispatchResult = dispatcher.DispatchMessage(id, body);
+            switch (dispatchResult)
+            {
+                case EDispatchResult.SUCCESS:
+                    Debug.Log($"网络协议派发：[{id}]({body.GetType().FullName})");
+                    break;
+                default:
+                    Debug.Log($"网络协议派发出现问题：[{id}]({dispatchResult})");
+                    break;
+            }
         }
 
         /// <summary>
@@ -180,7 +203,7 @@ namespace PingPong
             /// <summary>
             /// 协议id
             /// </summary>
-            public int id;
+            public byte id;
 
             /// <summary>
             /// 协议数据
@@ -193,25 +216,23 @@ namespace PingPong
         /// <summary>
         /// 加入主机
         /// </summary>
-        [Protocol]
+        [Protocol(100)]
         public struct JoinHostRequest
         {
-            
         }
 
         /// <summary>
         /// 游戏准备好了
         /// </summary>
-        [Protocol]
+        [Protocol(101)]
         public struct GameReadyRequest
         {
-
         }
 
         /// <summary>
         /// 玩家输入
         /// </summary>
-        [Protocol]
+        [Protocol(102)]
         public struct InputRequest
         {
             public byte moveDir;
@@ -220,7 +241,7 @@ namespace PingPong
         /// <summary>
         /// Ping请求
         /// </summary>
-        [Protocol]
+        [Protocol(103)]
         public struct PingC2S
         {
             public long clientUTC;
@@ -233,16 +254,15 @@ namespace PingPong
         /// <summary>
         /// 游戏开始
         /// </summary>
-        [Protocol]
+        [Protocol(200)]
         public struct GameStartNotify
         {
-
         }
 
         /// <summary>
         /// 帧输入数据同步
         /// </summary>
-        [Protocol]
+        [Protocol(201)]
         public struct FrameInputNotify
         {
             public int frame;
@@ -252,7 +272,7 @@ namespace PingPong
         /// <summary>
         /// Pong回复
         /// </summary>
-        [Protocol]
+        [Protocol(202)]
         public struct PongS2C
         {
             public long clientUTC;
@@ -260,6 +280,5 @@ namespace PingPong
         }
 
         #endregion
-
     }
 }

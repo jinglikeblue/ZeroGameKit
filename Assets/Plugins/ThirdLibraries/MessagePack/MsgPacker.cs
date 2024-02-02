@@ -70,6 +70,10 @@ namespace Jing
         /// <returns></returns>
         public static object Unpack(Type type, byte[] data)
         {
+            if (0 == data.Length)
+            {
+                return Activator.CreateInstance(type);
+            }
             var serializer = GetSerializer(type);
             var obj = serializer.UnpackSingleObject(data);
             return obj;

@@ -1,4 +1,6 @@
-﻿using Jing;
+﻿using System.IO;
+using System.Security.Cryptography;
+using Jing;
 using One;
 using UnityEngine;
 
@@ -15,6 +17,11 @@ namespace PingPong
         /// KCP客户端
         /// </summary>
         KcpClient _kcpClient;
+        
+        /// <summary>
+        /// 是否活跃中
+        /// </summary>
+        public bool IsActive => _kcpClient == null ? false : true;
 
         /// <summary>
         /// 连接主机
@@ -36,6 +43,8 @@ namespace PingPong
 
         private void KcpClientOnonReceivedData(KcpClient client, byte[] data)
         {
+            var md5 = MD5Helper.GetShortMD5(new MemoryStream(data), true);
+            Debug.Log($"收到协议 [size:{data.Length}] [md5:{md5}]");
             Protocols.UnpackAndDispatch(data);
         }
 
@@ -83,7 +92,7 @@ namespace PingPong
 
         public void Update()
         {
-            _kcpClient.Refresh();
+            _kcpClient?.Refresh();
         }
         
         public void SendProtocol(object protocolBody)
@@ -94,6 +103,8 @@ namespace PingPong
             }
             
             var data = Protocols.Pack(protocolBody);
+            var md5 = MD5Helper.GetShortMD5(new MemoryStream(data), true);
+            Debug.Log($"发送协议 [size:{data.Length}] [md5:{md5}]");
             _kcpClient.Send(data);
         }
     }
