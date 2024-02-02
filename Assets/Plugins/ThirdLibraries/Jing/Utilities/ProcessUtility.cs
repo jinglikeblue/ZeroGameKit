@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Text;
-using Debug = UnityEngine.Debug;
 
 namespace Jing
 {
@@ -16,7 +15,7 @@ namespace Jing
         public static void RunCommandLine(string content)
         {
 #if UNITY_EDITOR_WIN
-            Debug.Log($"执行CMD命令: {content}");
+            Log.I($"执行CMD命令: {content}");
             var process = new Process();
             process.StartInfo.FileName = $"cmd.exe";
             process.StartInfo.Arguments = $"/c {content}";
@@ -39,11 +38,11 @@ namespace Jing
             
             if (!string.IsNullOrEmpty(output.Trim()))
             {
-                Debug.Log(output);    
+                Log.I(output);    
             }
             if (!string.IsNullOrEmpty(error.Trim()))
             {
-                Debug.LogError(error);    
+                Log.E(error);    
             }
 #endif
         }
