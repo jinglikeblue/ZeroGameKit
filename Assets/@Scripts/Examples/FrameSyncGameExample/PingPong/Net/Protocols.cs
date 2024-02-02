@@ -175,7 +175,7 @@ namespace PingPong
         /// <summary>
         /// 协议体
         /// </summary>
-        struct ProtocolBody
+        public struct ProtocolBody
         {
             /// <summary>
             /// 协议id
