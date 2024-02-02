@@ -78,7 +78,7 @@ namespace ZeroGameKit
             AddBtn(GROUP_DEMO, "DEMO_2D物理游戏", RoushanExample.Start);
             AddBtn(GROUP_DEMO, "DEMO_推箱子游戏", SokobanExample.Start);
             AddBtn(GROUP_DEMO, "DEMO_3D", KnightExample.Start);
-            AddBtn(GROUP_DEMO, "DEMO_帧同步游戏", FrameSyncGameExample.Start);
+            AddBtn(GROUP_DEMO, "DEMO_帧同步游戏", FrameSyncGameExample.StartPingPong);
 
             AddBtn(GROUP_PERFORMANCE, "运算性能", PerformanceExample.Calculate);
             AddBtn(GROUP_PERFORMANCE, "与主工程交互性能", PerformanceExample.CallNative);

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
 using UnityEngine;
+using Zero;
 using ZeroHot;
 
 namespace PingPong
@@ -38,8 +39,13 @@ namespace PingPong
         {
             if (null == _server)
             {
+                PerformanceAnalysis.BeginAnalysis("CreateMessageDispatcher");
                 CreateMessageDispatcher();
+                var cost = PerformanceAnalysis.EndAnalysis("CreateMessageDispatcher");
+                Debug.Log($"CreateMessageDispatcher: {cost}");
+
                 Debug.Log($"[创建HOST] IP:{SocketUtility.GetIPv4Address()}");
+                _server = new KcpServer();
                 _server.onClientEnter += OnClientEnter;
                 _server.onClientExit += OnClientExit;
                 _server.Start(PORT);
@@ -136,5 +142,24 @@ namespace PingPong
         {
             _server.Refresh();            
         }
+
+        #region  业务协议
+
+        public void GameStart()
+        {
+            
+        }
+
+        public void FrameInput(int frame, Protocols.InputRequest[] inputs)
+        {
+            
+        }
+
+        public void Pong()
+        {
+            
+        }
+
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
-﻿using Jing;
+﻿using Example;
+using Jing;
 using UnityEngine.UI;
 using ZeroGameKit;
 
@@ -9,10 +10,15 @@ namespace PingPong
         Text textTitle;
         Text textContent;
 
+        private PingPongNetHost host => Global.Ins.host;
+
         protected override void OnInit(object data)
         {
             base.OnInit(data);
-            textTitle.text = $"(IP:{SocketUtility.GetIPv4Address()})等待加入...";
+            var selfIP = SocketUtility.GetIPv4Address().ToString();
+            textTitle.text = $"(IP:{selfIP})等待加入...";
+            textContent.text = selfIP.Substring(selfIP.LastIndexOf('.'));
+            host.Start();
         }
     }
 }

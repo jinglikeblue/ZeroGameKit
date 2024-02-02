@@ -5,7 +5,7 @@ namespace Example
 {
     class FrameSyncGameExample
     {
-        static public void Start()
+        static public void StartPingPong()
         {            
             UIPanelMgr.Ins.Switch<PingPongMenuPanel>();
         }
