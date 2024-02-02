@@ -28,7 +28,7 @@ namespace ZeroEditor
                 fullPath = FileUtility.StandardizeSlashSeparator(fullPath);
                 System.Diagnostics.Process.Start("explorer.exe", fullPath);
             }
-            else if(Application.platform == RuntimePlatform.OSXEditor)
+            else if (Application.platform == RuntimePlatform.OSXEditor)
             {
                 var args = string.Format("{0} {1}", "Tools/Mac/OpenDir.sh", fullPath);
                 System.Diagnostics.Process.Start("bash", args);
@@ -57,6 +57,7 @@ namespace ZeroEditor
             {
                 paths[i] = GetAssetAbsolutePath(AssetDatabase.GetAssetPath(Selection.objects[i]));
             }
+
             return paths;
         }
 
@@ -80,13 +81,58 @@ namespace ZeroEditor
         /// <returns></returns>
         public static bool SetPathToSelection(string path)
         {
-            var obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);            
-            if(obj != null)
+            var obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
+            if (obj != null)
             {
                 Selection.objects = new UnityEngine.Object[] { obj };
                 return true;
             }
+
             return false;
+        }
+
+        /// <summary>
+        /// 为当前项目创建一个分身项目。Assets等资源会链接到到当前项目的目录，这样代码可以统一管理。
+        /// </summary>
+        /// <param name="sourceProject">源项目</param>
+        /// <param name="targetDir">创建分身的目标文件夹</param>
+        public static void CreateShadowProject(string sourceProject, string targetDir)
+        {
+            if (false == Directory.Exists(targetDir))
+            {
+                //文件夹不存在，则创建
+                Directory.CreateDirectory(targetDir);
+            }
+            else
+            {
+                //检查文件夹是否空的
+                if (Directory.GetFiles(targetDir).Length > 0 || Directory.GetDirectories(targetDir).Length > 0)
+                {
+                    EditorUtility.DisplayDialog("错误提示", "目标文件夹有数据！需要选择一个新创建的文件夹！", "确定");
+                    return;
+                }
+            }
+            
+            //使用cmd命令创建文件夹的映射
+            string[] toLinkFolders = new string[]
+            {
+                "Assets",
+                "Packages",
+                "ProjectSettings"
+            };
+            
+            foreach (var dir in toLinkFolders)
+            {
+                var sourceFolder = FileUtility.CombineDirs(false,sourceProject, dir);
+                var linkFolder = FileUtility.CombineDirs(false, targetDir, dir);
+                #if UNITY_EDITOR_WIN
+                sourceFolder = FileUtility.StandardizeSlashSeparator(sourceFolder);
+                linkFolder = FileUtility.StandardizeSlashSeparator(linkFolder);
+                #endif
+                var cmdContent = $"mklink /d \"{linkFolder}\" \"{sourceFolder}\"";
+                // Debug.Log(cmdContent);
+                ProcessUtility.RunCommandLine(cmdContent);
+            }
         }
     }
 }
