@@ -17,8 +17,15 @@ namespace PingPong
             base.OnInit(data);
             var selfIP = SocketUtility.GetIPv4Address().ToString();
             textTitle.text = $"(IP:{selfIP})等待加入...";
-            textContent.text = selfIP.Substring(selfIP.LastIndexOf('.'));
+            var part4 = selfIP.Substring(selfIP.LastIndexOf('.') + 1);
+            textContent.text = $"你的号码：{part4}";
             host.Start();
+        }
+
+        protected override void OnBtnCloseClick()
+        {
+            base.OnBtnCloseClick();
+            host.Stop();
         }
     }
 }

@@ -39,11 +39,6 @@ namespace PingPong
         {
             if (null == _server)
             {
-                PerformanceAnalysis.BeginAnalysis("CreateMessageDispatcher");
-                CreateMessageDispatcher();
-                var cost = PerformanceAnalysis.EndAnalysis("CreateMessageDispatcher");
-                Debug.Log($"CreateMessageDispatcher: {cost}");
-
                 Debug.Log($"[创建HOST] IP:{SocketUtility.GetIPv4Address()}");
                 _server = new KcpServer();
                 _server.onClientEnter += OnClientEnter;
@@ -51,43 +46,7 @@ namespace PingPong
                 _server.Start(PORT);
             }
         }
-
-        /// <summary>
-        /// 创建消息派发器
-        /// </summary>
-        void CreateMessageDispatcher()
-        {                             
-            var receiverInterfaceType = typeof(IMessageReceiver);
-
-            MessageDispatcher<int> md = new MessageDispatcher<int>();            
-            var types = Assembly.GetExecutingAssembly().GetTypes();
-            foreach (var type in types)
-            {
-                if (false == type.IsAbstract)
-                {
-                    if (receiverInterfaceType.IsAssignableFrom(type))
-                    {
-                        var genericArguments = type.BaseType.GetGenericArguments();
-                        if (genericArguments.Length == 1)
-                        {
-                            var protocolStruct = genericArguments[0];                            
-                            if (protocolStruct.GetCustomAttribute(Protocols.ProtocolAttributeType) != null)
-                            {
-                                var id = Protocols.GetProtocolId(protocolStruct);
-                                Debug.Log($"Found Receiver: [{id}] => {type.FullName}");
-                                md.RegisterReceiver(id, type);
-                            }
-                        }
-                    }
-                }
-            }
-            _msgDispatcher = md;
-
-            //测试Receiver
-            //var body = new Protocols.GameStartNotify();
-            //md.DispatchMessage(body.GetHashCode(), body);
-        }
-
+        
         void OnClientEnter(IChannel channel)
         {
             //一次只能接受一个连接
@@ -143,21 +102,39 @@ namespace PingPong
             _server.Refresh();            
         }
 
+        public void SendProtocol(object protocolBody)
+        {
+            if (null == _server || null == _channel)
+            {
+                return;
+            }
+            
+            var data = Protocols.Pack(protocolBody);
+            _channel.Send(data);
+        }
+
         #region  业务协议
 
         public void GameStart()
         {
-            
+            var body = new Protocols.GameStartNotify();
+            SendProtocol(body);
         }
 
         public void FrameInput(int frame, Protocols.InputRequest[] inputs)
         {
-            
+            var body = new Protocols.FrameInputNotify();
+            body.frame = frame;
+            body.inputs = inputs;
+            SendProtocol(body);
         }
 
-        public void Pong()
+        public void Pong(Protocols.PingC2S pingBody)
         {
-            
+            var body = new Protocols.PongS2C();
+            body.clientUTC = pingBody.clientUTC;
+            body.serverUTC = TimeUtility.NowUtcMilliseconds;
+            SendProtocol(body);
         }
 
         #endregion

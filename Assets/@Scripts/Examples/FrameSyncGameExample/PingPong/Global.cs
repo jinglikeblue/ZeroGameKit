@@ -8,11 +8,21 @@ namespace Example
     /// </summary>
     public class Global : ASingleton<Global>
     {
-        public PingPongNetHost host;
-        public PingPongNetClient client;
+        /// <summary>
+        /// 主机管理类
+        /// </summary>
+        public PingPongNetHost host { get; private set; }
         
+        /// <summary>
+        /// 客户机控制类
+        /// </summary>
+        public PingPongNetClient client { get; private set; }
+
         protected override void Init()
         {
+            host = new PingPongNetHost();
+            client = new PingPongNetClient();
+            Protocols.Init();
         }
 
         public override void Destroy()

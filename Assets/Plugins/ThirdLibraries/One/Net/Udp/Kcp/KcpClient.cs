@@ -1,5 +1,4 @@
 ﻿using Jing;
-
 namespace One
 {
     /// <summary>

@@ -1,15 +1,79 @@
 ﻿using Jing;
 using System;
+using System.Reflection;
+using UnityEngine;
+using Zero;
+using ZeroHot;
 
 namespace PingPong
 {
     public static class Protocols
     {
         public static Type ProtocolAttributeType => typeof(ProtocolAttribute);
-
+        
+        /// <summary>
+        /// 协议派发器
+        /// </summary>
+        public static MessageDispatcher<int> dispatcher { get; private set; }
+        
+        /// <summary>
+        /// 是否进行了初始化
+        /// </summary>
+        private static bool _inited = false;
         static Protocols()
         {
+            Init();
+        }
+
+        public static void Init()
+        {
+            if (_inited)
+            {
+                return;
+            }
+
+            _inited = true;
+            PerformanceAnalysis.BeginAnalysis("CreateMessageDispatcher");
             CreateProtocolMap();
+            CreateMessageDispatcher();
+            var cost = PerformanceAnalysis.EndAnalysis("CreateMessageDispatcher");
+            Debug.Log($"PingPong 协议构建耗时: {cost}");
+        }
+        
+        /// <summary>
+        /// 创建消息派发器
+        /// </summary>
+        static void CreateMessageDispatcher()
+        {                             
+            var receiverInterfaceType = typeof(IMessageReceiver);
+
+            MessageDispatcher<int> md = new MessageDispatcher<int>();            
+            var types = Assembly.GetExecutingAssembly().GetTypes();
+            foreach (var type in types)
+            {
+                if (false == type.IsAbstract)
+                {
+                    if (receiverInterfaceType.IsAssignableFrom(type))
+                    {
+                        var genericArguments = type.BaseType.GetGenericArguments();
+                        if (genericArguments.Length == 1)
+                        {
+                            var protocolStruct = genericArguments[0];                            
+                            if (protocolStruct.GetCustomAttribute(Protocols.ProtocolAttributeType) != null)
+                            {
+                                var id = Protocols.GetProtocolId(protocolStruct);
+                                // Debug.Log($"Found Receiver: [{id}] => {type.FullName}");
+                                md.RegisterReceiver(id, type);
+                            }
+                        }
+                    }
+                }
+            }
+            dispatcher = md;
+
+            //测试Receiver
+            //var body = new Protocols.GameStartNotify();
+            //md.DispatchMessage(body.GetHashCode(), body);
         }
 
         /// <summary>
@@ -28,7 +92,7 @@ namespace PingPong
         /// <summary>
         /// 创建协议表
         /// </summary>
-        public static void CreateProtocolMap()
+        static void CreateProtocolMap()
         {
             _protocolMap = new BidirectionalMap<int, Type>();            
             var protocolAttributeType = typeof(ProtocolAttribute);
@@ -95,6 +159,17 @@ namespace PingPong
             var type = _protocolMap.Get(body.id);
             var obj = MsgPacker.Unpack(type, body.data);
             return obj;
+        }
+
+        /// <summary>
+        /// 协议解包并且派发
+        /// </summary>
+        /// <param name="data"></param>
+        public static void UnpackAndDispatch(byte[] data)
+        {
+            var body = Unpack(data);
+            var id = _protocolMap.Get(body.GetType());
+            dispatcher.DispatchMessage(id, body);
         }
 
         /// <summary>
