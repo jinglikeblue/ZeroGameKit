@@ -1,8 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Security.Cryptography;
+using Example;
 using Jing;
 using One;
-using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace PingPong
 {
@@ -22,6 +25,11 @@ namespace PingPong
         /// 是否活跃中
         /// </summary>
         public bool IsActive => _kcpClient == null ? false : true;
+
+        /// <summary>
+        /// 网络关闭事件
+        /// </summary>
+        public event Action onClose;
 
         /// <summary>
         /// 连接主机
@@ -48,7 +56,11 @@ namespace PingPong
             Protocols.UnpackAndDispatch(data);
         }
 
-        public void Stop()
+        /// <summary>
+        /// 停止网络
+        /// </summary>
+        /// <param name="isSliently"></param>
+        public void Stop(bool isSliently = true)
         {
             if (null == _kcpClient)
             {
@@ -58,6 +70,11 @@ namespace PingPong
             _kcpClient.onReceivedData -= KcpClientOnonReceivedData;
             _kcpClient.Dispose();
             _kcpClient = null;
+
+            if (!isSliently)
+            {
+                onClose?.Invoke();
+            }
         }
 
         #region 业务协议
@@ -67,7 +84,7 @@ namespace PingPong
             var body = new Protocols.JoinHostRequest();
             SendProtocol(body);
         }
-
+        
         public void GameReady()
         {
             var body = new Protocols.GameReadyRequest();
@@ -93,8 +110,31 @@ namespace PingPong
         public void Update()
         {
             _kcpClient?.Refresh();
+
+            NetworkCheck();
         }
         
+        /// <summary>
+        /// 网络检查
+        /// </summary>
+        private void NetworkCheck()
+        {
+            var idleTime = TimeUtility.NowUtcMilliseconds- Global.Ins.netModule.lastReceivePingPongUTC;
+            
+            if (idleTime > 10000)
+            {
+                //超过10秒没有收到消息，网络断开
+                Stop(false);
+                return;
+            }
+            
+            if (idleTime > 5000)
+            {
+                //超过5秒没有收到消息，发送心跳
+                Ping();
+            }
+        }
+
         public void SendProtocol(object protocolBody)
         {
             if (null == _kcpClient || null == _kcpClient)

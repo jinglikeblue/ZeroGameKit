@@ -27,8 +27,8 @@ namespace PingPong
             while (true)
             {
                 yield return new WaitForEndOfFrame();
-                Global.Ins.host.Update();
-                Global.Ins.client.Update();
+                Global.Ins.netModule.host.Update();
+                Global.Ins.netModule.client.Update();
             }
         }
     }

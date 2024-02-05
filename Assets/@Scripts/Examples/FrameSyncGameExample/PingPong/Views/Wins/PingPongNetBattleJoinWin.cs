@@ -12,7 +12,7 @@ namespace PingPong
         InputField textInput;
         Button btnConnect;
 
-        private PingPongNetClient client => Global.Ins.client;
+        private PingPongNetClient client => Global.Ins.netModule.client;
 
         protected override void OnInit(object data)
         {

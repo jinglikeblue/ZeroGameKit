@@ -10,7 +10,7 @@ namespace PingPong
         Text textTitle;
         Text textContent;
 
-        private PingPongNetHost host => Global.Ins.host;
+        private PingPongNetHost host => Global.Ins.netModule.host;
 
         protected override void OnInit(object data)
         {

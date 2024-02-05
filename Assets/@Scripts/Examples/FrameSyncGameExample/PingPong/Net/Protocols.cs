@@ -183,14 +183,14 @@ namespace PingPong
         {
             var body = Unpack(data);
             var id = _protocolMap.Get(body.GetType());
-            var dispatchResult = dispatcher.DispatchMessage(id, body);
+            EDispatchResult dispatchResult = dispatcher.DispatchMessage(id, body);
             switch (dispatchResult)
             {
                 case EDispatchResult.SUCCESS:
                     Debug.Log($"网络协议派发：[{id}]({body.GetType().FullName})");
                     break;
                 default:
-                    Debug.Log($"网络协议派发出现问题：[{id}]({dispatchResult})");
+                    Debug.LogError($"网络协议派发出现问题：[{id}]({dispatchResult})");
                     break;
             }
         }

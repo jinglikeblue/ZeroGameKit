@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Example;
+using Jing;
 using UnityEngine;
 using Zero;
 using ZeroHot;
@@ -10,14 +11,12 @@ namespace PingPong
     {
         protected override void OnReceive(Protocols.PongS2C m)
         {
-            //等待10秒后发送PONG
-            ILBridge.Ins.StartCoroutine(this, SendPing());
-        }
-        
-        private IEnumerator SendPing()
-        {
-            yield return new WaitForSeconds(10);
-            Global.Ins.client.Ping();
+            Global.Ins.netModule.lastReceivePingPongUTC = TimeUtility.NowUtcMilliseconds;
+            
+            NetDelayInfo info = new NetDelayInfo();
+            info.c2s = (int)(m.serverUTC - m.clientUTC);
+            info.s2c = (int)(TimeUtility.NowUtcMilliseconds - m.serverUTC);
+            info.total = info.c2s + info.s2c;
         }
     }
 }

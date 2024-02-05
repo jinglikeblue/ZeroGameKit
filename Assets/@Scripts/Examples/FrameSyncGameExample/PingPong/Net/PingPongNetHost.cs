@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using Example;
 using UnityEngine;
 using Zero;
 using ZeroHot;
@@ -37,6 +38,11 @@ namespace PingPong
         /// 协议派发器
         /// </summary>
         MessageDispatcher<int> _msgDispatcher;
+        
+        /// <summary>
+        /// 网络关闭事件
+        /// </summary>
+        public event Action onClose;
 
         /// <summary>
         /// 启动服务
@@ -91,7 +97,7 @@ namespace PingPong
         /// <summary>
         /// 停止服务
         /// </summary>
-        public void Stop()
+        public void Stop(bool isSliently = true)
         {
             CloseChannel();
             if (_kcpServer != null)
@@ -101,12 +107,33 @@ namespace PingPong
                 _kcpServer.onClientExit -= OnClientExit;
                 _kcpServer.Close();
                 _kcpServer = null;
+
+                if (!isSliently)
+                {
+                    onClose?.Invoke();
+                }
             }
         }
 
         public void Update()
         {
-            _kcpServer?.Refresh();            
+            _kcpServer?.Refresh();  
+            
+            NetworkCheck();
+        }
+        
+        /// <summary>
+        /// 网络检查
+        /// </summary>
+        private void NetworkCheck()
+        {
+            var idleTime = TimeUtility.NowUtcMilliseconds - Global.Ins.netModule.lastReceivePingPongUTC;
+            
+            if (idleTime > 10000)
+            {
+                //超过10秒没有收到消息，网络断开
+                Stop(false);
+            }
         }
 
         public void SendProtocol(object protocolBody)

@@ -1,7 +1,6 @@
-using PingPong;
 using ZeroHot;
 
-namespace Example
+namespace PingPong
 {
     /// <summary>
     /// 全局数据
@@ -9,34 +8,24 @@ namespace Example
     public class Global : ASingleton<Global>
     {
         /// <summary>
-        /// 主机管理类
+        /// 网络模块
         /// </summary>
-        public PingPongNetHost host { get; private set; }
+        public NetModule netModule { get; private set; }
         
         /// <summary>
-        /// 客户机控制类
+        /// 通知模块
         /// </summary>
-        public PingPongNetClient client { get; private set; }
-
-        /// <summary>
-        /// 网络更新器
-        /// </summary>
-        public NetUpdateCommand _netUpdateCommand { get; private set; }
+        public NoticeModule noticeModule { get; private set; }
 
         protected override void Init()
         {
-            host = new PingPongNetHost();
-            client = new PingPongNetClient();
-            Protocols.Init();
-            _netUpdateCommand = new NetUpdateCommand();
-            _netUpdateCommand.Excute();
+            netModule = new NetModule();
+            noticeModule = new NoticeModule();
         }
 
         public override void Destroy()
         {
-            host?.Stop();
-            client?.Stop();
-            _netUpdateCommand.Terminate();
+            netModule.Dispose();
         }
     }
 }
