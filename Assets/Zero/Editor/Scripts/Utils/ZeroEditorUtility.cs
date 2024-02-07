@@ -1,5 +1,6 @@
 ﻿using Jing;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -96,7 +97,8 @@ namespace ZeroEditor
         /// </summary>
         /// <param name="sourceProject">源项目</param>
         /// <param name="targetDir">创建分身的目标文件夹</param>
-        public static void CreateShadowProject(string sourceProject, string targetDir)
+        /// <param name="extraFolders">除了默认要映射的文件夹之外，其它要映射的自定义文件夹</param>
+        public static void CreateShadowProject(string sourceProject, string targetDir, string[] extraFolders = null)
         {
             if (false == Directory.Exists(targetDir))
             {
@@ -120,8 +122,15 @@ namespace ZeroEditor
                 "Packages",
                 "ProjectSettings"
             };
+
+            var toLinkFolderList = new List<string>(toLinkFolders);
             
-            foreach (var dir in toLinkFolders)
+            if (null != extraFolders)
+            {
+                toLinkFolderList.AddRange(extraFolders);
+            }
+            
+            foreach (var dir in toLinkFolderList)
             {
                 var sourceFolder = FileUtility.CombineDirs(false,sourceProject, dir);
                 var linkFolder = FileUtility.CombineDirs(false, targetDir, dir);

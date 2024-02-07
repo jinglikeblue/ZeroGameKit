@@ -35,7 +35,7 @@ namespace ZeroHot
             GameObject mainPrefab = ResMgr.Ins.Load<GameObject>(AB.ROOT_ASSETS.NAME, AB.ROOT_ASSETS.ILContent);
             //实例化ILContent界面
             var ilContent = ViewFactory.Create<ILContent>(mainPrefab, null);
-            ilContent.gameObject.name = mainPrefab.name;
+            ilContent.gameObject.name = mainPrefab.name;            
         }
     }
 }

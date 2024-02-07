@@ -51,7 +51,7 @@ namespace ZeroHot
         /// <param name="abName">视图所在AB</param>
         /// <param name="viewName">视图名称</param>
         public ViewAsyncCreater(Type type, string abName, string viewName)
-        {
+        {            
             _type = type;
             _abName = abName;
             _viewName = viewName;            
