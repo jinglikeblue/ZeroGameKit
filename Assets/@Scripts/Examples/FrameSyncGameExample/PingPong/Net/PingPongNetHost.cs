@@ -45,10 +45,16 @@ namespace PingPong
         public event Action onClose;
 
         /// <summary>
+        /// 心跳
+        /// </summary>
+        public HeartbeatModel heartbeat => Global.Ins.netModule.heartbeat;
+        
+        /// <summary>
         /// 启动服务
         /// </summary>
         public void Start()
         {
+            Protocols.Init();
             if (null == _kcpServer)
             {
                 Debug.Log($"[创建HOST] IP:{SocketUtility.GetIPv4Address()}");
@@ -63,26 +69,20 @@ namespace PingPong
         {
             //一次只能接受一个连接
             if (null == _channel)
-            {                
+            {               
                 _channel = channel;
                 _channel.onReceivedData += OnReceiveData;
+                heartbeat.Refresh();
             }
         }
 
         void OnClientExit(IChannel channel)
         {
-            if (null != _channel)
-            {
-                _channel.onReceivedData -= OnReceiveData;
-                _channel.Close(true);
-                _channel = null;
-            }
+            CloseChannel();
         }
 
         void OnReceiveData(IChannel sender, byte[] data)
         {
-            var md5 = MD5Helper.GetShortMD5(new MemoryStream(data), true);
-            Debug.Log($"收到协议 [size:{data.Length}] [md5:{md5}]");
             Protocols.UnpackAndDispatch(data);
         }
 
@@ -91,7 +91,12 @@ namespace PingPong
         /// </summary>
         void CloseChannel()
         {
-            _channel?.Close();
+            if (null != _channel)
+            {
+                _channel.onReceivedData -= OnReceiveData;
+                _channel.Close(true);
+                _channel = null;
+            }
         }
 
         /// <summary>
@@ -102,7 +107,7 @@ namespace PingPong
             CloseChannel();
             if (_kcpServer != null)
             {
-                Debug.Log($"[停止HOST]");
+                Debug.Log($"停止HOST");
                 _kcpServer.onClientEnter -= OnClientEnter;
                 _kcpServer.onClientExit -= OnClientExit;
                 _kcpServer.Close();
@@ -127,11 +132,13 @@ namespace PingPong
         /// </summary>
         private void NetworkCheck()
         {
-            var idleTime = TimeUtility.NowUtcMilliseconds - Global.Ins.netModule.lastReceivePingPongUTC;
-            
-            if (idleTime > 10000)
+            if (null == _channel)
             {
-                //超过10秒没有收到消息，网络断开
+                return;
+            }
+            
+            if (heartbeat.IsPingReceivedTimeout)
+            {
                 Stop(false);
             }
         }
@@ -144,8 +151,6 @@ namespace PingPong
             }
             
             var data = Protocols.Pack(protocolBody);
-            var md5 = MD5Helper.GetShortMD5(new MemoryStream(data), true);
-            Debug.Log($"发送协议 [size:{data.Length}] [md5:{md5}]");
             _channel.Send(data);
         }
 
@@ -171,6 +176,8 @@ namespace PingPong
             body.clientUTC = pingBody.clientUTC;
             body.serverUTC = TimeUtility.NowUtcMilliseconds;
             SendProtocol(body);
+            
+            heartbeat.PongSent();
         }
 
         #endregion

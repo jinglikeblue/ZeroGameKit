@@ -21,6 +21,9 @@ namespace PingPong
         {
             base.OnInit(data);
             
+            //调整摄像机为最佳视角
+            UpdateCameraDistance();
+            
             _game = new PingPongGame(gameObject, OnReceiveBridgeMessage);            
             _game.Start();            
         }
@@ -29,6 +32,20 @@ namespace PingPong
         {
             var pe = msg as PlayerEntity;
             Debug.Log($"Receive Bridge Message: {pe.speed}");
+        }
+
+        void UpdateCameraDistance()
+        {
+            var camera = transform.Find("Objects/Main Camera")?.GetComponent<Camera>();
+            if (null == camera)
+            {
+                Debug.LogError($"找不到摄像机");
+            }
+            var d = CameraUtility.CalculateBestDistanceToTarget(camera.fieldOfView, 20, 30);
+        
+            var pos = camera.transform.localPosition;
+            pos.y = d;
+            camera.transform.localPosition = pos;
         }
     }
 }

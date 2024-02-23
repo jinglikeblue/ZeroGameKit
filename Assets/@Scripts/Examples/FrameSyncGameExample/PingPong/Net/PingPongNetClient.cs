@@ -32,6 +32,11 @@ namespace PingPong
         public event Action onClose;
 
         /// <summary>
+        /// 心跳
+        /// </summary>
+        public HeartbeatModel heartbeat => Global.Ins.netModule.heartbeat;
+
+        /// <summary>
         /// 连接主机
         /// </summary>
         /// <param name="host"></param>
@@ -47,6 +52,8 @@ namespace PingPong
             _kcpClient = new KcpClient();
             _kcpClient.onReceivedData += KcpClientOnonReceivedData;
             _kcpClient.Start(host, PingPongNetHost.PORT, PORT);
+            
+            heartbeat.Refresh();
         }
 
         private void KcpClientOnonReceivedData(KcpClient client, byte[] data)
@@ -66,7 +73,7 @@ namespace PingPong
             {
                 return;
             }
-
+            Debug.Log($"停止CLIENT");
             _kcpClient.onReceivedData -= KcpClientOnonReceivedData;
             _kcpClient.Dispose();
             _kcpClient = null;
@@ -103,6 +110,8 @@ namespace PingPong
             var body = new Protocols.PingC2S();
             body.clientUTC = TimeUtility.NowUtcMilliseconds;
             SendProtocol(body);
+            
+            heartbeat.PingSent();
         }
 
         #endregion
@@ -119,18 +128,19 @@ namespace PingPong
         /// </summary>
         private void NetworkCheck()
         {
-            var idleTime = TimeUtility.NowUtcMilliseconds- Global.Ins.netModule.lastReceivePingPongUTC;
-            
-            if (idleTime > 10000)
+            if (false == IsActive)
             {
-                //超过10秒没有收到消息，网络断开
+                return;
+            }
+
+            if (heartbeat.IsPongReceivedTimeout)
+            {
                 Stop(false);
                 return;
             }
-            
-            if (idleTime > 5000)
+
+            if (heartbeat.IsNeedSendPing)
             {
-                //超过5秒没有收到消息，发送心跳
                 Ping();
             }
         }
@@ -143,8 +153,6 @@ namespace PingPong
             }
             
             var data = Protocols.Pack(protocolBody);
-            var md5 = MD5Helper.GetShortMD5(new MemoryStream(data), true);
-            Debug.Log($"发送协议 [size:{data.Length}] [md5:{md5}]");
             _kcpClient.Send(data);
         }
     }

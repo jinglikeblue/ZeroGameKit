@@ -11,7 +11,7 @@ namespace PingPong
     {
         protected override void OnReceive(Protocols.PongS2C m)
         {
-            Global.Ins.netModule.lastReceivePingPongUTC = TimeUtility.NowUtcMilliseconds;
+            Global.Ins.netModule.heartbeat.PongReceived();
             
             NetDelayInfo info = new NetDelayInfo();
             info.c2s = (int)(m.serverUTC - m.clientUTC);

@@ -91,6 +91,7 @@ namespace One
             if (null != _udpClient)
             {
                 _udpClient.onReceivedData -= OnUdpReceivedData;
+                _udpClient.Dispose();
                 _udpClient = null;
             }            
 

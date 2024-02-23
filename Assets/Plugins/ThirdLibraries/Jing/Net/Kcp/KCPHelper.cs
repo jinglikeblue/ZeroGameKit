@@ -12,7 +12,13 @@ namespace Jing
     /// </summary>
     public class KCPHelper
     {
+        /// <summary>
+        /// 是否打印日志
+        /// </summary>
+        public bool logEnable = false;
+
         #region KCP配置Settings
+
         /// <summary>
         /// KCP配置
         /// </summary>
@@ -82,6 +88,7 @@ namespace Jing
                 return settings;
             }
         }
+
         #endregion
 
         /// <summary>
@@ -119,10 +126,7 @@ namespace Jing
         /// </summary>
         public uint MSS
         {
-            get
-            {                
-                return _kcp.Mss - PACK_HEAD_SIZE;
-            }
+            get { return _kcp.Mss - PACK_HEAD_SIZE; }
         }
 
         /// <summary>
@@ -131,6 +135,7 @@ namespace Jing
         public Settings settings { get; private set; } = null;
 
         #region 构造函数
+
         public KCPHelper(Settings settings = null)
         {
             if (null == settings)
@@ -147,14 +152,14 @@ namespace Jing
 
             _kcp = new KCP(settings.conv, OnOutputBytes);
 
-            /* 
+            /*
              * 该值将会影响数据包归并及分片时候的最大传输单元。
              */
             _kcp.SetMtu(settings.mtu);
 
             /*
-             * 该调用将会设置协议的最大发送窗口和最大接收窗口大小，默认为32. 
-             * 这个可以理解为 TCP的 SND_BUF 和 RCV_BUF，只不过单位不一样 
+             * 该调用将会设置协议的最大发送窗口和最大接收窗口大小，默认为32.
+             * 这个可以理解为 TCP的 SND_BUF 和 RCV_BUF，只不过单位不一样
              * SND/RCV_BUF 单位是字节，这个单位是包。
              */
             _kcp.WndSize(settings.sndwnd, settings.rcvwnd);
@@ -169,6 +174,7 @@ namespace Jing
              */
             _kcp.SetStreamMode(false);
         }
+
         #endregion
 
         /// <summary>
@@ -189,7 +195,7 @@ namespace Jing
 
         private void OnOutputBytes(byte[] bytes, int length)
         {
-            Debug.Log($"发送KCP数据 size:{length}");
+            if (logEnable) Debug.Log($"发送KCP数据 size:{length}");
 
             var tempBytes = new byte[length];
             Array.Copy(bytes, tempBytes, length);
@@ -202,7 +208,7 @@ namespace Jing
             if (0 == _checkTime || _kcp.CurrentMS > _checkTime)
             {
                 //Debug.Log($"KCP更新 {DateTime.UtcNow.Millisecond}");
-                _kcp.Update();                
+                _kcp.Update();
                 _checkTime = _kcp.Check();
             }
         }
@@ -218,7 +224,7 @@ namespace Jing
                 return;
             }
 
-            Debug.Log($"发送业务数据大小:{bytes.Length}, 分片数量:{(bytes.Length + MSS - 1) / MSS}");
+            if (logEnable) Debug.Log($"发送业务数据大小:{bytes.Length}, 分片数量:{(bytes.Length + MSS - 1) / MSS}");
 
             bytes = PackData(bytes);
             var toSendLength = bytes.Length;
@@ -250,8 +256,7 @@ namespace Jing
 
                 index += length;
                 toSendLength -= length;
-            }
-            while (toSendLength > 0);
+            } while (toSendLength > 0);
         }
 
         /// <summary>
@@ -264,6 +269,7 @@ namespace Jing
             {
                 return;
             }
+
             //Debug.Log($"收到KCP数据 size:{bytes.Length}");
             var errorCode = _kcp.Input(bytes, 0, bytes.Length, true, true);
             if (errorCode != 0)
@@ -307,13 +313,12 @@ namespace Jing
                     DispatchReceivedData(_packBuffer.Bytes);
                     _packBuffer = null;
                 }
-            }
-            while (true);
+            } while (true);
         }
 
         void DispatchReceivedData(byte[] data)
         {
-            Debug.Log($"收到业务数据 size:{data.Length}");
+            if (logEnable) Debug.Log($"收到业务数据 size:{data.Length}");
             onReceived?.Invoke(data);
         }
     }

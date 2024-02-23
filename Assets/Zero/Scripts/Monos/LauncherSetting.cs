@@ -3,14 +3,14 @@ using UnityEngine;
 namespace Zero
 {
     /// <summary>
-    /// ¶ÔÓ¦µÄCustomEditor£ºLauncherSettingCustomEditor
+    /// å¯¹åº”çš„CustomEditorï¼šLauncherSettingCustomEditor
     /// </summary>
     public class LauncherSetting : MonoBehaviour
     {
         public LauncherSettingData data;
 
         /// <summary>
-        /// ¼ÓÔØResourcesÖÐµÄlauncher_setting_data£¬²¢·µ»ØÈ«ÐÂµÄ¶ÔÏó
+        /// åŠ è½½Resourcesä¸­çš„launcher_setting_dataï¼Œå¹¶è¿”å›žå…¨æ–°çš„å¯¹è±¡
         /// </summary>
         /// <returns></returns>
         static public LauncherSettingData LoadLauncherSettingDataFromResources()
@@ -22,6 +22,5 @@ namespace Zero
             }
             return null;
         }
-
     }
 }

@@ -153,6 +153,9 @@ namespace PingPong
             var body = new ProtocolBody();
             body.id = _protocolMap.Get(obj.GetType());
             body.data = MsgPacker.Pack(obj);
+            
+            Debug.Log(LogColor.Orange($"发送协议 [type:{obj.GetType().Name}] [size:{body.data.Length}]"));
+            
             return MsgPacker.Pack(body);
         }
 
@@ -183,11 +186,14 @@ namespace PingPong
         {
             var body = Unpack(data);
             var id = _protocolMap.Get(body.GetType());
+            
+            Debug.Log(LogColor.Green($"收到协议 [type:{body.GetType().Name}][size:{data.Length}]"));
+            
             EDispatchResult dispatchResult = dispatcher.DispatchMessage(id, body);
             switch (dispatchResult)
             {
                 case EDispatchResult.SUCCESS:
-                    Debug.Log($"网络协议派发：[{id}]({body.GetType().FullName})");
+                    // Debug.Log($"网络协议派发：[{id}]({body.GetType().FullName})");
                     break;
                 default:
                     Debug.LogError($"网络协议派发出现问题：[{id}]({dispatchResult})");

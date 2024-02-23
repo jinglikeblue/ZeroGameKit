@@ -1,3 +1,4 @@
+using UnityEngine;
 using ZeroHot;
 
 namespace PingPong
@@ -6,7 +7,9 @@ namespace PingPong
     {
         protected override void OnReceive(Protocols.JoinHostRequest m)
         {
-            
+            var host = Global.Ins.netModule.host;
+            //TODO 通知游戏开始
+            host.GameStart();
         }
     }
 }
