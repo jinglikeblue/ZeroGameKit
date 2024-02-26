@@ -22,6 +22,26 @@ namespace PingPong
             host.Start();
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            Global.Ins.noticeModule.onHostStart += OnHostStart;
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            
+            Global.Ins.noticeModule.onHostStart -= OnHostStart;
+        }
+
+        private void OnHostStart()
+        {
+            UIPanelMgr.Ins.Switch<PingPongGamePanel>();    
+            UIWinMgr.Ins.CloseAll();
+        }
+
         protected override void OnBtnCloseClick()
         {
             base.OnBtnCloseClick();

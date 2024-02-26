@@ -8,6 +8,7 @@ namespace PingPong
         protected override void OnReceive(Protocols.GameStartNotify m)
         {
             Debug.Log($"GameStartReceiver::OnReceive");
+            Global.Ins.noticeModule.onHostStart?.Invoke();
         }
     }
 }

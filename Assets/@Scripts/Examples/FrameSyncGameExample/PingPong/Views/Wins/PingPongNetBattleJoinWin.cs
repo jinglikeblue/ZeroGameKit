@@ -25,6 +25,23 @@ namespace PingPong
             base.OnEnable();
 
             btnConnect.onClick.AddListener(OnClickConnect);
+            
+            Global.Ins.noticeModule.onHostStart += OnHostStart;
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            
+            btnConnect.onClick.RemoveListener(OnClickConnect);
+            
+            Global.Ins.noticeModule.onHostStart -= OnHostStart;
+        }
+        
+        private void OnHostStart()
+        {
+            UIPanelMgr.Ins.Switch<PingPongGamePanel>();     
+            UIWinMgr.Ins.CloseAll();
         }
 
         private void OnClickConnect()
