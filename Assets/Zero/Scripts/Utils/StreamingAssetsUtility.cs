@@ -16,6 +16,7 @@ namespace Zero
     public static class StreamingAssetsUtility
     {
         public delegate void StreamingAssetsDataLoadedEvent(string path, byte[] bytes);
+
         public delegate void StreamingAssetsTextLoadedEvent(string path, string text);
 
         /// <summary>
@@ -39,30 +40,36 @@ namespace Zero
             var tempFilePath = FileUtility.CombinePaths(Application.temporaryCachePath, $"streaming_assets_check_{Path.GetFileNameWithoutExtension(path)}.bytes");
             www.downloadHandler = new DownloadHandlerFile(tempFilePath);
             www.SendWebRequest();
-            
-            bool isExist = false;
-            while (!www.isDone)
-            {
-                if(www.downloadedBytes > 0)
-                {
-                    www.downloadHandler.Dispose();
-                    www.Dispose();
-                    www = null;
-                    Debug.Log($"[CheckStreamingAssetsFileExist] 存在: {path}");
 
-                    isExist = true;
-                    break;
-                }
+            // Debug.Log($"[CheckStreamingAssetsFileExist] ResponseCode: {www.responseCode} DownloadedSize: {www.downloadedBytes}");
+            while (false == (www.isDone || www.downloadedBytes > 0))
+            {
+                //阻塞进程，直到请求结束或者下载到任意数据
+                // Debug.Log($"[CheckStreamingAssetsFileExist] ResponseCode: {www.responseCode} DownloadedSize: {www.downloadedBytes}");
             }
 
+            www.Abort();
+            // Debug.Log($"[CheckStreamingAssetsFileExist] ResponseCode: {www.responseCode} DownloadedSize: {www.downloadedBytes}");
+
+            bool isExist = www.downloadedBytes > 0;
+
+            if (isExist)
+            {
+                Debug.Log($"[CheckStreamingAssetsFileExist] 存在: {path}");
+            }
+            else
+            {
+                Debug.Log($"[CheckStreamingAssetsFileExist] 不存在({www.error}): {path}");
+            }
+
+            //清理WWW
+            www.downloadHandler.Dispose();
+            www.Dispose();
+
+            //清理临时文件
             if (File.Exists(tempFilePath))
             {
                 File.Delete(tempFilePath);
-            }
-
-            if (false == isExist)
-            {
-                Debug.Log($"[CheckStreamingAssetsFileExist] 不存在({www.error}): {path}");
             }
 
             return isExist;
@@ -142,13 +149,9 @@ namespace Zero
         public static void LoadData(string path, StreamingAssetsDataLoadedEvent onLoaded)
         {
             var handler = new StreamingAssetsFileLoadHandler(path);
-            handler.onCompleted += (h) =>
-            {
-                onLoaded?.Invoke(path, h.request.error == null ? h.request.downloadHandler.data: null);
-            };
+            handler.onCompleted += (h) => { onLoaded?.Invoke(path, h.request.error == null ? h.request.downloadHandler.data : null); };
             handler.Start();
         }
-
 
 
         /// <summary>
@@ -159,10 +162,7 @@ namespace Zero
         public static void LoadText(string path, StreamingAssetsTextLoadedEvent onLoaded)
         {
             var handler = new StreamingAssetsFileLoadHandler(path);
-            handler.onCompleted += (h) =>
-            {
-                onLoaded?.Invoke(path, h.request.error == null ? h.request.downloadHandler.text: null);
-            };
+            handler.onCompleted += (h) => { onLoaded?.Invoke(path, h.request.error == null ? h.request.downloadHandler.text : null); };
             handler.Start();
         }
 
@@ -178,9 +178,10 @@ namespace Zero
         }
 
         #region StreamingAssetsFileLoadHandler 操作类
+
         class StreamingAssetsFileLoadHandler
         {
-            public string path { get; private set; }            
+            public string path { get; private set; }
 
             public UnityWebRequest request { get; private set; }
 
@@ -188,7 +189,7 @@ namespace Zero
 
             public StreamingAssetsFileLoadHandler(string path)
             {
-                this.path = path;                
+                this.path = path;
             }
 
             public void Start()
@@ -198,6 +199,7 @@ namespace Zero
                     Debug.Log($"Start不能重复调用");
                     return;
                 }
+
                 request = UnityWebRequest.Get(path);
                 var operation = request.SendWebRequest();
                 operation.completed += OnCompleted;
@@ -208,9 +210,11 @@ namespace Zero
                 onCompleted?.Invoke(this);
             }
         }
+
         #endregion
 
         #region StreamingAssetsFileExistCheckHandler 操作类
+
         class StreamingAssetsFileExistCheckHandler
         {
             public class CheckHandler : DownloadHandlerScript
@@ -229,6 +233,7 @@ namespace Zero
                         isFileExist = true;
                         return false;
                     }
+
                     return true;
                 }
 
@@ -250,11 +255,11 @@ namespace Zero
             public CheckHandler _checkHandler;
 
             public UnityWebRequest request;
-            
+
 
             public StreamingAssetsFileExistCheckHandler(string path)
             {
-                this.path = path;               
+                this.path = path;
             }
 
             public void Start()
@@ -264,12 +269,13 @@ namespace Zero
                     Debug.LogWarning("Start不能重复调用，直接获取isExist属性即可");
                     return;
                 }
+
                 var www = UnityWebRequest.Get(path);
                 request = www;
                 _checkHandler = new CheckHandler();
-                
-                www.downloadHandler = _checkHandler;                
-               var operation = www.SendWebRequest();
+
+                www.downloadHandler = _checkHandler;
+                var operation = www.SendWebRequest();
                 operation.completed += OnCompleted;
             }
 
@@ -281,7 +287,7 @@ namespace Zero
                 onCompleted?.Invoke(isExist);
             }
         }
+
         #endregion
     }
-
 }
