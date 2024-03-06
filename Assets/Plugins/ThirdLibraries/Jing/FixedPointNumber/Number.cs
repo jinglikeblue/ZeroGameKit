@@ -1,4 +1,6 @@
-﻿namespace Jing.FixedPointNumber
+﻿using System;
+
+namespace Jing.FixedPointNumber
 {
     /// <summary>
     /// 定点数。精度为小数点后4位。
@@ -41,10 +43,12 @@
         /// -1
         /// </summary>
         public readonly static Number NEGATIVE_ONE = new Number(-1);
+
         /// <summary>
         /// 0
         /// </summary>
         public readonly static Number ZERO = new Number(0);
+
         /// <summary>
         /// 1
         /// </summary>
@@ -58,15 +62,9 @@
         /// </summary>
         public long Raw
         {
-            set
-            {
-                _raw = value;
-            }
+            set { _raw = value; }
 
-            get
-            {
-                return _raw;
-            }
+            get { return _raw; }
         }
 
         #region 静态方法
@@ -171,14 +169,13 @@
         /// </summary>
         /// <param name="floatingPointNumber"></param>
         /// <returns></returns>
-
         public static long DoubleToRaw(double floatingPointNumber)
         {
             if (0 == floatingPointNumber)
             {
                 return IntegerToRaw(0);
-            }            
-            
+            }
+
             //保留4位精度
             var roundFloatingPointNumber = System.Math.Round(floatingPointNumber, 4);
             //拿到绝对值
@@ -230,10 +227,7 @@
         /// <returns></returns>
         public bool IsInteger
         {
-            get
-            {
-                return (Raw & FRACTION_MASK) == 0;
-            }
+            get { return (Raw & FRACTION_MASK) == 0; }
         }
 
         #region 数据输出
@@ -259,6 +253,7 @@
         {
             return (short)ToInt();
         }
+
         public float ToFloat()
         {
             return (float)ToDouble();
@@ -269,11 +264,36 @@
             return (Raw >> FRACTIONAL_BIT_COUNT) + (Raw & FRACTION_MASK) / (double)FRACTION_RANGE;
         }
 
+        /// <summary>
+        /// 转换为二进制
+        /// </summary>
+        /// <returns></returns>
+        public string ToBinary(bool isPadLeft = true)
+        {
+            string binary = Convert.ToString(Raw, 2);
+            if (isPadLeft)
+            {
+                binary = binary.PadLeft(TOTAL_BIT_COUNT, '0');
+            }
+            return binary;
+        }
+
+        /// <summary>
+        /// 获取整数部分
+        /// </summary>
+        public Number IntegerPart => new Number(Raw & INTEGER_MASK);
+
+        /// <summary>
+        /// 获取小数部分
+        /// </summary>
+        public Number FractionalPart => new Number(Raw & FRACTION_MASK);
+
         #endregion
 
         #region 重写运算符
 
         #region override operator <
+
         public static bool operator <(Number a, Number b)
         {
             return a.Raw < b.Raw;
@@ -288,9 +308,11 @@
         {
             return a < new Number(b);
         }
+
         #endregion
 
         #region override operator >
+
         public static bool operator >(Number a, Number b)
         {
             return a.Raw > b.Raw;
@@ -305,9 +327,11 @@
         {
             return a > new Number(b);
         }
+
         #endregion
 
         #region override operator <=
+
         public static bool operator <=(Number a, Number b)
         {
             return a.Raw <= b.Raw;
@@ -322,13 +346,16 @@
         {
             return a <= new Number(b);
         }
+
         #endregion
 
         #region override operator >=
+
         public static bool operator >=(Number a, Number b)
         {
             return a.Raw >= b.Raw;
         }
+
         public static bool operator >=(int a, Number b)
         {
             return new Number(a) >= b;
@@ -338,9 +365,11 @@
         {
             return a >= new Number(b);
         }
+
         #endregion
 
         #region override operator ==
+
         public static bool operator ==(Number a, Number b)
         {
             return a.Raw == b.Raw;
@@ -355,9 +384,11 @@
         {
             return a == new Number(b);
         }
+
         #endregion
 
         #region override operator !=
+
         public static bool operator !=(Number a, Number b)
         {
             return a.Raw != b.Raw;
@@ -372,6 +403,7 @@
         {
             return new Number(a) != b;
         }
+
         #endregion
 
         public override bool Equals(object obj)
@@ -379,7 +411,8 @@
             return obj != null && GetType() == obj.GetType() && this == (Number)obj;
         }
 
-        #region override operator + 
+        #region override operator +
+
         public static Number operator +(Number a, Number b)
         {
             return new Number(a.Raw + b.Raw);
@@ -394,9 +427,11 @@
         {
             return new Number(a) + b;
         }
+
         #endregion
 
         #region override operator -
+
         public static Number operator -(Number a, Number b)
         {
             return new Number(a.Raw - b.Raw);
@@ -415,6 +450,7 @@
         #endregion
 
         #region override operator *
+
         public static Number operator *(Number a, Number b)
         {
             return new Number((a.Raw * b.Raw + (FRACTION_RANGE >> 1)) >> FRACTIONAL_BIT_COUNT);
@@ -429,9 +465,11 @@
         {
             return new Number(a) * b;
         }
+
         #endregion
 
         #region override operator /
+
         public static Number operator /(Number a, Number b)
         {
             return new Number((a.Raw << FRACTIONAL_BIT_COUNT) / b.Raw);
@@ -446,15 +484,15 @@
         {
             return new Number(a) / b;
         }
+
         #endregion
 
         #region override operator %
+
         public static Number operator %(Number a, Number b)
         {
             return new Number(
-                a.Raw == MIN_VALUE & b.Raw == -1 ?
-                0 :
-                a.Raw % b.Raw);
+                a.Raw == MIN_VALUE & b.Raw == -1 ? 0 : a.Raw % b.Raw);
         }
 
         public static Number operator %(Number a, int b)
@@ -466,21 +504,26 @@
         {
             return new Number(a) % b;
         }
+
         #endregion
 
 
         #region override operator <<
+
         public static Number operator <<(Number a, int b)
         {
             return new Number(a.Raw << b);
         }
+
         #endregion
 
         #region override operator >>
-        public static Number operator >>(Number a, int b)
+
+        public static Number operator >> (Number a, int b)
         {
             return new Number(a.Raw >> b);
         }
+
         #endregion
 
 
@@ -491,6 +534,7 @@
         }
 
         #region override operator explicit 显示转换规则
+
         public static explicit operator int(Number a)
         {
             return a.ToInt();
@@ -500,6 +544,7 @@
         {
             return new Number(a);
         }
+
         #endregion
 
         #region override operator implicit 隐式转换规则
@@ -512,12 +557,10 @@
         }
 
         #endregion
+
         public string Info
         {
-            get
-            {
-                return $"[Number]  VALUE:{ToString()}  RAW:{_raw}  BINARY:{System.Convert.ToString(_raw, 2).PadLeft(64, '-')}";
-            }
+            get { return $"[Number]  VALUE:{ToString()}  RAW:{_raw}  BINARY:{System.Convert.ToString(_raw, 2).PadLeft(TOTAL_BIT_COUNT, '-')}"; }
         }
     }
 }
