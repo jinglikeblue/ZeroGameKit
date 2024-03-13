@@ -10,9 +10,9 @@ namespace Zero
     /// <summary>
     /// HuaTuo热更框架
     /// </summary>
-    public class HuaTuoILWorker : AssemblyILWorker
+    public class HybridCLRWorker : AssemblyILWorker
     {
-        public HuaTuoILWorker(Assembly assembly) : base(assembly)
+        public HybridCLRWorker(Assembly assembly) : base(assembly)
         {
             //元数据补充
             HybridCLRAotMetadata.InitAotMetadata();

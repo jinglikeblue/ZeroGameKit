@@ -87,7 +87,7 @@ namespace Zero
             if (Runtime.Ins.ILType == EILType.HYBRID_CLR)
             {
                 Debug.Log(LogColor.Zero1("外部程序集执行方式：[HYBRID_CLR]"));
-                iLWorker = new HuaTuoILWorker(assembly);
+                iLWorker = new HybridCLRWorker(assembly);
                 ILWorkerType = EILType.HYBRID_CLR;
                 return;
             }
