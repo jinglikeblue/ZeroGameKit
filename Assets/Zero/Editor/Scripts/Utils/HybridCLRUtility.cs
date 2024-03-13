@@ -64,7 +64,7 @@ namespace ZeroEditor
                 Debug.Log(LogColor.Zero1($"没有检测到安装了HybridCLR，开始安装..."));
                 controller.InstallDefaultHybridCLR();
 
-                Debug.Log(LogColor.Zero1($"安装了HybridCLR，开始设置参数..."));
+                Debug.Log(LogColor.Zero1($"安装了HybridCLR，设置参数"));
                 HybridCLRSettings.Instance.hotUpdateAssemblies = new[] { "scripts", "test" };
                 HybridCLRSettings.Instance.externalHotUpdateAssembliyDirs = new[] { "LibraryZero/ReleaseCache/dll" };
             }
