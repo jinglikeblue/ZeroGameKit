@@ -85,11 +85,11 @@ namespace ZeroEditor
             AssetsOptimizeEditorWindow.Open();
         }
 
-        [MenuItem("Zero/工具/Sprite Packing Tag 管理", false, 403)]
-        public static void SpritePackingTagTools()
-        {
-            SpritePackingTagToolsEditorWin.Open();
-        }
+        // [MenuItem("Zero/工具/Sprite Packing Tag 管理", false, 403)]
+        // public static void SpritePackingTagTools()
+        // {
+        //     SpritePackingTagToolsEditorWin.Open();
+        // }
 
         [MenuItem("Zero/工具/冗余资源管理", false, 403)]
         public static void RedundancyResourcesCleanTools()

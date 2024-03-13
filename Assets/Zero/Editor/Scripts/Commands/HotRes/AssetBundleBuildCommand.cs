@@ -337,7 +337,7 @@ namespace ZeroEditor
 
                 #region 生成一个依赖文件表
                 var filePath = FileUtility.CombinePaths(ZeroEditorConst.ASSET_BUNDLE_CACHE_DIR, "dependencies.json");
-                AssetBundleUtility.CreateDependenciesJson(assetBundleManifest, filePath);
+                HotResUtility.CreateAssetBundleDependenciesJson(assetBundleManifest, filePath);
                 Debug.Log($"生成的依赖文件查找表: {filePath}");
                 #endregion
             }

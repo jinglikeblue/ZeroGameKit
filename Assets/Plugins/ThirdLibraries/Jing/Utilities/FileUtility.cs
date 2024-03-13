@@ -194,7 +194,7 @@ namespace Jing
         }
 
         /// <summary>
-        /// 拷贝文件
+        /// 拷贝文件。非常的安全，目标位置的目录不存在的情况会自动创建。
         /// </summary>
         /// <param name="source"></param>
         /// <param name="target"></param>

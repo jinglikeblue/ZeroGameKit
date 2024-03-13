@@ -13,14 +13,7 @@ public class RightClickEditorMenu
     [MenuItem("Assets/Zero/生成DLL", false, 0)]
     static void GenerateDll()
     {
-        var now = DateTime.Now;
-        var cmd = new DllBuildCommand(ZeroEditorConst.HOT_SCRIPT_ROOT_DIR, ZeroEditorConst.DLL_PUBLISH_DIR);
-        cmd.onFinished += (DllBuildCommand self, bool isSuccess) => {
-            var tip = isSuccess ? "Dll生成成功!" : "Dll生成失败!";
-            Debug.Log(LogColor.Zero1(tip));
-            Debug.Log(LogColor.Zero1("耗时:{0}秒", (DateTime.Now - now).TotalSeconds));
-        };
-        cmd.Execute();        
+        HotResUtility.GeneateScriptAssembly();
     }
 
     #region 工具/SpriteAtlas Tools

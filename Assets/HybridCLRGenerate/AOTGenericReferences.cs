@@ -100,6 +100,8 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 	// System.Collections.Generic.HashSet.Enumerator<object>
 	// System.Collections.Generic.HashSet<int>
 	// System.Collections.Generic.HashSet<object>
+	// System.Collections.Generic.HashSetEqualityComparer<int>
+	// System.Collections.Generic.HashSetEqualityComparer<object>
 	// System.Collections.Generic.ICollection<Example.ArrayUtilityExample.TestVO>
 	// System.Collections.Generic.ICollection<Sokoban.SortTool.SortItemVO<object,object>>
 	// System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<byte,object>>

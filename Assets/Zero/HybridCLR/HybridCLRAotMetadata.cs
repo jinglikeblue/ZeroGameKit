@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using HybridCLR;
 using UnityEngine;
 
@@ -9,12 +6,12 @@ namespace Zero
     /// <summary>
     /// HybridCLR补充元数据
     /// </summary>
-    public class HybridCLRAotMetadata
+    public static class HybridCLRAotMetadata
     {
         /// <summary>
         /// AOT DLL在Resources目录中的子目录名称
         /// </summary>
-        public const string AOT_DLL_RESOURCES_DIR = "hybrid_clr";
+        public const string AOT_DLL_RESOURCES_DIR = "hybrid_aot_assemblies";
 
         public static void InitAotMetadata()
         {
@@ -37,14 +34,17 @@ namespace Zero
 
             if(null == aotDllList)
             {
+                Debug.Log($"没有发现元数据补充文件");
                 return;
             }
 
             foreach (TextAsset ta in aotDllList)
             {
-                Debug.Log($"发现元数据补充文件:{ta.name}");
-
                 if (ApplicationUtility.IsEditor)
+                {
+                    Debug.Log($"发现元数据补充文件:{ta.name}");
+                }
+                else
                 {
                     byte[] dllBytes = ta.bytes;
                     var errCode = HybridCLR.RuntimeApi.LoadMetadataForAOTAssembly(dllBytes, HomologousImageMode.SuperSet);
