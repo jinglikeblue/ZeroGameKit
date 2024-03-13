@@ -1,5 +1,7 @@
 using System.IO;
 using HybridCLR.Editor.Commands;
+using HybridCLR.Editor.Installer;
+using HybridCLR.Editor.Settings;
 using Jing;
 using UnityEditor;
 using UnityEngine;
@@ -40,12 +42,36 @@ namespace ZeroEditor
         [MenuItem("Test/HybridCLR/OneClickForAll")]
         public static void OneClickForAll()
         {
+            //检测HybridCLR安装情况
+            AutoInstallHybridCLR();
             //生成一次热更DLL代码
             HotResUtility.GeneateScriptAssembly();
             //生成所有HybridCLR内容
             PrebuildCommand.GenerateAll();
             //拷贝元数据补充需要的程序集
             CopyPatchedAOTAssemblyList();
+        }
+
+        /// <summary>
+        /// 自动安装HybridCLR。如果已安装，则不会重复安装。
+        /// </summary>
+        [MenuItem("Test/HybridCLR/AutoInstallHybridCLR")]
+        public static void AutoInstallHybridCLR()
+        {
+            var controller = new InstallerController();
+            if (!controller.HasInstalledHybridCLR())
+            {
+                Debug.Log(LogColor.Zero1($"没有检测到安装了HybridCLR，开始安装..."));
+                controller.InstallDefaultHybridCLR();
+
+                Debug.Log(LogColor.Zero1($"安装了HybridCLR，开始设置参数..."));
+                HybridCLRSettings.Instance.hotUpdateAssemblies = new[] { "scripts", "test" };
+                HybridCLRSettings.Instance.externalHotUpdateAssembliyDirs = new[] { "LibraryZero/ReleaseCache/dll" };
+            }
+            else
+            {
+                Debug.Log(LogColor.Zero1($"检测到安装了HybridCLR"));
+            }
         }
     }
 }
