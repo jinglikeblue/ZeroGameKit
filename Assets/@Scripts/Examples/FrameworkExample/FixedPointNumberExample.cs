@@ -63,14 +63,34 @@ namespace Example
                 L($"输入的内容不对 a:{textInputA.text}   b:{textInputB.text}");
                 return;
             }
+            
+            var fixedA = Number.CreateFromDouble(a);
+            var fixedB = Number.CreateFromDouble(b);
 
+            L($"定点数最大值: {Number.MAX_VALUE}");
+            L($"定点数最小值: {Number.MIN_VALUE}");
+            L($"定点数小数范围: [0,{Number.FRACTION_MASK}]");
 
             L($"输入的数字:");
-            L($"a = {a}");
-            L($"b = {b}");
+            L($"a = {a} [整数部分: {fixedA.IntegerPart} 小数部分：{fixedA.FractionalPart}] Raw: {fixedA.ToBinary(false)}]");
+            L($"b = {b} [Binary: {fixedB.IntegerPart}.{fixedB.FractionalPart}] Raw: {fixedB.ToBinary(false)}]");
             L("");
 
+            var n1 = new Number(4, 10000);
+            var n2 = new Number(4, 1000);
+            var n3 = n1 * 1000;
+            Debug.Log($"N1: {n1.Info}");
+            Debug.Log($"N2: {n2.Info}");
+            Debug.Log($"N3: {n3.Info}");
 
+            var integerPart = fixedA.IntegerPart.ToBinary(true);
+            var fractionalPart = fixedA.FractionalPart.ToBinary(true);
+            Debug.Log($"整数部分二进制: {integerPart}");
+            Debug.Log($"小数部分二进制: {fractionalPart}");
+            Debug.Log($"完整数据二进制: {fixedA.ToBinary(true)}");
+            Debug.Log($"完整数据二进制: {fixedA.IntegerPart.ToBinary(false)}.{fixedA.FractionalPart.ToBinary(false)}");
+            
+            
             L($"浮点数运算：");
             L($"a + b = {a + b}");
             L($"a - b = {a - b}");
@@ -78,9 +98,6 @@ namespace Example
             L($"a / b = {a / b}");
             L("");
 
-
-            var fixedA = Number.CreateFromDouble(a);
-            var fixedB = Number.CreateFromDouble(b);
             L($"定点数运算：");
             L($"{fixedA.Info}");
             L($"{fixedB.Info}");

@@ -1025,15 +1025,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     isLogEnable: 1
-    builtinResMode: 0
+    builtinResMode: 1
     hotResMode: 2
     netRoots:
-    - http://YourHotResRootUrl
+    - http://127.0.0.1/zero/res
     isUseDll: 0
     isLoadPdb: 1
     ilType: 0
     isTryJitBeforeILRuntime: 0
-    isDebugIL: 0
+    isDebugIL: 1
 --- !u!114 &1440188156
 MonoBehaviour:
   m_ObjectHideFlags: 0

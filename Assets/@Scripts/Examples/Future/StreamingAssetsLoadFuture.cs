@@ -36,6 +36,8 @@ namespace Example
         public Button btnCheckExist;
         public Button btnCheckInexistence;
 
+        public Button btnCheckBigFile;
+
         public Text textLog;
 
         public void L(string v)
@@ -56,6 +58,8 @@ namespace Example
 
             btnCheckExist.onClick.AddListener(CheckExist);
             btnCheckInexistence.onClick.AddListener(CheckInexistence);
+            
+            btnCheckBigFile.onClick.AddListener(CheckBigFile);
         }
 
         protected override void OnDisable()
@@ -70,6 +74,8 @@ namespace Example
 
             btnCheckExist.onClick.RemoveListener(CheckExist);
             btnCheckInexistence.onClick.RemoveListener(CheckInexistence);
+            
+            btnCheckBigFile.onClick.RemoveListener(CheckBigFile);
         }
 
         private void CheckExist()
@@ -92,6 +98,12 @@ namespace Example
             //{
             //    L($"StreamingAssets中是否存在文件[build_info_test]: {isExist}");
             //});
+        }
+        
+        void CheckBigFile()
+        {
+            var b = StreamingAssetsUtility.CheckFileExist(FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_PATH, "test_files.bytes"));
+            L($"StreamingAssets中是否存在文件[test_files.bytes]: {b}");
         }
 
         private void LoadResJson()

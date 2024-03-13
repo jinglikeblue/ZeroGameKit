@@ -39,7 +39,7 @@ namespace Zero
 
         IEnumerator UpdateResJson()
         {
-            Debug.Log(LogColor.Zero1("「ResJsonUpdater」res.json文件更新中..."));
+            Debug.Log(LogColor.Zero1($"「ResJsonUpdater」res.json文件更新中...  [{url}]"));
             
             var version = DateTime.UtcNow.ToFileTimeUtc().ToString();
 

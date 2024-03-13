@@ -62,17 +62,20 @@
 ## HybridCLR
 - Android真机测试
 - iOS真机测试
-- 验证是否能正常使用NewtonsoftJson等ILRuntime之前不能用的库。如果可以的话，则放弃ILRuntime支持。
+- 验证是否能正常使用NewtonsoftJson等ILRuntime之前不能用的库。如果可以的话，则放弃ILRuntime支持。 [结论:已验证可以支持热更中使用NewtonsoftJson，可以移除ILRuntime]
 
 ## 优先
-- link.xml生成，选择的文件夹应该增加包含字符串的黑白名单判断，来优化生成的xml内容：
-       - 白名单：仅保留包含字符串（忽略大小写）的dll
-       - 黑名单：过滤到包含字符串（忽略大小写）的dll
+
+- 弃用ILRuntime，移除相关代码。
+
+- link.xml生成，使用HybridCLR的生成。
 
 - Preload的逻辑重构。
        - 重构LauncherSetting的配置界面，更清晰易懂。（例如：选择热补丁模式，才需要配置网络资源根目录。仅使用内嵌资源模式，其实不需要考虑网络资源地址。）
        - 增加是否开发状态的选择，开发状态中资源的获取仅通过AssetDataBase或者本地AB。不依赖「内嵌资源配置」的设置。
        - 开发状态下，可以不需要打包任何资源，业务逻辑也能正常跑通。
+
+- 使用NewtonsoftJson替换LitJson，单独封装一个JSON API，方便以后替换为其它JSON库。
 
 ## BUG
 - ByteArray的大小端处理可能有BUG，则重新梳理

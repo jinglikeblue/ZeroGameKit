@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Jing.FixedPointNumber;
+using UnityEngine;
 using Zero;
 using ZeroGameKit;
 
@@ -10,7 +11,7 @@ namespace ZeroHot
         /// 热更代码入口
         /// </summary>
         public static void Startup()
-        {            
+        {
             new Main();
         }
 

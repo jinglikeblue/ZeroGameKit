@@ -6,34 +6,34 @@ using UnityEngine;
 namespace Zero
 {
     /// <summary>
-    /// ³ÌĞòÆô¶¯Æ÷
+    /// ç¨‹åºå¯åŠ¨å™¨
     /// </summary>
     public class Launcher
     {
         public enum EState
         {
             /// <summary>
-            /// ÄÚÇ¶×ÊÔ´´´Ê¼Æ÷
+            /// å†…åµŒèµ„æºåˆ›å§‹å™¨
             /// </summary>
             STREAMING_ASSETS_RES_INITIATOR,
 
             /// <summary>
-            /// ¸üĞÂSetting.json
+            /// æ›´æ–°Setting.json
             /// </summary>
             SETTING_JSON_INITIATOR,
 
             /// <summary>
-            /// ¿Í»§¶Ë¸üĞÂ
+            /// å®¢æˆ·ç«¯æ›´æ–°
             /// </summary>
             APP_UPDATE_INITIATOR,
 
             /// <summary>
-            /// ×ÊÔ´¸üĞÂ
+            /// èµ„æºæ›´æ–°
             /// </summary>
             STARTUP_RES_INITIATOR,
 
             /// <summary>
-            /// Æô¶¯Ö÷³ÌĞò
+            /// å¯åŠ¨ä¸»ç¨‹åº
             /// </summary>
             STARTUP
         }
@@ -41,21 +41,21 @@ namespace Zero
         public LauncherSettingData launcherData;
 
         /// <summary>
-        /// µ±Ç°×´Ì¬
+        /// å½“å‰çŠ¶æ€
         /// </summary>
         public EState CurrentState { get; private set; }
 
         /// <summary>
-        /// ×´Ì¬¸Ä±äµÄÎ¯ÍĞ
+        /// çŠ¶æ€æ”¹å˜çš„å§”æ‰˜
         /// </summary>
         public event Action<EState> onStateChange;
         /// <summary>
-        /// ×´Ì¬¶ÔÓ¦½ø¶ÈµÄÎ¯ÍĞ
+        /// çŠ¶æ€å¯¹åº”è¿›åº¦çš„å§”æ‰˜
         /// </summary>
         public event BaseInitiator.InitiatorProgress onProgress;
 
         /// <summary>
-        /// LauncherÆô¶¯Ê§°Ü
+        /// Launcherå¯åŠ¨å¤±è´¥
         /// </summary>
         public event Action<string> onError;
 
@@ -70,10 +70,10 @@ namespace Zero
         bool _isAutoOffline = false;
 
         /// <summary>
-        /// Æô¶¯ÅäÖÃÊı¾İ
+        /// å¯åŠ¨é…ç½®æ•°æ®
         /// </summary>
-        /// <param name="data">Æô¶¯ÅäÖÃÊı¾İ</param>
-        /// <param name="isAutoOffline">¡¸ÈÈ²¹¶¡Ä£Ê½¡¹Ê±£¬Èç¹û·ÃÎÊ²»µ½ÍøÂç×ÊÔ´£¬ÊÇ·ñ×Ô¶¯ÇĞ»»ÎªÀëÏßÄ£Ê½£¨Ê¹ÓÃÄÚÇ¶×ÊÔ´¼ÌĞøÔËĞĞ£©</param>
+        /// <param name="data">å¯åŠ¨é…ç½®æ•°æ®</param>
+        /// <param name="isAutoOffline">ã€Œçƒ­è¡¥ä¸æ¨¡å¼ã€æ—¶ï¼Œå¦‚æœè®¿é—®ä¸åˆ°ç½‘ç»œèµ„æºï¼Œæ˜¯å¦è‡ªåŠ¨åˆ‡æ¢ä¸ºç¦»çº¿æ¨¡å¼ï¼ˆä½¿ç”¨å†…åµŒèµ„æºç»§ç»­è¿è¡Œï¼‰</param>
         public Launcher(LauncherSettingData data, bool isAutoOffline = false)
         {
             this.launcherData = data;
@@ -81,12 +81,12 @@ namespace Zero
         }
 
         /// <summary>
-        /// ¿ªÊ¼¼¤»îÔ¤¼ÓÔØ
+        /// å¼€å§‹æ¿€æ´»é¢„åŠ è½½
         /// </summary>
         /// <param name="rg"></param>
         public void Start()
         {
-            //ÊµÀı»¯NativeÇÅ½ÓÆ÷
+            //å®ä¾‹åŒ–Nativeæ¡¥æ¥å™¨
             var startupNativeBridge = NativeBridge.Ins;
 
 
@@ -124,7 +124,7 @@ namespace Zero
 
         void InitRuntime()
         {
-            //³õÊ¼»¯ÔËĞĞ»·¾³ÅäÖÃ»·¾³
+            //åˆå§‹åŒ–è¿è¡Œç¯å¢ƒé…ç½®ç¯å¢ƒ
             Runtime.Ins.Init(launcherData);
 
             SettingJsonInit();
@@ -148,7 +148,7 @@ namespace Zero
             {
                 if (_isAutoOffline && EBuiltinResMode.HOT_PATCH == launcherData.builtinResMode)
                 {
-                    Debug.Log(Zero.LogColor.Zero1("×Ô¶¯ÇĞ»»Îª¡¸½öÊ¹ÓÃÄÚÇ¶×ÊÔ´Ä£Ê½¡¹"));
+                    Debug.Log(Zero.LogColor.Zero1("è‡ªåŠ¨åˆ‡æ¢ä¸ºã€Œä»…ä½¿ç”¨å†…åµŒèµ„æºæ¨¡å¼ã€"));
                     launcherData.builtinResMode = EBuiltinResMode.ONLY_USE;
                 }
                 else
@@ -167,7 +167,7 @@ namespace Zero
         #region AppClientInit -> StartupResInit
 
         /// <summary>
-        /// ¿Í»§¶Ë¸üĞÂ
+        /// å®¢æˆ·ç«¯æ›´æ–°
         /// </summary>
         void AppClientInit()
         {
@@ -203,7 +203,7 @@ namespace Zero
         #region StartupResInit -> ScriptsInit
 
         /// <summary>
-        /// ¸üĞÂ³õÊ¼»¯ËùĞè×ÊÔ´
+        /// æ›´æ–°åˆå§‹åŒ–æ‰€éœ€èµ„æº
         /// </summary>
         void StartupResInit()
         {
@@ -250,7 +250,7 @@ namespace Zero
         }
 
         /// <summary>
-        /// ·¢Éú´íÎó
+        /// å‘ç”Ÿé”™è¯¯
         /// </summary>
         /// <param name="error"></param>
         private void Error(string error)
