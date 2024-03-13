@@ -203,7 +203,7 @@ namespace Zero
             }
 
             generateFilesDir = ZeroConst.GENERATES_PERSISTENT_DATA_PATH;
-
+            Debug.Log(LogColor.Zero1($"[Runtime] GenerateFilesDir: {generateFilesDir}"));
             if (false == Directory.Exists(generateFilesDir))
             {
                 Directory.CreateDirectory(generateFilesDir);
