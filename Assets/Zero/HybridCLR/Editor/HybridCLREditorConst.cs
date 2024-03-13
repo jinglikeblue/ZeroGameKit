@@ -9,42 +9,42 @@ namespace ZeroEditor
     public class HybridCLREditorConst
     {
         /// <summary>
-        /// Ö÷¹¤³ÌDLLÀ´Ô´Ä¿Â¼
+        /// ä¸»å·¥ç¨‹DLLæ¥æºç›®å½•
         /// </summary>
         static public readonly string AOT_DLL_SOURCE_DIR = BuildConfig.GetAssembliesPostIl2CppStripDir(EditorUserBuildSettings.activeBuildTarget);
 
         /// <summary>
-        /// Ö÷¹¤³ÌDLL·ÅÖÃÄ¿Â¼
+        /// ä¸»å·¥ç¨‹DLLæ”¾ç½®ç›®å½•
         /// </summary>
         static public readonly string AOT_DLL_TARGET_DIR = $"{Application.dataPath}/Resources/{HybridCLRAotMetadata.AOT_DLL_RESOURCES_DIR}";
 
         /// <summary>
-        /// AOT-interpreterÇÅ½Óº¯ÊıÎÄ¼şÉú³ÉÄ¿Â¼
+        /// AOT-interpreteræ¡¥æ¥å‡½æ•°æ–‡ä»¶ç”Ÿæˆç›®å½•
         /// </summary>
         static public readonly string METHOD_BRIDGE_CPP_DIR = BuildConfig.MethodBridgeCppDir;
 
         /// <summary>
-        /// IL2CPP´ò°üµÄ»º´æÄ¿Â¼
+        /// IL2CPPæ‰“åŒ…çš„ç¼“å­˜ç›®å½•
         /// </summary>
         static public readonly string IL2CPP_BUILD_CACHE_DIR = BuildConfig.Il2CppBuildCacheDir;
 
         /// <summary>
-        /// HybridCLR´ò°üÓÃ»·¾³²ÎÊı×Ö¶Î
+        /// HybridCLRæ‰“åŒ…ç”¨ç¯å¢ƒå‚æ•°å­—æ®µ
         /// </summary>
         static public readonly string ENVIRONMENT_VARIABLE_KEY = "UNITY_IL2CPP_PATH";
 
         /// <summary>
-        /// HybridCLR´ò°üÓÃIL2CPP»·¾³Öµ
+        /// HybridCLRæ‰“åŒ…ç”¨IL2CPPç¯å¢ƒå€¼
         /// </summary>
         static public readonly string HYBRID_CLR_IL2CPP_DIR = BuildConfig.LocalIl2CppDir;        
 
         /// <summary>
-        /// HybridCLR²å¼ş°²×°Ä¿Â¼
+        /// HybridCLRæ’ä»¶å®‰è£…ç›®å½•
         /// </summary>
         static public readonly string HYBRID_CLR_INSTALL_DIR = $"{BuildConfig.HybridCLRDataDir}/LocalIl2CppData";
 
         /// <summary>
-        /// Ê¹ÓÃHybridCLRĞèÒªÌí¼ÓµÄºê¶¨ÒåÃû³Æ
+        /// ä½¿ç”¨HybridCLRéœ€è¦æ·»åŠ çš„å®å®šä¹‰åç§°
         /// </summary>
         public const string SCRIPTING_DEFINE_SYMBOL = "HYBRID_CLR_ENABLE";
     }
