@@ -59,19 +59,44 @@ namespace ZeroEditor
         public static void AutoInstallHybridCLR()
         {
             var controller = new InstallerController();
+
             if (!controller.HasInstalledHybridCLR())
             {
                 Debug.Log(LogColor.Zero1($"没有检测到安装了HybridCLR，开始安装..."));
                 controller.InstallDefaultHybridCLR();
 
                 Debug.Log(LogColor.Zero1($"安装了HybridCLR，设置参数"));
-                HybridCLRSettings.Instance.hotUpdateAssemblies = new[] { "scripts", "test" };
+                HybridCLRSettings.Instance.hotUpdateAssemblies = new[] { "scripts" };
                 HybridCLRSettings.Instance.externalHotUpdateAssembliyDirs = new[] { "LibraryZero/ReleaseCache/dll" };
+                HybridCLRSettings.Save();
             }
             else
             {
                 Debug.Log(LogColor.Zero1($"检测到安装了HybridCLR"));
             }
+        }
+
+        /// <summary>
+        /// 检查HybridCLR安装状态
+        /// </summary>
+        [MenuItem("Test/HybridCLR/CheckHybridCLRInstallState")]
+        public static bool CheckHybridCLRInstallState()
+        {
+            var controller = new InstallerController();
+            if (!controller.HasInstalledHybridCLR())
+            {
+                if (EditorUtility.DisplayDialog("提示", "检测到HybridCLR未安装，是否进行安装？", "安装", "取消"))
+                {
+                    AutoInstallHybridCLR();
+                    return true;
+                }
+            }
+            else
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

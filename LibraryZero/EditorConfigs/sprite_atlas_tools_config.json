@@ -1,24 +1,23 @@
-﻿
-{
-    "spriteAtlasSaveDirPath" : "Assets/Examples/SpriteAtlas",
-    "packingTextureWidthLimit" : 1024,
-    "packingTextureHeightLimit" : 1024,
-    "itemList"                  : [
-        {
-            "texturesDirPath" : "Assets/Examples/Art/GUI",
-            "isSubDirSplit"   : false
-        },
-        {
-            "texturesDirPath" : "Assets/Examples/Knight/Skins/UI",
-            "isSubDirSplit"   : false
-        },
-        {
-            "texturesDirPath" : "Assets/Examples/Sokoban/Imgs",
-            "isSubDirSplit"   : true
-        },
-        {
-            "texturesDirPath" : "Assets/Examples/RouShan",
-            "isSubDirSplit"   : false
-        }
-    ]
+﻿{
+  "spriteAtlasSaveDirPath": "Assets/Examples/SpriteAtlas",
+  "packingTextureWidthLimit": 1024,
+  "packingTextureHeightLimit": 1024,
+  "itemList": [
+    {
+      "texturesDirPath": "Assets/Examples/Art/GUI",
+      "isSubDirSplit": false
+    },
+    {
+      "texturesDirPath": "Assets/Examples/Knight/Skins/UI",
+      "isSubDirSplit": false
+    },
+    {
+      "texturesDirPath": "Assets/Examples/Sokoban/Imgs",
+      "isSubDirSplit": true
+    },
+    {
+      "texturesDirPath": "Assets/Examples/RouShan",
+      "isSubDirSplit": false
+    }
+  ]
 }

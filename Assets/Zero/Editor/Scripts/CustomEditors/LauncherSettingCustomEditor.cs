@@ -82,7 +82,9 @@ namespace ZeroEditor
                 _cache = new LauncherSettingData();
                 _isDirty = true;
             }
-
+            
+            CheckHybridCLRInstallState();
+            
             return _cache;
         }
 
@@ -105,12 +107,28 @@ namespace ZeroEditor
 
             _cache = vo;
 
+            CheckHybridCLRInstallState();
+            
             Debug.Log($"保存[LauncherSettingData]");
             var jsonStr = Json.ToJsonIndented(_cache);
             File.WriteAllText($"Assets/Resources/{ZeroConst.LAUNCHER_SETTING_NAME}.json", jsonStr);
             AssetDatabase.Refresh();
 
             onValueChanged?.Invoke();
-        }    
+        }
+
+        /// <summary>
+        /// 检查HybridCLR安装状态
+        /// </summary>
+        static void CheckHybridCLRInstallState()
+        {
+            if (_cache.isUseDll && _cache.ilType == EILType.HYBRID_CLR)
+            {
+                if (false == HybridCLRUtility.CheckHybridCLRInstallState())
+                {
+                    _cache.isUseDll = false;
+                }
+            }
+        }
     }
 }
