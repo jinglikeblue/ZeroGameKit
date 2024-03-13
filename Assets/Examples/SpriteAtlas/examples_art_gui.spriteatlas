@@ -28,6 +28,8 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 0
       enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 21300000, guid: 39282f31c702159439f2dc215e9aba40, type: 3}
@@ -53,6 +55,8 @@ SpriteAtlas:
     - {fileID: 21300000, guid: 38b02718571456e49a7063979356a88a, type: 3}
     - {fileID: 21300000, guid: aaca041400e8c504b89c48a7a8180f48, type: 3}
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 39282f31c702159439f2dc215e9aba40, type: 3}
@@ -100,5 +104,6 @@ SpriteAtlas:
   - Button_Large_Foreground
   - Window_Button_Foreground_Green
   - TextField_Focused
+  m_RenderDataMap: {}
   m_Tag: examples_art_gui
   m_IsVariant: 0

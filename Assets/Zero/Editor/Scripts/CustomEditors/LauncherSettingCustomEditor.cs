@@ -54,7 +54,7 @@ namespace ZeroEditor
         private void OnILTypeChanged()
         {
             //同步HybridCLR环境
-            HybridCLRUtility.SyncWithHybridCLRSettings();
+            // HybridCLRUtility.SyncWithHybridCLRSettings();
         }
 
         static public event Action onValueChanged;

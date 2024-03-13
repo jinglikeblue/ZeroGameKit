@@ -1,6 +1,0 @@
-* [Introduction](index.md)
-* [The Device Simulator view](DeviceSimulatorView.md)
-* [Adding a device](DefiningCustomDevices.md)
-  * [Creating a device overlay](AddingDeviceOverlay.md)
-* [Device Simulator plugins](CreatingPlugin.md)
-* [Simulation scope](SimulationScope.md)

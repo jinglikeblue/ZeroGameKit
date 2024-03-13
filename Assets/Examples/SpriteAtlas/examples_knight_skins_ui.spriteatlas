@@ -28,6 +28,8 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 0
       enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 21300000, guid: 8fef2bf89e2cb7a4ca29dd71ca50e808, type: 3}
@@ -50,6 +52,8 @@ SpriteAtlas:
     - {fileID: 21300000, guid: 1fd77d04bbce78d488b671a90b93eeeb, type: 3}
     - {fileID: 21300000, guid: 98e731c47029fbd4cafc730e5c5e0a54, type: 3}
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 7e9bbe409e9f27d4fac88c3d921d2cd5, type: 3}
@@ -91,5 +95,6 @@ SpriteAtlas:
   - m_action_frame_inner_sword
   - LoadingBar_Background
   - m_controller_frame
+  m_RenderDataMap: {}
   m_Tag: examples_knight_skins_ui
   m_IsVariant: 0

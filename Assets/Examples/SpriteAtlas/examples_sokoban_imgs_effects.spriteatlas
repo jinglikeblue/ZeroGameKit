@@ -28,6 +28,8 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 0
       enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 21300000, guid: 0fafa0a23556d854eab060a1bcc8aab8, type: 3}
@@ -41,6 +43,8 @@ SpriteAtlas:
     - {fileID: 21300000, guid: 0f86850e8705a8c4e90c149117114cd8, type: 3}
     - {fileID: 21300000, guid: 80b0fcf111c59494fa08f0526ea50ca5, type: 3}
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 52455c504176e9341a386873b2a1bf4c, type: 3}
@@ -64,5 +68,6 @@ SpriteAtlas:
   - effect_bang_4
   - effect_bang_6
   - effect_bang_8
+  m_RenderDataMap: {}
   m_Tag: examples_sokoban_imgs_effects
   m_IsVariant: 0

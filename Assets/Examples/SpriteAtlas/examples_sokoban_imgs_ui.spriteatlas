@@ -28,6 +28,8 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 0
       enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 21300000, guid: 827dc582bd98d824aa3f6ea5a8aa727d, type: 3}
@@ -61,6 +63,8 @@ SpriteAtlas:
     - {fileID: 21300000, guid: f3f0f3ff5f1edfe4080de317dd9cbc8c, type: 3}
     - {fileID: 21300000, guid: 5b73369824109294e81d0d360eec1172, type: 3}
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: f925a500d864cf746874bd1b849600cf, type: 3}
@@ -124,5 +128,6 @@ SpriteAtlas:
   - txz_btn_blue2
   - txz_gkxz_sz_07
   - txz_gkxz_sz_08
+  m_RenderDataMap: {}
   m_Tag: examples_sokoban_imgs_ui
   m_IsVariant: 0

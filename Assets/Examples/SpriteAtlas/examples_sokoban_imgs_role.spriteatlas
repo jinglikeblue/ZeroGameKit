@@ -40,6 +40,8 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 0
       enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 21300000, guid: 126c698f9a7163444b179f90f929228e, type: 3}
@@ -115,6 +117,8 @@ SpriteAtlas:
     - {fileID: 21300000, guid: 245a38aa0e0e7724e87e2d6d5f45bc1c, type: 3}
     - {fileID: 21300000, guid: 13b0f8dd3512bf748889577fa723379b, type: 3}
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: a0a8b3019ea7f8c4a99ce1aa65e2073b, type: 3}
@@ -262,5 +266,6 @@ SpriteAtlas:
   - role1_move_down_4
   - role1_stand_down_1
   - role1_move_up_1
+  m_RenderDataMap: {}
   m_Tag: examples_sokoban_imgs_role
   m_IsVariant: 0

@@ -28,6 +28,8 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 0
       enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 21300000, guid: 7035e6636635f414c9a8ac4aec9435ad, type: 3}
@@ -35,6 +37,8 @@ SpriteAtlas:
     - {fileID: 21300000, guid: 31df9f987611e004a9adf220fc13746d, type: 3}
     - {fileID: 21300000, guid: 05b54aef65957f7489240d9c0b698f94, type: 3}
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 007304b252ebc034fae85ce1d583d213, type: 3}
@@ -46,5 +50,6 @@ SpriteAtlas:
   - block
   - box_on_target
   - target
+  m_RenderDataMap: {}
   m_Tag: examples_sokoban_imgs_map
   m_IsVariant: 0

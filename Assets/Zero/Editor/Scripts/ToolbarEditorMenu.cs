@@ -97,12 +97,6 @@ namespace ZeroEditor
             RedundancyResourcesCleanToolsEditorWin.Open();
         }
 
-        [MenuItem("Zero/热更代码框架/HybridCLR", false, 450)]
-        public static void OpenHybridCLREditorWindow()
-        {
-            HybridCLREditorWindow.Open();
-        }
-
         [MenuItem("Zero/About", false, 500)]
         public static void Document()
         {
