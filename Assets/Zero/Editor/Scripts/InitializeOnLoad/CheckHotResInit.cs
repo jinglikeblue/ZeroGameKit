@@ -7,14 +7,14 @@ using Zero;
 namespace ZeroEditor
 {
     /// <summary>
-    /// ¼ì²éÈÈ¸ü×ÊÔ´³õÊ¼»¯ÅäÖÃ£¬Èç¹ûÏîÄ¿Ã»ÓĞres.jsonºÍsetting.jsonÊÇÎŞ·¨ÔËĞĞµÄ£¬ËùÒÔÃ»ÓĞµÄ»°»áÄ¬ÈÏÉú³É
+    /// æ£€æŸ¥çƒ­æ›´èµ„æºåˆå§‹åŒ–é…ç½®ï¼Œå¦‚æœé¡¹ç›®æ²¡æœ‰res.jsonå’Œsetting.jsonæ˜¯æ— æ³•è¿è¡Œçš„ï¼Œæ‰€ä»¥æ²¡æœ‰çš„è¯ä¼šé»˜è®¤ç”Ÿæˆ
     /// </summary>
     [InitializeOnLoad]
     public class CheckHotResInit
     {        
         static CheckHotResInit()
         {
-            //¼ì²ésetting.jsonÎÄ¼ş£¬²»´æÔÚÔòÉú³É
+            //æ£€æŸ¥setting.jsonæ–‡ä»¶ï¼Œä¸å­˜åœ¨åˆ™ç”Ÿæˆ
             var settingFilePath = FileUtility.CombinePaths(ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.SETTING_FILE_NAME);
             if (!File.Exists(settingFilePath))
             {
@@ -23,14 +23,14 @@ namespace ZeroEditor
                 {
                     fi.Directory.Create();
                 }
-                Debug.Log(LogColor.Blue($"³õÊ¼»¯¡¸setting.json¡¹ÎÄ¼ş£º{settingFilePath}"));
+                Debug.Log(LogColor.Blue($"åˆå§‹åŒ–ã€Œsetting.jsonã€æ–‡ä»¶ï¼š{settingFilePath}"));
                 var cfg = new SettingVO();
-                string jsonStr = LitJson.JsonMapper.ToPrettyJson(cfg);
+                string jsonStr = Json.ToJsonIndented(cfg);
                 File.WriteAllText(settingFilePath, jsonStr);
             }
 
 
-            //¼ì²éres.jsonÎÄ¼ş£¬²»´æÔÚÔòÉú³É
+            //æ£€æŸ¥res.jsonæ–‡ä»¶ï¼Œä¸å­˜åœ¨åˆ™ç”Ÿæˆ
             var resFilePath = FileUtility.CombinePaths(ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.RES_JSON_FILE_NAME);
             if (!File.Exists(resFilePath))
             {
@@ -39,7 +39,7 @@ namespace ZeroEditor
                 {
                     fi.Directory.Create();
                 }
-                Debug.Log(LogColor.Blue($"³õÊ¼»¯¡¸res.json¡¹ÎÄ¼ş£º{resFilePath}"));
+                Debug.Log(LogColor.Blue($"åˆå§‹åŒ–ã€Œres.jsonã€æ–‡ä»¶ï¼š{resFilePath}"));
                 new ResJsonBuildCommand(ZeroConst.PUBLISH_RES_ROOT_DIR).Execute();
             }
         }

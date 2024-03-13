@@ -34,7 +34,7 @@ namespace Zero
         void LoadSettingFromCache()
         {
             string settingJsonStr = File.ReadAllText(_localPath);
-            SettingVO vo = LitJson.JsonMapper.ToObject<SettingVO>(settingJsonStr);
+            SettingVO vo = Json.ToObject<SettingVO>(settingJsonStr);
             SetSetting(vo);
         }
 
@@ -56,14 +56,6 @@ namespace Zero
             if (vo.lsLoadPdb.isOverride)
             {
                 Runtime.Ins.VO.isLoadPdb = vo.lsLoadPdb.value;
-            }
-            if (vo.lsTryJitBeforeILRuntime.isOverride)
-            {
-                Runtime.Ins.VO.isTryJitBeforeILRuntime = vo.lsTryJitBeforeILRuntime.value;
-            }
-            if (vo.lsDebugIL.isOverride)
-            {
-                Runtime.Ins.VO.isDebugIL = vo.lsDebugIL.value;
             }
 
             Runtime.Ins.setting = vo;

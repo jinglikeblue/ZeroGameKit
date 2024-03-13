@@ -97,12 +97,6 @@ namespace ZeroEditor
             RedundancyResourcesCleanToolsEditorWin.Open();
         }
 
-        [MenuItem("Zero/热更代码框架/ILRuntime", false, 450)]
-        public static void OpenILRuntimeEditorWindow()
-        {
-            ILRuntimeEditorWin.Open();
-        }
-
         [MenuItem("Zero/热更代码框架/HybridCLR", false, 450)]
         public static void OpenHybridCLREditorWindow()
         {

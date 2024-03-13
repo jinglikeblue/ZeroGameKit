@@ -49,17 +49,6 @@ namespace Zero
         public EILType ILType => VO.ilType;
 
         /// <summary>
-        /// 是否在ILRuntime模式下开启调试
-        /// </summary>
-        public bool IsDebugILRuntime => VO.isDebugIL;
-
-        /// <summary>
-        /// 在ILRuntime模式下，是否优先尝试JIT模式
-        /// JIT方式更高效，如果平台不支持则继续ILRuntime模式
-        /// </summary>
-        public bool IsTryJitBeforeILRuntime => VO.isTryJitBeforeILRuntime;
-
-        /// <summary>
         /// 是否用DLL方式启动程序
         /// </summary>
         public bool IsUseDll => VO.isUseDll;

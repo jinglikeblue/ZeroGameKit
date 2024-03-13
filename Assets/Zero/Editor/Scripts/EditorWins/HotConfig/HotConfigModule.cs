@@ -1,7 +1,6 @@
 ﻿using Sirenix.OdinInspector;
 using System;
 using UnityEditor;
-using LitJson;
 using System.Text.RegularExpressions;
 using System.Text;
 using Jing;
@@ -26,7 +25,7 @@ namespace ZeroEditor
                 try
                 {
                     string json = File.ReadAllText(_path, Encoding.UTF8);                    
-                    vo = JsonMapper.ToObject(type, json);
+                    vo = Json.ToObject(json, type);
                 }
                 catch(Exception e)
                 {
@@ -46,7 +45,7 @@ namespace ZeroEditor
         [Button("保存", ButtonSizes.Large), PropertyOrder(-1)]
         public void Save()
         {
-            string json = JsonMapper.ToPrettyJson(vo);
+            string json = Json.ToJsonIndented(vo);
             json = Regex.Unescape(json);
             var dir = Directory.GetParent(_path);
             if (!dir.Exists)

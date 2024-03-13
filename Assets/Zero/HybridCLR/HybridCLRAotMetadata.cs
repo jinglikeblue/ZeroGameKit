@@ -6,12 +6,12 @@ using UnityEngine;
 namespace Zero
 {
     /// <summary>
-    /// HybridCLR²¹³äÔªÊı¾İ
+    /// HybridCLRè¡¥å……å…ƒæ•°æ®
     /// </summary>
     public class HybridCLRAotMetadata
     {
         /// <summary>
-        /// AOT DLLÔÚResourcesÄ¿Â¼ÖĞµÄ×ÓÄ¿Â¼Ãû³Æ
+        /// AOT DLLåœ¨Resourcesç›®å½•ä¸­çš„å­ç›®å½•åç§°
         /// </summary>
         public const string AOT_DLL_RESOURCES_DIR = "hybrid_clr";
 
@@ -21,16 +21,16 @@ namespace Zero
         }
 
         /// <summary>
-        /// Îªaot assembly¼ÓÔØÔ­Ê¼metadata£¬ Õâ¸ö´úÂë·Åaot»òÕßÈÈ¸üĞÂ¶¼ĞĞ¡£
-        /// Ò»µ©¼ÓÔØºó£¬Èç¹ûAOT·ºĞÍº¯Êı¶ÔÓ¦nativeÊµÏÖ²»´æÔÚ£¬Ôò×Ô¶¯Ìæ»»Îª½âÊÍÄ£Ê½Ö´ĞĞ
+        /// ä¸ºaot assemblyåŠ è½½åŸå§‹metadataï¼Œ è¿™ä¸ªä»£ç æ”¾aotæˆ–è€…çƒ­æ›´æ–°éƒ½è¡Œã€‚
+        /// ä¸€æ—¦åŠ è½½åï¼Œå¦‚æœAOTæ³›å‹å‡½æ•°å¯¹åº”nativeå®ç°ä¸å­˜åœ¨ï¼Œåˆ™è‡ªåŠ¨æ›¿æ¢ä¸ºè§£é‡Šæ¨¡å¼æ‰§è¡Œ
         /// </summary>
         static unsafe void LoadMetadataForAOTAssembly()
         {
-            // ¿ÉÒÔ¼ÓÔØÈÎÒâaot assemblyµÄ¶ÔÓ¦µÄdll¡£µ«ÒªÇódll±ØĞëÓëunity build¹ı³ÌÖĞÉú³ÉµÄ²Ã¼ôºóµÄdllÒ»ÖÂ£¬¶ø²»ÄÜÖ±½ÓÊ¹ÓÃÔ­Ê¼dll¡£
-            // ÎÒÃÇÔÚHuatuo_BuildProcessor_xxxÀïÌí¼ÓÁË´¦Àí´úÂë£¬ÕâĞ©²Ã¼ôºóµÄdllÔÚ´ò°üÊ±×Ô¶¯±»¸´ÖÆµ½ {ÏîÄ¿Ä¿Â¼}/HuatuoData/AssembliesPostIl2CppStrip/{Target} Ä¿Â¼¡£
+            // å¯ä»¥åŠ è½½ä»»æ„aot assemblyçš„å¯¹åº”çš„dllã€‚ä½†è¦æ±‚dllå¿…é¡»ä¸unity buildè¿‡ç¨‹ä¸­ç”Ÿæˆçš„è£å‰ªåçš„dllä¸€è‡´ï¼Œè€Œä¸èƒ½ç›´æ¥ä½¿ç”¨åŸå§‹dllã€‚
+            // æˆ‘ä»¬åœ¨Huatuo_BuildProcessor_xxxé‡Œæ·»åŠ äº†å¤„ç†ä»£ç ï¼Œè¿™äº›è£å‰ªåçš„dllåœ¨æ‰“åŒ…æ—¶è‡ªåŠ¨è¢«å¤åˆ¶åˆ° {é¡¹ç›®ç›®å½•}/HuatuoData/AssembliesPostIl2CppStrip/{Target} ç›®å½•ã€‚
 
-            /// ×¢Òâ£¬²¹³äÔªÊı¾İÊÇ¸øAOT dll²¹³äÔªÊı¾İ£¬¶ø²»ÊÇ¸øÈÈ¸üĞÂdll²¹³äÔªÊı¾İ¡£
-            /// ÈÈ¸üĞÂdll²»È±ÔªÊı¾İ£¬²»ĞèÒª²¹³ä£¬Èç¹ûµ÷ÓÃLoadMetadataForAOTAssembly»á·µ»Ø´íÎó            
+            /// æ³¨æ„ï¼Œè¡¥å……å…ƒæ•°æ®æ˜¯ç»™AOT dllè¡¥å……å…ƒæ•°æ®ï¼Œè€Œä¸æ˜¯ç»™çƒ­æ›´æ–°dllè¡¥å……å…ƒæ•°æ®ã€‚
+            /// çƒ­æ›´æ–°dllä¸ç¼ºå…ƒæ•°æ®ï¼Œä¸éœ€è¦è¡¥å……ï¼Œå¦‚æœè°ƒç”¨LoadMetadataForAOTAssemblyä¼šè¿”å›é”™è¯¯            
 
             var aotDllList = Resources.LoadAll<TextAsset>(AOT_DLL_RESOURCES_DIR);
 
@@ -43,20 +43,20 @@ namespace Zero
                 byte[] dllBytes = ta.bytes;
                 fixed (byte* ptr = dllBytes)
                 {
-                    // ¼ÓÔØassembly¶ÔÓ¦µÄdll£¬»á×Ô¶¯ÎªËühook¡£Ò»µ©aot·ºĞÍº¯ÊıµÄnativeº¯Êı²»´æÔÚ£¬ÓÃ½âÊÍÆ÷°æ±¾´úÂë
+                    // åŠ è½½assemblyå¯¹åº”çš„dllï¼Œä¼šè‡ªåŠ¨ä¸ºå®ƒhookã€‚ä¸€æ—¦aotæ³›å‹å‡½æ•°çš„nativeå‡½æ•°ä¸å­˜åœ¨ï¼Œç”¨è§£é‡Šå™¨ç‰ˆæœ¬ä»£ç 
                     int err = HybridCLR.RuntimeApi.LoadMetadataForAOTAssembly((IntPtr)ptr, dllBytes.Length);
                     if(0 == err)
                     {
-                        Debug.Log($"²¹³äÔªÊı¾İ:{ta.name}  ³É¹¦");
+                        Debug.Log($"è¡¥å……å…ƒæ•°æ®:{ta.name}  æˆåŠŸ");
                     }
                     else
                     {
-                        Debug.Log($"²¹³äÔªÊı¾İ:{ta.name}  ´íÎóÂë:{err}");
+                        Debug.Log($"è¡¥å……å…ƒæ•°æ®:{ta.name}  é”™è¯¯ç :{err}");
                     }                    
                 }
 #endif
 #else
-                Debug.Log($"·¢ÏÖÔªÊı¾İ²¹³äÎÄ¼ş:{ta.name}");
+                Debug.Log($"å‘ç°å…ƒæ•°æ®è¡¥å……æ–‡ä»¶:{ta.name}");
 #endif
             }
         }

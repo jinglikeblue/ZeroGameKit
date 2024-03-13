@@ -53,7 +53,7 @@ namespace ZeroEditor
 
         private void OnILTypeChanged()
         {
-            //Í¬²½HybridCLR»·¾³
+            //åŒæ­¥HybridCLRç¯å¢ƒ
             HybridCLRUtility.SyncWithHybridCLRSettings();
         }
 
@@ -64,7 +64,7 @@ namespace ZeroEditor
         static bool _isDirty = false;
 
         /// <summary>
-        /// ¼ÓÔØLauncherSettingData£¬Èç¹ûÓĞ»º´æÔò·µ»Ø£¬ÎŞÔò´ÓResourcesÖĞ¼ÓÔØ
+        /// åŠ è½½LauncherSettingDataï¼Œå¦‚æœæœ‰ç¼“å­˜åˆ™è¿”å›ï¼Œæ— åˆ™ä»Resourcesä¸­åŠ è½½
         /// </summary>
         /// <returns></returns>
         static public LauncherSettingData Load()
@@ -74,7 +74,7 @@ namespace ZeroEditor
                 return _cache;
             }
 
-            Debug.Log($"¶ÁÈ¡[LauncherSettingData]");
+            Debug.Log($"è¯»å–[LauncherSettingData]");
 
             _cache = LauncherSetting.LoadLauncherSettingDataFromResources();
             if (null == _cache)
@@ -100,13 +100,13 @@ namespace ZeroEditor
 
             if (vo == null)
             {
-                throw new Exception("±£´æµÄ[LauncherSettingData]Îªnull!!!");
+                throw new Exception("ä¿å­˜çš„[LauncherSettingData]ä¸ºnull!!!");
             }
 
             _cache = vo;
 
-            Debug.Log($"±£´æ[LauncherSettingData]");
-            var jsonStr = LitJson.JsonMapper.ToPrettyJson(_cache);
+            Debug.Log($"ä¿å­˜[LauncherSettingData]");
+            var jsonStr = Json.ToJsonIndented(_cache);
             File.WriteAllText($"Assets/Resources/{ZeroConst.LAUNCHER_SETTING_NAME}.json", jsonStr);
             AssetDatabase.Refresh();
 

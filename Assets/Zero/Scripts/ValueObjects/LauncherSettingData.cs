@@ -59,15 +59,7 @@ namespace Zero
         [LabelText("DLL执行方式"), ValueDropdown("ILType"), ShowIf("isUseDll")]
         [OnValueChanged("OnValueChanged")]
         [OnValueChanged("OnILTypeChanged")]
-        public EILType ilType = EILType.IL_RUNTIME;
-
-        [LabelText("优先JIT"), SuffixLabel("JIT方式更高效，如果平台不支持则继续ILRuntime模式"), ShowIf("$IsShowILRuntimeDebug")]
-        [OnValueChanged("OnValueChanged")]
-        public bool isTryJitBeforeILRuntime = false;
-
-        [LabelText("调试功能"), ShowIf("$IsShowILRuntimeDebug")]
-        [OnValueChanged("OnValueChanged")]
-        public bool isDebugIL = false;
+        public EILType ilType = EILType.NONE;
 
 #if UNITY_EDITOR
 
@@ -144,18 +136,8 @@ namespace Zero
 
         IEnumerable ILType = new ValueDropdownList<EILType>()
         {            
-            { "ILRuntime", EILType.IL_RUNTIME },
             { "HybridCLR", EILType.HYBRID_CLR },                 
         };
-
-        bool IsShowILRuntimeDebug()
-        {
-            if(isUseDll && EILType.IL_RUNTIME == ilType)
-            {
-                return true;
-            }
-            return false;
-        }
 #endif
     }
 }

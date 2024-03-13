@@ -18,7 +18,7 @@ namespace Zero
             var ta = Resources.Load<TextAsset>(ZeroConst.LAUNCHER_SETTING_NAME);
             if (null != ta)
             {
-                return LitJson.JsonMapper.ToObject<LauncherSettingData>(ta.text);
+                return Json.ToObject<LauncherSettingData>(ta.text);
             }
             return null;
         }

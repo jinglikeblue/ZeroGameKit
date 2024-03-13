@@ -41,7 +41,7 @@ namespace ZeroEditor
             }
 
             BuildResJson();          
-            string jsonStr = LitJson.JsonMapper.ToPrettyJson(_res);
+            string jsonStr = Json.ToJsonIndented(_res);
             File.WriteAllText(filePath, jsonStr);
         }
 

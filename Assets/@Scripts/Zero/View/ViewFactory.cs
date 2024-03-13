@@ -33,7 +33,7 @@ namespace ZeroHot
             }
 
             _viewAssetBundleSearchDic = AB.CreateViewAssetBundleSearchDictionary();            
-            var s = LitJson.JsonMapper.ToJson(_viewAssetBundleSearchDic);
+            var s = Json.ToJson(_viewAssetBundleSearchDic);
             Debug.Log(s);
         }        
 

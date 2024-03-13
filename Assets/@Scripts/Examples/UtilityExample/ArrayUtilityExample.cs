@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Zero;
 using ZeroGameKit;
 
 namespace Example
@@ -28,7 +29,7 @@ namespace Example
             sb.AppendLine("-------------数组转换为字典-------------");
             foreach (var pair in map)
             {
-                sb.AppendLine($"KEY:{pair.Key}   VALUE:{LitJson.JsonMapper.ToJson(pair.Value)}");
+                sb.AppendLine($"KEY:{pair.Key}   VALUE:{Json.ToJson(pair.Value)}");
             }
 
 

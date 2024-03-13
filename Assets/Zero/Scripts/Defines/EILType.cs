@@ -6,10 +6,6 @@
     public enum EILType
     {
         /// <summary>
-        /// ILRuntime
-        /// </summary>
-        IL_RUNTIME,
-        /// <summary>
         /// HybridClr，也叫WoLong，也叫HuaTuo
         /// </summary>
         HYBRID_CLR,

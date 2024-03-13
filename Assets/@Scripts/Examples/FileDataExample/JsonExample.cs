@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Zero;
 using ZeroGameKit;
 
 namespace Example
@@ -14,11 +15,11 @@ namespace Example
         {
             var vo = new JsonExampleTestVO();
             //数据转换为JSON
-            var jsonStr = LitJson.JsonMapper.ToJson(vo);
+            var jsonStr = Json.ToJson(vo);
             //JSON转为数据
-            var obj = LitJson.JsonMapper.ToObject<JsonExampleTestVO>(jsonStr);
+            var obj = Json.ToObject<JsonExampleTestVO>(jsonStr);
 
-            var msg = MsgWin.Show("Json", LitJson.JsonMapper.ToPrettyJson(vo));
+            var msg = MsgWin.Show("Json", Json.ToJsonIndented(vo));
             msg.SetContentAlignment(UnityEngine.TextAnchor.MiddleLeft);
 
             #region NewtonSoftJson

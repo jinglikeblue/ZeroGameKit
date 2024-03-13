@@ -52,16 +52,6 @@ namespace Zero
         /// </summary>
         public LauncherSettingParam<bool> lsLoadPdb = new LauncherSettingParam<bool>();
 
-        /// <summary>
-        /// LauncherSetting配置：优先JIT
-        /// </summary>
-        public LauncherSettingParam<bool> lsTryJitBeforeILRuntime = new LauncherSettingParam<bool>();
-
-        /// <summary>
-        /// LauncherSetting配置：调试ILRuntime
-        /// </summary>
-        public LauncherSettingParam<bool> lsDebugIL = new LauncherSettingParam<bool>();
-
         public class LauncherSettingParam<T> 
         {
             public bool isOverride = false;

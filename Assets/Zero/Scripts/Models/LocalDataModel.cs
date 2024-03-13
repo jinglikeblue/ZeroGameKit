@@ -50,7 +50,7 @@ namespace Zero
             {
                 var content = File.ReadAllText(_path);
                 //读取已有的数据
-                _vo = LitJson.JsonMapper.ToObject<VO>(content);
+                _vo = Json.ToObject<VO>(content);
             }
             else
             {
@@ -64,7 +64,7 @@ namespace Zero
         /// </summary>
         void Save2Local()
         {            
-            string json = LitJson.JsonMapper.ToJson(_vo);
+            string json = Json.ToJson(_vo);
             File.WriteAllText(_path, json);
         }
 

@@ -1,5 +1,4 @@
 ﻿using Jing;
-using LitJson;
 using System;
 using System.IO;
 using System.Text;
@@ -20,9 +19,9 @@ namespace Zero
         /// <param name="assetPath"></param>
         /// <returns></returns>
         public T LoadJsonConfig<T>(string assetPath)
-        {            
+        {         
             string json = LoadTextConfig(assetPath);
-            var vo = JsonMapper.ToObject<T>(json);
+            var vo = Json.ToObject<T>(json);
             return vo;
         }
 

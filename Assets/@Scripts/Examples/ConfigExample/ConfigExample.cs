@@ -12,9 +12,9 @@ namespace Example
         {
             var cfg = ConfigMgr.Ins.LoadZeroHotConfig<TestConfigVO>();
             Debug.Log("配置文件的内容是：");
-            Debug.Log(LitJson.JsonMapper.ToPrettyJson(cfg));
+            Debug.Log(Json.ToJsonIndented(cfg));
 
-            var win = MsgWin.Show("配置文件的内容是", LitJson.JsonMapper.ToPrettyJson(cfg));
+            var win = MsgWin.Show("配置文件的内容是", Json.ToJsonIndented(cfg));
             win.SetContentAlignment(TextAnchor.MiddleLeft);
         }
 

@@ -62,7 +62,7 @@ namespace Zero
             }
             else
             {
-                settingVO = LitJson.JsonMapper.ToObject<SettingVO>(uwr.downloadHandler.text);
+                settingVO = Json.ToObject<SettingVO>(uwr.downloadHandler.text);
                 ILBridge.Ins.StartCoroutine(this, LoadResJson());
             }
         }
@@ -79,7 +79,7 @@ namespace Zero
             }
             else
             {
-                resVerVO = LitJson.JsonMapper.ToObject<ResVerVO>(uwr.downloadHandler.text);
+                resVerVO = Json.ToObject<ResVerVO>(uwr.downloadHandler.text);
                 ILBridge.Ins.StartCoroutine(this, LoadScripts());
             }
         }

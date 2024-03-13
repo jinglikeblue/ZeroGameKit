@@ -63,7 +63,7 @@ namespace Example
         private void AllFiles()
         {
             var list = HotFiles.GetAllFileList();
-            var json = LitJson.JsonMapper.ToPrettyJson(list);
+            var json = Json.ToJsonIndented(list);
             L($"所有的文件：{json}");            
             L("------------------------------------------------------------");
         }
@@ -73,9 +73,9 @@ namespace Example
             var list0 = HotFiles.GetFiles("pics");
             var list1 = HotFiles.GetFiles("pics", System.IO.SearchOption.AllDirectories);
 
-            L($"pics下的文件(不含子目录)：{LitJson.JsonMapper.ToPrettyJson(list0)}");
+            L($"pics下的文件(不含子目录)：{Json.ToJsonIndented(list0)}");
 
-            L($"pics下的文件(含子目录)：{LitJson.JsonMapper.ToPrettyJson(list1)}");
+            L($"pics下的文件(含子目录)：{Json.ToJsonIndented(list1)}");
 
             L("------------------------------------------------------------");
         }

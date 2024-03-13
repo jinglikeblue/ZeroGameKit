@@ -59,11 +59,6 @@ namespace Zero
         public EILType ILWorkerType { get; private set; }
 
         /// <summary>
-        /// 当ILRuntime模式时存在值
-        /// </summary>
-        public ILRuntime.Runtime.Enviorment.AppDomain ILRuntimeAppDomain { get; private set; }
-
-        /// <summary>
         /// 获取代码域中的类型清单
         /// </summary>
         /// <param name="whereFunc">可选参数，委托通过参数Type判断是否需要加入清单中，返回true则表示需要</param>
@@ -96,32 +91,8 @@ namespace Zero
                 ILWorkerType = EILType.HYBRID_CLR;
                 return;
             }
-
-            if(Runtime.Ins.ILType == EILType.IL_RUNTIME)
-            {
-                if (null != assembly && Runtime.Ins.IsTryJitBeforeILRuntime)
-                {
-                    //可以用JIT方式执行
-                    Debug.Log(LogColor.Zero1("外部程序集执行方式：[JIT]"));
-                    //使用Assembly                
-                    iLWorker = new AssemblyILWorker(assembly);
-                    ILWorkerType = EILType.JIT;
-                }
-                else
-                {
-                    //如果JIT不行，则切换为ILRuntime模式
-                    Debug.Log(LogColor.Zero1("外部程序集执行方式：[IL_RUNTIME]"));
-                    //使用ILRuntime
-                    var ilruntimeWorker = new ILRuntimeILWorker(dllBytes, pdbBytes, Runtime.Ins.IsDebugILRuntime);
-                    iLWorker = ilruntimeWorker;
-                    ILRuntimeAppDomain = ilruntimeWorker.appDomain;
-                    ILWorkerType = EILType.IL_RUNTIME;
-                }
-            }
-            else
-            {
-                throw new Exception("外部程序集执行出错！");
-            }
+            
+            throw new Exception("外部程序集执行出错！");
         }
 
         public void Invoke(string clsName, string methodName)

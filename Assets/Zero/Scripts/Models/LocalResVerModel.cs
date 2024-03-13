@@ -25,7 +25,7 @@ namespace Zero
             if (File.Exists(_path))
             {
                 //读取已有的数据
-                _vo = LitJson.JsonMapper.ToObject<ResVerVO>(File.ReadAllText(_path));
+                _vo = Json.ToObject<ResVerVO>(File.ReadAllText(_path));
             }
             else
             {
@@ -93,7 +93,7 @@ namespace Zero
 
         public void Save()
         {
-            string json = LitJson.JsonMapper.ToJson(_vo);
+            string json = Json.ToJson(_vo);
             File.WriteAllText(_path, json);
         }
 

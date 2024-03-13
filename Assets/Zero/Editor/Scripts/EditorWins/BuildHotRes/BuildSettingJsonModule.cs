@@ -68,7 +68,7 @@ namespace ZeroEditor
                 try
                 {
                     var jsonStr = File.ReadAllText(selectedFile);
-                    SetCfg(LitJson.JsonMapper.ToObject<SettingVO>(jsonStr));
+                    SetCfg(Json.ToObject<SettingVO>(jsonStr));
                 }
                 catch (Exception e)
                 {
@@ -115,7 +115,7 @@ namespace ZeroEditor
             }
 
             UpdateCfg();
-            string jsonStr = LitJson.JsonMapper.ToPrettyJson(cfg);
+            string jsonStr = Json.ToJsonIndented(cfg);
             File.WriteAllText(filePath, jsonStr);
 
             if (isOpenPublishDir)

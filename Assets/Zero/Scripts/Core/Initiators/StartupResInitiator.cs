@@ -42,7 +42,7 @@ namespace Zero
             else
             {                
                 string jsonStr = File.ReadAllText(_resJsonUpdater.localPath);
-                ResVerVO vo = LitJson.JsonMapper.ToObject<ResVerVO>(jsonStr);
+                ResVerVO vo = Json.ToObject<ResVerVO>(jsonStr);
                 Runtime.Ins.netResVer = new ResVerModel(vo);
                 UpdateManifestAB();
             }
