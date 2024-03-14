@@ -124,7 +124,7 @@ namespace ZeroEditor
         {
             if (_cache.isUseDll && _cache.ilType == EILType.HYBRID_CLR)
             {
-                if (false == HybridCLRUtility.CheckHybridCLRInstallState())
+                if (false == HybridCLREditorUtility.CheckHybridCLRInstallState())
                 {
                     _cache.isUseDll = false;
                 }

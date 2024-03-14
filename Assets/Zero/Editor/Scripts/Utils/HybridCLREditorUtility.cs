@@ -12,8 +12,25 @@ namespace ZeroEditor
     /// <summary>
     /// HybridCLR工具类
     /// </summary>
-    public static class HybridCLRUtility
+    public static class HybridCLREditorUtility
     {
+        /// <summary>
+        /// 是否在使用HybridCLR
+        /// </summary>
+        public static bool IsHybridCLRUsed
+        {
+            get
+            {
+                var vo = LauncherSetting.LoadLauncherSettingDataFromResources();
+                if (vo.isUseDll && vo.ilType == EILType.HYBRID_CLR)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+        
         /// <summary>
         /// 拷贝要进行补充元数据的dlls
         /// </summary>

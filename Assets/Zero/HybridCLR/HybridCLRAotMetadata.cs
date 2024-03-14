@@ -32,7 +32,7 @@ namespace Zero
 
             var aotDllList = Resources.LoadAll<TextAsset>(AOT_DLL_RESOURCES_DIR);
 
-            if(null == aotDllList)
+            if (null == aotDllList)
             {
                 Debug.Log($"没有发现元数据补充文件");
                 return;
@@ -48,13 +48,13 @@ namespace Zero
                 {
                     byte[] dllBytes = ta.bytes;
                     var errCode = HybridCLR.RuntimeApi.LoadMetadataForAOTAssembly(dllBytes, HomologousImageMode.SuperSet);
-                    if(errCode == LoadImageErrorCode.OK)
+                    if (errCode == LoadImageErrorCode.OK)
                     {
-                        Debug.Log($"补充元数据:{ta.name}  成功");
+                        Debug.Log(LogColor.Zero2($"补充元数据:{ta.name}  成功"));
                     }
                     else
                     {
-                        Debug.Log($"补充元数据:{ta.name}  错误码:{errCode}");
+                        Debug.Log(LogColor.Zero2($"补充元数据:{ta.name}  错误码:{errCode}"));
                     }
                 }
             }
