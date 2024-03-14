@@ -96,6 +96,12 @@ namespace ZeroEditor
         {
             RedundancyResourcesCleanToolsEditorWin.Open();
         }
+        
+        [MenuItem("Zero/快捷操作/HybridCLR一键搞定", false, 450)]
+        public static void HybridCLROneClickForAll()
+        {
+            HybridCLREditorUtility.OneClickForAll();
+        }
 
         [MenuItem("Zero/About", false, 500)]
         public static void Document()
