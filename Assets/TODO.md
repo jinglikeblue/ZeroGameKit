@@ -32,13 +32,7 @@
        - 第二步：setting.json加一个参数，标记更新到这个setting.json后，是否下次启动直接使用这个setting.json中RuntimeVO数据,这样可以影响所有RuntimeVO数据。
               - 这一步可能导致程序更新setting.json后，因为配置错误，导致APP不能正常运行，且无法还原。
 
-- 画一个完整打包的流程图
-       - ILRutnime生成桥接文件
-       - HybridCLR生成桥接文件
-       - 纹理集打包
-       - 等等
-
--  框架代码不放在DontDestroyOnLoad里。确保Scene.Load(0)能够完整重启项目。
+- 框架代码不放在DontDestroyOnLoad里。确保Scene.Load(0)能够完整重启项目。
 
 - 摇杆死区范围应该是基于X轴偏移和Y轴偏移，而不是圆形区域
 
@@ -59,23 +53,12 @@
 
 - 对DLL的bytes实现加解密，避免别人解包后通过dll直接看到代码。
 
-## HybridCLR
-- Android真机测试
-- iOS真机测试
-- 验证是否能正常使用NewtonsoftJson等ILRuntime之前不能用的库。如果可以的话，则放弃ILRuntime支持。 [结论:已验证可以支持热更中使用NewtonsoftJson，可以移除ILRuntime]
-
 ## 优先
-
-- 弃用ILRuntime，移除相关代码。
-
-- link.xml生成，使用HybridCLR的生成。
 
 - Preload的逻辑重构。
        - 重构LauncherSetting的配置界面，更清晰易懂。（例如：选择热补丁模式，才需要配置网络资源根目录。仅使用内嵌资源模式，其实不需要考虑网络资源地址。）
        - 增加是否开发状态的选择，开发状态中资源的获取仅通过AssetDataBase或者本地AB。不依赖「内嵌资源配置」的设置。
        - 开发状态下，可以不需要打包任何资源，业务逻辑也能正常跑通。
-
-- 使用NewtonsoftJson替换LitJson，单独封装一个JSON API，方便以后替换为其它JSON库。
 
 ## BUG
 - ByteArray的大小端处理可能有BUG，则重新梳理

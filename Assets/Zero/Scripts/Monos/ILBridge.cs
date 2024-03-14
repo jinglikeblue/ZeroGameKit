@@ -86,13 +86,16 @@ namespace Zero
             //如果是HybridCLR模式
             if (Runtime.Ins.ILType == EILType.HYBRID_CLR)
             {
+                if (null == assembly)
+                {
+                    throw new Exception("外部程序集为null！");
+                }
+                
                 Debug.Log(LogColor.Zero1("外部程序集执行方式：[HYBRID_CLR]"));
                 iLWorker = new HybridCLRWorker(assembly);
                 ILWorkerType = EILType.HYBRID_CLR;
                 return;
             }
-            
-            throw new Exception("外部程序集执行出错！");
         }
 
         public void Invoke(string clsName, string methodName)
