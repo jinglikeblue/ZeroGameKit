@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Text;
-using UnityEngine;
 
 namespace Jing
 {
@@ -193,7 +192,8 @@ namespace Jing
             var bytesEndianInfo = isBigEndian ? "BigEndian" : "LittleEndian";
             var matchineEndianInfo = BitConverter.IsLittleEndian ? "LittleEndian" : "BigEndian";
 
-            Debug.Log($"目标字节序 :{bytesEndianInfo}  机器字节序:{matchineEndianInfo}  是否需要做字节序转换:{convertEndianInfo}");
+
+            Log.I($"目标字节序 :{bytesEndianInfo}  机器字节序:{matchineEndianInfo}  是否需要做字节序转换:{convertEndianInfo}");
         }
 
         /// <summary>

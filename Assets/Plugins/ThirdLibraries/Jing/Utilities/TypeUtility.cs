@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Zero
+namespace Jing
 {
     /// <summary>
     /// 类型工具类

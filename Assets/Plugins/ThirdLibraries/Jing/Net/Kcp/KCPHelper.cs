@@ -1,6 +1,5 @@
 ﻿using KcpProject;
 using System;
-using UnityEngine;
 
 namespace Jing
 {
@@ -195,7 +194,7 @@ namespace Jing
 
         private void OnOutputBytes(byte[] bytes, int length)
         {
-            if (logEnable) Debug.Log($"发送KCP数据 size:{length}");
+            if (logEnable) Log.I($"发送KCP数据 size:{length}");
 
             var tempBytes = new byte[length];
             Array.Copy(bytes, tempBytes, length);
@@ -224,7 +223,7 @@ namespace Jing
                 return;
             }
 
-            if (logEnable) Debug.Log($"发送业务数据大小:{bytes.Length}, 分片数量:{(bytes.Length + MSS - 1) / MSS}");
+            if (logEnable) Log.I($"发送业务数据大小:{bytes.Length}, 分片数量:{(bytes.Length + MSS - 1) / MSS}");
 
             bytes = PackData(bytes);
             var toSendLength = bytes.Length;
@@ -318,7 +317,7 @@ namespace Jing
 
         void DispatchReceivedData(byte[] data)
         {
-            if (logEnable) Debug.Log($"收到业务数据 size:{data.Length}");
+            if (logEnable) Log.I($"收到业务数据 size:{data.Length}");
             onReceived?.Invoke(data);
         }
     }

@@ -2,10 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Net;
-using System.Net.Http;
 using System.Threading;
-using UnityEngine;
-using UnityEngine.Networking;
 
 namespace Jing
 {
@@ -431,7 +428,7 @@ namespace Jing
 
         void SetError(string error)
         {
-            Debug.LogErrorFormat("下载失败 [{0}] ：{1}", _url, error);
+            Log.E($"下载失败 [{_url}] ：{error}");            
 
             //删除文件
             if (File.Exists(savePath))
