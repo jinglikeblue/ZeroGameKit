@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 using Zero;
 
@@ -386,12 +387,14 @@ namespace ZeroHot
 
         #region 子类按需求重写实现的方法
 
+        private List<Action> _unbindingActionList;
+        
         /// <summary>
         /// 初始化方法
         /// </summary>
         protected virtual void OnInit(object data)
         {
-
+            _unbindingActionList = AutoButtonClickBindingAttribute.Check(this);
         }
 
         /// <summary>
@@ -415,7 +418,13 @@ namespace ZeroHot
         /// </summary>
         protected virtual void OnDestroy()
         {
-
+            if (null != _unbindingActionList)
+            {
+                foreach (var action in _unbindingActionList)
+                {
+                    action.Invoke();
+                }
+            }
         }
 
         #endregion

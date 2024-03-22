@@ -20,5 +20,20 @@
             }
             return str;
         }
+        
+        /// <summary>
+        /// 截取startFlag到endFlag之间的字符串
+        /// </summary>
+        /// <param name="input">要截取的字符串源</param>
+        /// <param name="startFlag">作为开始标志的字符串</param>
+        /// <param name="endFlag">作为结束标志的字符串</param>
+        /// <param name="startIndex">查找开始的字符位置</param>
+        /// <returns></returns>
+        public static string Crop(string input, string startFlag, string endFlag, int startIndex = 0)
+        {
+            var cropStartIndex = input.IndexOf(startFlag, startIndex) + startFlag.Length;
+            var cropEndIndex = input.IndexOf(endFlag, startIndex);
+            return input.Substring(cropStartIndex, cropEndIndex - cropStartIndex);
+        }
     }
 }

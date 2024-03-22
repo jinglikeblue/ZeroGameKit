@@ -26,16 +26,17 @@ namespace ZeroGameKit
         protected bool effectEnable = true;
 
         const float TWEEN_TIME = 0.3f;
+
         protected override void OnDisable()
         {
             base.OnDisable();
-            btnClose.onClick.RemoveListener(OnBtnCloseClick);
+            // btnClose.onClick.RemoveListener(OnBtnCloseClick);
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            btnClose.onClick.AddListener(OnBtnCloseClick);
+            // btnClose.onClick.AddListener(OnBtnCloseClick);
 
             if (effectEnable)
             {
@@ -57,6 +58,7 @@ namespace ZeroGameKit
             }
         }
 
+        [AutoButtonClickBinding]
         protected virtual void OnBtnCloseClick()
         {
             if (effectEnable)

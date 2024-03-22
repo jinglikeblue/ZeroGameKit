@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Jing
@@ -48,6 +49,27 @@ namespace Jing
             }
 
             return findedTypes;
+        }
+
+        /// <summary>
+        /// 找到目标类型中，所有使用了指定特性的方法
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="attributeType"></param>
+        /// <returns></returns>
+        public static List<MethodInfo> FindMethodInfos(Type type, Type attributeType)
+        {
+            var methodInfos = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            List<MethodInfo> findedList = new List<MethodInfo>();
+            foreach (var mi in methodInfos)
+            {
+                if (mi.GetCustomAttributes(attributeType, true).Length > 0)
+                {
+                    findedList.Add(mi);
+                }
+            }
+
+            return findedList;
         }
     }
 }
