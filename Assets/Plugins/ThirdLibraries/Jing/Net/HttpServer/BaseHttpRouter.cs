@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.Remoting.Contexts;
 
-namespace Jing
+namespace Jing.Net
 {
     /// <summary>
     /// 路由处理器基类
@@ -32,7 +32,7 @@ namespace Jing
             }
         }
 
-        protected abstract string SelfRoute();      
+        protected abstract string SelfRoute();
 
         /// <summary>
         /// 处理

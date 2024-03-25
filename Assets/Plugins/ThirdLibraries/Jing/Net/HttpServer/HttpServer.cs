@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Jing
+namespace Jing.Net
 {
     /// <summary>
     /// Http服务
@@ -115,9 +115,9 @@ namespace Jing
         string ProcessContext(HttpListenerContext context)
         {
             // 获取路由
-            string route = context.Request.Url.AbsolutePath;            
+            string route = context.Request.Url.AbsolutePath;
 
-            var info = $"收到请求上下文:[Thread:{Thread.CurrentThread.ManagedThreadId}] [{context.Request.HttpMethod}] [RouteAndQuery:{context.Request.Url.PathAndQuery}]";            
+            var info = $"收到请求上下文:[Thread:{Thread.CurrentThread.ManagedThreadId}] [{context.Request.HttpMethod}] [RouteAndQuery:{context.Request.Url.PathAndQuery}]";
 
             //找路由
             if (_routerTypeDict.TryGetValue(route, out var routerType))
@@ -147,7 +147,7 @@ namespace Jing
 
                 //放到线程池中处理上下文
                 Task.Run(() =>
-                {                    
+                {
                     try
                     {
                         var responseContent = ProcessContext(context);

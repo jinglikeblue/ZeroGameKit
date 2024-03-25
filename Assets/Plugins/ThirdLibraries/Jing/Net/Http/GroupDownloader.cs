@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Jing
+namespace Jing.Net
 {
     /// <summary>
     /// 资源下载队列

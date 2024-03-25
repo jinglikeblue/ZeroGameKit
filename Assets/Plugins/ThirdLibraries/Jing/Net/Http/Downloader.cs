@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Threading;
 
-namespace Jing
+namespace Jing.Net
 {
     /// <summary>
     /// 资源下载器

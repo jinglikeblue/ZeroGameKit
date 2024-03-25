@@ -4,7 +4,7 @@ using System.IO;
 using System.Security.Cryptography;
 using Example;
 using Jing;
-using One;
+using Jing.Net;
 using Debug = UnityEngine.Debug;
 
 namespace PingPong
