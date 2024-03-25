@@ -39,7 +39,7 @@ namespace ZeroEditor
             cmd.onFinished += (DllBuildCommand self, bool isSuccess) =>
             {
                 var tip = isSuccess ? "Dll生成成功!" : "Dll生成失败!";
-                Debug.Log(LogColor.Zero1(tip));
+                Debug.Log(LogColor.Zero1($"{tip} [{self.assemblyPath}](md5: {MD5Helper.GetMD5(new FileStream(self.assemblyPath, FileMode.Open), true)})"));
                 Debug.Log(LogColor.Zero1("耗时:{0}秒", (DateTime.Now - now).TotalSeconds));
             };
             cmd.Execute();

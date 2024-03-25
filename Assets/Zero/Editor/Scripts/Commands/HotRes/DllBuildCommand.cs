@@ -8,7 +8,7 @@ using Zero;
 
 namespace ZeroEditor
 {
-    public class DllBuildCommand 
+    public class DllBuildCommand
     {
         /// <summary>
         /// 打包完成，返回一个bool表示成功还是失败
@@ -28,10 +28,7 @@ namespace ZeroEditor
         /// </summary>
         public string assemblyPath
         {
-            get
-            {
-                return _outputAssemblyPath;
-            }
+            get { return _outputAssemblyPath; }
         }
 
         public DllBuildCommand(string sourcesDir, string outputDir)
@@ -42,19 +39,23 @@ namespace ZeroEditor
             {
                 Directory.CreateDirectory(outputDir);
             }
+
             if (false == Directory.Exists(ZeroEditorConst.DLL_CACHE_DIR))
             {
                 Directory.CreateDirectory(ZeroEditorConst.DLL_CACHE_DIR);
             }
+
             _outputAssemblyPath = FileUtility.CombinePaths(outputDir, ZeroConst.DLL_FILE_NAME + ".dll");
             _outputAssemblyCachePath = FileUtility.CombinePaths(ZeroEditorConst.DLL_CACHE_DIR, ZeroConst.DLL_FILE_NAME + ".dll");
         }
-
+        
         public void Execute()
         {
             var scriptPaths = Directory.GetFiles(_sourcesDir, "*.cs", SearchOption.AllDirectories);
             var ab = new AssemblyBuilder(_outputAssemblyCachePath, scriptPaths);
             ab.compilerOptions = new ScriptCompilerOptions();
+            //添加[-deterministic]参数，确保代码不变的情况下，生成的DLL文件是一致的
+            ab.compilerOptions.AdditionalCompilerArguments = new[] { "-deterministic" };
 #if UNITY_2019_1_OR_NEWER
             ab.referencesOptions = ReferencesOptions.UseEngineModules;
 #endif
@@ -65,7 +66,7 @@ namespace ZeroEditor
             {
                 onFinished?.Invoke(this, false);
                 onFinished = null;
-            }            
+            }
         }
 
         string[] GetDepends()
@@ -80,7 +81,7 @@ namespace ZeroEditor
             //依赖Library/ScriptAssemblies下的DLL
             var projectDir = Directory.GetParent(assetDir).FullName;
             var dllList1 = Directory.GetFiles(FileUtility.CombineDirs(true, projectDir, "Library", "ScriptAssemblies"), "*.dll", SearchOption.AllDirectories);
-            
+
 #if UNITY_2019_1_OR_NEWER
             var dllList2 = new string[0];
 #else
@@ -97,26 +98,26 @@ namespace ZeroEditor
         }
 
         private void OnFinished(string path, CompilerMessage[] msgs)
-        {            
+        {
             bool isFail = false;
             foreach (var msg in msgs)
             {
                 if (msg.type == CompilerMessageType.Error)
                 {
-                    Debug.LogError(msg.message); 
+                    Debug.LogError(msg.message);
                     isFail = true;
                 }
             }
 
             if (isFail)
-            {                
+            {
                 onFinished?.Invoke(this, false);
             }
             else
             {
                 //把缓存目录的dll文件和pdb文件复制到发布目录
                 FileUtility.CopyFile(_outputAssemblyCachePath, _outputAssemblyPath, true);
-                FileUtility.CopyFile(_outputAssemblyCachePath.Replace(".dll",".pdb"), _outputAssemblyPath.Replace(".dll", ".pdb"), true);
+                FileUtility.CopyFile(_outputAssemblyCachePath.Replace(".dll", ".pdb"), _outputAssemblyPath.Replace(".dll", ".pdb"), true);
                 onFinished?.Invoke(this, true);
             }
 
