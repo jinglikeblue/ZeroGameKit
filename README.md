@@ -9,6 +9,9 @@
 
 # 更新日志
 
+## 2024-03-25
+- Jing基础库更新，增加HttpServer.cs可以启动一个建议的WEB服务。暂无用例，后续补充。
+
 ## 2024-03-14
 - LitJson弃用，改为Newtonsoft.Json
 - 「重要」移除ILRuntime，仅保留HybridCLR热更。这样的好处是以后可以兼容更多的第三方代码库的使用。
