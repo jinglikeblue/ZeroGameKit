@@ -20,7 +20,7 @@ namespace Jing
             foreach (IPEndPoint endPoint in tcpEndPoints)
             {
                 if (endPoint.Port == port)
-                    return true;
+                    return false;
             }
             #endregion
 
@@ -29,11 +29,11 @@ namespace Jing
             foreach (IPEndPoint endPoint in udpEndPoints)
             {
                 if (endPoint.Port == port)
-                    return true;
+                    return false;
             }
             #endregion
 
-            return false;
+            return true;
         }
 
         /// <summary>

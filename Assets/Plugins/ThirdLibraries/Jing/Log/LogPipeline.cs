@@ -63,7 +63,7 @@ namespace Jing
         /// 普通信息
         /// </summary>
         /// <param name="message"></param>
-        public void I(object message)
+        public void I(object message, ConsoleColor color = ConsoleColor.White)
         {
             if (logLevel < ELogLevel.INFO)
             {
@@ -71,7 +71,7 @@ namespace Jing
             }
 
             string logMsg = $"[I] {message}";
-            Print(logMsg);
+            Print(logMsg, color);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Jing
             }
 
             string logMsg = $"[W] {message}";
-            Print(logMsg);
+            Print(logMsg, ConsoleColor.DarkYellow);
         }
 
         /// <summary>
@@ -101,30 +101,20 @@ namespace Jing
             }
 
             string logMsg = $"[E] {message}";
-            Print(logMsg);
+            Print(logMsg, ConsoleColor.DarkRed);
         }
 
         /// <summary>
         /// 打印日志信息
         /// </summary>
         /// <param name="logMsg"></param>
-        void Print(string logMsg)
+        void Print(string logMsg, ConsoleColor color = ConsoleColor.White)
         {
             WriteToFile(logMsg);
 
 #if UNITY_5_3_OR_NEWER
             UnityEngine.Debug.Log(logMsg);
 #else
-            ConsoleColor color = ConsoleColor.White;
-            switch (logLevel)
-            {
-                case ELogLevel.ERROR:
-                    color = ConsoleColor.DarkRed;
-                    break;
-                case ELogLevel.WARNING:
-                    color = ConsoleColor.DarkYellow;
-                    break;
-            }
             ColorInfo(color, logMsg);
 #endif
         }

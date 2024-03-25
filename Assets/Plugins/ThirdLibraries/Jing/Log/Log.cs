@@ -1,4 +1,6 @@
-﻿namespace Jing
+﻿using System;
+
+namespace Jing
 {
     /// <summary>
     /// 日志类，跨环境兼容。根据平台逐步添加
@@ -39,9 +41,9 @@
         /// 普通信息
         /// </summary>
         /// <param name="message"></param>
-        public static void I(object message)
+        public static void I(object message, ConsoleColor color = ConsoleColor.White)
         {
-            _ins.I(message);
+            _ins.I(message, color);
         }
 
         /// <summary>
