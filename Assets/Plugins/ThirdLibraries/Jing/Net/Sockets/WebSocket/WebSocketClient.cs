@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Jing.Net
 {
-    public class WebSocketClient
+    public class WebSocketClient : IClient
     {
         /// <summary>
         /// 协议是否已升级
@@ -22,22 +22,22 @@ namespace Jing.Net
         /// <summary>
         /// 连接成功事件(多线程事件）
         /// </summary>
-        public event Action<WebSocketClient> onConnectSuccess;
+        public event ConnectServerSuccessEvent onConnectSuccess;
 
         /// <summary>
         /// 连接断开事件(多线程事件）
         /// </summary>
-        public event Action<WebSocketClient> onDisconnect;
+        public event DisconnectedEvent onDisconnected;
 
         /// <summary>
         /// 连接失败事件(多线程事件）
         /// </summary>
-        public event Action<WebSocketClient> onConnectFail;
+        public event ConnectServerFailEvent onConnectFail;
 
         /// <summary>
         /// 收到数据
         /// </summary>
-        public event WebSocketClientReceivedDataEvent onReceivedData;
+        public event ReceivedServerDataEvent onReceivedData;
 
         /// <summary>
         /// 主机地址
@@ -52,7 +52,7 @@ namespace Jing.Net
         /// <summary>
         /// 缓冲区大小
         /// </summary>
-        public ushort BufferSize { get; private set; }
+        public int BufferSize { get; private set; }
 
         /// <summary>
         /// 线程同步器，将异步方法同步到调用Refresh的线程中
@@ -82,7 +82,7 @@ namespace Jing.Net
 
         public WebSocketClient()
         {
-            
+
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Jing.Net
         /// <param name="host"></param>
         /// <param name="port"></param>
         /// <param name="bufferSize"></param>
-        public void Connect(string host, int port, ushort bufferSize)
+        public void Connect(string host, int port, int bufferSize)
         {
             Host = host;
             Port = port;
@@ -122,7 +122,6 @@ namespace Jing.Net
         public void Refresh()
         {
             _tsa.RunSyncActions();
-            Channel?.Refresh();
         }
 
         /// <summary>
@@ -179,7 +178,7 @@ namespace Jing.Net
                 return;
             }
 
-            InitChannel(e.ConnectSocket, BufferSize);            
+            InitChannel(e.ConnectSocket, BufferSize);
         }
 
         void InitChannel(Socket socket, int bufferSize)
@@ -193,7 +192,7 @@ namespace Jing.Net
 
         private void OnUpgradeResult(WebSocketChannel channel, bool success)
         {
-            if(true == success)
+            if (true == success)
             {
                 onConnectSuccess?.Invoke(this);
             }
@@ -211,7 +210,7 @@ namespace Jing.Net
         private void OnShutdown(IChannel obj)
         {
             Channel = null;
-            onDisconnect?.Invoke(this);
+            onDisconnected?.Invoke(this);
         }
     }
 }

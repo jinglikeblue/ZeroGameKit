@@ -1,4 +1,8 @@
-﻿namespace Jing.Net
+﻿using System.Net;
+using System.Runtime.CompilerServices;
+using System.Threading;
+
+namespace Jing.Net
 {
     /// <summary>
     /// KCP协议收发通道
@@ -12,39 +16,81 @@
         /// <summary>
         /// KCP辅助器
         /// </summary>
-        KCPHelper _kcpHelper;
+        KcpHelper _kcpHelper;
 
         /// <summary>
         /// UDP协议发送通道
         /// </summary>
         UdpSendChannel _udpSendChannel;
 
+        /// <summary>
+        /// 最后一次收到数据的时间
+        /// </summary>
+        public long LastReceivedDataTime { get; private set; }
+
         public KcpChannel(UdpSendChannel sendChannel)
         {
-            _kcpHelper = new KCPHelper();
+            RemoteEndPoint = sendChannel.RemoteEndPoint;
+            _kcpHelper = new KcpHelper();
             _kcpHelper.onToSend += OnKcpToSend;
             _kcpHelper.onReceived += OnReceivedKcpData;
 
             _udpSendChannel = sendChannel;
+
+            LastReceivedDataTime = TimeUtility.NowUtcMilliseconds;
+
+            new Thread(KcpUpdateThread).Start();
         }
 
         /// <summary>
-        /// 是否连接上了
+        /// KCP更新线程
+        /// </summary>
+        void KcpUpdateThread()
+        {
+            while (_kcpHelper != null)
+            {
+                _kcpHelper.Update();
+                Thread.Sleep(1);
+            }
+        }
+
+        /// <summary>
+        /// 是否连接中
         /// </summary>
         public bool IsConnected
         {
             get
             {
-                //TODO 还没想好
+                if (_udpSendChannel == null || TimeUtility.NowUtcMilliseconds - LastReceivedDataTime > KcpDefine.KCP_TIMEOUT_LIMIT)
+                {
+                    return false;
+                }
                 return true;
             }
         }
 
+        public EndPoint RemoteEndPoint { get; private set; } = null;
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Close(bool isSilently = false)
         {
-            //TODO 还没想好
+            if (null != _kcpHelper)
+            {
+                _kcpHelper.onToSend -= OnKcpToSend;
+                _kcpHelper.onReceived -= OnReceivedKcpData;
+                _kcpHelper = null;
+            }
+
+            _udpSendChannel.Dispose();
+            _udpSendChannel = null;
+
+            if (!isSilently)
+            {
+                onChannelClosed?.Invoke(this);
+            }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Send(byte[] data)
         {
             _kcpHelper.Send(data);
@@ -73,15 +119,8 @@
         /// <param name="data"></param>
         void OnReceivedKcpData(byte[] data)
         {
+            LastReceivedDataTime = TimeUtility.NowUtcMilliseconds;
             onReceivedData?.Invoke(this, data);
-        }
-
-        /// <summary>
-        /// 刷新通道的数据处理
-        /// </summary>
-        public void Refresh()
-        {
-            _kcpHelper.Update();
         }
     }
 }

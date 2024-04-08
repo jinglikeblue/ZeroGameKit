@@ -1,4 +1,6 @@
-﻿namespace Jing.Net
+﻿using System.Net;
+
+namespace Jing.Net
 {
     /// <summary>
     /// 连接通信的通道
@@ -33,5 +35,10 @@
         /// 通道关闭的事件
         /// </summary>
         event ChannelClosedEvent onChannelClosed;
+
+        /// <summary>
+        /// 远程终结点
+        /// </summary>
+        EndPoint RemoteEndPoint { get; }
     }
 }

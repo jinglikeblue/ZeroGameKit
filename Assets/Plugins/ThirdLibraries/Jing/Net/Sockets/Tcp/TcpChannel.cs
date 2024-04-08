@@ -1,20 +1,19 @@
 ﻿using Jing;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Jing.Net
 {
     public class TcpChannel : IChannel
     {
-        SocketAsyncEventArgs _receiveEA;
-
-        SocketAsyncEventArgs _sendEA;
-
         /// <summary>
-        /// 线程同步器，将异步方法同步到调用Refresh的线程中
+        /// 远程终结点
         /// </summary>
-        ThreadSyncActions _tsa = new ThreadSyncActions();
+        public EndPoint RemoteEndPoint { get; private set; } = null;
 
         /// <summary>
         /// 收到数据
@@ -34,11 +33,6 @@ namespace Jing.Net
         /// 数据发送队列
         /// </summary>
         protected List<ArraySegment<byte>> _sendBufferList = new List<ArraySegment<byte>>();
-
-        /// <summary>
-        /// 是否正在发送数据
-        /// </summary>
-        bool _isSending = false;
 
         /// <summary>
         /// 缓冲区可用字节长度
@@ -68,87 +62,91 @@ namespace Jing.Net
         public TcpChannel(Socket socket, int bufferSize)
         {
             _socket = socket;
-            _buffer = new byte[bufferSize];
-
+            RemoteEndPoint = socket.RemoteEndPoint;
             CreateProtocolProcess();
-            _receiveEA = new SocketAsyncEventArgs();
-            _sendEA = new SocketAsyncEventArgs();
-            _receiveEA.Completed += OnAsyncEventCompleted;
-            _sendEA.Completed += OnAsyncEventCompleted;
-
-            StartReceive();
-        }       
-        
-        virtual protected void CreateProtocolProcess()
-        {
-            _protocolProcess = new TcpProtocolProcess();
+            SendLoop();
+            ReceiveLoop(bufferSize);
+            //ConnectedCheckLoop();
         }
 
-        /// <summary>
-        /// 刷新
-        /// </summary>
-        internal void Refresh()
-        {
-            _tsa.RunSyncActions();
-        }
+        //async void ConnectedCheckLoop()
+        //{
+        //    while (IsConnected)
+        //    {
+        //        await Task.Delay(CONNECTED_CHECK_INTERVAL);
+        //    }
+
+        //    Close();
+        //}
 
         /// <summary>
-        /// 异步事件完成
+        /// 发送协议的循环
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnAsyncEventCompleted(object sender, SocketAsyncEventArgs e)
+        async void SendLoop()
         {
-            _tsa.AddToSyncAction(() =>
+            while (IsConnected)
             {
-                switch (e.LastOperation)
+                ArraySegment<byte>[]? bufferList = null;
+
+                lock (_sendBufferList)
                 {
-                    case SocketAsyncOperation.Receive:
-                        ProcessReceive(e);
-                        break;
-                    case SocketAsyncOperation.Send:
-                        ProcessSend(e);
-                        break;
-                    default:
-                        throw new ArgumentException(string.Format("Wrong last operation : {0}", e.LastOperation));
+                    if (_sendBufferList.Count > 0)
+                    {
+                        bufferList = _sendBufferList.ToArray();
+                        _sendBufferList.Clear();
+                    }
                 }
-            });
-        }
 
-        protected void StartReceive()
-        {
-            if (false == IsConnected)
-            {
-                return;
-            }
+                if (null == bufferList)
+                {
+                    new ManualResetEvent(false).WaitOne(1);
+                    await Task.Yield();
+                    continue;
+                }
 
-            _receiveEA.SetBuffer(_buffer, _bufferAvailable, _buffer.Length - _bufferAvailable);
-
-            bool willRaiseEvent = _socket.ReceiveAsync(_receiveEA);
-            if (!willRaiseEvent)
-            {
-                ProcessReceive(_receiveEA);
+                try
+                {
+                    await _socket.SendAsync(bufferList, SocketFlags.None);
+                }
+                catch (Exception ex)
+                {
+                    Log.E("发送协议失败！");
+                    Log.E(ex);
+                    Close();
+                }
             }
         }
 
         /// <summary>
-        /// 处理接收到的消息（多线程事件）
+        /// 接收协议的循环
         /// </summary>
-        /// <param name="e"></param>
-        protected void ProcessReceive(SocketAsyncEventArgs e)
+        async void ReceiveLoop(int bufferSize)
         {
-            if (e.BytesTransferred > 0 && e.SocketError == SocketError.Success)
+            var buffer = new byte[bufferSize];
+            _buffer = buffer;
+
+            while (IsConnected)
             {
-                _bufferAvailable += e.BytesTransferred;
+                try
+                {
+                    int bytesRead = await _socket.ReceiveAsync(new ArraySegment<byte>(buffer, _bufferAvailable, _buffer.Length - _bufferAvailable), SocketFlags.None);
+
+                    //bytesRead的值为0时，表示已经达到了文件的结尾（End of File, EOF)
+                    if (0 == bytesRead)
+                    {
+                        Close();
+                        break;
+                    }
+
+                    _bufferAvailable += bytesRead;
+                }
+                catch (Exception ex)
+                {
+                    Log.E(ex);
+                }
 
                 //协议处理器处理协议数据
                 int used = UnpackProtocolData();
-
-                if(false == IsConnected)
-                {
-                    //处理协议中导致通道关闭了
-                    return;
-                }
 
                 if (used > 0)
                 {
@@ -161,14 +159,12 @@ namespace Jing.Net
                         _buffer = newBytes;
                     }
                 }
+            }
+        }
 
-                StartReceive();
-            }
-            else
-            {
-                Close();
-            }
-            
+        virtual protected void CreateProtocolProcess()
+        {
+            _protocolProcess = new TcpProtocolProcess();
         }
 
         virtual protected int UnpackProtocolData()
@@ -201,7 +197,7 @@ namespace Jing.Net
                 return;
             }
 
-            var protocolData = PackProtocolData(bytes);
+            var protocolData = PackProtocolData(bytes);            
             SendBytes(protocolData);
         }
 
@@ -211,51 +207,9 @@ namespace Jing.Net
         /// <param name="bytes"></param>
         internal void SendBytes(byte[] bytes)
         {
-            _sendBufferList.Add(new ArraySegment<byte>(bytes));
-
-            SendBufferList();
-        }
-
-        protected void SendBufferList()
-        {
-            if (false == IsConnected)
+            lock (_sendBufferList)
             {
-                return;
-            }
-
-            //如果没有在发送状态，则调用发送
-            if (_isSending || _sendBufferList.Count == 0)
-            {
-                return;
-            }
-
-            _isSending = true;
-            _sendEA.BufferList = _sendBufferList.ToArray();
-
-            _sendBufferList.Clear();
-
-            bool willRaiseEvent = _socket.SendAsync(_sendEA);
-            if (!willRaiseEvent)
-            {
-                ProcessSend(_sendEA);
-            }
-        }
-
-        /// <summary>
-        /// 处理发送的消息回调（多线程事件）
-        /// </summary>
-        /// <param name="e"></param>
-        private void ProcessSend(SocketAsyncEventArgs e)
-        {
-            if (e.SocketError == SocketError.Success)
-            {
-                _isSending = false;
-                //尝试一次发送
-                SendBufferList();
-            }
-            else
-            {
-                Close();
+                _sendBufferList.Add(new ArraySegment<byte>(bytes));
             }
         }
 
@@ -267,22 +221,20 @@ namespace Jing.Net
         {
             if (null != _socket)
             {
-                try
+                lock (_socket)
                 {
-                    _socket.Shutdown(SocketShutdown.Send);
-                }
-                catch
-                {
-                }
+                    try
+                    {
+                        _socket.Shutdown(SocketShutdown.Receive);
+                    }
+                    catch
+                    {
+                    }
 
-                _tsa.Clear();
-                _socket.Close();
-                _socket = null;
+                    _socket.Close();
+                    _socket = null;
+                }
                 _buffer = null;
-                _receiveEA.Dispose();
-                _receiveEA = null;
-                _sendEA.Dispose();
-                _sendEA = null;
 
                 if (false == isSilently)
                 {

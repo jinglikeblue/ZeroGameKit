@@ -3,30 +3,32 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Jing.Net
 {
-    public class TcpClient
+    public class TcpClient : IClient
     {
         /// <summary>
         /// 连接成功事件(多线程事件）
         /// </summary>
-        public event Action<TcpClient> onConnectSuccess;
+        public event ConnectServerSuccessEvent onConnectSuccess;
 
         /// <summary>
         /// 连接断开事件(多线程事件）
         /// </summary>
-        public event Action<TcpClient> onDisconnect;
+        public event DisconnectedEvent onDisconnected;
 
         /// <summary>
         /// 连接失败事件(多线程事件）
         /// </summary>
-        public event Action<TcpClient> onConnectFail;
+        public event ConnectServerFailEvent onConnectFail;
 
         /// <summary>
         /// 收到数据
         /// </summary>
-        public event Action<TcpClient, byte[]> onReceivedData;
+        public event ReceivedServerDataEvent onReceivedData;
 
         /// <summary>
         /// 主机地址
@@ -41,22 +43,12 @@ namespace Jing.Net
         /// <summary>
         /// 缓冲区大小
         /// </summary>
-        public ushort BufferSize { get; private set; }
+        public int BufferSize { get; private set; }
 
         /// <summary>
         /// 通信通道
         /// </summary>
         public TcpChannel Channel { get; private set; }
-
-        /// <summary>
-        /// 线程同步器，将异步方法同步到调用Refresh的线程中
-        /// </summary>
-        ThreadSyncActions _tsa = new ThreadSyncActions();
-
-        /// <summary>
-        /// 连接异步事件
-        /// </summary>
-        SocketAsyncEventArgs _connectEA;
 
         /// <summary>
         /// 是否已连接
@@ -85,7 +77,7 @@ namespace Jing.Net
         /// <param name="host"></param>
         /// <param name="port"></param>
         /// <param name="bufferSize"></param>
-        public void Connect(string host, int port, ushort bufferSize)
+        public void Connect(string host, int port, int bufferSize)
         {
             Host = host;
             Port = port;
@@ -97,26 +89,42 @@ namespace Jing.Net
         public void Reconnect()
         {
             Close(true);
-
-            _tsa.Clear();
-            IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(Host), Port);
-            Socket socket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            _connectEA = new SocketAsyncEventArgs();
-            _connectEA.RemoteEndPoint = ipe;
-            _connectEA.Completed += OnAsyncEventCompleted;
-            if (!socket.ConnectAsync(_connectEA))
-            {
-                OnAsyncEventCompleted(null, _connectEA);
-            }
+            ConnectAsync();
         }
 
         /// <summary>
-        /// 刷新
+        /// 异步连接
         /// </summary>
-        public void Refresh()
+        async void ConnectAsync()
         {
-            _tsa.RunSyncActions();
-            Channel?.Refresh();
+            try
+            {
+                IPEndPoint ipe = new IPEndPoint(IPAddress.Parse(Host), Port);
+                Socket socket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                //等待连接
+                await socket.ConnectAsync(ipe);
+
+                InitChannel(socket, BufferSize);
+                onConnectSuccess?.Invoke(this);
+            }
+            catch (SocketException ex)
+            {
+                // 捕获连接异常
+                if (ex.SocketErrorCode == SocketError.ConnectionRefused)
+                {
+                    Log.I("连接被拒绝");
+                }
+                else if (ex.SocketErrorCode == SocketError.HostNotFound)
+                {
+                    Log.I("找不到指定的主机");
+                }
+                else
+                {
+                    Log.I("连接失败： " + ex.Message);
+                }
+
+                onConnectFail?.Invoke(this);
+            }
         }
 
         /// <summary>
@@ -125,13 +133,6 @@ namespace Jing.Net
         /// <param name="isSilently">如果为true，则不会触发任何事件</param>
         public void Close(bool isSilently = false)
         {
-            if (null != _connectEA)
-            {
-                _connectEA.Completed -= OnAsyncEventCompleted;
-                _connectEA.Dispose();
-                _connectEA = null;
-            }
-
             if (null != Channel)
             {
                 Channel.Close(isSilently);
@@ -145,34 +146,7 @@ namespace Jing.Net
         /// <param name="bytes"></param>
         public virtual void Send(byte[] bytes)
         {
-            Channel.Send(bytes);
-        }
-
-        /// <summary>
-        /// 连接完成（多线程事件）
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected virtual void OnAsyncEventCompleted(object sender, SocketAsyncEventArgs e)
-        {
-            _tsa.AddToSyncAction(
-                () =>
-                {
-                    OnConnectCompleted(e);
-                });
-        }
-
-        void OnConnectCompleted(SocketAsyncEventArgs e)
-        {
-            e.Completed -= OnAsyncEventCompleted;
-            if (null == e.ConnectSocket)
-            {
-                onConnectFail?.Invoke(this);
-                return;
-            }
-
-            InitChannel(e.ConnectSocket, BufferSize);
-            onConnectSuccess?.Invoke(this);
+            Channel?.Send(bytes);
         }
 
         void InitChannel(Socket socket, int bufferSize)
@@ -187,10 +161,10 @@ namespace Jing.Net
             onReceivedData?.Invoke(this, data);
         }
 
-        private void OnShutdown(IChannel obj)
+        private void OnShutdown(IChannel channel)
         {
             Channel = null;
-            onDisconnect?.Invoke(this);
+            onDisconnected?.Invoke(this);
         }
     }
 }

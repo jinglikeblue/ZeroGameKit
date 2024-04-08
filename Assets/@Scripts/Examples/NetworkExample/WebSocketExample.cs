@@ -22,8 +22,6 @@ namespace Example
         {
             UIWinMgr.Ins.Open<WebSocketExampleWin>();
         }
-
-
     }
 
     class WebSocketExampleWin : WithCloseButtonWin
@@ -57,7 +55,6 @@ namespace Example
         }
 
 
-
         protected override void OnDestroy()
         {
             base.OnDestroy();
@@ -86,7 +83,6 @@ namespace Example
                 yield return new WaitForEndOfFrame();
             }
         }
-
 
 
         protected override void OnDisable()
@@ -132,7 +128,7 @@ namespace Example
                 client.onConnectSuccess += OnConnectSuccess;
                 client.onConnectFail += OnConnectFail;
                 client.onReceivedData += OnReceivedData;
-                client.onDisconnect += OnDisconnect;
+                client.onDisconnected += OnDisconnect;
                 client.Connect("127.0.0.1", WebSocketExample.PORT, 4096);
             }
             else
@@ -142,26 +138,26 @@ namespace Example
             }
         }
 
-        private void OnConnectSuccess(WebSocketClient client)
+        private void OnConnectSuccess(IClient client)
         {
             L("服务器连接成功!");
             RefreshUI();
         }
 
-        private void OnConnectFail(WebSocketClient client)
+        private void OnConnectFail(IClient client)
         {
             L("服务器连接失败!");
             RefreshUI();
         }
 
-        private void OnReceivedData(WebSocketClient client, byte[] data)
+        private void OnReceivedData(IClient client, byte[] data)
         {
             ByteArray ba = new ByteArray(data);
             var msg = ba.ReadString();
             L(Zero.LogColor.Zero2(msg));
         }
 
-        private void OnDisconnect(WebSocketClient client)
+        private void OnDisconnect(IClient client)
         {
             L("服务器连接断开!");
             RefreshUI();
@@ -202,6 +198,7 @@ namespace Example
 
             StartCoroutine(Update());
         }
+
         protected override void OnDisable()
         {
             base.OnDisable();
@@ -236,8 +233,8 @@ namespace Example
                 server.onClientEnter += OnClientEnter;
                 server.onClientExit += OnClientExit;
                 server.Start(WebSocketExample.PORT, 4096);
-
             }
+
             RefreshButton();
         }
 
@@ -274,6 +271,7 @@ namespace Example
                 server.Close();
                 server = null;
             }
+
             RefreshButton();
         }
 
@@ -288,5 +286,6 @@ namespace Example
             textLog.text += "\r\n" + content;
         }
     }
+
     #endregion
 }

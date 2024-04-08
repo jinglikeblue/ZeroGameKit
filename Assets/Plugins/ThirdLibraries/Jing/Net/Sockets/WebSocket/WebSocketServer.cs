@@ -10,17 +10,17 @@ namespace Jing.Net
     /// 提供基于WebSocket协议的套接字服务
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class WebSocketServer
+    public class WebSocketServer:IServer
     {
         /// <summary>
         /// 新的客户端进入的事件
         /// </summary>
-        public event Action<IChannel> onClientEnter;
+        public event ClientEnterEvent onClientEnter;
 
         /// <summary>
         /// 客户端退出的事件
         /// </summary>
-        public event Action<IChannel> onClientExit;
+        public event ClientExitEvent onClientExit;
 
         /// <summary>
         /// 线程同步器，将异步方法同步到调用Refresh的线程中
@@ -61,7 +61,7 @@ namespace Jing.Net
         /// <param name="port">监听的端口</param>
         /// <param name="bufferSize">每一个连接的缓冲区大小</param>
         public void Start(int port, int bufferSize)
-        {            
+        {
             Log.I($"Start Lisening {IPAddress.Any}:{port}");
 
             _bufferSize = bufferSize;
@@ -94,10 +94,6 @@ namespace Jing.Net
         public void Refresh()
         {
             _tsa.RunSyncActions();
-            foreach (var channel in _channelList)
-            {
-                channel.Refresh();
-            }
 
             //清理断开的通道
             RefreshShutdownSet();
@@ -147,7 +143,7 @@ namespace Jing.Net
         }
 
         void Enter(Socket clientSocket)
-        {            
+        {
             WebSocketChannel channel = new WebSocketChannel(clientSocket, _bufferSize);
             _channelList.Add(channel);
             Log.I($"新的连接，连接总数:{ClientCount}");
@@ -161,14 +157,14 @@ namespace Jing.Net
             else
             {
                 channel.onUpgradeResult += OnUpgradeResult;
-            }            
+            }
         }
 
         private void OnUpgradeResult(WebSocketChannel channel, bool success)
         {
             channel.onUpgradeResult -= OnUpgradeResult;
             if (success)
-            {                                        
+            {
                 onClientEnter?.Invoke(channel);
             }
             else
@@ -178,7 +174,7 @@ namespace Jing.Net
         }
 
         private void OnClientShutdown(IChannel channel)
-        {            
+        {
             channel.onChannelClosed -= OnClientShutdown;
             //先添加到集合，稍后处理，现在处理则ChannelList会异常
             _shutdownSet.Add(channel as WebSocketChannel);

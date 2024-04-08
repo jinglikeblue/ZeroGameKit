@@ -8,7 +8,7 @@ namespace Jing.Net
     /// TODO:
     /// 1.使用byte[]对象池来进行buff的管理
     /// </summary>
-    public class KCPHelper
+    public class KcpHelper
     {
         /// <summary>
         /// 是否打印日志
@@ -134,7 +134,7 @@ namespace Jing.Net
 
         #region 构造函数
 
-        public KCPHelper(Settings settings = null)
+        public KcpHelper(Settings settings = null)
         {
             if (null == settings)
             {

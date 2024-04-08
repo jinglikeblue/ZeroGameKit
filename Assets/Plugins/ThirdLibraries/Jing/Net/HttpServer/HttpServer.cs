@@ -49,7 +49,7 @@ namespace Jing.Net
 
             Port = port;
             _listener = new HttpListener();
-            new Thread(ListeningThread).Start();
+            Task.Run(ListeningThread);
             HttpUtility.Print($"服务启动线程: {Thread.CurrentThread.ManagedThreadId}");
         }
 
@@ -135,10 +135,19 @@ namespace Jing.Net
         {
             HttpUtility.Print($"服务占用线程: {Thread.CurrentThread.ManagedThreadId} 占用端口: {Port}");
 
-            // 设置监听的URL
-            _listener.Prefixes.Add($"http://*:{Port}/");
-            // 开始监听
-            _listener.Start();
+            try
+            {
+                // 设置监听的URL
+                _listener.Prefixes.Add($"http://*:{Port}/");
+                // 开始监听
+                _listener.Start();
+            }
+            catch (Exception e)
+            {
+                Log.E($"Http服务启动失败！");
+                Log.E(e);
+                _listener = null;
+            }
 
             while (null != _listener)
             {
@@ -148,9 +157,21 @@ namespace Jing.Net
                 //放到线程池中处理上下文
                 Task.Run(() =>
                 {
+                    #region 请求处理
+                    string responseContent;
                     try
                     {
-                        var responseContent = ProcessContext(context);
+                        responseContent = ProcessContext(context);
+                    }
+                    catch (Exception ex)
+                    {
+                        responseContent = ex.Message;
+                    }
+                    #endregion
+
+                    #region 返回数据
+                    try
+                    {
                         byte[] buffer = Encoding.UTF8.GetBytes(responseContent);
                         // 设置响应头信息
                         context.Response.ContentType = "text/plain; charset=utf-8";
@@ -168,6 +189,7 @@ namespace Jing.Net
                         // 关闭响应
                         context.Response.Close();
                     }
+                    #endregion
                 });
             }
         }

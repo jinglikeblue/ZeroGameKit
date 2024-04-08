@@ -56,7 +56,7 @@ namespace PingPong
             heartbeat.Refresh();
         }
 
-        private void KcpClientOnonReceivedData(KcpClient client, byte[] data)
+        private void KcpClientOnonReceivedData(IClient client, byte[] data)
         {
             var md5 = MD5Helper.GetShortMD5(new MemoryStream(data), true);
             Debug.Log($"收到协议 [size:{data.Length}] [md5:{md5}]");
@@ -75,7 +75,7 @@ namespace PingPong
             }
             Debug.Log($"停止CLIENT");
             _kcpClient.onReceivedData -= KcpClientOnonReceivedData;
-            _kcpClient.Dispose();
+            _kcpClient.Close(isSliently);
             _kcpClient = null;
 
             if (!isSliently)
@@ -118,8 +118,6 @@ namespace PingPong
 
         public void Update()
         {
-            _kcpClient?.Refresh();
-
             NetworkCheck();
         }
         

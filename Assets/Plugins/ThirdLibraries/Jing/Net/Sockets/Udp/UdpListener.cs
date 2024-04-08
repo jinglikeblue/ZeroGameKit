@@ -1,7 +1,8 @@
-﻿using Jing;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace Jing.Net
 {
@@ -10,134 +11,107 @@ namespace Jing.Net
     /// </summary>
     class UdpListener
     {
-        SocketAsyncEventArgs _receiveEA;
+        /// <summary>
+        /// 是否存活
+        /// </summary>
+        public bool IsAlive => _socket == null ? false : true;
 
-        public Socket Socket
-        {
-            get
-            {
-                return _socket;
-            }
-        }
+        public Socket Socket => _socket;
 
-        protected Socket _socket;
+        protected Socket _socket = null;
 
-        protected byte[] _receiveBuffer;
+        protected byte[] _receiveBuffer = null;
 
         /// <summary>
         /// 收到UDP数据的事件
         /// </summary>
-        public event UdpListenerReceivedDataEvent onReceivedData;
+        public event UdpListenerReceivedDataEvent? onReceivedData;
 
         /// <summary>
         /// 监听的端口
         /// </summary>
         public int Port { get; private set; }
 
-        IPEndPoint _localEndPoint;
+        EndPoint? _localEndPoint;
 
-        /// <summary>
-        /// 线程同步器
-        /// </summary>
-        ThreadSyncActions _tsa;
-
-        public UdpListener()
+        public Socket Bind(int port, int bufferSize)
         {
-           
-        }
-
-        public Socket Bind(int port, ushort bufferSize, ThreadSyncActions tsa)
-        {           
             Port = port;
             _receiveBuffer = new byte[bufferSize];
-            _tsa = tsa;
 
             _localEndPoint = new IPEndPoint(IPAddress.Any, port);
-
-            _receiveEA = new SocketAsyncEventArgs();
-            _receiveEA.Completed += OnAsyncEventCompleted;                        
-            _receiveEA.RemoteEndPoint = _localEndPoint;
 
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             _socket.Bind(_localEndPoint);
 
-            StartReceive();
-
+            //StartReceive();
+            //ReceiveLoop();
+            new Thread(ReceiveThread).Start();
             return _socket;
         }
 
-        /// <summary>
-        /// 开始接受数据
-        /// </summary>
-        protected void StartReceive()
+        void ReceiveThread()
         {
-            _receiveEA.SetBuffer(_receiveBuffer, 0, _receiveBuffer.Length);
+            EndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);            
 
-            if (!_socket.ReceiveFromAsync(_receiveEA))
-            {
-                ProcessReceive(_receiveEA);
+            while (_socket != null)
+            {                
+                var receivedBytes = _socket.ReceiveFrom(_receiveBuffer, ref remoteEndPoint);
+                if (0 == receivedBytes)
+                {
+                    break;
+                }
+
+                byte[] data = new byte[receivedBytes];
+                Array.Copy(_receiveBuffer, data, receivedBytes);
+                onReceivedData?.Invoke(remoteEndPoint, data);
             }
+
+            Dispose();
+        }
+
+        async void ReceiveLoop()
+        {
+
+            while (_socket != null)
+            {
+                var result = await _socket.ReceiveFromAsync(new ArraySegment<byte>(_receiveBuffer), SocketFlags.None, _localEndPoint);
+                if (0 == result.ReceivedBytes)
+                {
+                    break;
+                }
+
+                byte[] data = new byte[result.ReceivedBytes];
+                Array.Copy(_receiveBuffer, data, result.ReceivedBytes);
+                onReceivedData?.Invoke(result.RemoteEndPoint, data);
+            }
+
+            Dispose();
         }
 
         /// <summary>
         /// 销毁监听
         /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Dispose()
         {
-            if (null != _receiveEA)
-            {
-                _receiveEA.Completed -= OnAsyncEventCompleted;
-                _receiveEA = null;
-            }
-
             if (_socket != null)
             {
-                _socket.Close();
-                _socket.Dispose();
                 try
-                {                    
-                    _socket.Shutdown(SocketShutdown.Both);
+                {
+                    _socket.Shutdown(SocketShutdown.Receive);
                 }
                 catch
                 {
                 }
+                _socket.Close();
+                _socket.Dispose();
+
                 _socket = null;
             }
 
             onReceivedData = null;
             _receiveBuffer = null;
-            _tsa = null;
-        }
-
-        /// <summary>
-        /// 异步事件完成（多线程事件）
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnAsyncEventCompleted(object sender, SocketAsyncEventArgs e)
-        {
-            _tsa.AddToSyncAction(() => {
-                ProcessReceive(e);
-            });
-        }
-
-
-        /// <summary>
-        /// 处理接收到的消息
-        /// </summary>        
-        void ProcessReceive(SocketAsyncEventArgs e)
-        {
-            if (e.BytesTransferred > 0 && e.SocketError == SocketError.Success)
-            {                
-                byte[] data = new byte[e.BytesTransferred];
-                Array.Copy(e.Buffer, data, e.BytesTransferred);
-                onReceivedData?.Invoke(e.RemoteEndPoint, data);
-                StartReceive();
-            }
-            else
-            {
-                //Dispose();
-            }
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Jing
     /// </summary>
     public class TimeUtility
     {
-        //static readonly DateTime UNIX_EPOCH_TIME = new DateTime(1970, 1, 1, 0, 0, 0, 0);        
+        //static readonly DateTime UNIX_EPOCH_TIME = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 
         /// <summary>
         /// 以毫秒为单位当前UTC时间
@@ -16,10 +16,10 @@ namespace Jing
         public static long NowUtcMilliseconds
         {
             get
-            {                
+            {
                 return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
                 //TimeSpan tn = DateTime.UtcNow - UNIX_EPOCH_TIME;
-                //return Convert.ToInt64(tn.TotalMilliseconds);                
+                //return Convert.ToInt64(tn.TotalMilliseconds);
             }
         }
 
@@ -32,7 +32,7 @@ namespace Jing
             {
                 return DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                 //TimeSpan tn = DateTime.UtcNow - UNIX_EPOCH_TIME;
-                //return Convert.ToInt64(tn.TotalSeconds);                
+                //return Convert.ToInt64(tn.TotalSeconds);
             }
         }
     }

@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using Zero;
 using ZeroGameKit;
 using ZeroHot;
+using ThreadSyncActions = ZeroHot.ThreadSyncActions;
 
 namespace Example
 {
@@ -24,8 +25,6 @@ namespace Example
         {
             UIWinMgr.Ins.Open<UdpExampleWin>();
         }
-
-
     }
 
     class UdpExampleCommon
@@ -56,7 +55,6 @@ namespace Example
     }
 
 
-
     class UdpExampleWin : WithCloseButtonWin
     {
         UdpExampleClientControlView clientView;
@@ -81,13 +79,14 @@ namespace Example
 
         UdpClient client;
 
+        private ThreadSyncActions _tsa = new ThreadSyncActions();
+
         protected override void OnInit(object data)
         {
             base.OnInit(data);
             RefreshUI();
             textInputIP.text = UdpExampleCommon.LocalIP;
         }
-
 
 
         protected override void OnDestroy()
@@ -107,16 +106,7 @@ namespace Example
             //btnConnect.onClick.AddListener(Connect);
             btnSend.onClick.AddListener(Send);
 
-            StartCoroutine(Update());
-        }
-
-        IEnumerator Update()
-        {
-            while (true)
-            {
-                client?.Refresh();
-                yield return new WaitForEndOfFrame();
-            }
+            StartCoroutine(SyncThreadActions());
         }
 
         protected override void OnDisable()
@@ -127,6 +117,15 @@ namespace Example
             btnSend.onClick.RemoveListener(Send);
 
             StopAllCoroutines();
+        }
+
+        IEnumerator SyncThreadActions()
+        {
+            while (true)
+            {
+                _tsa?.RunSyncActions();
+                yield return null;
+            }
         }
 
         private void Send()
@@ -168,9 +167,12 @@ namespace Example
 
         private void OnReceivedData(UdpClient client, byte[] data)
         {
-            ByteArray ba = new ByteArray(data);
-            var msg = ba.ReadString();
-            L(Zero.LogColor.Zero2(msg));
+            _tsa.AddToSyncAction(() =>
+            {
+                ByteArray ba = new ByteArray(data);
+                var msg = ba.ReadString();
+                L(Zero.LogColor.Zero2(msg));
+            });
         }
 
         void RefreshUI()
@@ -193,6 +195,8 @@ namespace Example
         UdpServer server;
         UdpSendChannel sendChannel;
 
+        private ThreadSyncActions _tsa = new ThreadSyncActions();
+
         protected override void OnInit(object data)
         {
             base.OnInit(data);
@@ -207,8 +211,9 @@ namespace Example
             btnStart.onClick.AddListener(StartServer);
             btnStop.onClick.AddListener(StopServer);
 
-            StartCoroutine(Update());
+            StartCoroutine(SyncThreadActions());
         }
+
         protected override void OnDisable()
         {
             base.OnDisable();
@@ -219,15 +224,14 @@ namespace Example
             StopAllCoroutines();
         }
 
-        IEnumerator Update()
+        IEnumerator SyncThreadActions()
         {
             while (true)
             {
-                server?.Refresh();
-                yield return new WaitForEndOfFrame();
+                _tsa?.RunSyncActions();
+                yield return null;
             }
         }
-
 
         protected override void OnDestroy()
         {
@@ -242,24 +246,28 @@ namespace Example
                 server = new UdpServer();
                 server.onReceivedData += OnReceivedData;
                 server.Bind(UdpExample.SERVER_PORT, 4096);
-
             }
+
             RefreshButton();
         }
 
         private void OnReceivedData(UdpServer server, EndPoint ep, byte[] data)
         {
-            ByteArray ba = new ByteArray(data);
-            var msg = ba.ReadString();
-            L(Zero.LogColor.Zero2($"收到消息:{msg}"));
-
-            ba.Reset();
-            ba.Write($"服务器收到消息:{msg}");
-            if (sendChannel == null)
+            _tsa.AddToSyncAction(() =>
             {
-                sendChannel = server.CreateSendChannel(ep);
-            }
-            sendChannel.Send(ba.GetAvailableBytes());
+                ByteArray ba = new ByteArray(data);
+                var msg = ba.ReadString();
+                L(Zero.LogColor.Zero2($"收到消息:{msg}"));
+
+                ba.Reset();
+                ba.Write($"服务器收到消息:{msg}");
+                if (sendChannel == null)
+                {
+                    sendChannel = server.CreateSendChannel(ep);
+                }
+
+                sendChannel.Send(ba.GetAvailableBytes());
+            });
         }
 
         private void StopServer()
@@ -270,6 +278,7 @@ namespace Example
                 server.Dispose();
                 server = null;
             }
+
             RefreshButton();
         }
 
@@ -284,5 +293,6 @@ namespace Example
             textLog.text += "\r\n" + content;
         }
     }
+
     #endregion
 }

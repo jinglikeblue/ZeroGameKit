@@ -22,11 +22,9 @@ namespace Example
         {
             UIWinMgr.Ins.Open<TcpExampleWin>();
         }
-
-        
     }
 
-    class TcpExampleWin: WithCloseButtonWin
+    class TcpExampleWin : WithCloseButtonWin
     {
         TcpExampleClientControlView clientView;
         TcpExampleServerControlView serverView;
@@ -57,7 +55,6 @@ namespace Example
         }
 
 
-
         protected override void OnDestroy()
         {
             base.OnDestroy();
@@ -74,20 +71,7 @@ namespace Example
 
             btnConnect.onClick.AddListener(Connect);
             btnSend.onClick.AddListener(Send);
-
-            StartCoroutine(Update());
         }
-
-        IEnumerator Update()
-        {
-            while (true)
-            {
-                client?.Refresh();
-                yield return new WaitForEndOfFrame();
-            }
-        }
-
-
 
         protected override void OnDisable()
         {
@@ -103,13 +87,13 @@ namespace Example
         {
             var msg = textInput.text.Trim();
 
-            if(msg == string.Empty)
+            if (msg == string.Empty)
             {
                 L("发送内容不能为空!");
                 return;
             }
 
-            if(null == client || false == client.IsConnected)
+            if (null == client || false == client.IsConnected)
             {
                 L("服务器未连接!");
                 return;
@@ -132,7 +116,7 @@ namespace Example
                 client.onConnectSuccess += OnConnectSuccess;
                 client.onConnectFail += OnConnectFail;
                 client.onReceivedData += OnReceivedData;
-                client.onDisconnect += OnDisconnect;
+                client.onDisconnected += OnDisconnect;
                 client.Connect("127.0.0.1", TcpExample.PORT, 4096);
             }
             else
@@ -142,26 +126,26 @@ namespace Example
             }
         }
 
-        private void OnConnectSuccess(TcpClient client)
+        private void OnConnectSuccess(IClient client)
         {
             L("服务器连接成功!");
             RefreshUI();
         }
 
-        private void OnConnectFail(TcpClient client)
+        private void OnConnectFail(IClient client)
         {
             L("服务器连接失败!");
             RefreshUI();
         }
 
-        private void OnReceivedData(TcpClient client, byte[] data)
+        private void OnReceivedData(IClient client, byte[] data)
         {
             ByteArray ba = new ByteArray(data);
             var msg = ba.ReadString();
             L(Zero.LogColor.Zero2(msg));
         }
 
-        private void OnDisconnect(TcpClient client)
+        private void OnDisconnect(IClient client)
         {
             L("服务器连接断开!");
             RefreshUI();
@@ -174,12 +158,12 @@ namespace Example
         }
     }
 
-#endregion
+    #endregion
 
     #region Server
 
     class TcpExampleServerControlView : AView
-    {        
+    {
         public Button btnStart;
         public Button btnStop;
         public Text textLog;
@@ -202,6 +186,7 @@ namespace Example
 
             StartCoroutine(Update());
         }
+
         protected override void OnDisable()
         {
             base.OnDisable();
@@ -228,16 +213,16 @@ namespace Example
         }
 
         private void StartServer()
-        {            
-            if(null == server)
+        {
+            if (null == server)
             {
                 L("启动服务....");
                 server = new TcpServer();
                 server.onClientEnter += OnClientEnter;
-                server.onClientExit += OnClientExit;                
+                server.onClientExit += OnClientExit;
                 server.Start(TcpExample.PORT, 4096);
-                
             }
+
             RefreshButton();
         }
 
@@ -248,7 +233,7 @@ namespace Example
         }
 
         private void OnClientEnter(IChannel obj)
-        {            
+        {
             L("客户端链接....");
             obj.onReceivedData += OnReceivedData;
         }
@@ -257,23 +242,24 @@ namespace Example
         {
             ByteArray ba = new ByteArray(data);
             var msg = ba.ReadString();
-            L($"收到消息:{Zero.LogColor.Zero2(msg)}");            
+            L($"收到消息:{Zero.LogColor.Zero2(msg)}");
 
             ba.Reset();
             ba.Write($"服务器收到消息:{msg}");
-            sender.Send(ba.GetAvailableBytes());            
+            sender.Send(ba.GetAvailableBytes());
         }
 
         private void StopServer()
         {
             L("停止服务....");
-            if(server != null)
+            if (server != null)
             {
                 server.onClientEnter -= OnClientEnter;
                 server.onClientExit -= OnClientExit;
                 server.Close();
                 server = null;
             }
+
             RefreshButton();
         }
 
@@ -288,5 +274,6 @@ namespace Example
             textLog.text += "\r\n" + content;
         }
     }
+
     #endregion
 }

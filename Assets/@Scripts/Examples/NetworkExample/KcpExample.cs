@@ -40,8 +40,8 @@ namespace Example
         public Text textSendLog;
         public Text textReceiveLog;
 
-        KCPHelper _a = new KCPHelper();
-        KCPHelper _b = new KCPHelper();        
+        KcpHelper _a = new KcpHelper();
+        KcpHelper _b = new KcpHelper();        
 
         protected override void OnInit(object data)
         {

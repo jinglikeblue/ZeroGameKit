@@ -1,4 +1,6 @@
-﻿namespace Jing
+﻿using System.Threading.Tasks;
+
+namespace Jing
 {
     /// <summary>
     /// 逻辑指令基类
@@ -20,7 +22,7 @@
         public virtual void Terminate()
         {
             TerminateProcess();
-        }
+        }       
 
         /// <summary>
         /// 执行指令的处理

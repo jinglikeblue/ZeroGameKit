@@ -357,6 +357,10 @@ namespace Jing
         /// <returns></returns>
         public void Write(byte[] sourceBytes, int sourceIndex, int length)
         {
+            if (0 == length)
+            {
+                return;
+            }
             Array.Copy(sourceBytes, sourceIndex, Bytes, Pos, length);
             Available += length;
             MovePos(length);

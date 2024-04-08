@@ -1,83 +1,98 @@
-﻿using Jing;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Jing.Net
 {
     /// <summary>
     /// 基于UDP实现的KCP服务端
     /// </summary>
-    public class KcpServer
+    public class KcpServer : IServer
     {
         /// <summary>
         /// 新的客户端进入的事件
         /// </summary>
-        public event KcpServerClientEnterEvent onClientEnter;
+        public event ClientEnterEvent onClientEnter;
 
         /// <summary>
         /// 客户端退出的事件
         /// </summary>
-        public event KcpServerClientExitEvent onClientExit;
+        public event ClientExitEvent onClientExit;
 
         /// <summary>
         /// UDP服务
         /// </summary>
-        UdpServer _udpServer;
+        UdpServer? _udpServer;
 
         /// <summary>
         /// KCP通信通道表
         /// </summary>        
-        Dictionary<EndPoint, KcpChannel> _channelDic;
+        ConcurrentDictionary<EndPoint, KcpChannel>? _channelDic;
+
+        public bool IsAlive => _channelDic == null ? false : true;
 
         /// <summary>
         /// 启动KCP服务
         /// </summary>
         /// <param name="port">服务监听的端口</param>
         /// <param name="bufferSize">套接字缓冲区大小</param>
-        public void Start(int port, ushort bufferSize = 4096)
+        public void Start(int port, int bufferSize = 4096)
         {
             if (null == _udpServer)
             {
-                _channelDic = new Dictionary<EndPoint, KcpChannel>();
+                _channelDic = new ConcurrentDictionary<EndPoint, KcpChannel>();
                 _udpServer = new UdpServer();
                 _udpServer.onReceivedData += OnReceivedUdpData;
                 _udpServer.Bind(port, bufferSize);
+                CleanAllDeadChannelLoop();
             }
         }
 
         /// <summary>
         /// 关闭KCP服务
         /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Close()
         {
             if (null != _udpServer)
-            {                
+            {
                 _udpServer.Dispose();
                 _udpServer = null;
-                foreach(var channel in _channelDic.Values)
+                foreach (var channel in _channelDic.Values)
                 {
                     channel.Close();
                 }
+
                 _channelDic = null;
             }
         }
 
         /// <summary>
-        /// 该方法用来刷新Kcp服务
+        /// 清理断线的通道
         /// </summary>
-        public void Refresh()
+        async void CleanAllDeadChannelLoop()
         {
-            //刷新UDP服务
-            _udpServer.Refresh();
-
-            //刷新各个KCP通道
-            var channelList = _channelDic.Values.ToList();
-            var count = channelList.Count;
-            while(--count > -1)
+            while (null != _udpServer)
             {
-                channelList[count].Refresh();
-            }            
+                var endPoints = _channelDic.Keys.ToArray();
+                for (int i = 0; i < endPoints.Length; i++)
+                {
+                    var ep = endPoints[i];
+                    if (false == _channelDic[ep].IsConnected)
+                    {
+                        //链接断开了，清理掉
+                        if (_channelDic.TryRemove(ep, out var channel))
+                        {
+                            channel.Close();
+                        }
+                    }
+                }
+
+                await Task.Delay(10000);
+            }
         }
 
         /// <summary>
@@ -89,11 +104,11 @@ namespace Jing.Net
         private void OnReceivedUdpData(UdpServer server, EndPoint endPoint, byte[] data)
         {
             KcpChannel kcpChannel;
-            if (false == _channelDic.ContainsKey(endPoint))
+            if (false == _channelDic.ContainsKey(endPoint) || !_channelDic[endPoint].IsConnected)
             {
                 var udpSendChannel = _udpServer.CreateSendChannel(endPoint);
                 kcpChannel = new KcpChannel(udpSendChannel);
-                _channelDic.Add(endPoint, kcpChannel);
+                _channelDic[endPoint] = kcpChannel;
                 onClientEnter?.Invoke(kcpChannel);
             }
             else
@@ -101,7 +116,7 @@ namespace Jing.Net
                 kcpChannel = _channelDic[endPoint];
             }
 
-            kcpChannel.ProcessUdpReceivedData(data);            
+            kcpChannel.ProcessUdpReceivedData(data);
         }
     }
 }

@@ -3,6 +3,18 @@
 namespace Jing.Net
 {
     /// <summary>
+    /// 客户端进入的事件
+    /// </summary>
+    /// <param name="channel"></param>
+    public delegate void ClientEnterEvent(IChannel channel);
+
+    /// <summary>
+    /// 客户端退出的事件
+    /// </summary>
+    /// <param name="channel"></param>
+    public delegate void ClientExitEvent(IChannel channel);
+
+    /// <summary>
     /// 通道收到数据的事件
     /// </summary>
     /// <param name="sender"></param>
@@ -37,29 +49,33 @@ namespace Jing.Net
     /// <param name="data"></param>
     public delegate void UdpClientReceivedDataEvent(UdpClient client, byte[] data);
 
-    /// <summary>
-    /// WebSocketClient收到数据的事件
-    /// </summary>
-    /// <param name="client"></param>
-    /// <param name="data"></param>
-    public delegate void WebSocketClientReceivedDataEvent(WebSocketClient client, byte[] data);
+
+    #region Client 委托
 
     /// <summary>
-    /// KcpClient收到数据的事件
+    /// 连接服务器成功事件
     /// </summary>
-    /// <param name="client"></param>
-    /// <param name="data"></param>
-    public delegate void KcpClientReceivedDataEvent(KcpClient client, byte[] data);
+    /// <param name="client">客户端</param>
+    public delegate void ConnectServerSuccessEvent(IClient client);
 
     /// <summary>
-    /// KcpServer有Client进入的事件。建立了连接。
+    /// 连接服务器失败事件
     /// </summary>
-    /// <param name="channel"></param>
-    public delegate void KcpServerClientEnterEvent(IChannel channel);
+    /// <param name="client">客户端</param>
+    public delegate void ConnectServerFailEvent(IClient client);
 
     /// <summary>
-    /// KcpServer有Client退出的事件。断开了连接。
+    /// 收到服务器数据事件
     /// </summary>
-    /// <param name="channel"></param>
-    public delegate void KcpServerClientExitEvent(IChannel channel);
+    /// <param name="client">客户端</param>
+    /// <param name="data">数据</param>
+    public delegate void ReceivedServerDataEvent(IClient client, byte[] data);
+
+    /// <summary>
+    /// 和服务器连接断开的事件
+    /// </summary>
+    /// <param name="client">客户端</param>
+    public delegate void DisconnectedEvent(IClient client);
+
+    #endregion
 }

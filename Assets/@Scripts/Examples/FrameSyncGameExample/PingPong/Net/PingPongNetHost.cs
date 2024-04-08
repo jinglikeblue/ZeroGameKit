@@ -122,8 +122,6 @@ namespace PingPong
 
         public void Update()
         {
-            _kcpServer?.Refresh();  
-            
             NetworkCheck();
         }
         

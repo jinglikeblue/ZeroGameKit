@@ -2,40 +2,34 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 
 namespace Jing.Net
 {
-    public class UdpServer
+    public class UdpServer : IServer
     {
-        UdpListener _listener;
+        UdpListener? _listener;
+
+        public bool IsAlive => _listener == null ? false : true;
 
         /// <summary>
         /// 收到UDP数据的事件
         /// </summary>
-        public event UdpServerReceivedDataEvent onReceivedData;
+        public event UdpServerReceivedDataEvent? onReceivedData;
 
-        /// <summary>
-        /// 线程同步器，将异步方法同步到调用Refresh的线程中
-        /// </summary>
-        ThreadSyncActions _tsa = new ThreadSyncActions();        
+        public event ClientEnterEvent? onClientEnter;
+        public event ClientExitEvent? onClientExit;
 
-        /// <summary>
-        /// 刷新网络，如果网络线程中有收到数据，会触发onReceivedData事件回调数据。
-        /// </summary>
-        public void Refresh()
-        {            
-            _tsa.RunSyncActions();
-        }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Dispose()
         {
-            _tsa.Clear();
             if (_listener != null)
             {
                 _listener.Dispose();
                 _listener = null;
             }
-            onReceivedData = null;            
+
+            onReceivedData = null;
         }
 
         /// <summary>
@@ -43,19 +37,19 @@ namespace Jing.Net
         /// </summary>        
         /// <param name="localPort">监听的端口</param>
         /// <param name="bufferSize">每一个连接的缓冲区大小</param>
-        public void Bind(int localPort, ushort bufferSize)
+        public void Bind(int localPort, int bufferSize)
         {
-            Log.I($"Bind Udp Lisening {IPAddress.Any}:{localPort}");           
+            Log.I($"Lisening UDP Port: {IPAddress.Any}:{localPort}");
 
             _listener = new UdpListener();
             _listener.onReceivedData += OnReceivedData;
-            _listener.Bind(localPort, bufferSize, _tsa);
+            _listener.Bind(localPort, bufferSize);
         }
 
         private void OnReceivedData(EndPoint remoteEndPoint, byte[] data)
         {
             onReceivedData?.Invoke(this, remoteEndPoint, data);
-        }        
+        }
 
         /// <summary>
         /// 创建一个信息发送通道
@@ -64,7 +58,7 @@ namespace Jing.Net
         /// <returns></returns>
         public UdpSendChannel CreateSendChannel(EndPoint remoteEndPoint)
         {
-            var channel = new UdpSendChannel(_listener.Socket, remoteEndPoint, _tsa);
+            var channel = new UdpSendChannel(_listener.Socket, remoteEndPoint);
             return channel;
         }
 
@@ -89,6 +83,16 @@ namespace Jing.Net
             {
                 Broadcast(bytes, port);
             }
+        }
+
+        public void Start(int port, int bufferSize)
+        {
+            Bind(port, (ushort)bufferSize);
+        }
+
+        public void Close()
+        {
+            Dispose();
         }
     }
 }

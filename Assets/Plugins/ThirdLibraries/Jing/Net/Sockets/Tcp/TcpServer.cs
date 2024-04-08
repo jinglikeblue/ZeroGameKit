@@ -1,9 +1,12 @@
 ﻿using Jing;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Jing.Net
 {
@@ -11,24 +14,27 @@ namespace Jing.Net
     /// 提供基于TCP协议的套接字服务
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class TcpServer
+    public class TcpServer : IServer
     {
+        /// <summary>
+        /// 检查死连接的间隔
+        /// </summary>
+        const int CHECK_DEAD_CHANNEL_INTERVAL = 10 * 60 * 1000;
+
         /// <summary>
         /// 新的客户端进入的事件
         /// </summary>
-        public event Action<IChannel> onClientEnter;
+        public event ClientEnterEvent onClientEnter;
 
         /// <summary>
         /// 客户端退出的事件
         /// </summary>
-        public event Action<IChannel> onClientExit;
+        public event ClientExitEvent onClientExit;
 
         /// <summary>
-        /// 线程同步器，将异步方法同步到调用Refresh的线程中
+        /// 存活的通道字典
         /// </summary>
-        ThreadSyncActions _tsa = new ThreadSyncActions();
-
-        List<TcpChannel> _channelList = new List<TcpChannel>();
+        Dictionary<EndPoint, IChannel> _liveChannelsDict = new Dictionary<EndPoint, IChannel>();
 
         /// <summary>
         /// 监听的端口
@@ -36,20 +42,9 @@ namespace Jing.Net
         protected Socket _socket;
 
         /// <summary>
-        /// 断开的通道集合
-        /// </summary>
-        HashSet<TcpChannel> _shutdownSet = new HashSet<TcpChannel>();
-
-        /// <summary>
         /// 已连接的客户端总数
         /// </summary>
-        public int ClientCount
-        {
-            get
-            {
-                return _channelList.Count;
-            }
-        }
+        public int ClientCount { get; private set; } = 0;
 
         /// <summary>
         /// 缓冲区大小
@@ -67,16 +62,23 @@ namespace Jing.Net
 
             _bufferSize = bufferSize;
             _socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            try
+            _socket.Bind(new IPEndPoint(IPAddress.Any, port));
+            _socket.Blocking = false;
+            _socket.Listen(1000);
+            AcceptLoop();
+            CleanDeadChannelLoop();
+        }
+
+        /// <summary>
+        /// 接受连接的异步循环
+        /// </summary>
+        async void AcceptLoop()
+        {
+            while (_socket != null)
             {
-                _socket.Bind(new IPEndPoint(IPAddress.Any, port));
-                _socket.Blocking = false;
-                _socket.Listen(1000);
-                StartAccept(null);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
+                var clientSocket = await _socket.AcceptAsync();
+                //添加一个成功连接
+                Enter(clientSocket);
             }
         }
 
@@ -85,96 +87,91 @@ namespace Jing.Net
         /// </summary>
         public void Close()
         {
-            if(null != _socket)
-            {                
-                //_socket.Shutdown(SocketShutdown.Both);
-                _socket.Close();
+            if (null != _socket)
+            {
+                lock (_socket)
+                {
+                    try
+                    {
+                        _socket.Shutdown(SocketShutdown.Both);
+                    }
+                    catch
+                    {
+                    };
+                    _socket.Close();
+                }
                 _socket = null;
             }
         }
 
         public void Refresh()
         {
-            _tsa.RunSyncActions();
-            foreach(var channel in _channelList)
-            {
-                channel.Refresh();
-            }
-
-            //清理断开的通道
-            RefreshShutdownSet();
-        }
-
-        /// <summary>
-        /// 开始接受链接
-        /// </summary>
-        /// <param name="e"></param>
-        void StartAccept(SocketAsyncEventArgs e)
-        {
-            if (e == null)
-            {
-                e = new SocketAsyncEventArgs();
-                e.Completed += OnAcceptCompleted;
-            }
-            else
-            {
-                e.AcceptSocket = null;
-            }
-
-            bool willRaiseEvent = _socket.AcceptAsync(e);
-            if (!willRaiseEvent)
-            {
-                ProcessAccept(e);
-            }
-        }
-
-        /// <summary>
-        /// 接收到连接完成的事件（多线程事件）
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void OnAcceptCompleted(object sender, SocketAsyncEventArgs e)
-        {
-            _tsa.AddToSyncAction(() =>
-            {
-                ProcessAccept(e);
-            });
-        }
-
-        void ProcessAccept(SocketAsyncEventArgs e)
-        {
-            //添加一个成功链接
-            Enter(e.AcceptSocket);
-            StartAccept(e);
+            //异步编程模型下，不需要
         }
 
         void Enter(Socket clientSocket)
-        {            
-            TcpChannel channel = new TcpChannel(clientSocket, _bufferSize);           
+        {
+            TcpChannel channel = new TcpChannel(clientSocket, _bufferSize);
             channel.onChannelClosed += OnClientShutdown;
-            _channelList.Add(channel);            
+            AddChannelToLiveDict(channel);
+            onClientEnter?.Invoke(channel);
             Log.I($"新的连接，连接总数:{ClientCount}");
-            onClientEnter?.Invoke(channel);            
         }
-        
+
         private void OnClientShutdown(IChannel channel)
         {
             channel.onChannelClosed -= OnClientShutdown;
-            //先添加到集合，稍后处理，现在处理则ChannelList会异常
-            _shutdownSet.Add((TcpChannel)channel);            
+            RemoveChannelFromLiveDict(channel);
+            Log.I($"连接断开，连接总数:{ClientCount}");
         }
 
-        void RefreshShutdownSet()
+        /// <summary>
+        /// 添加通道到活跃字典
+        /// </summary>
+        /// <param name="channel"></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        void AddChannelToLiveDict(IChannel channel)
         {
-            if (_shutdownSet.Count > 0)
+            lock (_liveChannelsDict)
             {
-                foreach (var channel in _shutdownSet)
+                _liveChannelsDict[channel!.RemoteEndPoint] = channel;
+                ClientCount = _liveChannelsDict.Count;
+            }
+        }
+
+        /// <summary>
+        /// 移除活跃字典中，断开的通道
+        /// </summary>
+        /// <param name="channel"></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        void RemoveChannelFromLiveDict(IChannel channel)
+        {
+            lock (_liveChannelsDict)
+            {
+                //先添加到集合，稍后处理，现在处理则ChannelList会异常
+                _liveChannelsDict.Remove(channel!.RemoteEndPoint);
+                ClientCount = _liveChannelsDict.Count;
+            }
+        }
+
+        async void CleanDeadChannelLoop()
+        {
+            while (_socket != null)
+            {
+                lock (_liveChannelsDict)
                 {
-                    _channelList.Remove(channel);
-                    Log.I($"连接断开，连接总数:{ClientCount}");
-                    onClientExit?.Invoke(channel);
+                    var channelArr = _liveChannelsDict.Values.ToArray();
+                    foreach (var c in channelArr)
+                    {
+                        if (!c.IsConnected)
+                        {
+                            _liveChannelsDict.Remove(c.RemoteEndPoint);
+                        }
+                    }
+                    ClientCount = _liveChannelsDict.Count;
                 }
-                _shutdownSet.Clear();
+
+                await Task.Delay(CHECK_DEAD_CHANNEL_INTERVAL);
             }
         }
     }
