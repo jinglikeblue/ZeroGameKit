@@ -1,23 +1,32 @@
 ﻿using System;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace Jing.FixedPointNumber
 {
     /// <summary>
-    /// 定点数。精度为小数点后4位。
+    /// 定点数。
     /// fixed-point number。 
-    /// 注意：传入的数值，小数位超过4位时，数据可能失真。
     /// </summary>
     public struct Number
     {
+        /// <summary>
+        /// 是否使用BigInteger提高运算精度。
+        /// 为true时会牺牲一定的性能，但是不会造成数学运算时数据溢出的情况。
+        /// 为false时，运算性能会提高，但是数值过大时可能造成数学运算时数据溢出。
+        /// 建议没有性能瓶颈时，设置为true，提高精度。
+        /// </summary>
+        public const bool IS_USE_BIG_INTEGER = true;
+
         /// <summary>
         /// 总的位数
         /// </summary>
         public const int TOTAL_BIT_COUNT = sizeof(long) * 8;
 
         /// <summary>
-        /// 用于保存小数的位数，16位可以保留小数点后4位的进度
+        /// 用于保存小数的位数
         /// </summary>
-        public const int FRACTIONAL_BIT_COUNT = 16;
+        public const int FRACTIONAL_BIT_COUNT = 32;
 
         /// <summary>
         /// 用于保存整数的位数
@@ -31,13 +40,22 @@ namespace Jing.FixedPointNumber
         /// <summary>
         /// 最小值
         /// </summary>
-        public const long MIN_VALUE = long.MinValue >> TOTAL_BIT_COUNT;
+        public const long MIN_VALUE = long.MinValue >> FRACTIONAL_BIT_COUNT;
 
         /// <summary>
         /// 最大值
         /// </summary>
-        public const long MAX_VALUE = long.MaxValue >> TOTAL_BIT_COUNT;
+        public const long MAX_VALUE = long.MaxValue >> FRACTIONAL_BIT_COUNT;
 
+        /// <summary>
+        /// 最大值
+        /// </summary>
+        public readonly static Number MAX = new Number(MAX_VALUE);
+
+        /// <summary>
+        /// 最小值
+        /// </summary>
+        public readonly static Number MIN = new Number(MIN_VALUE);
 
         /// <summary>
         /// -1
@@ -453,6 +471,14 @@ namespace Jing.FixedPointNumber
 
         public static Number operator *(Number a, Number b)
         {
+            if (IS_USE_BIG_INTEGER)
+            {
+                var bigNumber = (BigInteger)a.Raw * b.Raw;
+                bigNumber += FRACTION_RANGE >> 1;
+                bigNumber >>= FRACTIONAL_BIT_COUNT;
+                return new Number(ConvertBigIntegerToLong(ref bigNumber));
+            }
+
             return new Number((a.Raw * b.Raw + (FRACTION_RANGE >> 1)) >> FRACTIONAL_BIT_COUNT);
         }
 
@@ -472,6 +498,13 @@ namespace Jing.FixedPointNumber
 
         public static Number operator /(Number a, Number b)
         {
+            if (IS_USE_BIG_INTEGER)
+            {
+                var bigNumber = ((BigInteger)a.Raw) << FRACTIONAL_BIT_COUNT;
+                bigNumber /= b.Raw;                
+                return new Number(ConvertBigIntegerToLong(ref bigNumber));
+            }
+
             return new Number((a.Raw << FRACTIONAL_BIT_COUNT) / b.Raw);
         }
 
@@ -519,7 +552,7 @@ namespace Jing.FixedPointNumber
 
         #region override operator >>
 
-        public static Number operator >> (Number a, int b)
+        public static Number operator >>(Number a, int b)
         {
             return new Number(a.Raw >> b);
         }
@@ -561,6 +594,27 @@ namespace Jing.FixedPointNumber
         public string Info
         {
             get { return $"[Number]  VALUE:{ToString()}  RAW:{_raw}  BINARY:{System.Convert.ToString(_raw, 2).PadLeft(TOTAL_BIT_COUNT, '-')}"; }
+        }
+
+        /// <summary>
+        /// 将BigInteger转换为long
+        /// </summary>
+        /// <param name="bigIngeter"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        static long ConvertBigIntegerToLong(ref BigInteger bigIngeter)
+        {            
+            if (bigIngeter > long.MaxValue)
+            {
+                return long.MaxValue;
+            }
+
+            if (bigIngeter < long.MinValue)
+            {
+                return long.MinValue;
+            }
+
+            return (long)bigIngeter;
         }
     }
 }
