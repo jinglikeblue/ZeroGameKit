@@ -27,7 +27,7 @@ namespace ZeroHot
         /// </summary>
         public GameObject gameObject { get; private set; }
 
-        /// <summary>
+        /// <summary>r
         /// 关联对象的Transform
         /// </summary>
         public Transform transform
@@ -38,6 +38,7 @@ namespace ZeroHot
                 {
                     return gameObject.transform;
                 }
+
                 return null;
             }
         }
@@ -58,7 +59,7 @@ namespace ZeroHot
         internal void SetGameObject(GameObject gameObject, object data = null)
         {
             this.gameObject = gameObject;
-            var isActive = this.gameObject.activeInHierarchy;            
+            var isActive = this.gameObject.activeInHierarchy;
 
             AutoReference();
 
@@ -68,6 +69,8 @@ namespace ZeroHot
             _z.onEnable += OnGameObjectEnable;
             _z.onDisable += OnGameObjectDisable;
             _z.onDestroy += OnGameObjectDestroy;
+
+            AutoBindingMethod();
 
             OnInit(data);
 
@@ -132,6 +135,34 @@ namespace ZeroHot
 
         #endregion
 
+        #region 事件方法自动绑定
+
+        private List<Action> _unbindingActionList;
+
+        /// <summary>
+        /// 自动绑定事件
+        /// </summary>
+        void AutoBindingMethod()
+        {
+            _unbindingActionList = AutoBindingHelper.TryBinding(this);
+        }
+
+        /// <summary>
+        /// 自动释放绑定方法
+        /// </summary>
+        void AutoReleaseBindingMethod()
+        {
+            if (null != _unbindingActionList)
+            {
+                foreach (var action in _unbindingActionList)
+                {
+                    action.Invoke();
+                }
+            }
+        }
+
+        #endregion
+
         private void OnGameObjectEnable()
         {
             OnEnable();
@@ -146,6 +177,7 @@ namespace ZeroHot
         {
             _z = null;
             gameObject = null;
+            AutoReleaseBindingMethod();
             OnDestroy();
             onDestroyed?.Invoke(this);
         }
@@ -160,14 +192,14 @@ namespace ZeroHot
             {
                 if (false == gameObject.activeInHierarchy)
                 {
-                    gameObject.SetActive(true);                    
+                    gameObject.SetActive(true);
                 }
             }
             else
             {
                 if (gameObject.activeInHierarchy)
-                {                    
-                    gameObject.SetActive(false);                    
+                {
+                    gameObject.SetActive(false);
                 }
             }
         }
@@ -205,6 +237,7 @@ namespace ZeroHot
             {
                 return null;
             }
+
             return child.GetComponent<T>();
         }
 
@@ -221,6 +254,7 @@ namespace ZeroHot
             {
                 return null;
             }
+
             return child.GetComponent<T>();
         }
 
@@ -256,6 +290,7 @@ namespace ZeroHot
             {
                 return child.gameObject;
             }
+
             return null;
         }
 
@@ -271,6 +306,23 @@ namespace ZeroHot
             {
                 return child.gameObject;
             }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 遍历所有子节点，找到GameObject
+        /// </summary>
+        /// <param name="gameObjectName"></param>
+        /// <returns></returns>
+        public GameObject FindChildGameObject(string gameObjectName)
+        {
+            var childTransform = TransformUtility.DeepFindChild(transform, gameObjectName);
+            if (null != childTransform)
+            {
+                return childTransform.gameObject;
+            }
+
             return null;
         }
 
@@ -284,7 +336,7 @@ namespace ZeroHot
         {
             var childGameObject = GetChildGameObject(childName);
 
-            if(null == childGameObject)
+            if (null == childGameObject)
             {
                 Debug.LogErrorFormat("CreateChildView<{0}>执行失败  找不到childName:{1}", typeof(T).FullName, childName);
             }
@@ -367,6 +419,7 @@ namespace ZeroHot
             {
                 return null;
             }
+
             return _z.StartCoroutine(routine);
         }
 
@@ -387,14 +440,11 @@ namespace ZeroHot
 
         #region 子类按需求重写实现的方法
 
-        private List<Action> _unbindingActionList;
-        
         /// <summary>
         /// 初始化方法
         /// </summary>
         protected virtual void OnInit(object data)
         {
-            _unbindingActionList = AutoButtonClickBindingAttribute.Check(this);
         }
 
         /// <summary>
@@ -402,7 +452,6 @@ namespace ZeroHot
         /// </summary>
         protected virtual void OnEnable()
         {
-
         }
 
         /// <summary>
@@ -410,7 +459,6 @@ namespace ZeroHot
         /// </summary>
         protected virtual void OnDisable()
         {
-
         }
 
         /// <summary>
@@ -418,13 +466,6 @@ namespace ZeroHot
         /// </summary>
         protected virtual void OnDestroy()
         {
-            if (null != _unbindingActionList)
-            {
-                foreach (var action in _unbindingActionList)
-                {
-                    action.Invoke();
-                }
-            }
         }
 
         #endregion
