@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Jing;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using ZeroHot;
@@ -12,7 +11,7 @@ namespace Zero
     /// 自动绑定事件 [PointerClickEventListener]
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class BindingUIClickAttribute : Attribute
+    public class BindingUIClickAttribute : BaseAutoBindingAttribute
     {
         /// <summary>
         /// 绑定的节点的名称
@@ -35,33 +34,19 @@ namespace Zero
         /// <returns></returns>
         public static List<Action> TryBinding(AView view)
         {
-            var type = view.GetType();
-
-            List<Action> unbindingActionList = new List<Action>();
-
-            //找到所有带标记的方法
-            var methodInfos = AttributeUtility.FindMethodInfos(type, typeof(BindingUIClickAttribute));
-            foreach (var mi in methodInfos)
-            {
-                var attributes = mi.GetCustomAttributes<BindingUIClickAttribute>();
-                foreach (var attribute in attributes)
-                {
-                    GameObject gameObject = null == attribute.gameObjectName
-                        ? view.gameObject
-                        : view.FindChildGameObject(attribute.gameObjectName);
-                    var unbindingAction = Binding(gameObject,
-                        (x) => { mi.Invoke(view, new object[] { gameObject }); });
-                    unbindingActionList.Add(unbindingAction);
-                }
-            }
-
-            return unbindingActionList.Count == 0 ? null : unbindingActionList;
+            return BindingMethods<AView, BindingUIClickAttribute>(view, BindingMethod);
         }
 
-        static Action Binding(GameObject gameObject, Action<PointerEventData> action)
+        private static Action BindingMethod(AView obj, MethodInfo mi, BindingUIClickAttribute attribute)
         {
+            //确定要绑定的GameObject对象
+            GameObject gameObject = null == attribute.gameObjectName ? obj.gameObject : obj.FindChildGameObject(attribute.gameObjectName);
+            //构建方法包装
+            Action<PointerEventData> action = ped => { mi.Invoke(obj, new object[] { gameObject }); };
+            //注册监听
             var component = ComponentUtil.AutoGet<PointerClickEventListener>(gameObject);
             component.onEvent += action;
+            //返回释放操作
             return () => { component.onEvent -= action; };
         }
     }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Jing;
-using UnityEngine;
+using System.Reflection;
 using ZeroHot;
 
 namespace Zero
@@ -10,36 +9,34 @@ namespace Zero
     /// 自动绑定GameObject的Update
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class BindingUpdateAttribute : Attribute
+    public class BindingUpdateAttribute : BaseAutoBindingAttribute
     {
         /// <summary>
         /// 检查绑定，如果满足绑定条件，则自动进行绑定，并且返回对应的解绑方法列表。
         /// </summary>
         /// <param name="view"></param>
-        /// <returns></returns>
+        /// <returns>返回事件对应的注销Action列表</returns>
         public static List<Action> TryBinding(AView view)
         {
-            var type = view.GetType();
-
-            List<Action> unbindingActionList = new List<Action>();
-
-            //找到所有带标记的方法
-            var methodInfos = AttributeUtility.FindMethodInfos(type, typeof(BindingUpdateAttribute));
-            foreach (var mi in methodInfos)
-            {
-                Action action = () => { mi.Invoke(view, null); };
-
-                var unbindingAction = Binding(view.gameObject, action);
-                unbindingActionList.Add(unbindingAction);
-            }
-
-            return unbindingActionList.Count == 0 ? null : unbindingActionList;
+            List<Action> unbindingActionList = BindingMethods<AView, BindingUpdateAttribute>(view, BindingMethod);
+            return unbindingActionList;
         }
 
-        static Action Binding(GameObject gameObject, Action action)
+        /// <summary>
+        /// 绑定方法
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="methodInfo"></param>
+        /// <param name="attribute"></param>
+        /// <returns>对应的解绑方法</returns>
+        private static Action BindingMethod(AView obj, MethodInfo methodInfo, BindingUpdateAttribute attribute)
         {
-            var component = ComponentUtil.AutoGet<UpdateEventListener>(gameObject);
+            //构建方法的包装器
+            Action action = () => { methodInfo.Invoke(obj, null); };
+            //处理触发条件
+            var component = ComponentUtil.AutoGet<UpdateEventListener>(obj.gameObject);
             component.onUpdate += action;
+            //包装释放方法并返回
             return () => { component.onUpdate -= action; };
         }
     }
