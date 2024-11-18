@@ -24,7 +24,7 @@ namespace Example
     /// MD5
     /// AES
     /// </summary>
-    class CryptoExampleWin: WithCloseButtonWin
+    class CryptoExampleWin : WithCloseButtonWin
     {
         public Toggle toggleMD5;
         public Toggle toggleAES;
@@ -50,8 +50,6 @@ namespace Example
             {
                 AESCrypto();
             }
-
-
         }
 
         void MD5Crypto()
@@ -77,6 +75,16 @@ namespace Example
             var output = sb.ToString();
 
             textOutput.text = output;
+
+
+            #region RSA测试
+
+            RSAHelper.GenerateKeyPair(out var p, out var s);
+            var rsaData = RSAHelper.EncryptString(p, input);
+            var rsaDecryptedStr = RSAHelper.DecryptString(s, rsaData);
+            Debug.Log($"[RSA] 测试结果: {rsaDecryptedStr}");
+
+            #endregion
         }
     }
 }
