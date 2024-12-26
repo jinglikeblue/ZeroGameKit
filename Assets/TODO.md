@@ -1,6 +1,9 @@
 
 # TODO
 ## List
+
+- 自动绑定AutoButtonClickBindingAttribute、BaseAutoBindingAttribute、BindingUIClickAttribute 这部分重新梳理，补全注释方便扩展
+
 - 重新整理资源，每个测试按钮改成独立加载资源包。加载动画搞一个。
 - 「资源名生成」功能里，顺便生成@Configs文件中的文件地址和名称
 
