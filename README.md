@@ -19,7 +19,7 @@
 - 重构自动绑定代码
 
 ## 2024-03-25
-- Jing基础库更新，增加HttpServer.cs可以启动一个建议的WEB服务。暂无用例，后续补充。
+- Jing基础库更新，增加HttpServer.cs可以启动一个简易的WEB服务。暂无用例，后续补充。
 
 ## 2024-03-14
 - LitJson弃用，改为Newtonsoft.Json
