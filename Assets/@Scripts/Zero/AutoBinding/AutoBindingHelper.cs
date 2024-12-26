@@ -11,6 +11,7 @@ namespace Zero
             List<Action> unbindingActionList = new List<Action>();
             unbindingActionList.AddRange(BindingUIClickAttribute.TryBinding(view));
             unbindingActionList.AddRange(BindingUpdateAttribute.TryBinding(view));
+            unbindingActionList.AddRange(AutoButtonClickBindingAttribute.Check(view));
             return unbindingActionList;
         }
     }

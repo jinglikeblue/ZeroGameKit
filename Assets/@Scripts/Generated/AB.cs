@@ -315,6 +315,14 @@ namespace ZeroHot
 			public const string VerticalScrollListDemoPanel_assetPath = "examples/turbocharged_scroll_list/VerticalScrollListDemoPanel.prefab";            
 		}
 
+		public sealed class EXAMPLES_UNITASK
+		{
+			public const string NAME = "examples/unitask.ab";
+
+			public const string UniTaskExampleWin = "UniTaskExampleWin.prefab";
+			public const string UniTaskExampleWin_assetPath = "examples/unitask/UniTaskExampleWin.prefab";            
+		}
+
 		public sealed class EXAMPLES_UNIWEBVIEW
 		{
 			public const string NAME = "examples/uniwebview.ab";
@@ -337,6 +345,14 @@ namespace ZeroHot
 
 			public const string VideoExampleWin = "VideoExampleWin.prefab";
 			public const string VideoExampleWin_assetPath = "examples/video/VideoExampleWin.prefab";            
+		}
+
+		public sealed class FONTS_POPPINS
+		{
+			public const string NAME = "fonts/poppins.ab";
+
+			public const string Poppins_Medium_ttf = "Poppins-Medium.ttf";
+			public const string Poppins_Medium_ttf_assetPath = "fonts/poppins/Poppins-Medium.ttf";            
 		}
 
 		public sealed class EXAMPLES_CROSS_DEPEND_TEST_A
@@ -625,14 +641,6 @@ namespace ZeroHot
 			public const string Target_assetPath = "examples/sokoban/prefabs/game/Target.prefab";            
 		}
 
-		public sealed class FONTS_POPPINS
-		{
-			public const string NAME = "fonts/poppins.ab";
-
-			public const string Poppins_Medium_ttf = "Poppins-Medium.ttf";
-			public const string Poppins_Medium_ttf_assetPath = "fonts/poppins/Poppins-Medium.ttf";            
-		}
-
         /// <summary>
         /// 创建视图的AssetBundle查找表（多个视图同名的话，则表中没有该视图的记录，因为不精确）
         /// </summary>
@@ -687,6 +695,7 @@ namespace ZeroHot
 			dic["HorizontalScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
 			dic["ScrollListDemoMenuPanel"] = "examples/turbocharged_scroll_list.ab";
 			dic["VerticalScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
+			dic["UniTaskExampleWin"] = "examples/unitask.ab";
 			dic["UniWebViewExampleWin"] = "examples/uniwebview.ab";
 			dic["CryptoExampleWin"] = "examples/utility.ab";
 			dic["VideoExampleWin"] = "examples/video.ab";

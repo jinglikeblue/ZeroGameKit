@@ -18,6 +18,8 @@ namespace ZeroHot
 
         public const string PICS_功能_PNG = "pics/功能.png";
 
+        public const string VIDEOS_SAMPLE_MP4 = "videos/Sample.mp4";
+
         public const string PICS_SCREENSHOTS_DEMO_0_PNG = "pics/ScreenShots/Demo_0.png";
 
         public const string PICS_SCREENSHOTS_DEMO_1_PNG = "pics/ScreenShots/Demo_1.png";
@@ -30,8 +32,6 @@ namespace ZeroHot
 
         public const string PICS_SCREENSHOTS_VIDEO_PNG = "pics/ScreenShots/Video.png";
 
-        public const string VIDEOS_SAMPLE_MP4 = "videos/Sample.mp4";
-
 
         static string[] allFilesList = new string[]
         {
@@ -39,13 +39,13 @@ namespace ZeroHot
             READ_ME_TXT,
             _隐私政策_TXT,
             PICS_功能_PNG,
+            VIDEOS_SAMPLE_MP4,
             PICS_SCREENSHOTS_DEMO_0_PNG,
             PICS_SCREENSHOTS_DEMO_1_PNG,
             PICS_SCREENSHOTS_DEMO_2_PNG,
             PICS_SCREENSHOTS_NET_PNG,
             PICS_SCREENSHOTS_SCROLLLIST_PNG,
             PICS_SCREENSHOTS_VIDEO_PNG,
-            VIDEOS_SAMPLE_MP4,
         };        	
 
         /// <summary>

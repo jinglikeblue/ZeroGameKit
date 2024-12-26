@@ -32,6 +32,7 @@ namespace ZeroGameKit
         const string GROUP_UNITY = "Unity用例";
         const string GROUP_VIDEO = "视频";
         const string GROUP_DEBUG = "调试";
+        const string GROUP_PLUGINS = "实用插件";
 
 
         Dictionary<string, MenuButtonGroupItem> _groupItemDic = new Dictionary<string, MenuButtonGroupItem>();
@@ -86,8 +87,9 @@ namespace ZeroGameKit
             AddBtn(GROUP_IOS, "iOS交互", IOSBridgeExample.Start);
 
             AddBtn(GROUP_ANDROID, "Android交互", AndroidBridgeExample.Start);
-            AddBtn(GROUP_DOTWEEN, "DoTween", DoTweenExample.Start);
-            AddBtn(GROUP_UNIWEBVIEW, "网页浏览", UniWebViewExample.Start);
+            AddBtn(GROUP_PLUGINS, "补间动画_DoTween", DoTweenExample.Start);
+            AddBtn(GROUP_PLUGINS, "网页浏览_UniWebView", UniWebViewExample.Start);
+            AddBtn(GROUP_PLUGINS, "异步任务_UniTask", UniTaskExample.Start);
             AddBtn(GROUP_FRAMEWORK, "单例使用示例", SingletonClassExample.Start);
             AddBtn(GROUP_FRAMEWORK, "消息窗口", MsgWinExample.Start);
             AddBtn(GROUP_FRAMEWORK, "配置使用示例", ConfigExample.Start);
