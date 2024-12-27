@@ -11,20 +11,14 @@ namespace Jing.FixedPointNumber
     public struct Number
     {
         /// <summary>
-        /// 是否使用BigInteger提高运算精度。
-        /// 为true时会牺牲一定的性能，但是不会造成数学运算时数据溢出的情况。
-        /// 为false时，运算性能会提高，但是数值过大时可能造成数学运算时数据溢出。
-        /// 建议没有性能瓶颈时，设置为true，提高精度。
-        /// </summary>
-        public const bool IS_USE_BIG_INTEGER = true;
-
-        /// <summary>
         /// 总的位数
         /// </summary>
         public const int TOTAL_BIT_COUNT = sizeof(long) * 8;
 
         /// <summary>
         /// 用于保存小数的位数
+        /// 如果整数部分比较大，建议设置为16，小数可以保留到小数点后4位
+        /// 如果要和double计算的精度相近，建议设置为32        
         /// </summary>
         public const int FRACTIONAL_BIT_COUNT = 32;
 
@@ -33,8 +27,19 @@ namespace Jing.FixedPointNumber
         /// </summary>
         public const int INTEGER_BIT_COUNT = TOTAL_BIT_COUNT - FRACTIONAL_BIT_COUNT;
 
+        /// <summary>
+        /// 小数位的掩码
+        /// </summary>
         public const long FRACTION_MASK = (long)(ulong.MaxValue >> INTEGER_BIT_COUNT);
+
+        /// <summary>
+        /// 整数位的掩码
+        /// </summary>
         public const long INTEGER_MASK = -1L & ~FRACTION_MASK;
+
+        /// <summary>
+        /// 小数的值的范围
+        /// </summary>
         public const long FRACTION_RANGE = FRACTION_MASK + 1;
 
         /// <summary>
@@ -223,6 +228,7 @@ namespace Jing.FixedPointNumber
         /// </summary>
         /// <param name="integer"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Number(int integer)
         {
             _raw = IntegerToRaw(integer);
@@ -234,6 +240,7 @@ namespace Jing.FixedPointNumber
         /// <param name="numerator">分子</param>
         /// <param name="denominator">分母</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Number(int numerator, int denominator)
         {
             _raw = NumeratorAndDenominatorToRaw(numerator, denominator);
@@ -242,7 +249,7 @@ namespace Jing.FixedPointNumber
         /// <summary>
         /// 是否是整数
         /// </summary>
-        /// <returns></returns>
+        /// <returns></returns>        
         public bool IsInteger
         {
             get { return (Raw & FRACTION_MASK) == 0; }
@@ -259,33 +266,39 @@ namespace Jing.FixedPointNumber
         public override string ToString()
         {
             double d = ToDouble();
-            return ToString(d);
+            return d.ToString();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int ToInt()
         {
             return (int)(Raw >> FRACTIONAL_BIT_COUNT);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short ToShort()
         {
             return (short)ToInt();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float ToFloat()
         {
             return (float)ToDouble();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double ToDouble()
         {
-            return (Raw >> FRACTIONAL_BIT_COUNT) + (Raw & FRACTION_MASK) / (double)FRACTION_RANGE;
+            return (double)_raw / ONE.Raw;
+            //return (Raw >> FRACTIONAL_BIT_COUNT) + (Raw & FRACTION_MASK) / (double)FRACTION_RANGE;
         }
 
         /// <summary>
         /// 转换为二进制
         /// </summary>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string ToBinary(bool isPadLeft = true)
         {
             string binary = Convert.ToString(Raw, 2);
@@ -303,7 +316,7 @@ namespace Jing.FixedPointNumber
 
         /// <summary>
         /// 获取小数部分
-        /// </summary>
+        /// </summary>        
         public Number FractionalPart => new Number(Raw & FRACTION_MASK);
 
         #endregion
@@ -311,17 +324,19 @@ namespace Jing.FixedPointNumber
         #region 重写运算符
 
         #region override operator <
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator <(Number a, Number b)
         {
             return a.Raw < b.Raw;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator <(int a, Number b)
         {
             return new Number(a) < b;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator <(Number a, int b)
         {
             return a < new Number(b);
@@ -330,17 +345,19 @@ namespace Jing.FixedPointNumber
         #endregion
 
         #region override operator >
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >(Number a, Number b)
         {
             return a.Raw > b.Raw;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >(int a, Number b)
         {
             return new Number(a) > b;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >(Number a, int b)
         {
             return a > new Number(b);
@@ -350,16 +367,19 @@ namespace Jing.FixedPointNumber
 
         #region override operator <=
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator <=(Number a, Number b)
         {
             return a.Raw <= b.Raw;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator <=(int a, Number b)
         {
             return new Number(a) <= b;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator <=(Number a, int b)
         {
             return a <= new Number(b);
@@ -369,16 +389,19 @@ namespace Jing.FixedPointNumber
 
         #region override operator >=
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >=(Number a, Number b)
         {
             return a.Raw >= b.Raw;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >=(int a, Number b)
         {
             return new Number(a) >= b;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >=(Number a, int b)
         {
             return a >= new Number(b);
@@ -388,16 +411,19 @@ namespace Jing.FixedPointNumber
 
         #region override operator ==
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator ==(Number a, Number b)
         {
             return a.Raw == b.Raw;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator ==(int a, Number b)
         {
             return new Number(a) == b;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator ==(Number a, int b)
         {
             return a == new Number(b);
@@ -407,16 +433,19 @@ namespace Jing.FixedPointNumber
 
         #region override operator !=
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(Number a, Number b)
         {
             return a.Raw != b.Raw;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(Number a, int b)
         {
             return a != new Number(b);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(int a, Number b)
         {
             return new Number(a) != b;
@@ -424,6 +453,7 @@ namespace Jing.FixedPointNumber
 
         #endregion
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override bool Equals(object obj)
         {
             return obj != null && GetType() == obj.GetType() && this == (Number)obj;
@@ -431,16 +461,19 @@ namespace Jing.FixedPointNumber
 
         #region override operator +
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator +(Number a, Number b)
         {
             return new Number(a.Raw + b.Raw);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator +(Number a, int b)
         {
             return a + new Number(b);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator +(int a, Number b)
         {
             return new Number(a) + b;
@@ -450,16 +483,19 @@ namespace Jing.FixedPointNumber
 
         #region override operator -
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator -(Number a, Number b)
         {
             return new Number(a.Raw - b.Raw);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator -(Number a, int b)
         {
             return a - new Number(b);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator -(int a, Number b)
         {
             return new Number(a) - b;
@@ -469,24 +505,37 @@ namespace Jing.FixedPointNumber
 
         #region override operator *
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator *(Number a, Number b)
         {
-            if (IS_USE_BIG_INTEGER)
-            {
-                var bigNumber = (BigInteger)a.Raw * b.Raw;
-                bigNumber += FRACTION_RANGE >> 1;
-                bigNumber >>= FRACTIONAL_BIT_COUNT;
-                return new Number(ConvertBigIntegerToLong(ref bigNumber));
-            }
+            if (a == ONE) return b;
+            else if (b == ONE) return a;
 
-            return new Number((a.Raw * b.Raw + (FRACTION_RANGE >> 1)) >> FRACTIONAL_BIT_COUNT);
+            var xlo = (ulong)(a.Raw & FRACTION_MASK);
+            var xhi = a.Raw >> FRACTIONAL_BIT_COUNT;
+            var ylo = (ulong)(b.Raw & FRACTION_MASK);
+            var yhi = b.Raw >> FRACTIONAL_BIT_COUNT;
+
+            var lolo = xlo * ylo;
+            var lohi = (long)xlo * yhi;
+            var hilo = xhi * (long)ylo;
+            var hihi = xhi * yhi;
+
+            var loResult = lolo >> FRACTIONAL_BIT_COUNT;
+            var midResult1 = lohi;
+            var midResult2 = hilo;
+            var hiResult = hihi << FRACTIONAL_BIT_COUNT;
+
+            return new Number((long)loResult + midResult1 + midResult2 + hiResult);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator *(Number a, int b)
         {
             return a * new Number(b);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator *(int a, Number b)
         {
             return new Number(a) * b;
@@ -496,23 +545,89 @@ namespace Jing.FixedPointNumber
 
         #region override operator /
 
-        public static Number operator /(Number a, Number b)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int CountLeadingZeroes(ulong x)
         {
-            if (IS_USE_BIG_INTEGER)
-            {
-                var bigNumber = ((BigInteger)a.Raw) << FRACTIONAL_BIT_COUNT;
-                bigNumber /= b.Raw;                
-                return new Number(ConvertBigIntegerToLong(ref bigNumber));
-            }
-
-            return new Number((a.Raw << FRACTIONAL_BIT_COUNT) / b.Raw);
+            var result = 0;
+            while ((x & 0xF000000000000000) == 0)
+            { result += 4; x <<= 4; }
+            while ((x & 0x8000000000000000) == 0)
+            { result += 1; x <<= 1; }
+            return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Number operator /(Number a, Number b)
+        {
+            if (b == ONE) return a;
+
+            var xl = a.Raw;
+            var yl = b.Raw;
+
+            if (yl == 0)
+            {
+                return MAX;
+            }
+
+            if (xl == 0)
+            {
+                return ZERO;
+            }
+
+            var remainder = (ulong)(xl >= 0 ? xl : -xl);
+            var divider = (ulong)(yl >= 0 ? yl : -yl);
+            var quotient = 0UL;
+            var bitPos = FRACTIONAL_BIT_COUNT + 1;
+
+            // If the divider is divisible by 2^n, take advantage of it.
+            while ((divider & 0xF) == 0 && bitPos >= 4)
+            {
+                divider >>= 4;
+                bitPos -= 4;
+            }
+
+            while (remainder != 0 && bitPos >= 0)
+            {
+                var shift = CountLeadingZeroes(remainder);
+                if (shift > bitPos)
+                {
+                    shift = bitPos;
+                }
+                remainder <<= shift;
+                bitPos -= shift;
+
+                var div = remainder / divider;
+                remainder %= divider;
+                quotient += div << bitPos;
+
+                //// Detect overflow
+                //if ((div & ~(0xFFFFFFFFFFFFFFFF >> bitPos)) != 0)
+                //{
+                //    return ((xl ^ yl) & MIN_VALUE) == 0 ? MaxValue : MinValue;
+                //}
+
+                remainder <<= 1;
+                --bitPos;
+            }
+
+            // rounding
+            ++quotient;
+            var result = (long)(quotient >> 1);
+            if (((xl ^ yl) & long.MinValue) != 0)
+            {
+                result = -result;
+            }
+
+            return new Number(result);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator /(Number a, int b)
         {
             return a / new Number(b);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator /(int a, Number b)
         {
             return new Number(a) / b;
@@ -521,18 +636,20 @@ namespace Jing.FixedPointNumber
         #endregion
 
         #region override operator %
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator %(Number a, Number b)
         {
             return new Number(
                 a.Raw == MIN_VALUE & b.Raw == -1 ? 0 : a.Raw % b.Raw);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator %(Number a, int b)
         {
             return a % new Number(b);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator %(int a, Number b)
         {
             return new Number(a) % b;
@@ -542,7 +659,7 @@ namespace Jing.FixedPointNumber
 
 
         #region override operator <<
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator <<(Number a, int b)
         {
             return new Number(a.Raw << b);
@@ -551,7 +668,7 @@ namespace Jing.FixedPointNumber
         #endregion
 
         #region override operator >>
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator >>(Number a, int b)
         {
             return new Number(a.Raw >> b);
@@ -559,7 +676,7 @@ namespace Jing.FixedPointNumber
 
         #endregion
 
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Number operator -(Number a)
         {
             a.Raw = -a.Raw;
@@ -567,15 +684,33 @@ namespace Jing.FixedPointNumber
         }
 
         #region override operator explicit 显示转换规则
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator int(Number a)
         {
             return a.ToInt();
         }
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Number(int a)
         {
             return new Number(a);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Number(float a)
+        {
+            throw new Exception("Wrong!");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Number(double a)
+        {
+            throw new Exception("Wrong!");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Number(long a)
+        {
+            throw new Exception("Wrong!");
         }
 
         #endregion
@@ -583,7 +718,7 @@ namespace Jing.FixedPointNumber
         #region override operator implicit 隐式转换规则
 
         #endregion
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()
         {
             return _raw.GetHashCode();
@@ -593,7 +728,7 @@ namespace Jing.FixedPointNumber
 
         public string Info
         {
-            get { return $"[Number]  VALUE:{ToString()}  RAW:{_raw}  BINARY:{System.Convert.ToString(_raw, 2).PadLeft(TOTAL_BIT_COUNT, '-')}"; }
+            get { return $"[Number]  VALUE:{ToString()}  RAW:{_raw}  BINARY:{Convert.ToString(_raw, 2).PadLeft(TOTAL_BIT_COUNT, '-')}"; }
         }
 
         /// <summary>
@@ -603,7 +738,7 @@ namespace Jing.FixedPointNumber
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static long ConvertBigIntegerToLong(ref BigInteger bigIngeter)
-        {            
+        {
             if (bigIngeter > long.MaxValue)
             {
                 return long.MaxValue;

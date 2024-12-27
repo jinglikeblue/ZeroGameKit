@@ -10,37 +10,37 @@ namespace Jing.FixedPointNumber
         /// <summary>
         /// π
         /// </summary>
-        public static Number PI => new Number(31416, 10000);
+        public static readonly Number PI = new Number(31416, 10000);
 
         /// <summary>
         /// 2π
         /// </summary>
-        public static Number TwoPI => PI * 2;
+        public static readonly Number TwoPI = PI * 2;
 
         /// <summary>
         /// π/2
         /// </summary>
-        public static Number HalfPI => PI / 2;
+        public static readonly Number HalfPI = PI / 2;
 
         /// <summary>
         /// 角度:360
         /// </summary>
-        public static Number Degree360 => (Number)360;
+        public static readonly Number Degree360 = (Number)360;
 
         /// <summary>
         /// 角度:180
         /// </summary>
-        public static Number Degree180 => (Number)180;
+        public static readonly Number Degree180 = (Number)180;
 
         /// <summary>
         /// 角度转弧度的系数： 弧度 = 角度 * 该变量
         /// </summary>
-        public static Number Deg2Rad => PI / 180;
+        public static readonly Number Deg2Rad = PI / 180;
 
         /// <summary>
         /// 弧度转角度的系数： 角度 = 弧度 * 该变量
         /// </summary>
-        public static Number Rad2Deg => 180 / PI;
+        public static readonly Number Rad2Deg = 180 / PI;
 
         /// <summary>
         /// 绝对值
