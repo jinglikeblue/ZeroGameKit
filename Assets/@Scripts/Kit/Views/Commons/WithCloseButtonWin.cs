@@ -58,7 +58,7 @@ namespace ZeroGameKit
             }
         }
 
-        [AutoButtonClickBinding]
+        [BindingButtonClick("BtnClose")]
         protected virtual void OnBtnCloseClick()
         {
             if (effectEnable)

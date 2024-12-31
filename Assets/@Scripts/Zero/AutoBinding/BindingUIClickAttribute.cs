@@ -42,7 +42,10 @@ namespace Zero
             //确定要绑定的GameObject对象
             GameObject gameObject = null == attribute.gameObjectName ? obj.gameObject : obj.FindChildGameObject(attribute.gameObjectName);
             //构建方法包装
-            Action<PointerEventData> action = ped => { mi.Invoke(obj, new object[] { gameObject }); };
+            Action<PointerEventData> action = ped =>
+            {
+                mi.Invoke(obj, new object[] { gameObject });
+            };
             //注册监听
             var component = ComponentUtil.AutoGet<PointerClickEventListener>(gameObject);
             component.onEvent += action;
