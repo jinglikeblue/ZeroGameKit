@@ -10,18 +10,28 @@ namespace ZeroEditor
     /// </summary>
     public class GameObjectSelector : Editor
     {
-        private static readonly Vector3[] FourCorners = new Vector3[4]; // Graphic 四点位置
-        private static readonly Vector3 LabelOffset = new Vector3(0, 3, 0); // Tips 位置偏移
+        /// <summary>
+        /// 四点位置
+        /// </summary>
+        private static readonly Vector3[] FourCorners = new Vector3[4];
 
+        /// <summary>
+        /// 文本样式
+        /// </summary>
         private static readonly GUIStyle LabelStyle = new GUIStyle
-            { fontSize = 13, alignment = TextAnchor.MiddleLeft, normal = { textColor = Color.green } }; // Tips 文本样式
+        {
+            fontSize = 13,
+            fontStyle = FontStyle.Bold, 
+            alignment = TextAnchor.MiddleLeft, 
+            normal = { textColor = Color.green },
+        }; 
 
         private const float Size = 5; // 按钮大小
         private static readonly Vector3 Offset = new Vector3(Size, -Size, 0); // 左上按钮显示位置偏移
 
         private static HashSet<long> _posUsedSet = new HashSet<long>();
         private static Vector3 _tempLabelPos = Vector3.zero;
-        
+
         static bool m_enabled;
 
         public static bool Enabled
@@ -55,8 +65,7 @@ namespace ZeroEditor
             var allGraphics = currentPrefabStage != null ? currentPrefabStage.prefabContentsRoot.GetComponentsInChildren<Graphic>() : FindObjectsOfType<Graphic>();
 
             _posUsedSet.Clear();
-
-            var labelOffset = LabelOffset;
+            
             //开始绘制GUI 
             foreach (var g in allGraphics)
             {
@@ -69,10 +78,10 @@ namespace ZeroEditor
                 {
                     continue;
                 }
-                
+
                 var scale = g.canvas.rootCanvas.transform.localScale.x;
                 var buttonSize = Size * scale;
-                
+
                 var color = Color.green;
                 Handles.color = color;
                 g.rectTransform.GetWorldCorners(FourCorners);
@@ -111,17 +120,10 @@ namespace ZeroEditor
                     && ray.origin.y < buttonPosition.y + buttonSize
                     && ray.origin.y > buttonPosition.y - buttonSize)
                 {
-                    // Debug.Log("clicked");
-                    var fullName = g.gameObject.name;//HierarchyEditorUtility.GetNodePath(g.gameObject);
-
+                    var fullName = g.gameObject.name; 
                     _tempLabelPos.x = buttonPosition.x + buttonSize + 1;
                     _tempLabelPos.y = buttonPosition.y;
-                    // var pos = new Vector3(buttonPosition.x + buttonSize + 1, buttonPosition.y, FourCorners[1].z);
-                    // pos.x += (buttonPosition.x - Size);
-                    // pos.y += labelOffset.y;
-                    // pos.y *= scale;
                     Handles.Label(_tempLabelPos, fullName, LabelStyle);
-                    // labelOffset.y += LabelOffset.y;
                 }
             }
         }
