@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
@@ -10,14 +11,17 @@ namespace ZeroEditor
     public class GameObjectSelector : Editor
     {
         private static readonly Vector3[] FourCorners = new Vector3[4]; // Graphic 四点位置
-        private static readonly Vector3 LabelOffset = new Vector3(-5, 10, 0); // Tips 位置偏移
+        private static readonly Vector3 LabelOffset = new Vector3(0, 3, 0); // Tips 位置偏移
 
         private static readonly GUIStyle LabelStyle = new GUIStyle
-            { fontSize = 13, alignment = TextAnchor.MiddleLeft, normal = { textColor = Color.white } }; // Tips 文本样式
+            { fontSize = 13, alignment = TextAnchor.MiddleLeft, normal = { textColor = Color.green } }; // Tips 文本样式
 
         private const float Size = 5; // 按钮大小
         private static readonly Vector3 Offset = new Vector3(Size, -Size, 0); // 左上按钮显示位置偏移
 
+        private static HashSet<long> _posUsedSet = new HashSet<long>();
+        private static Vector3 _tempLabelPos = Vector3.zero;
+        
         static bool m_enabled;
 
         public static bool Enabled
@@ -50,6 +54,9 @@ namespace ZeroEditor
             var currentPrefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
             var allGraphics = currentPrefabStage != null ? currentPrefabStage.prefabContentsRoot.GetComponentsInChildren<Graphic>() : FindObjectsOfType<Graphic>();
 
+            _posUsedSet.Clear();
+
+            var labelOffset = LabelOffset;
             //开始绘制GUI 
             foreach (var g in allGraphics)
             {
@@ -58,37 +65,63 @@ namespace ZeroEditor
                     continue;
                 }
 
-                var scale = g.canvas.rootCanvas.transform.localScale.x;
-
-                if (g.enabled && g.gameObject.activeInHierarchy)
+                if (false == g.enabled || false == g.gameObject.activeInHierarchy)
                 {
-                    var color = Color.green;
-                    Handles.color = color;
-                    g.rectTransform.GetWorldCorners(FourCorners);
+                    continue;
+                }
+                
+                var scale = g.canvas.rootCanvas.transform.localScale.x;
+                var buttonSize = Size * scale;
+                
+                var color = Color.green;
+                Handles.color = color;
+                g.rectTransform.GetWorldCorners(FourCorners);
 
-                    var buttonPosition = FourCorners[1] + Offset * scale;
+                var buttonPosition = FourCorners[1] + Offset * scale;
+                var posX = (long)buttonPosition.x;
+                var posY = (long)buttonPosition.y;
+                long key = posX << 32 | posY;
 
-                    if (Handles.Button(buttonPosition, Quaternion.identity, Size * scale, 0, Handles.RectangleHandleCap))
+                while (_posUsedSet.Contains(key))
+                {
+                    buttonPosition.y += (buttonSize * 2);
+                    posX = (long)buttonPosition.x;
+                    posY = (long)buttonPosition.y;
+                    key = posX << 32 | posY;
+                }
+
+                _posUsedSet.Add(key);
+
+                if (Handles.Button(buttonPosition, Quaternion.identity, buttonSize, 0, Handles.RectangleHandleCap))
+                {
+                    var current = Event.current;
+                    if (current.control)
                     {
-                        var current = Event.current;
-                        if (current.control)
-                        {
-                            //判断点击时是否按下了Ctrl键
-                            Debug.Log(HierarchyEditorUtility.GetNodePath(g.gameObject));
-                        }
-                        else
-                        {
-                            Selection.activeObject = g.gameObject;
-                        }
+                        //判断点击时是否按下了Ctrl键
+                        Debug.Log(HierarchyEditorUtility.GetNodePath(g.gameObject));
                     }
-
-                    if (ray.origin.x < buttonPosition.x + Size * scale / 2
-                        && ray.origin.x > buttonPosition.x - Size * scale / 2
-                        && ray.origin.y < buttonPosition.y + Size * scale / 2
-                        && ray.origin.y > buttonPosition.y - Size * scale / 2)
+                    else
                     {
-                        Handles.Label(ray.origin + LabelOffset * scale, g.gameObject.name, LabelStyle);
+                        Selection.activeObject = g.gameObject;
                     }
+                }
+
+                if (ray.origin.x < buttonPosition.x + buttonSize
+                    && ray.origin.x > buttonPosition.x - buttonSize
+                    && ray.origin.y < buttonPosition.y + buttonSize
+                    && ray.origin.y > buttonPosition.y - buttonSize)
+                {
+                    // Debug.Log("clicked");
+                    var fullName = g.gameObject.name;//HierarchyEditorUtility.GetNodePath(g.gameObject);
+
+                    _tempLabelPos.x = buttonPosition.x + buttonSize + 1;
+                    _tempLabelPos.y = buttonPosition.y;
+                    // var pos = new Vector3(buttonPosition.x + buttonSize + 1, buttonPosition.y, FourCorners[1].z);
+                    // pos.x += (buttonPosition.x - Size);
+                    // pos.y += labelOffset.y;
+                    // pos.y *= scale;
+                    Handles.Label(_tempLabelPos, fullName, LabelStyle);
+                    // labelOffset.y += LabelOffset.y;
                 }
             }
         }
