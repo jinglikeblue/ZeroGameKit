@@ -15,27 +15,28 @@ namespace ZeroEditor
         static void CopyPath()
         {
             var objs = Selection.gameObjects;
-            if(objs.Length == 1)
+            if (objs.Length == 1)
             {
                 List<string> list = new List<string>();
                 var obj = objs[0];
-                while(obj != null)
-                {
-                    list.Add(obj.name);
-                    if(obj.transform.parent != null)
-                    {
-                        obj = obj.transform.parent.gameObject;                        
-                    }
-                    else
-                    {
-                        obj = null;
-                    }                    
-                }
-
-                list.Reverse();
-
-                var path = "";
-                path = FileUtility.CombinePaths(list.ToArray());
+                var path = HierarchyEditorUtility.GetNodePath(obj);
+                // while(obj != null)
+                // {
+                //     list.Add(obj.name);
+                //     if(obj.transform.parent != null)
+                //     {
+                //         obj = obj.transform.parent.gameObject;                        
+                //     }
+                //     else
+                //     {
+                //         obj = null;
+                //     }                    
+                // }
+                //
+                // list.Reverse();
+                //
+                // var path = "";
+                // path = FileUtility.CombinePaths(list.ToArray());
                 GUIUtility.systemCopyBuffer = path;
             }
             else
