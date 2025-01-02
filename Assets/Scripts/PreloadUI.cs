@@ -7,12 +7,11 @@ namespace Demo
 {
     public class PreloadUI : MonoBehaviour
     {
-
         public Text text;
         public Toggle toggle;
 
         void Start()
-        {    
+        {
             SetProgress(0, 1);
 
             var vo = LauncherSetting.LoadLauncherSettingDataFromResources();
@@ -22,16 +21,22 @@ namespace Demo
             launcher.onProgress += SetProgress;
 
             launcher.onStateChange += (state) =>
-            {                
+            {
                 Debug.Log("Preload State Change: " + state);
                 if (state == Launcher.EState.STARTUP)
                 {
+                    var content = GameObject.Find("ILContent");
+                    if (content != null)
+                    {
+                        Destroy(content);
+                    }
+
                     GameObject.Destroy(this.gameObject);
                 }
             };
 
             //从这里启动Ppreload
-            launcher.Start();            
+            launcher.Start();
         }
 
         private void SetProgress(long loadedSize, long totalSize)
