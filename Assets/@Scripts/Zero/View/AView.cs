@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEditor;
 using UnityEngine;
 using Zero;
 
@@ -87,37 +86,44 @@ namespace ZeroHot
 
         #region 变量自动引用
 
+        private static readonly Dictionary<Type, Dictionary<string, FieldInfo>> FieldDictCacheDict = new();
+
         void AutoReference()
         {
-            Dictionary<string, FieldInfo> fieldDic = new Dictionary<string, FieldInfo>();
             var type = GetType();
-            var fields = GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            var mbType = typeof(UnityEngine.Object);
-            foreach (var field in fields)
+            if (false == FieldDictCacheDict.TryGetValue(type, out Dictionary<string, FieldInfo> fieldDict))
             {
-                var t = field.GetType();
-                if (field.FieldType.IsSubclassOf(mbType))
+                fieldDict = new Dictionary<string, FieldInfo>();
+                var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                var mbType = typeof(UnityEngine.Object);
+                foreach (var field in fields)
                 {
-                    fieldDic[field.Name.ToLower()] = field;
+                    if (field.FieldType.IsSubclassOf(mbType))
+                    {
+                        fieldDict[field.Name.ToLower()] = field;
+                    }
                 }
+
+                FieldDictCacheDict.Add(type, fieldDict);
             }
 
-            if (fieldDic.Count > 0)
+            if (fieldDict.Count > 0)
             {
-                AutoReference(transform, fieldDic);
+                AutoReference(transform, fieldDict);
             }
         }
 
         void AutoReference(Transform t, Dictionary<string, FieldInfo> dic)
         {
             var name = t.name.ToLower();
+
             if (dic.ContainsKey(name))
             {
-                if (dic[name].FieldType.Equals(GAME_OBJECT_TYPE))
+                if (GAME_OBJECT_TYPE == dic[name].FieldType)
                 {
                     dic[name].SetValue(this, t.gameObject);
                 }
-                else if (dic[name].FieldType.Equals(TRANSFORM_TYPE))
+                else if (TRANSFORM_TYPE == dic[name].FieldType)
                 {
                     dic[name].SetValue(this, t);
                 }
