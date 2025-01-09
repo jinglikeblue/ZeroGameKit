@@ -10,7 +10,14 @@ namespace Demo
         public Text text;
         public Toggle toggle;
 
-        void Start()
+        private void Start()
+        {
+            var btnStartupT = TransformUtility.DeepFindChild(this.transform, "BtnStartup");
+            var btnStartup = btnStartupT.GetComponent<Button>();
+            btnStartup.onClick.AddListener(Startup);
+        }
+
+        private void Startup()
         {
             SetProgress(0, 1);
 
