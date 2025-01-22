@@ -1118,10 +1118,10 @@ MonoBehaviour:
   data:
     isLogEnable: 1
     builtinResMode: 0
-    hotResMode: 2
+    hotResMode: 0
     netRoots:
     - http://192.168.1.26/zero/res
-    isUseDll: 0
+    isUseDll: 1
     isLoadPdb: 1
     ilType: 0
 --- !u!114 &1440188156
@@ -1473,7 +1473,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5, y: 6}
+  m_AnchoredPosition: {x: -5.000061, y: 6}
   m_SizeDelta: {x: -30, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1819858726
