@@ -56,7 +56,12 @@ namespace Zero
         /// <summary>
         /// 是否加载PDB
         /// </summary>
-        public bool IsLoadPdb => VO.isLoadPdb;
+        public bool IsLoadPdb => IsUseDll && VO.isLoadPdb;
+        
+        /// <summary>
+        /// 是否调试DLL
+        /// </summary>
+        public bool IsDebugDll => IsUseDll && VO.isDebugDll;
 
         /// <summary>
         /// 本地数据

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Zero
 {
@@ -42,6 +39,10 @@ namespace Zero
         /// <param name="error"></param>
         protected virtual void End(string error = null)
         {
+            if (null != error)
+            {
+                Debug.LogError($"[{GetType().Name}] {error}");
+            }
             this.error = error;
             onComplete?.Invoke(this);
         }

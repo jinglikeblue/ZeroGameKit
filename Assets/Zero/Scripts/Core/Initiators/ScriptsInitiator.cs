@@ -1,16 +1,32 @@
 ﻿using Jing;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
 {
     internal class ScriptsInitiator : BaseInitiator
     {
+        /// <summary>
+        /// 热更DLL路径
+        /// </summary>
+        private string HotDllPath => FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".dll");
+
+        /// <summary>
+        /// 是否存在热更DLL
+        /// </summary>
+        bool IsHotDllExist => File.Exists(HotDllPath);
+        
+        /// <summary>
+        /// 是否存在内嵌DLL
+        /// </summary>
+        bool IsBuiltinDllExist => Runtime.Ins.streamingAssetsResInitiator.IsResExist;
+        
+        /// <summary>
+        /// 是否存在DLL
+        /// </summary>
+        bool IsDllExist => IsHotDllExist || IsBuiltinDllExist;
+        
         internal override void Start()
         {
             base.Start();
@@ -22,6 +38,20 @@ namespace Zero
                 isUseDll = false;
             }
 
+            #region 如果是调试模式，并且存在DLL，那么就使用DLL
+
+            if (false == isUseDll)
+            {
+                if (Runtime.Ins.IsDebugDll && IsDllExist)
+                {
+                    Debug.Log(LogColor.Zero1("进入Dll调试模式"));
+                    isUseDll = true;
+                }
+            }
+
+            #endregion
+
+            
             if (isUseDll)
             {
                 StartupWithDll();
@@ -59,12 +89,10 @@ namespace Zero
             //初始化IL
             ILBridge.Ins.Startup();
         }
-
-
-
+        
         byte[] LoadDllBytes()
         {
-            string dllPath = FileUtility.CombinePaths( Runtime.Ins.localResDir, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".dll");
+            string dllPath = HotDllPath;
             if (File.Exists(dllPath))
             {
                 return File.ReadAllBytes(dllPath);
@@ -74,7 +102,7 @@ namespace Zero
             {
                 return Runtime.Ins.streamingAssetsResInitiator.scriptDllBytes;
             }
-            
+
 
             throw new Exception($"DLL加载出错： {dllPath}");
         }
@@ -91,7 +119,7 @@ namespace Zero
             {
                 return Runtime.Ins.streamingAssetsResInitiator.scriptPdbBytes;
             }
-            
+
             throw new Exception($"PDB加载出错： {pdbPath}");
         }
     }

@@ -55,10 +55,16 @@ namespace Zero
         [LabelText("加载pdb"), ShowIf("isUseDll")]
         [OnValueChanged("OnValueChanged")]
         public bool isLoadPdb = true;
+        
+        [InfoBox("如果dll存在的情况下，优先加载dll", InfoMessageType.Warning, VisibleIf = "$isDebugDll")]
+        [LabelText("调试模式"), ShowIf("isUseDll")]
+        [OnValueChanged("OnValueChanged")]
+        public bool isDebugDll = false;
 
         [LabelText("DLL执行方式"), ValueDropdown("ILType"), ShowIf("isUseDll")]
         [OnValueChanged("OnValueChanged")]
         [OnValueChanged("OnILTypeChanged")]
+        [HideInInspector]
         public EILType ilType = EILType.NONE;
 
 #if UNITY_EDITOR
