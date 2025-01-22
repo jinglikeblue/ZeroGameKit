@@ -34,7 +34,7 @@ namespace ZeroEditor
 
         private void OnSceneSaved(Scene scene)
         {
-            Save(Target.data);
+            Save(Target.data, false);
         }
 
         private void OnSettingChanged()
