@@ -10,7 +10,7 @@ namespace Example
     {
         public static void Start()
         {
-            var text = ConfigMgr.Ins.LoadTextConfig("隐私政策.txt");
+            var text = ConfigMgr.Ins.LoadTextConfig("privacy_policy.txt");
             var win = MsgWin.Show("隐私政策", text);
             win.SetContentAlignment(TextAnchor.UpperLeft);
         }

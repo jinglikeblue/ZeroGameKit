@@ -175,12 +175,17 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 	// System.Comparison<Example.ArrayUtilityExample.TestVO>
 	// System.Comparison<Sokoban.SortTool.SortItemVO<object,object>>
 	// System.Comparison<object>
+	// System.Func<object,byte>
 	// System.Func<object,int>
 	// System.Func<object,object,byte>
 	// System.Func<object,object>
 	// System.Func<object,uint>
 	// System.Func<object>
 	// System.Func<uint,int>
+	// System.Linq.Enumerable.Iterator<object>
+	// System.Linq.Enumerable.WhereArrayIterator<object>
+	// System.Linq.Enumerable.WhereEnumerableIterator<object>
+	// System.Linq.Enumerable.WhereListIterator<object>
 	// System.Nullable<int>
 	// System.Predicate<Example.ArrayUtilityExample.TestVO>
 	// System.Predicate<Sokoban.SortTool.SortItemVO<object,object>>
@@ -208,7 +213,11 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 		// object Newtonsoft.Json.JsonConvert.DeserializeObject<object>(string,Newtonsoft.Json.JsonSerializerSettings)
 		// object System.Activator.CreateInstance<object>()
 		// object[] System.Array.Empty<object>()
+		// System.Collections.Generic.IEnumerable<object> System.Linq.Enumerable.Where<object>(System.Collections.Generic.IEnumerable<object>,System.Func<object,bool>)
 		// object System.Reflection.CustomAttributeExtensions.GetCustomAttribute<object>(System.Reflection.MemberInfo)
+		// System.Collections.Generic.IEnumerable<object> System.Reflection.CustomAttributeExtensions.GetCustomAttributes<object>(System.Reflection.MemberInfo,bool)
+		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter,Example.UniTaskExampleWin.<StartLoopShow>d__3>(Cysharp.Threading.Tasks.UniTask.Awaiter&,Example.UniTaskExampleWin.<StartLoopShow>d__3&)
+		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.Start<Example.UniTaskExampleWin.<StartLoopShow>d__3>(Example.UniTaskExampleWin.<StartLoopShow>d__3&)
 		// object& System.Runtime.CompilerServices.Unsafe.As<object,object>(object&)
 		// System.Void* System.Runtime.CompilerServices.Unsafe.AsPointer<object>(object&)
 		// byte UnityEngine.AndroidJNIHelper.ConvertFromJNIArray<byte>(System.IntPtr)

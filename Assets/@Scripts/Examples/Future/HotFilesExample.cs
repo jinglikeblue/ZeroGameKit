@@ -88,8 +88,8 @@ namespace Example
 
         private void LoadPrivacyPolicy()
         {
-            L($"加载 {HotFiles._隐私政策_TXT}");
-            this.StartCoroutine(LoadText(HotFiles._隐私政策_TXT));                               
+            L($"加载 {HotFiles.PRIVACY_POLICY_TXT}");
+            this.StartCoroutine(LoadText(HotFiles.PRIVACY_POLICY_TXT));                               
         }
 
         IEnumerator LoadText(string path)

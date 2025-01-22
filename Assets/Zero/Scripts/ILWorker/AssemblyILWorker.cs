@@ -26,8 +26,9 @@ namespace Zero
                     assembly = Assembly.Load(assemblyBytes, pdbBytes);
                 }                
             }
-            catch
+            catch(Exception e)
             {
+                Debug.LogError(e);
                 assembly = null;
             }
             return assembly;

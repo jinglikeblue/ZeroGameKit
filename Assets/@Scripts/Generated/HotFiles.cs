@@ -12,11 +12,9 @@ namespace ZeroHot
     public sealed class HotFiles
     {
         
+        public const string PRIVACY_POLICY_TXT = "privacy_policy.txt";
+
         public const string READ_ME_TXT = "read_me.txt";
-
-        public const string _隐私政策_TXT = "隐私政策.txt";
-
-        public const string PICS_功能_PNG = "pics/功能.png";
 
         public const string VIDEOS_SAMPLE_MP4 = "videos/Sample.mp4";
 
@@ -36,9 +34,8 @@ namespace ZeroHot
         static string[] allFilesList = new string[]
         {
             
+            PRIVACY_POLICY_TXT,
             READ_ME_TXT,
-            _隐私政策_TXT,
-            PICS_功能_PNG,
             VIDEOS_SAMPLE_MP4,
             PICS_SCREENSHOTS_DEMO_0_PNG,
             PICS_SCREENSHOTS_DEMO_1_PNG,

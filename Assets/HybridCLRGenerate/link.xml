@@ -101,10 +101,31 @@
     <type fullname="Jing.DateTimeExtend" preserve="all" />
     <type fullname="Jing.FileUtility" preserve="all" />
     <type fullname="Jing.FixedPointNumber.Number" preserve="all" />
-    <type fullname="Jing.KCPHelper" preserve="all" />
-    <type fullname="Jing.KCPHelper/Settings" preserve="all" />
     <type fullname="Jing.MD5Helper" preserve="all" />
     <type fullname="Jing.MsgPacker" preserve="all" />
+    <type fullname="Jing.Net.ClientEnterEvent" preserve="all" />
+    <type fullname="Jing.Net.ClientExitEvent" preserve="all" />
+    <type fullname="Jing.Net.ConnectServerFailEvent" preserve="all" />
+    <type fullname="Jing.Net.ConnectServerSuccessEvent" preserve="all" />
+    <type fullname="Jing.Net.DisconnectedEvent" preserve="all" />
+    <type fullname="Jing.Net.IChannel" preserve="all" />
+    <type fullname="Jing.Net.IClient" preserve="all" />
+    <type fullname="Jing.Net.KcpClient" preserve="all" />
+    <type fullname="Jing.Net.KcpHelper" preserve="all" />
+    <type fullname="Jing.Net.KcpHelper/Settings" preserve="all" />
+    <type fullname="Jing.Net.KcpServer" preserve="all" />
+    <type fullname="Jing.Net.ReceivedDataEvent" preserve="all" />
+    <type fullname="Jing.Net.ReceivedServerDataEvent" preserve="all" />
+    <type fullname="Jing.Net.TcpClient" preserve="all" />
+    <type fullname="Jing.Net.TcpServer" preserve="all" />
+    <type fullname="Jing.Net.UdpClient" preserve="all" />
+    <type fullname="Jing.Net.UdpClientReceivedDataEvent" preserve="all" />
+    <type fullname="Jing.Net.UdpSendChannel" preserve="all" />
+    <type fullname="Jing.Net.UdpServer" preserve="all" />
+    <type fullname="Jing.Net.UdpServerReceivedDataEvent" preserve="all" />
+    <type fullname="Jing.Net.WebSocketClient" preserve="all" />
+    <type fullname="Jing.Net.WebSocketServer" preserve="all" />
+    <type fullname="Jing.RSAHelper" preserve="all" />
     <type fullname="Jing.SocketUtility" preserve="all" />
     <type fullname="Jing.StringUtility" preserve="all" />
     <type fullname="Jing.TemporaryStorageThreadSafe" preserve="all" />
@@ -120,23 +141,6 @@
     <type fullname="Jing.TurbochargedScrollList.TurbochargedGridScrollList" preserve="all" />
     <type fullname="Jing.TurbochargedScrollList.VerticalLayoutSettings" preserve="all" />
     <type fullname="Jing.TurbochargedScrollList.VerticalScrollList" preserve="all" />
-    <type fullname="One.IChannel" preserve="all" />
-    <type fullname="One.KcpClient" preserve="all" />
-    <type fullname="One.KcpClientReceivedDataEvent" preserve="all" />
-    <type fullname="One.KcpServer" preserve="all" />
-    <type fullname="One.KcpServerClientEnterEvent" preserve="all" />
-    <type fullname="One.KcpServerClientExitEvent" preserve="all" />
-    <type fullname="One.ReceivedDataEvent" preserve="all" />
-    <type fullname="One.TcpClient" preserve="all" />
-    <type fullname="One.TcpServer" preserve="all" />
-    <type fullname="One.UdpClient" preserve="all" />
-    <type fullname="One.UdpClientReceivedDataEvent" preserve="all" />
-    <type fullname="One.UdpSendChannel" preserve="all" />
-    <type fullname="One.UdpServer" preserve="all" />
-    <type fullname="One.UdpServerReceivedDataEvent" preserve="all" />
-    <type fullname="One.WebSocketClient" preserve="all" />
-    <type fullname="One.WebSocketClientReceivedDataEvent" preserve="all" />
-    <type fullname="One.WebSocketServer" preserve="all" />
     <type fullname="behaviac.Agent" preserve="all" />
     <type fullname="behaviac.CustomFileManager" preserve="all" />
     <type fullname="behaviac.EBTStatus" preserve="all" />
@@ -177,12 +181,18 @@
   </assembly>
   <assembly fullname="System.Core">
     <type fullname="System.Collections.Generic.HashSet`1" preserve="all" />
+    <type fullname="System.Linq.Enumerable" preserve="all" />
   </assembly>
   <assembly fullname="System.Xml">
     <type fullname="System.Xml.XmlDocument" preserve="all" />
     <type fullname="System.Xml.XmlElement" preserve="all" />
     <type fullname="System.Xml.XmlNode" preserve="all" />
     <type fullname="System.Xml.XmlNodeList" preserve="all" />
+  </assembly>
+  <assembly fullname="UniTask">
+    <type fullname="Cysharp.Threading.Tasks.PlayerLoopTiming" preserve="all" />
+    <type fullname="Cysharp.Threading.Tasks.UniTask" preserve="all" />
+    <type fullname="Cysharp.Threading.Tasks.UniTask/Awaiter" preserve="all" />
   </assembly>
   <assembly fullname="UnityEngine.AndroidJNIModule">
     <type fullname="UnityEngine.AndroidJavaClass" preserve="all" />
@@ -317,6 +327,8 @@
     <type fullname="System.IO.Path" preserve="all" />
     <type fullname="System.IO.SearchOption" preserve="all" />
     <type fullname="System.IO.Stream" preserve="all" />
+    <type fullname="System.IO.StringReader" preserve="all" />
+    <type fullname="System.IO.TextReader" preserve="all" />
     <type fullname="System.Int16" preserve="all" />
     <type fullname="System.Int32" preserve="all" />
     <type fullname="System.Int64" preserve="all" />
@@ -335,8 +347,11 @@
     <type fullname="System.Reflection.MethodInfo" preserve="all" />
     <type fullname="System.Reflection.ParameterInfo" preserve="all" />
     <type fullname="System.Reflection.PropertyInfo" preserve="all" />
+    <type fullname="System.Runtime.CompilerServices.AsyncStateMachineAttribute" preserve="all" />
+    <type fullname="System.Runtime.CompilerServices.AsyncVoidMethodBuilder" preserve="all" />
     <type fullname="System.Runtime.CompilerServices.CompilationRelaxationsAttribute" preserve="all" />
     <type fullname="System.Runtime.CompilerServices.CompilerGeneratedAttribute" preserve="all" />
+    <type fullname="System.Runtime.CompilerServices.IAsyncStateMachine" preserve="all" />
     <type fullname="System.Runtime.CompilerServices.IteratorStateMachineAttribute" preserve="all" />
     <type fullname="System.Runtime.CompilerServices.RuntimeCompatibilityAttribute" preserve="all" />
     <type fullname="System.Runtime.CompilerServices.RuntimeHelpers" preserve="all" />
@@ -346,6 +361,7 @@
     <type fullname="System.String" preserve="all" />
     <type fullname="System.Text.Encoding" preserve="all" />
     <type fullname="System.Text.StringBuilder" preserve="all" />
+    <type fullname="System.Threading.CancellationToken" preserve="all" />
     <type fullname="System.Threading.Interlocked" preserve="all" />
     <type fullname="System.Threading.Monitor" preserve="all" />
     <type fullname="System.Threading.Thread" preserve="all" />
