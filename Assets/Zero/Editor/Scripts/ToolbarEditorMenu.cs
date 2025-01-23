@@ -29,7 +29,7 @@ namespace ZeroEditor
             GenerateCodeEditorWin.Open();
         }
 
-        [MenuItem("Zero/发布构建/iOS构建自动化配置", false, 150)]
+        [MenuItem("Zero/Platform/iOS构建自动化配置", false, 150)]
         public static void IosProjectInit()
         {
             IOS.IOSProjectInitEditorWin.Open();
@@ -97,7 +97,7 @@ namespace ZeroEditor
             RedundancyResourcesCleanToolsEditorWin.Open();
         }
         
-        [MenuItem("Zero/快捷操作/HybridCLR一键搞定", false, 450)]
+        [MenuItem("Zero/HybridCLR一键处理", false, 450)]
         public static void HybridCLROneClickForAll()
         {
             HybridCLREditorUtility.OneClickForAll();

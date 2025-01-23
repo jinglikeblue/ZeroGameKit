@@ -49,7 +49,7 @@ namespace ZeroEditor
                 var targetPath = FileUtility.CombinePaths(targetDir, assembly + ".bytes");
 
                 FileUtility.CopyFile(sourcePath, targetPath, true);
-                Debug.Log(LogColor.Zero2($"拷贝了元数据补充程序集: {targetPath}"));
+                Debug.Log(LogColor.Zero2($"拷贝了元数据补充程序集: [{sourcePath}] => [{targetPath}]"));
             }
         }
 
@@ -59,6 +59,11 @@ namespace ZeroEditor
         [MenuItem("Test/HybridCLR/OneClickForAll")]
         public static void OneClickForAll()
         {
+            if (false == EditorUtility.DisplayDialog("提示", "耗时较长，是否继续？", "继续", "取消"))
+            {
+                return;
+            }
+            
             //检测HybridCLR安装情况
             AutoInstallHybridCLR();
             //生成一次热更DLL代码
