@@ -90,10 +90,18 @@ namespace ZeroEditor
         [Button("拷贝到内嵌资源目录", ButtonSizes.Large), PropertyOrder(901)]
         void CopyToBuiltinDir()
         {
+            CopyToBuiltinDir(true);
+        }
+        
+        void CopyToBuiltinDir(bool isRefreshAssetDatabase)
+        {
             if (EditorUtility.DisplayDialog("确定窗口", "确定拷贝构建内容到'StreamingAssets/res'？", "是", "否"))
             {
                 FileUtility.CopyDir(ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.STREAMING_ASSETS_RES_DATA_PATH);
-                AssetDatabase.Refresh();
+                if (isRefreshAssetDatabase)
+                {
+                    AssetDatabase.Refresh();
+                }
             }            
         }
 
@@ -136,7 +144,7 @@ namespace ZeroEditor
             if (isCopyToBuiltinDir)
             {
                 EditorUtility.DisplayProgressBar("构建内嵌资源", "开始拷贝资源到内嵌目录", 0f);
-                CopyToBuiltinDir();
+                CopyToBuiltinDir(false);
             }
 
             if (isOpenPublishDir)
