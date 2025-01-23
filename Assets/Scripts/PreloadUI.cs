@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zero;
 
@@ -8,7 +9,15 @@ namespace Demo
     public class PreloadUI : MonoBehaviour
     {
         public Text text;
-        public Toggle toggle;
+        public Toggle toggleOffLineMode;
+        public Toggle toggleUseDll;
+
+        LauncherSettingData data => LauncherSetting.LoadLauncherSettingDataFromResources();
+
+        private void Awake()
+        {
+            toggleUseDll.isOn = data.isUseDll;
+        }
 
         private void Start()
         {
@@ -22,7 +31,8 @@ namespace Demo
             SetProgress(0, 1);
 
             var vo = LauncherSetting.LoadLauncherSettingDataFromResources();
-            var launcher = new Launcher(vo, toggle.isOn);
+            vo.isUseDll = toggleUseDll.isOn;
+            var launcher = new Launcher(vo, toggleOffLineMode.isOn);
 
             //Preload preload = GetComponent<Preload>();
             launcher.onProgress += SetProgress;
