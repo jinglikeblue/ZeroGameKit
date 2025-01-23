@@ -30,7 +30,7 @@ namespace Example
 
         void OnBtnCalculateClick()
         {
-            int count = ReadInputCount();
+            long count = ReadInputCount();
             if (count > 0)
             {
                 StartTest(count);
@@ -40,7 +40,7 @@ namespace Example
         /// <summary>
         /// 开始测试
         /// </summary>
-        protected virtual void StartTest(int count)
+        protected virtual void StartTest(long count)
         {
             _watcher.Restart();
             btnCalculate.enabled = false;
@@ -66,13 +66,13 @@ namespace Example
         /// 以数字形式读取输入的数
         /// </summary>
         /// <returns></returns>
-        protected int ReadInputCount()
+        protected long ReadInputCount()
         {
-            int count;  
+            long count;  
             
             try
             {
-                count = int.Parse(inputFieldCount.text);
+                count = long.Parse(inputFieldCount.text.Trim());
             }
             catch
             {

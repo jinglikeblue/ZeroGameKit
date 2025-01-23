@@ -2078,10 +2078,10 @@ MonoBehaviour:
   data:
     isLogEnable: 1
     builtinResMode: 0
-    hotResMode: 0
+    hotResMode: 1
     netRoots:
     - http://192.168.1.26/zero/res
-    isUseDll: 1
+    isUseDll: 0
     isLoadPdb: 1
     isDebugDll: 1
     ilType: 0

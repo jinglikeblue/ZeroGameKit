@@ -13,11 +13,11 @@ namespace Example
             base.OnInit(data);
 
             inputFieldCount.text = "1000000";
+            inputFieldCount.characterLimit = 10;
         }
 
-        protected override void StartTest(int count)
+        protected override void StartTest(long count)
         {
-            count *= 100;
             base.StartTest(count);
 
             
@@ -29,7 +29,7 @@ namespace Example
             base.EndTest();
         }
 
-        int FibonacciSequence(int count)
+        int FibonacciSequence(long count)
         {
             int result = 0;
             int last = 1;

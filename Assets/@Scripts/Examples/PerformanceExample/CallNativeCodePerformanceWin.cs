@@ -24,7 +24,7 @@ namespace Example
             
         }
 
-        protected override void StartTest(int count)
+        protected override void StartTest(long count)
         {
             base.StartTest(count);
 

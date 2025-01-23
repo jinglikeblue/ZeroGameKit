@@ -69,7 +69,14 @@ namespace Demo
             vo.isUseDll = toggleUseDll.isOn;
             vo.builtinResMode = toggleHotPatchMode.isOn ? EBuiltinResMode.HOT_PATCH : EBuiltinResMode.ONLY_USE;
             vo.isLogEnable = toggleLog.isOn;
+            if (false == Application.isEditor)
+            {
+                //如果是真机，那么必须使用该模式
+                vo.hotResMode = EHotResMode.NET_ASSET_BUNDLE;    
+            }
+            
             var launcher = new Launcher(vo, toggleOffLineMode.isOn);
+            
 
             //Preload preload = GetComponent<Preload>();
             launcher.onProgress += SetProgress;
