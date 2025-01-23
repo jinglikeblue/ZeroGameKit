@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using UnityEngine;
 
 namespace Example
 {
@@ -18,15 +17,14 @@ namespace Example
 
         protected override void StartTest(long count)
         {
+            long amount = 0;
             base.StartTest(count);
-
-            
-            
-            FibonacciSequence(count);
-            
-
-            
+            amount += FibonacciSequence(count);
             base.EndTest();
+            if (amount <= 0)
+            {
+                Debug.Log(amount);    
+            }
         }
 
         int FibonacciSequence(long count)
