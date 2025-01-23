@@ -17,6 +17,7 @@ namespace Example
 
         protected override void StartTest(int count)
         {
+            count *= 100;
             base.StartTest(count);
 
             
