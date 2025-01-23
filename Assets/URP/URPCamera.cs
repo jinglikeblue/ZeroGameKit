@@ -7,14 +7,10 @@ public class URPCamera : MonoBehaviour
 
     public Camera Camera
     {
-        get
-        {
-            return _camera;
-        }
+        get { return _camera; }
     }
 
-    [Header("渲染层级(值越大越靠上)")]
-    public int priority = 0;
+    [Header("渲染层级(值越大越靠上)")] public int priority = 0;
 
     bool _lastCameraEnable;
 
@@ -22,6 +18,10 @@ public class URPCamera : MonoBehaviour
 
     private void Awake()
     {
+#if UNITY_2020_1_OR_NEWER
+        DestroyImmediate(this);
+        return;
+#endif
         _camera = GetComponent<Camera>();
         _lastPriority = priority;
         Debug.Log($"Awake");

@@ -15,10 +15,17 @@ public static class URPCameraManager
 
     public static void UpdateCamera(URPCamera urpCamera)
     {
-        Debug.Log($"[URP Camera] {urpCamera.gameObject.name} use:{urpCamera.Camera.isActiveAndEnabled}");
+        if (null == urpCamera || null == urpCamera.gameObject)
+        {
+            return;
+        }
+        
+        bool isCameraActive = null != urpCamera.Camera && urpCamera.Camera.isActiveAndEnabled;
+
+        Debug.Log($"[URP Camera] {urpCamera.gameObject.name} use:{isCameraActive}");
 
         //筛选出要使用的相机集合
-        if (urpCamera.Camera.isActiveAndEnabled)
+        if (isCameraActive)
         {
             if (false == _urpCameraSet.Contains(urpCamera))
             {
