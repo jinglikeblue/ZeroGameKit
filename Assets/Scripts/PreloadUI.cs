@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -11,12 +12,18 @@ namespace Demo
         public Text text;
         public Toggle toggleOffLineMode;
         public Toggle toggleUseDll;
+        public Toggle toggleHotPatchMode;
+        public Toggle toggleLog;
+        public Text textNetRoots;
 
         LauncherSettingData data => LauncherSetting.LoadLauncherSettingDataFromResources();
 
         private void Awake()
         {
             toggleUseDll.isOn = data.isUseDll;
+            toggleHotPatchMode.isOn = data.builtinResMode == EBuiltinResMode.HOT_PATCH;
+            toggleLog.isOn = data.isLogEnable;
+            RefreshUI();
         }
 
         private void Start()
@@ -26,12 +33,42 @@ namespace Demo
             btnStartup.onClick.AddListener(Startup);
         }
 
+        private void OnEnable()
+        {
+            toggleHotPatchMode.onValueChanged.AddListener((isOn) =>
+            {
+                RefreshUI();
+            });
+        }
+
+        void RefreshUI()
+        {
+            toggleOffLineMode.gameObject.SetActive(toggleHotPatchMode.isOn);
+            if (toggleHotPatchMode.isOn)
+            {
+                StringBuilder sb = new StringBuilder("网络资源地址：");
+                for (int i = 0; i < data.netRoots.Length; i++)
+                {
+                    sb.AppendLine();
+                    sb.Append($"[{i}]: {data.netRoots[i]}");
+                }
+                
+                textNetRoots.text = sb.ToString();
+            }
+            else
+            {
+                textNetRoots.text = string.Empty;
+            }
+        }
+
         private void Startup()
         {
             SetProgress(0, 1);
 
             var vo = LauncherSetting.LoadLauncherSettingDataFromResources();
             vo.isUseDll = toggleUseDll.isOn;
+            vo.builtinResMode = toggleHotPatchMode.isOn ? EBuiltinResMode.HOT_PATCH : EBuiltinResMode.ONLY_USE;
+            vo.isLogEnable = toggleLog.isOn;
             var launcher = new Launcher(vo, toggleOffLineMode.isOn);
 
             //Preload preload = GetComponent<Preload>();
