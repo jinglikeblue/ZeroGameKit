@@ -11,17 +11,14 @@ namespace ZeroEditor
 {
     [CustomEditor(typeof(LauncherSetting))]
     public class LauncherSettingCustomEditor : OdinEditor
-    {       
+    {
         LauncherSetting Target
         {
-            get
-            {
-                return this.target as LauncherSetting;
-            }            
-        }                
+            get { return this.target as LauncherSetting; }
+        }
 
         override protected void OnEnable()
-        {                    
+        {
             Target.data = Load();
             Target.data.onChange += OnSettingChanged;
             Target.data.onILTypeChanged += OnILTypeChanged;
@@ -78,9 +75,9 @@ namespace ZeroEditor
                 _cache = new LauncherSettingData();
                 _isDirty = true;
             }
-            
+
             CheckHybridCLRInstallState();
-            
+
             return _cache;
         }
 
@@ -89,10 +86,11 @@ namespace ZeroEditor
         {
             if (isOnlySaveIfDirty)
             {
-                if(false == _isDirty)
+                if (false == _isDirty)
                 {
                     return;
                 }
+
                 _isDirty = false;
             }
 
@@ -104,7 +102,7 @@ namespace ZeroEditor
             _cache = vo;
 
             CheckHybridCLRInstallState();
-            
+
             Debug.Log($"保存[LauncherSettingData]");
             var jsonStr = Json.ToJsonIndented(_cache);
             File.WriteAllText($"Assets/Resources/{ZeroConst.LAUNCHER_SETTING_NAME}.json", jsonStr);

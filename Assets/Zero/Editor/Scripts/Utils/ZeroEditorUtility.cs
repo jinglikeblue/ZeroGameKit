@@ -93,6 +93,32 @@ namespace ZeroEditor
         }
 
         /// <summary>
+        /// 在IDE中编辑脚本
+        /// </summary>
+        /// <param name="obj"></param>
+        public static void EditScript(object obj)
+        {
+            if (null == obj) return;
+
+            try
+            {
+                var scriptName = obj.GetType().Name;
+                // 在项目中查找类名对应的脚本文件
+                string[] guids = UnityEditor.AssetDatabase.FindAssets($"{scriptName} t:Script");
+                // 获取脚本的路径
+                string assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]);
+                // 打开该脚本文件
+                UnityEditor.MonoScript script = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEditor.MonoScript>(assetPath);
+                UnityEditor.AssetDatabase.OpenAsset(script);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"无法打开脚本文件: {obj.GetType().FullName}");
+                Debug.LogError(e);
+            }
+        }
+
+        /// <summary>
         /// 为当前项目创建一个分身项目。Assets等资源会链接到到当前项目的目录，这样代码可以统一管理。
         /// </summary>
         /// <param name="sourceProject">源项目</param>

@@ -63,7 +63,6 @@ namespace ZeroHot
             AutoReference();
 
             _z = ComponentUtil.AutoGet<ZeroView>(this.gameObject);
-            _z.aViewClass = GetType().FullName;
             _z.aViewObject = this;
             _z.onEnable += OnGameObjectEnable;
             _z.onDisable += OnGameObjectDisable;
