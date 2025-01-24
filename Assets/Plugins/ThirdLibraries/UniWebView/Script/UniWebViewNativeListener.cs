@@ -15,9 +15,9 @@
 //  arising from, out of or in connection with the software or the use of other dealing in the software.
 //
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System;
+using UniWebViewExternal;
 
 /// <summary>
 /// A listener script for message sent from native side of UniWebView.
@@ -59,15 +59,14 @@ public class UniWebViewNativeListener: MonoBehaviour {
     [HideInInspector]
     public UniWebViewSafeBrowsing safeBrowsing;
 
+    [HideInInspector]
+    public UniWebViewAuthenticationSession session;
+
     /// <summary>
     /// Name of current listener. This is a UUID string by which native side could use to find 
     /// the message destination.
     /// </summary>
-    public string Name {
-        get {
-            return gameObject.name;
-        }
-    }
+    public string Name => gameObject.name;
 
     public void PageStarted(string url) {
         UniWebViewLogger.Instance.Info("Page Started Event. Url: " + url);
@@ -171,6 +170,22 @@ public class UniWebViewNativeListener: MonoBehaviour {
         var payload = JsonUtility.FromJson<UniWebViewNativeResultPayload>(result);
         webView.InternalOnCaptureSnapshotFinished(payload);
     }
+
+    public void AuthFinished(string result) {
+        UniWebViewLogger.Instance.Info("Auth Session Finished. Url: " + result);
+        session.InternalAuthenticationFinished(result);
+    }
+
+    public void AuthErrorReceived(string result) {
+        UniWebViewLogger.Instance.Info("Auth Session Error Received. Result: " + result);
+        var payload = JsonUtility.FromJson<UniWebViewNativeResultPayload>(result);
+        session.InternalAuthenticationErrorReceived(payload);
+    }
+
+    public void SnapshotRenderingStarted(string identifier) {
+        UniWebViewLogger.Instance.Info("Snapshot Rendering Started Event. Identifier: " + identifier);
+        webView.InternalOnSnapshotRenderingStarted(identifier);
+    }
 }
 
 /// <summary>
@@ -179,6 +194,12 @@ public class UniWebViewNativeListener: MonoBehaviour {
 /// </summary>
 [System.Serializable]
 public class UniWebViewNativeResultPayload {
+
+    /// <summary>
+    /// The key in `Extra` dictionary which contains the failing URL, if available.
+    /// </summary>
+    public const string ExtraFailingURLKey = "failingURL";
+    
     /// <summary>
     /// The identifier bound to this payload. It would be used internally to identify the callback.
     /// </summary>
@@ -191,6 +212,28 @@ public class UniWebViewNativeResultPayload {
     /// <summary>
     /// Return value or data from native. You should look at 
     /// corresponding APIs to know what exactly contained in this.
+    ///
+    /// Usually it is a string value represents the reason or a small piece of data related to the result. 
     /// </summary>
     public string data;
+
+    /// <summary>
+    /// The extra data from native side. It is a JSON string and could be parsed to a dictionary.
+    ///
+    /// Usually you do not access to this value directly. Instead, use `Extra` property to get the parsed dictionary.
+    /// </summary>
+    public string extra;
+    
+    /// <summary>
+    /// The extra data from native side, in dictionary format. If there is no extra data provided, this will be null.
+    /// Otherwise, it contains values passed from native side.
+    /// </summary>
+    public Dictionary<string, object> Extra {
+        get {
+            if (String.IsNullOrEmpty(extra)) {
+                return null;
+            }
+            return Json.Deserialize(extra) as Dictionary<string, object>;
+        }
+    }
 }

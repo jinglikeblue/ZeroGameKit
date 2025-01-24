@@ -58,7 +58,7 @@ public class UniWebViewLogger {
     /// Default is `Critical`, which means the logger only prints errors and exceptions.
     /// </summary>
     public Level LogLevel {
-        get { return level; }
+        get => level;
         set {
             Log(Level.Off, "Setting UniWebView logger level to: " + value);
             level = value;
@@ -107,10 +107,11 @@ public class UniWebViewLogger {
     /// <param name="message">The message to log.</param>
     public void Critical(string message) { Log(Level.Critical, message); }
 
-    private void Log(Level level, string message) {
-        if (level >= this.LogLevel) {
+    // ReSharper disable Unity.PerformanceAnalysis
+    private void Log(Level targetLevel, string message) {
+        if (targetLevel >= this.LogLevel) {
             var logMessage = "<UniWebView> " + message;
-            if (level == Level.Critical) {
+            if (targetLevel == Level.Critical) {
                 UnityEngine.Debug.LogError(logMessage);
             } else {
                 UnityEngine.Debug.Log(logMessage);

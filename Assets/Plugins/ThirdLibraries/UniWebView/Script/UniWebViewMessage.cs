@@ -14,15 +14,9 @@
 //  claim, damages or other liability, whether in action of contract, tort or otherwise, 
 //  arising from, out of or in connection with the software or the use of other dealing in the software.
 //
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
 
-#if UNITY_2017_3_OR_NEWER
+using System.Collections.Generic;
 using Net = UnityEngine.Networking.UnityWebRequest;
-#else
-using Net = UnityEngine.WWW;
-#endif
 
 /// <summary>
 /// A structure represents a message from webview.
@@ -64,6 +58,15 @@ public struct UniWebViewMessage {
         this.RawMessage = rawMessage;
         
         string[] schemeSplit = rawMessage.Split(new string[] {"://"}, System.StringSplitOptions.None);
+        if (schemeSplit.Length == 1) {
+            // `://` not existing. Try `:/` instead.
+            schemeSplit = rawMessage.Split(new string[] {":/"}, System.StringSplitOptions.None);
+        }
+        if (schemeSplit.Length == 1) {
+            // `:/` not existing. Try `:` instead.
+            schemeSplit = rawMessage.Split(new string[] {":"}, System.StringSplitOptions.None);
+        }
+
         if (schemeSplit.Length >= 2) {
             this.Scheme = schemeSplit[0];
             UniWebViewLogger.Instance.Debug("Get scheme: " + this.Scheme);

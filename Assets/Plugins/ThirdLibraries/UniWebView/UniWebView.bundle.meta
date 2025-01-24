@@ -24,20 +24,11 @@ PluginImporter:
       settings:
         DefaultValueInitialized: true
   - first:
-      Standalone: OSXIntel
-    second:
-      enabled: 1
-      settings: {}
-  - first:
-      Standalone: OSXIntel64
-    second:
-      enabled: 1
-      settings: {}
-  - first:
       Standalone: OSXUniversal
     second:
       enabled: 1
-      settings: {}
+      settings:
+        CPU: AnyCPU
   userData: 
   assetBundleName: 
   assetBundleVariant: 

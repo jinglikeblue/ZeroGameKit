@@ -2,6 +2,17 @@
 
 using UnityEngine;
 
+class UniWebViewMethodChannel: AndroidJavaProxy
+    {
+        public UniWebViewMethodChannel() : base("com.onevcat.uniwebview.UniWebViewNativeChannel") { }
+
+        string invokeChannelMethod(string name, string method, string parameters) {
+            UniWebViewLogger.Instance.Verbose("invokeChannelMethod invoked by native side. Name: " + name + " Method: " 
+                                          + method + " Params: " + parameters);
+            return UniWebViewChannelMethodManager.Instance.InvokeMethod(name, method, parameters);
+        }
+    }
+
 public class UniWebViewInterface {
     private static readonly AndroidJavaClass plugin;
     private static bool correctPlatform = Application.platform == RuntimePlatform.Android;
@@ -10,13 +21,23 @@ public class UniWebViewInterface {
         var go = new GameObject("UniWebViewAndroidStaticListener");
         go.AddComponent<UniWebViewAndroidStaticListener>();
         plugin = new AndroidJavaClass("com.onevcat.uniwebview.UniWebViewInterface");
+        
         CheckPlatform();
+
         plugin.CallStatic("prepare");
+
+        UniWebViewLogger.Instance.Info("Connecting to native side method channel.");
+        plugin.CallStatic("registerChannel", new UniWebViewMethodChannel());
     }
 
     public static void SetLogLevel(int level) {
         CheckPlatform();
         plugin.CallStatic("setLogLevel", level); 
+    }
+
+    public static bool IsWebViewSupported() {
+        CheckPlatform();
+        return plugin.CallStatic<bool>("isWebViewSupported");
     }
 
     public static void Init(string name, int x, int y, int width, int height) {
@@ -69,14 +90,24 @@ public class UniWebViewInterface {
         plugin.CallStatic("setSize", name, width, height);
     }
 
-    public static bool Show(string name, bool fade, int edge, float duration, string identifier) {
+    public static bool Show(string name, bool fade, int edge, float duration, bool useAsync, string identifier) {
         CheckPlatform();
-        return plugin.CallStatic<bool>("show", name, fade, edge, duration, identifier);
+        if (useAsync) {
+            plugin.CallStatic("showAsync", name, fade, edge, duration, identifier);
+            return true;
+        } else {
+            return plugin.CallStatic<bool>("show", name, fade, edge, duration, identifier);
+        }
     }
 
-    public static bool Hide(string name, bool fade, int edge, float duration, string identifier) {
+    public static bool Hide(string name, bool fade, int edge, float duration, bool useAsync, string identifier) {
         CheckPlatform();
-        return plugin.CallStatic<bool>("hide", name, fade, edge, duration, identifier);
+        if (useAsync) {
+            plugin.CallStatic("hideAsync", name, fade, edge, duration, identifier);
+            return true;
+        } else {
+            return plugin.CallStatic<bool>("hide", name, fade, edge, duration, identifier);
+        }
     }
 
     public static bool AnimateTo(string name, int x, int y, int width, int height, float duration, float delay, string identifier) {
@@ -154,6 +185,11 @@ public class UniWebViewInterface {
         plugin.CallStatic("setAllowFileAccess", name, flag);
     }
 
+    public static void SetAcceptThirdPartyCookies(string name, bool flag) {
+        CheckPlatform();
+        plugin.CallStatic("setAcceptThirdPartyCookies", name, flag);
+    }
+
     public static void SetAllowFileAccessFromFileURLs(string name, bool flag) { 
         CheckPlatform();
         plugin.CallStatic("setAllowFileAccessFromFileURLs", name, flag);
@@ -162,6 +198,20 @@ public class UniWebViewInterface {
     public static void SetAllowUniversalAccessFromFileURLs(bool flag) {
         CheckPlatform();
         plugin.CallStatic("setAllowUniversalAccessFromFileURLs", flag);
+    }
+    public static void BringContentToFront(string name) {
+        CheckPlatform();
+        plugin.CallStatic("bringContentToFront", name);
+    }
+
+    public static void SetForwardWebConsoleToNativeOutput(bool flag) {
+        CheckPlatform();
+        plugin.CallStatic("setForwardWebConsoleToNativeOutput", flag);
+    }
+
+    public static void SetEnableKeyboardAvoidance(bool flag) {
+        CheckPlatform();
+        plugin.CallStatic("setEnableKeyboardAvoidance", flag);
     }
 
     public static void SetJavaScriptEnabled(bool enabled) {
@@ -172,6 +222,11 @@ public class UniWebViewInterface {
     public static void CleanCache(string name) {
         CheckPlatform();
         plugin.CallStatic("cleanCache", name);
+    }
+
+    public static void SetCacheMode(string name, int mode) {
+        CheckPlatform();
+        plugin.CallStatic("setCacheMode", name, mode);
     }
 
     public static void ClearCookies() {
@@ -227,6 +282,21 @@ public class UniWebViewInterface {
     public static void SetSpinnerText(string name, string text) {
         CheckPlatform();
         plugin.CallStatic("setSpinnerText", name, text);
+    }
+
+    public static void SetAllowUserDismissSpinnerByGesture(string name, bool flag) {
+        CheckPlatform();
+        plugin.CallStatic("setAllowUserDismissSpinnerByGesture", name, flag);
+    }
+
+    public static void ShowSpinner(string name) {
+        CheckPlatform();
+        plugin.CallStatic("showSpinner", name);
+    }
+
+    public static void HideSpinner(string name) {
+        CheckPlatform();
+        plugin.CallStatic("hideSpinner", name);
     }
 
     public static bool CanGoBack(string name) {
@@ -293,6 +363,11 @@ public class UniWebViewInterface {
         plugin.CallStatic("setUserInteractionEnabled", name, enabled);
     }
 
+    public static void SetTransparencyClickingThroughEnabled(string name, bool enabled) {
+        CheckPlatform();
+        plugin.CallStatic("setTransparencyClickingThroughEnabled", name, enabled);
+    }
+
     public static void SetWebContentsDebuggingEnabled(bool enabled) {
         CheckPlatform();
         plugin.CallStatic("setWebContentsDebuggingEnabled", enabled);
@@ -323,9 +398,14 @@ public class UniWebViewInterface {
         plugin.CallStatic("setCalloutEnabled", name, flag);
     }
 
-    public static void SetSupportMultipleWindows(string name, bool flag) {
+    public static void SetSupportMultipleWindows(string name, bool enabled, bool allowJavaScriptOpening) {
         CheckPlatform();
-        plugin.CallStatic("setSupportMultipleWindows", name, flag);
+        plugin.CallStatic("setSupportMultipleWindows", name, enabled, allowJavaScriptOpening);
+    }
+
+    public static void SetDragInteractionEnabled(string name, bool flag) {
+        CheckPlatform();
+        plugin.CallStatic("setDragInteractionEnabled", name, flag);
     }
 
     public static void SetDefaultFontSize(string name, int size) {
@@ -353,6 +433,13 @@ public class UniWebViewInterface {
         plugin.CallStatic("setDownloadEventForContextMenuEnabled", name, enabled);
     }
 
+    public static void SetAllowUserEditFileNameBeforeDownloading(string name, bool allowed) {
+        CheckPlatform();
+        plugin.CallStatic("setAllowUserEditFileNameBeforeDownloading", name, allowed);
+    }
+
+    // Safe Browsing
+
     public static bool IsSafeBrowsingSupported() {
         CheckPlatform();
         return plugin.CallStatic<bool>("isSafeBrowsingSupported");
@@ -372,6 +459,105 @@ public class UniWebViewInterface {
         CheckPlatform();
         plugin.CallStatic("safeBrowsingShow", name);
     }
+
+    // Authentication
+
+    public static bool IsAuthenticationIsSupported() {
+        CheckPlatform();
+        return plugin.CallStatic<bool>("isAuthenticationIsSupported");
+    }
+
+    public static void AuthenticationInit(string name, string url, string scheme) {
+        CheckPlatform();
+        plugin.CallStatic("authenticationInit", name, url, scheme);
+    }
+
+    public static void AuthenticationStart(string name) {
+        CheckPlatform();
+        plugin.CallStatic("authenticationStart", name);
+    }
+
+    public static void AuthenticationSetPrivateMode(string name, bool enabled) {
+        CheckPlatform();
+        plugin.CallStatic("authenticationSetPrivateMode", name, enabled);
+    }
+
+    public static void SetShowEmbeddedToolbar(string name, bool show) {
+        CheckPlatform();
+        plugin.CallStatic("setShowEmbeddedToolbar", name, show);
+    }
+
+    public static void SetEmbeddedToolbarOnTop(string name, bool top) {
+        CheckPlatform();
+        plugin.CallStatic("setEmbeddedToolbarOnTop", name, top);
+    }
+
+    public static void SetEmbeddedToolbarDoneButtonText(string name, string text) {
+        CheckPlatform();
+        plugin.CallStatic("setEmbeddedToolbarDoneButtonText", name, text);
+    }
+
+    public static void SetEmbeddedToolbarGoBackButtonText(string name, string text) {
+        CheckPlatform();
+        plugin.CallStatic("setEmbeddedToolbarGoBackButtonText", name, text);
+    }
+
+    public static void SetEmbeddedToolbarGoForwardButtonText(string name, string text) {
+        CheckPlatform();
+        plugin.CallStatic("setEmbeddedToolbarGoForwardButtonText", name, text);
+    }
+    
+    public static void SetEmbeddedToolbarTitleText(string name, string text) {
+        CheckPlatform();
+        plugin.CallStatic("setEmbeddedToolbarTitleText", name, text);
+    }
+
+    public static void SetEmbeddedToolbarBackgroundColor(string name, Color color) {
+        CheckPlatform();
+        plugin.CallStatic("setEmbeddedToolbarBackgroundColor", name, color.r, color.g, color.b, color.a);
+    }
+    
+    public static void SetEmbeddedToolbarButtonTextColor(string name, Color color) {
+        CheckPlatform();
+        plugin.CallStatic("setEmbeddedToolbarButtonTextColor", name, color.r, color.g, color.b, color.a);
+    }
+
+    public static void SetEmbeddedToolbarTitleTextColor(string name, Color color) {
+        CheckPlatform();
+        plugin.CallStatic("setEmbeddedToolbarTitleTextColor", name, color.r, color.g, color.b, color.a);
+    }
+
+    public static void SetEmeddedToolbarNavigationButtonsShow(string name, bool show) {
+        CheckPlatform();
+        plugin.CallStatic("setEmbeddedToolbarNavigationButtonsShow", name, show);
+    }
+
+    public static void StartSnapshotForRendering(string name, string identifier) {
+        CheckPlatform();
+        plugin.CallStatic("startSnapshotForRendering", name, identifier);
+    }
+
+    public static void StopSnapshotForRendering(string name) {
+        CheckPlatform();
+        plugin.CallStatic("stopSnapshotForRendering", name);
+    }
+
+    public static byte[] GetRenderedData(string name, int x, int y, int width, int height) {
+        CheckPlatform();
+        var sbyteArray = plugin.CallStatic<sbyte[]>("getRenderedData", name, x, y, width, height);
+        if (sbyteArray == null) {
+            return null;
+        }
+        int length = sbyteArray.Length;
+        byte[] byteArray = new byte[length];
+        
+        for (int i = 0; i < length; i++) {
+            byteArray[i] = (byte)sbyteArray[i];
+        }   
+        return byteArray;
+    }
+
+    // Platform
 
     public static void CheckPlatform() {
         if (!correctPlatform) {

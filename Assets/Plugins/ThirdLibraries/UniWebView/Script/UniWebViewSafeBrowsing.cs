@@ -67,13 +67,26 @@ public class UniWebViewSafeBrowsing: UnityEngine.Object {
     /// If supported, the safe browsing mode will be used when `Show` is called on a `UniWebViewSafeBrowsing` instance.
     /// Otherwise, the system default browser will be used to open the page when `Show` is called.
     /// 
-    /// This property always returns `true` on iOS runtime platform. On Android, it depends on whether the Chrome app, 
-    /// which underhood provides the ability of safe browsing, is installed or not.
+    /// This property always returns `true` on iOS runtime platform. On Android, it depends on whether there is an Intent 
+    /// can handle the safe browsing request. Usually it is provided by Chrome. If there is no Intent can open the URL
+    /// in safe browsing mode, this property will return `false`.
+    /// 
+    /// To use this API on Android when you set your Target SDK to Android 11 or later, you need to declare the correct 
+    /// intent query explicitly in your AndroidManifest.xml, to follow the Package Visibility 
+    /// (https://developer.android.com/about/versions/11/privacy/package-visibility):
+    /// 
+    /// ```xml
+    /// <queries>
+    ///   <intent>
+    ///     <action android:name="android.support.customtabs.action.CustomTabsService" />
+    ///   </intent>
+    /// </queries>
+    /// ``` 
     /// </summary>
-    /// <value>
+    /// <returns>
     /// Returns `true` if the safe browsing mode is supported and the page will be opened in safe browsing 
     /// mode. Otherwise, `false`.
-    /// </value>
+    /// </returns>
     public static bool IsSafeBrowsingSupported {
         get {
             #if UNITY_EDITOR
@@ -108,10 +121,16 @@ public class UniWebViewSafeBrowsing: UnityEngine.Object {
     /// Shows the safe browsing content above current screen.
     /// </summary>
     public void Show() {
-        if (UniWebViewHelper.IsEditor) {
-            Application.OpenURL(url);
-        } else {
+        if (UniWebViewSafeBrowsing.IsSafeBrowsingSupported) {
             UniWebViewInterface.SafeBrowsingShow(listener.Name);
+        } else {
+            if (!UniWebViewHelper.IsEditor) {
+                UniWebViewLogger.Instance.Critical(@"UniWebViewSafeBrowsing.Show is called but the current device does 
+                not support Safe Browsing. 
+                This might be due to Chrome or any other processing app is not installed, or the manifest file not 
+                configured correctly. Check SafeBrowsing Mode guide for more:  https://docs.uniwebview.com/guide/safe-browsing.html");
+            }
+            Application.OpenURL(url);
         }
     }
 
