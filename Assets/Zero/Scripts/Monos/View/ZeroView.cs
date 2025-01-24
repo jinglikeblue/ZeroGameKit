@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Zero
 {
+    // [HideMonoScript]
     public class ZeroView : MonoBehaviour
     {
         /// <summary>
@@ -20,11 +21,12 @@ namespace Zero
         public event Action onDisable;
         public event Action onDestroy;
 
-        [Header("AView子类名称"), ReadOnly]
+        [InlineButton("EditScript", "Edit"), DisplayAsString] [ShowIf("aViewObject")]
+        [LabelText("AView子类名称")]
+        [GUIColor("#50E3C2")]
         public string aViewClass;
 
-        [Header("AView对象")]
-        public object aViewObject;
+        [Header("AView对象")] public object aViewObject;
 
         private void Awake()
         {
@@ -39,7 +41,7 @@ namespace Zero
         private void OnEnable()
         {
             onEnable?.Invoke();
-        }        
+        }
 
         private void OnDisable()
         {
@@ -55,5 +57,34 @@ namespace Zero
             onDisable = null;
             onDestroy = null;
         }
+
+#if UNITY_EDITOR
+
+        /// <summary>
+        /// 编辑与当前视图对象关联的脚本文件。
+        /// 该方法会尝试查找并打开与视图对象类型名称匹配的脚本文件。
+        /// </summary>
+        void EditScript()
+        {
+            if (null == aViewObject) return;
+            
+            try
+            {
+                var scriptName = aViewObject.GetType().Name;
+                // 在项目中查找类名对应的脚本文件
+                string[] guids = UnityEditor.AssetDatabase.FindAssets($"{scriptName} t:Script");
+                // 获取脚本的路径
+                string assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]);
+                // 打开该脚本文件
+                UnityEditor.MonoScript script = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEditor.MonoScript>(assetPath);
+                UnityEditor.AssetDatabase.OpenAsset(script);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"无法打开脚本文件: {aViewClass}");
+            }
+        }
+
+#endif
     }
 }
