@@ -37,23 +37,19 @@ namespace ZeroEditor
         public static bool Enabled
         {
             get => m_enabled;
-            set
-            {
-                m_enabled = value;
-                EditorPrefs.SetBool("GraphicSelectorEnable", value);
-            }
+            set => m_enabled = value;
         }
 
         [InitializeOnLoadMethod]
         private static void Init()
         {
-            m_enabled = EditorPrefs.GetBool("GraphicSelectorEnable");
+            m_enabled = true;
             SceneView.duringSceneGui += OnSceneViewGUI;
         }
 
         private static void OnSceneViewGUI(SceneView sceneView)
         {
-            if (!m_enabled)
+            if (!Enabled)
             {
                 return;
             }
