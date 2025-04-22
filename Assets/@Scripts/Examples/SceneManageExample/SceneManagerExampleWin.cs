@@ -46,6 +46,8 @@ namespace Example
             var temp = ResMgr.Ins.GetOriginalAssetPath(AB.ROOT_ASSETS.ILContent_assetPath);
             var scenePath = ResMgr.Ins.GetOriginalAssetPath(AB.SCENES.Scene0_unity_assetPath);
             SceneManagerUtility.LoadScene(scenePath, LoadSceneMode.Additive);
+            var scene = SceneManager.GetSceneByPath(scenePath);
+            scene.GetRootGameObjects();
             UIPanelMgr.Ins.Clear();
         }
         
