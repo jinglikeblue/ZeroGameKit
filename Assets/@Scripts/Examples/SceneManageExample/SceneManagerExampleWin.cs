@@ -1,8 +1,9 @@
-using behaviac;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zero;
 using ZeroGameKit;
 using ZeroHot;
+using Debug = behaviac.Debug;
 
 namespace Example
 {
@@ -15,7 +16,20 @@ namespace Example
         public static void Show()
         {
             UIWinMgr.Ins.Open<SceneManagerExampleWin>(null, true, false);
-            UIPanelMgr.Ins.Clear();
+        }
+        
+        private CanvasGroup _canvasGroup;
+
+        protected override void OnInit(object data)
+        {
+            base.OnInit(data);
+            _canvasGroup = GetComponent<CanvasGroup>();
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            _canvasGroup.alpha = 0.5f;
         }
 
         protected override void OnDestroy()
@@ -32,6 +46,7 @@ namespace Example
             var temp = ResMgr.Ins.GetOriginalAssetPath(AB.ROOT_ASSETS.ILContent_assetPath);
             var scenePath = ResMgr.Ins.GetOriginalAssetPath(AB.SCENES.Scene0_unity_assetPath);
             SceneManagerUtility.LoadScene(scenePath, LoadSceneMode.Additive);
+            UIPanelMgr.Ins.Clear();
         }
         
         [BindingButtonClick("BtnUnloadScene0")]
