@@ -29,6 +29,12 @@ public class URPCamera : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (null == _camera)
+        {
+            DestroyImmediate(this);
+            return;
+        }
+        
         if (_camera.enabled != _lastCameraEnable)
         {
             _lastCameraEnable = _camera.enabled;
@@ -45,6 +51,11 @@ public class URPCamera : MonoBehaviour
 
     private void OnEnable()
     {
+        if (null == _camera)
+        {
+            return;
+        }
+        
         _lastCameraEnable = _camera.enabled;
         //Debug.Log($"OnEnable {_camera.enabled}");
         URPCameraManager.UpdateCamera(this);
@@ -52,12 +63,22 @@ public class URPCamera : MonoBehaviour
 
     private void OnDisable()
     {
+        if (null == _camera)
+        {
+            return;
+        }
+        
         //Debug.Log($"OnDisable {_camera.enabled}");
         URPCameraManager.UpdateCamera(this);
     }
 
     void OnCameraEnableChanged()
     {
+        if (null == _camera)
+        {
+            return;
+        }
+        
         //Debug.Log($"Camera Enable Changed {_camera.enabled}");
         URPCameraManager.UpdateCamera(this);
     }
