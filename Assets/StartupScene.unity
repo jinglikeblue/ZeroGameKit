@@ -2077,14 +2077,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     isLogEnable: 1
-    builtinResMode: 0
+    builtinResMode: 1
     hotResMode: 1
     netRoots:
-    - http://192.168.1.26/zero/res
+    - http://YourHotResRootUrl
     isUseDll: 0
     isLoadPdb: 1
-    isDebugDll: 1
-    ilType: 0
+    isDebugDll: 0
+    ilType: 2
 --- !u!114 &1440188156
 MonoBehaviour:
   m_ObjectHideFlags: 0

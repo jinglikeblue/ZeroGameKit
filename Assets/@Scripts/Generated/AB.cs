@@ -35,6 +35,16 @@ namespace ZeroHot
 			public const string MainStartupPanel_assetPath = "examples/MainStartupPanel.prefab";            
 		}
 
+		public sealed class SCENES
+		{
+			public const string NAME = "scenes.ab";
+
+			public const string Scene0_unity = "Scene0.unity";
+			public const string Scene0_unity_assetPath = "scenes/Scene0.unity";
+			public const string Scene1_unity = "Scene1.unity";
+			public const string Scene1_unity_assetPath = "scenes/Scene1.unity";            
+		}
+
 		public sealed class TEST
 		{
 			public const string NAME = "test.ab";
@@ -225,6 +235,14 @@ namespace ZeroHot
 			public const string HelpWin_assetPath = "examples/roushan/HelpWin.prefab";
 			public const string StartupPanel = "StartupPanel.prefab";
 			public const string StartupPanel_assetPath = "examples/roushan/StartupPanel.prefab";            
+		}
+
+		public sealed class EXAMPLES_SCENE
+		{
+			public const string NAME = "examples/scene.ab";
+
+			public const string SceneManagerExampleWin = "SceneManagerExampleWin.prefab";
+			public const string SceneManagerExampleWin_assetPath = "examples/scene/SceneManagerExampleWin.prefab";            
 		}
 
 		public sealed class EXAMPLES_TEXTURES
@@ -689,6 +707,7 @@ namespace ZeroHot
 			dic["GameStage"] = "examples/roushan.ab";
 			dic["HelpWin"] = "examples/roushan.ab";
 			dic["StartupPanel"] = "examples/roushan.ab";
+			dic["SceneManagerExampleWin"] = "examples/scene.ab";
 			dic["TexturesWin"] = "examples/textures.ab";
 			dic["TextOutlineExampleWin"] = "examples/text_outline.ab";
 			dic["GridScrollListDemoPanel"] = "examples/turbocharged_scroll_list.ab";
