@@ -3,7 +3,9 @@ using UnityEngine;
 
 namespace Zero
 {
-    // [HideMonoScript]
+    /// <summary>
+    /// 自定义的Editor界面：ZeroViewCustomEditor
+    /// </summary>
     public class ZeroView : MonoBehaviour
     {
         /// <summary>
