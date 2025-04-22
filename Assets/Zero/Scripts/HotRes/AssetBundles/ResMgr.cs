@@ -24,7 +24,6 @@ namespace Zero
 
         private ResMgr()
         {
-
         }
 
         AResMgr _mgr;
@@ -41,11 +40,12 @@ namespace Zero
                         //替换旧的需要继承一下已加载字典
                         newMgr.Inherit(_mgr as AssetBundleResMgr);
                     }
-                    _mgr = newMgr; 
+
+                    _mgr = newMgr;
                     break;
                 case EResMgrType.RESOURCES:
-                    Debug.Log(LogColor.Zero1("初始化资源管理器... 资源来源：[Resources]"));                    
-                    _mgr = new ResourcesResMgr();                    
+                    Debug.Log(LogColor.Zero1("初始化资源管理器... 资源来源：[Resources]"));
+                    _mgr = new ResourcesResMgr();
                     break;
                 case EResMgrType.ASSET_DATA_BASE:
                     Debug.Log(LogColor.Zero1("初始化资源管理器... 资源来源：[AssetDataBase] 资源根目录：{0}", assetsInfo));
@@ -191,7 +191,7 @@ namespace Zero
         /// <param name="assetName">资源名称</param>
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public void LoadAsync<T>(string abName, string assetName, Action<T> onLoaded, Action<float> onProgress = null) where T:UnityEngine.Object
+        public void LoadAsync<T>(string abName, string assetName, Action<T> onLoaded, Action<float> onProgress = null) where T : UnityEngine.Object
         {
             _mgr.LoadAsync<T>(abName, assetName, onLoaded, onProgress);
         }
@@ -203,12 +203,12 @@ namespace Zero
         /// <param name="assetPath">资源路径</param>        
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public void LoadAsync(string assetPath,  Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
+        public void LoadAsync(string assetPath, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
         {
             string abName;
             string assetName;
             SeparateAssetPath(assetPath, out abName, out assetName);
-            _mgr.LoadAsync(abName,assetName, onLoaded, onProgress);
+            _mgr.LoadAsync(abName, assetName, onLoaded, onProgress);
         }
 
         /// <summary>
@@ -245,12 +245,12 @@ namespace Zero
         /// <returns></returns>
         public string LinkAssetPath(string abName, string assetName)
         {
-            if(abName == null)
+            if (abName == null)
             {
-                abName = "";                
-            }           
+                abName = "";
+            }
 
-            if(assetName == null)
+            if (assetName == null)
             {
                 assetName = "";
             }
@@ -264,7 +264,7 @@ namespace Zero
         /// <param name="assetPath"></param>
         public void SeparateAssetPath(string assetPath, out string abName, out string assetName)
         {
-            if(assetPath == null)
+            if (assetPath == null)
             {
                 assetPath = "";
             }
@@ -273,5 +273,51 @@ namespace Zero
             assetName = Path.GetFileName(assetPath);
         }
 
+        /// <summary>
+        /// 通过AB名称和资源名，获取资源原始路径（在工程Assets中的路径）
+        /// </summary>
+        /// <param name="abName"></param>
+        /// <param name="assetName"></param>
+        /// <returns></returns>
+        public string GetOriginalAssetPath(string abName, string assetName)
+        {
+            var assetFolder = FileUtility.CombinePaths(Path.GetDirectoryName(abName) ?? string.Empty, Path.GetFileNameWithoutExtension(abName));
+            if (assetFolder == ZeroConst.ROOT_AB_FILE_NAME)
+            {
+                assetFolder = string.Empty;
+            }
+            else
+            {
+                assetFolder += "/";
+            }
+
+            string assetPath = string.Empty;
+            assetPath = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, assetFolder, assetName);
+
+            return assetPath;
+        }
+
+        /// <summary>
+        /// 通过资源路径获取资源原始路径（在工程Assets中的路径）
+        /// </summary>
+        /// <param name="assetPath"></param>
+        /// <returns></returns>
+        public string GetOriginalAssetPath(string assetPath)
+        {
+            //已经是原始地址其实路径，不需要再获取
+            if (assetPath.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
+            {
+                return assetPath;
+            }
+            
+            //如果是根AB，则需要忽略根AB的路径
+            if (assetPath.StartsWith(ZeroConst.ROOT_AB_FILE_NAME))
+            {
+                assetPath = Path.GetFileName(assetPath);
+            }
+            
+            var originalAssetPath = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, assetPath);
+            return originalAssetPath;
+        }
     }
 }

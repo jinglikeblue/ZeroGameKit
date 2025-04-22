@@ -138,10 +138,12 @@ namespace Zero
             MakeABNameNotEmpty(ref abName);
             abName = ABNameWithExtension(abName);
             AssetBundle ab = LoadAssetBundle(abName);
+            
             T asset = ab.LoadAsset<T>(assetName);
             if (null == asset)
             {
-                Debug.LogErrorFormat("获取的资源不存在： AssetBundle: {0}  Asset: {1}", abName, assetName);
+                var assetPath = ResMgr.Ins.GetOriginalAssetPath(abName, assetName);
+                Debug.Log($"获取的资源不存在： AssetBundle: {abName}  Asset: {assetName}  AssetPath: {assetPath}");
             }
             return asset;
         }
