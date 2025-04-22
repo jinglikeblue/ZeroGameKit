@@ -74,6 +74,14 @@ namespace Demo
                 //如果是真机，那么必须使用该模式
                 vo.hotResMode = EHotResMode.NET_ASSET_BUNDLE;    
             }
+            else
+            {
+                //如果Editor下从AssetDataBase读取资源的情况下，强制设置为热更模式
+                if (EHotResMode.ASSET_DATA_BASE == vo.hotResMode)
+                {
+                    vo.builtinResMode = EBuiltinResMode.HOT_PATCH;
+                }
+            }
             
             var launcher = new Launcher(vo, toggleOffLineMode.isOn);
             

@@ -57,8 +57,8 @@ namespace ZeroHot
                     return false;
                 }
                 
-                viewName = type.Name;
-                abName = _viewAssetBundleSearchDic[viewName];
+                abName = _viewAssetBundleSearchDic[type.Name];
+                viewName = type.Name + ".prefab";
             }
             else
             {
