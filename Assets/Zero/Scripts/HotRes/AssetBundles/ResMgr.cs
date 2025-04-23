@@ -274,12 +274,12 @@ namespace Zero
         }
 
         /// <summary>
-        /// 通过AB名称和资源名，获取资源原始路径（在工程Assets中的路径）
+        /// 将AssetBundle和资源名称合并，返回资源的路径
         /// </summary>
         /// <param name="abName"></param>
         /// <param name="assetName"></param>
         /// <returns></returns>
-        public string GetOriginalAssetPath(string abName, string assetName)
+        public string JointAssetPath(string abName, string assetName)
         {
             var assetFolder = FileUtility.CombinePaths(Path.GetDirectoryName(abName) ?? string.Empty, Path.GetFileNameWithoutExtension(abName));
             if (assetFolder == ZeroConst.ROOT_AB_FILE_NAME)
@@ -290,10 +290,20 @@ namespace Zero
             {
                 assetFolder += "/";
             }
+            
+            var assetPath = FileUtility.CombinePaths(assetFolder, assetName);
+            return assetPath;
+        }
 
-            string assetPath = string.Empty;
-            assetPath = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, assetFolder, assetName);
-
+        /// <summary>
+        /// 通过AB名称和资源名，获取资源原始路径（在工程Assets中的路径）
+        /// </summary>
+        /// <param name="abName"></param>
+        /// <param name="assetName"></param>
+        /// <returns></returns>
+        public string GetOriginalAssetPath(string abName, string assetName)
+        {
+            var assetPath = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, JointAssetPath(abName, assetName));
             return assetPath;
         }
 
