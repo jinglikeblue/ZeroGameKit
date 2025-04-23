@@ -19,7 +19,7 @@ namespace ZeroEditor
                 UnityEngine.Object asset = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
                 if (asset != null)
                 {
-                    UnityEditor.Selection.activeObject = asset; // 选中单个资源
+                    // UnityEditor.Selection.activeObject = asset; // 选中单个资源
                     UnityEditor.EditorGUIUtility.PingObject(asset); // 在 Project 窗口高亮显示
                 }
                 else

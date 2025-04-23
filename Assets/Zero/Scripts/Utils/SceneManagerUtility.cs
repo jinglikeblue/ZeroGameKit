@@ -27,7 +27,7 @@ namespace Zero
             Debug.Log(LogColor.Zero1($"[SceneManagerUtility] 是否允许使用Editor下的API加载场景: {IsEditorAPIEnable}"));
 
             //初始化场景列表
-            _loadedSceneList = new List<Scene>(GetLoadedScenes());
+            _loadedSceneList = GetLoadedSceneList();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
@@ -56,6 +56,15 @@ namespace Zero
         // {
         //     Debug.Log($"切换前场景: {previousScene.path} 场景切换完成: {newScene.path} ");
         // }
+
+        /// <summary>
+        /// 获取Additive
+        /// </summary>
+        /// <returns></returns>
+        public static Scene[] GetLoadedScenes()
+        {
+            return _loadedSceneList.ToArray();
+        }
 
         /// <summary>
         /// 确保一个安全的场景路径。路径为资源的原始路径。
@@ -146,7 +155,7 @@ namespace Zero
         /// 获取已加载的场景数组
         /// </summary>
         /// <returns></returns>
-        public static Scene[] GetLoadedScenes()
+        private static List<Scene> GetLoadedSceneList()
         {
             List<Scene> sceneList = new List<Scene>();
             // 遍历所有已加载的场景
@@ -156,7 +165,7 @@ namespace Zero
                 sceneList.Add(scene);
             }
 
-            return sceneList.ToArray();
+            return sceneList;
         }
     }
 }

@@ -1,3 +1,5 @@
+using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zero;
@@ -43,17 +45,14 @@ namespace Example
         private void LoadScene0()
         {
             Debug.Log($"加载场景0");
-            var temp = ResMgr.Ins.GetOriginalAssetPath(AB.ROOT_ASSETS.ILContent_assetPath);
-            var scenePath = ResMgr.Ins.GetOriginalAssetPath(AB.SCENES.Scene0_unity_assetPath);
-            var scene = SceneManagerUtility.LoadScene(scenePath, LoadSceneMode.Additive);
-            scene.GetRootGameObjects();
-            UIPanelMgr.Ins.Clear();
+            SceneManagerUtility.LoadScene(AB.SCENES.Scene0_unity_assetPath, LoadSceneMode.Additive);
         }
-        
+
         [BindingButtonClick("BtnAsyncLoadScene0")]
         private void AsyncLoadScene0()
         {
             Debug.Log($"异步加载场景0");
+            SceneManagerUtility.LoadSceneAsync(AB.SCENES.Scene0_unity_assetPath, LoadSceneMode.Additive);
         }
 
         [BindingButtonClick("BtnUnloadScene0")]
@@ -62,41 +61,40 @@ namespace Example
             Debug.Log($"卸载场景0");
             SceneManagerUtility.UnloadSceneAsync(AB.SCENES.Scene0_unity_assetPath);
         }
-        
+
         [BindingButtonClick("BtnSwitchScene0")]
         private void SwitchScene0()
         {
             Debug.Log($"切换场景0");
+            SceneManagerUtility.LoadScene(AB.SCENES.Scene0_unity_assetPath);
         }
-        
+
         [BindingButtonClick("BtnLoadScene1")]
         private void LoadScene1()
         {
-            Debug.Log($"加载场景0");
-            var temp = ResMgr.Ins.GetOriginalAssetPath(AB.ROOT_ASSETS.ILContent_assetPath);
-            var scenePath = ResMgr.Ins.GetOriginalAssetPath(AB.SCENES.Scene0_unity_assetPath);
-            var scene = SceneManagerUtility.LoadScene(scenePath, LoadSceneMode.Additive);
-            scene.GetRootGameObjects();
-            UIPanelMgr.Ins.Clear();
+            Debug.Log($"加载场景1");
+            SceneManagerUtility.LoadScene(AB.SCENES.Scene1_unity_assetPath, LoadSceneMode.Additive);
         }
-        
+
         [BindingButtonClick("BtnAsyncLoadScene1")]
         private void AsyncLoadScene1()
         {
-            Debug.Log($"异步加载场景0");
+            Debug.Log($"异步加载场景1");
+            SceneManagerUtility.LoadSceneAsync(AB.SCENES.Scene1_unity_assetPath, LoadSceneMode.Additive);
         }
 
         [BindingButtonClick("BtnUnloadScene1")]
         private void UnloadScene1()
         {
-            Debug.Log($"卸载场景0");
-            SceneManagerUtility.UnloadSceneAsync(AB.SCENES.Scene0_unity_assetPath);
+            Debug.Log($"卸载场景1");
+            SceneManagerUtility.UnloadSceneAsync(AB.SCENES.Scene1_unity_assetPath);
         }
-        
+
         [BindingButtonClick("BtnSwitchScene1")]
         private void SwitchScene1()
         {
-            Debug.Log($"切换场景0");
+            Debug.Log($"切换场景1");
+            SceneManagerUtility.LoadScene(AB.SCENES.Scene1_unity_assetPath);
         }
 
         /// <summary>
@@ -121,8 +119,24 @@ namespace Example
         /// 清理Additive方式加载的场景
         /// </summary>
         [BindingButtonClick("BtnCleanAddScenes")]
-        private void CleanAddScenes()
+        private async void CleanAddScenes()
         {
+            try
+            {
+                var scenes = SceneManagerUtility.GetLoadedScenes();
+                for (int i = 1; i < scenes.Length; i++)
+                {
+                    var ao = SceneManagerUtility.UnloadSceneAsync(scenes[i].path);
+                    while (!ao.isDone)
+                    {
+                        await UniTask.NextFrame();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
         }
     }
 }
