@@ -54,17 +54,7 @@ namespace Example
             await UniTask.NextFrame();
             var rootObjs = scene.GetRootGameObjects();
             var view1 = ViewFactory.Binding<SceneGameObjectView>(scene.FindGameObject("Main Camera"));
-            // foreach (var obj in rootObjs)
-            // {
-            //     if (obj.name == "Main Camera")
-            //     {
-            //         var view = ViewFactory.Binding<SceneGameObjectView>(obj);
-            //         if (null == view)
-            //         {
-            //             Debug.LogError($"Biding View失败: {obj.name}");
-            //         }
-            //     }
-            // }
+            ViewFactory.Binding<SceneGameObjectView>(scene.FindGameObject("Main Camera/Cube"));
         }
 
         [BindingButtonClick("BtnAsyncLoadScene0")]
@@ -152,10 +142,7 @@ namespace Example
                 for (int i = 1; i < scenes.Length; i++)
                 {
                     var ao = SceneManagerUtility.UnloadSceneAsync(scenes[i].path);
-                    while (!ao.isDone)
-                    {
-                        await UniTask.NextFrame();
-                    }
+                    await ao.ToUniTask();
                 }
             }
             catch (Exception e)
@@ -183,6 +170,13 @@ namespace Example
             {
                 Debug.LogError(e);
             }
+        }
+
+        [BindingButtonClick("BtnLoadWrong")]
+        void LoadWrongScene()
+        {
+            SceneManagerUtility.LoadScene("WrongScene.unity", LoadSceneMode.Single);
+            // SceneManagerUtility.LoadSceneAsync("WrongSceneAsync.unity", LoadSceneMode.Additive);
         }
     }
 }

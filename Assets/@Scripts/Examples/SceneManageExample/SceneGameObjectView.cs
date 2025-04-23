@@ -1,4 +1,5 @@
 using behaviac;
+using Zero;
 using ZeroHot;
 
 namespace Example
@@ -8,7 +9,7 @@ namespace Example
         protected override void OnInit(object data)
         {
             base.OnInit(data);
-            Debug.Log($"[SceneGameObjectView] {gameObject.name}");
+            Debug.Log(LogColor.Zero2($"[SceneGameObjectView] {gameObject.name}"));
         }
     }
 }

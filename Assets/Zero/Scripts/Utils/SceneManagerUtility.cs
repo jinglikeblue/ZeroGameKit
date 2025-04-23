@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using Sirenix.Utilities.Editor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -85,30 +87,58 @@ namespace Zero
         }
 
         /// <summary>
-        /// 加载场景
+        /// 加载场景。
+        /// 注意：通过该接口加载的Scene，要到下一帧的时候，才能拿出GameObject。当前帧scene.GetRootGameObjects().Length为0。
         /// </summary>
         /// <param name="scenePath"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
         public static Scene LoadScene(string scenePath, LoadSceneMode mode = LoadSceneMode.Single)
         {
-            scenePath = MakePathSafely(scenePath);
+            var originalAssetPath = MakePathSafely(scenePath);
 
-            Debug.Log($"加载场景: {scenePath} 模式:{mode}");
-
+            var sceneCountBeforeLoad = SceneManager.sceneCount;
+            
             if (IsEditorAPIEnable)
             {
 #if UNITY_EDITOR
                 var parameters = new LoadSceneParameters(mode);
-                UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode(scenePath, parameters);
+                UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode(originalAssetPath, parameters);
 #endif
             }
             else
             {
-                SceneManager.LoadScene(scenePath, mode);
+                ResMgr.Ins.SeparateAssetPath(scenePath, out string abName, out string viewName);
+                ResMgr.Ins.LoadAll(abName);
+                SceneManager.LoadScene(originalAssetPath, mode);
             }
+            
+            var sceneCountAfterLoad = SceneManager.sceneCount;
 
-            var scene = SceneManager.GetSceneByPath(scenePath);
+            Scene scene = default;
+            if(mode == LoadSceneMode.Additive && sceneCountBeforeLoad == sceneCountAfterLoad)
+            {
+                //场景数量没有增加，说明加载失败
+            }
+            else if(mode == LoadSceneMode.Single && sceneCountBeforeLoad != 1)
+            {
+                //场景数量不为1，一定是加载失败
+            }
+            else
+            {
+                var b = GetLoadedSceneList();
+                scene = b.LastOrDefault(x => x.path == originalAssetPath);
+            }
+            
+            if (scene.IsValid())
+            {
+                Debug.Log($"[SceneManagerUtility] 加载场景成功: {originalAssetPath} 模式:{mode} 根节点数:{scene.GetRootGameObjects().Length}");
+            }
+            else
+            {
+                Debug.Log($"[SceneManagerUtility] 加载场景失败: {originalAssetPath} 模式:{mode}");
+            }
+            
             return scene;
         }
 
@@ -121,7 +151,7 @@ namespace Zero
         public static AsyncOperation LoadSceneAsync(string scenePath, LoadSceneMode mode = LoadSceneMode.Single)
         {
             AsyncOperation ao = null;
-            
+
             scenePath = MakePathSafely(scenePath);
 
             Debug.Log($"异步加载场景: {scenePath} 模式:{mode}");
@@ -195,18 +225,19 @@ namespace Zero
             {
                 return null;
             }
-            
+
             var rootGameObjects = scene.GetRootGameObjects();
             foreach (var rootGameObject in rootGameObjects)
             {
-                if (rootGameObject.name.Equals(gameObjectName))
+                if (gameObjectName.Equals(rootGameObject.name))
                 {
                     return rootGameObject;
                 }
 
                 if (gameObjectName.StartsWith(rootGameObject.name))
                 {
-                    return rootGameObject.transform.Find(gameObjectName).gameObject;
+                    var childName = gameObjectName.Substring(rootGameObject.name.Length + 1);
+                    return rootGameObject.transform.Find(childName).gameObject;
                 }
             }
 

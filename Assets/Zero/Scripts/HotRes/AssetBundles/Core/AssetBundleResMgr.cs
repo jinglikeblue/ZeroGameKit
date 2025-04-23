@@ -35,7 +35,8 @@ namespace Zero
             _loadedABDic = new Dictionary<string, AssetBundle>();
 
             HotResAssetBundleRoot = FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.AB_DIR_NAME);
-            BuiltinAssetBundleRoot = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.AB_DIR_NAME);
+            BuiltinAssetBundleRoot =
+                FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.AB_DIR_NAME);
 
             //优先使用热更的
             var manifestPath = FileUtility.CombinePaths(HotResAssetBundleRoot, manifestFileName);
@@ -50,6 +51,7 @@ namespace Zero
             {
                 throw new Exception($"[{manifestFileName}] 不存在: {manifestPath}");
             }
+
             _manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
 
             //{
@@ -60,7 +62,7 @@ namespace Zero
             //        var dependencies = _manifest.GetAllDependencies(assetBundle);
             //        dependenciesTable[assetBundle] = dependencies;
             //    }
-                
+
             //    var json = LitJson.JsonMapper.ToPrettyJson(dependenciesTable);
             //    Debug.Log(json);
             //}
@@ -69,6 +71,7 @@ namespace Zero
             {
                 throw new Exception(string.Format("错误的 Manifest File: {0}", manifestFileName));
             }
+
             ab.Unload(false);
         }
 
@@ -112,6 +115,7 @@ namespace Zero
             {
                 assetNames[i] = Path.GetFileName(assetNames[i]);
             }
+
             return assetNames;
         }
 
@@ -125,11 +129,13 @@ namespace Zero
                 Debug.LogErrorFormat("AB资源不存在  abName: {0}", abName);
                 return null;
             }
+
             var asset = ab.LoadAsset(assetName);
             if (null == asset)
             {
                 Debug.LogErrorFormat("获取的资源不存在： AssetBundle: {0}  Asset: {1}", abName, assetName);
             }
+
             return asset;
         }
 
@@ -138,13 +144,14 @@ namespace Zero
             MakeABNameNotEmpty(ref abName);
             abName = ABNameWithExtension(abName);
             AssetBundle ab = LoadAssetBundle(abName);
-            
+
             T asset = ab.LoadAsset<T>(assetName);
             if (null == asset)
             {
                 var assetPath = ResMgr.Ins.GetOriginalAssetPath(abName, assetName);
                 Debug.Log($"获取的资源不存在： AssetBundle: {abName}  Asset: {assetName}  AssetPath: {assetPath}");
             }
+
             return asset;
         }
 
@@ -153,10 +160,16 @@ namespace Zero
             MakeABNameNotEmpty(ref abName);
             abName = ABNameWithExtension(abName);
             AssetBundle ab = LoadAssetBundle(abName);
+            if (ab.isStreamedSceneAssetBundle)
+            {
+                return Array.Empty<UnityEngine.Object>();
+            }
+
             return ab.LoadAllAssets();
         }
 
-        public override void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
+        public override void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded,
+            Action<float> onProgress = null)
         {
             MakeABNameNotEmpty(ref abName);
             abName = ABNameWithExtension(abName);
@@ -164,7 +177,8 @@ namespace Zero
             ILBridge.Ins.StartCoroutine(this, LoadAsync<UnityEngine.Object>(ab, assetName, onLoaded, onProgress));
         }
 
-        public override void LoadAsync<T>(string abName, string assetName, Action<T> onLoaded, Action<float> onProgress = null)
+        public override void LoadAsync<T>(string abName, string assetName, Action<T> onLoaded,
+            Action<float> onProgress = null)
         {
             MakeABNameNotEmpty(ref abName);
             abName = ABNameWithExtension(abName);
@@ -172,7 +186,8 @@ namespace Zero
             ILBridge.Ins.StartCoroutine(this, LoadAsync(ab, assetName, onLoaded, onProgress));
         }
 
-        public override void LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded, Action<float> onProgress = null)
+        public override void LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded,
+            Action<float> onProgress = null)
         {
             MakeABNameNotEmpty(ref abName);
             abName = ABNameWithExtension(abName);
@@ -180,7 +195,8 @@ namespace Zero
             ILBridge.Ins.StartCoroutine(this, LoadAllAsync(ab, onLoaded, onProgress));
         }
 
-        IEnumerator LoadAsync<T>(AssetBundle ab, string assetName, Action<T> onLoaded, Action<float> onProgress) where T : UnityEngine.Object
+        IEnumerator LoadAsync<T>(AssetBundle ab, string assetName, Action<T> onLoaded, Action<float> onProgress)
+            where T : UnityEngine.Object
         {
             AssetBundleRequest abr = ab.LoadAssetAsync<T>(assetName);
 
@@ -190,9 +206,9 @@ namespace Zero
                 {
                     onProgress.Invoke(abr.progress);
                 }
+
                 yield return new WaitForEndOfFrame();
-            }
-            while (false == abr.isDone);
+            } while (false == abr.isDone);
 
             //加载完成
             onLoaded.Invoke((T)abr.asset);
@@ -209,9 +225,9 @@ namespace Zero
                 {
                     onProgress.Invoke(abr.progress);
                 }
+
                 yield return new WaitForEndOfFrame();
-            }
-            while (false == abr.isDone);
+            } while (false == abr.isDone);
 
             //加载完成
             onLoaded.Invoke(abr.allAssets);
@@ -241,6 +257,7 @@ namespace Zero
                 }
             }
         }
+
         /// <summary>
         /// 检查ab资源是否被已加载的资源依赖
         /// </summary>
@@ -260,6 +277,7 @@ namespace Zero
                     }
                 }
             }
+
             return false;
         }
 
@@ -271,6 +289,7 @@ namespace Zero
                 {
                     cached.Unload(isUnloadAllLoaded);
                 }
+
                 _loadedABDic.Clear();
             }
 
@@ -297,6 +316,7 @@ namespace Zero
             {
                 Debug.LogErrorFormat($"[AssetBundle] 文件 [{abName}] 不存在: {abPath}");
             }
+
             return ab;
         }
 
@@ -333,11 +353,11 @@ namespace Zero
                 {
                     return null;
                 }
+
                 _loadedABDic[abName] = ab;
             }
 
             return ab;
         }
-
     }
 }
