@@ -17,6 +17,11 @@ namespace Example
     {
         public static void Show()
         {
+            // foreach (var scene in SceneManagerUtility.GetLoadedScenes())
+            // {
+            //     Debug.Log($"移除Scene:{scene.path}");
+            //     SceneManager.UnloadSceneAsync(scene.path);
+            // }
             UIWinMgr.Ins.Open<SceneManagerExampleWin>(null, true, false);
         }
 
@@ -125,6 +130,27 @@ namespace Example
             {
                 var scenes = SceneManagerUtility.GetLoadedScenes();
                 for (int i = 1; i < scenes.Length; i++)
+                {
+                    var ao = SceneManagerUtility.UnloadSceneAsync(scenes[i].path);
+                    while (!ao.isDone)
+                    {
+                        await UniTask.NextFrame();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
+        }
+
+        [BindingButtonClick("BtnCleanScenes")]
+        async void CleanScenes()
+        {
+            try
+            {
+                var scenes = SceneManagerUtility.GetLoadedScenes();
+                for (int i = 0; i < scenes.Length; i++)
                 {
                     var ao = SceneManagerUtility.UnloadSceneAsync(scenes[i].path);
                     while (!ao.isDone)

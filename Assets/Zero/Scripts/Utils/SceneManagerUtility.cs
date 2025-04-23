@@ -36,7 +36,7 @@ namespace Zero
 
         private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            Debug.Log($"场景加载完成: {scene.name} 加载模式: {mode}");
+            Debug.Log($"场景加载完成: {scene.path} 加载模式: {mode}");
 
             if (LoadSceneMode.Single == mode)
             {
@@ -49,7 +49,7 @@ namespace Zero
         private static void OnSceneUnloaded(Scene scene)
         {
             var isRemoveSuccess = _loadedSceneList.Remove(scene);
-            Debug.Log($"场景卸载完成: {scene.name} 是否成功移除: {isRemoveSuccess}");
+            Debug.Log($"场景卸载完成: {scene.path} 是否成功移除: {isRemoveSuccess}");
         }
         //
         // private static void OnActiveSceneChanged(Scene previousScene, Scene newScene)
@@ -92,10 +92,9 @@ namespace Zero
         /// <returns></returns>
         public static Scene LoadScene(string scenePath, LoadSceneMode mode = LoadSceneMode.Single)
         {
-            Debug.Log($"加载场景: {scenePath} 模式:{mode}");
-
             scenePath = MakePathSafely(scenePath);
 
+            Debug.Log($"加载场景: {scenePath} 模式:{mode}");
 
             if (IsEditorAPIEnable)
             {
@@ -121,11 +120,10 @@ namespace Zero
         /// <returns></returns>
         public static AsyncOperation LoadSceneAsync(string scenePath, LoadSceneMode mode = LoadSceneMode.Single)
         {
-            Debug.Log($"异步加载场景: {scenePath} 模式:{mode}");
-
             scenePath = MakePathSafely(scenePath);
 
-
+            Debug.Log($"异步加载场景: {scenePath} 模式:{mode}");
+            
             if (IsEditorAPIEnable)
             {
 #if UNITY_EDITOR
@@ -144,10 +142,10 @@ namespace Zero
         /// <returns></returns>
         public static AsyncOperation UnloadSceneAsync(string scenePath)
         {
-            Debug.Log($"卸载场景: {scenePath}");
-
             scenePath = MakePathSafely(scenePath);
-
+            
+            Debug.Log($"卸载场景: {scenePath}");
+            
             return SceneManager.UnloadSceneAsync(scenePath);
         }
 

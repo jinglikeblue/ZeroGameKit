@@ -1,7 +1,9 @@
 ﻿using Jing.FixedPointNumber;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zero;
 using ZeroGameKit;
+using Debug = behaviac.Debug;
 
 namespace ZeroHot
 {
@@ -36,7 +38,8 @@ namespace ZeroHot
             GameObject mainPrefab = ResMgr.Ins.Load<GameObject>(AB.ROOT_ASSETS.NAME, AB.ROOT_ASSETS.ILContent);
             //实例化ILContent界面
             var ilContent = ViewFactory.Create<ILContent>(mainPrefab, null);
-            ilContent.gameObject.name = mainPrefab.name;            
+            ilContent.gameObject.name = mainPrefab.name;     
+            GameObject.DontDestroyOnLoad(ilContent.gameObject);
         }
     }
 }
