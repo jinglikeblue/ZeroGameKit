@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Sirenix.Utilities.Editor;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,41 +19,24 @@ namespace Zero
         /// </summary>
         public static readonly bool IsEditorAPIEnable;
 
-        /// <summary>
-        /// 已加载的场景列表。索引顺序跟加载顺序关联。默认索引0位的为Single方式加载的。其它都是Additive方式加载的。
-        /// </summary>
-        private static List<Scene> _loadedSceneList = null;
-
         static SceneManagerUtility()
         {
             IsEditorAPIEnable = Runtime.Ins.HotResMode == EHotResMode.ASSET_DATA_BASE;
-            Debug.Log(LogColor.Zero1($"[SceneManagerUtility] 是否允许使用Editor下的API加载场景: {IsEditorAPIEnable}"));
+            Debug.Log(LogColor.Zero1($"[SceneManagerUtility] 是否使用Editor下的API加载场景: {IsEditorAPIEnable}"));
 
-            //初始化场景列表
-            _loadedSceneList = GetLoadedSceneList();
-
-            SceneManager.sceneLoaded += OnSceneLoaded;
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
-            // SceneManager.activeSceneChanged += OnActiveSceneChanged;
+            // SceneManager.sceneLoaded += OnSceneLoaded;
+            // SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
-        private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-        {
-            Debug.Log($"场景加载完成: {scene.path} 加载模式: {mode}");
-
-            if (LoadSceneMode.Single == mode)
-            {
-                _loadedSceneList.Clear();
-            }
-
-            _loadedSceneList.Add(scene);
-        }
-
-        private static void OnSceneUnloaded(Scene scene)
-        {
-            var isRemoveSuccess = _loadedSceneList.Remove(scene);
-            Debug.Log($"场景卸载完成: {scene.path} 是否成功移除: {isRemoveSuccess}");
-        }
+        // private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        // {
+        //     Debug.Log($"场景加载完成: {scene.path} 加载模式: {mode}");
+        // }
+        //
+        // private static void OnSceneUnloaded(Scene scene)
+        // {
+        //     Debug.Log($"场景卸载完成: {scene.path} 是否成功移除: {isRemoveSuccess}");
+        // }
         //
         // private static void OnActiveSceneChanged(Scene previousScene, Scene newScene)
         // {
@@ -65,7 +49,7 @@ namespace Zero
         /// <returns></returns>
         public static Scene[] GetLoadedScenes()
         {
-            return _loadedSceneList.ToArray();
+            return GetLoadedSceneList().ToArray();
         }
 
         /// <summary>
@@ -81,8 +65,11 @@ namespace Zero
                 throw new Exception($"错误的场景路径: {scenePath}");
             }
 
-            scenePath = ResMgr.Ins.GetOriginalAssetPath(scenePath);
-
+            if (false == scenePath.StartsWith("Assets/"))
+            {
+                scenePath = ResMgr.Ins.GetOriginalAssetPath(scenePath);    
+            }
+            
             return scenePath;
         }
 
@@ -98,7 +85,7 @@ namespace Zero
             var originalAssetPath = MakePathSafely(scenePath);
 
             var sceneCountBeforeLoad = SceneManager.sceneCount;
-            
+
             if (IsEditorAPIEnable)
             {
 #if UNITY_EDITOR
@@ -112,15 +99,15 @@ namespace Zero
                 ResMgr.Ins.LoadAll(abName);
                 SceneManager.LoadScene(originalAssetPath, mode);
             }
-            
+
             var sceneCountAfterLoad = SceneManager.sceneCount;
 
             Scene scene = default;
-            if(mode == LoadSceneMode.Additive && sceneCountBeforeLoad == sceneCountAfterLoad)
+            if (mode == LoadSceneMode.Additive && sceneCountBeforeLoad == sceneCountAfterLoad)
             {
                 //场景数量没有增加，说明加载失败
             }
-            else if(mode == LoadSceneMode.Single && sceneCountBeforeLoad != 1)
+            else if (mode == LoadSceneMode.Single && sceneCountBeforeLoad != 1)
             {
                 //场景数量不为1，一定是加载失败
             }
@@ -129,7 +116,7 @@ namespace Zero
                 var b = GetLoadedSceneList();
                 scene = b.LastOrDefault(x => x.path == originalAssetPath);
             }
-            
+
             if (scene.IsValid())
             {
                 Debug.Log($"[SceneManagerUtility] 加载场景成功: {originalAssetPath} 模式:{mode} 根节点数:{scene.GetRootGameObjects().Length}");
@@ -138,7 +125,7 @@ namespace Zero
             {
                 Debug.Log($"[SceneManagerUtility] 加载场景失败: {originalAssetPath} 模式:{mode}");
             }
-            
+
             return scene;
         }
 
@@ -147,26 +134,55 @@ namespace Zero
         /// </summary>
         /// <param name="scenePath"></param>
         /// <param name="mode"></param>
+        /// <param name="onProgress"></param>
         /// <returns></returns>
-        public static AsyncOperation LoadSceneAsync(string scenePath, LoadSceneMode mode = LoadSceneMode.Single)
+        public static async UniTask<Scene> LoadSceneAsync(string scenePath, LoadSceneMode mode = LoadSceneMode.Single, Action<float> onProgress = null)
         {
-            AsyncOperation ao = null;
+            var originalAssetPath = MakePathSafely(scenePath);
 
-            scenePath = MakePathSafely(scenePath);
-
-            Debug.Log($"异步加载场景: {scenePath} 模式:{mode}");
-
+            AsyncOperation ao;
             if (IsEditorAPIEnable)
             {
 #if UNITY_EDITOR
                 var parameters = new LoadSceneParameters(mode);
-                ao = UnityEditor.SceneManagement.EditorSceneManager.LoadSceneAsyncInPlayMode(scenePath, parameters);
-                return ao;
+                ao = UnityEditor.SceneManagement.EditorSceneManager.LoadSceneAsyncInPlayMode(originalAssetPath, parameters);
 #endif
             }
+            else
+            {
+                ResMgr.Ins.SeparateAssetPath(scenePath, out string abName, out string viewName);
+                ResMgr.Ins.LoadAll(abName);
+                ao = SceneManager.LoadSceneAsync(originalAssetPath, mode);
+            }
 
-            ao = SceneManager.LoadSceneAsync(scenePath, mode);
-            return ao;
+            Scene scene = default;
+            if (null != ao)
+            {
+                while (false == ao.isDone)
+                {
+                    Debug.Log($"[SceneManagerUtility] 异步加载场景: {originalAssetPath} 模式:{mode} 进度: {ao.progress}");
+                    onProgress?.Invoke(ao.progress);
+                    await UniTask.NextFrame();
+                }
+
+                Debug.Log($"[SceneManagerUtility] 异步加载场景: {originalAssetPath} 模式:{mode} 进度: {ao.progress}");
+                onProgress?.Invoke(ao.progress);
+                await UniTask.NextFrame();
+
+                var b = GetLoadedSceneList();
+                scene = b.LastOrDefault(x => x.path == originalAssetPath);
+            }
+
+            if (scene.IsValid())
+            {
+                Debug.Log($"[SceneManagerUtility] 异步加载场景成功: {originalAssetPath} 模式:{mode} 根节点数:{scene.GetRootGameObjects().Length}");
+            }
+            else
+            {
+                Debug.Log(LogColor.Red($"[SceneManagerUtility] 异步加载场景失败: {originalAssetPath} 模式:{mode}"));
+            }
+
+            return scene;
         }
 
         /// <summary>
@@ -174,13 +190,25 @@ namespace Zero
         /// </summary>
         /// <param name="scenePath"></param>
         /// <returns></returns>
-        public static AsyncOperation UnloadSceneAsync(string scenePath)
+        public static async UniTask UnloadSceneAsync(string scenePath)
         {
             scenePath = MakePathSafely(scenePath);
-
-            Debug.Log($"卸载场景: {scenePath}");
-
-            return SceneManager.UnloadSceneAsync(scenePath);
+            
+            AsyncOperation ao = null;
+            try
+            {
+                ao = SceneManager.UnloadSceneAsync(scenePath);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(LogColor.Red($"[SceneManagerUtility] 卸载场景失败: {scenePath}"));
+            }
+            
+            if (null != ao)
+            {
+                await ao.ToUniTask();
+                Debug.Log($"[SceneManagerUtility] 卸载场景: {scenePath}");
+            }
         }
 
         /// <summary>

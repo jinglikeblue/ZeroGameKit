@@ -58,10 +58,14 @@ namespace Example
         }
 
         [BindingButtonClick("BtnAsyncLoadScene0")]
-        private void AsyncLoadScene0()
+        private async void AsyncLoadScene0()
         {
             Debug.Log($"异步加载场景0");
-            SceneManagerUtility.LoadSceneAsync(AB.SCENES.Scene0_unity_assetPath, LoadSceneMode.Additive);
+            var scene = await SceneManagerUtility.LoadSceneAsync(AB.SCENES.Scene0_unity_assetPath, LoadSceneMode.Additive);
+            var rootObjs = scene.GetRootGameObjects();
+            var view1 = ViewFactory.Binding<SceneGameObjectView>(scene.FindGameObject("Main Camera"));
+            ViewFactory.Binding<SceneGameObjectView>(scene.FindGameObject("Main Camera/Cube"));
+            
         }
 
         [BindingButtonClick("BtnUnloadScene0")]
@@ -79,11 +83,10 @@ namespace Example
         }
 
         [BindingButtonClick("BtnLoadScene1")]
-        private async void LoadScene1()
+        private void LoadScene1()
         {
             Debug.Log($"加载场景1");
             SceneManagerUtility.LoadScene(AB.SCENES.Scene1_unity_assetPath, LoadSceneMode.Additive);
-            await UniTask.NextFrame();
             var view = ViewFactory.Binding<SceneGameObjectView>(GameObject.Find("Main Camera"));
             if (null == view)
             {
@@ -95,21 +98,21 @@ namespace Example
         private void AsyncLoadScene1()
         {
             Debug.Log($"异步加载场景1");
-            SceneManagerUtility.LoadSceneAsync(AB.SCENES.Scene1_unity_assetPath, LoadSceneMode.Additive);
+            _ = SceneManagerUtility.LoadSceneAsync(AB.SCENES.Scene1_unity_assetPath, LoadSceneMode.Additive);
         }
 
         [BindingButtonClick("BtnUnloadScene1")]
         private void UnloadScene1()
         {
             Debug.Log($"卸载场景1");
-            SceneManagerUtility.UnloadSceneAsync(AB.SCENES.Scene1_unity_assetPath);
+            _ = SceneManagerUtility.UnloadSceneAsync(AB.SCENES.Scene1_unity_assetPath);
         }
 
         [BindingButtonClick("BtnSwitchScene1")]
         private void SwitchScene1()
         {
             Debug.Log($"切换场景1");
-            SceneManagerUtility.LoadScene(AB.SCENES.Scene1_unity_assetPath);
+            _ = SceneManagerUtility.LoadSceneAsync(AB.SCENES.Scene1_unity_assetPath);
         }
 
         /// <summary>
@@ -141,8 +144,7 @@ namespace Example
                 var scenes = SceneManagerUtility.GetLoadedScenes();
                 for (int i = 1; i < scenes.Length; i++)
                 {
-                    var ao = SceneManagerUtility.UnloadSceneAsync(scenes[i].path);
-                    await ao.ToUniTask();
+                    await SceneManagerUtility.UnloadSceneAsync(scenes[i].path);
                 }
             }
             catch (Exception e)
@@ -159,11 +161,7 @@ namespace Example
                 var scenes = SceneManagerUtility.GetLoadedScenes();
                 for (int i = 0; i < scenes.Length; i++)
                 {
-                    var ao = SceneManagerUtility.UnloadSceneAsync(scenes[i].path);
-                    while (!ao.isDone)
-                    {
-                        await UniTask.NextFrame();
-                    }
+                    await SceneManagerUtility.UnloadSceneAsync(scenes[i].path);
                 }
             }
             catch (Exception e)
@@ -172,11 +170,16 @@ namespace Example
             }
         }
 
-        [BindingButtonClick("BtnLoadWrong")]
+        [BindingButtonClick("BtnLoadWrongSync")]
         void LoadWrongScene()
         {
             SceneManagerUtility.LoadScene("WrongScene.unity", LoadSceneMode.Single);
-            // SceneManagerUtility.LoadSceneAsync("WrongSceneAsync.unity", LoadSceneMode.Additive);
+        }
+        
+        [BindingButtonClick("BtnLoadWrongAsync")]
+        void LoadWrongSceneAsync()
+        {
+            SceneManagerUtility.LoadSceneAsync("WrongSceneAsync.unity", LoadSceneMode.Additive);
         }
     }
 }
