@@ -120,19 +120,23 @@ namespace Zero
         /// <returns></returns>
         public static AsyncOperation LoadSceneAsync(string scenePath, LoadSceneMode mode = LoadSceneMode.Single)
         {
+            AsyncOperation ao = null;
+            
             scenePath = MakePathSafely(scenePath);
 
             Debug.Log($"异步加载场景: {scenePath} 模式:{mode}");
-            
+
             if (IsEditorAPIEnable)
             {
 #if UNITY_EDITOR
                 var parameters = new LoadSceneParameters(mode);
-                return UnityEditor.SceneManagement.EditorSceneManager.LoadSceneAsyncInPlayMode(scenePath, parameters);
+                ao = UnityEditor.SceneManagement.EditorSceneManager.LoadSceneAsyncInPlayMode(scenePath, parameters);
+                return ao;
 #endif
             }
 
-            return SceneManager.LoadSceneAsync(scenePath, mode);
+            ao = SceneManager.LoadSceneAsync(scenePath, mode);
+            return ao;
         }
 
         /// <summary>
@@ -143,9 +147,9 @@ namespace Zero
         public static AsyncOperation UnloadSceneAsync(string scenePath)
         {
             scenePath = MakePathSafely(scenePath);
-            
+
             Debug.Log($"卸载场景: {scenePath}");
-            
+
             return SceneManager.UnloadSceneAsync(scenePath);
         }
 
@@ -164,6 +168,49 @@ namespace Zero
             }
 
             return sceneList;
+        }
+
+        /// <summary>
+        /// 查找指定场景中的GameObject
+        /// </summary>
+        /// <param name="scenePath"></param>
+        /// <param name="gameObjectName"></param>
+        /// <returns></returns>
+        public static GameObject FindGameObject(string scenePath, string gameObjectName)
+        {
+            scenePath = MakePathSafely(scenePath);
+            var scene = SceneManager.GetSceneByPath(scenePath);
+            return FindGameObject(scene, gameObjectName);
+        }
+
+        /// <summary>
+        /// 查找指定场景下的GameObject
+        /// </summary>
+        /// <param name="scene"></param>
+        /// <param name="gameObjectName"></param>
+        /// <returns></returns>
+        public static GameObject FindGameObject(Scene scene, string gameObjectName)
+        {
+            if (false == scene.IsValid() || string.IsNullOrEmpty(gameObjectName))
+            {
+                return null;
+            }
+            
+            var rootGameObjects = scene.GetRootGameObjects();
+            foreach (var rootGameObject in rootGameObjects)
+            {
+                if (rootGameObject.name.Equals(gameObjectName))
+                {
+                    return rootGameObject;
+                }
+
+                if (gameObjectName.StartsWith(rootGameObject.name))
+                {
+                    return rootGameObject.transform.Find(gameObjectName).gameObject;
+                }
+            }
+
+            return null;
         }
     }
 }

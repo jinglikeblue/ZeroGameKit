@@ -17,6 +17,7 @@ namespace ZeroHot
         /// [视图名称] => [AssestBundle]
         /// </summary>
         static Dictionary<string, string> _viewAssetBundleSearchDic;
+
         static ViewFactory()
         {
             CreateViewAssetBundleSearchDictionary();
@@ -27,15 +28,15 @@ namespace ZeroHot
         /// </summary>
         public static void CreateViewAssetBundleSearchDictionary()
         {
-            if(_viewAssetBundleSearchDic != null)
+            if (_viewAssetBundleSearchDic != null)
             {
                 return;
             }
 
-            _viewAssetBundleSearchDic = AB.CreateViewAssetBundleSearchDictionary();            
+            _viewAssetBundleSearchDic = AB.CreateViewAssetBundleSearchDictionary();
             var s = Json.ToJson(_viewAssetBundleSearchDic);
             Debug.Log(s);
-        }        
+        }
 
         /// <summary>
         /// 查找Type对应的AB信息
@@ -45,9 +46,9 @@ namespace ZeroHot
         /// <param name="viewName"></param>
         /// <returns></returns>
         static bool FindAssetBundleInfo(Type type, out string abName, out string viewName)
-        {            
+        {
             var attrs = type.GetCustomAttributes(_viewRegisterAttr, false);
-            if(attrs.Length == 0)
+            if (attrs.Length == 0)
             {
                 //从自动表查找
                 if (false == _viewAssetBundleSearchDic.ContainsKey(type.Name))
@@ -56,7 +57,7 @@ namespace ZeroHot
                     viewName = null;
                     return false;
                 }
-                
+
                 abName = _viewAssetBundleSearchDic[type.Name];
                 viewName = type.Name + ".prefab";
             }
@@ -114,28 +115,29 @@ namespace ZeroHot
         /// <param name="data"></param>
         /// <returns></returns>
         public static AView Create(Type type, string abName, string viewName, Transform parent, object data = null)
-        {            
-            GameObject prefab = ResMgr.Ins.Load<GameObject>(abName, viewName);            
+        {
+            GameObject prefab = ResMgr.Ins.Load<GameObject>(abName, viewName);
             return Create(type, prefab, parent, data);
         }
 
         public static T Create<T>(string abName, string viewName, Transform parent, object data = null) where T : AView
         {
-            GameObject prefab = ResMgr.Ins.Load<GameObject>(abName, viewName);            
+            GameObject prefab = ResMgr.Ins.Load<GameObject>(abName, viewName);
             return Create<T>(prefab, parent, data);
         }
 
         public static AView Create(Type type, Transform parent, object data = null)
         {
-            string abName, viewName;                                
+            string abName, viewName;
             if (FindAssetBundleInfo(type, out abName, out viewName))
-            {                
+            {
                 return Create(type, abName, viewName, parent, data);
             }
             else
             {
                 Debug.LogErrorFormat("AView类[{0}]并没有适用的视图。请检查是否配置或生成了资源名清单", type.FullName);
             }
+
             return null;
         }
 
@@ -143,11 +145,11 @@ namespace ZeroHot
         {
             Type type = typeof(T);
             return Create(type, parent, data) as T;
-        }    
+        }
 
         public static void CreateAsync(Type type, string abName, string viewName, Transform parent, object data = null, Action<AView> onCreated = null, Action<float> onProgress = null, Action<UnityEngine.Object> onLoaded = null)
         {
-            new ViewAsyncCreater<AView>(type, abName, viewName).Create(parent,data,onCreated,onProgress, onLoaded);
+            new ViewAsyncCreater<AView>(type, abName, viewName).Create(parent, data, onCreated, onProgress, onLoaded);
         }
 
         public static void CreateAsync<T>(string abName, string viewName, Transform parent, object data = null, Action<T> onCreated = null, Action<float> onProgress = null, Action<UnityEngine.Object> onLoaded = null) where T : AView
@@ -181,5 +183,52 @@ namespace ZeroHot
                 Debug.LogErrorFormat("AView类[{0}]并没有适用的视图", type.FullName);
             }
         }
+
+        #region GameObject和AView对象的绑定
+
+        /// <summary>
+        /// 为gameObject绑定一个AView实例
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <param name="data"></param>
+        /// <typeparam name="T"></typeparam>
+        public static T Binding<T>(GameObject gameObject, object data = null) where T : AView
+        {
+            var childView = Binding(typeof(T), gameObject, data);
+
+            if (null == childView)
+            {
+                return default;
+            }
+
+            return childView as T;
+        }
+
+        /// <summary>
+        /// 为gameObject绑定一个AView实例
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="childGameObject"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static AView Binding(Type type, GameObject childGameObject, object data = null)
+        {
+            if (null == childGameObject)
+            {
+                return null;
+            }
+
+            if (false == type.IsSubclassOf(typeof(AView)))
+            {
+                throw new Exception(string.Format("[{0}]并不是AView的子类", type.FullName));
+            }
+
+            AView viewChild = Activator.CreateInstance(type) as AView;
+            viewChild!.SetGameObject(childGameObject, data);
+            return viewChild;
+        }
+
+        #endregion
     }
 }

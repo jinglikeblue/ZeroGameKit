@@ -47,10 +47,24 @@ namespace Example
         }
 
         [BindingButtonClick("BtnLoadScene0")]
-        private void LoadScene0()
+        private async void LoadScene0()
         {
             Debug.Log($"加载场景0");
-            SceneManagerUtility.LoadScene(AB.SCENES.Scene0_unity_assetPath, LoadSceneMode.Additive);
+            var scene = SceneManagerUtility.LoadScene(AB.SCENES.Scene0_unity_assetPath, LoadSceneMode.Additive);
+            await UniTask.NextFrame();
+            var rootObjs = scene.GetRootGameObjects();
+            var view1 = ViewFactory.Binding<SceneGameObjectView>(scene.FindGameObject("Main Camera"));
+            // foreach (var obj in rootObjs)
+            // {
+            //     if (obj.name == "Main Camera")
+            //     {
+            //         var view = ViewFactory.Binding<SceneGameObjectView>(obj);
+            //         if (null == view)
+            //         {
+            //             Debug.LogError($"Biding View失败: {obj.name}");
+            //         }
+            //     }
+            // }
         }
 
         [BindingButtonClick("BtnAsyncLoadScene0")]
@@ -75,10 +89,16 @@ namespace Example
         }
 
         [BindingButtonClick("BtnLoadScene1")]
-        private void LoadScene1()
+        private async void LoadScene1()
         {
             Debug.Log($"加载场景1");
             SceneManagerUtility.LoadScene(AB.SCENES.Scene1_unity_assetPath, LoadSceneMode.Additive);
+            await UniTask.NextFrame();
+            var view = ViewFactory.Binding<SceneGameObjectView>(GameObject.Find("Main Camera"));
+            if (null == view)
+            {
+                Debug.LogError($"Biding View失败: Main Camer");
+            }
         }
 
         [BindingButtonClick("BtnAsyncLoadScene1")]

@@ -371,14 +371,7 @@ namespace ZeroHot
         /// <returns></returns>
         public T CreateChildView<T>(GameObject childGameObject, object data = null) where T : AView
         {
-            var childView = CreateChildView(typeof(T), childGameObject, data);
-
-            if (null == childView)
-            {
-                return default;
-            }
-
-            return childView as T;
+            return ViewFactory.Binding<T>(childGameObject, data);
         }
 
         /// <summary>
@@ -390,19 +383,7 @@ namespace ZeroHot
         /// <returns></returns>
         public AView CreateChildView(Type type, GameObject childGameObject, object data = null)
         {
-            if (null == childGameObject)
-            {
-                return null;
-            }
-
-            if (false == type.IsSubclassOf(typeof(AView)))
-            {
-                throw new Exception(string.Format("[{0}]并不是AView的子类", type.FullName));
-            }
-
-            AView viewChild = Activator.CreateInstance(type) as AView;
-            viewChild.SetGameObject(childGameObject, data);
-            return viewChild;
+            return ViewFactory.Binding(type, childGameObject, data);
         }
 
         /// <summary>
