@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using Example;
 using UnityEngine;
 using Zero;
@@ -8,27 +10,35 @@ namespace PingPong
     /// <summary>
     /// 网络更新
     /// </summary>
-    public class NetUpdateCommand: BaseCommand
+    public class NetUpdateCommand : BaseCommand
     {
-        private Coroutine _coroutine;
-        
+        private bool _isLoopActively;
+
         protected override void ExcuteProcess()
         {
-            _coroutine = ILBridge.Ins.StartCoroutine(this, UpdateNetLoop());
+            UpdateNetLoop();
         }
-        
+
         protected override void TerminateProcess()
         {
-            ILBridge.Ins.StopCoroutine(_coroutine);
+            _isLoopActively = false;
         }
-        
-        private IEnumerator UpdateNetLoop()
+
+        private async void UpdateNetLoop()
         {
-            while (true)
+            try
             {
-                yield return new WaitForEndOfFrame();
-                Global.Ins.netModule.host.Update();
-                Global.Ins.netModule.client.Update();
+                _isLoopActively = true;
+                while (_isLoopActively)
+                {
+                    await UniTask.NextFrame();
+                    Global.Ins.netModule.host.Update();
+                    Global.Ins.netModule.client.Update();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
             }
         }
     }

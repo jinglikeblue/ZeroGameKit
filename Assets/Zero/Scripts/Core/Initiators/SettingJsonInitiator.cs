@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -19,7 +20,7 @@ namespace Zero
 
             if(Runtime.Ins.localData.IsUpdateSetting && Runtime.Ins.IsNeedNetwork)
             {
-                ILBridge.Ins.StartCoroutine(Update());
+                Update();
             }
             else if(Runtime.Ins.BuiltinResMode != EBuiltinResMode.ONLY_USE)
             {
@@ -66,7 +67,7 @@ namespace Zero
             End();
         }
 
-        IEnumerator Update()
+        async void Update()
         {
             var list = Runtime.Ins.SettingFileNetDirList;
             for (var i = 0; i < list.Length; i++)
@@ -77,12 +78,12 @@ namespace Zero
                 loader.Start();
                 while (false == loader.isDone)
                 {
-                    yield return new WaitForEndOfFrame();
+                    await UniTask.NextFrame();
                 }                
                 if (null == loader.error)
                 {
                     LoadSettingFromCache();
-                    yield break;
+                    return;
                 }
                 else
                 {

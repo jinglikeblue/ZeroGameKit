@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -22,7 +23,7 @@ namespace Zero
         {
             get
             {
-                if(settingVO == null || resVerVO == null || scriptDllBytes == null || scriptPdbBytes == null)
+                if (settingVO == null || resVerVO == null || scriptDllBytes == null || scriptPdbBytes == null)
                 {
                     return false;
                 }
@@ -37,7 +38,7 @@ namespace Zero
 
         public byte[] scriptDllBytes { get; private set; } = null;
 
-        public byte[] scriptPdbBytes { get; private set; } = null;        
+        public byte[] scriptPdbBytes { get; private set; } = null;
 
         internal StreamingAssetsResInitiator()
         {
@@ -46,32 +47,48 @@ namespace Zero
         internal override void Start()
         {
             base.Start();
-            ILBridge.Ins.StartCoroutine(this, LoadSettingJson());
+            LoadSettingJson();
         }
 
-        IEnumerator LoadSettingJson()
+        async void LoadSettingJson()
         {
             var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.SETTING_FILE_NAME);
             var uwr = UnityWebRequest.Get(path);
-            yield return uwr.SendWebRequest();
+
+            try
+            {
+                await uwr.SendWebRequest().ToUniTask();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(LogColor.Red(e.ToString()));
+            }
 
             if (uwr.error != null)
-            {          
+            {
                 //加载不到表示没有内嵌资源
                 End();
             }
             else
             {
                 settingVO = Json.ToObject<SettingVO>(uwr.downloadHandler.text);
-                ILBridge.Ins.StartCoroutine(this, LoadResJson());
+                LoadResJson();
             }
         }
 
-        IEnumerator LoadResJson()
+        async void LoadResJson()
         {
             var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.RES_JSON_FILE_NAME);
             var uwr = UnityWebRequest.Get(path);
-            yield return uwr.SendWebRequest();
+
+            try
+            {
+                await uwr.SendWebRequest().ToUniTask();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(LogColor.Red(e.ToString()));
+            }
 
             if (uwr.error != null)
             {
@@ -80,16 +97,24 @@ namespace Zero
             else
             {
                 resVerVO = Json.ToObject<ResVerVO>(uwr.downloadHandler.text);
-                ILBridge.Ins.StartCoroutine(this, LoadScripts());
+                LoadScripts();
             }
         }
 
-        IEnumerator LoadScripts()
+        async void LoadScripts()
         {
             var dllPath = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".dll");
 
             var uwr = UnityWebRequest.Get(dllPath);
-            yield return uwr.SendWebRequest();
+
+            try
+            {
+                await uwr.SendWebRequest().ToUniTask();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(LogColor.Red(e.ToString()));
+            }
 
             if (uwr.error != null)
             {
@@ -103,7 +128,15 @@ namespace Zero
             var pdbPath = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".pdb");
 
             uwr = UnityWebRequest.Get(pdbPath);
-            yield return uwr.SendWebRequest();
+            
+            try
+            {
+                await uwr.SendWebRequest().ToUniTask();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(LogColor.Red(e.ToString()));
+            }
 
             if (uwr.error != null)
             {

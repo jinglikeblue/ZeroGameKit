@@ -1,6 +1,7 @@
 ﻿using Jing;
 using System;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -36,7 +37,7 @@ namespace Zero
                     if (updateURI.AbsolutePath.EndsWith(APK_INSTALL_FILE_EXT) && Application.platform == RuntimePlatform.Android)
                     {
                         //是APK安装文件
-                        ILBridge.Ins.StartCoroutine(UpdateAPK(url));
+                        UpdateAPK(url);
                     }
                     else
                     {
@@ -52,7 +53,7 @@ namespace Zero
             else
             {
                 //不用更新
-                End();                
+                End();
             }
         }
 
@@ -96,24 +97,24 @@ namespace Zero
             return 0;
         }
 
-        IEnumerator UpdateAPK(string apkUrl)
+        async void UpdateAPK(string apkUrl)
         {
             HttpDownloader loader = new HttpDownloader(apkUrl, FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.ANDROID_APK_NAME));
             loader.Start();
 
-            Debug.Log($"安装包保存路径:{loader.savePath}");            
+            Debug.Log($"安装包保存路径:{loader.savePath}");
             while (!loader.isDone)
             {
-                base.Progress(loader.loadedSize, loader.totalSize);                              
-                yield return new WaitForEndOfFrame();
+                base.Progress(loader.loadedSize, loader.totalSize);
+                await UniTask.NextFrame();
             }
 
-            base.Progress(loader.totalSize, loader.totalSize);            
+            base.Progress(loader.totalSize, loader.totalSize);
 
             if (loader.error != null)
             {
-                End(loader.error);                
-                yield break;
+                End(loader.error);
+                return;
             }
 
 #if UNITY_ANDROID

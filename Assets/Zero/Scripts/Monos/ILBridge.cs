@@ -137,7 +137,7 @@ namespace Zero
         {
             onApplicationQuit?.Invoke();
         }
-
+        
         #region 协程代理
         Dictionary<object, CoroutineProxy> _routineDic = new Dictionary<object, CoroutineProxy>();
 
@@ -189,5 +189,6 @@ namespace Zero
             }
         }
         #endregion
+        
     }
 }

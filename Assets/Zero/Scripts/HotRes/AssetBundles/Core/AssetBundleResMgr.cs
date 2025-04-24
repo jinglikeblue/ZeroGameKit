@@ -1,8 +1,8 @@
 ﻿using Jing;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -172,44 +172,69 @@ namespace Zero
             Action<float> onProgress = null)
         {
             AssetBundle ab = TryLoadAssetBundle(abName);
-            ILBridge.Ins.StartCoroutine(this, LoadAsync<UnityEngine.Object>(ab, assetName, onLoaded, onProgress));
+            LoadAsync<UnityEngine.Object>(ab, assetName, onLoaded, onProgress);
         }
 
         public override void LoadAsync<T>(string abName, string assetName, Action<T> onLoaded,
             Action<float> onProgress = null)
         {
             AssetBundle ab = TryLoadAssetBundle(abName);
-            ILBridge.Ins.StartCoroutine(this, LoadAsync(ab, assetName, onLoaded, onProgress));
+            LoadAsync(ab, assetName, onLoaded, onProgress);
         }
 
         public override void LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded,
             Action<float> onProgress = null)
         {
             AssetBundle ab = TryLoadAssetBundle(abName);
-            ILBridge.Ins.StartCoroutine(this, LoadAllAsync(ab, onLoaded, onProgress));
+            LoadAllAsync(ab, onLoaded, onProgress);
         }
 
-        IEnumerator LoadAsync<T>(AssetBundle ab, string assetName, Action<T> onLoaded, Action<float> onProgress)
-            where T : UnityEngine.Object
+        async void LoadAsync<T>(AssetBundle ab, string assetName, Action<T> onLoaded, Action<float> onProgress) where T : UnityEngine.Object
         {
-            AssetBundleRequest abr = ab.LoadAssetAsync<T>(assetName);
-
-            do
+            try
             {
-                if (onProgress != null)
+                AssetBundleRequest abr = ab.LoadAssetAsync<T>(assetName);
+
+                do
                 {
-                    onProgress.Invoke(abr.progress);
-                }
+                    if (onProgress != null)
+                    {
+                        onProgress.Invoke(abr.progress);
+                    }
 
-                yield return new WaitForEndOfFrame();
-            } while (false == abr.isDone);
+                    await UniTask.NextFrame();
+                } while (false == abr.isDone);
 
-            //加载完成
-            onLoaded.Invoke((T)abr.asset);
+                //加载完成
+                onLoaded.Invoke((T)abr.asset);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
         }
+        
+        // IEnumerator LoadAsync<T>(AssetBundle ab, string assetName, Action<T> onLoaded, Action<float> onProgress)
+        //     where T : UnityEngine.Object
+        // {
+        //     AssetBundleRequest abr = ab.LoadAssetAsync<T>(assetName);
+        //
+        //     do
+        //     {
+        //         if (onProgress != null)
+        //         {
+        //             onProgress.Invoke(abr.progress);
+        //         }
+        //
+        //         yield return new WaitForEndOfFrame();
+        //     } while (false == abr.isDone);
+        //
+        //     //加载完成
+        //     onLoaded.Invoke((T)abr.asset);
+        // }
 
 
-        IEnumerator LoadAllAsync(AssetBundle ab, Action<UnityEngine.Object[]> onLoaded, Action<float> onProgress)
+        async void LoadAllAsync(AssetBundle ab, Action<UnityEngine.Object[]> onLoaded, Action<float> onProgress)
         {
             AssetBundleRequest abr = ab.LoadAllAssetsAsync();
 
@@ -220,7 +245,7 @@ namespace Zero
                     onProgress.Invoke(abr.progress);
                 }
 
-                yield return new WaitForEndOfFrame();
+                await UniTask.NextFrame();
             } while (false == abr.isDone);
 
             //加载完成
