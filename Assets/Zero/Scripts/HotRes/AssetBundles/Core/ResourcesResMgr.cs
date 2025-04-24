@@ -44,6 +44,11 @@ namespace Zero
             var asset = Resources.Load<T>(path);
             return asset;
         }
+        
+        public override AssetBundle TryLoadAssetBundle(string abName)
+        {
+            return null;
+        }
 
         public override void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
         {           

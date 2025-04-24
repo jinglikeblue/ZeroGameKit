@@ -96,7 +96,7 @@ namespace Zero
             else
             {
                 ResMgr.Ins.SeparateAssetPath(scenePath, out string abName, out string viewName);
-                ResMgr.Ins.LoadAll(abName);
+                ResMgr.Ins.TryLoadAssetBundle(abName);
                 SceneManager.LoadScene(originalAssetPath, mode);
             }
 
@@ -151,7 +151,7 @@ namespace Zero
             else
             {
                 ResMgr.Ins.SeparateAssetPath(scenePath, out string abName, out string viewName);
-                ResMgr.Ins.LoadAll(abName);
+                ResMgr.Ins.TryLoadAssetBundle(abName);
                 ao = SceneManager.LoadSceneAsync(originalAssetPath, mode);
             }
 
@@ -164,7 +164,7 @@ namespace Zero
                     onProgress?.Invoke(ao.progress);
                     await UniTask.NextFrame();
                 }
-
+                
                 Debug.Log($"[SceneManagerUtility] 异步加载场景: {originalAssetPath} 模式:{mode} 进度: {ao.progress}");
                 onProgress?.Invoke(ao.progress);
                 await UniTask.NextFrame();

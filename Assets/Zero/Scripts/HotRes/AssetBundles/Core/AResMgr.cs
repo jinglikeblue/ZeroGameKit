@@ -1,5 +1,6 @@
 ﻿using Jing;
 using System;
+using UnityEngine;
 
 namespace Zero
 {
@@ -116,5 +117,11 @@ namespace Zero
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
         public abstract void LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded, Action<float> onProgress = null);
+
+        /// <summary>
+        /// 在运行环境支持的情况下。尝试加载AssetBundle文件。
+        /// </summary>
+        /// <param name="abName"></param>
+        public abstract AssetBundle TryLoadAssetBundle(string abName);
     }
 }

@@ -124,6 +124,15 @@ namespace Zero
         {
             return _mgr.LoadAll(abName);
         }
+        
+        /// <summary>
+        /// 在运行环境支持的情况下。尝试加载AssetBundle文件。
+        /// </summary>
+        /// <param name="abName"></param>
+        public AssetBundle TryLoadAssetBundle(string abName)
+        {
+            return _mgr.TryLoadAssetBundle(abName);
+        }
 
         /// <summary>
         /// 加载资源

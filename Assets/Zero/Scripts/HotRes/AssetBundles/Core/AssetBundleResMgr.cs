@@ -107,9 +107,7 @@ namespace Zero
 
         public override string[] GetAllAsssetsNames(string abName)
         {
-            MakeABNameNotEmpty(ref abName);
-            abName = ABNameWithExtension(abName);
-            AssetBundle ab = LoadAssetBundle(abName);
+            AssetBundle ab = TryLoadAssetBundle(abName);
             string[] assetNames = ab.GetAllAssetNames();
             for (int i = 0; i < assetNames.Length; i++)
             {
@@ -121,9 +119,7 @@ namespace Zero
 
         public override UnityEngine.Object Load(string abName, string assetName)
         {
-            MakeABNameNotEmpty(ref abName);
-            abName = ABNameWithExtension(abName);
-            AssetBundle ab = LoadAssetBundle(abName);
+            AssetBundle ab = TryLoadAssetBundle(abName);
             if (null == ab)
             {
                 Debug.LogErrorFormat("AB资源不存在  abName: {0}", abName);
@@ -141,9 +137,7 @@ namespace Zero
 
         public override T Load<T>(string abName, string assetName)
         {
-            MakeABNameNotEmpty(ref abName);
-            abName = ABNameWithExtension(abName);
-            AssetBundle ab = LoadAssetBundle(abName);
+            AssetBundle ab = TryLoadAssetBundle(abName);
 
             T asset = ab.LoadAsset<T>(assetName);
             if (null == asset)
@@ -157,9 +151,7 @@ namespace Zero
 
         public override UnityEngine.Object[] LoadAll(string abName)
         {
-            MakeABNameNotEmpty(ref abName);
-            abName = ABNameWithExtension(abName);
-            AssetBundle ab = LoadAssetBundle(abName);
+            AssetBundle ab = TryLoadAssetBundle(abName);
             if (ab.isStreamedSceneAssetBundle)
             {
                 return Array.Empty<UnityEngine.Object>();
@@ -168,30 +160,32 @@ namespace Zero
             return ab.LoadAllAssets();
         }
 
-        public override void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded,
-            Action<float> onProgress = null)
+        public override AssetBundle TryLoadAssetBundle(string abName)
         {
             MakeABNameNotEmpty(ref abName);
             abName = ABNameWithExtension(abName);
             AssetBundle ab = LoadAssetBundle(abName);
+            return ab;
+        }
+
+        public override void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded,
+            Action<float> onProgress = null)
+        {
+            AssetBundle ab = TryLoadAssetBundle(abName);
             ILBridge.Ins.StartCoroutine(this, LoadAsync<UnityEngine.Object>(ab, assetName, onLoaded, onProgress));
         }
 
         public override void LoadAsync<T>(string abName, string assetName, Action<T> onLoaded,
             Action<float> onProgress = null)
         {
-            MakeABNameNotEmpty(ref abName);
-            abName = ABNameWithExtension(abName);
-            AssetBundle ab = LoadAssetBundle(abName);
+            AssetBundle ab = TryLoadAssetBundle(abName);
             ILBridge.Ins.StartCoroutine(this, LoadAsync(ab, assetName, onLoaded, onProgress));
         }
 
         public override void LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded,
             Action<float> onProgress = null)
         {
-            MakeABNameNotEmpty(ref abName);
-            abName = ABNameWithExtension(abName);
-            AssetBundle ab = LoadAssetBundle(abName);
+            AssetBundle ab = TryLoadAssetBundle(abName);
             ILBridge.Ins.StartCoroutine(this, LoadAllAsync(ab, onLoaded, onProgress));
         }
 

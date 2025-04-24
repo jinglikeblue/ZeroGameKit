@@ -133,6 +133,11 @@ namespace Zero
         return default(T);
 #endif
         }
+        
+        public override AssetBundle TryLoadAssetBundle(string abName)
+        {
+            return null;
+        }
 
         public override void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
         {
