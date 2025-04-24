@@ -14,7 +14,7 @@ namespace Example
     class ResMgrExample
     {
         static public void Start()
-        {            
+        {
             UIWinMgr.Ins.Open<ResMgrExampleWin>();
         }
     }
@@ -27,7 +27,6 @@ namespace Example
         public Image img3;
 
         public Text textLog;
-
 
 
         protected override void OnInit(object data)
@@ -65,31 +64,31 @@ namespace Example
         /// <summary>
         /// 异步加载方式
         /// </summary>
-        void AsyncLoad()
+        async void AsyncLoad()
         {
             //通过指定AB和资源名加载
-            ResMgr.Ins.LoadAsync<Sprite>(AB.EXAMPLES_TEXTURES.NAME, AB.EXAMPLES_TEXTURES.gift_pudding_png,
+            var obj1 = await ResMgr.Ins.LoadAsync<Sprite>(AB.EXAMPLES_TEXTURES.NAME, AB.EXAMPLES_TEXTURES.gift_pudding_png,
                 (sprite) =>
                 {
                     img2.sprite = sprite;
+                    L(LogColor.Zero2($"[加载完成][Onloaded] {sprite.name}"));
                 },
-                (progress) =>
-                {
-                    L(LogColor.Zero1($"{AB.EXAMPLES_TEXTURES.gift_pudding_png_assetPath} 加载进度:{progress}"));
-                }
-                );            
+                (progress) => { L(LogColor.Zero1($"{AB.EXAMPLES_TEXTURES.gift_pudding_png_assetPath} 加载进度:{progress}")); }
+            );
+
+            L(LogColor.Zero2($"[加载完成][await] {obj1.name}"));
 
             //通过资源完整路径加载
-            ResMgr.Ins.LoadAsync<Sprite>(AB.EXAMPLES_TEXTURES.gift_sundae_png_assetPath,
+            var obj2 = await ResMgr.Ins.LoadAsync<Sprite>(AB.EXAMPLES_TEXTURES.gift_sundae_png_assetPath,
                 (sprite) =>
                 {
                     img3.sprite = sprite;
+                    L(LogColor.Zero2($"[加载完成][Onloaded] {sprite.name}"));
                 },
-                (progress) =>
-                {
-                    L(LogColor.Zero1($"{AB.EXAMPLES_TEXTURES.gift_sundae_png_assetPath} 加载进度:{progress}"));
-                }
-                );
+                (progress) => { L(LogColor.Zero1($"{AB.EXAMPLES_TEXTURES.gift_sundae_png_assetPath} 加载进度:{progress}")); }
+            );
+
+            L(LogColor.Zero2($"[加载完成][await] {obj2.name}"));
         }
 
         /// <summary>
@@ -106,6 +105,7 @@ namespace Example
             {
                 L($"资源读取失败：{AB.EXAMPLES_CROSS_DEPEND_TEST_A.NAME}");
             }
+
             var b = ResMgr.Ins.Load<GameObject>(AB.EXAMPLES_CROSS_DEPEND_TEST_B.B_assetPath);
             if (null != b)
             {
@@ -138,14 +138,8 @@ namespace Example
             L(LogColor.Zero1($"加载完成，资源数:{objs?.Length}"));
 
             L(LogColor.Zero1($"开始异步加载:{abName}"));
-            ResMgr.Ins.LoadAllAsync(abName, (assets) =>
-            {
-                L(LogColor.Zero1($"加载完成，资源数:{assets?.Length}"));
-            },
-            (progress) =>
-            {
-                L(LogColor.Zero1($"加载进度:{progress}"));
-            });
+            ResMgr.Ins.LoadAllAsync(abName, (assets) => { L(LogColor.Zero1($"加载完成，资源数:{assets?.Length}")); },
+                (progress) => { L(LogColor.Zero1($"加载进度:{progress}")); });
         }
     }
 }

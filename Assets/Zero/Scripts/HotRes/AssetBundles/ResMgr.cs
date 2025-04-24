@@ -1,6 +1,7 @@
 ﻿using Jing;
 using System;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -124,7 +125,7 @@ namespace Zero
         {
             return _mgr.LoadAll(abName);
         }
-        
+
         /// <summary>
         /// 在运行环境支持的情况下。尝试加载AssetBundle文件。
         /// </summary>
@@ -187,9 +188,19 @@ namespace Zero
         /// <param name="assetName">资源名称</param>
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
+        public UniTask<UnityEngine.Object> LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
         {
-            _mgr.LoadAsync(abName, assetName, onLoaded, onProgress);
+            var completionSource = new UniTaskCompletionSource<UnityEngine.Object>();
+
+            _mgr.LoadAsync(abName, assetName, OnLoaded, onProgress);
+
+            void OnLoaded(UnityEngine.Object obj)
+            {
+                onLoaded?.Invoke(obj);
+                completionSource.TrySetResult(obj);
+            }
+
+            return completionSource.Task;
         }
 
         /// <summary>
@@ -200,9 +211,19 @@ namespace Zero
         /// <param name="assetName">资源名称</param>
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public void LoadAsync<T>(string abName, string assetName, Action<T> onLoaded, Action<float> onProgress = null) where T : UnityEngine.Object
+        public UniTask<T> LoadAsync<T>(string abName, string assetName, Action<T> onLoaded, Action<float> onProgress = null) where T : UnityEngine.Object
         {
-            _mgr.LoadAsync<T>(abName, assetName, onLoaded, onProgress);
+            var completionSource = new UniTaskCompletionSource<T>();
+
+            _mgr.LoadAsync<T>(abName, assetName, Onloaded, onProgress);
+
+            void Onloaded(T obj)
+            {
+                onLoaded?.Invoke(obj);
+                completionSource.TrySetResult(obj);
+            }
+
+            return completionSource.Task;
         }
 
         /// <summary>
@@ -212,12 +233,10 @@ namespace Zero
         /// <param name="assetPath">资源路径</param>        
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public void LoadAsync(string assetPath, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
+        public UniTask<UnityEngine.Object> LoadAsync(string assetPath, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
         {
-            string abName;
-            string assetName;
-            SeparateAssetPath(assetPath, out abName, out assetName);
-            _mgr.LoadAsync(abName, assetName, onLoaded, onProgress);
+            SeparateAssetPath(assetPath, out var abName, out var assetName);
+            return LoadAsync(abName, assetName, onLoaded, onProgress);
         }
 
         /// <summary>
@@ -227,12 +246,10 @@ namespace Zero
         /// <param name="assetPath">资源路径</param>        
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public void LoadAsync<T>(string assetPath, Action<T> onLoaded, Action<float> onProgress = null) where T : UnityEngine.Object
+        public UniTask<T> LoadAsync<T>(string assetPath, Action<T> onLoaded, Action<float> onProgress = null) where T : UnityEngine.Object
         {
-            string abName;
-            string assetName;
-            SeparateAssetPath(assetPath, out abName, out assetName);
-            _mgr.LoadAsync<T>(abName, assetName, onLoaded, onProgress);
+            SeparateAssetPath(assetPath, out var abName, out var assetName);
+            return LoadAsync<T>(abName, assetName, onLoaded, onProgress);
         }
 
         /// <summary>
@@ -241,9 +258,19 @@ namespace Zero
         /// <param name="abName"></param>
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public void LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded, Action<float> onProgress = null)
+        public UniTask<UnityEngine.Object[]> LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded, Action<float> onProgress = null)
         {
-            _mgr.LoadAllAsync(abName, onLoaded, onProgress);
+            var completionSource = new UniTaskCompletionSource<UnityEngine.Object[]>();
+
+            _mgr.LoadAllAsync(abName, Onloaded, onProgress);
+
+            void Onloaded(UnityEngine.Object[] objs)
+            {
+                onLoaded?.Invoke(objs);
+                completionSource.TrySetResult(objs);
+            }
+
+            return completionSource.Task;
         }
 
         /// <summary>
@@ -299,7 +326,7 @@ namespace Zero
             {
                 assetFolder += "/";
             }
-            
+
             var assetPath = FileUtility.CombinePaths(assetFolder, assetName);
             return assetPath;
         }
@@ -328,13 +355,13 @@ namespace Zero
             {
                 return assetPath;
             }
-            
+
             //如果是根AB，则需要忽略根AB的路径
             if (assetPath.StartsWith(ZeroConst.ROOT_AB_FILE_NAME))
             {
                 assetPath = Path.GetFileName(assetPath);
             }
-            
+
             var originalAssetPath = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, assetPath);
             return originalAssetPath;
         }
