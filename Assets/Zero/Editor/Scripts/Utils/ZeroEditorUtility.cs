@@ -105,6 +105,13 @@ namespace ZeroEditor
                 var scriptName = obj.GetType().Name;
                 // 在项目中查找类名对应的脚本文件
                 string[] guids = UnityEditor.AssetDatabase.FindAssets($"{scriptName} t:Script");
+
+                if (0 == guids.Length)
+                {
+                    Debug.LogError($"无法找到对应的脚本文件: {scriptName}");
+                    return;
+                }
+                
                 // 获取脚本的路径
                 string assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]);
                 // 打开该脚本文件
