@@ -123,7 +123,7 @@ namespace Zero
             }
             else
             {
-                Debug.Log($"[SceneManagerUtility] 加载场景失败: {originalAssetPath} 模式:{mode}");
+                Debug.Log(LogColor.Red($"[SceneManagerUtility] 加载场景失败: {originalAssetPath} 模式:{mode}"));
             }
 
             return scene;
@@ -140,7 +140,7 @@ namespace Zero
         {
             var originalAssetPath = MakePathSafely(scenePath);
 
-            AsyncOperation ao;
+            AsyncOperation ao = null;
             if (IsEditorAPIEnable)
             {
 #if UNITY_EDITOR
