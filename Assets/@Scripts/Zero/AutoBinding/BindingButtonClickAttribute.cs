@@ -42,20 +42,24 @@ namespace Zero
         private static Action BindingMethod(AView obj, MethodInfo mi, BindingButtonClickAttribute attribute)
         {
             //确定要绑定的GameObject对象
-            GameObject gameObject = null == attribute.gameObjectName ? obj.gameObject : obj.FindChildGameObject(attribute.gameObjectName);           
-            
+            GameObject gameObject = null == attribute.gameObjectName ? obj.gameObject : obj.FindChildGameObject(attribute.gameObjectName);
+
+            if (null == gameObject)
+            {
+                Debug.LogError($"[自动绑定][失败] ({obj.gameObject.name}) 下找不到 ({attribute.gameObjectName}) ");
+                return null;
+            }
+
+
             var button = gameObject.GetComponent<Button>();
-            if(null == button)
+            if (null == button)
             {
                 Debug.LogError($"[自动绑定][失败]{obj.gameObject.name} 不存在Button组件!");
                 return null;
             }
 
             //构建方法包装
-            UnityAction action = () => 
-            { 
-                mi.Invoke(obj,null); 
-            };
+            UnityAction action = () => { mi.Invoke(obj, null); };
             //注册监听
             button.onClick.AddListener(action);
 

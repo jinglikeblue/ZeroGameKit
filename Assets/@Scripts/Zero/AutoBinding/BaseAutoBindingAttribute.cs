@@ -29,7 +29,7 @@ namespace Zero
         protected static List<Action> BindingMethods<TObj, TAttribute>(TObj obj, MethodBindingHandler<TObj, TAttribute> bindingFunc) where TAttribute : Attribute
         {
             List<Action> unbindingActionList = new List<Action>();
-            
+
             var type = obj.GetType();
             //TODO 这里可以做个缓存表用来查找type和方法的映射，提高效率
             var methodInfos = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
@@ -39,7 +39,10 @@ namespace Zero
                 foreach (var attribute in attributes)
                 {
                     var releaseAction = bindingFunc.Invoke(obj, mi, attribute);
-                    unbindingActionList.Add(releaseAction);
+                    if (null != releaseAction)
+                    {
+                        unbindingActionList.Add(releaseAction);
+                    }
                 }
             }
 
