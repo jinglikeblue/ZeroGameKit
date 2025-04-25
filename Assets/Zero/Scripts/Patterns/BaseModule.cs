@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ZeroGameKit
+namespace Zero
 {
     /// <summary>
     /// 模块类的基类

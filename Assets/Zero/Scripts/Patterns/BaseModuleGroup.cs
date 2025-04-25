@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace ZeroGameKit
+namespace Zero
 {
     /// <summary>
     /// 模块组基类
