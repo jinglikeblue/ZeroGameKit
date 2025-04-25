@@ -16,6 +16,11 @@ namespace ZeroHot
 			var dic = new Dictionary<string, string>();[KEY VALUE LIST]
 			return dic;
         }
+
+        #region 不重复的资源直接定位
+        [UNIQUE ASSET PATH]
+        
+        #endregion
     }
 }
 ------------------------------Split--------------------------------		/// <summary>

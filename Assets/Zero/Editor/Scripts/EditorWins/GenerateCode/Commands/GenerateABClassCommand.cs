@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
+using Jing;
 using UnityEngine;
 using Zero;
 
@@ -28,6 +28,8 @@ namespace ZeroEditor
 
         public readonly List<AssetBundleItemVO> abList;
 
+        private HashSet<string> _assetPathSet;
+
         public GenerateABClassCommand(List<AssetBundleItemVO> abList)
         {
             this.abList = abList;
@@ -35,6 +37,7 @@ namespace ZeroEditor
 
         public override void Excute()
         {
+            _assetPathSet = new HashSet<string>();
             var dir = Directory.GetParent(OUTPUT_FILE);
             if (false == dir.Exists)
             {
@@ -53,8 +56,53 @@ namespace ZeroEditor
             classContent = _mainClassT.Replace(CLASS_NAME_FLAG, mainClassName);
             classContent = classContent.Replace(CLASS_LIST_FLAG, GenerateClassList());
             classContent = classContent.Replace("[KEY VALUE LIST]", GenerateKeyValueList());
+            classContent = classContent.Replace("[UNIQUE ASSET PATH]", GenerateUniqueAssetPath());
 
             File.WriteAllText(OUTPUT_FILE, classContent);
+        }
+
+        /// <summary>
+        /// 对名称唯一的资源，生成可以直接定位的常量，用来快速定位资源
+        /// </summary>
+        /// <returns></returns>
+        private string GenerateUniqueAssetPath()
+        {
+            //文件名使用次数记录表
+            Dictionary<string, int> fileNameUsedCountDict = new Dictionary<string, int>();
+            //文件名刀路径的映射表
+            Dictionary<string, string> fileNameToPathDict = new Dictionary<string, string>();
+
+            #region 找出每个文件名的使用次数
+
+            foreach (var assetPath in _assetPathSet)
+            {
+                var fileName = Path.GetFileName(assetPath);
+                fileNameToPathDict[fileName] = assetPath;
+                if (!fileNameUsedCountDict.TryAdd(fileName, 1))
+                {
+                    fileNameUsedCountDict[fileName]++;
+                }
+            }
+
+            #endregion
+            
+            const string tabStr = "\t";
+            string template = StringUtility.Remove(_fieldT, _fieldT.IndexOf(tabStr, StringComparison.Ordinal), tabStr.Length);
+            StringBuilder sb = new StringBuilder();
+            foreach (var kv in fileNameUsedCountDict)
+            {
+                if (1 == kv.Value)
+                {
+                    var filed = GenerateFiled(kv.Key, fileNameToPathDict[kv.Key], template);
+                    sb.Append(filed);
+                }
+                else
+                {
+                    Debug.LogWarning($"[AB] 文件名重复，无法生成直接定位：{kv.Key}");
+                }
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
@@ -67,8 +115,8 @@ namespace ZeroEditor
 
             foreach (var vo in abList)
             {
-                foreach(var viewName in vo.assetList)
-                {                    
+                foreach (var viewName in vo.assetList)
+                {
                     var ext = Path.GetExtension(viewName);
                     if (ext.Equals(".prefab"))
                     {
@@ -78,23 +126,24 @@ namespace ZeroEditor
                             repeatViewNameSet.Add(fieldName);
                             continue;
                         }
+
                         dic[fieldName] = vo.assetbundle;
-                    }                    
+                    }
                 }
             }
 
             //剔除重名的view
-            foreach(var viewName in repeatViewNameSet)
+            foreach (var viewName in repeatViewNameSet)
             {
                 dic.Remove(viewName);
             }
 
             StringBuilder sb = new StringBuilder();
-            foreach(var kv in dic)
+            foreach (var kv in dic)
             {
                 sb.Append(_dicAddT.Replace(FIELD_NAME_FLAG, kv.Key).Replace(FIELD_VALUE_FLAG, kv.Value));
-            }            
-            
+            }
+
             return sb.ToString();
         }
 
@@ -104,7 +153,7 @@ namespace ZeroEditor
 
             foreach (var vo in abList)
             {
-                if(0 == vo.assetList.Count)
+                if (0 == vo.assetList.Count)
                 {
                     continue;
                 }
@@ -132,6 +181,7 @@ namespace ZeroEditor
             {
                 content = content.Replace(EXPLAIN_FLAG, _explainT.Replace(EXPLAIN_FLAG, vo.explain));
             }
+
             return content;
         }
 
@@ -145,7 +195,7 @@ namespace ZeroEditor
             {
                 abNameWithoutExt = abName.Substring(0, abName.Length - ZeroConst.AB_EXTENSION.Length);
             }
-            
+
             StringBuilder sb = new StringBuilder();
 
             sb.Append(GenerateFiled("NAME", abName));
@@ -165,15 +215,25 @@ namespace ZeroEditor
                 //添加全名
                 var assetPath = ResMgr.Ins.LinkAssetPath(abNameWithoutExt, viewName);
                 sb.Append(GenerateFiled(fieldName + "_assetPath", assetPath));
+
+                if (!_assetPathSet.Add(assetPath))
+                {
+                    throw new Exception($"不应该出现重复的AssetPath: {assetPath} !!!");
+                }
             }
 
             return sb.ToString();
         }
 
-        string GenerateFiled(string fieldName, string fieldValue)
+        string GenerateFiled(string fieldName, string fieldValue, string template = null)
         {
-            fieldName = MakeFieldNameRightful(fieldName);            
-            return _fieldT.Replace(FIELD_NAME_FLAG, fieldName).Replace(FIELD_VALUE_FLAG, fieldValue);
-        }     
+            if (null == template)
+            {
+                template = _fieldT;
+            }
+
+            fieldName = MakeFieldNameRightful(fieldName);
+            return template.Replace(FIELD_NAME_FLAG, fieldName).Replace(FIELD_VALUE_FLAG, fieldValue);
+        }
     }
 }
