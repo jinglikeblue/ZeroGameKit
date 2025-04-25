@@ -29,8 +29,16 @@ namespace Zero
 
         AResMgr _mgr;
 
+        private EResMgrType _type = EResMgrType.RESOURCES;
+
+        /// <summary>
+        /// 是否是AB资源
+        /// </summary>
+        public bool IsAssetBundle => _type == EResMgrType.ASSET_BUNDLE;
+
         public void Init(EResMgrType type, string assetsInfo = null)
         {
+            _type = type;
             switch (type)
             {
                 case EResMgrType.ASSET_BUNDLE:
@@ -211,7 +219,7 @@ namespace Zero
         /// <param name="assetName">资源名称</param>
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public UniTask<T> LoadAsync<T>(string abName, string assetName, Action<T> onLoaded, Action<float> onProgress = null) where T : UnityEngine.Object
+        public UniTask<T> LoadAsync<T>(string abName, string assetName, Action<T> onLoaded = null, Action<float> onProgress = null) where T : UnityEngine.Object
         {
             var completionSource = new UniTaskCompletionSource<T>();
 
@@ -233,7 +241,7 @@ namespace Zero
         /// <param name="assetPath">资源路径</param>        
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public UniTask<UnityEngine.Object> LoadAsync(string assetPath, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
+        public UniTask<UnityEngine.Object> LoadAsync(string assetPath, Action<UnityEngine.Object> onLoaded = null, Action<float> onProgress = null)
         {
             SeparateAssetPath(assetPath, out var abName, out var assetName);
             return LoadAsync(abName, assetName, onLoaded, onProgress);
@@ -246,7 +254,7 @@ namespace Zero
         /// <param name="assetPath">资源路径</param>        
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public UniTask<T> LoadAsync<T>(string assetPath, Action<T> onLoaded, Action<float> onProgress = null) where T : UnityEngine.Object
+        public UniTask<T> LoadAsync<T>(string assetPath, Action<T> onLoaded = null, Action<float> onProgress = null) where T : UnityEngine.Object
         {
             SeparateAssetPath(assetPath, out var abName, out var assetName);
             return LoadAsync<T>(abName, assetName, onLoaded, onProgress);
@@ -258,7 +266,7 @@ namespace Zero
         /// <param name="abName"></param>
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public UniTask<UnityEngine.Object[]> LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded, Action<float> onProgress = null)
+        public UniTask<UnityEngine.Object[]> LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded = null, Action<float> onProgress = null)
         {
             var completionSource = new UniTaskCompletionSource<UnityEngine.Object[]>();
 
