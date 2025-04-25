@@ -65,6 +65,9 @@ namespace ZeroEditor
             //根据交叉引用算法优化AssetBundle
             CreateCrossAssetBundle();
 
+            //打包前的资源检查
+            CheckAssetBundles();
+
             //开始打包AssetBundle（打包到Library中的ZeroHotResCache中）
             BuildAssetBundlesToCacheDir();
 
@@ -306,6 +309,41 @@ namespace ZeroEditor
                 _abDic[abName] = assetList;
             }
             #endregion
+        }
+
+        /// <summary>
+        /// 打包前的资源检查
+        /// </summary>
+        void CheckAssetBundles()
+        {
+            #region 场景检查，场景文件不能和其它资源在同一个AB里面
+            
+            foreach (var abb in _abDic)
+            {
+                int scenesCount = 0;
+                int assetsCount = 0; 
+                
+                foreach (var filePath in abb.Value)
+                {
+                    if (filePath.EndsWith(".unity"))
+                    {
+                        scenesCount++;
+                    }
+                    else
+                    {
+                        assetsCount++;
+                    }
+                }
+                
+                if (scenesCount > 0 && assetsCount > 0)
+                {
+                    var folder = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, Path.GetFileNameWithoutExtension(abb.Key));
+                    throw new Exception($"场景文件不能和其它资源在同一个AB（文件夹）里面，请检查文件夹: {folder}");
+                }
+            }
+
+            #endregion
+
         }
 
         /// <summary>

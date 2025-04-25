@@ -34,44 +34,54 @@ namespace ZeroEditor
         [Button("发布热更资源", ButtonSizes.Large)]
         void BuildPart1()
         {
-            if (isCopyFiles)
+            try
             {
-                EditorUtility.DisplayProgressBar("打包热更资源", "开始拷贝Files资源文件夹", 0f);
-                Debug.Log("开始拷贝Files资源文件夹");                
-                CopyFiles();
-                Debug.Log("Files资源文件夹拷贝完成");
-            }
-
-            if (isBuildAB)
-            {
-                EditorUtility.DisplayProgressBar("打包热更资源", "开始发布AssetBundle", 0f);
-                Debug.Log("开始发布AssetBundle");
-                //发布AB资源
-                BuildAssetBundle();
-                Debug.Log("AssetBundle发布完成");
-            }
-
-            if (isBuildDLL)
-            {
-                EditorUtility.DisplayProgressBar("打包热更资源", "正在发布DLL", 0f);
-                Debug.Log("开始发布DLL");
-                BuildDll(() =>
+                if (isCopyFiles)
                 {
-                    Debug.Log("DLL发布成功");
+                    EditorUtility.DisplayProgressBar("打包热更资源", "开始拷贝Files资源文件夹", 0f);
+                    Debug.Log("开始拷贝Files资源文件夹");                
+                    CopyFiles();
+                    Debug.Log("Files资源文件夹拷贝完成");
+                }
+
+                if (isBuildAB)
+                {
+                    EditorUtility.DisplayProgressBar("打包热更资源", "开始发布AssetBundle", 0f);
+                    Debug.Log("开始发布AssetBundle");
+                    //发布AB资源
+                    BuildAssetBundle();
+                    Debug.Log("AssetBundle发布完成");
+                }
+
+                if (isBuildDLL)
+                {
+                    EditorUtility.DisplayProgressBar("打包热更资源", "正在发布DLL", 0f);
+                    Debug.Log("开始发布DLL");
+                    BuildDll(() =>
+                        {
+                            Debug.Log("DLL发布成功");
+                            BuildPart2();
+                        },
+                        () =>
+                        {
+                            Debug.Log("DLL发布失败");
+                            EditorUtility.ClearProgressBar();
+                        });
+                }
+                else
+                {
                     BuildPart2();
-                },
-                () =>
-                {
-                    Debug.Log("DLL发布失败");
-                    EditorUtility.ClearProgressBar();
-                });
+                }
+
+                AssetDatabase.Refresh();
             }
-            else
+            catch
             {
-                BuildPart2();
+                EditorUtility.ClearProgressBar();
+                EditorUtility.DisplayDialog("出错", "发布失败！", "确定");
+                throw;
             }
 
-            AssetDatabase.Refresh();
         }
 
 
@@ -230,6 +240,12 @@ namespace ZeroEditor
         void BuildResJsonFile()
         {
             new ResJsonBuildCommand(ZeroConst.PUBLISH_RES_ROOT_DIR).Execute();
+        }
+
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            EditorUtility.ClearProgressBar();
         }
     }
 }
