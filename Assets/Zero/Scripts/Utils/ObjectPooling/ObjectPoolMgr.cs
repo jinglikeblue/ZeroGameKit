@@ -6,7 +6,7 @@ namespace ZeroHot
     /// <summary>
     /// 对象池管理器
     /// </summary>
-    class ObjectPoolMgr : BaseSingleton<ObjectPoolMgr>
+    public class ObjectPoolMgr : BaseSingleton<ObjectPoolMgr>
     {
         Dictionary<string, BaseObjectPool> _poolDic = new Dictionary<string, BaseObjectPool>();
 

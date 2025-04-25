@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using UnityEngine;
+﻿using System;
+using System.Text;
 
 namespace ZeroEditor
 {
@@ -11,15 +11,17 @@ namespace ZeroEditor
         public const string TEMPLATE_SPLIT = "------------------------------Split--------------------------------";
 
         #region 替换标记
+
         public const string CLASS_NAME_FLAG = "[CLASS NAME]";
         public const string TYPE_NAME_FLAG = "[TYPE NAME]";
         public const string CLASS_LIST_FLAG = "[CLASS LIST]";
         public const string FIELD_LIST_FLAG = "[FIELD LIST]";
-        public const string FIELD_NAME_FLAG = "[FIELD NAME]";        
+        public const string FIELD_NAME_FLAG = "[FIELD NAME]";
         public const string FIELD_VALUE_FLAG = "[FIELD VALUE]";
         public const string EXPLAIN_FLAG = "[EXPLAIN]";
         public const string NAMESPACE_FLAG = "[NAMESPACE]";
         public const string PARAMS_FLAG = "[PARAMS]";
+
         #endregion
 
         public abstract void Excute();
@@ -31,29 +33,50 @@ namespace ZeroEditor
         /// <returns></returns>
         static public string MakeFieldNameRightful(string fieldName)
         {
-            fieldName = fieldName.Replace(' ', '_');
-            var firstChar = fieldName[0];
-            Regex regex = new Regex("[a-zA-Z_]");
-            if (false == regex.IsMatch(firstChar.ToString()))
+            var input = fieldName;
+            var sb = new StringBuilder(input.Length);
+
+            // 第一个字符必须为字母或下划线[1,2](@ref)
+            if (!char.IsLetter(input[0]) && input[0] != '_')
             {
-                Debug.LogWarningFormat($"字段不是合法的(前缀已自动添加下划线): {fieldName}");                
-                fieldName = "_" + fieldName;
+                sb.Append('_');
+            }
+            
+            sb.Append(input[0]);
+
+            // 后续字符可以是字母、数字或下划线[4](@ref)
+            for (int i = 1; i < input.Length; i++)
+            {
+                char c = input[i];
+                if (char.IsLetterOrDigit(c) || c == '_')
+                {
+                    sb.Append(c);
+                }
+                else
+                {
+                    sb.Append('_');
+                }
             }
 
-            if (fieldName.IndexOf('.') > -1)
+            // 检查是否为C#关键字[1](@ref)
+            fieldName = sb.ToString();
+            if (IsKeyword(fieldName))
             {
-                Debug.LogWarningFormat($"字段不是合法的(已自动替换'.'为'_'): {fieldName}");                
-                fieldName = fieldName.Replace('.', '_');
+                fieldName = "@" + fieldName;
             }
 
-            if (fieldName.IndexOf('-') > -1)
-            {
-                Debug.LogWarningFormat($"字段不是合法的(已自动替换'-'为'_'): {fieldName}");
-                fieldName = fieldName.Replace('-', '_');
-            }
             return fieldName;
+
+            bool IsKeyword(string word)
+            {
+                // C#关键字列表（部分示例）
+                string[] keywords =
+                {
+                    "int", "float", "double", "string",
+                    "class", "void", "if", "else", "while"
+                };
+                return Array.Exists(keywords, k => k.Equals(word, StringComparison.Ordinal));
+            }
         }
     }
-
-
 }

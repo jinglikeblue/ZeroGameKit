@@ -24,7 +24,7 @@ namespace ZeroEditor
 
         public string GetFieldName()
         {            
-            return assetbundle.Replace("/", "_").Replace(".ab", "").ToUpper();
+            return assetbundle.Replace("/", "_").Replace(".ab", "").Replace(" ", "_").ToUpper();
         }
     }
 }
