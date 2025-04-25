@@ -4,10 +4,11 @@ using ZeroHot;
 using System.Reflection;
 using ZeroGameKit;
 using System;
+using Jing;
 
 namespace Sokoban
 {
-    public class SokobanGlobal : ZeroHot.ASingleton<SokobanGlobal>
+    public class SokobanGlobal : BaseSingleton<SokobanGlobal>
     {
 
         /// <summary>

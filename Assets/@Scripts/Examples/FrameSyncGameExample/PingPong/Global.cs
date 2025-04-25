@@ -1,3 +1,4 @@
+using Jing;
 using ZeroHot;
 
 namespace PingPong
@@ -5,7 +6,7 @@ namespace PingPong
     /// <summary>
     /// 全局数据
     /// </summary>
-    public class Global : ASingleton<Global>
+    public class Global : BaseSingleton<Global>
     {
         /// <summary>
         /// 网络模块

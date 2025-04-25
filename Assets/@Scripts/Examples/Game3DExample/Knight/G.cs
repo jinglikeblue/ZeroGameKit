@@ -3,11 +3,12 @@ using Zero;
 using Knight;
 using System.Reflection;
 using System;
+using Jing;
 using ZeroGameKit;
 
 namespace Knight
 {
-    public class G : ZeroHot.ASingleton<G>
+    public class G : BaseSingleton<G>
     {
         public SettingModule Setting { get; private set; }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Jing;
+using UnityEngine;
 using Zero;
 using ZeroHot;
 
@@ -9,7 +10,7 @@ namespace Example
     /// </summary>
     public class SingletonClassExample
     {
-        class SingletonDemo : ZeroHot.ASingleton<SingletonDemo>
+        class SingletonDemo : BaseSingleton<SingletonDemo>
         {
             public string value = "I am a singleton class: value";
 
