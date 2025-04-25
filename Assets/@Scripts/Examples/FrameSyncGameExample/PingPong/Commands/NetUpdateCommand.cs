@@ -14,7 +14,7 @@ namespace PingPong
     {
         private bool _isLoopActively;
 
-        protected override void ExcuteProcess()
+        protected override void ExecuteProcess()
         {
             UpdateNetLoop();
         }

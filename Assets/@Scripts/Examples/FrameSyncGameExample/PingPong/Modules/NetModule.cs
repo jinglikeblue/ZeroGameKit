@@ -35,7 +35,7 @@ namespace PingPong
             host = new PingPongNetHost();
             client = new PingPongNetClient();
             _netUpdateCommand = new NetUpdateCommand();
-            _netUpdateCommand.Excute();
+            _netUpdateCommand.Execute();
             heartbeat = new HeartbeatModel(3000,6000,6000);
         }
 
