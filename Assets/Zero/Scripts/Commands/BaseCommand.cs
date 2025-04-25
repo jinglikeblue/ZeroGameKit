@@ -1,4 +1,4 @@
-namespace Zero
+﻿namespace Zero
 {
     /// <summary>
     /// 逻辑指令基类
@@ -8,24 +8,24 @@ namespace Zero
         /// <summary>
         /// 执行指令
         /// </summary>
-        public virtual BaseCommand Excute()
+        public BaseCommand Execute()
         {
-            ExcuteProcess();
+            ExecuteProcess();
             return this;
         }
 
         /// <summary>
         /// 终止指令
         /// </summary>
-        public virtual void Terminate()
+        public void Terminate()
         {
             TerminateProcess();
-        }
+        }       
 
         /// <summary>
         /// 执行指令的处理
         /// </summary>
-        protected abstract void ExcuteProcess();
+        protected abstract void ExecuteProcess();
 
         /// <summary>
         /// 终止指令的处理

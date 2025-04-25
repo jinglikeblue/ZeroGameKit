@@ -1,6 +1,6 @@
-using behaviac;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zero;
 

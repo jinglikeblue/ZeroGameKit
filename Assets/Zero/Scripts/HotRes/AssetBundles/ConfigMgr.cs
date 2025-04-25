@@ -10,7 +10,7 @@ namespace Zero
     /// <summary>
     /// 配置管理工具(对应@Resources中的文件)
     /// </summary>
-    public class ConfigMgr : ASingleton<ConfigMgr>
+    public class ConfigMgr : BaseSingleton<ConfigMgr>
     {                
         /// <summary>
         /// 加载JSON配置文件

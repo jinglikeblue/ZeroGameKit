@@ -13,7 +13,7 @@ namespace Zero
         /// 加载Resources中的launcher_setting_data，并返回全新的对象
         /// </summary>
         /// <returns></returns>
-        static public LauncherSettingData LoadLauncherSettingDataFromResources()
+        public static LauncherSettingData LoadLauncherSettingDataFromResources()
         {
             var ta = Resources.Load<TextAsset>(ZeroConst.LAUNCHER_SETTING_NAME);
             if (null != ta)

@@ -12,7 +12,7 @@ namespace Zero
     /// <summary>
     /// 热更Files管理工具，所有的加载都是异步执行的(因为使用内嵌资源时，只能用UnityWebRequest的方式读取)
     /// </summary>
-    public class HotFilesMgr : ASingleton<HotFilesMgr>
+    public class HotFilesMgr : BaseSingleton<HotFilesMgr>
     {
         /// <summary>
         /// 热更文件加载器

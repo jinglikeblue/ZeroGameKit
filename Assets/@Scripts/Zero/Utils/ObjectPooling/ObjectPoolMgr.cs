@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Jing;
 
 namespace ZeroHot
 {
     /// <summary>
     /// 对象池管理器
     /// </summary>
-    class ObjectPoolMgr : ASingleton<ObjectPoolMgr>
+    class ObjectPoolMgr : BaseSingleton<ObjectPoolMgr>
     {
         Dictionary<string, BaseObjectPool> _poolDic = new Dictionary<string, BaseObjectPool>();
 

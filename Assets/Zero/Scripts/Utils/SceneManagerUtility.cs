@@ -74,12 +74,12 @@ namespace Zero
         }
 
         /// <summary>
-        /// 加载场景。
-        /// 注意：通过该接口加载的Scene，要到下一帧的时候，才能拿出GameObject。当前帧scene.GetRootGameObjects().Length为0。
+        /// 加载场景
         /// </summary>
         /// <param name="scenePath"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
+        [Obsolete("通过该接口加载的Scene，要到下一帧的时候，才能拿出GameObject。当前帧scene.GetRootGameObjects().Length为0。")]
         public static Scene LoadScene(string scenePath, LoadSceneMode mode = LoadSceneMode.Single)
         {
             var originalAssetPath = MakePathSafely(scenePath);

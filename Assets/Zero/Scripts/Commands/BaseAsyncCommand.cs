@@ -1,33 +1,32 @@
-﻿using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
-namespace Jing
+namespace Zero
 {
     /// <summary>
     /// 逻辑指令基类
     /// </summary>
-    public abstract class ACommand
+    public abstract class BaseAsyncCommand
     {
         /// <summary>
         /// 执行指令
         /// </summary>
-        public virtual ACommand Excute()
+        public UniTask Execute()
         {
-            ExcuteProcess();
-            return this;
+            return ExecuteProcess();
         }
 
         /// <summary>
         /// 终止指令
         /// </summary>
-        public virtual void Terminate()
+        public void Terminate()
         {
             TerminateProcess();
-        }       
+        }
 
         /// <summary>
         /// 执行指令的处理
         /// </summary>
-        protected abstract void ExcuteProcess();
+        protected abstract UniTask ExecuteProcess();
 
         /// <summary>
         /// 终止指令的处理

@@ -20,7 +20,7 @@
     /// 单例模式基类
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class ASingleton<T> : BaseSingleton where T : BaseSingleton, new()
+    public abstract class BaseSingleton<T> : BaseSingleton where T : BaseSingleton, new()
     {
         private static object _singletonLock = new object(); //锁同步
 
@@ -61,7 +61,7 @@
             _ins = default;
         }
 
-        protected ASingleton()
+        protected BaseSingleton()
         {
             Init();
         }
