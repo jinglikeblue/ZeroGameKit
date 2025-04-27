@@ -2,13 +2,15 @@
 # TODO
 ## List
 
-重构优化Scene相关的资源打包（规避场景和其它资源在一起导致的打包失败）。以及读取代码。
-增加一个程序启动时会自动执行的方法的机制。（通过特性标签实现)
-AB资源直达，如果有重复的名称的，则增加前缀或者后缀来处理（尽量不使用父目录）。
-ResMgr考虑去掉单例模式
-Win和Panel等GameObject支持隐藏
-UIXXXMgr中，支持查找某个AView
+- 重构优化Scene相关的资源打包（规避场景和其它资源在一起导致的打包失败）。以及读取代码。
 
+- 增加一个通过标记触发执行的方法的机制。（通过特性标签实现 ) 。 标记后的方法，可以在特性标签触发时调用。比如登录，APP启动等状态，执行对应方法。
+
+- 增加一个AssemblyUtility类，用来提供type的缓存，提高反射效率。
+
+- Win和Panel等GameObject支持隐藏（检查是否有意义）
+
+-------------------------
 
 - 自动绑定AutoButtonClickBindingAttribute、BaseAutoBindingAttribute、BindingUIClickAttribute 这部分重新梳理，补全注释方便扩展
 
@@ -94,3 +96,4 @@ UIXXXMgr中，支持查找某个AView
 
 - 整理旧的资源优化模块, sprite packing tag 模块中提示建议使用sprite atlas       
 
+- UIXXXMgr中，支持查找某个AView
