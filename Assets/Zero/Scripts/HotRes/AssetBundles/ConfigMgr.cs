@@ -32,7 +32,7 @@ namespace Zero
         /// <returns></returns>
         public string LoadTextConfig(string assetPath)
         {
-            var ta = ResMgr.Ins.Load<TextAsset>(assetPath);    
+            var ta = ResMgr.Load<TextAsset>(assetPath);    
             
             if(null == ta)
             {
@@ -50,7 +50,7 @@ namespace Zero
         /// <returns></returns>
         public byte[] LoadBytesConfig(string assetPath)
         {
-            var ta = ResMgr.Ins.Load<TextAsset>(assetPath);
+            var ta = ResMgr.Load<TextAsset>(assetPath);
 
             if (null == ta)
             {

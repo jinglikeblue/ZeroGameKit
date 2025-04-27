@@ -64,7 +64,7 @@ namespace ZeroHot
             else
             {
                 var attr = attrs[0] as ViewRegisterAttribute;
-                ResMgr.Ins.SeparateAssetPath(attr.prefabPath, out abName, out viewName);
+                ResMgr.SeparateAssetPath(attr.prefabPath, out abName, out viewName);
 
                 //abName += ".ab";
                 //viewName = Path.GetFileNameWithoutExtension(viewName);                
@@ -116,13 +116,13 @@ namespace ZeroHot
         /// <returns></returns>
         public static AView Create(Type type, string abName, string viewName, Transform parent, object data = null)
         {
-            GameObject prefab = ResMgr.Ins.Load<GameObject>(abName, viewName);
+            GameObject prefab = ResMgr.Load<GameObject>(abName, viewName);
             return Create(type, prefab, parent, data);
         }
 
         public static T Create<T>(string abName, string viewName, Transform parent, object data = null) where T : AView
         {
-            GameObject prefab = ResMgr.Ins.Load<GameObject>(abName, viewName);
+            GameObject prefab = ResMgr.Load<GameObject>(abName, viewName);
             return Create<T>(prefab, parent, data);
         }
 

@@ -213,7 +213,7 @@ namespace ZeroEditor
 
                 sb.Append(GenerateFiled(fieldName, viewName));
                 //添加全名
-                var assetPath = ResMgr.Ins.LinkAssetPath(abNameWithoutExt, viewName);
+                var assetPath = ResMgr.LinkAssetPath(abNameWithoutExt, viewName);
                 sb.Append(GenerateFiled(fieldName + "_assetPath", assetPath));
 
                 if (!_assetPathSet.Add(assetPath))

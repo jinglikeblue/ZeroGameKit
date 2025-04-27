@@ -142,7 +142,7 @@ namespace Zero
             T asset = ab.LoadAsset<T>(assetName);
             if (null == asset)
             {
-                var assetPath = ResMgr.Ins.GetOriginalAssetPath(abName, assetName);
+                var assetPath = ResMgr.GetOriginalAssetPath(abName, assetName);
                 Debug.Log($"获取的资源不存在： AssetBundle: {abName}  Asset: {assetName}  AssetPath: {assetPath}");
             }
 
@@ -312,7 +312,7 @@ namespace Zero
                 _loadedABDic.Clear();
             }
 
-            ResMgr.Ins.DoGC();
+            ResMgr.DoGC();
         }
 
         AssetBundle LoadAssetBundleFromFile(string abName)

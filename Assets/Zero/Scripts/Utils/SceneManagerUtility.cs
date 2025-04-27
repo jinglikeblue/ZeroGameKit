@@ -67,7 +67,7 @@ namespace Zero
 
             if (false == scenePath.StartsWith("Assets/"))
             {
-                scenePath = ResMgr.Ins.GetOriginalAssetPath(scenePath);    
+                scenePath = ResMgr.GetOriginalAssetPath(scenePath);    
             }
             
             return scenePath;
@@ -95,8 +95,8 @@ namespace Zero
             }
             else
             {
-                ResMgr.Ins.SeparateAssetPath(scenePath, out string abName, out string viewName);
-                ResMgr.Ins.TryLoadAssetBundle(abName);
+                ResMgr.SeparateAssetPath(scenePath, out string abName, out string viewName);
+                ResMgr.TryLoadAssetBundle(abName);
                 SceneManager.LoadScene(originalAssetPath, mode);
             }
 
@@ -150,8 +150,8 @@ namespace Zero
             }
             else
             {
-                ResMgr.Ins.SeparateAssetPath(scenePath, out string abName, out string viewName);
-                ResMgr.Ins.TryLoadAssetBundle(abName);
+                ResMgr.SeparateAssetPath(scenePath, out string abName, out string viewName);
+                ResMgr.TryLoadAssetBundle(abName);
                 ao = SceneManager.LoadSceneAsync(originalAssetPath, mode);
             }
 

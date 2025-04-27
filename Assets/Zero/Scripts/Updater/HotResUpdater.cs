@@ -180,7 +180,7 @@ namespace Zero
 
 
             string abName = itemName.Replace(abDir, "");
-            var abDependList = ResMgr.Ins.GetDepends(abName);
+            var abDependList = ResMgr.GetDepends(abName);
             foreach (var ab in abDependList)
             {
                 nameList.Add(FileUtility.CombinePaths(abDir, ab));

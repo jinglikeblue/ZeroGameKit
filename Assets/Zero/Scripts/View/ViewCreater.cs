@@ -71,7 +71,7 @@ namespace ZeroHot
             _data = data;
             _onCreated = onCreated;
             _onLoaded = onLoaded;
-            ResMgr.Ins.LoadAsync(_abName, _viewName, OnResLoaded, onProgress);
+            ResMgr.LoadAsync(_abName, _viewName, OnResLoaded, onProgress);
         }
 
         private void OnResLoaded(UnityEngine.Object obj)

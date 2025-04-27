@@ -9,39 +9,41 @@ namespace Zero
     /// <summary>
     /// 资源管理器
     /// </summary>
-    public class ResMgr
+    public static class ResMgr
     {
         public enum EResMgrType
         {
-            ASSET_BUNDLE,
-            RESOURCES,
-            ASSET_DATA_BASE,
+            AssetBundle,
+            [Obsolete("弃用了，可以使用AssetBundle下的内嵌资源模式替代")]
+            Resources,
+            AssetDataBase,
+            None,
         }
 
-        /// <summary>
-        /// 单例
-        /// </summary>
-        public static ResMgr Ins { get; } = new ResMgr();
+        private static AResMgr _mgr;
 
-        private ResMgr()
-        {
-        }
-
-        AResMgr _mgr;
-
-        private EResMgrType _type = EResMgrType.RESOURCES;
+        private static EResMgrType _type = EResMgrType.None;
 
         /// <summary>
-        /// 是否是AB资源
+        /// 资源管理是否是AssetBundle资源模式
         /// </summary>
-        public bool IsAssetBundle => _type == EResMgrType.ASSET_BUNDLE;
+        public static bool IsAssetBundle { get; private set; }
 
-        public void Init(EResMgrType type, string assetsInfo = null)
+        /// <summary>
+        /// 资源管理是否是Editor下AssetDataBase接口模式
+        /// </summary>
+        public static bool IsAssetDatabase { get; private set; }
+
+        public static void Init(EResMgrType type, string assetsInfo = null)
         {
             _type = type;
+
+            IsAssetBundle = type == EResMgrType.AssetBundle;
+            IsAssetDatabase = type == EResMgrType.AssetDataBase;
+
             switch (type)
             {
-                case EResMgrType.ASSET_BUNDLE:
+                case EResMgrType.AssetBundle:
                     Debug.Log(LogColor.Zero1("初始化资源管理器... 资源来源：[AssetBundle]  Manifest名称：{0}", assetsInfo));
                     var newMgr = new AssetBundleResMgr(assetsInfo);
                     if (_mgr != null && _mgr is AssetBundleResMgr)
@@ -52,21 +54,23 @@ namespace Zero
 
                     _mgr = newMgr;
                     break;
-                case EResMgrType.RESOURCES:
+                case EResMgrType.Resources:
                     Debug.Log(LogColor.Zero1("初始化资源管理器... 资源来源：[Resources]"));
                     _mgr = new ResourcesResMgr();
                     break;
-                case EResMgrType.ASSET_DATA_BASE:
+                case EResMgrType.AssetDataBase:
                     Debug.Log(LogColor.Zero1("初始化资源管理器... 资源来源：[AssetDataBase] 资源根目录：{0}", assetsInfo));
                     _mgr = new AssetDataBaseResMgr(assetsInfo);
                     break;
+                default:
+                    throw new Exception("错误的资源模式!");
             }
         }
 
         /// <summary>
         /// 执行一次内存回收(该接口开销大，可能引起卡顿)
         /// </summary>
-        public void DoGC()
+        public static void DoGC()
         {
             //移除没有引用的资源
             Resources.UnloadUnusedAssets();
@@ -78,7 +82,7 @@ namespace Zero
         /// </summary>
         /// <param name="abName"></param>
         /// <returns></returns>
-        public string[] GetDepends(string abName)
+        public static string[] GetDepends(string abName)
         {
             return _mgr.GetDepends(abName);
         }
@@ -89,7 +93,7 @@ namespace Zero
         /// <param name="abName">资源包名称</param>
         /// <param name="isUnloadAllLoaded">是否卸载Hierarchy中的资源</param>
         /// <param name="isUnloadDepends">是否卸载关联的资源</param>
-        public void Unload(string abName, bool isUnloadAllLoaded = false, bool isUnloadDepends = true)
+        public static void Unload(string abName, bool isUnloadAllLoaded = false, bool isUnloadDepends = true)
         {
             _mgr.Unload(abName, isUnloadAllLoaded, isUnloadDepends);
         }
@@ -98,7 +102,7 @@ namespace Zero
         /// 卸载所有资源
         /// </summary>
         /// <param name="isUnloadAllLoaded">是否卸载Hierarchy中的资源</param>
-        public void UnloadAll(bool isUnloadAllLoaded = false)
+        public static void UnloadAll(bool isUnloadAllLoaded = false)
         {
             _mgr.UnloadAll(isUnloadAllLoaded);
         }
@@ -108,7 +112,7 @@ namespace Zero
         /// </summary>
         /// <param name="abName"></param>
         /// <returns></returns>
-        public string[] GetAllAsssetsNames(string abName)
+        public static string[] GetAllAsssetsNames(string abName)
         {
             return _mgr.GetAllAsssetsNames(abName);
         }
@@ -119,7 +123,7 @@ namespace Zero
         /// <param name="abName"></param>
         /// <param name="assetName"></param>
         /// <returns></returns>
-        public UnityEngine.Object Load(string abName, string assetName)
+        public static UnityEngine.Object Load(string abName, string assetName)
         {
             return _mgr.Load(abName, assetName);
         }
@@ -129,7 +133,7 @@ namespace Zero
         /// </summary>
         /// <param name="abName"></param>
         /// <returns></returns>
-        public UnityEngine.Object[] LoadAll(string abName)
+        public static UnityEngine.Object[] LoadAll(string abName)
         {
             return _mgr.LoadAll(abName);
         }
@@ -138,7 +142,7 @@ namespace Zero
         /// 在运行环境支持的情况下。尝试加载AssetBundle文件。
         /// </summary>
         /// <param name="abName"></param>
-        public AssetBundle TryLoadAssetBundle(string abName)
+        public static AssetBundle TryLoadAssetBundle(string abName)
         {
             return _mgr.TryLoadAssetBundle(abName);
         }
@@ -148,7 +152,7 @@ namespace Zero
         /// </summary>
         /// <param name="assetPath"></param>
         /// <returns></returns>
-        public UnityEngine.Object Load(string assetPath)
+        public static UnityEngine.Object Load(string assetPath)
         {
             string abName;
             string assetName;
@@ -163,7 +167,7 @@ namespace Zero
         /// <param name="abName">资源包名称</param>
         /// <param name="assetName">资源名称</param>
         /// <returns></returns>
-        public T Load<T>(string abName, string assetName) where T : UnityEngine.Object
+        public static T Load<T>(string abName, string assetName) where T : UnityEngine.Object
         {
             //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             //sw.Start();
@@ -180,7 +184,7 @@ namespace Zero
         /// <typeparam name="T"></typeparam>
         /// <param name="assetPath">资源的路径</param>
         /// <returns></returns>
-        public T Load<T>(string assetPath) where T : UnityEngine.Object
+        public static T Load<T>(string assetPath) where T : UnityEngine.Object
         {
             string abName;
             string assetName;
@@ -196,7 +200,7 @@ namespace Zero
         /// <param name="assetName">资源名称</param>
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public UniTask<UnityEngine.Object> LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
+        public static UniTask<UnityEngine.Object> LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
         {
             var completionSource = new UniTaskCompletionSource<UnityEngine.Object>();
 
@@ -219,7 +223,7 @@ namespace Zero
         /// <param name="assetName">资源名称</param>
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public UniTask<T> LoadAsync<T>(string abName, string assetName, Action<T> onLoaded = null, Action<float> onProgress = null) where T : UnityEngine.Object
+        public static UniTask<T> LoadAsync<T>(string abName, string assetName, Action<T> onLoaded = null, Action<float> onProgress = null) where T : UnityEngine.Object
         {
             var completionSource = new UniTaskCompletionSource<T>();
 
@@ -241,7 +245,7 @@ namespace Zero
         /// <param name="assetPath">资源路径</param>        
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public UniTask<UnityEngine.Object> LoadAsync(string assetPath, Action<UnityEngine.Object> onLoaded = null, Action<float> onProgress = null)
+        public static UniTask<UnityEngine.Object> LoadAsync(string assetPath, Action<UnityEngine.Object> onLoaded = null, Action<float> onProgress = null)
         {
             SeparateAssetPath(assetPath, out var abName, out var assetName);
             return LoadAsync(abName, assetName, onLoaded, onProgress);
@@ -254,7 +258,7 @@ namespace Zero
         /// <param name="assetPath">资源路径</param>        
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public UniTask<T> LoadAsync<T>(string assetPath, Action<T> onLoaded = null, Action<float> onProgress = null) where T : UnityEngine.Object
+        public static UniTask<T> LoadAsync<T>(string assetPath, Action<T> onLoaded = null, Action<float> onProgress = null) where T : UnityEngine.Object
         {
             SeparateAssetPath(assetPath, out var abName, out var assetName);
             return LoadAsync<T>(abName, assetName, onLoaded, onProgress);
@@ -266,7 +270,7 @@ namespace Zero
         /// <param name="abName"></param>
         /// <param name="onLoaded"></param>
         /// <param name="onProgress"></param>
-        public UniTask<UnityEngine.Object[]> LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded = null, Action<float> onProgress = null)
+        public static UniTask<UnityEngine.Object[]> LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded = null, Action<float> onProgress = null)
         {
             var completionSource = new UniTaskCompletionSource<UnityEngine.Object[]>();
 
@@ -287,7 +291,7 @@ namespace Zero
         /// <param name="abName"></param>
         /// <param name="assetName"></param>
         /// <returns></returns>
-        public string LinkAssetPath(string abName, string assetName)
+        public static string LinkAssetPath(string abName, string assetName)
         {
             if (abName == null)
             {
@@ -306,7 +310,7 @@ namespace Zero
         /// 将一个资源路径拆分为资源父路径以及资源名
         /// </summary>
         /// <param name="assetPath"></param>
-        public void SeparateAssetPath(string assetPath, out string abName, out string assetName)
+        public static void SeparateAssetPath(string assetPath, out string abName, out string assetName)
         {
             if (assetPath == null)
             {
@@ -323,7 +327,7 @@ namespace Zero
         /// <param name="abName"></param>
         /// <param name="assetName"></param>
         /// <returns></returns>
-        public string JointAssetPath(string abName, string assetName)
+        public static string JointAssetPath(string abName, string assetName)
         {
             var assetFolder = FileUtility.CombinePaths(Path.GetDirectoryName(abName) ?? string.Empty, Path.GetFileNameWithoutExtension(abName));
             if (assetFolder == ZeroConst.ROOT_AB_FILE_NAME)
@@ -345,7 +349,7 @@ namespace Zero
         /// <param name="abName"></param>
         /// <param name="assetName"></param>
         /// <returns></returns>
-        public string GetOriginalAssetPath(string abName, string assetName)
+        public static string GetOriginalAssetPath(string abName, string assetName)
         {
             var assetPath = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, JointAssetPath(abName, assetName));
             return assetPath;
@@ -356,7 +360,7 @@ namespace Zero
         /// </summary>
         /// <param name="assetPath"></param>
         /// <returns></returns>
-        public string GetOriginalAssetPath(string assetPath)
+        public static string GetOriginalAssetPath(string assetPath)
         {
             //已经是原始地址其实路径，不需要再获取
             if (assetPath.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
