@@ -59,7 +59,7 @@ namespace Example
             if(i %2 == 1)
             {
                 //同步方式之一
-                var prefab = ResMgr.Ins.Load<GameObject>(AB.EXAMPLES_FRAMEWORK.ClockView_assetPath);
+                var prefab = ResMgr.Load<GameObject>(AB.EXAMPLES_FRAMEWORK.ClockView_assetPath);
                 _clock = ViewFactory.Create<ClockView>(prefab, content, DateTime.Now);
                 Debug.Log(LogColor.Zero1($"同步视图创建完成:{_clock.GetType()}"));
             }

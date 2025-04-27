@@ -72,7 +72,7 @@ namespace ZeroGameKit
 
             AddBtn(GROUP_DEBUG, "测试包下载地址", () => { Application.OpenURL("https://tt.appc02.com/y8b6"); });
             AddBtn(GROUP_DEBUG, "清空缓存", ClearCache);
-            AddBtn(GROUP_DEBUG, "GC", ResMgr.Ins.DoGC);
+            AddBtn(GROUP_DEBUG, "GC", ResMgr.DoGC);
 
             AddBtn(GROUP_FUTURE, "加载StreamingAssets", StreamingAssetsLoadFuture.Start);
 

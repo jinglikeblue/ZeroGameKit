@@ -97,7 +97,7 @@ namespace Sokoban
 
         private void CreateTargets()
         {
-            var prefab = ResMgr.Ins.Load<GameObject>(AB.EXAMPLES_SOKOBAN_PREFABS_GAME.Target_assetPath);
+            var prefab = ResMgr.Load<GameObject>(AB.EXAMPLES_SOKOBAN_PREFABS_GAME.Target_assetPath);
             foreach (var vo in _lv.targets)
             {
                 var unit = ViewFactory.Create<BaseUnit>(prefab, _contents, EUnitType.TARGET);
@@ -107,7 +107,7 @@ namespace Sokoban
 
         private void CreateBlocks()
         {
-            var prefab = ResMgr.Ins.Load<GameObject>(AB.EXAMPLES_SOKOBAN_PREFABS_GAME.Block_assetPath);
+            var prefab = ResMgr.Load<GameObject>(AB.EXAMPLES_SOKOBAN_PREFABS_GAME.Block_assetPath);
             foreach (var vo in _lv.blocks)
             {
                 var unit = ViewFactory.Create<BaseUnit>(prefab, _contents, EUnitType.BLOCK);
@@ -118,7 +118,7 @@ namespace Sokoban
 
         private void CreateBoxes()
         {
-            var prefab = ResMgr.Ins.Load<GameObject>(AB.EXAMPLES_SOKOBAN_PREFABS_GAME.Box_assetPath);
+            var prefab = ResMgr.Load<GameObject>(AB.EXAMPLES_SOKOBAN_PREFABS_GAME.Box_assetPath);
             foreach (var vo in _lv.boxes)
             {
                 var unit = ViewFactory.Create<BoxUnit>(prefab, _contents, EUnitType.BOX);
@@ -129,7 +129,7 @@ namespace Sokoban
 
         private void CreateRole()
         {
-            var prefab = ResMgr.Ins.Load<GameObject>(AB.EXAMPLES_SOKOBAN_PREFABS_GAME.Role_assetPath);
+            var prefab = ResMgr.Load<GameObject>(AB.EXAMPLES_SOKOBAN_PREFABS_GAME.Role_assetPath);
             foreach (var vo in _lv.roles)
             {
                 var unit = ViewFactory.Create<RoleUnit>(prefab, _contents, EUnitType.ROLE);

@@ -23,7 +23,7 @@ namespace Roushan
 
         public void CreateBlock()
         {
-            var ac = ResMgr.Ins.Load<AudioClip>(AB.EXAMPLES_AUDIOS.NAME, "click");
+            var ac = ResMgr.Load<AudioClip>(AB.EXAMPLES_AUDIOS.NAME, "click");
             AudioDevice.Get("effect", true).Play(gameObject,ac);
             //以异步方式创建Block
             ViewFactory.CreateAsync<Block>(AB.EXAMPLES_ROUSHAN.NAME, AB.EXAMPLES_ROUSHAN.Block, _blocks, null, OnCreatedBlock, OnProgressBlock, OnLoadedBlock);

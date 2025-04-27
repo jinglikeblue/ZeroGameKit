@@ -21,7 +21,7 @@ namespace Knight
             _btnEnter.onClick.AddListener(Enter);
 
             G.Ins.Audio.Device.StopAll();
-            G.Ins.Audio.Device.Play(ResMgr.Ins.Load<AudioClip>(AB.EXAMPLES_KNIGHT_AUDIOS.MenuBGM_mp3_assetPath), true);
+            G.Ins.Audio.Device.Play(ResMgr.Load<AudioClip>(AB.EXAMPLES_KNIGHT_AUDIOS.MenuBGM_mp3_assetPath), true);
         }
 
         protected override void OnDisable()

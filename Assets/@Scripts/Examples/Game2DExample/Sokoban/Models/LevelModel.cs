@@ -43,7 +43,7 @@ namespace Sokoban
         {
             id = levelId;            
             
-            TextAsset data = ResMgr.Ins.Load<TextAsset>(AB.EXAMPLES_SOKOBAN_CONFIGS_LEVELS.NAME, $"level{levelId}.xml");
+            TextAsset data = ResMgr.Load<TextAsset>(AB.EXAMPLES_SOKOBAN_CONFIGS_LEVELS.NAME, $"level{levelId}.xml");
             var xml = new XmlDocument();
             xml.LoadXml(data.text);
             _xml = xml;
