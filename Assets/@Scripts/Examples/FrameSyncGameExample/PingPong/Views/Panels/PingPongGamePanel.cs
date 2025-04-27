@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zero;
 using ZeroGameKit;
-using ZeroHot;
+using Zero;
 
 namespace PingPong
 {

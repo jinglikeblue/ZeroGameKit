@@ -3,7 +3,7 @@ using Example;
 using Jing;
 using UnityEngine;
 using Zero;
-using ZeroHot;
+using Zero;
 
 namespace PingPong
 {

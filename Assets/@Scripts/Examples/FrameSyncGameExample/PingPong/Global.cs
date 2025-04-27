@@ -1,5 +1,5 @@
 using Jing;
-using ZeroHot;
+using Zero;
 
 namespace PingPong
 {

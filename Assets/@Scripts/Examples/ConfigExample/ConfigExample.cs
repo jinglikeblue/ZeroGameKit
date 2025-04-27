@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zero;
 using ZeroGameKit;
-using ZeroHot;
+using Zero;
 
 namespace Example
 {
@@ -10,7 +10,7 @@ namespace Example
     {
         public static void Start()
         {
-            var cfg = ConfigMgr.Ins.LoadZeroHotConfig<TestConfigVO>();
+            var cfg = ConfigMgr.Ins.LoadZeroConfig<TestConfigVO>();
             Debug.Log("配置文件的内容是：");
             Debug.Log(Json.ToJsonIndented(cfg));
 

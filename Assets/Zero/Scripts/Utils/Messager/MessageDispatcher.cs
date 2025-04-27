@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-namespace ZeroHot
+namespace Zero
 {
     /// <summary>
     /// 消息发送者

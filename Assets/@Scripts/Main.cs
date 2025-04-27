@@ -1,11 +1,8 @@
-﻿using Jing.FixedPointNumber;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using Zero;
 using ZeroGameKit;
-using Debug = behaviac.Debug;
 
-namespace ZeroHot
+namespace Zero
 {
     public class Main
     {

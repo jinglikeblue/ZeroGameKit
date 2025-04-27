@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEngine;
 using Zero;
 
-namespace ZeroHot
+namespace Zero
 {
     /// <summary>
     /// 视图对象

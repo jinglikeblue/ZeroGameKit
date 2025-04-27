@@ -23,7 +23,7 @@ namespace Example
             }
 
             //Zero.ArrayUtility.Sort
-            var map = ZeroHot.ArrayUtility.Array2Table<string, TestVO>(list.ToArray(), "key", "test");
+            var map = ArrayUtility.Array2Table<string, TestVO>(list.ToArray(), "key", "test");
 
             var sb = new StringBuilder();
             sb.AppendLine("-------------数组转换为字典-------------");

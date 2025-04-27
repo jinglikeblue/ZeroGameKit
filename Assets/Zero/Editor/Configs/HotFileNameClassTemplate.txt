@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ZeroHot
+namespace Zero
 {
     /// <summary>
     /// [自动生成的]Files目录下的文件数据

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Zero;
 
-namespace ZeroHot
+namespace Zero
 {
     /// <summary>
     /// 携程队列器，可以将添加的协程方法按照顺序执行

@@ -1,5 +1,5 @@
 using UnityEngine;
-using ZeroHot;
+using Zero;
 
 namespace PingPong
 {

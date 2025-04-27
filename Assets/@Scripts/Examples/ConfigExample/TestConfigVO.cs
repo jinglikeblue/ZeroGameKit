@@ -4,7 +4,7 @@ using Zero;
 
 namespace Example.Config
 {       
-    [ZeroHotConfig("Tests/Test", ZeroHot.AB.CONFIGS_TESTS.test_json_assetPath), HideLabel]
+    [ZeroConfig("Tests/Test", Zero.AB.CONFIGS_TESTS.test_json_assetPath), HideLabel]
     public class TestConfigVO 
     {
         [Title("字符串")]        

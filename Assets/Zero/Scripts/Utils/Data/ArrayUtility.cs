@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ZeroHot
+namespace Zero
 {
     /// <summary>
     /// 数组工具类

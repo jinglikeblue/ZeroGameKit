@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using ZeroHot;
+using Zero;
 
 namespace Zero
 {

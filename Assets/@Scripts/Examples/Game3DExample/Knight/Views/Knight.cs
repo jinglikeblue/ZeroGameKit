@@ -2,7 +2,7 @@
 using Zero;
 using Jing;
 using System.Collections.Generic;
-using ZeroHot;
+using Zero;
 
 namespace Knight
 {
@@ -21,14 +21,14 @@ namespace Knight
         public KnightASM ASM { get; private set; }
         public KnightVO VO { get; private set; }
         public CharacterController CC { get; private set; }
-        public ZeroHot.FiniteStateMachine<EKnightState> FSM { get; private set; }
+        public FiniteStateMachine<EKnightState> FSM { get; private set; }
 
         Dictionary<EKnightState, BaseKnightStateController> _stateDic = new Dictionary<EKnightState, BaseKnightStateController>();
 
         protected override void OnInit(object data)
         {
             VO = new KnightVO();
-            FSM = new ZeroHot.FiniteStateMachine<EKnightState>();
+            FSM = new FiniteStateMachine<EKnightState>();
             ASM = new KnightASM(GetComponent<Animator>(), VO);            
             CC = GetComponent<CharacterController>();
 

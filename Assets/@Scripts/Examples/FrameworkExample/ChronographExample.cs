@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine.UI;
 using Zero;
 using ZeroGameKit;
-using ZeroHot;
+using Zero;
 
 namespace Example
 {

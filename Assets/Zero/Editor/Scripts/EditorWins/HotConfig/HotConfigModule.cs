@@ -16,8 +16,8 @@ namespace ZeroEditor
 
         public HotConfigModule(Type type, string path, EditorWindow editorWin) : base(editorWin)
         {
-            var attributes = type.GetCustomAttributes(typeof(ZeroHotConfigAttribute),true);
-            var assetPath = (attributes[0] as ZeroHotConfigAttribute).assetPath;
+            var attributes = type.GetCustomAttributes(typeof(ZeroConfigAttribute),true);
+            var assetPath = (attributes[0] as ZeroConfigAttribute).assetPath;
             _path = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, assetPath);
 
             if (File.Exists(_path))

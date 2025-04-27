@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using ZeroHot;
+using Zero;
 using Zero;
 using DG.Tweening;
 using System;

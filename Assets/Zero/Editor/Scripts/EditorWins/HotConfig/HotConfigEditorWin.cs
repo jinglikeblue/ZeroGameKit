@@ -11,10 +11,10 @@ namespace ZeroEditor
     {
         protected override void OnEnable()
         {            
-            var types = Assembly.GetAssembly(typeof(ZeroHot.Main)).GetTypes();
+            var types = Assembly.GetAssembly(typeof(Zero.Main)).GetTypes();
             foreach (var type in types)
             {
-                var att = type.GetCustomAttribute<ZeroHotConfigAttribute>(false);
+                var att = type.GetCustomAttribute<ZeroConfigAttribute>(false);
                 if (null != att)
                 {                    
                     menuTree.Add(att.label, new HotConfigModule(type, att.assetPath, this), EditorIcons.File);

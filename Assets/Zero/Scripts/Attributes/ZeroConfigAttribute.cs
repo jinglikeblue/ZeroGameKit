@@ -6,7 +6,7 @@ namespace Zero
     /// @Configs自动配置标签，添加该标记的对象会显示在 「Zero -> 配置文件编辑」中
     /// </summary>    
     [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
-    public class ZeroHotConfigAttribute : Attribute
+    public class ZeroConfigAttribute : Attribute
     {
         /// <summary>
         /// 标签的名称
@@ -18,7 +18,7 @@ namespace Zero
         /// </summary>
         public string assetPath { get; private set; }
 
-        public ZeroHotConfigAttribute(string label, string assetPath)
+        public ZeroConfigAttribute(string label, string assetPath)
         {            
             this.label = label;
             this.assetPath = assetPath;

@@ -66,12 +66,12 @@ namespace Zero
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T LoadZeroHotConfig<T>()
+        public T LoadZeroConfig<T>()
         {
             var type = typeof(T);
 
-            var atts = type.GetCustomAttributes(typeof(ZeroHotConfigAttribute), false);
-            var att = atts[0] as ZeroHotConfigAttribute;
+            var atts = type.GetCustomAttributes(typeof(ZeroConfigAttribute), false);
+            var att = atts[0] as ZeroConfigAttribute;
 
             if (null == att)
             {

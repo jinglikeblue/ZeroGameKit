@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ZeroHot
+namespace Zero
 {
     public abstract class BaseObjectPool
     {

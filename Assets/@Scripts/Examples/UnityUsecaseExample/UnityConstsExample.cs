@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zero;
 using ZeroGameKit;
-using ZeroHot;
+using Zero;
 
 namespace Example
 {

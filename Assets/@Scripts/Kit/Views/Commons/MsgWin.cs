@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using ZeroHot;
+using Zero;
 
 namespace ZeroGameKit
 {

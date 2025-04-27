@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ZeroHot
+namespace Zero
 {
     /// <summary>
     /// 基础容器类

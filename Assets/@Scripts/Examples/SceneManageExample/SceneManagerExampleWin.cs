@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zero;
 using ZeroGameKit;
-using ZeroHot;
 using Debug = behaviac.Debug;
 
 namespace Example

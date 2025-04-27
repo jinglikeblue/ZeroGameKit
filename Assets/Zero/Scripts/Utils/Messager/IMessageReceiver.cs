@@ -1,4 +1,4 @@
-﻿namespace ZeroHot
+﻿namespace Zero
 {
     /// <summary>
     /// 消息接受者接口

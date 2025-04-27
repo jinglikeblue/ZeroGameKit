@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ZeroHot
+namespace Zero
 {
     /// <summary>
     /// 缓存表工具

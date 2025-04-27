@@ -11,7 +11,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using Zero;
 using ZeroGameKit;
-using ZeroHot;
+using Zero;
 
 namespace Example
 {

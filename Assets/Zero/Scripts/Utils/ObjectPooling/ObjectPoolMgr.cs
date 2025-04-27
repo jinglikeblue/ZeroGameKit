@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Jing;
 
-namespace ZeroHot
+namespace Zero
 {
     /// <summary>
     /// 对象池管理器

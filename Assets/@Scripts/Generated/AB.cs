@@ -1,7 +1,7 @@
 //该类由 [Zero → 自动生成代码 → Assets资源名生成] 工具自动创建
 using System.Collections.Generic;
 
-namespace ZeroHot
+namespace Zero
 {
     /// <summary>
     /// [自动生成的]AssetBundle数据

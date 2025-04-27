@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zero;
-using ZeroHot;
+using Zero;
 
 namespace Roushan
 {

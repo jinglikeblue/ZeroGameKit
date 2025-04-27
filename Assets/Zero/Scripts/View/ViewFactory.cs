@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 using Zero;
 
-namespace ZeroHot
+namespace Zero
 {
     /// <summary>
     /// 视图工厂

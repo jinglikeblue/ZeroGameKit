@@ -11,8 +11,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zero;
 using ZeroGameKit;
-using ZeroHot;
-using ThreadSyncActions = ZeroHot.ThreadSyncActions;
+using Zero;
 
 namespace Example
 {

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Zero;
-using ZeroHot;
+using Zero;
 
 namespace ZeroGameKit
 {

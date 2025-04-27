@@ -1,4 +1,4 @@
-﻿namespace ZeroHot
+﻿namespace Zero
 {
     /// <summary>
     /// 单一的视图层，该层中的视图，只能存在一个，视图之间的关系是切换
