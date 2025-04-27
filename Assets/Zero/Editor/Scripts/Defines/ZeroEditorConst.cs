@@ -49,7 +49,7 @@ namespace ZeroEditor
         /// <summary>
         /// AssetBundle打包缓存目录
         /// </summary>
-        static public string ASSET_BUNDLE_CACHE_DIR = FileUtility.CombineDirs(false, ZeroConst.ZERO_LIBRARY_DIR, "ReleaseCache", ZeroConst.AB_DIR_NAME);        
+        static public string ASSET_BUNDLE_CACHE_DIR = FileUtility.CombineDirs(false, ZeroConst.ZERO_LIBRARY_DIR, "ReleaseCache", ZeroConst.AB_DIR_NAME);
 
         /// <summary>
         /// 热更代码的根目录
@@ -59,22 +59,23 @@ namespace ZeroEditor
         /// <summary>
         /// 当前发布平台
         /// </summary>
-        static public BuildTarget BUILD_PLATFORM
-        {
-            get
-            {
-                BuildTarget platform;
-#if UNITY_STANDALONE_WIN
-                platform = BuildTarget.StandaloneWindows;
-#elif UNITY_STANDALONE_OSX
-                platform = BuildTarget.StandaloneOSX;
-#elif UNITY_IPHONE
-        platform = BuildTarget.iOS;
-#elif UNITY_ANDROID
-        platform = BuildTarget.Android;
-#endif
-                return platform;
-            }
-        }
+        static public BuildTarget BUILD_PLATFORM => EditorUserBuildSettings.activeBuildTarget;
+//         {
+//             get
+//             {
+//                 return 
+//                 BuildTarget platform;
+// #if UNITY_STANDALONE_WIN
+//                 platform = BuildTarget.StandaloneWindows;
+// #elif UNITY_STANDALONE_OSX
+//                 platform = BuildTarget.StandaloneOSX;
+// #elif UNITY_IPHONE
+//         platform = BuildTarget.iOS;
+// #elif UNITY_ANDROID
+//                 platform = BuildTarget.Android;
+// #endif
+//                 return platform;
+//             }
+//         }
     }
 }
