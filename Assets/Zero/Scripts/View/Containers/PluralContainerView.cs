@@ -128,5 +128,40 @@ namespace Zero
             }
             viewList.Clear();
         }
+        
+        /// <summary>
+        /// 在界面中查找指定类型的视图，并返回找到的第一个
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>null表示没找到</returns>
+        public T FindFirst<T>() where T : AView
+        {
+            foreach (var view in viewList)
+            {
+                if (view is T aView)
+                {
+                    return aView;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 在界面中查找并返回指定类型的视图
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T[] Find<T>() where T : AView
+        {
+            List<T> foundList = new List<T>();
+            foreach (var view in viewList)
+            {
+                if (view is T aView)
+                {
+                    foundList.Add(aView);
+                }
+            }
+            return foundList.ToArray();
+        }
     }
 }

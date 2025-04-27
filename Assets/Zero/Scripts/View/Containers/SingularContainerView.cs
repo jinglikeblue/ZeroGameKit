@@ -55,5 +55,15 @@
                 Current = null;
             }
         }
+        
+        /// <summary>
+        /// 以指定类型来获取当前视图
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>null表示当前视图不是T类型</returns>
+        public T GetCurrent<T>() where T : AView
+        {
+            return Current as T;
+        }
     }
 }
