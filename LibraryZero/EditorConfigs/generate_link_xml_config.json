@@ -1,7 +1,7 @@
 ﻿{
   "includeDirs": [
     "Library/ScriptAssemblies",
-    "C:/Program Files/Unity 2019.4.37f1/Editor/Data/"
+    "D:/Program Files/Unity Hub/Editor/2021.3.45f1/Editor/Data/"
   ],
   "includeDlls": [
     "Assets/Plugins/ThirdLibraries/SharpZipLib/ICSharpCode.SharpZipLib.dll"

@@ -2,6 +2,14 @@
 # TODO
 ## List
 
+重构优化Scene相关的资源打包（规避场景和其它资源在一起导致的打包失败）。以及读取代码。
+增加一个程序启动时会自动执行的方法的机制。（通过特性标签实现)
+AB资源直达，如果有重复的名称的，则增加前缀或者后缀来处理（尽量不使用父目录）。
+ResMgr考虑去掉单例模式
+Win和Panel等GameObject支持隐藏
+UIXXXMgr中，支持查找某个AView
+
+
 - 自动绑定AutoButtonClickBindingAttribute、BaseAutoBindingAttribute、BindingUIClickAttribute 这部分重新梳理，补全注释方便扩展
 
 - 重新整理资源，每个测试按钮改成独立加载资源包。加载动画搞一个。
