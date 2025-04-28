@@ -186,6 +186,18 @@ namespace ZeroGameKit
             yield return new WaitForEndOfFrame();
             obj.SetActive(true);
         }
+
+        [SignalReceiver(SignalNameDefine.ZeroMainInitBegion)]
+        public static void MainInitBegion()
+        {
+            Debug.Log($"[Signal] SignalNameDefine.ZeroMainInitBegion");
+        }
+        
+        [SignalReceiver(SignalNameDefine.ZeroMainInitEnd)]
+        public static void MainInitEnd()
+        {
+            Debug.Log($"[Signal] SignalNameDefine.ZeroMainInitEnd");
+        }
     }
 }
 

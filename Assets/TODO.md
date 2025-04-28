@@ -2,8 +2,6 @@
 # TODO
 ## List
 
-- 测试热更MonoBehaviour，并且通过代码AddComponent能否正常添加。
-
 - 考虑是否可以移除内嵌资源模式。有网络资源的情况下，默认通过网络资源加载。否则从streamingassets下寻找资源。
   - 或者资源读取模式中的「网络资源」选项改为「正式环境（部署环境）」。如果网络资源的根目录没有填写，则自动设置为内嵌资源模式。
 
@@ -100,3 +98,5 @@
 - 整理旧的资源优化模块, sprite packing tag 模块中提示建议使用sprite atlas       
 
 - UIXXXMgr中，支持查找某个AView
+  
+- 测试热更MonoBehaviour，并且通过代码AddComponent能否正常添加。

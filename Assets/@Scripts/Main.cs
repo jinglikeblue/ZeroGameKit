@@ -11,12 +11,15 @@ namespace Zero
         /// </summary>
         public static void Startup()
         {
+            Signaler.Register(typeof(Main).Assembly);
             new Main();
         }
 
         private Main()
         {
-            Init();            
+            Signaler.Send(SignalNameDefine.ZeroMainInitBegion);
+            Init();
+            Signaler.Send(SignalNameDefine.ZeroMainInitEnd);
         }
 
         void Init()
@@ -35,7 +38,7 @@ namespace Zero
             GameObject mainPrefab = ResMgr.Load<GameObject>(AB.ROOT_ASSETS.NAME, AB.ROOT_ASSETS.ILContent);
             //实例化ILContent界面
             var ilContent = ViewFactory.Create<ILContent>(mainPrefab, null);
-            ilContent.gameObject.name = mainPrefab.name;     
+            ilContent.gameObject.name = mainPrefab.name;
             GameObject.DontDestroyOnLoad(ilContent.gameObject);
         }
     }
