@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Examples;
 using UnityEngine;
 using UnityEngine.UI;
 using Zero;
@@ -33,6 +34,7 @@ namespace ZeroGameKit
         const string GROUP_VIDEO = "视频";
         const string GROUP_DEBUG = "调试";
         const string GROUP_PLUGINS = "实用插件";
+        const string GROUP_HOT = "HybridCLR热更";
 
 
         Dictionary<string, MenuButtonGroupItem> _groupItemDic = new Dictionary<string, MenuButtonGroupItem>();
@@ -147,6 +149,8 @@ namespace ZeroGameKit
             AddBtn(GROUP_UNITY, "常用数据", UnityConstsExample.Start);
 
             AddBtn(GROUP_VIDEO, "视频播放", VideoExample.Start);
+            
+            AddBtn(GROUP_HOT, "热更MonoBehaviour", HotExample.MonoBehaviourExample);
 
             OnToggleShowTodoValueChanged(toggleShowTodo.isOn);
         }

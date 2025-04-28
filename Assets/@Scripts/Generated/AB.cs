@@ -155,6 +155,14 @@ namespace Zero
 			public const string StreamingAssetsLoadFutureWin_assetPath = "examples/future/StreamingAssetsLoadFutureWin.prefab";            
 		}
 
+		public sealed class EXAMPLES_HOT
+		{
+			public const string NAME = "examples/hot.ab";
+
+			public const string MonoBehaviourExampleWin = "MonoBehaviourExampleWin.prefab";
+			public const string MonoBehaviourExampleWin_assetPath = "examples/hot/MonoBehaviourExampleWin.prefab";            
+		}
+
 		public sealed class EXAMPLES_KNIGHT
 		{
 			public const string NAME = "examples/knight.ab";
@@ -685,6 +693,7 @@ namespace Zero
 			dic["ZeroEventListenerExampleWin"] = "examples/framework.ab";
 			dic["ZeroUIExampleWin"] = "examples/framework.ab";
 			dic["StreamingAssetsLoadFutureWin"] = "examples/future.ab";
+			dic["MonoBehaviourExampleWin"] = "examples/hot.ab";
 			dic["KnightLoadingPanel"] = "examples/knight.ab";
 			dic["KnightMenuPanel"] = "examples/knight.ab";
 			dic["KnightSettingWin"] = "examples/knight.ab";
@@ -774,6 +783,7 @@ namespace Zero
 		public const string ZeroEventListenerExampleWin_prefab = "examples/framework/ZeroEventListenerExampleWin.prefab";
 		public const string ZeroUIExampleWin_prefab = "examples/framework/ZeroUIExampleWin.prefab";
 		public const string StreamingAssetsLoadFutureWin_prefab = "examples/future/StreamingAssetsLoadFutureWin.prefab";
+		public const string MonoBehaviourExampleWin_prefab = "examples/hot/MonoBehaviourExampleWin.prefab";
 		public const string KnightLoadingPanel_prefab = "examples/knight/KnightLoadingPanel.prefab";
 		public const string KnightMenuPanel_prefab = "examples/knight/KnightMenuPanel.prefab";
 		public const string KnightSettingWin_prefab = "examples/knight/KnightSettingWin.prefab";
