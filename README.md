@@ -9,6 +9,26 @@
 
 # 更新日志
 
+## 2025-04-28
+- 更新manifest.json移除不必要的库
+- Newtonsoft.Json 改为配置到manifest.json
+- UniTask迁移到manifest.json中
+- 提高热更MonoBehaviour类兼容性
+- 增加选取器工具类
+- URPCamera逻辑优化
+- ZeroView对象，增加Prefab路径展示以及快速定位
+- 增加场景管理示例
+- 重构ResMgr
+  - ResMgr重构为静态类
+  - 增加AssetBundle获取接口
+  - 优化资源异步加载，支持await
+- 优化自动绑定相关代码
+- [重构] 移除ZeroHot命名空间
+- [重构] 因为热更只用HybridCLR了，所以去除EILType相关设置
+- [框架] ContainerView子类中，支持通过类型查找对应的视图
+- [框架] 增加热更MonoBehaviour的展示用例
+- [Kit] 增加信号量触发方法的机制
+
 ## 2025-01-24
 - 增加Scene页签下，快捷选中GameObject对象的辅助工具
 - 优化自动绑定相关代码
