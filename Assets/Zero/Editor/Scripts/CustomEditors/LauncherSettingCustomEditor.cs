@@ -21,7 +21,6 @@ namespace ZeroEditor
         {
             Target.data = Load();
             Target.data.onChange += OnSettingChanged;
-            Target.data.onILTypeChanged += OnILTypeChanged;
             EditorSceneManager.sceneSaved += OnSceneSaved;
         }
 
@@ -39,7 +38,6 @@ namespace ZeroEditor
         override protected void OnDisable()
         {
             Target.data.onChange -= OnSettingChanged;
-            Target.data.onILTypeChanged -= OnILTypeChanged;
             EditorSceneManager.sceneSaved -= OnSceneSaved;
             Save(Target.data);
         }
@@ -116,7 +114,7 @@ namespace ZeroEditor
         /// </summary>
         static void CheckHybridCLRInstallState()
         {
-            if (_cache.isUseDll && _cache.ilType == EILType.HYBRID_CLR)
+            if (_cache.isUseDll)
             {
                 if (false == HybridCLREditorUtility.CheckHybridCLRInstallState())
                 {

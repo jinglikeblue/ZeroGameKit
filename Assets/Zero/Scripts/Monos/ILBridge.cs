@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Jing;
 using UnityEngine;
 
 namespace Zero
@@ -54,11 +55,6 @@ namespace Zero
         BaseILWorker iLWorker;
 
         /// <summary>
-        /// 当前工作的ILWorker类型
-        /// </summary>
-        public EILType ILWorkerType { get; private set; }
-
-        /// <summary>
         /// 获取代码域中的类型清单
         /// </summary>
         /// <param name="whereFunc">可选参数，委托通过参数Type判断是否需要加入清单中，返回true则表示需要</param>
@@ -83,19 +79,23 @@ namespace Zero
         {
             Assembly assembly = AssemblyILWorker.LoadAssembly(dllBytes, pdbBytes);
 
-            //如果是HybridCLR模式
-            if (Runtime.Ins.ILType == EILType.HYBRID_CLR)
+            if (null == assembly)
             {
-                if (null == assembly)
-                {
-                    throw new Exception("外部程序集为null！");
-                }
-                
-                Debug.Log(LogColor.Zero1("外部程序集执行方式：[HYBRID_CLR]"));
-                iLWorker = new HybridCLRWorker(assembly);
-                ILWorkerType = EILType.HYBRID_CLR;
-                return;
+                throw new Exception("外部程序集为null！");
             }
+            
+            // Debug.Log(LogColor.Zero1("外部程序集执行方式：[HYBRID_CLR]"));
+            iLWorker = new HybridCLRWorker(assembly);
+
+            // if (TypeUtility.FindAssembly("HybridCLR.Runtime") != null)
+            // {
+            //
+            // }
+            // else
+            // {
+            //     Debug.Log(LogColor.Zero1("外部程序集执行方式：[JIT]"));
+            //     iLWorker = new AssemblyILWorker(assembly);
+            // }
         }
 
         public void Invoke(string clsName, string methodName)
@@ -137,8 +137,9 @@ namespace Zero
         {
             onApplicationQuit?.Invoke();
         }
-        
+
         #region 协程代理
+
         Dictionary<object, CoroutineProxy> _routineDic = new Dictionary<object, CoroutineProxy>();
 
         CoroutineProxy GetCoroutineProxy(object target, bool isAutoCreate)
@@ -152,10 +153,7 @@ namespace Zero
                 go.transform.SetParent(transform);
                 cp = go.AddComponent<CoroutineProxy>();
                 cp.bindingObj = target;
-                cp.onDestroy += (proxy) =>
-                {
-                    _routineDic.Remove(proxy.bindingObj);
-                };
+                cp.onDestroy += (proxy) => { _routineDic.Remove(proxy.bindingObj); };
                 _routineDic[target] = cp;
             }
 
@@ -188,7 +186,7 @@ namespace Zero
                 cp.StopAllTrackedCoroutines();
             }
         }
+
         #endregion
-        
     }
 }

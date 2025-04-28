@@ -61,12 +61,6 @@ namespace Zero
         [OnValueChanged("OnValueChanged")]
         public bool isDebugDll = false;
 
-        [LabelText("DLL执行方式"), ValueDropdown("ILType"), ShowIf("isUseDll")]
-        [OnValueChanged("OnValueChanged")]
-        [OnValueChanged("OnILTypeChanged")]
-        [HideInInspector]
-        public EILType ilType = EILType.NONE;
-
 #if UNITY_EDITOR
 
         public event Action onChange;
@@ -74,13 +68,6 @@ namespace Zero
         void OnValueChanged()
         {
             onChange?.Invoke();            
-        }
-
-        public event Action onILTypeChanged;
-
-        void OnILTypeChanged()
-        {
-            onILTypeChanged?.Invoke();
         }
 
         bool IsOnlyUseBuiltinResMode()
@@ -139,11 +126,6 @@ namespace Zero
             }
             return source;
         }
-
-        IEnumerable ILType = new ValueDropdownList<EILType>()
-        {            
-            { "HybridCLR", EILType.HYBRID_CLR },                 
-        };
 #endif
     }
 }

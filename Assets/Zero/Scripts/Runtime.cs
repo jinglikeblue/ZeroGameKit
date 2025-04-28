@@ -44,11 +44,6 @@ namespace Zero
         public EHotResMode HotResMode => VO.hotResMode;
 
         /// <summary>
-        /// DLL执行模式
-        /// </summary>
-        public EILType ILType => VO.ilType;
-
-        /// <summary>
         /// 是否用DLL方式启动程序
         /// </summary>
         public bool IsUseDll => VO.isUseDll;

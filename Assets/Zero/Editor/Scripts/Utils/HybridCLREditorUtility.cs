@@ -22,7 +22,7 @@ namespace ZeroEditor
             get
             {
                 var vo = LauncherSetting.LoadLauncherSettingDataFromResources();
-                if (vo.isUseDll && vo.ilType == EILType.HYBRID_CLR)
+                if (vo.isUseDll)
                 {
                     return true;
                 }
