@@ -194,7 +194,7 @@ namespace ZeroGameKit
         }
         
         [SignalReceiver(SignalNameDefine.ZeroMainInitEnd)]
-        public static void MainInitEnd()
+        private static void MainInitEnd()
         {
             Debug.Log($"[Signal] SignalNameDefine.ZeroMainInitEnd");
         }

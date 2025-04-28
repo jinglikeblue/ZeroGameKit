@@ -7,10 +7,6 @@
 
 - 重构优化Scene相关的资源打包（规避场景和其它资源在一起导致的打包失败）。以及读取代码。
 
-- 增加一个通过标记触发执行的方法的机制。（通过特性标签实现 ) 。 标记后的方法，可以在特性标签触发时调用。比如登录，APP启动等状态，执行对应方法。
-
-- Win和Panel等GameObject支持隐藏（检查是否有意义）
-
 -------------------------
 
 - 自动绑定AutoButtonClickBindingAttribute、BaseAutoBindingAttribute、BindingUIClickAttribute 这部分重新梳理，补全注释方便扩展
@@ -100,3 +96,5 @@
 - UIXXXMgr中，支持查找某个AView
   
 - 测试热更MonoBehaviour，并且通过代码AddComponent能否正常添加。
+
+- 增加一个通过标记触发执行的方法的机制。（通过特性标签实现 ) 。 标记后的方法，可以在特性标签触发时调用。比如登录，APP启动等状态，执行对应方法。
