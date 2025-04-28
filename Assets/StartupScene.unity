@@ -2081,10 +2081,9 @@ MonoBehaviour:
     hotResMode: 0
     netRoots:
     - http://YourHotResRootUrl
-    isUseDll: 0
+    isUseDll: 1
     isLoadPdb: 1
-    isDebugDll: 0
-    ilType: 2
+    isDebugDll: 1
 --- !u!114 &1440188156
 MonoBehaviour:
   m_ObjectHideFlags: 0
