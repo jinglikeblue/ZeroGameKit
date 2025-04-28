@@ -16,13 +16,14 @@ namespace Demo
         public Toggle toggleLog;
         public Text textNetRoots;
 
-        LauncherSettingData data => LauncherSetting.LoadLauncherSettingDataFromResources();
+        private LauncherSettingData _data;
 
         private void Awake()
         {
-            toggleUseDll.isOn = data.isUseDll;
-            toggleHotPatchMode.isOn = data.builtinResMode == EBuiltinResMode.HOT_PATCH;
-            toggleLog.isOn = data.isLogEnable;
+            _data = LauncherSetting.LoadLauncherSettingDataFromResources();
+            toggleUseDll.isOn = _data.isUseDll;
+            toggleHotPatchMode.isOn = _data.builtinResMode == EBuiltinResMode.HOT_PATCH;
+            toggleLog.isOn = _data.isLogEnable;
             RefreshUI();
         }
 
@@ -47,10 +48,10 @@ namespace Demo
             if (toggleHotPatchMode.isOn)
             {
                 StringBuilder sb = new StringBuilder("网络资源地址：");
-                for (int i = 0; i < data.netRoots.Length; i++)
+                for (int i = 0; i < _data.netRoots.Length; i++)
                 {
                     sb.AppendLine();
-                    sb.Append($"[{i}]: {data.netRoots[i]}");
+                    sb.Append($"[{i}]: {_data.netRoots[i]}");
                 }
                 
                 textNetRoots.text = sb.ToString();

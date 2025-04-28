@@ -22,6 +22,17 @@ namespace ZeroEditor
             Target.data = Load();
             Target.data.onChange += OnSettingChanged;
             EditorSceneManager.sceneSaved += OnSceneSaved;
+            EditorApplication.playModeStateChanged += OnPlayModeStageChanged;
+        }
+
+        private void OnPlayModeStageChanged(PlayModeStateChange v)
+        {
+            // Debug.Log($"PlayModeChanged: {v}");
+            if (v == PlayModeStateChange.ExitingEditMode)
+            {
+                EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+                Save(Target.data);
+            }
         }
 
         private void OnSceneSaved(Scene scene)
@@ -39,6 +50,7 @@ namespace ZeroEditor
         {
             Target.data.onChange -= OnSettingChanged;
             EditorSceneManager.sceneSaved -= OnSceneSaved;
+            EditorApplication.playModeStateChanged -= OnPlayModeStageChanged;
             Save(Target.data);
         }
 
