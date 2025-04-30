@@ -50,7 +50,7 @@ namespace ZeroGameKit
 
         void Enter()
         {
-            UIPanelMgr.Ins.SwitchASync<MenuPanel>(null, OnCreated, OnProgress);
+            UIPanelMgr.Ins.SwitchAsync<MenuPanel>(null, OnCreated, OnProgress);
         }
 
         private void OnProgress(float progress)

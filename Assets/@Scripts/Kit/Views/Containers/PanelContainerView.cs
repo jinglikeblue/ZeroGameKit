@@ -1,9 +1,10 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Zero;
 
 namespace ZeroGameKit
 {
-    public class PanelContainerView: SingularContainerView
+    public class PanelContainerView : SingularContainerView
     {
         /// <summary>
         /// 切换UIPanel
@@ -34,35 +35,30 @@ namespace ZeroGameKit
         }
 
         /// <summary>
-        /// 异步切换UIPanel
+        /// 异步切换
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="data">传递的数据</param>
         /// <param name="onCreated">创建完成回调方法</param>
         /// <param name="onProgress">创建进度回调方法</param>
-        public void SwitchASync<T>(object data = null, Action<AView> onCreated = null, Action<float> onProgress = null) where T : AView
+        public async UniTask<T> SwitchAsync<T>(object data = null, Action<T> onCreated = null, Action<float> onProgress = null) where T : AView
         {
-            ShowASync<T>(data, OnASyncShow, onCreated, onProgress);
+            var view = await SwitchAsync(typeof(T), data, null, onProgress) as T;
+            onCreated?.Invoke(view);
+            return view;
         }
 
         /// <summary>
-        /// 异步切换UIPanel
+        /// 异步切换
         /// </summary>
+        /// <param name="viewType">AView的子类</param>
         /// <param name="data">传递的数据</param>
         /// <param name="onCreated">创建完成回调方法</param>
         /// <param name="onProgress">创建进度回调方法</param>
-        public void SwitchASync(Type type, object data = null, Action<AView> onCreated = null, Action<float> onProgress = null)
+        public async UniTask<AView> SwitchAsync(Type viewType, object data = null, Action<AView> onCreated = null, Action<float> onProgress = null)
         {
-            ShowASync(type, data, OnASyncShow, onCreated, onProgress);
-        }
-
-        private void OnASyncShow(AView view, object token)
-        {
-            var onCreated = (Action<AView>)token;
-            if (null != onCreated)
-            {
-                onCreated.Invoke(view);
-            }
+            var view = await ShowAsync(viewType, data, onCreated, onProgress);
+            return view;
         }
     }
 }

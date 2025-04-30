@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Zero;
 using Zero;
 
@@ -8,7 +9,7 @@ namespace ZeroGameKit
     /// <summary>
     /// 窗口容器视图类
     /// </summary>
-    public class WindowsContainerView: PluralContainerView
+    public class WindowsContainerView : PluralContainerView
     {
         struct WinSetting
         {
@@ -43,6 +44,7 @@ namespace ZeroGameKit
                 {
                     return _blur;
                 }
+
                 return null;
             }
         }
@@ -73,6 +75,7 @@ namespace ZeroGameKit
             {
                 CloseAll();
             }
+
             var view = Show<T>(data);
             OnShowView(view, isBlur, isCloseOthers);
             return view;
@@ -87,24 +90,17 @@ namespace ZeroGameKit
         /// <param name="isCloseOthers">是否关闭其它窗口</param>
         /// <param name="onCreated">创建完成回调方法</param>
         /// <param name="onProgress">创建进度回调方法</param>
-        public void OpenAsync<T>(object data = null, bool isBlur = true, bool isCloseOthers = true, Action<AView> onCreated = null, Action<float> onProgress = null) where T : AView
+        public async UniTask<T> OpenAsync<T>(object data = null, bool isBlur = true, bool isCloseOthers = true, Action<T> onCreated = null, Action<float> onProgress = null) where T : AView
         {
             if (isCloseOthers)
             {
                 CloseAll();
             }
-            ShowASync<T>(data, OnAsyncOpen, new WinSetting(isBlur, isCloseOthers, onCreated), onProgress);
-        }
 
-        private void OnAsyncOpen(AView view, object token)
-        {
-            var setting = (WinSetting)token;
-
-            OnShowView(view, setting.isBlur, setting.isCloseOthers);
-            if (null != setting.onCreated)
-            {
-                setting.onCreated.Invoke(view);
-            }
+            var view = await ShowAsync<T>(data, null, onProgress);
+            OnShowView(view, isBlur, isCloseOthers);
+            onCreated?.Invoke(view);
+            return view;
         }
 
         void OnShowView(AView view, bool isBlur, bool isCloseOthers)
@@ -139,6 +135,7 @@ namespace ZeroGameKit
                         {
                             viewChildIdx--;
                         }
+
                         _blur.transform.SetSiblingIndex(viewChildIdx);
                         return;
                     }
@@ -148,6 +145,7 @@ namespace ZeroGameKit
             {
                 _blur.gameObject.SetActive(false);
             }
+
             _blur.transform.SetSiblingIndex(_blur.transform.parent.childCount - 2);
         }
 
@@ -171,6 +169,7 @@ namespace ZeroGameKit
             {
                 view.onDestroyed -= OnViewDestroy;
             }
+
             _needBlurViewSet.Clear();
             _blur.gameObject.transform.SetAsFirstSibling();
             _blur.gameObject.SetActive(false);

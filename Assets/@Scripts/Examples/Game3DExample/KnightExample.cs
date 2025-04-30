@@ -6,7 +6,7 @@ namespace Example
     {
         static public void Start()
         {
-            UIPanelMgr.Ins.SwitchASync<Knight.KnightMenuPanel>();
+            UIPanelMgr.Ins.SwitchAsync<Knight.KnightMenuPanel>();
         }
     }
 }

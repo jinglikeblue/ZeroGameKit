@@ -41,7 +41,7 @@ namespace Roushan
 
         void Go()
         {            
-            StageMgr.Ins.SwitchASync<GameStage>();            
+            StageMgr.Ins.SwitchAsync<GameStage>();            
         }
 
         void OpenHelpWin()

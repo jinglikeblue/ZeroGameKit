@@ -406,7 +406,6 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 	// UnityEngine.Events.UnityEvent<float>
 	// Zero.ASingletonMonoBehaviour<object>
 	// Zero.BaseContainerView.<>c__DisplayClass2_0<object>
-	// Zero.BaseContainerView.ASyncShow<object>
 	// Zero.BaseMessageReceiver<PingPong.Protocols.FrameInputNotify>
 	// Zero.BaseMessageReceiver<PingPong.Protocols.GameReadyRequest>
 	// Zero.BaseMessageReceiver<PingPong.Protocols.GameStartNotify>
@@ -479,7 +478,6 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 		// object Zero.AView.GetComponent<object>()
 		// System.Collections.Generic.Dictionary<object,Example.ArrayUtilityExample.TestVO> Zero.ArrayUtility.Array2Table<object,Example.ArrayUtilityExample.TestVO>(System.Collections.Generic.IEnumerable<Example.ArrayUtilityExample.TestVO>,string,string)
 		// object Zero.BaseContainerView.Show<object>(object)
-		// Zero.BaseContainerView.ASyncShow<object> Zero.BaseContainerView.ShowASync<object>(object,System.Action<object,object>,object,System.Action<float>,System.Action<UnityEngine.Object>)
 		// object Zero.ComponentUtil.AutoGet<object>(UnityEngine.GameObject)
 		// object Zero.ConfigMgr.LoadJsonConfig<object>(string)
 		// object Zero.ConfigMgr.LoadZeroConfig<object>()

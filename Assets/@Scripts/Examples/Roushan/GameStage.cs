@@ -18,7 +18,7 @@ namespace Roushan
             _blockPrefab = GameObjectBindingData.Find(gameObject, "blockPrefab")[0] as GameObject;            
             _boss = CreateChildView<Boss>("Boss");
 
-            UIPanelMgr.Ins.SwitchASync<GamePanel>(this);
+            UIPanelMgr.Ins.SwitchAsync<GamePanel>(this);
         }
 
         public void CreateBlock()

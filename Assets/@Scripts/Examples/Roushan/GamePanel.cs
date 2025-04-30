@@ -57,7 +57,7 @@ namespace Roushan
 
         void OnResetClick()
         {                     
-            StageMgr.Ins.SwitchASync<GameStage>();
+            StageMgr.Ins.SwitchAsync<GameStage>();
         }
     }
 }

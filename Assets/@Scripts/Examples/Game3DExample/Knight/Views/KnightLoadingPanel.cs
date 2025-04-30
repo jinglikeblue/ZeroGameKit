@@ -24,7 +24,7 @@ namespace Knight
         IEnumerator SwitchDelay()
         {
             yield return new WaitForSeconds(0.5f);            
-            UIPanelMgr.Ins.SwitchASync(_vo.switchType, _vo.switchData, null, onProgress);
+            UIPanelMgr.Ins.SwitchAsync(_vo.switchType, _vo.switchData, null, onProgress);
         }
 
         private void onProgress(float progress)

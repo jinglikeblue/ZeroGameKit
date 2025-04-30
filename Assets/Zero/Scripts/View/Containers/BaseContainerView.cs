@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 
 namespace Zero
 {
@@ -36,32 +37,36 @@ namespace Zero
         }
 
         /// <summary>
-        /// 异步显示视图(使用该方式显示视图，请先在ViewFactory中注册AViewType)
+        /// 异步创建视图
         /// </summary>
-        /// <param name="viewName"></param>
+        /// <param name="viewType">AView的子类</param>
         /// <param name="data">传递的数据</param>
-        /// <param name="onCreated">创建完成回调方法，会传回显示的视图以及token对象</param>
-        /// <param name="onProgress">创建进度回调方法</param>
-        public ASyncShow<AViewType> ShowASync<AViewType>(object data = null, Action<AViewType, object> onCreated = null, object token = null, Action<float> onProgress = null, Action<UnityEngine.Object> onLoaded = null) where AViewType : AView
+        /// <param name="onCreated">视图创建完成的回调</param>
+        /// <param name="onResProgress">视图资源的加载进度回调</param>
+        /// <param name="onResLoaded">视图资源加载完成的回调(会在onCreated之前触发)</param>
+        /// <returns></returns>
+        public async UniTask<AView> ShowAsync(Type viewType, object data = null, Action<AView> onCreated = null, Action<float> onResProgress = null, Action<UnityEngine.Object> onResLoaded = null)
         {
-            var show = new ASyncShow<AViewType>();
-            show.Begin(this, data, onCreated, token, onProgress, (obj) =>
+            var view = await ViewFactory.CreateAsync(viewType, transform, data, onCreated, onResProgress, (resObj) =>
             {
-                onLoaded?.Invoke(obj);
+                onResLoaded?.Invoke(resObj);
                 BeforeShow();
             });
-            return show;
+            return view;
         }
 
-        public ASyncShow<AView> ShowASync(Type type, object data = null, Action<AView, object> onCreated = null, object token = null, Action<float> onProgress = null, Action<UnityEngine.Object> onLoaded = null)
+        /// <summary>
+        /// 异步显示视图(使用该方式显示视图，请先在ViewFactory中注册AViewType)
+        /// </summary>
+        /// <param name="data">传递的数据</param>
+        /// <param name="onCreated">创建完成回调方法，会传回显示的视图以及token对象</param>
+        /// <param name="onResProgress">视图资源的加载进度回调</param>
+        /// <param name="onResLoaded">视图资源加载完成的回调(会在onCreated之前触发)</param>
+        public async UniTask<T> ShowAsync<T>(object data = null, Action<T> onCreated = null, Action<float> onResProgress = null, Action<UnityEngine.Object> onResLoaded = null) where T : AView
         {
-            var show = new ASyncShow<AView>(type);
-            show.Begin(this, data, onCreated, token, onProgress, (obj) =>
-            {
-                onLoaded?.Invoke(obj);
-                BeforeShow();
-            });
-            return show;
+            T view = await ShowAsync(typeof(T), data, null, onResProgress, onResLoaded) as T;
+            onCreated?.Invoke(view);
+            return view;
         }
 
         /// <summary>
@@ -80,48 +85,5 @@ namespace Zero
         /// 清理视图
         /// </summary>
         public abstract void Clear();
-
-        /// <summary>
-        /// 异步展示处理类
-        /// </summary>
-        /// <typeparam name="AViewType"></typeparam>
-        public class ASyncShow<AViewType> where AViewType : AView
-        {
-            BaseContainerView _layer;
-            Action<AViewType, object> _onCreated;
-            object _token;
-            Type _viewType;
-
-            public ASyncShow()
-            {
-                _viewType = typeof(AViewType);
-            }
-
-            public ASyncShow(Type type)
-            {
-                _viewType = type;
-            }
-
-            public void Begin(BaseContainerView layer, object data, Action<AViewType, object> onCreated, object token, Action<float> onProgress, Action<UnityEngine.Object> onLoaded)
-            {
-                _layer = layer;
-                _onCreated = onCreated;
-                _token = token;
-                ViewFactory.CreateAsync(_viewType, layer.transform, data, OnAsyncCreated, onProgress, onLoaded);
-            }
-
-            /// <summary>
-            /// 界面异步创建完成
-            /// </summary>
-            /// <param name="view"></param>
-            private void OnAsyncCreated(AView view)
-            {
-                _layer.ShowView(view);
-                if (null != _onCreated)
-                {
-                    _onCreated.Invoke((AViewType)view, _token);
-                }
-            }
-        }
     }
 }
