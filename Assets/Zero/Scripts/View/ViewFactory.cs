@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-using Zero;
 
 namespace Zero
 {
@@ -147,41 +146,121 @@ namespace Zero
             return Create(type, parent, data) as T;
         }
 
-        public static void CreateAsync(Type type, string abName, string viewName, Transform parent, object data = null, Action<AView> onCreated = null, Action<float> onProgress = null, Action<UnityEngine.Object> onLoaded = null)
+        /// <summary>
+        /// 异步创建视图
+        /// </summary>
+        /// <param name="viewType">AView的子类</param>
+        /// <param name="assetPath">资源的路径</param>
+        /// <param name="parent">创建视图的父节点</param>
+        /// <param name="data">传递的数据</param>
+        /// <param name="onCreated">视图创建完成的回调</param>
+        /// <param name="onResProgress">视图资源的加载进度回调</param>
+        /// <param name="onResLoaded">视图资源加载完成的回调(会在onCreated之前触发)</param>
+        /// <returns></returns>
+        public static async UniTask<AView> CreateAsync(Type viewType, string assetPath, Transform parent, object data = null, Action<AView> onCreated = null, Action<float> onResProgress = null, Action<UnityEngine.Object> onResLoaded = null)
         {
-            new ViewAsyncCreater<AView>(type, abName, viewName).Create(parent, data, onCreated, onProgress, onLoaded);
+            ResMgr.SeparateAssetPath(assetPath, out var abName, out var assetName);
+            return await CreateAsync(viewType, abName, assetName, parent, data, onCreated, onResProgress, onResLoaded);
         }
 
-        public static void CreateAsync<T>(string abName, string viewName, Transform parent, object data = null, Action<T> onCreated = null, Action<float> onProgress = null, Action<UnityEngine.Object> onLoaded = null) where T : AView
+        /// <summary>
+        /// 异步创建视图
+        /// </summary>
+        /// <param name="viewType">AView的子类</param>
+        /// <param name="abName">资源所在的AB文件</param>
+        /// <param name="viewName">资源的名称</param>
+        /// <param name="parent">创建视图的父节点</param>
+        /// <param name="data">传递的数据</param>
+        /// <param name="onCreated">视图创建完成的回调</param>
+        /// <param name="onResProgress">视图资源的加载进度回调</param>
+        /// <param name="onResLoaded">视图资源加载完成的回调(会在onCreated之前触发)</param>
+        /// <returns></returns>
+        public static async UniTask<AView> CreateAsync(Type viewType, string abName, string viewName, Transform parent, object data = null, Action<AView> onCreated = null, Action<float> onResProgress = null, Action<UnityEngine.Object> onResLoaded = null)
         {
-            new ViewAsyncCreater<T>(typeof(T), abName, viewName).Create(parent, data, onCreated, onProgress, onLoaded);
+            if (false == viewType.IsSubclassOf(typeof(AView)))
+            {
+                throw new Exception($"[Zero][View] {viewType.FullName} 并不是AView的子类");
+            }
+
+            var prefab = await ResMgr.LoadAsync<GameObject>(abName, viewName, null, onResProgress);
+            onResLoaded?.Invoke(prefab);
+            var view = Create(viewType, prefab, parent, data);
+            onCreated?.Invoke(view);
+            return view;
         }
 
-        public static void CreateAsync(Type type, Transform parent, object data = null, Action<AView> onCreated = null, Action<float> onProgress = null, Action<UnityEngine.Object> onLoaded = null)
+        /// <summary>
+        /// 异步创建视图
+        /// </summary>
+        /// <param name="viewType">AView的子类</param>
+        /// <param name="assetPath">资源的路径</param>
+        /// <param name="parent">创建视图的父节点</param>
+        /// <param name="data">传递的数据</param>
+        /// <param name="onCreated">视图创建完成的回调</param>
+        /// <param name="onResProgress">视图资源的加载进度回调</param>
+        /// <param name="onResLoaded">视图资源加载完成的回调(会在onCreated之前触发)</param>
+        /// <returns></returns>
+        public static async UniTask<T> CreateAsync<T>(string assetPath, Transform parent, object data = null, Action<T> onCreated = null, Action<float> onResProgress = null, Action<UnityEngine.Object> onResLoaded = null) where T : AView
         {
-            string abName, viewName;
-            if (FindAssetBundleInfo(type, out abName, out viewName))
-            {
-                new ViewAsyncCreater<AView>(type, abName, viewName).Create(parent, data, onCreated, onProgress, onLoaded);
-            }
-            else
-            {
-                Debug.LogErrorFormat("AView类[{0}]并没有适用的视图", type.FullName);
-            }
+            var view = await CreateAsync(typeof(T), assetPath, parent, data, null, onResProgress, onResLoaded) as T;
+            onCreated?.Invoke(view);
+            return view;
         }
 
-        public static void CreateAsync<T>(Transform parent, object data = null, Action<T> onCreated = null, Action<float> onProgress = null, Action<UnityEngine.Object> onLoaded = null) where T : AView
+        /// <summary>
+        /// 异步创建视图
+        /// </summary>
+        /// <param name="viewType">AView的子类</param>
+        /// <param name="abName">资源所在的AB文件</param>
+        /// <param name="viewName">资源的名称</param>
+        /// <param name="parent">创建视图的父节点</param>
+        /// <param name="data">传递的数据</param>
+        /// <param name="onCreated">视图创建完成的回调</param>
+        /// <param name="onResProgress">视图资源的加载进度回调</param>
+        /// <param name="onResLoaded">视图资源加载完成的回调(会在onCreated之前触发)</param>
+        /// <returns></returns>
+        public static async UniTask<T> CreateAsync<T>(string abName, string viewName, Transform parent, object data = null, Action<T> onCreated = null, Action<float> onResProgress = null, Action<UnityEngine.Object> onResLoaded = null) where T : AView
         {
-            Type type = typeof(T);
-            string abName, viewName;
-            if (FindAssetBundleInfo(type, out abName, out viewName))
+            var view = await CreateAsync(typeof(T), abName, viewName, parent, data, null, onResProgress, onResLoaded) as T;
+            onCreated?.Invoke(view);
+            return view;
+        }
+
+        /// <summary>
+        /// 异步创建视图
+        /// </summary>
+        /// <param name="viewType">AView的子类</param>
+        /// <param name="parent">创建视图的父节点</param>
+        /// <param name="data">传递的数据</param>
+        /// <param name="onCreated">视图创建完成的回调</param>
+        /// <param name="onResProgress">视图资源的加载进度回调</param>
+        /// <param name="onResLoaded">视图资源加载完成的回调(会在onCreated之前触发)</param>
+        /// <returns></returns>
+        public static async UniTask<AView> CreateAsync(Type viewType, Transform parent, object data = null, Action<AView> onCreated = null, Action<float> onResProgress = null, Action<UnityEngine.Object> onResLoaded = null)
+        {
+            bool isSuccess = FindAssetBundleInfo(viewType, out var abName, out var viewName);
+            if (false == isSuccess)
             {
-                new ViewAsyncCreater<T>(type, abName, viewName).Create(parent, data, onCreated, onProgress, onLoaded);
+                Debug.LogErrorFormat("AView类[{0}]并没有适用的视图", viewType.FullName);
             }
-            else
-            {
-                Debug.LogErrorFormat("AView类[{0}]并没有适用的视图", type.FullName);
-            }
+
+            return await CreateAsync(viewType, abName, viewName, parent, data, onCreated, onResProgress, onResLoaded);
+        }
+
+        /// <summary>
+        /// 异步创建视图
+        /// </summary>
+        /// <param name="parent">创建视图的父节点</param>
+        /// <param name="data">传递的数据</param>
+        /// <param name="onCreated">视图创建完成的回调</param>
+        /// <param name="onResProgress">视图资源的加载进度回调</param>
+        /// <param name="onResLoaded">视图资源加载完成的回调(会在onCreated之前触发)</param>
+        /// <returns></returns>
+        public static async UniTask<T> CreateAsync<T>(Transform parent, object data = null, Action<T> onCreated = null, Action<float> onResProgress = null, Action<UnityEngine.Object> onResLoaded = null) where T : AView
+        {
+            var view = await CreateAsync(typeof(T), parent, data, null, onResProgress, onResLoaded) as T;
+            onCreated?.Invoke(view);
+            return view;
         }
 
         #region GameObject和AView对象的绑定
