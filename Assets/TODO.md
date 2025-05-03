@@ -7,6 +7,8 @@
 
 - 重构优化Scene相关的资源打包（规避场景和其它资源在一起导致的打包失败）。以及读取代码。
 
+- 实现界面缓存机制，减少界面重复打开产生的GC以及运行效率。
+
 -------------------------
 
 - 自动绑定AutoButtonClickBindingAttribute、BaseAutoBindingAttribute、BindingUIClickAttribute 这部分重新梳理，补全注释方便扩展
