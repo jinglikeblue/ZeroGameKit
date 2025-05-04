@@ -23,7 +23,7 @@ namespace Zero
             Debug.Log(LogColor.Zero1("「ManifestABUpdater」manifest.ab文件更新检查..."));
 
             manifestABPath = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION);
-
+            
             if (Runtime.Ins.IsNeedNetwork && false == Runtime.Ins.netResVer.IsSameVer(manifestABPath, Runtime.Ins.localResVer))
             {                
                 ILBridge.Ins.StartCoroutine(UpdateManifestAB());

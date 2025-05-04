@@ -73,7 +73,13 @@ namespace Zero
         /// <param name="data">启动配置数据</param>
         public Launcher(LauncherSettingData data)
         {
-            this.launcherData = data;
+            if (false == Application.isEditor)
+            {
+                //非Editor下，将会强制开启AssetBundle模式
+                data.isUseAssetBundle = true;
+            }
+            
+            launcherData = data;
         }
 
         /// <summary>
