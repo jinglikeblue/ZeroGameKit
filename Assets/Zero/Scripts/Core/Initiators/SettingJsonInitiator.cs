@@ -16,7 +16,11 @@ namespace Zero
             Debug.Log(LogColor.Zero1("「SettingJsonInitiator」配置文件更新检查..."));
             _localPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, "setting.json");
 
-            if(Runtime.Ins.localData.IsUpdateSetting && Runtime.Ins.IsNeedNetwork)
+            if (Runtime.Ins.IsUseAssetDataBase)
+            {
+                SetSetting(new SettingVO());
+            }
+            else if(Runtime.Ins.localData.IsUpdateSetting && Runtime.Ins.IsNeedNetwork)
             {
                 Update();
             }

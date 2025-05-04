@@ -2077,12 +2077,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     isLogEnable: 1
-    isUseAssetBundle: 1
+    isUseAssetBundle: 0
     isHotPatchEnable: 1
     urlRoots:
     - http://192.168.0.103/zero/res/
     isOfflineEnable: 0
-    isUseDll: 1
+    isUseDll: 0
 --- !u!114 &1440188156
 MonoBehaviour:
   m_ObjectHideFlags: 0

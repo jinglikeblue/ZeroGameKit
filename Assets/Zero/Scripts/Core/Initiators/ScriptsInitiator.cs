@@ -90,7 +90,7 @@ namespace Zero
             dllBytes = null;
             pdbBytes = null;
 
-            if (Runtime.Ins.VO.isHotPatchEnable)
+            if (Runtime.Ins.IsHotResEnable)
             {
                 string dllPath = HotDllPath;
                 if (File.Exists(dllPath))
