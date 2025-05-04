@@ -86,12 +86,17 @@ namespace Zero
         /// 开始激活预加载
         /// </summary>
         /// <param name="rg"></param>
-        public void Start()
+        public async void Start()
         {
             //实例化Native桥接器
             var startupNativeBridge = NativeBridge.Ins;
 
-            StreamingAssetsResInit();
+            //内嵌资源检查
+            await new StreamingAssetsCheckInitiator().StartAsync();
+            //初始化运行环境配置环境(初始化时依赖StramingAssets的资源)
+            await Runtime.Ins.Init(launcherData);
+            SettingJsonInit();
+            // StreamingAssetsResInit();
         }
 
         #region StreamingAssetsResInit -> InitRuntime
@@ -124,7 +129,7 @@ namespace Zero
 
         void InitRuntime()
         {
-            //初始化运行环境配置环境
+            //初始化运行环境配置环境(初始化时依赖StramingAssets的资源)
             Runtime.Ins.Init(launcherData);
 
             SettingJsonInit();

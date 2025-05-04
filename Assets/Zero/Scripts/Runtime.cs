@@ -1,6 +1,7 @@
 ﻿using Jing;
 using System;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -127,8 +128,13 @@ namespace Zero
         }
 
 
-        internal void Init(LauncherSettingData vo)
+        internal async UniTask Init(LauncherSettingData vo)
         {
+            if (null != VO)
+            {
+                throw new Exception($"Runtime无法重复初始化!");
+            }
+            
             this.VO = vo;
 
             SetLogEnable(vo.isLogEnable);

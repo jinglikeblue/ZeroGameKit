@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -31,6 +32,14 @@ namespace Zero
                 throw new Exception("Initiator只能Start一次!");
             }
             IsStarted = true;
+        }
+
+        internal virtual async UniTask StartAsync()
+        {
+            if (IsStarted)
+            {
+                throw new Exception("Initiator只能Start一次!");
+            }
         }
 
         /// <summary>

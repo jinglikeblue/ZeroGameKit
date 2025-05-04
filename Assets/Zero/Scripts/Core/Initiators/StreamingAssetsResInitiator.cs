@@ -49,110 +49,50 @@ namespace Zero
         {
         }
 
-        internal override void Start()
+        internal override async void Start()
         {
             base.Start();
-            LoadSettingJson();
-        }
 
-        async void LoadSettingJson()
-        {
-            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.SETTING_FILE_NAME);
-            var uwr = UnityWebRequest.Get(path);
-
-            try
-            {
-                await uwr.SendWebRequest().ToUniTask();
-            }
-            catch (Exception e)
-            {
-                Debug.Log(LogColor.Red(e.ToString()));
-            }
-
-            if (uwr.error != null)
-            {
-                //加载不到表示没有内嵌资源
-                End();
-            }
-            else
-            {
-                settingVO = Json.ToObject<SettingVO>(uwr.downloadHandler.text);
-                LoadResJson();
-            }
-        }
-
-        async void LoadResJson()
-        {
-            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.RES_JSON_FILE_NAME);
-            var uwr = UnityWebRequest.Get(path);
-
-            try
-            {
-                await uwr.SendWebRequest().ToUniTask();
-            }
-            catch (Exception e)
-            {
-                Debug.Log(LogColor.Red(e.ToString()));
-            }
-
-            if (uwr.error != null)
-            {
-                End(uwr.error);
-            }
-            else
-            {
-                resVerVO = Json.ToObject<ResVerVO>(uwr.downloadHandler.text);
-                LoadScripts();
-            }
-        }
-
-        async void LoadScripts()
-        {
-            var dllPath = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".dll");
-
-            var uwr = UnityWebRequest.Get(dllPath);
-
-            try
-            {
-                await uwr.SendWebRequest().ToUniTask();
-            }
-            catch (Exception e)
-            {
-                Debug.Log(LogColor.Red(e.ToString()));
-            }
-
-            if (uwr.error != null)
-            {
-                End(uwr.error);
-            }
-            else
-            {
-                scriptDllBytes = uwr.downloadHandler.data;
-            }
-
-            var pdbPath = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".pdb");
-
-            uwr = UnityWebRequest.Get(pdbPath);
-            
-            try
-            {
-                await uwr.SendWebRequest().ToUniTask();
-            }
-            catch (Exception e)
-            {
-                Debug.Log(LogColor.Red(e.ToString()));
-            }
-
-            if (uwr.error != null)
-            {
-                End(uwr.error);
-            }
-            else
-            {
-                scriptPdbBytes = uwr.downloadHandler.data;
-            }
+            await LoadSettingJson();
+            await LoadResJson();
+            await LoadScripts();
 
             End();
+        }
+
+        async UniTask LoadSettingJson()
+        {
+            var bytes = await HotRes.LoadFromStreamingAssets(ZeroConst.SETTING_FILE_NAME);
+            if (null == bytes)
+            {
+                Debug.Log(LogColor.Zero2($"[Zero][Launcher] 内嵌资源不存在: {ZeroConst.SETTING_FILE_NAME}"));
+                return;
+            }
+            
+            var jsonString = Encoding.UTF8.GetString(bytes);
+            settingVO = Json.ToObject<SettingVO>(jsonString);
+        }
+
+        async UniTask LoadResJson()
+        {
+            var bytes = await HotRes.LoadFromStreamingAssets(ZeroConst.RES_JSON_FILE_NAME);
+            if (null == bytes)
+            {
+                Debug.Log(LogColor.Zero2($"[Zero][Launcher] 内嵌资源不存在: {ZeroConst.RES_JSON_FILE_NAME}"));
+                return;
+            }
+            
+            var jsonString = Encoding.UTF8.GetString(bytes);
+            resVerVO = Json.ToObject<ResVerVO>(jsonString);
+        }
+
+        async UniTask LoadScripts()
+        {
+            var dllPath = FileUtility.CombinePaths(ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".dll");
+            scriptDllBytes = await HotRes.LoadFromStreamingAssets(dllPath);
+
+            var pdbPath = FileUtility.CombinePaths(ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".pdb");
+            scriptPdbBytes = await HotRes.LoadFromStreamingAssets(pdbPath);
         }
     }
 }
