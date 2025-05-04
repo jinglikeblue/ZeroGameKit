@@ -23,7 +23,7 @@ namespace Zero
         public Client client;
 
         /// <summary>
-        /// 网络资源目录
+        /// 网络资源重定向目录。为空表示使用LauncherSetting中配置的netResRoot
         /// </summary>
         public string netResRoot;
 

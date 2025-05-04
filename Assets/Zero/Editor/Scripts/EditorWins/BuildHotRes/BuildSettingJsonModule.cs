@@ -86,8 +86,9 @@ namespace ZeroEditor
         [LabelText("更新地址URL")]
         public string url;
 
-        [Title("远端资源")]
-        [LabelText("远端资源根目录URL：")]
+        [Title("远端资源重定向")]
+        [LabelText("重定向资源根目录URL：")]
+        [InfoBox("如果该setting.json对应的热更资源不在同级别目录下（在其它url地址）。那么可以在这里重定向为对应的网络资源根目录。否则不用刻意填写")]
         public string netResRoot;
 
         [Space(10)]

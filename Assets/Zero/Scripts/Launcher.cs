@@ -85,8 +85,6 @@ namespace Zero
             //实例化Native桥接器
             var startupNativeBridge = NativeBridge.Ins;
 
-
-
             StreamingAssetsResInit();
         }
 

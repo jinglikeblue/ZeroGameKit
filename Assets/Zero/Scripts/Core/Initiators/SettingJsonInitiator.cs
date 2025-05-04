@@ -54,7 +54,8 @@ namespace Zero
             }
 
             Runtime.Ins.setting = vo;
-            if (vo.netResRoot != null)
+            //如果配置了资源地址重定向，则更改网络资源路径
+            if (!string.IsNullOrEmpty(vo.netResRoot))
             {
                 Runtime.Ins.netResDir = FileUtility.CombineDirs(true, vo.netResRoot, ZeroConst.PLATFORM_DIR_NAME);
             }
@@ -76,6 +77,7 @@ namespace Zero
                 }                
                 if (null == loader.error)
                 {
+                    Runtime.Ins.netResDir = list[i];
                     LoadSettingFromCache();
                     return;
                 }
