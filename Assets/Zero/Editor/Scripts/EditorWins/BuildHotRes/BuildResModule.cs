@@ -107,7 +107,7 @@ namespace ZeroEditor
         {
             if (EditorUtility.DisplayDialog("确定窗口", "确定拷贝构建内容到'StreamingAssets/res'？", "是", "否"))
             {
-                FileUtility.CopyDir(ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.STREAMING_ASSETS_RES_DATA_PATH);
+                FileUtility.CopyDir(ZeroEditorConst.PUBLISH_RES_ROOT_DIR, ZeroConst.STREAMING_ASSETS_RES_DATA_PATH);
                 if (isRefreshAssetDatabase)
                 {
                     AssetDatabase.Refresh();
@@ -138,7 +138,7 @@ namespace ZeroEditor
         void OpenPublishDir()
         {
             //打开目录
-            ZeroEditorUtility.OpenDirectory(ZeroConst.PUBLISH_RES_ROOT_DIR);
+            ZeroEditorUtility.OpenDirectory(ZeroEditorConst.PUBLISH_RES_ROOT_DIR);
         }
 
         void BuildPart2()
@@ -239,7 +239,7 @@ namespace ZeroEditor
         /// </summary>
         void BuildResJsonFile()
         {
-            new ResJsonBuildCommand(ZeroConst.PUBLISH_RES_ROOT_DIR).Execute();
+            new ResJsonBuildCommand(ZeroEditorConst.PUBLISH_RES_ROOT_DIR).Execute();
         }
 
         public override void OnDisable()

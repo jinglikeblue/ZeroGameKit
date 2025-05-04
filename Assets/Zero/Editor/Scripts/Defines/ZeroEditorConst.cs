@@ -25,21 +25,26 @@ namespace ZeroEditor
         /// 编辑器配置文件目录
         /// </summary>
         static public string EDITOR_CONFIG_DIR = FileUtility.CombineDirs(false, ZeroConst.ZERO_LIBRARY_DIR, "EditorConfigs");
-
+        
+        /// <summary>
+        /// 热更资源发布目录
+        /// </summary>
+        static public string PUBLISH_RES_ROOT_DIR = FileUtility.CombineDirs(false, ZeroConst.ZERO_LIBRARY_DIR, "Release", "res", ZeroConst.PLATFORM_DIR_NAME);
+        
         /// <summary>
         /// DLL打包的发布目录
         /// </summary>
-        static public string DLL_PUBLISH_DIR = FileUtility.CombineDirs(false, ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.DLL_DIR_NAME);
+        static public string DLL_PUBLISH_DIR = FileUtility.CombineDirs(false, PUBLISH_RES_ROOT_DIR, ZeroConst.DLL_DIR_NAME);
 
         /// <summary>
         /// AssetBundle打包的发布目录
         /// </summary>
-        static public string ASSET_BUNDLE_PUBLISH_DIR = FileUtility.CombineDirs(false, ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.AB_DIR_NAME);
+        static public string ASSET_BUNDLE_PUBLISH_DIR = FileUtility.CombineDirs(false, PUBLISH_RES_ROOT_DIR, ZeroConst.AB_DIR_NAME);
 
         /// <summary>
         /// Files资源的发布目录
         /// </summary>
-        static public string FILES_PUBLISH_DIR = FileUtility.CombineDirs(false, ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.FILES_DIR_NAME);
+        static public string FILES_PUBLISH_DIR = FileUtility.CombineDirs(false, PUBLISH_RES_ROOT_DIR, ZeroConst.FILES_DIR_NAME);
 
         /// <summary>
         /// DD打包缓存目录

@@ -72,7 +72,7 @@ namespace Zero
         void InitResMgr()
         {
             //因为更新了manifest.ab文件，所以要重新初始化ResMgr的Init
-            if (Runtime.Ins.IsLoadAssetBundleByAssetDataBase)
+            if (Runtime.Ins.IsUseAssetDataBase)
             {
                 ResMgr.Init(ResMgr.EResMgrType.AssetDataBase, ZeroConst.HOT_RESOURCES_ROOT_DIR);
             }

@@ -20,7 +20,7 @@ namespace Zero
         /// <summary>
         /// 是否存在内嵌DLL
         /// </summary>
-        bool IsBuiltinDllExist => Runtime.Ins.streamingAssetsResInitiator.IsResExist;
+        bool IsBuiltinDllExist => Runtime.Ins.streamingAssetsResInitiator.IsBuiltinDllExist;
         
         /// <summary>
         /// 是否存在DLL
@@ -32,25 +32,20 @@ namespace Zero
             base.Start();
 
             bool isUseDll = Runtime.Ins.IsUseDll;
-            if (Runtime.Ins.BuiltinResMode == EBuiltinResMode.ONLY_USE)
-            {
-                //只使用内嵌资源的情况下，不需要加载DLL，直接执行打包的代码即可
-                isUseDll = false;
-            }
 
-            #region 如果是调试模式，并且存在DLL，那么就使用DLL
-
-            if (false == isUseDll)
+            if (isUseDll && false == IsDllExist)
             {
-                if (Runtime.Ins.IsDebugDll && IsDllExist)
+                //开启了使用DLL，但是并没有dll存在
+                if (Runtime.Ins.IsOfflineEnable)
                 {
-                    Debug.Log(LogColor.Zero1("进入Dll调试模式"));
-                    isUseDll = true;
+                    Debug.Log(Zero.LogColor.Zero1("[Launcher] 没有找到dll文件，将自动用native脚本，以离线模式运行"));
+                    isUseDll = false;
+                }
+                else
+                {
+                    throw new Exception($"[Launcher][StriptsInitiator] DLL加载出错： 文件不存在");
                 }
             }
-
-            #endregion
-
             
             if (isUseDll)
             {
@@ -71,13 +66,13 @@ namespace Zero
         {
             Debug.Log(LogColor.Zero1("@Scripts代码运行环境: [外部程序集]"));
 
-            var dllBytes = LoadDllBytes();
-            byte[] pdbBytes = null;
-            if (Runtime.Ins.IsLoadPdb)
-            {
-                pdbBytes = LoadPdbBytes();
-            }
+            LoadDllBytes(out var dllBytes, out var pdbBytes);
 
+            if (null == dllBytes)
+            {
+                throw new Exception($"[@Scripts] dll启动失败！");
+            }
+            
             //初始化IL
             ILBridge.Ins.Startup(dllBytes, pdbBytes);
         }
@@ -89,38 +84,32 @@ namespace Zero
             //初始化IL
             ILBridge.Ins.Startup();
         }
-        
-        byte[] LoadDllBytes()
+
+        void LoadDllBytes(out byte[] dllBytes, out byte[] pdbBytes)
         {
-            string dllPath = HotDllPath;
-            if (File.Exists(dllPath))
+            dllBytes = null;
+            pdbBytes = null;
+
+            if (Runtime.Ins.VO.isHotPatchEnable)
             {
-                return File.ReadAllBytes(dllPath);
+                string dllPath = HotDllPath;
+                if (File.Exists(dllPath))
+                {
+                    dllBytes = File.ReadAllBytes(dllPath);
+                    string pdbPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".pdb");
+                    if (File.Exists(pdbPath))
+                    {
+                        pdbBytes = File.ReadAllBytes(pdbPath);
+                    }
+                    return;
+                }
             }
 
-            if (Runtime.Ins.streamingAssetsResInitiator.IsResExist)
+            if (IsBuiltinDllExist)
             {
-                return Runtime.Ins.streamingAssetsResInitiator.scriptDllBytes;
+                dllBytes =  Runtime.Ins.streamingAssetsResInitiator.scriptDllBytes;
+                pdbBytes = Runtime.Ins.streamingAssetsResInitiator.scriptPdbBytes;
             }
-
-
-            throw new Exception($"DLL加载出错： {dllPath}");
-        }
-
-        byte[] LoadPdbBytes()
-        {
-            string pdbPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".pdb");
-            if (File.Exists(pdbPath))
-            {
-                return File.ReadAllBytes(pdbPath);
-            }
-
-            if (Runtime.Ins.streamingAssetsResInitiator.IsResExist)
-            {
-                return Runtime.Ins.streamingAssetsResInitiator.scriptPdbBytes;
-            }
-
-            throw new Exception($"PDB加载出错： {pdbPath}");
         }
     }
 }

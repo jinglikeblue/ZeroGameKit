@@ -23,40 +23,19 @@ namespace Zero
         internal StreamingAssetsResInitiator streamingAssetsResInitiator;
 
         /// <summary>
-        /// 内嵌资源模式
-        /// </summary>
-        public EBuiltinResMode BuiltinResMode => VO.builtinResMode;
-
-        /// <summary>
         /// 资源模式是否仅使用包内资源（离线资源模式）
         /// </summary>
-        public bool IsOnlyUseBuiltinRes
-        {
-            get
-            {
-                return BuiltinResMode == EBuiltinResMode.ONLY_USE ? true : false;
-            }
-        }
-
+        public bool IsOnlyUseBuiltinRes => false == VO.isHotPatchEnable;
+        
         /// <summary>
-        /// 热更资源模式
+        /// 是否允许离线运行
         /// </summary>
-        public EHotResMode HotResMode => VO.hotResMode;
+        public bool IsOfflineEnable => VO.isOfflineEnable;
 
         /// <summary>
         /// 是否用DLL方式启动程序
         /// </summary>
         public bool IsUseDll => VO.isUseDll;
-
-        /// <summary>
-        /// 是否加载PDB
-        /// </summary>
-        public bool IsLoadPdb => IsUseDll && VO.isLoadPdb;
-        
-        /// <summary>
-        /// 是否调试DLL
-        /// </summary>
-        public bool IsDebugDll => IsUseDll && VO.isDebugDll;
 
         /// <summary>
         /// 本地数据
@@ -101,57 +80,24 @@ namespace Zero
         public string generateFilesDir { get; private set; }
 
         /// <summary>
+        /// 是否使用AssetBundle加载资源
+        /// </summary>
+        public bool IsUseAssetBundle => VO.isUseAssetBundle;
+        
+        /// <summary>
         /// 是否使用AssetDataBase加载资源
         /// </summary>
-        public bool IsLoadAssetBundleByAssetDataBase
-        {
-            get
-            {
-                if (VO.hotResMode == EHotResMode.ASSET_DATA_BASE)
-                {
-                    return true;
-                }
-                return false;
-            }
-        }
+        public bool IsUseAssetDataBase => !VO.isUseAssetBundle;
 
         /// <summary>
         /// 运行时是否依赖网络（需要更新资源）
         /// </summary>
-        public bool IsNeedNetwork
-        {
-            get
-            {
-                //正式发布的热更资源模式情况下，只要不是仅使用内嵌资源模式，都需要网络进行热更资源更新
-                if (HotResMode == EHotResMode.NET_ASSET_BUNDLE)
-                {
-                    if (BuiltinResMode != EBuiltinResMode.ONLY_USE)
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        }
+        public bool IsNeedNetwork => VO.isUseAssetBundle && VO.isHotPatchEnable;
 
         /// <summary>
         /// 运行时是否允许加载热更目录中的资源 
         /// </summary>
-        public bool IsHotResEnable
-        {
-            get
-            {
-                //正式发布的热更资源模式情况下，如果勾选了仅使用内嵌资源，则不允许从热更目录加载资源。否则都可以使用热更资源。
-                if (HotResMode == EHotResMode.NET_ASSET_BUNDLE)
-                {
-                    if (BuiltinResMode == EBuiltinResMode.ONLY_USE)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        }
+        public bool IsHotResEnable => VO.isUseAssetBundle && VO.isHotPatchEnable;
 
         /// <summary>
         /// 内嵌资源是否存在
@@ -245,22 +191,13 @@ namespace Zero
         /// </summary>
         void InitHotResRuntime()
         {
-            SettingFileNetDirList = new string[VO.netRoots.Length];
+            SettingFileNetDirList = new string[VO.urlRoots.Length];
             for (var i = 0; i < SettingFileNetDirList.Length; i++)
             {
-                SettingFileNetDirList[i] = FileUtility.CombineDirs(false, VO.netRoots[i], ZeroConst.PLATFORM_DIR_NAME);
+                SettingFileNetDirList[i] = FileUtility.CombineDirs(false, VO.urlRoots[i], ZeroConst.PLATFORM_DIR_NAME);
             }
 
-            switch (HotResMode)
-            {
-                case EHotResMode.NET_ASSET_BUNDLE:
-                    localResDir = ZeroConst.WWW_RES_PERSISTENT_DATA_PATH;
-                    break;
-                default:
-                    localResDir = ZeroConst.PUBLISH_RES_ROOT_DIR;
-                    break;
-            }
-
+            localResDir = ZeroConst.WWW_RES_PERSISTENT_DATA_PATH;
 
             //确保本地资源目录存在
             if (false == Directory.Exists(localResDir))
@@ -274,11 +211,8 @@ namespace Zero
         /// </summary>
         void CheckEnvironment()
         {
-            Debug.Log(LogColor.Zero1($"内嵌资源使用模式  : {BuiltinResMode}"));
-            if (BuiltinResMode == EBuiltinResMode.ONLY_USE && false == streamingAssetsResInitiator.IsResExist)
-            {
-                throw new Exception($"[仅使用内嵌资源模式]下，{ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW} 下的资源不正确");
-            }
+            var assetLoadType = IsUseAssetBundle ? "AssetBundle" : "AssetDataBase";
+            Debug.Log(LogColor.Zero1($"[Runtime] 资源加载模式： {assetLoadType}"));
         }
 
         /// <summary>

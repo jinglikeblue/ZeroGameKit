@@ -103,12 +103,12 @@ namespace ZeroEditor
         [Button("发布「setting.json」", buttonSize: ButtonSizes.Medium), PropertyOrder(998)]
         void BuildSettingJsonFile()
         {
-            if (false == Directory.Exists(ZeroConst.PUBLISH_RES_ROOT_DIR))
+            if (false == Directory.Exists(ZeroEditorConst.PUBLISH_RES_ROOT_DIR))
             {
-                Directory.CreateDirectory(ZeroConst.PUBLISH_RES_ROOT_DIR);
+                Directory.CreateDirectory(ZeroEditorConst.PUBLISH_RES_ROOT_DIR);
             }
 
-            var filePath = FileUtility.CombinePaths(ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.SETTING_FILE_NAME);
+            var filePath = FileUtility.CombinePaths(ZeroEditorConst.PUBLISH_RES_ROOT_DIR, ZeroConst.SETTING_FILE_NAME);
             if (File.Exists(filePath) && false == EditorUtility.DisplayDialog("警告！", "已存在文件「setting.json」，是否覆盖？", "Yes", "No"))
             {
                 return;
@@ -135,7 +135,7 @@ namespace ZeroEditor
         void OpenPublishDir()
         {
             //打开目录
-            ZeroEditorUtility.OpenDirectory(ZeroConst.PUBLISH_RES_ROOT_DIR);
+            ZeroEditorUtility.OpenDirectory(ZeroEditorConst.PUBLISH_RES_ROOT_DIR);
         }
     }
 }

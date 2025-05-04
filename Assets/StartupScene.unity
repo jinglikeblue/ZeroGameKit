@@ -470,7 +470,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u70ED\u8865\u4E01\u6A21\u5F0F"
+  m_Text: "\u70ED\u66F4\u529F\u80FD"
 --- !u!222 &84661720
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1228,7 +1228,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u7F51\u7EDC\u4E0D\u901A\u65F6\u81EA\u52A8\u5207\u6362\u4E3A\u79BB\u7EBF\u6267\u884C"
+  m_Text: "\u5141\u8BB8\u79BB\u7EBF\u8FD0\u884C"
 --- !u!222 &489159061
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1954,7 +1954,7 @@ MonoBehaviour:
     m_BestFit: 1
     m_MinSize: 12
     m_MaxSize: 20
-    m_Alignment: 2
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0
@@ -2077,13 +2077,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     isLogEnable: 1
-    builtinResMode: 0
-    hotResMode: 0
-    netRoots:
+    isUseAssetBundle: 0
+    isHotPatchEnable: 0
+    urlRoots:
     - http://YourHotResRootUrl
+    isOfflineEnable: 0
     isUseDll: 1
-    isLoadPdb: 1
-    isDebugDll: 1
 --- !u!114 &1440188156
 MonoBehaviour:
   m_ObjectHideFlags: 0

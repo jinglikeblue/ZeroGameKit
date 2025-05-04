@@ -47,11 +47,6 @@ namespace Zero
         /// </summary>
         public LauncherSettingParam<bool> lsUseDll = new LauncherSettingParam<bool>();
 
-        /// <summary>
-        /// LauncherSetting配置：加载pdb
-        /// </summary>
-        public LauncherSettingParam<bool> lsLoadPdb = new LauncherSettingParam<bool>();
-
         public class LauncherSettingParam<T> 
         {
             public bool isOverride = false;

@@ -90,19 +90,15 @@ namespace Zero
                 this.path = path;
                 this.dataMode = dataMode;
 
-                switch (Runtime.Ins.BuiltinResMode)
+                if (Runtime.Ins.IsHotResEnable)
                 {
-                    case EBuiltinResMode.HOT_PATCH:                        
-                        if (!LoadFromCatch())
-                        {
-                            //检查是否有内嵌资源，有的话从内嵌资源提取
-                            ILBridge.Ins.StartCoroutine(this, LoadFromStreamingAssets());
-                        }
-                        break;
-                    case EBuiltinResMode.ONLY_USE:
-                        ILBridge.Ins.StartCoroutine(this, LoadFromStreamingAssets());
-                        break;
-                }      
+                    if (LoadFromCatch())
+                    {
+                        return;
+                    }
+                }
+                
+                ILBridge.Ins.StartCoroutine(this, LoadFromStreamingAssets());
             }  
             
             bool LoadFromCatch()
@@ -195,18 +191,15 @@ namespace Zero
                 get
                 {
                     string path = null;
-                    switch (Runtime.Ins.HotResMode)
+
+                    if (Runtime.Ins.IsUseAssetBundle)
                     {
-                        case EHotResMode.NET_ASSET_BUNDLE:
-                            path = FileUtility.CombineDirs(false, ZeroConst.WWW_RES_PERSISTENT_DATA_PATH, ZeroConst.FILES_DIR_NAME);
-                            break;
-                        case EHotResMode.LOCAL_ASSET_BUNDLE:
-                            path = FileUtility.CombineDirs(false, ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.FILES_DIR_NAME);
-                            break;
-                        case EHotResMode.ASSET_DATA_BASE:
-                            //该种开发模式下，直接从Asset/@Files取文件
-                            path = FileUtility.CombineDirs(false, ZeroConst.HOT_FILES_ROOT_DIR);
-                            break;
+                        path = FileUtility.CombineDirs(false, ZeroConst.WWW_RES_PERSISTENT_DATA_PATH, ZeroConst.FILES_DIR_NAME);
+                    }
+                    else
+                    {
+                        //该种开发模式下，直接从Asset/@Files取文件
+                        path = FileUtility.CombineDirs(false, ZeroConst.HOT_FILES_ROOT_DIR);
                     }
                     return path;
                 }

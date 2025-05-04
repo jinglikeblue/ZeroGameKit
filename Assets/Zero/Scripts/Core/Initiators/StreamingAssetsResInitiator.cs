@@ -23,7 +23,7 @@ namespace Zero
         {
             get
             {
-                if (settingVO == null || resVerVO == null || scriptDllBytes == null || scriptPdbBytes == null)
+                if (settingVO == null || resVerVO == null || scriptDllBytes == null)
                 {
                     return false;
                 }
@@ -37,6 +37,11 @@ namespace Zero
         public ResVerVO resVerVO { get; private set; } = null;
 
         public byte[] scriptDllBytes { get; private set; } = null;
+
+        /// <summary>
+        /// 是否内嵌DLL存在
+        /// </summary>
+        public bool IsBuiltinDllExist => scriptDllBytes != null;
 
         public byte[] scriptPdbBytes { get; private set; } = null;
 

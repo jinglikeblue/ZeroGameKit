@@ -67,17 +67,13 @@ namespace Zero
 
         StartupResInitiator _startupResInitiator;
 
-        bool _isAutoOffline = false;
-
         /// <summary>
         /// 启动配置数据
         /// </summary>
         /// <param name="data">启动配置数据</param>
-        /// <param name="isAutoOffline">「热补丁模式」时，如果访问不到网络资源，是否自动切换为离线模式（使用内嵌资源继续运行）</param>
-        public Launcher(LauncherSettingData data, bool isAutoOffline = false)
+        public Launcher(LauncherSettingData data)
         {
             this.launcherData = data;
-            _isAutoOffline = isAutoOffline;
         }
 
         /// <summary>
@@ -146,10 +142,10 @@ namespace Zero
 
             if (initiator.error != null)
             {
-                if (_isAutoOffline && EBuiltinResMode.HOT_PATCH == launcherData.builtinResMode)
+                if (launcherData.isOfflineEnable)
                 {
-                    Debug.Log(Zero.LogColor.Zero1("自动切换为「仅使用内嵌资源模式」"));
-                    launcherData.builtinResMode = EBuiltinResMode.ONLY_USE;
+                    Debug.Log(Zero.LogColor.Zero1("[Launcher] 没有找到网络资源信息，将关闭热更功能，以离线模式运行"));
+                    launcherData.isHotPatchEnable = false;
                 }
                 else
                 {
@@ -260,7 +256,8 @@ namespace Zero
         void ScriptsInit()
         {
             ChangeState(EState.STARTUP);
-            new ScriptsInitiator().Start();
+            var scriptsInitiator = new ScriptsInitiator();
+            scriptsInitiator.Start();
         }
     }
 }

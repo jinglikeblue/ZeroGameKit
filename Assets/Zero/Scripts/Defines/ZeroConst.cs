@@ -85,24 +85,19 @@ namespace Zero
         /// <summary>
         /// 热更资源在项目中的根目录
         /// </summary>
-        static public string HOT_RESOURCES_ROOT_DIR = "Assets/@Resources";
+        public const string HOT_RESOURCES_ROOT_DIR = "Assets/@Resources";
 
         /// <summary>
         /// 其它热更资源再项目中的根目录
         /// </summary>
-        static public string HOT_FILES_ROOT_DIR = "Assets/@Files";
+        public const string HOT_FILES_ROOT_DIR = "Assets/@Files";
+
+        #endregion
 
         /// <summary>
         /// Zero框架的Library目录
         /// </summary>
-        static public string ZERO_LIBRARY_DIR = "LibraryZero";
-
-        /// <summary>
-        /// 热更资源发布目录
-        /// </summary>
-        static public string PUBLISH_RES_ROOT_DIR = FileUtility.CombineDirs(false, ZERO_LIBRARY_DIR, "Release", "res", PLATFORM_DIR_NAME);
-
-        #endregion
+        public const string ZERO_LIBRARY_DIR = "LibraryZero";
 
         static string _platformDirName = null;
 

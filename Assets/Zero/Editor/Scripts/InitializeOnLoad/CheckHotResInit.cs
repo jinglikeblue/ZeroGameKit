@@ -15,7 +15,7 @@ namespace ZeroEditor
         static CheckHotResInit()
         {
             //检查setting.json文件，不存在则生成
-            var settingFilePath = FileUtility.CombinePaths(ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.SETTING_FILE_NAME);
+            var settingFilePath = FileUtility.CombinePaths(ZeroEditorConst.PUBLISH_RES_ROOT_DIR, ZeroConst.SETTING_FILE_NAME);
             if (!File.Exists(settingFilePath))
             {
                 var fi = new FileInfo(settingFilePath);
@@ -31,7 +31,7 @@ namespace ZeroEditor
 
 
             //检查res.json文件，不存在则生成
-            var resFilePath = FileUtility.CombinePaths(ZeroConst.PUBLISH_RES_ROOT_DIR, ZeroConst.RES_JSON_FILE_NAME);
+            var resFilePath = FileUtility.CombinePaths(ZeroEditorConst.PUBLISH_RES_ROOT_DIR, ZeroConst.RES_JSON_FILE_NAME);
             if (!File.Exists(resFilePath))
             {
                 var fi = new FileInfo(resFilePath);
@@ -40,7 +40,7 @@ namespace ZeroEditor
                     fi.Directory.Create();
                 }
                 Debug.Log(LogColor.Blue($"初始化「res.json」文件：{resFilePath}"));
-                new ResJsonBuildCommand(ZeroConst.PUBLISH_RES_ROOT_DIR).Execute();
+                new ResJsonBuildCommand(ZeroEditorConst.PUBLISH_RES_ROOT_DIR).Execute();
             }
         }
     }

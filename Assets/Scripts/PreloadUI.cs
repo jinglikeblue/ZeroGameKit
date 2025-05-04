@@ -10,10 +10,27 @@ namespace Demo
     public class PreloadUI : MonoBehaviour
     {
         public Text text;
+        
+        /// <summary>
+        /// 离线运行
+        /// </summary>
         public Toggle toggleOffLineMode;
+        
+        /// <summary>
+        /// 使用dll
+        /// </summary>
         public Toggle toggleUseDll;
+        
+        /// <summary>
+        /// 开启热更
+        /// </summary>
         public Toggle toggleHotPatchMode;
+        
+        /// <summary>
+        /// 开启日志
+        /// </summary>
         public Toggle toggleLog;
+        
         public Text textNetRoots;
 
         private LauncherSettingData _data;
@@ -22,8 +39,9 @@ namespace Demo
         {
             _data = LauncherSetting.LoadLauncherSettingDataFromResources();
             toggleUseDll.isOn = _data.isUseDll;
-            toggleHotPatchMode.isOn = _data.builtinResMode == EBuiltinResMode.HOT_PATCH;
+            toggleHotPatchMode.isOn = _data.isHotPatchEnable;
             toggleLog.isOn = _data.isLogEnable;
+            toggleOffLineMode.isOn = _data.isOfflineEnable;
             RefreshUI();
         }
 
@@ -44,22 +62,34 @@ namespace Demo
 
         void RefreshUI()
         {
-            toggleOffLineMode.gameObject.SetActive(toggleHotPatchMode.isOn);
-            if (toggleHotPatchMode.isOn)
+            if (_data.isUseAssetBundle)
             {
-                StringBuilder sb = new StringBuilder("网络资源地址：");
-                for (int i = 0; i < _data.netRoots.Length; i++)
+                toggleHotPatchMode.gameObject.SetActive(true);
+                toggleOffLineMode.gameObject.SetActive(toggleHotPatchMode.isOn);
+                textNetRoots.gameObject.SetActive(toggleHotPatchMode.isOn);
+                if (toggleHotPatchMode.isOn)
                 {
-                    sb.AppendLine();
-                    sb.Append($"[{i}]: {_data.netRoots[i]}");
-                }
+                    StringBuilder sb = new StringBuilder("网络资源地址：");
+                    for (int i = 0; i < _data.urlRoots.Length; i++)
+                    {
+                        sb.AppendLine();
+                        sb.Append($"[{i}]: {_data.urlRoots[i]}");
+                    }
                 
-                textNetRoots.text = sb.ToString();
+                    textNetRoots.text = sb.ToString();
+                }
+                else
+                {
+                    textNetRoots.text = string.Empty;
+                }
             }
             else
             {
-                textNetRoots.text = string.Empty;
+                toggleHotPatchMode.gameObject.SetActive(false);
+                toggleOffLineMode.gameObject.SetActive(false);
+                textNetRoots.gameObject.SetActive(false);
             }
+
         }
 
         private void Startup()
@@ -68,23 +98,11 @@ namespace Demo
 
             var vo = LauncherSetting.LoadLauncherSettingDataFromResources();
             vo.isUseDll = toggleUseDll.isOn;
-            vo.builtinResMode = toggleHotPatchMode.isOn ? EBuiltinResMode.HOT_PATCH : EBuiltinResMode.ONLY_USE;
+            vo.isHotPatchEnable = toggleHotPatchMode.isOn;
             vo.isLogEnable = toggleLog.isOn;
-            if (false == Application.isEditor)
-            {
-                //如果是真机，那么必须使用该模式
-                vo.hotResMode = EHotResMode.NET_ASSET_BUNDLE;    
-            }
-            else
-            {
-                //如果Editor下从AssetDataBase读取资源的情况下，强制设置为热更模式
-                if (EHotResMode.ASSET_DATA_BASE == vo.hotResMode)
-                {
-                    vo.builtinResMode = EBuiltinResMode.HOT_PATCH;
-                }
-            }
+            vo.isOfflineEnable = toggleOffLineMode.isOn;
             
-            var launcher = new Launcher(vo, toggleOffLineMode.isOn);
+            var launcher = new Launcher(vo);
             
 
             //Preload preload = GetComponent<Preload>();

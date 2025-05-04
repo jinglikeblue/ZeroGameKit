@@ -47,7 +47,15 @@ namespace Zero
             {
                 //反射执行                
                 Type type = assembly.GetType(clsName);
+                if (null == type)
+                {
+                    throw new Exception($"[Zero] 找不到Type: {clsName}");
+                }
                 MethodInfo method = type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public);
+                if (null == method)
+                {
+                    throw new Exception($"[Zero] 找不到方法: {methodName}");
+                }
                 method.Invoke(null, null);                
             }
         }

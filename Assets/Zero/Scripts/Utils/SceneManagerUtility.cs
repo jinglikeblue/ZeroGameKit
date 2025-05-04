@@ -21,7 +21,7 @@ namespace Zero
 
         static SceneManagerUtility()
         {
-            IsEditorAPIEnable = Runtime.Ins.HotResMode == EHotResMode.ASSET_DATA_BASE;
+            IsEditorAPIEnable = Runtime.Ins.IsUseAssetDataBase;
             Debug.Log(LogColor.Zero1($"[SceneManagerUtility] 是否使用Editor下的API加载场景: {IsEditorAPIEnable}"));
 
             // SceneManager.sceneLoaded += OnSceneLoaded;
