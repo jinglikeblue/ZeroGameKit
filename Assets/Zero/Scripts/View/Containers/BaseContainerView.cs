@@ -52,6 +52,7 @@ namespace Zero
                 onResLoaded?.Invoke(resObj);
                 BeforeShow();
             });
+            ShowView(view);
             return view;
         }
 

@@ -2078,7 +2078,7 @@ MonoBehaviour:
   data:
     isLogEnable: 1
     isUseAssetBundle: 0
-    isHotPatchEnable: 1
+    isHotPatchEnable: 0
     urlRoots:
     - http://192.168.0.103/zero/res/
     isOfflineEnable: 0
