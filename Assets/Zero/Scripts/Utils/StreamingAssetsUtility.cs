@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -33,8 +34,9 @@ namespace Zero
         /// 检查文件是否存在(同步方法)
         /// </summary>
         /// <param name="path"></param>
+        /// <param name="isAsync"></param>
         /// <returns></returns>
-        public static bool CheckFileExist(string path)
+        private static async UniTask<bool> CheckFileExist(string path, bool isAsync)
         {
             var www = UnityWebRequest.Get(path);
             var tempFilePath = FileUtility.CombinePaths(Application.temporaryCachePath, $"streaming_assets_check_{Path.GetFileNameWithoutExtension(path)}.bytes");
@@ -44,8 +46,10 @@ namespace Zero
             // Debug.Log($"[CheckStreamingAssetsFileExist] ResponseCode: {www.responseCode} DownloadedSize: {www.downloadedBytes}");
             while (false == (www.isDone || www.downloadedBytes > 0))
             {
-                //阻塞进程，直到请求结束或者下载到任意数据
-                // Debug.Log($"[CheckStreamingAssetsFileExist] ResponseCode: {www.responseCode} DownloadedSize: {www.downloadedBytes}");
+                if (isAsync)
+                {
+                    await UniTask.NextFrame();
+                }
             }
 
             www.Abort();
@@ -76,15 +80,24 @@ namespace Zero
         }
 
         /// <summary>
-        /// 检查文件是否存在(异步方法)
+        /// 检查文件是否存在(同步方法)
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="onChecked"></param>
-        public static void CheckFileExist(string path, Action<bool> onChecked)
+        /// <returns></returns>
+        public static bool CheckFileExist(string path)
         {
-            var handler = new StreamingAssetsFileExistCheckHandler(path);
-            handler.onCompleted += onChecked;
-            handler.Start();
+            var task = CheckFileExist(path, false);
+            return task.GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// 检查文件是否存在(同步方法)
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static async UniTask<bool> CheckFileExistAsync(string path)
+        {
+            return await CheckFileExist(path, true);
         }
 
         #region 同步加载方式
@@ -208,83 +221,6 @@ namespace Zero
             private void OnCompleted(AsyncOperation obj)
             {
                 onCompleted?.Invoke(this);
-            }
-        }
-
-        #endregion
-
-        #region StreamingAssetsFileExistCheckHandler 操作类
-
-        class StreamingAssetsFileExistCheckHandler
-        {
-            public class CheckHandler : DownloadHandlerScript
-            {
-                public CheckHandler() : base(new byte[1])
-                {
-                }
-
-                public bool isFileExist { get; private set; } = false;
-
-                protected override bool ReceiveData(byte[] data, int dataLength)
-                {
-                    Debug.Log($"ReceiveData");
-                    if (dataLength > 0)
-                    {
-                        isFileExist = true;
-                        return false;
-                    }
-
-                    return true;
-                }
-
-                protected override void ReceiveContentLengthHeader(ulong contentLength)
-                {
-                    Debug.Log($"ReceiveContentLengthHeader");
-                    base.ReceiveContentLengthHeader(contentLength);
-                }
-            }
-
-            public string path { get; private set; }
-
-            public event Action<bool> onCompleted;
-
-            public bool isExist = false;
-
-            public bool isDone { get; private set; } = false;
-
-            public CheckHandler _checkHandler;
-
-            public UnityWebRequest request;
-
-
-            public StreamingAssetsFileExistCheckHandler(string path)
-            {
-                this.path = path;
-            }
-
-            public void Start()
-            {
-                if (null != _checkHandler)
-                {
-                    Debug.LogWarning("Start不能重复调用，直接获取isExist属性即可");
-                    return;
-                }
-
-                var www = UnityWebRequest.Get(path);
-                request = www;
-                _checkHandler = new CheckHandler();
-
-                www.downloadHandler = _checkHandler;
-                var operation = www.SendWebRequest();
-                operation.completed += OnCompleted;
-            }
-
-            private void OnCompleted(AsyncOperation obj)
-            {
-                Debug.Log($"StreamingAssetsFileExistCheckHandler Completed");
-                isDone = true;
-                isExist = _checkHandler.isFileExist;
-                onCompleted?.Invoke(isExist);
             }
         }
 
