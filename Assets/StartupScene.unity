@@ -2077,10 +2077,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     isLogEnable: 1
-    isUseAssetBundle: 0
+    isUseAssetBundle: 1
     isHotPatchEnable: 0
     urlRoots:
-    - http://192.168.0.103/zero/res/
+    - http://192.168.0.103/zero/res
     isOfflineEnable: 0
     isUseDll: 0
 --- !u!114 &1440188156
@@ -2538,14 +2538,14 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 50
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 3
     m_MaxSize: 50
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u542F\u52A8\u4E2D:10%"
 --- !u!222 &1793168192
