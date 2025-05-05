@@ -9,6 +9,9 @@
 
 # 更新日志
 
+## 2025-05-05
+- [重构] 重构Zero框架运行时。增加代码可读性。降低使用复杂度
+
 ## 2025-04-28
 - 更新manifest.json移除不必要的库
 - Newtonsoft.Json 改为配置到manifest.json
