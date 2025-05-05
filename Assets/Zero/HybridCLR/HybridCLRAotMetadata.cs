@@ -42,7 +42,7 @@ namespace Zero
             {
                 if (ApplicationUtility.IsEditor)
                 {
-                    Debug.Log($"发现元数据补充文件:{ta.name}");
+                    // Debug.Log($"发现元数据补充文件:{ta.name}");
                 }
                 else
                 {

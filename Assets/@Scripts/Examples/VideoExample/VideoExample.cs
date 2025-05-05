@@ -23,11 +23,11 @@ namespace Example
         public MediaPlayer content;
         public Text textPath;
 
-        protected override void OnInit(object data)
+        protected override async void OnInit(object data)
         {
             base.OnInit(data);
             
-            var videoPath = HotFilesMgr.Ins.GetAbsolutePath("videos/Sample.mp4");
+            var videoPath = HotFilesMgr.GetAbsolutePath("videos/Sample.mp4");
             textPath.text = videoPath;
             content.OpenMedia(MediaPathType.AbsolutePathOrURL, videoPath, true);
 

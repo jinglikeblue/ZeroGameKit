@@ -33,8 +33,8 @@ namespace Zero
             }
 
             _viewAssetBundleSearchDic = AB.CreateViewAssetBundleSearchDictionary();
-            var s = Json.ToJson(_viewAssetBundleSearchDic);
-            Debug.Log(s);
+            // var s = Json.ToJson(_viewAssetBundleSearchDic);
+            // Debug.Log(s);
         }
 
         /// <summary>

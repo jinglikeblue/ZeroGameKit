@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using Jing;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Zero
 {
-    /// <summary>
-    /// IL代码执行桥接器。如果可以通过反射获取动态代码，则通过反射执行。否则采用ILRuntime框架执行。
-    /// </summary>
+    [InfoBox("Native代码和Hot代码之间的桥接器。可以通过反射调用Hot代码。")]
     public class ILBridge : ASingletonMonoBehaviour<ILBridge>
     {
         /// <summary>

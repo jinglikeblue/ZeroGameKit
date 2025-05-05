@@ -1,6 +1,7 @@
 ﻿using Jing;
 using System;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -26,11 +27,9 @@ namespace Zero
         /// 是否存在DLL
         /// </summary>
         bool IsDllExist => IsHotDllExist || IsBuiltinDllExist;
-        
-        internal override void Start()
-        {
-            base.Start();
 
+        internal override async UniTask<string> StartAsync(InitiatorProgress onProgress = null)
+        {
             bool isUseDll = Runtime.Ins.IsUseDll;
 
             if (isUseDll && false == IsDllExist)
@@ -38,48 +37,59 @@ namespace Zero
                 //开启了使用DLL，但是并没有dll存在
                 if (Runtime.Ins.IsOfflineEnable)
                 {
-                    Debug.Log(Zero.LogColor.Zero1("[Launcher] 没有找到dll文件，将自动用native脚本，以离线模式运行"));
+                    Debug.Log(Zero.LogColor.Zero1("[Zero][ScriptsInitiator] 没有找到dll文件，将自动用native脚本，以离线模式运行"));
                     isUseDll = false;
                 }
                 else
                 {
-                    throw new Exception($"[Launcher][StriptsInitiator] DLL加载出错： 文件不存在");
+                    return "[Zero][ScriptsInitiator] dll加载出错： 文件不存在";                    
                 }
             }
+
+            if (Runtime.Ins.IsUseDll != isUseDll)
+            {
+                Runtime.Ins.LauncherData.isUseDll = isUseDll;    
+            }
+            
+            string error = null;
             
             if (isUseDll)
             {
-                StartupWithDll();
+                error = StartupWithDll();
             }
             else
             {
                 StartupWithoutDll();
             }
 
-            //调用启动方法
-            ILBridge.Ins.Invoke(ZeroConst.LOGIC_SCRIPT_STARTUP_CLASS_NAME, ZeroConst.LOGIC_SCRIPT_STARTUP_METHOD);
-
-            End();
+            if (null == error)
+            {
+                //调用启动方法
+                ILBridge.Ins.Invoke(ZeroConst.LOGIC_SCRIPT_STARTUP_CLASS_NAME, ZeroConst.LOGIC_SCRIPT_STARTUP_METHOD);    
+            }
+            
+            return error;
         }
 
-        void StartupWithDll()
+        string StartupWithDll()
         {
-            Debug.Log(LogColor.Zero1("@Scripts代码运行环境: [外部程序集]"));
+            Debug.Log(LogColor.Zero1("[Zero][ScriptsInitiator] @Scripts代码运行环境: [外部程序集(dll)]"));
 
             LoadDllBytes(out var dllBytes, out var pdbBytes);
 
             if (null == dllBytes)
             {
-                throw new Exception($"[@Scripts] dll启动失败！");
+                return $"[Zero][ScriptsInitiator] dll启动失败！";
             }
             
             //初始化IL
             ILBridge.Ins.Startup(dllBytes, pdbBytes);
+            return null;
         }
 
         void StartupWithoutDll()
         {
-            Debug.Log(LogColor.Zero1("@Scripts代码运行环境: [本地程序集]"));
+            Debug.Log(LogColor.Zero1("[Zero][ScriptsInitiator] @Scripts代码运行环境: [本地程序集]"));
 
             //初始化IL
             ILBridge.Ins.Startup();

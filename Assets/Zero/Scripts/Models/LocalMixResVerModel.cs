@@ -19,7 +19,7 @@ namespace Zero
         {
             if(null == streamingAssetsResVerVO)
             {
-                throw new Exception("[LocalMixResVerModel]内嵌资源文件版本号数据不存在，建议直接使用[LocalResVerModel]");
+                throw new Exception("[Zero][LocalMixResVerModel]内嵌资源文件版本号数据不存在，建议直接使用[LocalResVerModel]");
             }
 
             _vo = streamingAssetsResVerVO;
@@ -35,7 +35,7 @@ namespace Zero
             {
                 if(item.version != LocalResVerModel.EMPTY_VERSION && GetVer(item.name) != item.version)
                 {
-                    Debug.Log(LogColor.Zero1($"[LocalMixResVerModel] 混合的文件版本号 name:{item.name}  version:{item.version}"));
+                    // Debug.Log(LogColor.Zero2($"[Zero][LocalMixResVerModel] 混合的文件版本号 name:{item.name}  version:{item.version}"));
                     SetVer(item.name, item.version);
                 }                
             }

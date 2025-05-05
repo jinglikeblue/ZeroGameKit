@@ -144,20 +144,20 @@ namespace Zero
                 var depends = GetAllDepends(item.name);
                 nameList.AddRange(depends);
 
-                var logSB = new StringBuilder();
-                logSB.AppendLine(LogColor.Zero2("进行版本校验的资源：{0}", item.name));
-                if (depends.Count > 0)
-                {
-                    logSB.AppendLine(LogColor.Zero2("                 依赖的资源:"));
-                    foreach (var depend in depends)
-                    {
-                        logSB.AppendLine(LogColor.Zero2("                 {0}", depend));
-                    }
-                }
-                if (logSB.Length > 0)
-                {
-                    Debug.Log(logSB.ToString());
-                }
+                // var logSB = new StringBuilder();
+                // logSB.AppendLine(LogColor.Zero2("进行版本校验的资源：{0}", item.name));
+                // if (depends.Count > 0)
+                // {
+                //     logSB.AppendLine(LogColor.Zero2("                 依赖的资源:"));
+                //     foreach (var depend in depends)
+                //     {
+                //         logSB.AppendLine(LogColor.Zero2("                 {0}", depend));
+                //     }
+                // }
+                // if (logSB.Length > 0)
+                // {
+                //     Debug.Log(logSB.ToString());
+                // }
             }
 
             return nameList;

@@ -45,5 +45,13 @@ namespace Zero
                 _ins = null;
             }
         }
+
+        /// <summary>
+        /// 空方法内容。可以用来实例化单例时调用
+        /// </summary>
+        public void Empty()
+        {
+            
+        }
     }
 }

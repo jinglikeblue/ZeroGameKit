@@ -20,8 +20,6 @@ namespace Zero
         {
             base.Start();
 
-            Debug.Log(LogColor.Zero1("「ManifestABUpdater」manifest.ab文件更新检查..."));
-
             manifestABPath = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION);
             
             if (Runtime.Ins.IsNeedNetwork && false == Runtime.Ins.netResVer.IsSameVer(manifestABPath, Runtime.Ins.localResVer))
@@ -36,9 +34,9 @@ namespace Zero
 
         IEnumerator UpdateManifestAB()
         {
-            Debug.Log(LogColor.Zero1("「ManifestABUpdater」manifest.ab文件更新中..."));
-
             var url = FileUtility.CombinePaths(Runtime.Ins.netResDir, manifestABPath);
+            Debug.Log(LogColor.Zero2($"[Zero][ManifestABUpdater][{url}] manifest.ab文件更新中..."));
+            
             var ver = Runtime.Ins.netResVer.GetVer(manifestABPath);
 
             var localPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, manifestABPath);

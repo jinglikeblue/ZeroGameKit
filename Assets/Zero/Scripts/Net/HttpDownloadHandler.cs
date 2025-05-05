@@ -127,7 +127,7 @@ namespace Zero
                 return;
             }
             totalSize = (long)contentLength + downloadedSize;
-            Debug.Log($"[HttpDownloader] 下载的文件总大小: [{Path.GetFileName(savePath)}] size:{totalSize}");
+            Debug.Log($"[HttpDownloader] 下载的文件:{Path.GetFileName(savePath)} , size:{totalSize}");
             onReceivedHeaders?.Invoke();
         }
 

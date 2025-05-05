@@ -14,6 +14,7 @@ namespace Zero
         public enum EResMgrType
         {
             AssetBundle,
+
             [Obsolete("弃用了，可以使用AssetBundle下的内嵌资源模式替代")]
             Resources,
             AssetDataBase,
@@ -44,7 +45,7 @@ namespace Zero
             switch (type)
             {
                 case EResMgrType.AssetBundle:
-                    Debug.Log(LogColor.Zero1("初始化资源管理器... 资源来源：[AssetBundle]  Manifest名称：{0}", assetsInfo));
+                    Debug.Log(LogColor.Zero1($"[Zero][ResMgr] 初始化资源管理器... 资源来源：[AssetBundle]  Manifest名称：{assetsInfo}"));
                     var newMgr = new AssetBundleResMgr(assetsInfo);
                     if (_mgr != null && _mgr is AssetBundleResMgr)
                     {
@@ -55,11 +56,11 @@ namespace Zero
                     _mgr = newMgr;
                     break;
                 case EResMgrType.Resources:
-                    Debug.Log(LogColor.Zero1("初始化资源管理器... 资源来源：[Resources]"));
+                    Debug.Log(LogColor.Zero1("[Zero][ResMgr]初始化资源管理器... 资源来源：[Resources]"));
                     _mgr = new ResourcesResMgr();
                     break;
                 case EResMgrType.AssetDataBase:
-                    Debug.Log(LogColor.Zero1("初始化资源管理器... 资源来源：[AssetDataBase] 资源根目录：{0}", assetsInfo));
+                    Debug.Log(LogColor.Zero1($"[Zero][ResMgr]初始化资源管理器... 资源来源：[AssetDataBase] 资源根目录：{assetsInfo}"));
                     _mgr = new AssetDataBaseResMgr(assetsInfo);
                     break;
                 default:

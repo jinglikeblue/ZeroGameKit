@@ -14,43 +14,18 @@ namespace Zero
     internal class SettingJsonInitiator : BaseInitiator
     {
         string _localPath;
-        // internal override void Start()
-        // {
-        //     base.Start();
-        //     Debug.Log(LogColor.Zero1("「SettingJsonInitiator」配置文件更新检查..."));
-        //     _localPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, "setting.json");
-        //
-        //     if (Runtime.Ins.IsUseAssetDataBase)
-        //     {
-        //         SetSetting(new SettingVO());
-        //     }
-        //     else if(Runtime.Ins.IsNeedNetwork)
-        //     {
-        //         Update();
-        //     }
-        //     else if(Runtime.Ins.IsHotResEnable)
-        //     {
-        //         LoadSettingFromCache();
-        //     }
-        //     else
-        //     {
-        //         LoadSettingFromBuiltin();
-        //     }
-        // }
 
-        internal override async UniTask StartAsync()
+        internal override async UniTask<string> StartAsync(InitiatorProgress initiatorProgress = null)
         {
-            await base.StartAsync();
-
-            Debug.Log(LogColor.Zero1("[Zero]「SettingJsonInitiator」setting.json 文件初始化"));
-            _localPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.SETTING_FILE_NAME);
+            Debug.Log(LogColor.Zero1("[Zero][SettingJsonInitiator]setting.json 文件初始化"));
 
             if (Runtime.Ins.IsUseAssetDataBase)
             {
                 SetSetting(new SettingVO());
-                return;
+                return null;
             }
 
+            _localPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.SETTING_FILE_NAME);
             //热更模式下，先尝试更新setting.json
             if (Runtime.Ins.IsHotResEnable)
             {
@@ -59,18 +34,23 @@ namespace Zero
                 {
                     if (false == Runtime.Ins.IsOfflineEnable)
                     {
-                        throw new Exception($"[Zero][SettingJsonInitiator] setting.json更新失败！请检查网络连接！");    
+                        return "[Zero][SettingJsonInitiator] setting.json更新失败！请检查网络连接！";
                     }
-                    else
-                    {
-                        //关闭热更功能
-                        Runtime.Ins.VO.isHotPatchEnable = false;
-                    }
+
+                    Debug.Log(LogColor.Zero1("[Zero][SettingJsonInitiator] 关闭热更功能"));
+                    //关闭热更功能
+                    Runtime.Ins.LauncherData.isHotPatchEnable = false;
                 }
             }
 
             var settingJsonString = await HotRes.LoadString(ZeroConst.SETTING_FILE_NAME);
+            if (null == settingJsonString)
+            {
+                return $"[Zero][SettingJsonInitiator] setting.json不存在！";
+            }
             SetSetting(Json.ToObject<SettingVO>(settingJsonString));
+
+            return null;
         }
 
         void SetSetting(SettingVO vo)
@@ -82,7 +62,7 @@ namespace Zero
 
             if (vo.lsUseDll.isOverride)
             {
-                Runtime.Ins.VO.isUseDll = vo.lsUseDll.value;
+                Runtime.Ins.LauncherData.isUseDll = vo.lsUseDll.value;
             }
 
             Runtime.Ins.setting = vo;
@@ -92,8 +72,6 @@ namespace Zero
             {
                 Runtime.Ins.netResDir = FileUtility.CombineDirs(true, vo.netResRoot, ZeroConst.PLATFORM_DIR_NAME);
             }
-
-            End();
         }
 
         async UniTask<bool> Update()
@@ -120,9 +98,8 @@ namespace Zero
                 Debug.Log(LogColor.Zero2($"[Zero][SettingJsonInitiator] setting.json下载失败({loader.error}): {settingFileUrl}"));
             }
 
-            var errorMsg = "所有指向setting.json的URL都不可使用！";
-            Debug.LogError(errorMsg);
-            End(errorMsg);
+            var errorMsg = "[Zero][SettingJsonInitiator] 所有指向setting.json的URL都不可使用！";
+            Debug.Log(LogColor.Red(errorMsg));
             return false;
         }
     }

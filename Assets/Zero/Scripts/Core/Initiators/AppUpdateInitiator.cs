@@ -10,30 +10,22 @@ namespace Zero
     {
         const string APK_INSTALL_FILE_EXT = ".apk";
 
-        // internal override void Start()
-        // {
-        //     base.Start();
-        //
-        //     if (Runtime.Ins.IsNeedNetwork)
-        //     {
-        //         CheckUpdate();
-        //     }
-        //     else
-        //     {
-        //         End();
-        //     }
-        // }
+        InitiatorProgress onProgress;
 
-        internal override async UniTask StartAsync()
+        internal override async UniTask<string> StartAsync(InitiatorProgress onProgress)
         {
-            await base.StartAsync();
+            this.onProgress = onProgress;
+
+            string error = null;
             if (Runtime.Ins.IsHotResEnable)
             {
-                await CheckUpdate();
+                error = await CheckUpdate();
             }
+
+            return error;
         }
 
-        async UniTask CheckUpdate()
+        async UniTask<string> CheckUpdate()
         {
             int result = CheckVersionCode(Application.version, Runtime.Ins.setting.client.version);
             if (result == -1)
@@ -46,7 +38,11 @@ namespace Zero
                     if (updateURI.AbsolutePath.EndsWith(APK_INSTALL_FILE_EXT) && Application.platform == RuntimePlatform.Android)
                     {
                         //是APK安装文件
-                        await UpdateAPK(url);
+                        var error = await UpdateAPK(url);
+                        if (null != error)
+                        {
+                            return error;
+                        }
                     }
                     else
                     {
@@ -56,14 +52,11 @@ namespace Zero
                 }
                 catch
                 {
-                    End("更新App失败！");
+                    return "更新App失败！";
                 }
             }
-            else
-            {
-                //不用更新
-                End();
-            }
+
+            return null;
         }
 
         /// <summary>
@@ -106,7 +99,7 @@ namespace Zero
             return 0;
         }
 
-        async UniTask UpdateAPK(string apkUrl)
+        async UniTask<string> UpdateAPK(string apkUrl)
         {
             HttpDownloader loader = new HttpDownloader(apkUrl, FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.ANDROID_APK_NAME));
             loader.Start();
@@ -114,16 +107,15 @@ namespace Zero
             Debug.Log($"安装包保存路径:{loader.savePath}");
             while (!loader.isDone)
             {
-                base.Progress(loader.loadedSize, loader.totalSize);
+                onProgress(loader.loadedSize, loader.totalSize);
                 await UniTask.NextFrame();
             }
 
-            base.Progress(loader.totalSize, loader.totalSize);
+            onProgress(loader.totalSize, loader.totalSize);
 
             if (loader.error != null)
             {
-                End(loader.error);
-                return;
+                return loader.error;
             }
 
 #if UNITY_ANDROID
@@ -145,6 +137,7 @@ namespace Zero
                 Debug.Log("真机环境下，会拉起安装Apk！");
             }
 #endif
+            return null;
         }
     }
 }

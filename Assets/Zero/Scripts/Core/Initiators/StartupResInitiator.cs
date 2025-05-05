@@ -12,32 +12,30 @@ namespace Zero
 
         HotResUpdater _hotResUpdater;
 
-        internal override void Start()
-        {
+        private InitiatorProgress _onProgress;
 
-        }
-
-        internal override async UniTask StartAsync()
+        internal override async UniTask<string> StartAsync(InitiatorProgress onProgress)
         {
-            await base.StartAsync();
+            _onProgress = onProgress;
+
             string err = null;
             do
             {
                 if (Runtime.Ins.IsHotResEnable)
-                {                
+                {
                     //更新res.json
                     err = await new ResJsonUpdater().StartAsync();
                     if (!string.IsNullOrEmpty(err)) break;
-                    
+
                     string jsonStr = await HotRes.LoadString(ZeroConst.RES_JSON_FILE_NAME);
                     ResVerVO vo = Json.ToObject<ResVerVO>(jsonStr);
                     Runtime.Ins.netResVer = new ResVerModel(vo);
-                    
+
                     //更新manifest.ab
                     err = await new ManifestABUpdater().StartAsync();
                     if (!string.IsNullOrEmpty(err)) break;
                 }
-            
+
                 // 初始化ResMgr，依赖manifest.ab
                 InitResMgr();
 
@@ -48,8 +46,8 @@ namespace Zero
                     if (!string.IsNullOrEmpty(err)) break;
                 }
             } while (false);
-            
-            End(err);
+
+            return err;
         }
 
         void InitResMgr()
@@ -68,7 +66,7 @@ namespace Zero
 
         private void OnHotResUpdaterProgress(long loadedSize, long totalSize)
         {
-            Progress(loadedSize, totalSize);
+            _onProgress(loadedSize, totalSize);
         }
     }
 }

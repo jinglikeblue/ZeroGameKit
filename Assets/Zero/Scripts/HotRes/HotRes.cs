@@ -56,16 +56,6 @@ namespace Zero
         }
 
         /// <summary>
-        /// 检查热更资源文件是否存在，检查StreamingAssets时可能短暂阻塞线程。如果追求UI流畅性可以使用ExistAsync异步检查。
-        /// </summary>
-        /// <param name="resPath">热更资源的相对路径（相对于热更资源根目录，比如：「dll/scripts.dll」）</param>
-        /// <returns></returns>
-        public static bool Exist(string resPath)
-        {
-            return ExistAsync(resPath).GetAwaiter().GetResult();
-        }
-        
-        /// <summary>
         /// 异步检查热更资源文件是否存在
         /// </summary>
         /// <param name="resPath">热更资源的相对路径（相对于热更资源根目录，比如：「dll/scripts.dll」）</param>
@@ -94,6 +84,78 @@ namespace Zero
             }
 
             return isExist;
+        }
+
+        /// <summary>
+        /// 如果资源存在，则返回读取资源的绝对路径
+        /// </summary>
+        /// <param name="resPath"></param>
+        /// <returns></returns>
+        public static string GetAbsolutePath(string resPath)
+        {
+            if (Runtime.Ins.IsUseAssetBundle)
+            {
+                //如果支持热更，则先检查热更目录
+                if (Runtime.Ins.IsHotResEnable)
+                {
+                    if (CheckPersistentExist(resPath))
+                    {
+                        return GetPersistentPath(resPath);
+                    }
+                }
+            }
+            else
+            {
+                if (CheckProjectExist(resPath))
+                {
+                    return GetProjectPath(resPath);
+                }
+            }
+
+            //如果前面没有找到，则尝试从StreamingAssets下检查
+            var isExist = CheckStreamingAssetsExistSync(resPath);
+            if (isExist)
+            {
+                return GetStreamingAssetsPath(resPath);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 如果资源存在，则返回读取资源的绝对路径
+        /// </summary>
+        /// <param name="resPath"></param>
+        /// <returns></returns>
+        public static async UniTask<string> GetAbsolutePathAsync(string resPath)
+        {
+            if (Runtime.Ins.IsUseAssetBundle)
+            {
+                //如果支持热更，则先检查热更目录
+                if (Runtime.Ins.IsHotResEnable)
+                {
+                    if (CheckPersistentExist(resPath))
+                    {
+                        return GetPersistentPath(resPath);
+                    }
+                }
+            }
+            else
+            {
+                if (CheckProjectExist(resPath))
+                {
+                    return GetProjectPath(resPath);
+                }
+            }
+
+            //如果前面没有找到，则尝试从StreamingAssets下检查
+            var isExist = await CheckStreamingAssetsExist(resPath);
+            if (isExist)
+            {
+                return GetStreamingAssetsPath(resPath);
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -164,7 +226,7 @@ namespace Zero
             var path = GetPersistentPath(resPath);
             return File.Exists(path);
         }
-        
+
         /// <summary>
         /// 从热更目录加载字节数据
         /// </summary>
@@ -188,12 +250,23 @@ namespace Zero
         /// </summary>
         /// <param name="resPath"></param>
         /// <returns></returns>
+        public static bool CheckStreamingAssetsExistSync(string resPath)
+        {
+            var path = GetStreamingAssetsPath(resPath);
+            return StreamingAssetsUtility.CheckFileExist(path);
+        }
+        
+        /// <summary>
+        /// 检查热更目录是否存在文件
+        /// </summary>
+        /// <param name="resPath"></param>
+        /// <returns></returns>
         public static UniTask<bool> CheckStreamingAssetsExist(string resPath)
         {
             var path = GetStreamingAssetsPath(resPath);
             return StreamingAssetsUtility.CheckFileExistAsync(path);
         }
-        
+
         /// <summary>
         /// 从内嵌资源加载字节数据
         /// </summary>
@@ -244,7 +317,7 @@ namespace Zero
 
             return false;
         }
-        
+
         /// <summary>
         /// 从工程目录加载字节数据
         /// </summary>

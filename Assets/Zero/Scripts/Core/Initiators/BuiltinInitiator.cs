@@ -33,9 +33,8 @@ namespace Zero
         /// </summary>
         public bool IsBuiltinDllExist => DllBytes != null;
 
-        internal override async UniTask StartAsync()
+        internal override async UniTask<string> StartAsync(InitiatorProgress onProgress = null)
         {
-            await base.StartAsync();
             Setting = await LoadJson<SettingVO>(ZeroConst.SETTING_FILE_NAME);
             ResVer = await LoadJson<ResVerVO>(ZeroConst.RES_JSON_FILE_NAME);
             var dllPath = FileUtility.CombinePaths(ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".dll");
@@ -48,7 +47,7 @@ namespace Zero
             Debug.Log(LogColor.Zero2($"[Zero][Initiator] 内嵌资源[{dllPath}]是否存在: {IsBuiltinDllExist} "));
             Debug.Log(LogColor.Zero2($"[Zero][Initiator] 内嵌资源[{pdbPath}]是否存在: {PdbBytes != null} "));
 
-            End();
+            return null;
         }
 
         async UniTask<T> LoadJson<T>(string path)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -86,48 +87,39 @@ namespace Example
             this.StartCoroutine(LoadBytes(HotFiles.VIDEOS_SAMPLE_MP4));
         }
 
-        private void LoadPrivacyPolicy()
+        private async void LoadPrivacyPolicy()
         {
             L($"加载 {HotFiles.PRIVACY_POLICY_TXT}");
-            this.StartCoroutine(LoadText(HotFiles.PRIVACY_POLICY_TXT));                               
-        }
-
-        IEnumerator LoadText(string path)
-        {
-            L($"LoadText: {path}");
-            var loader = HotFilesMgr.Ins.LoadText(path);
-            while (!loader.isDone)
+            L($"FullPath: {HotFilesMgr.GetAbsolutePath(HotFiles.PRIVACY_POLICY_TXT)}");
+            var text = await HotFilesMgr.LoadTextAsync(HotFiles.PRIVACY_POLICY_TXT);
+            if (null == text)
             {
-                yield return 0;
+                L($"加载内容不存在: {HotFiles.PRIVACY_POLICY_TXT}");
             }
-
-            if (loader.error != null)
-            {
-                L(loader.error);
-                yield break;
-            }
-
-            Debug.Log(loader.text);
-            L($"加载内容长度: {loader.text.Length}");
+            
+            Debug.Log(text);
+            L($"加载内容长度: {text.Length}");
             L("------------------------------------------------------------");
         }
 
         IEnumerator LoadBytes(string path)
         {
-            L($"LoadBytes: {path}");
-            var loader = HotFilesMgr.Ins.LoadBytes(path);
-            while (!loader.isDone)
+            L($"FullPath: {HotFilesMgr.GetAbsolutePath(path)}");
+            var loader = HotFilesMgr.LoadBytesAsync(path);
+            
+            while (loader.Status == UniTaskStatus.Pending)
             {
                 yield return 0;
             }
 
-            if (loader.error != null)
+            if (loader.Status != UniTaskStatus.Succeeded)
             {
-                L(loader.error);
+                L(loader.Status.ToString());
                 yield break;
             }
-            
-            L($"加载内容长度: {loader.bytes.Length}");
+
+            var bytes = loader.GetAwaiter().GetResult();
+            L($"加载内容长度: {bytes.Length}");
             L("------------------------------------------------------------");
         }
     }

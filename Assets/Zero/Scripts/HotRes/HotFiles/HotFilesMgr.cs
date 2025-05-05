@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Text;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 using Zero;
@@ -10,244 +12,36 @@ using Zero;
 namespace Zero
 {
     /// <summary>
-    /// 热更Files管理工具，所有的加载都是异步执行的(因为使用内嵌资源时，只能用UnityWebRequest的方式读取)
+    /// 热更Files管理工具。
+    /// 所有传入的路径，都应该是相对于files热更目录下的相对路径。
     /// </summary>
-    public class HotFilesMgr : BaseSingleton<HotFilesMgr>
+    public static class HotFilesMgr
     {
-        /// <summary>
-        /// 热更文件加载器
-        /// </summary>
-        public class Loader 
+        public static byte[] LoadBytes(string path)
         {
-            public enum EDataMode
-            {
-                BYTES,
-                TEXT
-            }
-
-            /// <summary>
-            /// 加载进度
-            /// </summary>
-            public float progress { get; protected set; } = 0;
-
-            /// <summary>
-            /// 已下载大小
-            /// </summary>
-            //public long loadedSize { get; protected set; } = 0;
-
-            /// <summary>
-            /// 总大小
-            /// </summary>
-            //public long totalSize { get; protected set; } = 0;
-
-            /// <summary>
-            /// 是否完成
-            /// </summary>
-            public bool isDone { get; protected set; } = false;
-
-            /// <summary>
-            /// 错误原因(null为无错误)
-            /// </summary>
-            public string error { get; protected set; } = null;
-
-            /// <summary>
-            /// 是否是取消了下载
-            /// </summary>
-            public bool isCanceled { get; protected set; } = false;
-
-            /// <summary>
-            /// 加载到的数据
-            /// </summary>
-            public byte[] bytes { get; private set; } = null;
-
-            /// <summary>
-            /// 加载到的文本
-            /// </summary>
-            public string text { get; private set; } = null;
-
-            /// <summary>
-            /// 资源的模式
-            /// </summary>
-            public EDataMode dataMode { get; private set; }
-
-            /// <summary>
-            /// 文件路径
-            /// </summary>
-            public string path { get; private set; } = null;
-
-            string GetPersistentPath()
-            {
-                return FileUtility.CombinePaths(RootDir, path);
-            }
-
-            string GetStreamingAssetsPath()
-            {
-                return FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.FILES_DIR_NAME, path);
-            }
-
-            internal Loader(string path, EDataMode dataMode)
-            {
-                this.path = path;
-                this.dataMode = dataMode;
-
-                if (Runtime.Ins.IsHotResEnable)
-                {
-                    if (LoadFromCatch())
-                    {
-                        return;
-                    }
-                }
-                
-                ILBridge.Ins.StartCoroutine(this, LoadFromStreamingAssets());
-            }  
-            
-            bool LoadFromCatch()
-            {
-                ///首先从缓存里读取
-                var absolutePath = GetPersistentPath();
-                if (File.Exists(absolutePath))
-                {
-                    switch (dataMode)
-                    {
-                        case EDataMode.BYTES:
-                            bytes = File.ReadAllBytes(absolutePath);
-                            break;
-                        case EDataMode.TEXT:
-                            text = File.ReadAllText(absolutePath);
-                            break;
-                    }
-                    Debug.Log(LogColor.Zero2($"HotFiles读取成功[IO]: {absolutePath}"));
-                    Complete();
-                    return true;
-                }
-
-                return false;
-            }
-
-            IEnumerator LoadFromStreamingAssets()
-            {
-                var absolutePath = GetStreamingAssetsPath();
-                var uwr = UnityWebRequest.Get(absolutePath);
-                uwr.SendWebRequest();                
-                while (false == uwr.isDone)
-                {
-                    if (isCanceled)
-                    {
-                        uwr.Abort();
-                        Complete();
-                        yield break;
-                    }
-
-                    progress = uwr.downloadProgress;
-                    yield return 0;
-                }
-
-                if(uwr.error != null)
-                {
-                    Complete($"[{absolutePath}] 文件不存在");
-                    yield break;
-                }
-
-                switch (dataMode)
-                {
-                    case EDataMode.BYTES:
-                        bytes = uwr.downloadHandler.data;
-                        break;
-                    case EDataMode.TEXT:
-                        text = uwr.downloadHandler.text;
-                        break;
-                }
-                Debug.Log(LogColor.Zero2($"HotFiles读取成功[StreamingAssets]: {absolutePath}"));
-                Complete();                
-            }
-
-            void Complete(string error = null)
-            {
-                if (error == null)
-                {
-                    progress = 1;                    
-                }
-                else
-                {
-                    this.error = error;
-                }
-                            
-                isDone = true;
-            }
-
-            public void Cancel()
-            {
-                if (false == isDone)
-                {
-                    isCanceled = true;
-                }
-            }
-
-            /// <summary>
-            /// 根目录
-            /// </summary>
-            static public string RootDir
-            {
-                get
-                {
-                    string path = null;
-
-                    if (Runtime.Ins.IsUseAssetBundle)
-                    {
-                        path = FileUtility.CombineDirs(false, ZeroConst.WWW_RES_PERSISTENT_DATA_PATH, ZeroConst.FILES_DIR_NAME);
-                    }
-                    else
-                    {
-                        //该种开发模式下，直接从Asset/@Files取文件
-                        path = FileUtility.CombineDirs(false, ZeroConst.HOT_FILES_ROOT_DIR);
-                    }
-                    return path;
-                }
-            }
-
-            
+            return LoadBytesAsync(path).GetAwaiter().GetResult();
         }
 
-
-        public Loader LoadBytes(string path)
+        public static async UniTask<byte[]> LoadBytesAsync(string path, Action<float> onProgress = null, CancellationToken cancellationToken = default)
         {
-            var loader = new Loader(path, Loader.EDataMode.BYTES);
-            return loader;
+            var bytes = await HotRes.Load(GetResPath(path), onProgress, cancellationToken);
+            return bytes;
         }
 
-        public Loader LoadText(string path)
+        public static async UniTask<string> LoadTextAsync(string path, Action<float> onProgress = null, CancellationToken cancellationToken = default)
         {
-            var loader = new Loader(path, Loader.EDataMode.TEXT);
-            return loader;
-        }        
-
-        public string GetAbsolutePath(string path)
-        {
-            if (Runtime.Ins.IsHotResEnable)
-            {
-                var hotResPath = FileUtility.CombinePaths(Loader.RootDir, path);
-                if (File.Exists(hotResPath))
-                {
-                    return hotResPath;
-                }
-            }
-
-            if (Runtime.Ins.IsBuildinResExist)
-            {
-                var builtinResPath = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.FILES_DIR_NAME, path);
-                return builtinResPath;
-            }
-            return null;
+            var text = await HotRes.LoadString(GetResPath(path), onProgress, cancellationToken);
+            return text;
         }
 
-        public override void Destroy()
+        public static string GetResPath(string path)
         {
-            
+            return FileUtility.CombinePaths(ZeroConst.FILES_DIR_NAME, path);
         }
 
-        protected override void Init()
+        public static string GetAbsolutePath(string path)
         {
-
+            return HotRes.GetAbsolutePath(GetResPath(path));
         }
     }
 }

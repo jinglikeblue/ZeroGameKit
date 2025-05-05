@@ -1,7 +1,5 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zero;
 
@@ -10,27 +8,27 @@ namespace Demo
     public class PreloadUI : MonoBehaviour
     {
         public Text text;
-        
+
         /// <summary>
         /// 离线运行
         /// </summary>
         public Toggle toggleOffLineMode;
-        
+
         /// <summary>
         /// 使用dll
         /// </summary>
         public Toggle toggleUseDll;
-        
+
         /// <summary>
         /// 开启热更
         /// </summary>
         public Toggle toggleHotPatchMode;
-        
+
         /// <summary>
         /// 开启日志
         /// </summary>
         public Toggle toggleLog;
-        
+
         public Text textNetRoots;
 
         private LauncherSettingData _data;
@@ -54,10 +52,7 @@ namespace Demo
 
         private void OnEnable()
         {
-            toggleHotPatchMode.onValueChanged.AddListener((isOn) =>
-            {
-                RefreshUI();
-            });
+            toggleHotPatchMode.onValueChanged.AddListener((isOn) => { RefreshUI(); });
         }
 
         void RefreshUI()
@@ -75,7 +70,7 @@ namespace Demo
                         sb.AppendLine();
                         sb.Append($"[{i}]: {_data.urlRoots[i]}");
                     }
-                
+
                     textNetRoots.text = sb.ToString();
                 }
                 else
@@ -89,7 +84,6 @@ namespace Demo
                 toggleOffLineMode.gameObject.SetActive(false);
                 textNetRoots.gameObject.SetActive(false);
             }
-
         }
 
         private void Startup()
@@ -101,27 +95,22 @@ namespace Demo
             vo.isHotPatchEnable = toggleHotPatchMode.isOn;
             vo.isLogEnable = toggleLog.isOn;
             vo.isOfflineEnable = toggleOffLineMode.isOn;
-            
+
             var launcher = new Launcher(vo);
-            
+
 
             //Preload preload = GetComponent<Preload>();
             launcher.onProgress += SetProgress;
 
             launcher.onStateChange += (state) =>
             {
-                Debug.Log("Preload State Change: " + state);
-                if (state == Launcher.EState.STARTUP)
+                if (state == Launcher.EState.Finished)
                 {
-                    var content = GameObject.Find("ILContent");
-                    if (content != null)
-                    {
-                        Destroy(content);
-                    }
-
                     GameObject.Destroy(this.gameObject);
                 }
             };
+
+            launcher.onError += s => { text.text = $"Error: {s}"; };
 
             //从这里启动Ppreload
             launcher.Start();

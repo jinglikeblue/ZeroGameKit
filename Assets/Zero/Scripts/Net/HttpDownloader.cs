@@ -191,6 +191,7 @@ namespace Zero
             _handler.onReceivedData -= OnHandlerReceivedData;
             _asyncOperation.completed -= OnRequestCompleted;
 
+            request?.Abort();
             _handler.DisposeSafely(isCleanTmepFile);
             isDisposed = true;
         }

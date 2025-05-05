@@ -19,7 +19,7 @@ namespace Zero
         /// <summary>
         /// 启动器设置数据
         /// </summary>
-        internal LauncherSettingData VO;
+        internal LauncherSettingData LauncherData;
 
         /// <summary>
         /// 内嵌资源初始化器
@@ -29,17 +29,17 @@ namespace Zero
         /// <summary>
         /// 资源模式是否仅使用包内资源（离线资源模式）
         /// </summary>
-        public bool IsOnlyUseBuiltinRes => false == VO.isHotPatchEnable;
-        
+        public bool IsOnlyUseBuiltinRes => false == LauncherData.isHotPatchEnable;
+
         /// <summary>
         /// 是否允许离线运行
         /// </summary>
-        public bool IsOfflineEnable => VO.isOfflineEnable;
+        public bool IsOfflineEnable => LauncherData.isOfflineEnable;
 
         /// <summary>
         /// 是否用DLL方式启动程序
         /// </summary>
-        public bool IsUseDll => VO.isUseDll;
+        public bool IsUseDll => LauncherData.isUseDll;
 
         /// <summary>
         /// 本地数据
@@ -86,50 +86,45 @@ namespace Zero
         /// <summary>
         /// 是否使用AssetBundle加载资源
         /// </summary>
-        public bool IsUseAssetBundle => VO.isUseAssetBundle;
-        
+        public bool IsUseAssetBundle => LauncherData.isUseAssetBundle;
+
         /// <summary>
         /// 是否使用AssetDataBase加载资源
         /// </summary>
-        public bool IsUseAssetDataBase => !VO.isUseAssetBundle;
+        public bool IsUseAssetDataBase => !LauncherData.isUseAssetBundle;
 
         /// <summary>
         /// 运行时是否依赖网络（需要更新资源）
         /// </summary>
-        public bool IsNeedNetwork => VO.isUseAssetBundle && VO.isHotPatchEnable;
+        public bool IsNeedNetwork => LauncherData.isUseAssetBundle && LauncherData.isHotPatchEnable;
 
         /// <summary>
         /// 运行时是否允许加载热更目录中的资源 
         /// </summary>
-        public bool IsHotResEnable => VO.isUseAssetBundle && VO.isHotPatchEnable;
+        public bool IsHotResEnable => LauncherData.isUseAssetBundle && LauncherData.isHotPatchEnable;
 
-        /// <summary>
-        /// 内嵌资源是否存在
-        /// </summary>
-        public bool IsBuildinResExist => BuiltinInitiator.IsBuiltinResVerExist;
-        
         /// <summary>
         /// 设置是否打印日志
         /// </summary>
         /// <param name="enable"></param>
         internal void SetLogEnable(bool enable)
         {
-            VO.isLogEnable = enable;
+            LauncherData.isLogEnable = enable;
             //日志控制
-            Debug.unityLogger.logEnabled = enable;                       
+            Debug.unityLogger.logEnabled = enable;
         }
 
-
-        internal async UniTask Init(LauncherSettingData vo)
+        internal void Init(LauncherSettingData data)
         {
-            if (null != VO)
+            if (null != LauncherData)
             {
-                throw new Exception($"Runtime无法重复初始化!");
+                Debug.LogError("Runtime无法重复初始化!");
+                return;
             }
-            
-            this.VO = vo;
 
-            SetLogEnable(vo.isLogEnable);
+            this.LauncherData = data;
+
+            SetLogEnable(data.isLogEnable);
 
             InitHotResRuntime();
 
@@ -147,14 +142,13 @@ namespace Zero
             }
 
             generateFilesDir = ZeroConst.GENERATES_PERSISTENT_DATA_PATH;
-            Debug.Log(LogColor.Zero1($"[Zero][Runtime] GenerateFilesDir: {generateFilesDir}"));
             if (false == Directory.Exists(generateFilesDir))
             {
                 Directory.CreateDirectory(generateFilesDir);
             }
 
             localData = new LocalDataModel();
-            if (IsBuildinResExist)
+            if (BuiltinInitiator.IsBuiltinResVerExist)
             {
                 localResVer = new LocalMixResVerModel(BuiltinInitiator.ResVer);
             }
@@ -162,26 +156,6 @@ namespace Zero
             {
                 localResVer = new LocalResVerModel();
             }
-
-            Debug.Log(LogColor.Zero1("[Zero][Runtime] StreamingAssets资源路径: {0}", ZeroConst.STREAMING_ASSETS_PATH));
-
-            if (null != SettingFileNetDirList)
-            {
-                for (var i = 0; i < SettingFileNetDirList.Length; i++)
-                {
-                    Debug.Log(LogColor.Zero1($"Net Res Root {i}        : {SettingFileNetDirList[i]}"));
-                }
-            }
-            else
-            {
-                Debug.Log(LogColor.Zero1("Net Res Root        : Empty"));
-            }
-            Debug.Log(LogColor.Zero1("[Runtime]Persistent Data Dir : {0}", ZeroConst.PERSISTENT_DATA_PATH));
-            Debug.Log(LogColor.Zero1("[Runtime]Local Res Dir       : {0}", localResDir == null ? "Empty" : localResDir));
-            Debug.Log(LogColor.Zero1("[Runtime]Generate Files Dir  : {0}", generateFilesDir));
-
-
-            CheckEnvironment();
         }
 
         /// <summary>
@@ -189,10 +163,10 @@ namespace Zero
         /// </summary>
         void InitHotResRuntime()
         {
-            SettingFileNetDirList = new string[VO.urlRoots.Length];
+            SettingFileNetDirList = new string[LauncherData.urlRoots.Length];
             for (var i = 0; i < SettingFileNetDirList.Length; i++)
             {
-                SettingFileNetDirList[i] = FileUtility.CombineDirs(false, VO.urlRoots[i], ZeroConst.PLATFORM_DIR_NAME);
+                SettingFileNetDirList[i] = FileUtility.CombineDirs(false, LauncherData.urlRoots[i], ZeroConst.PLATFORM_DIR_NAME);
             }
 
             localResDir = ZeroConst.WWW_RES_PERSISTENT_DATA_PATH;
@@ -205,22 +179,13 @@ namespace Zero
         }
 
         /// <summary>
-        /// 检查运行时环境
-        /// </summary>
-        void CheckEnvironment()
-        {
-            var assetLoadType = IsUseAssetBundle ? "AssetBundle" : "AssetDataBase";
-            Debug.Log(LogColor.Zero1($"[Runtime] 资源加载模式： {assetLoadType}"));
-        }
-
-        /// <summary>
         /// 获取启动参数，如果指定的参数不存在，则返回defaultValue
         /// </summary>
         /// <param name="key"></param>
         /// <param name="defaultValue">key不存在时，返回改变量</param>
         /// <returns></returns>
         public string GetStartupParams(string key, string defaultValue = null)
-        {            
+        {
             if (null == setting || null == setting.startupParams)
             {
                 return defaultValue;
@@ -232,6 +197,40 @@ namespace Zero
             }
 
             return setting.startupParams[key];
+        }
+
+        public void PrintInfo()
+        {
+            Debug.Log(LogColor.Zero2($"[Zero][Runtime] ========================================="));
+            Debug.Log(LogColor.Zero2($"[Zero][Runtime] 日志打印: {LauncherData.isLogEnable}"));
+            Debug.Log(LogColor.Zero2($"[Zero][Runtime] 资源加载: {(LauncherData.isUseAssetBundle ? "AssetBundle" : "AssetDataBase")}"));
+            if (LauncherData.isUseAssetBundle)
+            {
+                Debug.Log(LogColor.Zero2($"[Zero][Runtime] 热更功能: {LauncherData.isHotPatchEnable}"));
+                if (LauncherData.isHotPatchEnable)
+                {
+                    if (null != SettingFileNetDirList && SettingFileNetDirList.Length > 0)
+                    {
+                        for (var i = 0; i < SettingFileNetDirList.Length; i++)
+                        {
+                            Debug.Log(LogColor.Zero2($"[Zero][Runtime] 网络资源Url({i})[{SettingFileNetDirList[i]}]"));
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log(LogColor.Zero2("[Zero][Runtime] 未配置网络资源Url"));
+                    }
+                }
+
+                Debug.Log(LogColor.Zero2($"[Zero][Runtime] 允许离线运行: {LauncherData.isOfflineEnable}"));
+            }
+
+            Debug.Log(LogColor.Zero2($"[Zero][Runtime] 使用dll: {LauncherData.isUseDll}"));
+            Debug.Log(LogColor.Zero2($"[Zero][Runtime] StreamingAssets资源路径: {ZeroConst.STREAMING_ASSETS_PATH}"));
+            Debug.Log(LogColor.Zero2($"[Zero][Runtime] Persistent可读写目录路径: {ZeroConst.PERSISTENT_DATA_PATH}"));
+            Debug.Log(LogColor.Zero2($"[Zero][Runtime] 下载资源存放路径: {localResDir}"));
+            Debug.Log(LogColor.Zero2($"[Zero][Runtime] 框架生成文件存放路径: {generateFilesDir}"));
+            Debug.Log(LogColor.Zero2($"[Zero][Runtime] ========================================="));
         }
     }
 }
