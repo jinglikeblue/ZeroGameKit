@@ -40,6 +40,7 @@ namespace Zero
             {
                 throw new Exception("Initiator只能Start一次!");
             }
+            IsStarted = true;
         }
 
         /// <summary>

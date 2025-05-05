@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace Zero
 {
@@ -34,6 +35,28 @@ namespace Zero
                 throw new Exception("Updater正在执行中!");
             }
             IsUpdating = true;
+        }
+
+        /// <summary>
+        /// 修改为异步执行
+        /// </summary>
+        /// <param name="onProgress"></param>
+        /// <returns></returns>
+        public UniTask<string> StartAsync(UpdateProgress onProgress = null)
+        {
+            var tcs = new UniTaskCompletionSource<string>();
+            this.onComplete += OnComplete;
+            this.onProgress += onProgress;
+            Start();
+            
+            void OnComplete(BaseUpdater obj)
+            {
+                this.onComplete -= OnComplete;
+                this.onProgress -= onProgress;
+                tcs.TrySetResult(error);
+            }
+
+            return tcs.Task;
         }
 
         /// <summary>

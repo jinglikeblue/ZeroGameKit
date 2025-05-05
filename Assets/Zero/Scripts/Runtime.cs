@@ -21,7 +21,10 @@ namespace Zero
         /// </summary>
         internal LauncherSettingData VO;
 
-        internal StreamingAssetsResInitiator streamingAssetsResInitiator;
+        /// <summary>
+        /// 内嵌资源初始化器
+        /// </summary>
+        internal readonly BuiltinInitiator BuiltinInitiator = new BuiltinInitiator();
 
         /// <summary>
         /// 资源模式是否仅使用包内资源（离线资源模式）
@@ -103,19 +106,8 @@ namespace Zero
         /// <summary>
         /// 内嵌资源是否存在
         /// </summary>
-        public bool IsBuildinResExist
-        {
-            get
-            {
-                if (streamingAssetsResInitiator.IsResExist)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-        }
-
+        public bool IsBuildinResExist => BuiltinInitiator.IsBuiltinResVerExist;
+        
         /// <summary>
         /// 设置是否打印日志
         /// </summary>
@@ -155,7 +147,7 @@ namespace Zero
             }
 
             generateFilesDir = ZeroConst.GENERATES_PERSISTENT_DATA_PATH;
-            Debug.Log(LogColor.Zero1($"[Runtime] GenerateFilesDir: {generateFilesDir}"));
+            Debug.Log(LogColor.Zero1($"[Zero][Runtime] GenerateFilesDir: {generateFilesDir}"));
             if (false == Directory.Exists(generateFilesDir))
             {
                 Directory.CreateDirectory(generateFilesDir);
@@ -164,14 +156,14 @@ namespace Zero
             localData = new LocalDataModel();
             if (IsBuildinResExist)
             {
-                localResVer = new LocalMixResVerModel(streamingAssetsResInitiator.resVerVO);
+                localResVer = new LocalMixResVerModel(BuiltinInitiator.ResVer);
             }
             else
             {
                 localResVer = new LocalResVerModel();
             }
 
-            Debug.Log(LogColor.Zero1("[Runtime]Streaming Assets Dir: {0}", ZeroConst.STREAMING_ASSETS_PATH));
+            Debug.Log(LogColor.Zero1("[Zero][Runtime] StreamingAssets资源路径: {0}", ZeroConst.STREAMING_ASSETS_PATH));
 
             if (null != SettingFileNetDirList)
             {

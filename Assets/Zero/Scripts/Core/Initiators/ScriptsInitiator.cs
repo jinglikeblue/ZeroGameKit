@@ -20,7 +20,7 @@ namespace Zero
         /// <summary>
         /// 是否存在内嵌DLL
         /// </summary>
-        bool IsBuiltinDllExist => Runtime.Ins.streamingAssetsResInitiator.IsBuiltinDllExist;
+        bool IsBuiltinDllExist => Runtime.Ins.BuiltinInitiator.IsBuiltinDllExist;
         
         /// <summary>
         /// 是否存在DLL
@@ -107,8 +107,8 @@ namespace Zero
 
             if (IsBuiltinDllExist)
             {
-                dllBytes =  Runtime.Ins.streamingAssetsResInitiator.scriptDllBytes;
-                pdbBytes = Runtime.Ins.streamingAssetsResInitiator.scriptPdbBytes;
+                dllBytes =  Runtime.Ins.BuiltinInitiator.DllBytes;
+                pdbBytes = Runtime.Ins.BuiltinInitiator.PdbBytes;
             }
         }
     }

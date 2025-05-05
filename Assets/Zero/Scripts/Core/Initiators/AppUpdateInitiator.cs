@@ -10,21 +10,30 @@ namespace Zero
     {
         const string APK_INSTALL_FILE_EXT = ".apk";
 
-        internal override void Start()
-        {
-            base.Start();
+        // internal override void Start()
+        // {
+        //     base.Start();
+        //
+        //     if (Runtime.Ins.IsNeedNetwork)
+        //     {
+        //         CheckUpdate();
+        //     }
+        //     else
+        //     {
+        //         End();
+        //     }
+        // }
 
-            if (Runtime.Ins.IsNeedNetwork)
+        internal override async UniTask StartAsync()
+        {
+            await base.StartAsync();
+            if (Runtime.Ins.IsHotResEnable)
             {
-                CheckUpdate();
-            }
-            else
-            {
-                End();
+                await CheckUpdate();
             }
         }
 
-        void CheckUpdate()
+        async UniTask CheckUpdate()
         {
             int result = CheckVersionCode(Application.version, Runtime.Ins.setting.client.version);
             if (result == -1)
@@ -37,7 +46,7 @@ namespace Zero
                     if (updateURI.AbsolutePath.EndsWith(APK_INSTALL_FILE_EXT) && Application.platform == RuntimePlatform.Android)
                     {
                         //是APK安装文件
-                        UpdateAPK(url);
+                        await UpdateAPK(url);
                     }
                     else
                     {
@@ -97,7 +106,7 @@ namespace Zero
             return 0;
         }
 
-        async void UpdateAPK(string apkUrl)
+        async UniTask UpdateAPK(string apkUrl)
         {
             HttpDownloader loader = new HttpDownloader(apkUrl, FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.ANDROID_APK_NAME));
             loader.Start();

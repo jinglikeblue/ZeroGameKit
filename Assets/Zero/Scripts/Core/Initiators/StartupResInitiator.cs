@@ -1,5 +1,6 @@
 ﻿using Jing;
 using System.IO;
+using Cysharp.Threading.Tasks;
 
 namespace Zero
 {
@@ -13,60 +14,42 @@ namespace Zero
 
         internal override void Start()
         {
-            base.Start();
-            if (Runtime.Ins.IsNeedNetwork)
-            {                
-                UpdateResJson();
-            }
-            else
+
+        }
+
+        internal override async UniTask StartAsync()
+        {
+            await base.StartAsync();
+            string err = null;
+            do
             {
+                if (Runtime.Ins.IsHotResEnable)
+                {                
+                    //更新res.json
+                    err = await new ResJsonUpdater().StartAsync();
+                    if (!string.IsNullOrEmpty(err)) break;
+                    
+                    string jsonStr = await HotRes.LoadString(ZeroConst.RES_JSON_FILE_NAME);
+                    ResVerVO vo = Json.ToObject<ResVerVO>(jsonStr);
+                    Runtime.Ins.netResVer = new ResVerModel(vo);
+                    
+                    //更新manifest.ab
+                    err = await new ManifestABUpdater().StartAsync();
+                    if (!string.IsNullOrEmpty(err)) break;
+                }
+            
+                // 初始化ResMgr，依赖manifest.ab
                 InitResMgr();
-                End();
-            }
-        }
 
-        void UpdateResJson()
-        {
-            _resJsonUpdater = new ResJsonUpdater();
-            _resJsonUpdater.onComplete += OnResJsonUpdaterComplete;
-            _resJsonUpdater.Start();
-        }
-
-        private void OnResJsonUpdaterComplete(BaseUpdater updater)
-        {
-            updater.onComplete -= OnResJsonUpdaterComplete;
-            if(updater.error != null)
-            {
-                End(updater.error);
-            }
-            else
-            {                
-                string jsonStr = File.ReadAllText(_resJsonUpdater.localPath);
-                ResVerVO vo = Json.ToObject<ResVerVO>(jsonStr);
-                Runtime.Ins.netResVer = new ResVerModel(vo);
-                UpdateManifestAB();
-            }
-        }
-
-        void UpdateManifestAB()
-        {
-            _manifestABUpdater = new ManifestABUpdater();
-            _manifestABUpdater.onComplete += OnManifestABUpdaterComplete;
-            _manifestABUpdater.Start();
-        }
-
-        void OnManifestABUpdaterComplete(BaseUpdater updater)
-        {
-            updater.onComplete -= OnResJsonUpdaterComplete;
-            if (updater.error != null)
-            {
-                End(updater.error);
-            }
-            else
-            {
-                InitResMgr();
-                UpdateStartupRes();
-            }
+                if (Runtime.Ins.IsHotResEnable)
+                {
+                    //检查启动资源更新。依赖ResMgr
+                    err = await new HotResUpdater(Runtime.Ins.setting.startupResGroups).StartAsync(OnHotResUpdaterProgress);
+                    if (!string.IsNullOrEmpty(err)) break;
+                }
+            } while (false);
+            
+            End(err);
         }
 
         void InitResMgr()
@@ -81,32 +64,6 @@ namespace Zero
                 var manifestFileName = ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION;
                 ResMgr.Init(ResMgr.EResMgrType.AssetBundle, manifestFileName);
             }
-        }
-
-        /// <summary>
-        /// 更新启动资源
-        /// </summary>
-        void UpdateStartupRes()
-        {            
-            _hotResUpdater = new HotResUpdater(Runtime.Ins.setting.startupResGroups);
-            _hotResUpdater.onProgress += OnHotResUpdaterProgress;
-            _hotResUpdater.onComplete += OnHotResUpdaterComplete;
-            _hotResUpdater.Start();
-        }
-
-        private void OnHotResUpdaterComplete(BaseUpdater updater)
-        {
-            _hotResUpdater.onProgress -= OnHotResUpdaterProgress;
-            _hotResUpdater.onComplete -= OnHotResUpdaterComplete;
-
-            if (updater.error != null)
-            {
-                End(updater.error);
-            }
-            else
-            {
-                End();
-            }            
         }
 
         private void OnHotResUpdaterProgress(long loadedSize, long totalSize)

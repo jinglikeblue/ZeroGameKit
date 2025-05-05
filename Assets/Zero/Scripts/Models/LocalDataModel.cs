@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 
 namespace Zero
 {
     /// <summary>
-    /// 本地数据模块
+    /// 本地数据模块。用于将一些数据序列化到硬盘。和PlayerPrefs功能类似，区别是可以从I/O目录中找到该类保存的数据。
     /// </summary>
     public class LocalDataModel
     {
@@ -26,16 +27,6 @@ namespace Zero
         /// </summary>
         public class VO
         {
-            /// <summary>
-            /// 是否APP已初始化
-            /// </summary>
-            public bool isInit = false;
-
-            /// <summary>
-            /// 是否更新Setting文件
-            /// </summary>
-            public bool isUpdateSetting = true;
-
             public Dictionary<string, string> localValueDic = new Dictionary<string, string>();
         }
 
@@ -63,35 +54,9 @@ namespace Zero
         /// 保存数据到本地
         /// </summary>
         void Save2Local()
-        {            
+        {           
             string json = Json.ToJson(_vo);
             File.WriteAllText(_path, json);
-        }
-
-        /// <summary>
-        /// 程序是否初始化
-        /// </summary>
-        public bool IsInit
-        {
-            get
-            {
-                return _vo.isInit;
-            }
-            set
-            {
-                _vo.isInit = value;
-                Save2Local();
-            }
-        }
-        /// <summary>
-        /// 是否更新setting文件
-        /// </summary>
-        public bool IsUpdateSetting
-        {
-            get
-            {
-                return _vo.isUpdateSetting;
-            }
         }
 
         /// <summary>
