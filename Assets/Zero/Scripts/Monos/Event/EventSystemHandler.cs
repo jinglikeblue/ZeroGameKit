@@ -10,17 +10,17 @@ namespace Zero
     [AddComponentMenu("Zero/Event/EventSystemHandler")]
     [RequireComponent(typeof(EventSystem))]
     [RequireComponent(typeof(StandaloneInputModule))]
-    public class EventSystemHandler : MonoBehaviour
+    [DisallowMultipleComponent]
+    public class EventSystemHandler :ASingletonMonoBehaviour<EventSystemHandler>
     {
         public static EventSystem EventSystem { get; private set; }
         public static StandaloneInputModule StandaloneInputModule { get; private set; }
 
         private void Awake()
         {
+            Empty();
             EventSystem = GetComponent<EventSystem>();
             StandaloneInputModule = GetComponent<StandaloneInputModule>();
-
-            DontDestroyOnLoad(this);
         }
     }
 }

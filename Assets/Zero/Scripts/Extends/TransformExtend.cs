@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using Sirenix.Utilities;
+using UnityEngine;
 
 namespace Zero
 {
@@ -65,6 +67,18 @@ namespace Zero
                 pos.z = value;
                 t.position = pos;
             }
+        }
+
+        /// <summary>
+        /// 深度查找子对象
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="childName"></param>
+        /// <returns></returns>
+        public static Transform DeepFind(this Transform t, string childName)
+        {
+            return TransformUtility.DeepFindChild(t, childName);
+            ;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Zero;
@@ -35,6 +36,8 @@ namespace Demo
 
         private void Awake()
         {
+            transform.DeepFind("RuntimeSettings").gameObject.SetActive(true);
+            
             _data = LauncherSetting.LoadLauncherSettingDataFromResources();
             toggleUseDll.isOn = _data.isUseDll;
             toggleHotPatchMode.isOn = _data.isHotPatchEnable;
@@ -86,34 +89,30 @@ namespace Demo
             }
         }
 
-        private void Startup()
+        private async void Startup()
         {
-            SetProgress(0, 1);
-
-            var vo = LauncherSetting.LoadLauncherSettingDataFromResources();
-            vo.isUseDll = toggleUseDll.isOn;
-            vo.isHotPatchEnable = toggleHotPatchMode.isOn;
-            vo.isLogEnable = toggleLog.isOn;
-            vo.isOfflineEnable = toggleOffLineMode.isOn;
-
-            var launcher = new Launcher(vo);
-
-
-            //Preload preload = GetComponent<Preload>();
-            launcher.onProgress += SetProgress;
-
-            launcher.onStateChange += (state) =>
+            try
             {
-                if (state == Launcher.EState.Finished)
-                {
-                    GameObject.Destroy(this.gameObject);
-                }
-            };
+                SetProgress(0, 1);
 
-            launcher.onError += s => { text.text = $"Error: {s}"; };
-
-            //从这里启动Ppreload
-            launcher.Start();
+                var vo = LauncherSetting.LoadLauncherSettingDataFromResources();
+                vo.isUseDll = toggleUseDll.isOn;
+                vo.isHotPatchEnable = toggleHotPatchMode.isOn;
+                vo.isLogEnable = toggleLog.isOn;
+                vo.isOfflineEnable = toggleOffLineMode.isOn;
+            
+                //从这里启动Ppreload
+                var launcher = new Launcher(vo);
+                launcher.onProgress += SetProgress;
+                launcher.onError += s => { text.text = $"Error: {s}"; };
+                await launcher.Start();
+                Destroy(gameObject);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+                text.text = "启动失败!";
+            }
         }
 
         private void SetProgress(long loadedSize, long totalSize)

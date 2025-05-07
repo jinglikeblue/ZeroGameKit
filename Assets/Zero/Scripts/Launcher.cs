@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -84,7 +85,7 @@ namespace Zero
         /// 开始激活预加载
         /// </summary>
         /// <param name="rg"></param>
-        public async void Start()
+        public async UniTask Start()
         {
             string error = null;
 

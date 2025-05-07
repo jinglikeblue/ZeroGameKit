@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Zero
 {
@@ -51,7 +52,7 @@ namespace Zero
         /// </summary>
         public void Empty()
         {
-            
+            var a = Ins;
         }
     }
 }
