@@ -58,3 +58,4 @@ sysinfo.txt
 /Designs/帧同步(frame synchronization)/*.bkp
 /HybridCLRData
 /.idea
+/Packages/packages-lock.json
