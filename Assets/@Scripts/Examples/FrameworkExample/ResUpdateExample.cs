@@ -39,9 +39,16 @@ namespace Example
 
         HotResUpdater updater;
 
+        private bool isUseTask = true;
+
         public void L(string v)
         {
             textLog.text += "\r\n" + v;
+        }
+
+        void CleanLog()
+        {
+            textLog.text = string.Empty;
         }
 
         protected override void OnEnable()
@@ -50,35 +57,61 @@ namespace Example
             btnUpdate.onClick.AddListener(OnBtnUpdateClick);
         }
 
-        private void OnBtnUpdateClick()
+        private async void OnBtnUpdateClick()
         {
             if (!Runtime.Ins.IsHotResEnable)
             {
                 MsgWin.Show("提示", "请使用AssetBundle模式，并且打开热更资源开关再使用该用例");
+                return;
             }
-            
+
+            if (null != updater)
+            {
+                MsgWin.Show("提示", "更新进行中...");
+                return;
+            }
+
+            CleanLog();
             L("开始更新资源");
             updater = new HotResUpdater(updateList);
-            updater.onComplete += OnUpdaterComplete;
-            updater.onProgress += OnUpdaterProgress;
-            updater.Start();            
+            //这次为了测试，强制进行所有资源的下载。
+            updater.IsForceUpdateAll = true;
+
+            if (isUseTask)
+            {
+                L($"方式1： 通过Task");
+                await updater.StartAsync(OnUpdaterProgress);
+                OnUpdaterComplete(updater);
+            }
+            else
+            {
+                L($"方式2： 通过回调");
+                updater.onComplete += OnUpdaterComplete;
+                updater.onProgress += OnUpdaterProgress;
+                updater.Start();      
+            }
+
+            isUseTask = !isUseTask;
+
         }
 
         private void OnUpdaterComplete(BaseUpdater updater)
         {
             if(updater.error != null)
             {
-                L($"Update 出错:{updater.error}");
+                L($"[结束]Update 出错:{updater.error}");
             }
             else
             {
-                L($"Update 完成");
+                L($"[结束]Update结束 完成");
             }
+
+            this.updater = null;
         }
 
         private void OnUpdaterProgress(long loadedSize, long totalSize)
         {
-            L($"Update 进度:{loadedSize}   总长度:{totalSize}");
+            L($"[进行中]Update 进度:{loadedSize}   总长度:{totalSize}");
         }
     }
 

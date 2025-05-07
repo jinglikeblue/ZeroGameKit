@@ -27,6 +27,12 @@ namespace Zero
 
         async UniTask<string> CheckUpdate()
         {
+            if (string.IsNullOrEmpty(Runtime.Ins.setting.client.version))
+            {
+                //未配置版本号的情况下，就忽略强制版本更新检查
+                return null;
+            }
+            
             int result = CheckVersionCode(Application.version, Runtime.Ins.setting.client.version);
             if (result == -1)
             {

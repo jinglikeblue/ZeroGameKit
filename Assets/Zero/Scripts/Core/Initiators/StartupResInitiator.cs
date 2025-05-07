@@ -41,6 +41,12 @@ namespace Zero
 
                 if (Runtime.Ins.IsHotResEnable)
                 {
+                    if (null == Runtime.Ins.setting.startupResGroups || 0 == Runtime.Ins.setting.startupResGroups.Length)
+                    {
+                        //未配置启动必要资源组，默认下载所有的资源
+                        Runtime.Ins.setting.startupResGroups = new[] { "/" };
+                    }
+                    
                     //检查启动资源更新。依赖ResMgr
                     err = await new HotResUpdater(Runtime.Ins.setting.startupResGroups).StartAsync(OnHotResUpdaterProgress);
                     if (!string.IsNullOrEmpty(err)) break;

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -17,6 +18,12 @@ namespace Zero
         public string[] CheckNameList { get; private set; }
 
         public string[] UpdateResNameList { get; private set; }
+
+        /// <summary>
+        /// Start()调用前设置该属性有效。是否忽略版本检查。强制更新资源。
+        /// 注意：推荐设置为false，因为框架会记录下载资源的版本号，如果本地已有对应版本资源，不会重复下载
+        /// </summary>
+        public bool IsForceUpdateAll = false;
 
         public HotResUpdater(string name)
         {
@@ -34,14 +41,51 @@ namespace Zero
             if (Runtime.Ins.IsNeedNetwork)
             {
                 //检查要更新的资源列表
-                UpdateResNameList = CheckNeedUpdateResNameList(CheckNameList);
-                ILBridge.Ins.StartCoroutine(UpdateGroups());
+                UpdateResNameList = CheckNeedUpdateResNameList(CheckNameList, IsForceUpdateAll);
+                UpdateRes();
             }
             else
             {
-                UpdateResNameList = new string[0];
+                UpdateResNameList = Array.Empty<string>();
                 End();
             }
+        }
+
+        async void UpdateRes()
+        {
+            //实例化一个资源组下载器
+            GroupHttpDownloader groupLoader = new GroupHttpDownloader();
+            foreach (var resName in UpdateResNameList)
+            {
+                var netItem = Runtime.Ins.netResVer.Get(resName);
+
+                //将要下载的文件依次添加入下载器
+                groupLoader.AddTask(FileUtility.CombinePaths(Runtime.Ins.netResDir, resName), FileUtility.CombinePaths(Runtime.Ins.localResDir, resName), netItem.version, netItem.size, netItem);
+            }
+
+            groupLoader.onTaskCompleted += OnGroupHttpDownloaderTaskCompleted;
+
+            //启动下载器开始下载
+            groupLoader.Start();
+
+            //判断是否所有资源下载完成，如果没有，返回一个下载的进度（该进度表示的整体进度）
+            do
+            {
+                Progress(groupLoader.loadedSize, groupLoader.totalSize);
+                await UniTask.NextFrame();
+            }
+            while (false == groupLoader.isDone);
+
+            groupLoader.onTaskCompleted -= OnGroupHttpDownloaderTaskCompleted;
+
+            //判断下载是否返回错误
+            if (null != groupLoader.error)
+            {
+                End(groupLoader.error);
+                return;
+            }
+
+            End();
         }
 
         IEnumerator UpdateGroups()
@@ -101,8 +145,9 @@ namespace Zero
         /// <para>注意：该方法并不会更新res.json以及ab.mainifest文件</para>
         /// </summary>
         /// <param name="groups"></param>
+        /// <param name="isForceUpdateAll">false(默认值):返回框架判断需要更新的资源，true:返回所有资源</param>
         /// <returns></returns>
-        public static string[] CheckNeedUpdateResNameList(string[] groups)
+        public static string[] CheckNeedUpdateResNameList(string[] groups, bool isForceUpdateAll = false)
         {
             //整理出所有需要资源的清单（包括依赖的）
             HashSet<string> itemSet = new HashSet<string>();
@@ -120,6 +165,12 @@ namespace Zero
             //开始检查版本，找出需要更新的资源
             foreach (var itemName in itemSet)
             {
+                if (isForceUpdateAll)
+                {
+                    needUpdateList.Add(itemName);
+                    continue;
+                }
+                
                 string localVer = Runtime.Ins.localResVer.GetVer(itemName);
                 var netItem = Runtime.Ins.netResVer.Get(itemName);
 
