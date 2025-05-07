@@ -34,9 +34,12 @@ namespace Demo
 
         private LauncherSettingData _data;
 
+        private GameObject _runtimeSettings;
+
         private void Awake()
         {
-            transform.DeepFind("RuntimeSettings").gameObject.SetActive(true);
+            _runtimeSettings = transform.DeepFind("RuntimeSettings").gameObject;
+            _runtimeSettings.SetActive(true);
             
             _data = LauncherSetting.LoadLauncherSettingDataFromResources();
             toggleUseDll.isOn = _data.isUseDll;
@@ -105,8 +108,13 @@ namespace Demo
                 var launcher = new Launcher(vo);
                 launcher.onProgress += SetProgress;
                 launcher.onError += s => { text.text = $"Error: {s}"; };
-                await launcher.Start();
-                Destroy(gameObject);
+                var error = await launcher.Start();
+                if (string.IsNullOrEmpty(error))
+                {
+                    Destroy(gameObject);    
+                }
+
+                text.text = error;
             }
             catch (Exception e)
             {

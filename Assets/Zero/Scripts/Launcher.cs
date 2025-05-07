@@ -85,7 +85,7 @@ namespace Zero
         /// 开始激活预加载
         /// </summary>
         /// <param name="rg"></param>
-        public async UniTask Start()
+        public async UniTask<string> Start()
         {
             string error = null;
 
@@ -129,6 +129,8 @@ namespace Zero
             {
                 Error(error);
             }
+
+            return error;
         }
 
         void OnProgress(long loadedSize, long totalSize)
