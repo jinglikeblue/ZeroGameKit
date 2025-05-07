@@ -51,7 +51,7 @@ namespace Zero
             }
         }
 
-        async void UpdateRes()
+        private async void UpdateRes()
         {
             //实例化一个资源组下载器
             GroupHttpDownloader groupLoader = new GroupHttpDownloader();
@@ -88,42 +88,42 @@ namespace Zero
             End();
         }
 
-        IEnumerator UpdateGroups()
-        {
-            //实例化一个资源组下载器
-            GroupHttpDownloader groupLoader = new GroupHttpDownloader();
-            foreach (var resName in UpdateResNameList)
-            {
-                var netItem = Runtime.Ins.netResVer.Get(resName);
-
-                //将要下载的文件依次添加入下载器
-                groupLoader.AddTask(FileUtility.CombinePaths(Runtime.Ins.netResDir, resName), FileUtility.CombinePaths(Runtime.Ins.localResDir, resName), netItem.version, netItem.size, netItem);
-            }
-
-            groupLoader.onTaskCompleted += OnGroupHttpDownloaderTaskCompleted;
-
-            //启动下载器开始下载
-            groupLoader.Start();
-
-            //判断是否所有资源下载完成，如果没有，返回一个下载的进度（该进度表示的整体进度）
-            do
-            {
-                Progress(groupLoader.loadedSize, groupLoader.totalSize);                
-                yield return new WaitForEndOfFrame();
-            }
-            while (false == groupLoader.isDone);
-
-            groupLoader.onTaskCompleted -= OnGroupHttpDownloaderTaskCompleted;
-
-            //判断下载是否返回错误
-            if (null != groupLoader.error)
-            {
-                End(groupLoader.error);
-                yield break;
-            }
-
-            End();
-        }
+        // IEnumerator UpdateGroups()
+        // {
+        //     //实例化一个资源组下载器
+        //     GroupHttpDownloader groupLoader = new GroupHttpDownloader();
+        //     foreach (var resName in UpdateResNameList)
+        //     {
+        //         var netItem = Runtime.Ins.netResVer.Get(resName);
+        //
+        //         //将要下载的文件依次添加入下载器
+        //         groupLoader.AddTask(FileUtility.CombinePaths(Runtime.Ins.netResDir, resName), FileUtility.CombinePaths(Runtime.Ins.localResDir, resName), netItem.version, netItem.size, netItem);
+        //     }
+        //
+        //     groupLoader.onTaskCompleted += OnGroupHttpDownloaderTaskCompleted;
+        //
+        //     //启动下载器开始下载
+        //     groupLoader.Start();
+        //
+        //     //判断是否所有资源下载完成，如果没有，返回一个下载的进度（该进度表示的整体进度）
+        //     do
+        //     {
+        //         Progress(groupLoader.loadedSize, groupLoader.totalSize);                
+        //         yield return new WaitForEndOfFrame();
+        //     }
+        //     while (false == groupLoader.isDone);
+        //
+        //     groupLoader.onTaskCompleted -= OnGroupHttpDownloaderTaskCompleted;
+        //
+        //     //判断下载是否返回错误
+        //     if (null != groupLoader.error)
+        //     {
+        //         End(groupLoader.error);
+        //         yield break;
+        //     }
+        //
+        //     End();
+        // }
 
         private void OnGroupHttpDownloaderTaskCompleted(GroupHttpDownloader groupDownloader, GroupHttpDownloader.TaskInfo taskInfo)
         {

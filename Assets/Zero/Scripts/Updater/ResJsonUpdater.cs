@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -27,7 +28,7 @@ namespace Zero
 
             if (Runtime.Ins.IsNeedNetwork)
             {
-                ILBridge.Ins.StartCoroutine(UpdateResJson());
+                UpdateResJson();
             }
             else
             {
@@ -35,7 +36,7 @@ namespace Zero
             }
         }
 
-        IEnumerator UpdateResJson()
+        async void UpdateResJson()
         {
             Debug.Log(LogColor.Zero2($"[Zero][ResJsonUpdater][{url}] res.json文件更新中..."));
             
@@ -46,14 +47,14 @@ namespace Zero
 
             while (false == loader.isDone)
             {
-                yield return new WaitForEndOfFrame();
+                await UniTask.NextFrame();
             }
 
             if (null != loader.error)
             {
                 Debug.LogErrorFormat(loader.error);
                 End(loader.error);
-                yield break;
+                return;
             }
             
             End();

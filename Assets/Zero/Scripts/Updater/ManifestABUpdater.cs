@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -23,8 +24,8 @@ namespace Zero
             manifestABPath = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION);
             
             if (Runtime.Ins.IsNeedNetwork && false == Runtime.Ins.netResVer.IsSameVer(manifestABPath, Runtime.Ins.localResVer))
-            {                
-                ILBridge.Ins.StartCoroutine(UpdateManifestAB());
+            {
+                UpdateManifestAB();
             }
             else
             {
@@ -32,7 +33,7 @@ namespace Zero
             }
         }
 
-        IEnumerator UpdateManifestAB()
+        private async void UpdateManifestAB()
         {
             var url = FileUtility.CombinePaths(Runtime.Ins.netResDir, manifestABPath);
             Debug.Log(LogColor.Zero2($"[Zero][ManifestABUpdater][{url}] manifest.ab文件更新中..."));
@@ -45,14 +46,14 @@ namespace Zero
             loader.Start();
             while (false == loader.isDone)
             {
-                yield return new WaitForEndOfFrame();
+                await UniTask.NextFrame();
             }
 
             if (null != loader.error)
             {
                 Debug.LogError(loader.error);
                 End(loader.error);
-                yield break;
+                return;
             }            
 
             //保存文件版本号
