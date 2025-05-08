@@ -67,7 +67,7 @@ namespace ZeroEditor
             //检测HybridCLR安装情况
             AutoInstallHybridCLR();
             //生成一次热更DLL代码
-            HotResUtility.GeneateScriptAssembly();
+            HotResEditorUtility.GeneateScriptAssembly();
             //生成所有HybridCLR内容
             PrebuildCommand.GenerateAll();
             //拷贝元数据补充需要的程序集
