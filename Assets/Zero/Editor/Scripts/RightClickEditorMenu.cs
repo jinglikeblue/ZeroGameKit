@@ -13,7 +13,7 @@ public class RightClickEditorMenu
     [MenuItem("Assets/Zero/生成DLL", false, 0)]
     static void GenerateDll()
     {
-        HotResUtility.GeneateScriptAssembly();
+        HotResEditorUtility.GeneateScriptAssembly();
     }
 
     #region 工具/SpriteAtlas Tools

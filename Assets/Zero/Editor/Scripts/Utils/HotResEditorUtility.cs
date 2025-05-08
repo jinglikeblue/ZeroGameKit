@@ -10,7 +10,7 @@ using Zero;
 
 namespace ZeroEditor
 {
-    public static class HotResUtility
+    public static class HotResEditorUtility
     {
         /// <summary>
         /// 创建AssetBundle依赖信息的JSON
