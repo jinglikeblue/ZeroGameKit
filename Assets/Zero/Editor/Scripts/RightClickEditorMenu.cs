@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using Cysharp.Threading.Tasks;
+using Jing;
 using UnityEditor;
 using UnityEngine;
 using Zero;
@@ -10,25 +12,38 @@ using ZeroEditor;
 /// </summary>
 public class RightClickEditorMenu
 {
-    [MenuItem("Assets/Zero/生成DLL", false, 0)]
-    static void GenerateDll()
+    [MenuItem("Assets/Zero/生成DLL（并拷贝到内嵌资源目录)", false, 0)]
+    static async void GenerateDll()
     {
-        HotResEditorUtility.GeneateScriptAssembly();
+        try
+        {
+            EditorUtility.DisplayProgressBar("dll生成", "正在生成", 0f);
+            await HotResEditorUtility.GenerateScriptAssembly();
+            EditorUtility.DisplayProgressBar("dll生成", "拷贝到StreamingAssets", 0.9f);
+            var builtinFolder = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.DLL_DIR_NAME);
+            FileUtility.CopyDir(ZeroEditorConst.DLL_PUBLISH_DIR, builtinFolder);
+            EditorUtility.ClearProgressBar();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+            EditorUtility.ClearProgressBar();
+        }
     }
 
     #region 工具/SpriteAtlas Tools
 
     [MenuItem("Assets/Zero/工具/SpriteAtlas Tools/添加目录到SpriteAtlas配置", false, 1)]
     static void SpriteAtlasAdd()
-    {        
+    {
         if (Selection.objects.Length != 1)
         {
             EditorUtility.DisplayDialog("错误", "仅支持[单选]的[文件夹]", "OK");
             return;
         }
-        
+
         var obj = Selection.objects[0];
-        var assetPath = AssetDatabase.GetAssetPath(obj);        
+        var assetPath = AssetDatabase.GetAssetPath(obj);
         if (false == Directory.Exists(assetPath))
         {
             EditorUtility.DisplayDialog("错误", "仅支持[单选]的[文件夹]", "OK");
@@ -82,7 +97,7 @@ public class RightClickEditorMenu
         findCmd.onFinished += (cmd, list) =>
         {
             var startTime = DateTime.Now;
-            new GenerateABClassCommand(list).Excute();                     
+            new GenerateABClassCommand(list).Excute();
             AssetDatabase.Refresh();
 
             var tn = DateTime.Now - startTime;
