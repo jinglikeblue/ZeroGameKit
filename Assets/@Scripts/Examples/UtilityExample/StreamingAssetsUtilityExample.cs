@@ -176,21 +176,19 @@ namespace Example
             }
         }
 
-        void Load(string path, bool isText)
+        async void Load(string path, bool isText)
         {
             L($"加载路径: {path}");
             if (isText)
             {
-                //StreamingAssetsUtility.LoadText(path, OnTextLoaded);
-
+                //同步加载方式
                 var text = StreamingAssetsUtility.LoadText(path);
                 OnTextLoaded(path, text);
             }
             else
             {
-                //StreamingAssetsUtility.LoadData(path, OnDataLoaded);
-
-                var bytes = StreamingAssetsUtility.LoadData(path);
+                //异步加载方式
+                var bytes = await StreamingAssetsUtility.LoadDataAsync(path);
                 OnDataLoaded(path, bytes);
             }
         }

@@ -12,10 +12,6 @@ namespace Zero
     /// </summary>
     public static class StreamingAssetsUtility
     {
-        public delegate void StreamingAssetsDataLoadedEvent(string path, byte[] bytes);
-
-        public delegate void StreamingAssetsTextLoadedEvent(string path, string text);
-
         /// <summary>
         /// 通过相对路径获取绝对路径
         /// </summary>
@@ -136,12 +132,16 @@ namespace Zero
                 if (tn.TotalSeconds > timeoutSeconds)
                 {
                     //超时处理
+                    Debug.LogError($"[StreamingAssetsUtility][Error] {path}");
+                    Debug.LogError($"[StreamingAssetsUtility][Error] 加载失败！超过限定时间:{timeoutSeconds}秒");
                     return null;
                 }
             }
 
             if (www.error != null)
             {
+                Debug.LogError($"[StreamingAssetsUtility][Error] {path}");
+                Debug.LogError(www.error);
                 return null;
             }
 
@@ -150,16 +150,32 @@ namespace Zero
 
         #endregion
 
+        private static async UniTask<UnityWebRequest> LoadAsync(string path)
+        {
+            var www = UnityWebRequest.Get(path);
+            www.SendWebRequest();
+            while (false == www.isDone)
+            {
+                await UniTask.NextFrame();
+            }
+            
+            if (www.error != null)
+            {
+                Debug.LogError($"[StreamingAssetsUtility][Error] {path}");
+                Debug.LogError(www.error);
+            }
+
+            return www;
+        }
+
         /// <summary>
         /// 加载数据(异步方式)
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="onLoaded"></param>
-        public static void LoadData(string path, StreamingAssetsDataLoadedEvent onLoaded)
+        public static async UniTask<byte[]> LoadDataAsync(string path)
         {
-            var handler = new StreamingAssetsFileLoadHandler(path);
-            handler.onCompleted += (h) => { onLoaded?.Invoke(path, h.request.error == null ? h.request.downloadHandler.data : null); };
-            handler.Start();
+            var www = await LoadAsync(path);
+            return www.error == null ? www.downloadHandler.data : null;
         }
 
 
@@ -167,12 +183,10 @@ namespace Zero
         /// 加载文本(异步方式)
         /// </summary>
         /// <param name="path"></param>
-        /// <param name="onLoaded"></param>
-        public static void LoadText(string path, StreamingAssetsTextLoadedEvent onLoaded)
+        public static async UniTask<string> LoadTextAsync(string path)
         {
-            var handler = new StreamingAssetsFileLoadHandler(path);
-            handler.onCompleted += (h) => { onLoaded?.Invoke(path, h.request.error == null ? h.request.downloadHandler.text : null); };
-            handler.Start();
+            var www = await LoadAsync(path);
+            return www.error == null ? www.downloadHandler.text : null;
         }
 
         /// <summary>
@@ -185,41 +199,5 @@ namespace Zero
             var ab = AssetBundle.LoadFromFile(path);
             return ab;
         }
-
-        #region StreamingAssetsFileLoadHandler 操作类
-
-        class StreamingAssetsFileLoadHandler
-        {
-            public string path { get; private set; }
-
-            public UnityWebRequest request { get; private set; }
-
-            public event Action<StreamingAssetsFileLoadHandler> onCompleted;
-
-            public StreamingAssetsFileLoadHandler(string path)
-            {
-                this.path = path;
-            }
-
-            public void Start()
-            {
-                if (null != request)
-                {
-                    Debug.Log($"Start不能重复调用");
-                    return;
-                }
-
-                request = UnityWebRequest.Get(path);
-                var operation = request.SendWebRequest();
-                operation.completed += OnCompleted;
-            }
-
-            private void OnCompleted(AsyncOperation obj)
-            {
-                onCompleted?.Invoke(this);
-            }
-        }
-
-        #endregion
     }
 }
