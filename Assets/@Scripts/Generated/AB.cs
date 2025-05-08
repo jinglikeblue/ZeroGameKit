@@ -375,6 +375,14 @@ namespace Zero
 			public const string Poppins_Medium_ttf_assetPath = "fonts/poppins/Poppins-Medium.ttf";            
 		}
 
+		public sealed class TEST_TEST_1
+		{
+			public const string NAME = "test/test 1.ab";
+
+			public const string test_1_json = "test 1.json";
+			public const string test_1_json_assetPath = "test/test 1/test 1.json";            
+		}
+
 		public sealed class EXAMPLES_CROSS_DEPEND_TEST_A
 		{
 			public const string NAME = "examples/cross_depend_test/a.ab";
@@ -747,7 +755,6 @@ namespace Zero
 		public const string MainStartupPanel_prefab = "examples/MainStartupPanel.prefab";
 		public const string Scene0_unity = "scenes/Scene0.unity";
 		public const string Scene1_unity = "scenes/Scene1.unity";
-		public const string test_1_json = "test/test 1.json";
 		public const string test_json = "configs/tests/test.json";
 		public const string click_mp3 = "examples/audios/click.mp3";
 		public const string effect_0_mp3 = "examples/audios/effect_0.mp3";

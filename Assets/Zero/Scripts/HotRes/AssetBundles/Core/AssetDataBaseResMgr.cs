@@ -61,11 +61,12 @@ namespace Zero
                         continue;
                     }
 
-                    if (isAssetNameContainExt && Path.GetFileName(file) == assetName)
+                    if (isAssetNameContainExt && Path.GetFileName(file).ToLower() == assetName.ToLower())
                     {
                         return file;
                     }
-                    else if(Path.GetFileNameWithoutExtension(file) == assetName)
+                    
+                    if(Path.GetFileNameWithoutExtension(file).ToLower() == assetName.ToLower())
                     {
                         return file;
                     }

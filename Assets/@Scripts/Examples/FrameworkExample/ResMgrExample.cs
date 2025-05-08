@@ -33,6 +33,9 @@ namespace Example
         {
             base.OnInit(data);
 
+            //测试大小写兼容
+            TestUpperAndLowerCase();
+            
             SyncLoad();
             AsyncLoad();
 
@@ -41,6 +44,8 @@ namespace Example
 
             //读取所有AB文件
             TestLoadAllAB();
+
+
         }
 
         public void L(string v)
@@ -140,6 +145,30 @@ namespace Example
             L(LogColor.Zero1($"开始异步加载:{abName}"));
             ResMgr.LoadAllAsync(abName, (assets) => { L(LogColor.Zero1($"加载完成，资源数:{assets?.Length}")); },
                 (progress) => { L(LogColor.Zero1($"加载进度:{progress}")); });
+        }
+
+        /// <summary>
+        /// 测试大小写兼容
+        /// </summary>
+        void TestUpperAndLowerCase()
+        {
+            var assetPath = "Test/test 1/Test 1.json";
+            
+            L(LogColor.Zero1($"======================= 大小写兼容测试"));
+            L(LogColor.Zero1($"加载资源: {assetPath}"));
+            
+            var obj = ResMgr.Load(assetPath);
+
+            if (null != obj)
+            {
+                L(LogColor.Green($"资源加载成功"));
+            }
+            else
+            {
+                L(LogColor.Red($"资源加载失败"));
+            }
+            
+            L(LogColor.Zero1($"======================="));
         }
     }
 }
