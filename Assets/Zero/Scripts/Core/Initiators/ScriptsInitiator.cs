@@ -17,12 +17,12 @@ namespace Zero
         /// 是否存在热更DLL
         /// </summary>
         bool IsHotDllExist => File.Exists(HotDllPath);
-        
+
         /// <summary>
         /// 是否存在内嵌DLL
         /// </summary>
         bool IsBuiltinDllExist => Runtime.Ins.BuiltinInitiator.IsBuiltinDllExist;
-        
+
         /// <summary>
         /// 是否存在DLL
         /// </summary>
@@ -42,17 +42,17 @@ namespace Zero
                 }
                 else
                 {
-                    return "[Zero][ScriptsInitiator] dll加载出错： 文件不存在";                    
+                    return "[Zero][ScriptsInitiator] dll加载出错： 文件不存在";
                 }
             }
 
             if (Runtime.Ins.IsUseDll != isUseDll)
             {
-                Runtime.Ins.LauncherData.isUseDll = isUseDll;    
+                Runtime.Ins.LauncherData.isUseDll = isUseDll;
             }
-            
+
             string error = null;
-            
+
             if (isUseDll)
             {
                 error = StartupWithDll();
@@ -65,9 +65,9 @@ namespace Zero
             if (null == error)
             {
                 //调用启动方法
-                ILBridge.Ins.Invoke(ZeroConst.LOGIC_SCRIPT_STARTUP_CLASS_NAME, ZeroConst.LOGIC_SCRIPT_STARTUP_METHOD);    
+                ILBridge.Ins.Invoke(ZeroConst.LOGIC_SCRIPT_STARTUP_CLASS_NAME, ZeroConst.LOGIC_SCRIPT_STARTUP_METHOD);
             }
-            
+
             return error;
         }
 
@@ -81,9 +81,9 @@ namespace Zero
             {
                 return $"[Zero][ScriptsInitiator] dll启动失败！";
             }
-            
-            dllBytes = XORHelper.Transform(dllBytes, "zero");
-            
+
+            dllBytes = DllCryptoHelper.TryDecrypt(dllBytes);
+
             //初始化IL
             ILBridge.Ins.Startup(dllBytes, pdbBytes);
             return null;
@@ -113,13 +113,14 @@ namespace Zero
                     {
                         pdbBytes = File.ReadAllBytes(pdbPath);
                     }
+
                     return;
                 }
             }
 
             if (IsBuiltinDllExist)
             {
-                dllBytes =  Runtime.Ins.BuiltinInitiator.DllBytes;
+                dllBytes = Runtime.Ins.BuiltinInitiator.DllBytes;
                 pdbBytes = Runtime.Ins.BuiltinInitiator.PdbBytes;
             }
         }

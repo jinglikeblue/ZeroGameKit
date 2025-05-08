@@ -54,7 +54,7 @@ namespace ZeroEditor
             _outputAssemblyPath = FileUtility.CombinePaths(outputDir, ZeroConst.DLL_FILE_NAME + ".dll");
             _outputAssemblyCachePath = FileUtility.CombinePaths(ZeroEditorConst.DLL_CACHE_DIR, ZeroConst.DLL_FILE_NAME + ".dll");
         }
-        
+
         public void Execute()
         {
             var scriptPaths = Directory.GetFiles(_sourcesDir, "*.cs", SearchOption.AllDirectories);
@@ -123,9 +123,9 @@ namespace ZeroEditor
             {
                 if (IsEncryptDll)
                 {
-                    Debug.Log($"开始加密脚本...");
+                    Debug.Log($"加密dll");
                     var bytes = File.ReadAllBytes(_outputAssemblyCachePath);
-                    var encryptedDllBytes = XORHelper.Transform(bytes, "zero");
+                    var encryptedDllBytes = DllCryptoHelper.Encrypt(bytes);
                     File.WriteAllBytes(_outputAssemblyPath, encryptedDllBytes);
                 }
                 else
@@ -133,7 +133,7 @@ namespace ZeroEditor
                     //把缓存目录的dll文件和pdb文件复制到发布目录
                     FileUtility.CopyFile(_outputAssemblyCachePath, _outputAssemblyPath, true);
                 }
-                
+
                 FileUtility.CopyFile(_outputAssemblyCachePath.Replace(".dll", ".pdb"), _outputAssemblyPath.Replace(".dll", ".pdb"), true);
                 onFinished?.Invoke(this, true);
             }
