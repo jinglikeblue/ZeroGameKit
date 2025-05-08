@@ -82,6 +82,8 @@ namespace Zero
                 return $"[Zero][ScriptsInitiator] dll启动失败！";
             }
             
+            dllBytes = XORHelper.Transform(dllBytes, "zero");
+            
             //初始化IL
             ILBridge.Ins.Startup(dllBytes, pdbBytes);
             return null;

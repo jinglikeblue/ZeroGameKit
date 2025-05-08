@@ -2,8 +2,6 @@
 # TODO
 ## List
 
-- 资源增加大小写兼容。（资源路径忽略大写字符和小写字母的关系）。
-
 - 重构优化Scene相关的资源打包（规避场景和其它资源在一起导致的打包失败）。以及读取代码。
 
 - 实现界面缓存机制，减少界面重复打开产生的GC以及运行效率。
@@ -15,8 +13,6 @@
 - 自动绑定AutoButtonClickBindingAttribute、BaseAutoBindingAttribute、BindingUIClickAttribute 这部分重新梳理，补全注释方便扩展
 
 - 重新整理资源，每个测试按钮改成独立加载资源包。加载动画搞一个。
-
-- 「资源名生成」功能里，顺便生成@Configs文件中的文件地址和名称
 
 - 实现一个帧同步框架
        - 定点数系统       
@@ -46,11 +42,9 @@
        - 第二步：setting.json加一个参数，标记更新到这个setting.json后，是否下次启动直接使用这个setting.json中RuntimeVO数据,这样可以影响所有RuntimeVO数据。
               - 这一步可能导致程序更新setting.json后，因为配置错误，导致APP不能正常运行，且无法还原。
 
-- 框架代码不放在DontDestroyOnLoad里。确保Scene.Load(0)能够完整重启项目。
-
 - 摇杆死区范围应该是基于X轴偏移和Y轴偏移，而不是圆形区域
 
-- ************** 通过AssetsImporter来判断是否需要动态创建ViewAutoRegister.cs或AB.cs
+- ************** 通过AssetsImporter来判断是否需要自动构建AB.cs
 
 - 写一个帧同步DEMO，采用以下技术点：
        - UDP通信
@@ -111,3 +105,5 @@
        - 构建（Build）可执行程序时，强制检查，并设置资源读取模式为NetAssetBundle模式。
        - 资源读取模式中的本地热更资源可以去掉。如果要测试AB，打包后拷贝到streamingassets下进行内嵌资源测试即可。
        - 重构Launcher的启动流程。简化并增加代码可读性。
+
+- 资源增加大小写兼容。（资源路径忽略大写字符和小写字母的关系）。

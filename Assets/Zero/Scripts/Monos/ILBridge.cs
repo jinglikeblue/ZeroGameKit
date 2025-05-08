@@ -77,7 +77,7 @@ namespace Zero
 
             if (null == assembly)
             {
-                throw new Exception("外部程序集为null！");
+                throw new Exception("外部程序集加载失败！");
             }
             
             // Debug.Log(LogColor.Zero1("外部程序集执行方式：[HYBRID_CLR]"));

@@ -370,5 +370,22 @@ namespace Jing
             }
             File.Move(sourcePath, targetPath);
         }
+
+        /// <summary>
+        /// 检查文件是否可以操作
+        /// </summary>
+        /// <returns></returns>
+        public static bool CheckCanOperationsFile(string filePath)
+        {
+            try
+            {
+                using var fs = File.Open(filePath, FileMode.Open, FileAccess.ReadWrite);
+                return true;
+            } 
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
     }
 }

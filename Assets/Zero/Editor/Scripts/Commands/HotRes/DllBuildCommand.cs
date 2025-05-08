@@ -1,6 +1,7 @@
 ﻿using Jing;
 using System;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEngine;
@@ -22,6 +23,11 @@ namespace ZeroEditor
         string _outputAssemblyPath;
 
         string _outputAssemblyCachePath;
+
+        /// <summary>
+        /// 是否加密Dll
+        /// </summary>
+        public bool IsEncryptDll = true;
 
         /// <summary>
         /// 代码地址
@@ -115,8 +121,19 @@ namespace ZeroEditor
             }
             else
             {
-                //把缓存目录的dll文件和pdb文件复制到发布目录
-                FileUtility.CopyFile(_outputAssemblyCachePath, _outputAssemblyPath, true);
+                if (IsEncryptDll)
+                {
+                    Debug.Log($"开始加密脚本...");
+                    var bytes = File.ReadAllBytes(_outputAssemblyCachePath);
+                    var encryptedDllBytes = XORHelper.Transform(bytes, "zero");
+                    File.WriteAllBytes(_outputAssemblyPath, encryptedDllBytes);
+                }
+                else
+                {
+                    //把缓存目录的dll文件和pdb文件复制到发布目录
+                    FileUtility.CopyFile(_outputAssemblyCachePath, _outputAssemblyPath, true);
+                }
+                
                 FileUtility.CopyFile(_outputAssemblyCachePath.Replace(".dll", ".pdb"), _outputAssemblyPath.Replace(".dll", ".pdb"), true);
                 onFinished?.Invoke(this, true);
             }

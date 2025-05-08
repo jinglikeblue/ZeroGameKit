@@ -52,6 +52,14 @@ namespace Jing
             return output;
         }
 
+        public static async Task<byte[]> TransformAsync(byte[] input, string key)
+        {
+            byte[] output = null;
+            var task = Task.Run(() => { output = Transform(input, key); });
+            await task;
+            return output;
+        }
+
         public static XORCryptoHandler TransformAsync(Stream input, Stream output, string key)
         {
             var handler = new XORCryptoHandler(input, output, key);
@@ -70,8 +78,8 @@ namespace Jing
                 inputStream.Close();
                 outputStream.Close();
             };
-            
-            handler.TransformAsync();            
+
+            handler.TransformAsync();
             return handler;
         }
     }
