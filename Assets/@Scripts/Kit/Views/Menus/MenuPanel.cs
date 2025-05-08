@@ -76,8 +76,6 @@ namespace ZeroGameKit
             AddBtn(GROUP_DEBUG, "清空缓存", ClearCache);
             AddBtn(GROUP_DEBUG, "GC", ResMgr.DoGC);
 
-            AddBtn(GROUP_FUTURE, "加载StreamingAssets", StreamingAssetsLoadFuture.Start);
-
             AddBtn(GROUP_DEMO, "DEMO_2D物理游戏", RoushanExample.Start);
             AddBtn(GROUP_DEMO, "DEMO_推箱子游戏", SokobanExample.Start);
             AddBtn(GROUP_DEMO, "DEMO_3D", KnightExample.Start);
@@ -119,6 +117,7 @@ namespace ZeroGameKit
             AddBtn(GROUP_UTILS, "字符串操作实用工具", StringUtilityExample.Start);
             AddBtn(GROUP_UTILS, "时间操作实用工具", TimeUtilityExample.Start);
             AddBtn(GROUP_UTILS, "加密实用工具", CryptoExample.Start);
+            AddBtn(GROUP_UTILS, "StreamingAssets操作", StreamingAssetsUtilityExample.Start);
             AddBtn(GROUP_FILE, "Json使用", JsonExample.Start);
             AddBtn(GROUP_UTILS, "数组操作实用工具", ArrayUtilityExample.Start);
             AddBtn(GROUP_FRAMEWORK, "Messager消息收发系统", MessagerExample.Start);
@@ -136,6 +135,7 @@ namespace ZeroGameKit
             AddBtn(GROUP_FRAMEWORK, "Zero 资源操作", ResMgrExample.Start);
             AddBtn(GROUP_FRAMEWORK, "Zero 资源更新", ResUpdateExample.Start);
             AddBtn(GROUP_FRAMEWORK, "HotFiles资源", HotFilesExample.Start);
+            
 
             AddBtn(GROUP_FRAMEWORK, "高级定时器", TimerExample.Start);
             AddBtn(GROUP_FRAMEWORK, "高级计时器", ChronographExample.Start);

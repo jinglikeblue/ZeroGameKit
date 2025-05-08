@@ -147,14 +147,6 @@ namespace Zero
 			public const string ZeroUIExampleWin_assetPath = "examples/framework/ZeroUIExampleWin.prefab";            
 		}
 
-		public sealed class EXAMPLES_FUTURE
-		{
-			public const string NAME = "examples/future.ab";
-
-			public const string StreamingAssetsLoadFutureWin = "StreamingAssetsLoadFutureWin.prefab";
-			public const string StreamingAssetsLoadFutureWin_assetPath = "examples/future/StreamingAssetsLoadFutureWin.prefab";            
-		}
-
 		public sealed class EXAMPLES_HOT
 		{
 			public const string NAME = "examples/hot.ab";
@@ -362,7 +354,9 @@ namespace Zero
 			public const string NAME = "examples/utility.ab";
 
 			public const string CryptoExampleWin = "CryptoExampleWin.prefab";
-			public const string CryptoExampleWin_assetPath = "examples/utility/CryptoExampleWin.prefab";            
+			public const string CryptoExampleWin_assetPath = "examples/utility/CryptoExampleWin.prefab";
+			public const string StreamingAssetsUtilityExampleWin = "StreamingAssetsUtilityExampleWin.prefab";
+			public const string StreamingAssetsUtilityExampleWin_assetPath = "examples/utility/StreamingAssetsUtilityExampleWin.prefab";            
 		}
 
 		public sealed class EXAMPLES_VIDEO
@@ -692,7 +686,6 @@ namespace Zero
 			dic["ViewFactoryExampleWin"] = "examples/framework.ab";
 			dic["ZeroEventListenerExampleWin"] = "examples/framework.ab";
 			dic["ZeroUIExampleWin"] = "examples/framework.ab";
-			dic["StreamingAssetsLoadFutureWin"] = "examples/future.ab";
 			dic["MonoBehaviourExampleWin"] = "examples/hot.ab";
 			dic["KnightLoadingPanel"] = "examples/knight.ab";
 			dic["KnightMenuPanel"] = "examples/knight.ab";
@@ -726,6 +719,7 @@ namespace Zero
 			dic["UniTaskExampleWin"] = "examples/unitask.ab";
 			dic["UniWebViewExampleWin"] = "examples/uniwebview.ab";
 			dic["CryptoExampleWin"] = "examples/utility.ab";
+			dic["StreamingAssetsUtilityExampleWin"] = "examples/utility.ab";
 			dic["VideoExampleWin"] = "examples/video.ab";
 			dic["A"] = "examples/cross_depend_test/a.ab";
 			dic["C"] = "examples/cross_depend_test/a.ab";
@@ -782,7 +776,6 @@ namespace Zero
 		public const string ViewFactoryExampleWin_prefab = "examples/framework/ViewFactoryExampleWin.prefab";
 		public const string ZeroEventListenerExampleWin_prefab = "examples/framework/ZeroEventListenerExampleWin.prefab";
 		public const string ZeroUIExampleWin_prefab = "examples/framework/ZeroUIExampleWin.prefab";
-		public const string StreamingAssetsLoadFutureWin_prefab = "examples/future/StreamingAssetsLoadFutureWin.prefab";
 		public const string MonoBehaviourExampleWin_prefab = "examples/hot/MonoBehaviourExampleWin.prefab";
 		public const string KnightLoadingPanel_prefab = "examples/knight/KnightLoadingPanel.prefab";
 		public const string KnightMenuPanel_prefab = "examples/knight/KnightMenuPanel.prefab";
@@ -845,6 +838,7 @@ namespace Zero
 		public const string UniTaskExampleWin_prefab = "examples/unitask/UniTaskExampleWin.prefab";
 		public const string UniWebViewExampleWin_prefab = "examples/uniwebview/UniWebViewExampleWin.prefab";
 		public const string CryptoExampleWin_prefab = "examples/utility/CryptoExampleWin.prefab";
+		public const string StreamingAssetsUtilityExampleWin_prefab = "examples/utility/StreamingAssetsUtilityExampleWin.prefab";
 		public const string VideoExampleWin_prefab = "examples/video/VideoExampleWin.prefab";
 		public const string Poppins_Medium_ttf = "fonts/poppins/Poppins-Medium.ttf";
 		public const string A_prefab = "examples/cross_depend_test/a/A.prefab";

@@ -17,15 +17,15 @@ namespace Example
     /// <summary>
     /// StreamingAssets中直接加载热更资源的功能研发
     /// </summary>
-    class StreamingAssetsLoadFuture
+    class StreamingAssetsUtilityExample
     {
-        static public void Start()
+        public static void Start()
         {
-            UIWinMgr.Ins.Open<StreamingAssetsLoadFutureWin>();
+            UIWinMgr.Ins.Open<StreamingAssetsUtilityExampleWin>();
         }
     }
 
-    class StreamingAssetsLoadFutureWin : WithCloseButtonWin
+    class StreamingAssetsUtilityExampleWin : WithCloseButtonWin
     {
         public Button btnLoadResJson;
         public Button btnLoadSettingJson;
