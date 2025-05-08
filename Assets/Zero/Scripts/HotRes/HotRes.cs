@@ -1,11 +1,11 @@
 using System;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Jing;
 using UnityEngine.Networking;
-using UnityEngine.Windows;
 
 namespace Zero
 {
@@ -232,7 +232,6 @@ namespace Zero
         /// </summary>
         /// <param name="resPath"></param>
         /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte[] LoadFromPersistent(string resPath)
         {
             //检查热更目录
