@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zero;
@@ -14,7 +15,7 @@ namespace ZeroEditor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-
+            
             if (Target.aViewObject != null)
             {
                 EditorGUILayout.BeginHorizontal();
@@ -43,6 +44,7 @@ namespace ZeroEditor
 
                     EditorGUILayout.EndHorizontal();
                 }
+                
             }
         }
     }

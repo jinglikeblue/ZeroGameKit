@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace ZeroEditor
@@ -102,26 +103,94 @@ namespace ZeroEditor
 
             try
             {
-                var scriptName = obj.GetType().Name;
-                // 在项目中查找类名对应的脚本文件
-                string[] guids = UnityEditor.AssetDatabase.FindAssets($"{scriptName} t:Script");
-
-                if (0 == guids.Length)
+                var classType = obj.GetType();
+                var isSuccess = FindAsFileName(classType);
+                if (false == isSuccess)
                 {
-                    Debug.LogError($"无法找到对应的脚本文件: {scriptName}");
-                    return;
+                    isSuccess = FindInAllScripts(classType);
                 }
-                
-                // 获取脚本的路径
-                string assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]);
+
+                if (false == isSuccess)
+                {
+                    Debug.LogError($"无法找到对应的脚本文件: {classType.Name}");
+                }
+
                 // 打开该脚本文件
-                UnityEditor.MonoScript script = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEditor.MonoScript>(assetPath);
-                UnityEditor.AssetDatabase.OpenAsset(script);
+                // UnityEditor.MonoScript script = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEditor.MonoScript>(assetPath);
+                // UnityEditor.AssetDatabase.OpenAsset(script);
             }
             catch (Exception e)
             {
                 Debug.LogError($"无法打开脚本文件: {obj.GetType().FullName}");
                 Debug.LogError(e);
+            }
+
+            bool FindAsFileName(Type classType)
+            {
+                // 在项目中查找类名对应的脚本文件
+                string[] guids = UnityEditor.AssetDatabase.FindAssets($"{classType.Name} t:Script");
+
+                if (0 == guids.Length)
+                {
+                    return false;
+                }
+
+                // 获取脚本的路径
+                string assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[0]);
+                var line = FindClassLineNumber(assetPath, classType.Name);
+                if (-1 == line)
+                {
+                    return false;
+                }
+
+                InternalEditorUtility.OpenFileAtLineExternal(assetPath, line, 0);
+                return true;
+            }
+
+            bool FindInAllScripts(Type classType)
+            {
+                var files = Directory.GetFiles(Application.dataPath, "*.cs", SearchOption.AllDirectories);
+                foreach (var t in files)
+                {
+                    var filePath = FileUtility.StandardizeBackslashSeparator(t);
+                    if (false == CheckClassNamespace(filePath, classType.Namespace))
+                    {
+                        continue;
+                    }
+
+                    var line = FindClassLineNumber(filePath, classType.Name);
+                    if (line > -1)
+                    {
+                        InternalEditorUtility.OpenFileAtLineExternal(filePath, line + 1, 0);
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            bool CheckClassNamespace(string filePath, string namespaceName)
+            {
+                if (File.ReadAllText(filePath).Contains($"namespace {namespaceName}"))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            int FindClassLineNumber(string filePath, string className)
+            {
+                var lines = File.ReadAllLines(filePath);
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    if (lines[i].Contains($"class {className}"))
+                    {
+                        return i;
+                    }
+                }
+
+                return -1;
             }
         }
 
@@ -147,7 +216,7 @@ namespace ZeroEditor
                     return;
                 }
             }
-            
+
             //使用cmd命令创建文件夹的映射
             string[] toLinkFolders = new string[]
             {
@@ -157,20 +226,20 @@ namespace ZeroEditor
             };
 
             var toLinkFolderList = new List<string>(toLinkFolders);
-            
+
             if (null != extraFolders)
             {
                 toLinkFolderList.AddRange(extraFolders);
             }
-            
+
             foreach (var dir in toLinkFolderList)
             {
-                var sourceFolder = FileUtility.CombineDirs(false,sourceProject, dir);
+                var sourceFolder = FileUtility.CombineDirs(false, sourceProject, dir);
                 var linkFolder = FileUtility.CombineDirs(false, targetDir, dir);
-                #if UNITY_EDITOR_WIN
+#if UNITY_EDITOR_WIN
                 sourceFolder = FileUtility.StandardizeSlashSeparator(sourceFolder);
                 linkFolder = FileUtility.StandardizeSlashSeparator(linkFolder);
-                #endif
+#endif
                 var cmdContent = $"mklink /d \"{linkFolder}\" \"{sourceFolder}\"";
                 // Debug.Log(cmdContent);
                 ProcessUtility.RunCommandLine(cmdContent);
