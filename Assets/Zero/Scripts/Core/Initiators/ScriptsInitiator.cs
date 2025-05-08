@@ -82,6 +82,7 @@ namespace Zero
                 return $"[Zero][ScriptsInitiator] dll启动失败！";
             }
 
+            //尝试解密dll。如果dll本身是未加密状态，则会正常返回
             dllBytes = DllCryptoHelper.TryDecrypt(dllBytes);
 
             //初始化IL
