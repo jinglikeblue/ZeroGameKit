@@ -1,5 +1,7 @@
 //该类由 [Zero → 自动生成代码 → Assets资源名生成] 工具自动创建
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace Zero
 {
@@ -8,6 +10,32 @@ namespace Zero
     /// </summary>
     public sealed class AB
     {
+        private static readonly Dictionary<string, string> AssetName2PathDict = new Dictionary<string, string>();
+	    
+	    static AB()
+	    {
+		    var fields = typeof(AB).GetFields(BindingFlags.Public | BindingFlags.Static);
+		    foreach (var field in fields)
+		    {
+			    if (field.IsLiteral && !field.IsInitOnly)
+			    {
+				    var path = (string)field.GetValue(null);
+				    var fileName = Path.GetFileName(path).ToLower();
+				    AssetName2PathDict.TryAdd(fileName, path);
+			    }
+		    }
+	    }
+	    
+	    /// <summary>
+	    /// 通过资源文件名，获取资源的路径
+	    /// </summary>
+	    /// <param name="assetName"></param>
+	    /// <returns></returns>
+	    public static string GetAssetPath(string assetName)
+	    {
+		    return AssetName2PathDict.GetValueOrDefault(assetName.ToLower());
+	    }        
+        
 		/// <summary>
 		/// @Resources根目录下资源
 		/// </summary>
@@ -43,6 +71,26 @@ namespace Zero
 			public const string Scene0_unity_assetPath = "scenes/Scene0.unity";
 			public const string Scene1_unity = "Scene1.unity";
 			public const string Scene1_unity_assetPath = "scenes/Scene1.unity";            
+		}
+
+		public sealed class SPRITEATLAS
+		{
+			public const string NAME = "spriteatlas.ab";
+
+			public const string examples_art_gui_spriteatlas = "examples_art_gui.spriteatlas";
+			public const string examples_art_gui_spriteatlas_assetPath = "spriteatlas/examples_art_gui.spriteatlas";
+			public const string examples_knight_skins_ui_spriteatlas = "examples_knight_skins_ui.spriteatlas";
+			public const string examples_knight_skins_ui_spriteatlas_assetPath = "spriteatlas/examples_knight_skins_ui.spriteatlas";
+			public const string examples_roushan_spriteatlas = "examples_roushan.spriteatlas";
+			public const string examples_roushan_spriteatlas_assetPath = "spriteatlas/examples_roushan.spriteatlas";
+			public const string examples_sokoban_imgs_effects_spriteatlas = "examples_sokoban_imgs_effects.spriteatlas";
+			public const string examples_sokoban_imgs_effects_spriteatlas_assetPath = "spriteatlas/examples_sokoban_imgs_effects.spriteatlas";
+			public const string examples_sokoban_imgs_map_spriteatlas = "examples_sokoban_imgs_map.spriteatlas";
+			public const string examples_sokoban_imgs_map_spriteatlas_assetPath = "spriteatlas/examples_sokoban_imgs_map.spriteatlas";
+			public const string examples_sokoban_imgs_role_spriteatlas = "examples_sokoban_imgs_role.spriteatlas";
+			public const string examples_sokoban_imgs_role_spriteatlas_assetPath = "spriteatlas/examples_sokoban_imgs_role.spriteatlas";
+			public const string examples_sokoban_imgs_ui_spriteatlas = "examples_sokoban_imgs_ui.spriteatlas";
+			public const string examples_sokoban_imgs_ui_spriteatlas_assetPath = "spriteatlas/examples_sokoban_imgs_ui.spriteatlas";            
 		}
 
 		public sealed class TEST
@@ -755,6 +803,13 @@ namespace Zero
 		public const string MainStartupPanel_prefab = "examples/MainStartupPanel.prefab";
 		public const string Scene0_unity = "scenes/Scene0.unity";
 		public const string Scene1_unity = "scenes/Scene1.unity";
+		public const string examples_art_gui_spriteatlas = "spriteatlas/examples_art_gui.spriteatlas";
+		public const string examples_knight_skins_ui_spriteatlas = "spriteatlas/examples_knight_skins_ui.spriteatlas";
+		public const string examples_roushan_spriteatlas = "spriteatlas/examples_roushan.spriteatlas";
+		public const string examples_sokoban_imgs_effects_spriteatlas = "spriteatlas/examples_sokoban_imgs_effects.spriteatlas";
+		public const string examples_sokoban_imgs_map_spriteatlas = "spriteatlas/examples_sokoban_imgs_map.spriteatlas";
+		public const string examples_sokoban_imgs_role_spriteatlas = "spriteatlas/examples_sokoban_imgs_role.spriteatlas";
+		public const string examples_sokoban_imgs_ui_spriteatlas = "spriteatlas/examples_sokoban_imgs_ui.spriteatlas";
 		public const string test_json = "configs/tests/test.json";
 		public const string click_mp3 = "examples/audios/click.mp3";
 		public const string effect_0_mp3 = "examples/audios/effect_0.mp3";

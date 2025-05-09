@@ -1,5 +1,7 @@
 ﻿//该类由 [Zero → 自动生成代码 → Assets资源名生成] 工具自动创建
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace Zero
 {
@@ -7,7 +9,33 @@ namespace Zero
     /// [自动生成的]AssetBundle数据
     /// </summary>
     public sealed class [CLASS NAME]
-    {[CLASS LIST]
+    {
+        private static readonly Dictionary<string, string> AssetName2PathDict = new Dictionary<string, string>();
+	    
+	    static AB()
+	    {
+		    var fields = typeof(AB).GetFields(BindingFlags.Public | BindingFlags.Static);
+		    foreach (var field in fields)
+		    {
+			    if (field.IsLiteral && !field.IsInitOnly)
+			    {
+				    var path = (string)field.GetValue(null);
+				    var fileName = Path.GetFileName(path).ToLower();
+				    AssetName2PathDict.TryAdd(fileName, path);
+			    }
+		    }
+	    }
+	    
+	    /// <summary>
+	    /// 通过资源文件名，获取资源的路径
+	    /// </summary>
+	    /// <param name="assetName"></param>
+	    /// <returns></returns>
+	    public static string GetAssetPath(string assetName)
+	    {
+		    return AssetName2PathDict.GetValueOrDefault(assetName.ToLower());
+	    }        
+        [CLASS LIST]
         /// <summary>
         /// 创建视图的AssetBundle查找表（多个视图同名的话，则表中没有该视图的记录，因为不精确）
         /// </summary>
