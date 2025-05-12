@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.U2D;
+using Object = UnityEngine.Object;
 
 namespace ZeroEditor
 {
@@ -14,7 +15,7 @@ namespace ZeroEditor
     /// SpriteAtlasTools辅助工具
     /// 关联类: SpriteAtlasExtensions,SpriteAtlas    
     /// </summary>
-    class SpriteAtlasToolsUtility
+    static class SpriteAtlasToolsUtility
     {
         public static event Action onAddSpriteAtlas;
 
@@ -22,7 +23,23 @@ namespace ZeroEditor
 
         public const string CONFIG_NAME = "sprite_atlas_tools_config.json";
 
-        static public string GenerateSpriteAtlasNameByPath(string path)
+        /// <summary>
+        /// 是否使用的是SpriteAtlasV2模式
+        /// </summary>
+        public static bool IsSpriteAtlasV2Mode => EditorSettings.spritePackerMode == SpritePackerMode.SpriteAtlasV2;
+
+        /// <summary>
+        /// 默认的纹理集设置
+        /// </summary>
+        private static readonly SpriteAtlasPackingSettings DefaultPackingSettings = new SpriteAtlasPackingSettings()
+        {
+            enableRotation = false,
+            enableTightPacking = false,
+            padding = 2,
+        };
+
+
+        public static string GenerateSpriteAtlasNameByPath(string path)
         {
             if (!Directory.Exists(path))
             {
@@ -34,7 +51,14 @@ namespace ZeroEditor
             path = FileUtility.StandardizeBackslashSeparator(path);
             path = path.Remove(0, ROOT_DIR.Length);
             var name = path.Replace("/", "_").ToLower();
-            return name + ".spriteatlas";
+
+            var ext = ".spriteatlas";
+            if (IsSpriteAtlasV2Mode)
+            {
+                ext += "v2";
+            }
+
+            return name + ext;
         }
 
         /// <summary>
@@ -45,9 +69,9 @@ namespace ZeroEditor
         static public void AddSpriteAtlas(string texturesDirPath, bool isSubDirSplit)
         {
             var cfg = EditorConfigUtil.LoadConfig<SpriteAtlasToolsConfigVO>(CONFIG_NAME);
-            foreach(var item in cfg.itemList)
+            foreach (var item in cfg.itemList)
             {
-                if(item.texturesDirPath == texturesDirPath)
+                if (item.texturesDirPath == texturesDirPath)
                 {
                     Debug.Log("失败：添加到SpriteAtlas配置的目录已存在");
                     return;
@@ -78,14 +102,17 @@ namespace ZeroEditor
                 EditorUtility.DisplayProgressBar("进度", "spriteatlas文件构建中...", 0);
                 BuildSpriteAtlas(cfg.spriteAtlasSaveDirPath, item, cfg.packingTextureWidthLimit, cfg.packingTextureHeightLimit);
             }
+
             EditorUtility.ClearProgressBar();
 
             onBuildAll?.Invoke();
         }
 
-        static public void BuildSpriteAtlas(string spriteAtlasDir, SpriteAtlasToolsConfigVO.SpriteAtlasItemVO vo, int limiteWidth, int limitHeight)
+        public static void BuildSpriteAtlas(string spriteAtlasDir, SpriteAtlasToolsConfigVO.SpriteAtlasItemVO vo, int limiteWidth, int limitHeight)
         {
             CreateOrUpdateSpriteAtlas(spriteAtlasDir, vo.texturesDirPath, vo.isSubDirSplit, limiteWidth, limitHeight);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         static void CreateOrUpdateSpriteAtlas(string spriteAtlasDir, string texturesDirPath, bool isSubDirSplit, int limiteWidth, int limitHeight)
@@ -97,7 +124,7 @@ namespace ZeroEditor
             {
                 files = Directory.GetFiles(texturesDirPath);
                 var dirs = Directory.GetDirectories(texturesDirPath);
-                foreach(var dir in dirs)
+                foreach (var dir in dirs)
                 {
                     //是文件夹，拆开创建子spriteatlas
                     CreateOrUpdateSpriteAtlas(spriteAtlasDir, dir, isSubDirSplit, limiteWidth, limitHeight);
@@ -106,7 +133,7 @@ namespace ZeroEditor
             else
             {
                 files = Directory.GetFiles(texturesDirPath, "*", SearchOption.AllDirectories);
-            }                     
+            }
 
             var spriteList = new List<Sprite>();
             foreach (var file in files)
@@ -118,50 +145,86 @@ namespace ZeroEditor
                 }
 
                 //尺寸限制
-                if(sprite.texture.width >= limiteWidth || sprite.texture.height >= limitHeight)
+                if (sprite.texture.width >= limiteWidth || sprite.texture.height >= limitHeight)
                 {
                     continue;
-                }                
-                
+                }
+
                 spriteList.Add(sprite);
             }
 
-            //只有纹理数量大于1的时候，才需要构建纹理集
-            bool isNeedCreateAtlas = spriteList.Count > 1 ? true : false;
+            try
+            {
+                if (IsSpriteAtlasV2Mode)
+                {
+                    TryUpdateSpriteAtlasV2(filePath, spriteList.ToArray());
+                }
+                else
+                {
+                    TryUpdateSpriteAtlasV1(filePath, spriteList.ToArray());
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[SpriteAtlas] 失败: {filePath}");
+                Debug.LogError(e);
+            }
+        }
+
+        /// <summary>
+        /// 尝试更新SpriteAtlasV1
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="sprites"></param>
+        static void TryUpdateSpriteAtlasV1(string filePath, Object[] sprites)
+        {
+            if (null == sprites || 0 == sprites.Length)
+            {
+                return;
+            }
 
             var sa = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(filePath);
             if (null == sa)
             {
-                if (false == isNeedCreateAtlas)
-                {
-                    //SpriteAtlas还未创建，列表又是空的，就不创建了。
-                    //PS:已创建的不删除，是可能有自定义的配置，需要保留
-                    return;
-                }
-
-                var dirPath = Path.GetDirectoryName(filePath);
-                if (!Directory.Exists(dirPath))
-                {
-                    Directory.CreateDirectory(dirPath);
-                }
-
-                var packingSettings = new SpriteAtlasPackingSettings();
-                packingSettings.enableRotation = false;
-                packingSettings.enableTightPacking = false;
-                packingSettings.padding = 2;
-
-                sa = new SpriteAtlas();                
-                sa.SetPackingSettings(packingSettings);
+                sa = new SpriteAtlas();
+                sa.SetPackingSettings(DefaultPackingSettings);
                 AssetDatabase.CreateAsset(sa, filePath);
             }
 
             var oldSpriteList = sa.GetPackables();
             sa.Remove(oldSpriteList);
-            sa.Add(spriteList.ToArray());
-
-            AssetDatabase.SaveAssets();
+            sa.Add(sprites);
         }
 
+        /// <summary>
+        /// 尝试更新SpriteAtlasV2
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="sprites"></param>
+        static void TryUpdateSpriteAtlasV2(string filePath, Object[] sprites)
+        {
+            if (0 == sprites.Length)
+            {
+                return;
+            }
+
+            SpriteAtlasAsset saa = SpriteAtlasAsset.Load(filePath);
+            if (null == saa)
+            {
+                saa = new SpriteAtlasAsset();
+                saa.SetPackingSettings(DefaultPackingSettings);
+            }
+            else
+            {
+                var sa = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(filePath);
+                var oldSpriteList = sa.GetPackables();
+                saa.Remove(oldSpriteList);
+            }
+
+            saa.Add(sprites);
+
+            SpriteAtlasAsset.Save(saa, filePath);
+        }
 
         /// <summary>
         /// 刷新预览
@@ -170,10 +233,10 @@ namespace ZeroEditor
         {
             var list = new List<SpriteAtlas>();
             var files = Directory.GetFiles(spriteAtlasDir);
-            foreach(var file in files)
+            foreach (var file in files)
             {
-               var sa = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(file);
-                if(sa != null)
+                var sa = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(file);
+                if (sa != null)
                 {
                     list.Add(sa);
                 }

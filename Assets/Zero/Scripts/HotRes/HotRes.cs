@@ -254,7 +254,7 @@ namespace Zero
             var path = GetStreamingAssetsPath(resPath);
             return StreamingAssetsUtility.CheckFileExist(path);
         }
-        
+
         /// <summary>
         /// 检查热更目录是否存在文件
         /// </summary>
@@ -332,6 +332,39 @@ namespace Zero
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// 检查资源是否有更新
+        /// </summary>
+        /// <param name="resPath"></param>
+        /// <returns></returns>
+        public static bool CheckUpdateEnable(string resPath)
+        {
+            bool isUpdateEnable = false;
+            if (Runtime.Ins.IsHotResEnable)
+            {
+                string localVer = Runtime.Ins.localResVer.GetVer(resPath);
+                var newVer = Runtime.Ins.netResVer.GetVer(resPath);
+                if (localVer != newVer)
+                {
+                    isUpdateEnable = true;
+                }
+            }
+
+            return isUpdateEnable;
+        }
+
+        /// <summary>
+        /// 更新资源
+        /// </summary>
+        /// <param name="resPath"></param>
+        /// <returns>错误码： null表示更新成功</returns>
+        public static async UniTask<string> Update(string resPath, BaseUpdater.UpdateProgress onProgress = null)
+        {
+            var updater = new HotResUpdater(resPath);
+            string errInfo = await updater.StartAsync(onProgress);
+            return errInfo;
         }
     }
 }
