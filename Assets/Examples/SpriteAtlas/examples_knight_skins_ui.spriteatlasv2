@@ -1,13 +1,14 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!687078895 &4343727234628468602
-SpriteAtlas:
+--- !u!612988286 &1
+SpriteAtlasAsset:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: examples_knight_skins_ui
-  m_EditorData:
+  m_Name: 
+  m_MasterAtlas: {fileID: 0}
+  m_ImporterData:
     serializedVersion: 2
     textureSettings:
       serializedVersion: 2
@@ -52,49 +53,6 @@ SpriteAtlas:
     - {fileID: 21300000, guid: 1fd77d04bbce78d488b671a90b93eeeb, type: 3}
     - {fileID: 21300000, guid: 98e731c47029fbd4cafc730e5c5e0a54, type: 3}
     bindAsDefault: 1
-    isAtlasV2: 0
+    isAtlasV2: 1
     cachedData: {fileID: 0}
-  m_MasterAtlas: {fileID: 0}
-  m_PackedSprites:
-  - {fileID: 21300000, guid: 7e9bbe409e9f27d4fac88c3d921d2cd5, type: 3}
-  - {fileID: 21300000, guid: 57a81621d1f525649b503a783d1a27c7, type: 3}
-  - {fileID: 21300000, guid: 66c47df2e67c15146addaf3c31bee34c, type: 3}
-  - {fileID: 21300000, guid: e2e94283b37987c4da2559475d2c253f, type: 3}
-  - {fileID: 21300000, guid: 1fd77d04bbce78d488b671a90b93eeeb, type: 3}
-  - {fileID: 21300000, guid: 98e731c47029fbd4cafc730e5c5e0a54, type: 3}
-  - {fileID: 21300000, guid: 81d706d491ad07847886c1290feaa786, type: 3}
-  - {fileID: 21300000, guid: 9427c3f5857d6ea43bc23b8a51f2e528, type: 3}
-  - {fileID: 21300000, guid: 43273bf5290b1f14d8442fcd1cf3950d, type: 3}
-  - {fileID: 21300000, guid: 00ecdb16351c39141a13ffc107a59098, type: 3}
-  - {fileID: 21300000, guid: a5f9a0362d9e79647af937cca6361d07, type: 3}
-  - {fileID: 21300000, guid: 8fef2bf89e2cb7a4ca29dd71ca50e808, type: 3}
-  - {fileID: 21300000, guid: a5dba5a996ec8e241905db5b01e728bf, type: 3}
-  - {fileID: 21300000, guid: 13e74a3a236ec1645a8d19c8102f9b98, type: 3}
-  - {fileID: 21300000, guid: 70d95c0bbe1b60f49abd5f43cee6ba42, type: 3}
-  - {fileID: 21300000, guid: 635f1f2bac8e20e4dbc86f245dae5dc9, type: 3}
-  - {fileID: 21300000, guid: aa5f3f4be2841fe47a5fe42bd75647fc, type: 3}
-  - {fileID: 21300000, guid: fd54062da5ee13c45b2b8920ff585efc, type: 3}
-  - {fileID: 21300000, guid: e9f50fcee105ed642b36874d50588063, type: 3}
-  m_PackedSpriteNamesToIndex:
-  - LoadingBar_Fill_Green
-  - c_header_close
-  - Button_Large_Foreground
-  - RadioToggle_Checkmark
-  - TextField_Focused
-  - Window_Header
-  - m_action_frame_inner_shield
-  - Window_Button_Foreground_Green
-  - m_controller_inner
-  - uf3_fill_red
-  - c_header_close-HOVER
-  - Button_Large_Background
-  - c_header_close-PUSH
-  - uf3_frame
-  - RadioToggle_Background_Hovered
-  - tgb_menu_button_settings
-  - m_action_frame_inner_sword
-  - LoadingBar_Background
-  - m_controller_frame
-  m_RenderDataMap: {}
-  m_Tag: examples_knight_skins_ui
   m_IsVariant: 0
