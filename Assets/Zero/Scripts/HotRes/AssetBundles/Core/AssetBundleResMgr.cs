@@ -168,8 +168,7 @@ namespace Zero
             return ab;
         }
 
-        public override void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded,
-            Action<float> onProgress = null)
+        public override void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
         {
             AssetBundle ab = TryLoadAssetBundle(abName);
             LoadAsync<UnityEngine.Object>(ab, assetName, onLoaded, onProgress);
@@ -213,7 +212,7 @@ namespace Zero
                 Debug.LogError(e);
             }
         }
-        
+
         // IEnumerator LoadAsync<T>(AssetBundle ab, string assetName, Action<T> onLoaded, Action<float> onProgress)
         //     where T : UnityEngine.Object
         // {

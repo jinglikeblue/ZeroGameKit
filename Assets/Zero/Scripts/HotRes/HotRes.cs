@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -13,6 +12,7 @@ namespace Zero
     /// <summary>
     /// 热更资源文件操作类
     /// </summary>
+    [Obsolete("请使用Zero.Res类")]
     public static class HotRes
     {
         /// <summary>

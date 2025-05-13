@@ -15,6 +15,7 @@ namespace Zero
     /// 热更Files管理工具。
     /// 所有传入的路径，都应该是相对于files热更目录下的相对路径。
     /// </summary>
+    [Obsolete("请使用Zero.Res类")]
     public static class HotFilesMgr
     {
         public static byte[] LoadBytes(string path)
