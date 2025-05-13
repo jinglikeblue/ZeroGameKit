@@ -11,10 +11,14 @@ using UnityEngine.Networking;
 namespace Zero
 {
     /// <summary>
-    /// 资源
+    /// 资源操作类。
+    /// 资源路径格式和res.json中保存的一致。
     /// </summary>
     public static class Res
     {
+        /// <summary>
+        /// 异步操作进度委托
+        /// </summary>
         public delegate void ProgressDelegate(float progress);
 
         ///  <summary>
