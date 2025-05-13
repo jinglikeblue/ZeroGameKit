@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -341,14 +342,26 @@ namespace Zero
         /// <returns></returns>
         public static bool CheckUpdateEnable(string resPath)
         {
-            bool isUpdateEnable = false;
-            if (Runtime.Ins.IsHotResEnable)
+            if (!Runtime.Ins.IsHotResEnable)
             {
-                string localVer = Runtime.Ins.localResVer.GetVer(resPath);
-                var newVer = Runtime.Ins.netResVer.GetVer(resPath);
-                if (localVer != newVer)
+                return false;
+            }
+
+            var isUpdateEnable = CheckHasNewNetVersion(resPath);
+            if (false == isUpdateEnable)
+            {
+                //如果是AB，还要查依赖是否需要更新
+                if (resPath.EndsWith(ZeroConst.AB_EXTENSION))
                 {
-                    isUpdateEnable = true;
+                    var abdepends = ResMgr.GetDepends(ResMgr.RemoveRootFolder(resPath));
+                    foreach (var ab in abdepends)
+                    {
+                        isUpdateEnable = CheckHasNewNetVersion(ResMgr.AddRootFolder(ab));
+                        if (isUpdateEnable)
+                        {
+                            break;
+                        }
+                    }
                 }
             }
 
@@ -356,13 +369,40 @@ namespace Zero
         }
 
         /// <summary>
+        /// 检查文件是否有新的网络版本
+        /// </summary>
+        /// <param name="resPath"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool CheckHasNewNetVersion(string resPath)
+        {
+            string localVer = Runtime.Ins.localResVer.GetVer(resPath);
+            var newVer = Runtime.Ins.netResVer.GetVer(resPath);
+            return localVer != newVer;
+        }
+
+        /// <summary>
         /// 更新资源
         /// </summary>
         /// <param name="resPath"></param>
+        /// <param name="onProgress"></param>
         /// <returns>错误码： null表示更新成功</returns>
         public static async UniTask<string> Update(string resPath, BaseUpdater.UpdateProgress onProgress = null)
         {
             var updater = new HotResUpdater(resPath);
+            string errInfo = await updater.StartAsync(onProgress);
+            return errInfo;
+        }
+
+        /// <summary>
+        /// 更新资源组
+        /// </summary>
+        /// <param name="groups"></param>
+        /// <param name="onProgress"></param>
+        /// <returns></returns>
+        public static async UniTask<string> UpdateGroup(string[] groups, BaseUpdater.UpdateProgress onProgress = null)
+        {
+            var updater = new HotResUpdater(groups);
             string errInfo = await updater.StartAsync(onProgress);
             return errInfo;
         }

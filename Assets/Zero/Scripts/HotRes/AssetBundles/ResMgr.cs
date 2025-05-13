@@ -1,6 +1,7 @@
 ﻿using Jing;
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -377,6 +378,54 @@ namespace Zero
 
             var originalAssetPath = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, assetPath);
             return originalAssetPath;
+        }
+
+        /// <summary>
+        /// 通过资源原始路径获取
+        /// </summary>
+        /// <param name="originalAssetPath"></param>
+        /// <returns></returns>
+        public static string GetAssetPathFromOriginal(string originalAssetPath)
+        {
+            if (!originalAssetPath.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
+            {
+                return originalAssetPath;
+            }
+
+            var assetPath = originalAssetPath.Substring(ZeroConst.HOT_RESOURCES_ROOT_DIR.Length + 1);
+            return assetPath;
+        }
+
+        /// <summary>
+        /// 添加AB资源根目录
+        /// </summary>
+        /// <param name="resPath"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string AddRootFolder(string resPath)
+        {
+            if (!resPath.StartsWith(ZeroConst.AB_DIR_NAME))
+            {
+                resPath = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, resPath);
+            }
+
+            return resPath;
+        }
+
+        /// <summary>
+        /// 移除AB资源根目录
+        /// </summary>
+        /// <param name="resPath"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string RemoveRootFolder(string resPath)
+        {
+            if (resPath.StartsWith(ZeroConst.AB_DIR_NAME))
+            {
+                resPath = resPath.Substring(ZeroConst.AB_DIR_NAME.Length + 1);
+            }
+
+            return resPath;
         }
     }
 }

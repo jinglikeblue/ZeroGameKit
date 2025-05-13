@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Jing;
 using UnityEngine;
 using UnityEngine.UI;
-using Zero;
 using Zero;
 
 namespace ZeroGameKit
@@ -17,24 +16,20 @@ namespace ZeroGameKit
 
         string[] startupRes = new string[] { "/" };
 
-        protected override void OnInit(object data)
+        protected override async void OnInit(object data)
         {
+            HotRes.CheckUpdateEnable(FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, AB.EXAMPLES_MENUS.NAME));
+            
             OnUpdaterProgress(0, 1);
-            HotResUpdater updater = new HotResUpdater(startupRes);
-            updater.onComplete += OnUpdaterComplete;
-            updater.onProgress += OnUpdaterProgress;
-            updater.Start();            
-        }
-
-        private void OnUpdaterComplete(BaseUpdater updater)
-        {
-            if(updater.error != null)
+            
+            var err = await HotRes.UpdateGroup(startupRes, OnUpdaterProgress);
+            if (string.IsNullOrEmpty(err))
             {
-                textState.text = updater.error;
+                Enter();
             }
             else
             {
-                Enter();
+                textState.text = err;
             }
         }
 

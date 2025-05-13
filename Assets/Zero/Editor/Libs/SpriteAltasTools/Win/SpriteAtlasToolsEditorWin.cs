@@ -149,7 +149,8 @@ namespace ZeroEditor
         [PropertyOrder(31)]
         void PackPreviewAll()
         {
-            SpriteAtlasToolsUtility.PackPreview(spriteAtlasSaveDirPath);
+            UnityEditor.U2D.SpriteAtlasUtility.PackAllAtlases(EditorUserBuildSettings.activeBuildTarget);    
+            // SpriteAtlasToolsUtility.PackPreview(spriteAtlasSaveDirPath);
         }
 
         public struct SpriteAtlasItemEditor
