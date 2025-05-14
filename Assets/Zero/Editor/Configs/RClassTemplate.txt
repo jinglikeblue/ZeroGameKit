@@ -11,16 +11,20 @@ namespace Zero
     /// </summary>
     public static class [CLASS NAME]
     {   
-        #region @Files
-        [FIELD LIST]
-
-        #endregion
-
-        #region AssetBundle文件
-        [FIELD LIST]
-
-        #endregion
+        /// <summary>
+        /// @Files下的资源
+        /// </summary>
+        public class F
+        {[FIELD LIST]
+        }
+        
+        /// <summary>
+        /// @Resources下的资源
+        /// </summary>
+        public class A
+        {[FIELD LIST]
+        }
     }    
 }
 ------------------------------Split--------------------------------
-        public const string [FIELD NAME] = "[FIELD VALUE]";
+            public const string [FIELD NAME] = "[FIELD VALUE]";

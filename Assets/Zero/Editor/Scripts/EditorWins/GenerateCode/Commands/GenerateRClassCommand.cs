@@ -57,7 +57,7 @@ namespace ZeroEditor
 
             foreach (var key in keys)
             {
-                var fieldName = key.ToLower();
+                var fieldName = key;
                 var fieldValue = mapping.GetValue(key);
                 sb.Append(GenerateField(fieldName, fieldValue));
             }
