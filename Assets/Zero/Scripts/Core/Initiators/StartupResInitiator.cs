@@ -27,7 +27,7 @@ namespace Zero
                     err = await new ResJsonUpdater().StartAsync();
                     if (!string.IsNullOrEmpty(err)) break;
 
-                    string jsonStr = await HotRes.LoadString(ZeroConst.RES_JSON_FILE_NAME);
+                    string jsonStr = await Res.LoadAsync<string>(ZeroConst.RES_JSON_FILE_NAME);
                     ResVerVO vo = Json.ToObject<ResVerVO>(jsonStr);
                     Runtime.Ins.netResVer = new ResVerModel(vo);
 

@@ -43,7 +43,7 @@ namespace Zero
                 }
             }
 
-            var settingJsonString = await HotRes.LoadString(ZeroConst.SETTING_FILE_NAME);
+            var settingJsonString = await Res.LoadAsync<string>(ZeroConst.SETTING_FILE_NAME);
             if (null == settingJsonString)
             {
                 return $"[Zero][SettingJsonInitiator] setting.json不存在！";

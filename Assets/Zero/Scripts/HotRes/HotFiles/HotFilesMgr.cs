@@ -8,6 +8,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 using Zero;
+using Zero.Obsolete;
 
 namespace Zero
 {

@@ -7,7 +7,7 @@ using Cysharp.Threading.Tasks;
 using Jing;
 using UnityEngine.Networking;
 
-namespace Zero
+namespace Zero.Obsolete
 {
     /// <summary>
     /// 热更资源文件操作类

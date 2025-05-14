@@ -18,11 +18,13 @@ namespace ZeroGameKit
 
         protected override async void OnInit(object data)
         {
-            HotRes.CheckUpdateEnable(FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, AB.EXAMPLES_MENUS.NAME));
+            var fuck = await Res.LoadAsync<GameObject>(AB.A_prefab);
+            var c = await Res.LoadAsync<byte[]>("files/" + HotFiles.PICS_SCREENSHOTS_DEMO_0_PNG);
+            var d = Res.CheckUpdate(FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, AB.EXAMPLES_MENUS.NAME));
             
-            OnUpdaterProgress(0, 1);
+            OnUpdaterProgress(0, 0,1);
             
-            var err = await HotRes.UpdateGroup(startupRes, OnUpdaterProgress);
+            var err = await Res.UpdateGroup(startupRes, OnUpdaterProgress);
             if (string.IsNullOrEmpty(err))
             {
                 Enter();
@@ -33,12 +35,11 @@ namespace ZeroGameKit
             }
         }
 
-        private void OnUpdaterProgress(long loadedSize, long totalSize)
+        private void OnUpdaterProgress(float progress, long loadedSize, long totalSize)
         {
             //转换为MB
             float totalMB = totalSize / 1024 / 1024f;
             float loadedMB = loadedSize / 1024 / 1024f;
-            float progress = loadedMB / totalMB;
             textProgress.text = string.Format("{0}% [{1}MB/{2}MB]", (int)(progress * 100f), loadedMB.ToString("0.00"), totalMB.ToString("0.00"));
             bar.fillAmount = progress;
         }

@@ -38,9 +38,9 @@ namespace Zero
             Setting = await LoadJson<SettingVO>(ZeroConst.SETTING_FILE_NAME);
             ResVer = await LoadJson<ResVerVO>(ZeroConst.RES_JSON_FILE_NAME);
             var dllPath = FileUtility.CombinePaths(ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".dll");
-            DllBytes = await HotRes.LoadFromStreamingAssets(dllPath);
+            DllBytes = await Res.LoadFromStreamingAssetsAsync(dllPath);
             var pdbPath = FileUtility.CombinePaths(ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".pdb");
-            PdbBytes = await HotRes.LoadFromStreamingAssets(pdbPath);
+            PdbBytes = await Res.LoadFromStreamingAssetsAsync(pdbPath);
 
             Debug.Log(LogColor.Zero2($"[Zero][Initiator] 内嵌资源[{ZeroConst.SETTING_FILE_NAME}]是否存在: {IsBuiltinSettingExist} "));
             Debug.Log(LogColor.Zero2($"[Zero][Initiator] 内嵌资源[{ZeroConst.RES_JSON_FILE_NAME}]是否存在: {IsBuiltinResVerExist} "));
@@ -52,7 +52,7 @@ namespace Zero
 
         async UniTask<T> LoadJson<T>(string path)
         {
-            var bytes = await HotRes.LoadFromStreamingAssets(path);
+            var bytes = await Res.LoadFromStreamingAssetsAsync(path);
             if (null == bytes)
             {
                 return default;

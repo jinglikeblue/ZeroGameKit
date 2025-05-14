@@ -210,6 +210,7 @@ namespace Zero
             catch (Exception e)
             {
                 Debug.LogError(e);
+                onLoaded?.Invoke(null);
             }
         }
 

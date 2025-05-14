@@ -19,7 +19,7 @@ namespace Zero
         /// <summary>
         /// 异步操作进度委托
         /// </summary>
-        public delegate void ProgressDelegate(float progress);
+        public delegate void ProgressDelegate(float progress, long loadedSize, long totalSize);
 
         ///  <summary>
         /// 检查资源是否有更新
@@ -50,6 +50,70 @@ namespace Zero
             }
 
             return isUpdateEnable;
+        }
+
+        /// <summary>
+        /// 异步更新资源
+        /// </summary>
+        /// <param name="resPath"></param>
+        /// <param name="onProgress"></param>
+        /// <returns>错误码： null表示更新成功</returns>
+        public static async UniTask<string> Update(string resPath, ProgressDelegate onProgress = null)
+        {
+            var updater = new HotResUpdater(resPath);
+            string errInfo = await updater.StartAsync((loaded, total) => { onProgress?.Invoke(CalculateProgress(loaded, total), loaded, total); });
+            return errInfo;
+        }
+
+        /// <summary>
+        /// 异步更新资源组
+        /// </summary>
+        /// <param name="groups"></param>
+        /// <param name="onProgress"></param>
+        /// <returns></returns>
+        public static async UniTask<string> UpdateGroup(string[] groups, ProgressDelegate onProgress = null)
+        {
+            var updater = new HotResUpdater(groups);
+            string errInfo = await updater.StartAsync((loaded, total) => { onProgress?.Invoke(CalculateProgress(loaded, total), loaded, total); });
+            return errInfo;
+        }
+
+        /// <summary>
+        /// 计算进度
+        /// </summary>
+        /// <param name="loadedSize"></param>
+        /// <param name="totalSize"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static float CalculateProgress(long loadedSize, long totalSize)
+        {
+            if (loadedSize < 0 || totalSize <= 0)
+            {
+                return 0;
+            }
+
+            var dProgress = (double)loadedSize / totalSize;
+            var progress = Math.Clamp((float)dProgress, 0, 1);
+            return progress;
+        }
+
+        /// <summary>
+        /// 计算已加载大小
+        /// </summary>
+        /// <param name="progress"></param>
+        /// <param name="totalSize"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static long CalculateLoadedSize(float progress, long totalSize)
+        {
+            if (progress < 0 || totalSize <= 0)
+            {
+                return 0;
+            }
+
+            var loaded = (double)progress * totalSize;
+            var loadedSize = Math.Clamp((long)loaded, 0, totalSize);
+            return loadedSize;
         }
 
         /// <summary>
@@ -295,7 +359,7 @@ namespace Zero
             //Unity Asset
             if (typeof(T).IsSubclassOf(typeof(UnityEngine.Object)))
             {
-                var asset = await ResMgr.LoadAsync(path, null, f => onProgress?.Invoke(f));
+                var asset = await ResMgr.LoadAsync(path, null, f => onProgress?.Invoke(f, CalculateLoadedSize(f, 100), 100));
                 return asset as T;
             }
 
@@ -344,7 +408,7 @@ namespace Zero
         /// <returns></returns>
         private static async UniTask<byte[]> LoadBytesAsync(string path, ProgressDelegate onProgress = null, CancellationToken cancellationToken = default)
         {
-            onProgress?.Invoke(0);
+            onProgress?.Invoke(0, 0, 100);
 
             byte[] bytes = null;
 
@@ -367,7 +431,7 @@ namespace Zero
                 bytes = await LoadFromStreamingAssetsAsync(path, onProgress, cancellationToken);
             }
 
-            onProgress?.Invoke(1);
+            onProgress?.Invoke(1, 100, 100);
             return bytes;
         }
 
@@ -420,7 +484,7 @@ namespace Zero
         /// <param name="onProgress"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        private static byte[] LoadFromStreamingAssets(string path)
+        public static byte[] LoadFromStreamingAssets(string path)
         {
             path = GetStreamingAssetsPath(path);
             using var uwr = UnityWebRequest.Get(path);
@@ -447,7 +511,7 @@ namespace Zero
         /// <param name="onProgress"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        private static async UniTask<byte[]> LoadFromStreamingAssetsAsync(string path, ProgressDelegate onProgress = null, CancellationToken cancellationToken = default)
+        public static async UniTask<byte[]> LoadFromStreamingAssetsAsync(string path, ProgressDelegate onProgress = null, CancellationToken cancellationToken = default)
         {
             path = GetStreamingAssetsPath(path);
             using var uwr = UnityWebRequest.Get(path);
@@ -460,7 +524,7 @@ namespace Zero
                     continue;
                 }
 
-                onProgress?.Invoke(uwr.downloadProgress);
+                onProgress?.Invoke(uwr.downloadProgress, CalculateLoadedSize(uwr.downloadProgress, 100), 100);
                 await UniTask.NextFrame();
             }
 
