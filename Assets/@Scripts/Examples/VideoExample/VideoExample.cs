@@ -27,7 +27,7 @@ namespace Example
         {
             base.OnInit(data);
             
-            var videoPath = HotFilesMgr.GetAbsolutePath("videos/Sample.mp4");
+            var videoPath = Res.AbsolutePath("videos/Sample.mp4");
             textPath.text = videoPath;
             content.OpenMedia(MediaPathType.AbsolutePathOrURL, videoPath, true);
 

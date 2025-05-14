@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 using Zero;
 using Zero.Obsolete;
 
-namespace Zero
+namespace Zero.Obsolete
 {
     /// <summary>
     /// 热更Files管理工具。

@@ -90,8 +90,8 @@ namespace Example
         private async void LoadPrivacyPolicy()
         {
             L($"加载 {HotFiles.PRIVACY_POLICY_TXT}");
-            L($"FullPath: {HotFilesMgr.GetAbsolutePath(HotFiles.PRIVACY_POLICY_TXT)}");
-            var text = await HotFilesMgr.LoadTextAsync(HotFiles.PRIVACY_POLICY_TXT);
+            L($"FullPath: {Res.AbsolutePath(HotFiles.PRIVACY_POLICY_TXT)}");
+            var text = await Res.LoadAsync<string>(HotFiles.PRIVACY_POLICY_TXT);
             if (null == text)
             {
                 L($"加载内容不存在: {HotFiles.PRIVACY_POLICY_TXT}");
@@ -104,8 +104,8 @@ namespace Example
 
         IEnumerator LoadBytes(string path)
         {
-            L($"FullPath: {HotFilesMgr.GetAbsolutePath(path)}");
-            var loader = HotFilesMgr.LoadBytesAsync(path);
+            L($"FullPath: {Res.AbsolutePath(path)}");
+            var loader = Res.LoadAsync<byte[]>(path);
             
             while (loader.Status == UniTaskStatus.Pending)
             {
