@@ -1,0 +1,26 @@
+﻿//该类由 [Zero → 自动生成代码 → Assets资源名生成] 工具通过模版文件「RClassTemplate.txt」自动创建
+using Jing;
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+namespace Zero
+{
+    /// <summary>
+    /// [自动生成的]资源路径
+    /// </summary>
+    public sealed class [CLASS NAME]
+    {   
+        #region @Files
+        [FIELD LIST]
+        #endregion
+
+        #region @Resources
+        [FIELD LIST]
+        #endregion
+    }    
+}
+------------------------------Split--------------------------------
+        public const string [FIELD NAME] = "[FIELD VALUE]";
+------------------------------Split--------------------------------
+            [FIELD NAME],

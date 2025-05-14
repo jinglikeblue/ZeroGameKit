@@ -16,6 +16,8 @@ namespace Zero
 
         public const string READ_ME_TXT = "read_me.txt";
 
+        public const string VIDEOS_PRIVACY_POLICY_TXT = "videos/privacy_policy.txt";
+
         public const string VIDEOS_SAMPLE_MP4 = "videos/Sample.mp4";
 
         public const string PICS_SCREENSHOTS_DEMO_0_PNG = "pics/ScreenShots/Demo_0.png";
@@ -36,6 +38,7 @@ namespace Zero
             
             PRIVACY_POLICY_TXT,
             READ_ME_TXT,
+            VIDEOS_PRIVACY_POLICY_TXT,
             VIDEOS_SAMPLE_MP4,
             PICS_SCREENSHOTS_DEMO_0_PNG,
             PICS_SCREENSHOTS_DEMO_1_PNG,
