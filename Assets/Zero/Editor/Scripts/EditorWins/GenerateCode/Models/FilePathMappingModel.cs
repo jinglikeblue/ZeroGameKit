@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Jing;
+using UnityEngine;
 using Zero;
 
 
@@ -77,7 +78,14 @@ namespace ZeroEditor
 
                 fileName = BaseGenerateTemplateCodeCommand.MakeFieldNameRightful(fileName);
 
-                _mappingDict.Add(fileName, path);
+                if (_mappingDict.ContainsKey(fileName))
+                {
+                    Debug.LogError($"重复文件名：({fileName})[{path}]");
+                }
+                else
+                {
+                    _mappingDict.Add(fileName, path);    
+                }
             }
         }
 

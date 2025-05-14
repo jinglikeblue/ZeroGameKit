@@ -51,7 +51,7 @@ namespace ZeroEditor
             var mapping = new FilePathMappingModel(files);
 
             var keys = mapping.GetKeys();
-            Array.Sort(keys);
+            // Array.Sort(keys);
 
             StringBuilder sb = new StringBuilder();
 
@@ -108,10 +108,25 @@ namespace ZeroEditor
 
         public static string[] FindAssetBundles()
         {
+            List<string> fileList = new List<string>();
+
             var cmd = new FindAssetBundlesCommand(false);
             cmd.Excute();
-            var list = cmd.list.Select(x => FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, x.assetbundle)).ToArray();
-            return list;
+            foreach (var item in cmd.list)
+            {
+                var abFile = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, item.assetbundle);
+                fileList.Add(abFile);
+
+                var folder = abFile.Replace(".ab", "");
+                foreach (var asset in item.assetList)
+                {
+                    var assetPath = FileUtility.CombinePaths(folder, asset);
+                    fileList.Add(assetPath);
+                }
+            }
+
+            fileList.Sort();
+            return fileList.ToArray();
         }
     }
 }
