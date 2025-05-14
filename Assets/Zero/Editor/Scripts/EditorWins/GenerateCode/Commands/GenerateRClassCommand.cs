@@ -27,7 +27,6 @@ namespace ZeroEditor
 
         string _mainClassT;
         string _fieldT;
-        string _fieldNameT;
         List<string> _fieldNameList;
 
         public override void Excute()
@@ -37,7 +36,6 @@ namespace ZeroEditor
             var template = File.ReadAllText(TEMPLATE_FILE).Split(new string[] { TEMPLATE_SPLIT }, StringSplitOptions.RemoveEmptyEntries);
             _mainClassT = template[0];
             _fieldT = template[1];
-            _fieldNameT = template[2];
 
             string classContent;
             var mainClassName = Path.GetFileNameWithoutExtension(OUTPUT_FILE);
@@ -112,7 +110,7 @@ namespace ZeroEditor
         {
             var cmd = new FindAssetBundlesCommand(false);
             cmd.Excute();
-            var list = cmd.list.Select(x => x.assetbundle).ToArray();
+            var list = cmd.list.Select(x => FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, x.assetbundle)).ToArray();
             return list;
         }
     }

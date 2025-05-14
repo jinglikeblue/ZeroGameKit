@@ -9,18 +9,18 @@ namespace Zero
     /// <summary>
     /// [自动生成的]资源路径
     /// </summary>
-    public sealed class [CLASS NAME]
+    public static class [CLASS NAME]
     {   
         #region @Files
         [FIELD LIST]
+
         #endregion
 
-        #region @Resources
+        #region AssetBundle文件
         [FIELD LIST]
+
         #endregion
     }    
 }
 ------------------------------Split--------------------------------
         public const string [FIELD NAME] = "[FIELD VALUE]";
-------------------------------Split--------------------------------
-            [FIELD NAME],
