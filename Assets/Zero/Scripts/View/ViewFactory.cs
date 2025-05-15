@@ -49,7 +49,7 @@ namespace Zero
             var attrs = type.GetCustomAttributes(_viewRegisterAttr, false);
             if (attrs.Length == 0)
             {
-                var prefabPath = R.GetPath(type.Name + ".prefab");
+                var prefabPath = R.GetPath(type.Name + ".prefab", R.EResType.Resource);
                 if (string.IsNullOrEmpty(prefabPath))
                 {
                     abName = null;
