@@ -89,7 +89,7 @@ public class RightClickEditorMenu
 
     #endregion
 
-    [MenuItem("Assets/Zero/生成资源名文件", false, 100)]
+    [MenuItem("Assets/Zero/生成资源常量类", false, 100)]
     static void GenerateAssetNames()
     {
         new GenerateRClassCommand().Excute();
@@ -101,6 +101,9 @@ public class RightClickEditorMenu
             AssetDatabase.Refresh();
 
             var tn = DateTime.Now - startTime;
+            
+            Debug.Log(LogColor.Zero1($"生成代码: {GenerateRClassCommand.OUTPUT_FILE}"));
+            Debug.Log(LogColor.Zero1($"生成代码: {GenerateABClassCommand.OUTPUT_FILE}"));
             Debug.Log(LogColor.Zero1($"生成完毕! 耗时:{(long)tn.TotalMilliseconds}ms"));
         };
         findCmd.Excute();
