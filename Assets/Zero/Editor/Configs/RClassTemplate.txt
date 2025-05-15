@@ -1,9 +1,8 @@
 ﻿//该类由 [Zero → 自动生成代码 → Assets资源名生成] 工具通过模版文件自动创建
 
-using Jing;
-using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace Zero
 {
@@ -12,6 +11,103 @@ namespace Zero
     /// </summary>
     public static class [CLASS NAME]
     {
+        /// <summary>
+        /// 资源类型
+        /// </summary>
+        public enum EResType
+        {
+            /// <summary>
+            /// @Files下的文件
+            /// </summary>
+            File,
+
+            /// <summary>
+            /// @Resources下的资源
+            /// </summary>
+            Resource,
+
+            /// <summary>
+            /// 所有
+            /// </summary>
+            All
+        }
+
+        private static readonly Dictionary<string, string> FileNameToPathDict = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> ResourceNameToPathDict = new Dictionary<string, string>();
+        private static readonly Dictionary<string, List<string>> DuplicateNameToPathListDict = new Dictionary<string, List<string>>();
+        
+        static [CLASS NAME]()
+        {
+            #region 构建文件名到路径的映射
+
+            var fields = typeof([CLASS NAME]).GetFields(BindingFlags.Public | BindingFlags.Static);
+            foreach (var field in fields)
+            {
+                if (field.IsLiteral && !field.IsInitOnly)
+                {
+                    var path = (string)field.GetValue(null);
+
+                    var name = Path.GetFileName(path).ToLower();
+
+                    if (path.StartsWith(ZeroConst.FILES_DIR_NAME))
+                    {
+                        //  @Files下的文件
+                        AddNameToDict(name, path, FileNameToPathDict);
+                    }
+                    else if (path.StartsWith(ZeroConst.AB_DIR_NAME))
+                    {
+                        // @Resources下的资源
+                        AddNameToDict(name, path, ResourceNameToPathDict);
+                    }
+                }
+            }
+
+            #endregion
+        }
+
+        private static void AddNameToDict(string name, string path, Dictionary<string, string> dict)
+        {
+            if (false == dict.TryAdd(name, path))
+            {
+                if (DuplicateNameToPathListDict.TryGetValue(name, out var list))
+                {
+                    list.Add(path);
+                }
+                else
+                {
+                    DuplicateNameToPathListDict.Add(name, new List<string> { path });
+                }
+            }
+        }
+
+        /// <summary>
+        /// 通过文件名获取资源路径
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string GetPath(string fileName, EResType type = EResType.All)
+        {
+            var name = fileName.ToLower();
+            if (type == EResType.File || type == EResType.All)
+            {
+                if (FileNameToPathDict.TryGetValue(name, out var path))
+                {
+                    return path;
+                }
+            }
+            
+            if (type == EResType.Resource || type == EResType.All)
+            {
+                if (ResourceNameToPathDict.TryGetValue(name, out var path))
+                {
+                    return path;
+                }
+            }
+
+            return null;
+        }
+
         #region @Files下的文件路径
         [FIELD LIST]
 

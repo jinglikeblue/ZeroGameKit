@@ -49,16 +49,25 @@ namespace Zero
             var attrs = type.GetCustomAttributes(_viewRegisterAttr, false);
             if (attrs.Length == 0)
             {
-                //从自动表查找
-                if (false == _viewAssetBundleSearchDic.ContainsKey(type.Name))
+                var prefabPath = R.GetPath(type.Name + ".prefab");
+                if (string.IsNullOrEmpty(prefabPath))
                 {
                     abName = null;
                     viewName = null;
                     return false;
                 }
-
-                abName = _viewAssetBundleSearchDic[type.Name];
-                viewName = type.Name + ".prefab";
+                ResMgr.SeparateAssetPath(prefabPath, out abName, out viewName);
+                
+                // //从自动表查找
+                // if (false == _viewAssetBundleSearchDic.ContainsKey(type.Name))
+                // {
+                //     abName = null;
+                //     viewName = null;
+                //     return false;
+                // }
+                //
+                // abName = _viewAssetBundleSearchDic[type.Name];
+                // viewName = type.Name + ".prefab";
             }
             else
             {
