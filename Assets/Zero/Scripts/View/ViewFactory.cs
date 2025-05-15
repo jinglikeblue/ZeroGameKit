@@ -10,32 +10,7 @@ namespace Zero
     /// </summary>
     public sealed class ViewFactory
     {
-        static readonly Type _viewRegisterAttr = typeof(ViewRegisterAttribute);
-
-        /// <summary>
-        /// [视图名称] => [AssestBundle]
-        /// </summary>
-        static Dictionary<string, string> _viewAssetBundleSearchDic;
-
-        static ViewFactory()
-        {
-            CreateViewAssetBundleSearchDictionary();
-        }
-
-        /// <summary>
-        /// 创建视图的AssetBundle查找表（多个视图同名的话，则表中没有该视图的记录，因为不精确）
-        /// </summary>
-        public static void CreateViewAssetBundleSearchDictionary()
-        {
-            if (_viewAssetBundleSearchDic != null)
-            {
-                return;
-            }
-
-            _viewAssetBundleSearchDic = AB.CreateViewAssetBundleSearchDictionary();
-            // var s = Json.ToJson(_viewAssetBundleSearchDic);
-            // Debug.Log(s);
-        }
+        private static readonly Type ViewRegisterAttr = typeof(ViewRegisterAttribute);
 
         /// <summary>
         /// 查找Type对应的AB信息
@@ -46,7 +21,7 @@ namespace Zero
         /// <returns></returns>
         static bool FindAssetBundleInfo(Type type, out string abName, out string viewName)
         {
-            var attrs = type.GetCustomAttributes(_viewRegisterAttr, false);
+            var attrs = type.GetCustomAttributes(ViewRegisterAttr, false);
             if (attrs.Length == 0)
             {
                 var prefabPath = R.GetPath(type.Name + ".prefab", R.EResType.Resource);
@@ -57,25 +32,11 @@ namespace Zero
                     return false;
                 }
                 ResMgr.SeparateAssetPath(prefabPath, out abName, out viewName);
-                
-                // //从自动表查找
-                // if (false == _viewAssetBundleSearchDic.ContainsKey(type.Name))
-                // {
-                //     abName = null;
-                //     viewName = null;
-                //     return false;
-                // }
-                //
-                // abName = _viewAssetBundleSearchDic[type.Name];
-                // viewName = type.Name + ".prefab";
             }
             else
             {
                 var attr = attrs[0] as ViewRegisterAttribute;
                 ResMgr.SeparateAssetPath(attr.prefabPath, out abName, out viewName);
-
-                //abName += ".ab";
-                //viewName = Path.GetFileNameWithoutExtension(viewName);                
             }
 
             return true;
