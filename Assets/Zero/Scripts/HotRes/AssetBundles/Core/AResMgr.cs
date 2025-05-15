@@ -15,6 +15,11 @@ namespace Zero
         /// <param name="abName"></param>
         protected string ABNameWithExtension(string abName)
         {
+            if (abName.StartsWith(ZeroConst.AB_DIR_NAME))
+            {
+                abName = abName.Substring(ZeroConst.AB_DIR_NAME.Length + 1);
+            }
+            
             if (false == abName.EndsWith(ZeroConst.AB_EXTENSION))
             {
                 abName += ZeroConst.AB_EXTENSION;
@@ -30,6 +35,11 @@ namespace Zero
         /// <returns></returns>
         protected string ABNameWithoutExtension(string abName)
         {
+            if (abName.StartsWith(ZeroConst.AB_DIR_NAME))
+            {
+                abName = abName.Substring(ZeroConst.AB_DIR_NAME.Length + 1);
+            }
+            
             if (abName.EndsWith(ZeroConst.AB_EXTENSION))
             {
                 abName = abName.Replace(ZeroConst.AB_EXTENSION, "");
