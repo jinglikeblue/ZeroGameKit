@@ -1,5 +1,4 @@
 ﻿//该类由 [Zero → 自动生成代码 → Assets资源名生成] 工具通过模版文件自动创建
-
 using Jing;
 using System;
 using System.Collections.Generic;
@@ -14,17 +13,14 @@ namespace Zero
     {
         #region @Files下的文件路径
         [FIELD LIST]
-
         #endregion
         
         #region @Resources下的AssetBundle文件路径（AB模式存在）
-        [FIELD LIST]
-
+        [FIELD LIST]               
         #endregion
         
         #region @Resources下的资源路径
-        [FIELD LIST]
-
+        [FIELD LIST]                
         #endregion
     }    
 }

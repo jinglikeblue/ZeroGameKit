@@ -20,7 +20,7 @@ namespace Jing
         {
             if (ordinalIndex < 0)
             {
-                return oldValue;
+                return input;
             }
 
             int replaceStartIndex = -1;
@@ -31,7 +31,7 @@ namespace Jing
                 if (-1 == replaceStartIndex)
                 {
                     //找不到
-                    return oldValue;
+                    return input;
                 }
             }
 

@@ -24,6 +24,24 @@ namespace Jing
         Dictionary<TRight, TLeft> _rightToLeftMap = new Dictionary<TRight, TLeft>();
 
         /// <summary>
+        /// 获取所有左侧的数据
+        /// </summary>
+        /// <returns></returns>
+        public TLeft[] GetLefts()
+        {
+            return _leftToRightMap.Keys.ToArray();
+        }
+
+        /// <summary>
+        /// 获取所有右侧的数据
+        /// </summary>
+        /// <returns></returns>
+        public TRight[] GetRights()
+        {
+            return _rightToLeftMap.Keys.ToArray();
+        }
+        
+        /// <summary>
         /// 设置一个双向映射关系
         /// </summary>
         public void Set(TLeft l, TRight r)
@@ -58,16 +76,6 @@ namespace Jing
         }
 
         /// <summary>
-        /// 获取映射值
-        /// </summary>
-        /// <param name="l"></param>
-        /// <returns></returns>
-        public TRight Get(TLeft l)
-        {
-            return GetRight(l);
-        }
-
-        /// <summary>
         /// 通过右方值获取左方值
         /// </summary>
         /// <param name="r"></param>
@@ -83,20 +91,10 @@ namespace Jing
         }
 
         /// <summary>
-        /// 获取映射值
-        /// </summary>
-        /// <param name="l"></param>
-        /// <returns></returns>
-        public TLeft Get(TRight r)
-        {
-            return GetLeft(r);
-        }
-
-        /// <summary>
         /// 检查映射关系是否存在
         /// </summary>
         /// <param name="l"></param>
-        public bool Contains(TLeft l)
+        public bool ContainsLeft(TLeft l)
         {
             return _leftToRightMap.ContainsKey(l);
         }
@@ -105,7 +103,7 @@ namespace Jing
         /// 检查映射关系是否存在
         /// </summary>
         /// <param name="r"></param>
-        public bool Contains(TRight r)
+        public bool ContainsRight(TRight r)
         {
             return _rightToLeftMap.ContainsKey(r);
         }

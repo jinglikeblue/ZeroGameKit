@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Jing;
+using Sirenix.Utilities;
 using UnityEngine;
 using Zero;
 
@@ -40,26 +41,29 @@ namespace ZeroEditor
             string classContent;
             var mainClassName = Path.GetFileNameWithoutExtension(OUTPUT_FILE);
             classContent = _mainClassT.Replace(CLASS_NAME_FLAG, mainClassName);
-            classContent = classContent.ReplaceAt(FIELD_LIST_FLAG, GenerateFieldList(FindHotFiles()));
-            classContent = classContent.ReplaceAt(FIELD_LIST_FLAG, GenerateFieldList(FindAssetBundles()));
+
+            var rawFiles = FindHotFiles();
+            FindAssetBundles(out var abFiles, out var assets);
+            var allFiles = rawFiles.Concat(abFiles).Concat(assets).ToArray();
+            var mapping = new FilePathMappingModel(allFiles);
+            
+            classContent = classContent.ReplaceAt(FIELD_LIST_FLAG, GenerateFieldList(rawFiles, mapping));
+            classContent = classContent.ReplaceAt(FIELD_LIST_FLAG, GenerateFieldList(abFiles, mapping));
+            classContent = classContent.ReplaceAt(FIELD_LIST_FLAG, GenerateFieldList(assets, mapping));
 
             File.WriteAllText(OUTPUT_FILE, classContent);
         }
 
-        string GenerateFieldList(string[] files)
+
+        string GenerateFieldList(string[] files, FilePathMappingModel mapping)
         {
-            var mapping = new FilePathMappingModel(files);
-
-            var keys = mapping.GetKeys();
-            // Array.Sort(keys);
-
+            files.Sort();
             StringBuilder sb = new StringBuilder();
 
-            foreach (var key in keys)
+            foreach (var path in files)
             {
-                var fieldName = key;
-                var fieldValue = mapping.GetValue(key);
-                sb.Append(GenerateField(fieldName, fieldValue));
+                var fieldName = mapping.GetName(path);
+                sb.Append(GenerateField(fieldName, path));
             }
 
             return sb.ToString();
@@ -91,8 +95,7 @@ namespace ZeroEditor
                 path = FileUtility.StandardizeBackslashSeparator(path);
                 list.Add(path);
             }
-
-            list.Sort();
+            
             return list.ToArray();
         }
 
@@ -106,9 +109,10 @@ namespace ZeroEditor
             new GenerateRClassCommand().Excute();
         }
 
-        public static string[] FindAssetBundles()
+        public static AssetBundleItemVO[] FindAssetBundles(out string[] abFiles, out string[] assets)
         {
             List<string> fileList = new List<string>();
+            List<string> assetList = new List<string>();
 
             var cmd = new FindAssetBundlesCommand(false);
             cmd.Excute();
@@ -121,12 +125,17 @@ namespace ZeroEditor
                 foreach (var asset in item.assetList)
                 {
                     var assetPath = FileUtility.CombinePaths(folder, asset);
-                    fileList.Add(assetPath);
+                    assetList.Add(assetPath);
                 }
             }
 
-            fileList.Sort();
-            return fileList.ToArray();
+            // fileList.Sort();
+            abFiles = fileList.ToArray();
+            // assetList.Sort();
+            assets = assetList.ToArray();
+
+
+            return cmd.list.ToArray();
         }
     }
 }

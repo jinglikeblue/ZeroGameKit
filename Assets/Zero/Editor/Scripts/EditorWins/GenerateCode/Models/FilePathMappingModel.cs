@@ -19,16 +19,26 @@ namespace ZeroEditor
 
         private readonly Dictionary<string, List<string>> _duplicatesDict = new Dictionary<string, List<string>>();
 
-        private readonly Dictionary<string, string> _mappingDict = new Dictionary<string, string>();
+        private readonly BidirectionalMap<string, string> _mappingDict = new BidirectionalMap<string, string>();
 
-        public string[] GetKeys()
+        public string[] GetNames()
         {
-            return _mappingDict.Keys.ToArray();
+            return _mappingDict.GetLefts();
         }
 
-        public string GetValue(string key)
+        public string[] GetPaths()
         {
-            return _mappingDict[key];
+            return _mappingDict.GetRights();
+        }
+
+        public string GetName(string path)
+        {
+            return _mappingDict.GetLeft(path);
+        }
+
+        public string GetPath(string name)
+        {
+            return _mappingDict.GetRight(name);
         }
 
         public FilePathMappingModel(string[] files)
@@ -78,13 +88,13 @@ namespace ZeroEditor
 
                 fileName = BaseGenerateTemplateCodeCommand.MakeFieldNameRightful(fileName);
 
-                if (_mappingDict.ContainsKey(fileName))
+                if (_mappingDict.ContainsLeft(fileName))
                 {
                     Debug.LogError($"重复文件名：({fileName})[{path}]");
                 }
                 else
                 {
-                    _mappingDict.Add(fileName, path);    
+                    _mappingDict.Set(fileName, path);
                 }
             }
         }
@@ -100,7 +110,7 @@ namespace ZeroEditor
                 {
                     continue;
                 }
-                
+
                 otherFolderNamesList.Add(SplitFolderNames(tempPath));
             }
 
@@ -116,12 +126,13 @@ namespace ZeroEditor
                         sameCount++;
                     }
                 }
-                
+
                 //所有的重复文件名，该位置都是重复的，所以不用作为Key的一部分，忽略掉
-                if(sameCount == otherFolderNamesList.Count)
+                if (sameCount == otherFolderNamesList.Count)
                 {
                     continue;
                 }
+
                 flags.Add(flag);
                 if (0 == sameCount)
                 {

@@ -136,12 +136,12 @@ namespace PingPong
 
         public static int GetProtocolId(Type protocolStructType)
         {
-            return _protocolMap.Get(protocolStructType);
+            return _protocolMap.GetLeft(protocolStructType);
         }
 
         public static Type GetProtocolStructType(byte protocolId)
         {
-            return _protocolMap.Get(protocolId);
+            return _protocolMap.GetRight(protocolId);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace PingPong
         public static byte[] Pack(object obj)
         {
             var body = new ProtocolBody();
-            body.id = _protocolMap.Get(obj.GetType());
+            body.id = _protocolMap.GetLeft(obj.GetType());
             body.data = MsgPacker.Pack(obj);
             
             Debug.Log(LogColor.Orange($"发送协议 [type:{obj.GetType().Name}] [size:{body.data.Length}]"));
@@ -168,7 +168,7 @@ namespace PingPong
         public static object Unpack(byte[] data)
         {
             var body = MsgPacker.Unpack<ProtocolBody>(data);
-            var type = _protocolMap.Get(body.id);
+            var type = _protocolMap.GetRight(body.id);
             if (null == type)
             {
                 throw new Exception($"协议处理器不存在 [协议ID: {body.id}]");
@@ -185,7 +185,7 @@ namespace PingPong
         public static void UnpackAndDispatch(byte[] data)
         {
             var body = Unpack(data);
-            var id = _protocolMap.Get(body.GetType());
+            var id = _protocolMap.GetLeft(body.GetType());
             
             Debug.Log(LogColor.Green($"收到协议 [type:{body.GetType().Name}][size:{data.Length}]"));
             
