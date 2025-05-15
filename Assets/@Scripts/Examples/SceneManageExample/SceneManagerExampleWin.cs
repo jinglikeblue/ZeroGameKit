@@ -11,7 +11,7 @@ namespace Example
     /// <summary>
     /// 场景管理器示例
     /// </summary>
-    [ViewRegister(AB.EXAMPLES_SCENE.SceneManagerExampleWin_assetPath)]
+    [ViewRegister(R.SceneManagerExampleWin_prefab)]
     public class SceneManagerExampleWin : WithCloseButtonWin
     {
         public static void Show()
@@ -49,7 +49,7 @@ namespace Example
         private async void LoadScene0()
         {
             Debug.Log($"加载场景0");
-            var scene = SceneManagerUtility.LoadScene(AB.SCENES.Scene0_unity_assetPath, LoadSceneMode.Additive);
+            var scene = SceneManagerUtility.LoadScene(AB.SCENES.Scene0_unity, LoadSceneMode.Additive);
             await UniTask.NextFrame();
             var rootObjs = scene.GetRootGameObjects();
             var view1 = ViewFactory.Binding<SceneGameObjectView>(scene.FindGameObject("Main Camera"));
@@ -60,7 +60,7 @@ namespace Example
         private async void AsyncLoadScene0()
         {
             Debug.Log($"异步加载场景0");
-            var scene = await SceneManagerUtility.LoadSceneAsync(AB.SCENES.Scene0_unity_assetPath, LoadSceneMode.Additive);
+            var scene = await SceneManagerUtility.LoadSceneAsync(R.Scene0_unity, LoadSceneMode.Additive);
             var rootObjs = scene.GetRootGameObjects();
             var view1 = ViewFactory.Binding<SceneGameObjectView>(scene.FindGameObject("Main Camera"));
             ViewFactory.Binding<SceneGameObjectView>(scene.FindGameObject("Main Camera/Cube"));
@@ -71,21 +71,21 @@ namespace Example
         private void UnloadScene0()
         {
             Debug.Log($"卸载场景0");
-            SceneManagerUtility.UnloadSceneAsync(AB.SCENES.Scene0_unity_assetPath);
+            SceneManagerUtility.UnloadSceneAsync(R.Scene0_unity);
         }
 
         [BindingButtonClick("BtnSwitchScene0")]
         private void SwitchScene0()
         {
             Debug.Log($"切换场景0");
-            SceneManagerUtility.LoadScene(AB.SCENES.Scene0_unity_assetPath);
+            SceneManagerUtility.LoadScene(R.Scene0_unity);
         }
 
         [BindingButtonClick("BtnLoadScene1")]
         private void LoadScene1()
         {
             Debug.Log($"加载场景1");
-            SceneManagerUtility.LoadScene(AB.SCENES.Scene1_unity_assetPath, LoadSceneMode.Additive);
+            SceneManagerUtility.LoadScene(R.Scene1_unity, LoadSceneMode.Additive);
             var view = ViewFactory.Binding<SceneGameObjectView>(GameObject.Find("Main Camera"));
             if (null == view)
             {
@@ -97,21 +97,21 @@ namespace Example
         private void AsyncLoadScene1()
         {
             Debug.Log($"异步加载场景1");
-            _ = SceneManagerUtility.LoadSceneAsync(AB.SCENES.Scene1_unity_assetPath, LoadSceneMode.Additive);
+            _ = SceneManagerUtility.LoadSceneAsync(R.Scene1_unity, LoadSceneMode.Additive);
         }
 
         [BindingButtonClick("BtnUnloadScene1")]
         private void UnloadScene1()
         {
             Debug.Log($"卸载场景1");
-            _ = SceneManagerUtility.UnloadSceneAsync(AB.SCENES.Scene1_unity_assetPath);
+            _ = SceneManagerUtility.UnloadSceneAsync(R.Scene1_unity);
         }
 
         [BindingButtonClick("BtnSwitchScene1")]
         private void SwitchScene1()
         {
             Debug.Log($"切换场景1");
-            _ = SceneManagerUtility.LoadSceneAsync(AB.SCENES.Scene1_unity_assetPath);
+            _ = SceneManagerUtility.LoadSceneAsync(R.Scene1_unity);
         }
 
         /// <summary>

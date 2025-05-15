@@ -11,7 +11,7 @@ namespace Example
         }
     }
 
-    [ViewRegister(AB.EXAMPLES_TEXT_OUTLINE.TextOutlineExampleWin_assetPath)]
+    [ViewRegister(R.TextOutlineExampleWin_prefab)]
     class TextOutlineExampleWin : WithCloseButtonWin
     {
 

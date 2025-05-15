@@ -55,8 +55,8 @@ namespace ZeroEditor
             var mainClassName = Path.GetFileNameWithoutExtension(OUTPUT_FILE);
             classContent = _mainClassT.Replace(CLASS_NAME_FLAG, mainClassName);
             classContent = classContent.Replace(CLASS_LIST_FLAG, GenerateClassList());
-            classContent = classContent.Replace("[KEY VALUE LIST]", GenerateKeyValueList());
-            classContent = classContent.Replace("[UNIQUE ASSET PATH]", GenerateUniqueAssetPath());
+            // classContent = classContent.Replace("[KEY VALUE LIST]", GenerateKeyValueList());
+            // classContent = classContent.Replace("[UNIQUE ASSET PATH]", GenerateUniqueAssetPath());
 
             File.WriteAllText(OUTPUT_FILE, classContent);
         }
@@ -213,13 +213,13 @@ namespace ZeroEditor
 
                 sb.Append(GenerateFiled(fieldName, viewName));
                 //添加全名
-                var assetPath = ResMgr.LinkAssetPath(abNameWithoutExt, viewName);
-                sb.Append(GenerateFiled(fieldName + "_assetPath", assetPath));
+                // var assetPath = ResMgr.LinkAssetPath(abNameWithoutExt, viewName);
+                // sb.Append(GenerateFiled(fieldName + "_assetPath", assetPath));
 
-                if (!_assetPathSet.Add(assetPath))
-                {
-                    throw new Exception($"不应该出现重复的AssetPath: {assetPath} !!!");
-                }
+                // if (!_assetPathSet.Add(assetPath))
+                // {
+                //     throw new Exception($"不应该出现重复的AssetPath: {assetPath} !!!");
+                // }
             }
 
             return sb.ToString();

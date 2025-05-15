@@ -12,6 +12,7 @@ using Zero;
 
 namespace ZeroEditor
 {
+    [Obsolete("请使用R.cs相关的资源管理替代该功能")]
     class GenerateHotFileClassCommand : BaseGenerateTemplateCodeCommand
     {
         /// <summary>

@@ -89,10 +89,10 @@ public class RightClickEditorMenu
 
     #endregion
 
-    [MenuItem("Assets/Zero/生成资源名文件(AB.cs)", false, 100)]
+    [MenuItem("Assets/Zero/生成资源名文件", false, 100)]
     static void GenerateAssetNames()
     {
-        new GenerateHotFileClassCommand().Excute();
+        new GenerateRClassCommand().Excute();
         var findCmd = new FindAssetBundlesCommand(false);
         findCmd.onFinished += (cmd, list) =>
         {

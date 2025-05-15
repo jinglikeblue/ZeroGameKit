@@ -63,7 +63,7 @@ namespace Example
             img0.sprite = ResMgr.Load<Sprite>(AB.EXAMPLES_TEXTURES.NAME, AB.EXAMPLES_TEXTURES.activity_blue_ore_png);
 
             //通过资源完整路径加载
-            img1.sprite = ResMgr.Load<Sprite>(AB.EXAMPLES_TEXTURES.activity_yellow_ore_01_png_assetPath);
+            img1.sprite = ResMgr.Load<Sprite>(R.activity_yellow_ore_01_png);
         }
 
         /// <summary>
@@ -78,19 +78,19 @@ namespace Example
                     img2.sprite = sprite;
                     L(LogColor.Zero2($"[加载完成][Onloaded] {sprite.name}"));
                 },
-                (progress) => { L(LogColor.Zero1($"{AB.EXAMPLES_TEXTURES.gift_pudding_png_assetPath} 加载进度:{progress}")); }
+                (progress) => { L(LogColor.Zero1($"{R.gift_pudding_png} 加载进度:{progress}")); }
             );
 
             L(LogColor.Zero2($"[加载完成][await] {obj1.name}"));
 
             //通过资源完整路径加载
-            var obj2 = await ResMgr.LoadAsync<Sprite>(AB.EXAMPLES_TEXTURES.gift_sundae_png_assetPath,
+            var obj2 = await ResMgr.LoadAsync<Sprite>(R.gift_sundae_png,
                 (sprite) =>
                 {
                     img3.sprite = sprite;
                     L(LogColor.Zero2($"[加载完成][Onloaded] {sprite.name}"));
                 },
-                (progress) => { L(LogColor.Zero1($"{AB.EXAMPLES_TEXTURES.gift_sundae_png_assetPath} 加载进度:{progress}")); }
+                (progress) => { L(LogColor.Zero1($"{R.gift_sundae_png} 加载进度:{progress}")); }
             );
 
             L(LogColor.Zero2($"[加载完成][await] {obj2.name}"));
@@ -101,7 +101,7 @@ namespace Example
         /// </summary>
         void TestCrossDepend()
         {
-            var a = ResMgr.Load<GameObject>(AB.EXAMPLES_CROSS_DEPEND_TEST_A.A_assetPath);
+            var a = ResMgr.Load<GameObject>(R.A_prefab);
             if (null != a)
             {
                 L($"资源读取成功：{AB.EXAMPLES_CROSS_DEPEND_TEST_A.NAME}");
@@ -111,7 +111,7 @@ namespace Example
                 L($"资源读取失败：{AB.EXAMPLES_CROSS_DEPEND_TEST_A.NAME}");
             }
 
-            var b = ResMgr.Load<GameObject>(AB.EXAMPLES_CROSS_DEPEND_TEST_B.B_assetPath);
+            var b = ResMgr.Load<GameObject>(R.B_prefab);
             if (null != b)
             {
                 L($"资源读取成功：{AB.EXAMPLES_CROSS_DEPEND_TEST_B.NAME}");

@@ -3,7 +3,7 @@ using ZeroGameKit;
 
 namespace Example.FrameSyncGame
 {
-    [ViewRegister(AB.EXAMPLES_FRAMEWORK.CoroutineProxyExampleWin_assetPath)]
+    [ViewRegister(R.CoroutineProxyExampleWin_prefab)]
     class MatchingPanel : WithCloseButtonWin
     {
 

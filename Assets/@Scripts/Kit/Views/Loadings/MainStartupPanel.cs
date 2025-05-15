@@ -18,7 +18,7 @@ namespace ZeroGameKit
 
         protected override async void OnInit(object data)
         {
-            var fuck = await Res.LoadAsync<GameObject>(AB.A_prefab);
+            var fuck = await Res.LoadAsync<GameObject>(R.A_prefab);
             var c = await Res.LoadAsync<byte[]>("files/" + HotFiles.PICS_SCREENSHOTS_DEMO_0_PNG);
             var d = Res.CheckUpdate(FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, AB.EXAMPLES_MENUS.NAME));
             

@@ -54,7 +54,7 @@ namespace Example
             _effectAD = AudioDevice.Get("EFFECT", true);
 
             //播放背景音乐
-            _bgmAD.Play(ResMgr.Load<AudioClip>(AB.EXAMPLES_AUDIOS.bgm_mp3_assetPath), true);
+            _bgmAD.Play(ResMgr.Load<AudioClip>(R.examples_bgm_mp3), true);
         }
 
         protected override void OnDestroy()
