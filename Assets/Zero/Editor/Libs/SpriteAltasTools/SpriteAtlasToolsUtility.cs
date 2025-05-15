@@ -191,8 +191,10 @@ namespace ZeroEditor
                 AssetDatabase.CreateAsset(sa, filePath);
             }
 
-            var oldSpriteList = sa.GetPackables();
-            sa.Remove(oldSpriteList);
+            // var oldSpriteList = sa.GetPackables();
+            // sa.Remove(oldSpriteList);
+
+            ClearPackingList(sa);
             sa.Add(sprites);
         }
 
@@ -216,9 +218,10 @@ namespace ZeroEditor
             }
             else
             {
-                var sa = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(filePath);
-                var oldSpriteList = sa.GetPackables();
-                saa.Remove(oldSpriteList);
+                ClearPackingList(saa);
+                // var sa = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(filePath);
+                // var oldSpriteList = sa.GetPackables();
+                // saa.Remove(oldSpriteList);
             }
 
             saa.Add(sprites);
@@ -226,10 +229,53 @@ namespace ZeroEditor
             SpriteAtlasAsset.Save(saa, filePath);
         }
 
+        [MenuItem("Test/SpriteAtlasClearList")]
+        private static void TestSO()
+        {
+            var filePath = "Assets/Examples/SpriteAtlas/examples_art_gui.spriteatlas";
+            Debug.Log($"SpriteAtlasClearList");
+            var sa = AssetDatabase.LoadAssetAtPath<SpriteAtlas>(filePath);
+            // var sa = AssetDatabase.LoadAssetAtPath<SpriteAtlasAsset>("Assets/Examples/SpriteAtlas/examples_art_gui.spriteatlasv2");
+            ClearPackingList(sa);
+            // SpriteAtlasAsset.Save(sa, filePath);
+            // EditorUtility.SetDirty(sa);
+            AssetDatabase.SaveAssets(); // 确保资源文件被写入磁盘
+            AssetDatabase.Refresh(); // 刷新资源数据库
+        }
+
+        /// <summary>
+        /// 清空Packables数组
+        /// </summary>
+        /// <param name="obj"></param>
+        private static void ClearPackingList(Object obj)
+        {
+            SerializedObject so = new SerializedObject(obj);
+            //先尝试查找V2版本的数据
+            var packables = so.FindProperty("m_ImporterData.packables");
+            if (null == packables)
+            {
+                //如果失败，则查找V1版本的数据
+                packables = so.FindProperty("m_EditorData.packables");
+            }
+            
+            if (null != packables)
+            {
+                // Debug.Log($"Name:{packables.name}, Type:{packables.propertyType}, Size:{packables.arraySize}");
+                packables.ClearArray();
+            }
+            else
+            {
+                // Debug.Log($"Not Found: packables");
+            }
+
+            //保存修改到磁盘
+            so.ApplyModifiedProperties(); // 关键步骤：应用修改
+        }
+
         /// <summary>
         /// 刷新预览
         /// </summary>
-        static public void PackPreview(string spriteAtlasDir)
+        public static void PackPreview(string spriteAtlasDir)
         {
             var list = new List<SpriteAtlas>();
             var files = Directory.GetFiles(spriteAtlasDir);
