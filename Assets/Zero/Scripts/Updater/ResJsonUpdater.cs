@@ -23,10 +23,10 @@ namespace Zero
         {
             base.Start();
 
-            url = FileUtility.CombinePaths(Runtime.Ins.netResDir, ZeroConst.RES_JSON_FILE_NAME);
-            localPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.RES_JSON_FILE_NAME);
+            url = FileUtility.CombinePaths(Runtime.netResDir, ZeroConst.RES_JSON_FILE_NAME);
+            localPath = FileUtility.CombinePaths(Runtime.localResDir, ZeroConst.RES_JSON_FILE_NAME);
 
-            if (Runtime.Ins.IsNeedNetwork)
+            if (Runtime.IsNeedNetwork)
             {
                 UpdateResJson();
             }

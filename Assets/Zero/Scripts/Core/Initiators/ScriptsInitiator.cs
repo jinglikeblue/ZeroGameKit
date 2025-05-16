@@ -11,7 +11,7 @@ namespace Zero
         /// <summary>
         /// 热更DLL路径
         /// </summary>
-        private string HotDllPath => FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".dll");
+        private string HotDllPath => FileUtility.CombinePaths(Runtime.localResDir, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".dll");
 
         /// <summary>
         /// 是否存在热更DLL
@@ -21,7 +21,7 @@ namespace Zero
         /// <summary>
         /// 是否存在内嵌DLL
         /// </summary>
-        bool IsBuiltinDllExist => Runtime.Ins.BuiltinInitiator.IsBuiltinDllExist;
+        bool IsBuiltinDllExist => Runtime.BuiltinInitiator.IsBuiltinDllExist;
 
         /// <summary>
         /// 是否存在DLL
@@ -30,12 +30,12 @@ namespace Zero
 
         internal override async UniTask<string> StartAsync(InitiatorProgress onProgress = null)
         {
-            bool isUseDll = Runtime.Ins.IsUseDll;
+            bool isUseDll = Runtime.IsUseDll;
 
             if (isUseDll && false == IsDllExist)
             {
                 //开启了使用DLL，但是并没有dll存在
-                if (Runtime.Ins.IsOfflineEnable)
+                if (Runtime.IsOfflineEnable)
                 {
                     Debug.Log(Zero.LogColor.Zero1("[Zero][ScriptsInitiator] 没有找到dll文件，将自动用native脚本，以离线模式运行"));
                     isUseDll = false;
@@ -46,9 +46,9 @@ namespace Zero
                 }
             }
 
-            if (Runtime.Ins.IsUseDll != isUseDll)
+            if (Runtime.IsUseDll != isUseDll)
             {
-                Runtime.Ins.LauncherData.isUseDll = isUseDll;
+                Runtime.LauncherData.isUseDll = isUseDll;
             }
 
             string error = null;
@@ -103,13 +103,13 @@ namespace Zero
             dllBytes = null;
             pdbBytes = null;
 
-            if (Runtime.Ins.IsHotResEnable)
+            if (Runtime.IsHotResEnable)
             {
                 string dllPath = HotDllPath;
                 if (File.Exists(dllPath))
                 {
                     dllBytes = File.ReadAllBytes(dllPath);
-                    string pdbPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".pdb");
+                    string pdbPath = FileUtility.CombinePaths(Runtime.localResDir, ZeroConst.DLL_DIR_NAME, ZeroConst.DLL_FILE_NAME + ".pdb");
                     if (File.Exists(pdbPath))
                     {
                         pdbBytes = File.ReadAllBytes(pdbPath);
@@ -121,8 +121,8 @@ namespace Zero
 
             if (IsBuiltinDllExist)
             {
-                dllBytes = Runtime.Ins.BuiltinInitiator.DllBytes;
-                pdbBytes = Runtime.Ins.BuiltinInitiator.PdbBytes;
+                dllBytes = Runtime.BuiltinInitiator.DllBytes;
+                pdbBytes = Runtime.BuiltinInitiator.PdbBytes;
             }
         }
     }

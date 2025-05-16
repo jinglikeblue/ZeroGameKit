@@ -34,13 +34,13 @@ namespace Zero
             UnloadAll();
             _loadedABDic = new Dictionary<string, AssetBundle>();
 
-            HotResAssetBundleRoot = FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.AB_DIR_NAME);
+            HotResAssetBundleRoot = FileUtility.CombinePaths(Runtime.localResDir, ZeroConst.AB_DIR_NAME);
             BuiltinAssetBundleRoot =
                 FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.AB_DIR_NAME);
 
             //优先使用热更的
             var manifestPath = FileUtility.CombinePaths(HotResAssetBundleRoot, manifestFileName);
-            if (false == File.Exists(manifestPath) || Runtime.Ins.IsOnlyUseBuiltinRes)
+            if (false == File.Exists(manifestPath) || Runtime.IsOnlyUseBuiltinRes)
             {
                 //使用内嵌的
                 manifestPath = FileUtility.CombinePaths(BuiltinAssetBundleRoot, manifestFileName);
@@ -319,7 +319,7 @@ namespace Zero
         {
             //优先使用热更的
             var abPath = FileUtility.CombinePaths(HotResAssetBundleRoot, abName);
-            if (false == File.Exists(abPath) || Runtime.Ins.IsOnlyUseBuiltinRes)
+            if (false == File.Exists(abPath) || Runtime.IsOnlyUseBuiltinRes)
             {
                 //使用内嵌的
                 abPath = FileUtility.CombinePaths(BuiltinAssetBundleRoot, abName);

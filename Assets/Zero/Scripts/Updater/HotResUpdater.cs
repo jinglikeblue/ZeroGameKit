@@ -38,7 +38,7 @@ namespace Zero
         public override void Start()
         {
             base.Start();
-            if (Runtime.Ins.IsNeedNetwork)
+            if (Runtime.IsNeedNetwork)
             {
                 //检查要更新的资源列表
                 UpdateResNameList = CheckNeedUpdateResNameList(CheckNameList, IsForceUpdateAll);
@@ -57,10 +57,10 @@ namespace Zero
             GroupHttpDownloader groupLoader = new GroupHttpDownloader();
             foreach (var resName in UpdateResNameList)
             {
-                var netItem = Runtime.Ins.netResVer.Get(resName);
+                var netItem = Runtime.netResVer.Get(resName);
 
                 //将要下载的文件依次添加入下载器
-                groupLoader.AddTask(FileUtility.CombinePaths(Runtime.Ins.netResDir, resName), FileUtility.CombinePaths(Runtime.Ins.localResDir, resName), netItem.version, netItem.size, netItem);
+                groupLoader.AddTask(FileUtility.CombinePaths(Runtime.netResDir, resName), FileUtility.CombinePaths(Runtime.localResDir, resName), netItem.version, netItem.size, netItem);
             }
 
             groupLoader.onTaskCompleted += OnGroupHttpDownloaderTaskCompleted;
@@ -94,10 +94,10 @@ namespace Zero
         //     GroupHttpDownloader groupLoader = new GroupHttpDownloader();
         //     foreach (var resName in UpdateResNameList)
         //     {
-        //         var netItem = Runtime.Ins.netResVer.Get(resName);
+        //         var netItem = Runtime.netResVer.Get(resName);
         //
         //         //将要下载的文件依次添加入下载器
-        //         groupLoader.AddTask(FileUtility.CombinePaths(Runtime.Ins.netResDir, resName), FileUtility.CombinePaths(Runtime.Ins.localResDir, resName), netItem.version, netItem.size, netItem);
+        //         groupLoader.AddTask(FileUtility.CombinePaths(Runtime.netResDir, resName), FileUtility.CombinePaths(Runtime.localResDir, resName), netItem.version, netItem.size, netItem);
         //     }
         //
         //     groupLoader.onTaskCompleted += OnGroupHttpDownloaderTaskCompleted;
@@ -130,7 +130,7 @@ namespace Zero
             var item = (ResVerVO.Item)taskInfo.data;
             double size =  Math.Round((double)groupDownloader.currentDownloader.totalSize / 1024 / 1024, 2);
             Debug.Log(LogColor.Zero1($"下载完成:{item.name} Size:{size}MB Ver:{item.version}"));
-            Runtime.Ins.localResVer.SetVerAndSave(item.name, item.version);
+            Runtime.localResVer.SetVerAndSave(item.name, item.version);
         }
 
         #region 检查要更新的资源列表
@@ -171,8 +171,8 @@ namespace Zero
                     continue;
                 }
                 
-                string localVer = Runtime.Ins.localResVer.GetVer(itemName);
-                var netItem = Runtime.Ins.netResVer.Get(itemName);
+                string localVer = Runtime.localResVer.GetVer(itemName);
+                var netItem = Runtime.netResVer.Get(itemName);
 
                 if (localVer != netItem.version)
                 {
@@ -187,7 +187,7 @@ namespace Zero
         static List<string> GetItemsInGroup(string group)
         {
             List<string> nameList = new List<string>();
-            var itemList = Runtime.Ins.netResVer.FindGroup(group);
+            var itemList = Runtime.netResVer.FindGroup(group);
 
             foreach (var item in itemList)
             {

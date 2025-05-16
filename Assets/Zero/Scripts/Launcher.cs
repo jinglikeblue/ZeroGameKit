@@ -96,11 +96,11 @@ namespace Zero
 
                 //内嵌资源检查
                 ChangeState(EState.BuiltinInitiator);
-                error = await Runtime.Ins.BuiltinInitiator.StartAsync();
+                error = await Runtime.BuiltinInitiator.StartAsync();
                 if (error != null) break;
 
                 //初始化运行环境配置环境(初始化时依赖StramingAssets的资源)
-                Runtime.Ins.Init(launcherData);
+                Runtime.Init(launcherData);
 
                 ChangeState(EState.SettingJsonInitiator);
                 error = await new SettingJsonInitiator().StartAsync();
@@ -121,7 +121,7 @@ namespace Zero
                 error = await scriptsInitiator.StartAsync();
                 if (error != null) break;
 
-                Runtime.Ins.PrintInfo();
+                Runtime.PrintInfo();
                 ChangeState(EState.Finished);
             } while (false);
 

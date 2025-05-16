@@ -65,10 +65,10 @@ namespace Zero.Obsolete
         {
             bool isExist = false;
 
-            if (Runtime.Ins.IsUseAssetBundle)
+            if (Runtime.IsUseAssetBundle)
             {
                 //如果支持热更，则先检查热更目录
-                if (Runtime.Ins.IsHotResEnable)
+                if (Runtime.IsHotResEnable)
                 {
                     isExist = CheckPersistentExist(resPath);
                 }
@@ -94,10 +94,10 @@ namespace Zero.Obsolete
         /// <returns></returns>
         public static string GetAbsolutePath(string resPath)
         {
-            if (Runtime.Ins.IsUseAssetBundle)
+            if (Runtime.IsUseAssetBundle)
             {
                 //如果支持热更，则先检查热更目录
-                if (Runtime.Ins.IsHotResEnable)
+                if (Runtime.IsHotResEnable)
                 {
                     if (CheckPersistentExist(resPath))
                     {
@@ -130,10 +130,10 @@ namespace Zero.Obsolete
         /// <returns></returns>
         public static async UniTask<string> GetAbsolutePathAsync(string resPath)
         {
-            if (Runtime.Ins.IsUseAssetBundle)
+            if (Runtime.IsUseAssetBundle)
             {
                 //如果支持热更，则先检查热更目录
-                if (Runtime.Ins.IsHotResEnable)
+                if (Runtime.IsHotResEnable)
                 {
                     if (CheckPersistentExist(resPath))
                     {
@@ -172,10 +172,10 @@ namespace Zero.Obsolete
 
             byte[] bytes = null;
 
-            if (Runtime.Ins.IsUseAssetBundle)
+            if (Runtime.IsUseAssetBundle)
             {
                 //如果支持热更，则先检查热更目录
-                if (Runtime.Ins.IsHotResEnable)
+                if (Runtime.IsHotResEnable)
                 {
                     bytes = LoadFromPersistent(resPath);
                 }
@@ -342,7 +342,7 @@ namespace Zero.Obsolete
         /// <returns></returns>
         public static bool CheckUpdateEnable(string resPath)
         {
-            if (!Runtime.Ins.IsHotResEnable)
+            if (!Runtime.IsHotResEnable)
             {
                 return false;
             }
@@ -376,8 +376,8 @@ namespace Zero.Obsolete
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool CheckHasNewNetVersion(string resPath)
         {
-            string localVer = Runtime.Ins.localResVer.GetVer(resPath);
-            var newVer = Runtime.Ins.netResVer.GetVer(resPath);
+            string localVer = Runtime.localResVer.GetVer(resPath);
+            var newVer = Runtime.netResVer.GetVer(resPath);
             return localVer != newVer;
         }
 

@@ -1,7 +1,5 @@
 ﻿using Jing;
-using System;
 using System.IO;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -9,112 +7,112 @@ namespace Zero
     /// <summary>
     /// 「Zero」框架运行时
     /// </summary>
-    public class Runtime
+    public static class Runtime
     {
         /// <summary>
         /// 构建单例
         /// </summary>
-        public static readonly Runtime Ins = new Runtime();
+        // public static readonly Runtime Ins = new Runtime();
 
         /// <summary>
         /// 启动器设置数据
         /// </summary>
-        internal LauncherSettingData LauncherData;
+        internal static LauncherSettingData LauncherData;
 
         /// <summary>
         /// 内嵌资源初始化器
         /// </summary>
-        internal readonly BuiltinInitiator BuiltinInitiator = new BuiltinInitiator();
+        internal static readonly BuiltinInitiator BuiltinInitiator = new BuiltinInitiator();
 
         /// <summary>
         /// 资源模式是否仅使用包内资源（离线资源模式）
         /// </summary>
-        public bool IsOnlyUseBuiltinRes => false == LauncherData.isHotPatchEnable;
+        public static bool IsOnlyUseBuiltinRes => false == LauncherData.isHotPatchEnable;
 
         /// <summary>
         /// 是否允许离线运行
         /// </summary>
-        public bool IsOfflineEnable => LauncherData.isOfflineEnable;
+        public static bool IsOfflineEnable => LauncherData.isOfflineEnable;
 
         /// <summary>
         /// 是否用DLL方式启动程序
         /// </summary>
-        public bool IsUseDll => LauncherData.isUseDll;
+        public static bool IsUseDll => LauncherData.isUseDll;
 
         /// <summary>
         /// 本地数据
         /// </summary>
-        public LocalDataModel localData { get; private set; }
+        public static LocalDataModel localData { get; private set; }
 
         /// <summary>
         /// 配置
         /// </summary>
-        public SettingVO setting;
+        public static SettingVO setting;
 
         /// <summary>
         /// 网络资源目录列表
         /// </summary>
-        public string[] SettingFileNetDirList { get; private set; }
+        public static string[] SettingFileNetDirList { get; private set; }
 
         /// <summary>
         /// 基于运行平台的网络资源目录(使用的网络资源的地址)
         /// 举例: [资源所在URL地址]/res/[平台]
         /// </summary>
-        public string netResDir;
+        public static string netResDir;
 
         /// <summary>
         /// 资源对象版本数据
         /// </summary>
-        public ResVerModel netResVer;
+        public static ResVerModel netResVer;
 
         /// <summary>
         /// 存放下载文件的目录
         /// 举例: [资源所在目录绝对路径]/res
         /// </summary>
-        public string localResDir { get; private set; }
+        public static string localResDir { get; private set; }
 
         /// <summary>
         /// 本地的资源版本
         /// </summary>
-        public BaseWriteableResVerModel localResVer { get; private set; }
+        public static BaseWriteableResVerModel localResVer { get; private set; }
 
         /// <summary>
         /// Zero框架生成的文件的目录
         /// </summary>
-        public string generateFilesDir { get; private set; }
+        public static string generateFilesDir { get; private set; }
 
         /// <summary>
         /// 是否使用AssetBundle加载资源
         /// </summary>
-        public bool IsUseAssetBundle => LauncherData.isUseAssetBundle;
+        public static bool IsUseAssetBundle => LauncherData.isUseAssetBundle;
 
         /// <summary>
         /// 是否使用AssetDataBase加载资源
         /// </summary>
-        public bool IsUseAssetDataBase => !LauncherData.isUseAssetBundle;
+        public static bool IsUseAssetDataBase => !LauncherData.isUseAssetBundle;
 
         /// <summary>
         /// 运行时是否依赖网络（需要更新资源）
         /// </summary>
-        public bool IsNeedNetwork => LauncherData.isUseAssetBundle && LauncherData.isHotPatchEnable;
+        public static bool IsNeedNetwork => LauncherData.isUseAssetBundle && LauncherData.isHotPatchEnable;
 
         /// <summary>
         /// 运行时是否允许加载热更目录中的资源 
         /// </summary>
-        public bool IsHotResEnable => LauncherData.isUseAssetBundle && LauncherData.isHotPatchEnable;
+        public static bool IsHotResEnable => LauncherData.isUseAssetBundle && LauncherData.isHotPatchEnable;
 
         /// <summary>
         /// 设置是否打印日志
         /// </summary>
         /// <param name="enable"></param>
-        internal void SetLogEnable(bool enable)
+        internal static void SetLogEnable(bool enable)
         {
             LauncherData.isLogEnable = enable;
             //日志控制
             Debug.unityLogger.logEnabled = enable;
         }
 
-        internal void Init(LauncherSettingData data)
+        internal static void Init(LauncherSettingData data)
         {
             if (null != LauncherData)
             {
@@ -122,7 +120,7 @@ namespace Zero
                 return;
             }
 
-            this.LauncherData = data;
+            LauncherData = data;
 
             SetLogEnable(data.isLogEnable);
 
@@ -161,7 +159,7 @@ namespace Zero
         /// <summary>
         /// 初始化热更资源相关的运行参数
         /// </summary>
-        void InitHotResRuntime()
+        private static void InitHotResRuntime()
         {
             SettingFileNetDirList = new string[LauncherData.urlRoots.Length];
             for (var i = 0; i < SettingFileNetDirList.Length; i++)
@@ -184,7 +182,7 @@ namespace Zero
         /// <param name="key"></param>
         /// <param name="defaultValue">key不存在时，返回改变量</param>
         /// <returns></returns>
-        public string GetStartupParams(string key, string defaultValue = null)
+        public static string GetStartupParams(string key, string defaultValue = null)
         {
             if (null == setting || null == setting.startupParams)
             {
@@ -199,7 +197,7 @@ namespace Zero
             return setting.startupParams[key];
         }
 
-        public void PrintInfo()
+        public static void PrintInfo()
         {
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] ========================================="));
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] 日志打印: {LauncherData.isLogEnable}"));

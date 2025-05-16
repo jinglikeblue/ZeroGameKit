@@ -26,7 +26,7 @@ namespace Zero
         /// </summary>
         public static bool CheckUpdate(string path)
         {
-            if (!Runtime.Ins.IsHotResEnable)
+            if (!Runtime.IsHotResEnable)
             {
                 return false;
             }
@@ -124,8 +124,8 @@ namespace Zero
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool CheckNewVersion(string resPath)
         {
-            string localVer = Runtime.Ins.localResVer.GetVer(resPath);
-            var newVer = Runtime.Ins.netResVer.GetVer(resPath);
+            string localVer = Runtime.localResVer.GetVer(resPath);
+            var newVer = Runtime.netResVer.GetVer(resPath);
             return localVer != newVer;
         }
 
@@ -138,10 +138,10 @@ namespace Zero
         {
             bool isExist = false;
 
-            if (Runtime.Ins.IsUseAssetBundle)
+            if (Runtime.IsUseAssetBundle)
             {
                 //如果支持热更，则先检查热更目录
-                if (Runtime.Ins.IsHotResEnable)
+                if (Runtime.IsHotResEnable)
                 {
                     isExist = CheckPersistentExist(path);
                 }
@@ -169,10 +169,10 @@ namespace Zero
         {
             bool isExist = false;
 
-            if (Runtime.Ins.IsUseAssetBundle)
+            if (Runtime.IsUseAssetBundle)
             {
                 //如果支持热更，则先检查热更目录
-                if (Runtime.Ins.IsHotResEnable)
+                if (Runtime.IsHotResEnable)
                 {
                     isExist = CheckPersistentExist(path);
                 }
@@ -251,10 +251,10 @@ namespace Zero
         /// <returns></returns>
         public static string AbsolutePath(string path)
         {
-            if (Runtime.Ins.IsUseAssetBundle)
+            if (Runtime.IsUseAssetBundle)
             {
                 //如果支持热更，则先检查热更目录
-                if (Runtime.Ins.IsHotResEnable)
+                if (Runtime.IsHotResEnable)
                 {
                     if (CheckPersistentExist(path))
                     {
@@ -377,10 +377,10 @@ namespace Zero
         {
             byte[] bytes = null;
 
-            if (Runtime.Ins.IsUseAssetBundle)
+            if (Runtime.IsUseAssetBundle)
             {
                 //如果支持热更，则先检查热更目录
-                if (Runtime.Ins.IsHotResEnable)
+                if (Runtime.IsHotResEnable)
                 {
                     bytes = LoadFromPersistent(path);
                 }
@@ -412,10 +412,10 @@ namespace Zero
 
             byte[] bytes = null;
 
-            if (Runtime.Ins.IsUseAssetBundle)
+            if (Runtime.IsUseAssetBundle)
             {
                 //如果支持热更，则先检查热更目录
-                if (Runtime.Ins.IsHotResEnable)
+                if (Runtime.IsHotResEnable)
                 {
                     bytes = await LoadFromPersistentAsync(path, cancellationToken);
                 }

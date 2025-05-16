@@ -96,7 +96,7 @@ namespace ZeroEditor
         [LabelText("启动资源组"), ListDrawerSettings(NumberOfItemsPerPage = 7, Expanded = false)]
         public string[] startupResGroups;
 
-        [InfoBox("使用[Runtime.Ins.GetStartupParams]方法，在运行时获取")]
+        [InfoBox("使用[Runtime.GetStartupParams]方法，在运行时获取")]
         [Title("启动参数配置"),ShowInInspector]
         public Dictionary<string, string> startupParams;
 

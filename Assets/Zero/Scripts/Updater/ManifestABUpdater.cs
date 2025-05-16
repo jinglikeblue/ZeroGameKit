@@ -23,7 +23,7 @@ namespace Zero
 
             manifestABPath = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION);
             
-            if (Runtime.Ins.IsNeedNetwork && false == Runtime.Ins.netResVer.IsSameVer(manifestABPath, Runtime.Ins.localResVer))
+            if (Runtime.IsNeedNetwork && false == Runtime.netResVer.IsSameVer(manifestABPath, Runtime.localResVer))
             {
                 UpdateManifestAB();
             }
@@ -35,12 +35,12 @@ namespace Zero
 
         private async void UpdateManifestAB()
         {
-            var url = FileUtility.CombinePaths(Runtime.Ins.netResDir, manifestABPath);
+            var url = FileUtility.CombinePaths(Runtime.netResDir, manifestABPath);
             Debug.Log(LogColor.Zero2($"[Zero][ManifestABUpdater][{url}] manifest.ab文件更新中..."));
             
-            var ver = Runtime.Ins.netResVer.GetVer(manifestABPath);
+            var ver = Runtime.netResVer.GetVer(manifestABPath);
 
-            var localPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, manifestABPath);
+            var localPath = FileUtility.CombinePaths(Runtime.localResDir, manifestABPath);
 
             HttpDownloader loader = new HttpDownloader(url, localPath, ver);
             loader.Start();
@@ -57,7 +57,7 @@ namespace Zero
             }            
 
             //保存文件版本号
-            Runtime.Ins.localResVer.SetVerAndSave(manifestABPath, ver);
+            Runtime.localResVer.SetVerAndSave(manifestABPath, ver);
 
             End();
         }

@@ -17,7 +17,7 @@ namespace Zero
             this.onProgress = onProgress;
 
             string error = null;
-            if (Runtime.Ins.IsHotResEnable)
+            if (Runtime.IsHotResEnable)
             {
                 error = await CheckUpdate();
             }
@@ -27,19 +27,19 @@ namespace Zero
 
         async UniTask<string> CheckUpdate()
         {
-            if (string.IsNullOrEmpty(Runtime.Ins.setting.client.version))
+            if (string.IsNullOrEmpty(Runtime.setting.client.version))
             {
                 //未配置版本号的情况下，就忽略强制版本更新检查
                 return null;
             }
             
-            int result = CheckVersionCode(Application.version, Runtime.Ins.setting.client.version);
+            int result = CheckVersionCode(Application.version, Runtime.setting.client.version);
             if (result == -1)
             {
                 try
                 {
-                    Uri updateURI = new Uri(Runtime.Ins.setting.client.url);
-                    var url = string.IsNullOrEmpty(updateURI.Query) ? $"{updateURI.OriginalString}?ver={Runtime.Ins.setting.client.version}" : updateURI.AbsoluteUri;
+                    Uri updateURI = new Uri(Runtime.setting.client.url);
+                    var url = string.IsNullOrEmpty(updateURI.Query) ? $"{updateURI.OriginalString}?ver={Runtime.setting.client.version}" : updateURI.AbsoluteUri;
 
                     if (updateURI.AbsolutePath.EndsWith(APK_INSTALL_FILE_EXT) && Application.platform == RuntimePlatform.Android)
                     {
@@ -107,7 +107,7 @@ namespace Zero
 
         async UniTask<string> UpdateAPK(string apkUrl)
         {
-            HttpDownloader loader = new HttpDownloader(apkUrl, FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.ANDROID_APK_NAME));
+            HttpDownloader loader = new HttpDownloader(apkUrl, FileUtility.CombinePaths(Runtime.localResDir, ZeroConst.ANDROID_APK_NAME));
             loader.Start();
 
             Debug.Log($"安装包保存路径:{loader.savePath}");

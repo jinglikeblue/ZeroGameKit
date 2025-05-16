@@ -21,7 +21,7 @@ namespace Zero
             string err = null;
             do
             {
-                if (Runtime.Ins.IsHotResEnable)
+                if (Runtime.IsHotResEnable)
                 {
                     //更新res.json
                     err = await new ResJsonUpdater().StartAsync();
@@ -29,7 +29,7 @@ namespace Zero
 
                     string jsonStr = await Res.LoadAsync<string>(ZeroConst.RES_JSON_FILE_NAME);
                     ResVerVO vo = Json.ToObject<ResVerVO>(jsonStr);
-                    Runtime.Ins.netResVer = new ResVerModel(vo);
+                    Runtime.netResVer = new ResVerModel(vo);
 
                     //更新manifest.ab
                     err = await new ManifestABUpdater().StartAsync();
@@ -39,16 +39,16 @@ namespace Zero
                 // 初始化ResMgr，依赖manifest.ab
                 InitResMgr();
 
-                if (Runtime.Ins.IsHotResEnable)
+                if (Runtime.IsHotResEnable)
                 {
-                    if (null == Runtime.Ins.setting.startupResGroups || 0 == Runtime.Ins.setting.startupResGroups.Length)
+                    if (null == Runtime.setting.startupResGroups || 0 == Runtime.setting.startupResGroups.Length)
                     {
                         //未配置启动必要资源组，默认下载所有的资源
-                        Runtime.Ins.setting.startupResGroups = new[] { "/" };
+                        Runtime.setting.startupResGroups = new[] { "/" };
                     }
                     
                     //检查启动资源更新。依赖ResMgr
-                    err = await new HotResUpdater(Runtime.Ins.setting.startupResGroups).StartAsync(OnHotResUpdaterProgress);
+                    err = await new HotResUpdater(Runtime.setting.startupResGroups).StartAsync(OnHotResUpdaterProgress);
                     if (!string.IsNullOrEmpty(err)) break;
                 }
             } while (false);
@@ -59,7 +59,7 @@ namespace Zero
         void InitResMgr()
         {
             //因为更新了manifest.ab文件，所以要重新初始化ResMgr的Init
-            if (Runtime.Ins.IsUseAssetDataBase)
+            if (Runtime.IsUseAssetDataBase)
             {
                 ResMgr.Init(ResMgr.EResMgrType.AssetDataBase, ZeroConst.HOT_RESOURCES_ROOT_DIR);
             }

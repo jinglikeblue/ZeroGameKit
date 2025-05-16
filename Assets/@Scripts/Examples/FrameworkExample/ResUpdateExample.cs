@@ -59,7 +59,7 @@ namespace Example
 
         private async void OnBtnUpdateClick()
         {
-            if (!Runtime.Ins.IsHotResEnable)
+            if (!Runtime.IsHotResEnable)
             {
                 MsgWin.Show("提示", "请使用AssetBundle模式，并且打开热更资源开关再使用该用例");
                 return;

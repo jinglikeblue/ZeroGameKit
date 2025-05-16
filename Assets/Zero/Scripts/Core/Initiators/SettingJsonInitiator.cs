@@ -19,27 +19,27 @@ namespace Zero
         {
             Debug.Log(LogColor.Zero1("[Zero][SettingJsonInitiator]setting.json 文件初始化"));
 
-            if (Runtime.Ins.IsUseAssetDataBase)
+            if (Runtime.IsUseAssetDataBase)
             {
                 SetSetting(new SettingVO());
                 return null;
             }
 
-            _localPath = FileUtility.CombinePaths(Runtime.Ins.localResDir, ZeroConst.SETTING_FILE_NAME);
+            _localPath = FileUtility.CombinePaths(Runtime.localResDir, ZeroConst.SETTING_FILE_NAME);
             //热更模式下，先尝试更新setting.json
-            if (Runtime.Ins.IsHotResEnable)
+            if (Runtime.IsHotResEnable)
             {
                 var isUpdateSuccess = await Update();
                 if (false == isUpdateSuccess)
                 {
-                    if (false == Runtime.Ins.IsOfflineEnable)
+                    if (false == Runtime.IsOfflineEnable)
                     {
                         return "[Zero][SettingJsonInitiator] setting.json更新失败！请检查网络连接！";
                     }
 
                     Debug.Log(LogColor.Zero1("[Zero][SettingJsonInitiator] 关闭热更功能"));
                     //关闭热更功能
-                    Runtime.Ins.LauncherData.isHotPatchEnable = false;
+                    Runtime.LauncherData.isHotPatchEnable = false;
                 }
             }
 
@@ -57,26 +57,26 @@ namespace Zero
         {
             if (vo.lsLogEnable.isOverride)
             {
-                Runtime.Ins.SetLogEnable(vo.lsLogEnable.value);
+                Runtime.SetLogEnable(vo.lsLogEnable.value);
             }
 
             if (vo.lsUseDll.isOverride)
             {
-                Runtime.Ins.LauncherData.isUseDll = vo.lsUseDll.value;
+                Runtime.LauncherData.isUseDll = vo.lsUseDll.value;
             }
 
-            Runtime.Ins.setting = vo;
+            Runtime.setting = vo;
 
             //如果配置了资源地址重定向，则更改网络资源路径
             if (false == string.IsNullOrEmpty(vo.netResRoot))
             {
-                Runtime.Ins.netResDir = FileUtility.CombineDirs(true, vo.netResRoot, ZeroConst.PLATFORM_DIR_NAME);
+                Runtime.netResDir = FileUtility.CombineDirs(true, vo.netResRoot, ZeroConst.PLATFORM_DIR_NAME);
             }
         }
 
         async UniTask<bool> Update()
         {
-            var list = Runtime.Ins.SettingFileNetDirList;
+            var list = Runtime.SettingFileNetDirList;
             for (var i = 0; i < list.Length; i++)
             {
                 var settingFileUrl = FileUtility.CombinePaths(list[i], ZeroConst.SETTING_FILE_NAME);
@@ -91,7 +91,7 @@ namespace Zero
                 if (null == loader.error)
                 {
                     //设置网络资源地址
-                    Runtime.Ins.netResDir = list[i];
+                    Runtime.netResDir = list[i];
                     return true;
                 }
 

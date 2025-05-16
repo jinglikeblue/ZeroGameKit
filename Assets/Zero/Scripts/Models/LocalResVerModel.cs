@@ -20,7 +20,7 @@ namespace Zero
 
         public void Load()
         {
-            _path = FileUtility.CombinePaths(Runtime.Ins.generateFilesDir, FILE_NAME);
+            _path = FileUtility.CombinePaths(Runtime.generateFilesDir, FILE_NAME);
 
             if (File.Exists(_path))
             {
@@ -51,7 +51,7 @@ namespace Zero
         {
             foreach (var item in _vo.items)
             {
-                var filePath = FileUtility.CombinePaths(Runtime.Ins.localResDir, item.name);
+                var filePath = FileUtility.CombinePaths(Runtime.localResDir, item.name);
                 if (!File.Exists(filePath))
                 {
                     SetVer(item.name, EMPTY_VERSION);
