@@ -36,7 +36,7 @@ namespace ZeroEditor
             var input = fieldName;
             var sb = new StringBuilder(input.Length);
 
-            // 第一个字符必须为字母或下划线[1,2](@ref)
+            // 第一个字符必须为字母或下划线
             if (!char.IsLetter(input[0]) && input[0] != '_')
             {
                 if (char.IsDigit(input[0]))
