@@ -14,22 +14,22 @@ namespace Zero
     public static class R
     {
         #region @Files下的文件路径
-
+        
         public const string Demo_0_png = "Assets/@Files/pics/ScreenShots/Demo_0.png";
         public const string Demo_1_png = "Assets/@Files/pics/ScreenShots/Demo_1.png";
         public const string Demo_2_png = "Assets/@Files/pics/ScreenShots/Demo_2.png";
         public const string Net_png = "Assets/@Files/pics/ScreenShots/Net.png";
         public const string ScrollList_png = "Assets/@Files/pics/ScreenShots/ScrollList.png";
         public const string Video_png = "Assets/@Files/pics/ScreenShots/Video.png";
-        public const string __Files_privacy_policy_txt = "Assets/@Files/privacy_policy.txt";
+        public const string _Files_privacy_policy_txt = "Assets/@Files/privacy_policy.txt";
         public const string read_me_txt = "Assets/@Files/read_me.txt";
         public const string videos_privacy_policy_txt = "Assets/@Files/videos/privacy_policy.txt";
         public const string Sample_mp4 = "Assets/@Files/videos/Sample.mp4";
 
-        #endregion
+        #endregion      
 
         #region @Resources下的资源路径
-
+        
         public const string MsgWin_prefab = "Assets/@Resources/commons/MsgWin.prefab";
         public const string test_json = "Assets/@Resources/configs/tests/test.json";
         public const string AudioDeviceExampleWin_prefab = "Assets/@Resources/examples/audio_device/AudioDeviceExampleWin.prefab";
@@ -249,16 +249,16 @@ namespace Zero
         public const string ILContent_prefab = "Assets/@Resources/root_assets/ILContent.prefab";
         public const string Scene0_unity = "Assets/@Resources/scenes/Scene0.unity";
         public const string Scene1_unity = "Assets/@Resources/scenes/Scene1.unity";
-        public const string Test_test_1_json = "Assets/@Resources/Test/test 1.json";
-        public const string Test_1_test_1_json = "Assets/@Resources/Test/Test 1/test 1.json";
+        public const string test_test_1_json = "Assets/@Resources/test/test 1.json";
+        public const string Test_1_test_1_json = "Assets/@Resources/test/Test 1/test 1.json";
 
         #endregion
-
+                
         #region @Resources下的AssetBundle文件路径（AB模式存在）
-
+        
         /*
         public const string commons_ab = "Assets/@Resources/commons.ab";
-        public const string __Resources_configs_ab = "Assets/@Resources/configs.ab";
+        public const string _Resources_configs_ab = "Assets/@Resources/configs.ab";
         public const string tests_ab = "Assets/@Resources/configs/tests.ab";
         public const string examples_ab = "Assets/@Resources/examples.ab";
         public const string audio_device_ab = "Assets/@Resources/examples/audio_device.ab";
@@ -296,10 +296,10 @@ namespace Zero
         public const string Poppins_ab = "Assets/@Resources/fonts/Poppins.ab";
         public const string root_assets_ab = "Assets/@Resources/root_assets.ab";
         public const string scenes_ab = "Assets/@Resources/scenes.ab";
-        public const string Test_ab = "Assets/@Resources/Test.ab";
-        public const string Test_1_ab = "Assets/@Resources/Test/Test 1.ab";
+        public const string test_ab = "Assets/@Resources/test.ab";
+        public const string Test_1_ab = "Assets/@Resources/test/Test 1.ab";        
         */
-
+        
         #endregion
 
         /// <summary>
@@ -326,7 +326,7 @@ namespace Zero
         private static readonly Dictionary<string, string> FileNameToPathDict = new Dictionary<string, string>();
         private static readonly Dictionary<string, string> ResourceNameToPathDict = new Dictionary<string, string>();
         private static readonly Dictionary<string, List<string>> DuplicateNameToPathListDict = new Dictionary<string, List<string>>();
-
+        
         static R()
         {
             #region 构建文件名到路径的映射
@@ -387,7 +387,7 @@ namespace Zero
                     return path;
                 }
             }
-
+            
             if (type == EResType.Resource || type == EResType.All)
             {
                 if (ResourceNameToPathDict.TryGetValue(name, out var path))
@@ -408,7 +408,7 @@ namespace Zero
         public static string[] Find(string startPath, EResType type = EResType.All)
         {
             List<string> list = new List<string>();
-
+            
             if (EResType.All == type || EResType.File == type)
             {
                 if (!startPath.StartsWith(ZeroConst.HOT_FILES_ROOT_DIR))
@@ -424,7 +424,7 @@ namespace Zero
                     }
                 }
             }
-
+            
             if (EResType.All == type || EResType.Resource == type)
             {
                 if (!startPath.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
@@ -443,7 +443,7 @@ namespace Zero
 
             return list.ToArray();
         }
-
+        
         /// <summary>
         /// 所有的文件资源
         /// </summary>
@@ -461,5 +461,5 @@ namespace Zero
         {
             return ResourceNameToPathDict.Values.ToArray();
         }
-    }
+    }    
 }

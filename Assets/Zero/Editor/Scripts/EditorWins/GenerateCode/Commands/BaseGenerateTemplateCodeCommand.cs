@@ -39,13 +39,16 @@ namespace ZeroEditor
             // 第一个字符必须为字母或下划线[1,2](@ref)
             if (!char.IsLetter(input[0]) && input[0] != '_')
             {
-                sb.Append('_');
+                if (char.IsDigit(input[0]))
+                {
+                    sb.Append('_');
+                }
             }
             
-            sb.Append(input[0]);
+            // sb.Append(input[0]);
 
             // 后续字符可以是字母、数字或下划线[4](@ref)
-            for (int i = 1; i < input.Length; i++)
+            for (int i = 0; i < input.Length; i++)
             {
                 char c = input[i];
                 if (char.IsLetterOrDigit(c) || c == '_')

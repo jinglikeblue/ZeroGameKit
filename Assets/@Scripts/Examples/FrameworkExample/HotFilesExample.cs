@@ -89,12 +89,12 @@ namespace Example
 
         private async void LoadPrivacyPolicy()
         {
-            L($"加载 {R.__Files_privacy_policy_txt}");
-            L($"FullPath: {Res.AbsolutePath(R.__Files_privacy_policy_txt)}");
-            var text = await Res.LoadAsync<string>(R.__Files_privacy_policy_txt);
+            L($"加载 {R._Files_privacy_policy_txt}");
+            L($"FullPath: {Res.AbsolutePath(R._Files_privacy_policy_txt)}");
+            var text = await Res.LoadAsync<string>(R._Files_privacy_policy_txt);
             if (null == text)
             {
-                L($"加载内容不存在: {R.__Files_privacy_policy_txt}");
+                L($"加载内容不存在: {R._Files_privacy_policy_txt}");
             }
             
             Debug.Log(text);
