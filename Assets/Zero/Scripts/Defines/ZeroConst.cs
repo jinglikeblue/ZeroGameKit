@@ -83,14 +83,19 @@ namespace Zero
         #region 基于项目根目录的路径
 
         /// <summary>
+        /// 项目中的根目录
+        /// </summary>
+        public const string ASSETS_DIR = "Assets/";
+        
+        /// <summary>
         /// 热更资源在项目中的根目录
         /// </summary>
-        public const string HOT_RESOURCES_ROOT_DIR = "Assets/@Resources";
+        public const string HOT_RESOURCES_ROOT_DIR = ASSETS_DIR + "@Resources";
 
         /// <summary>
         /// 其它热更资源再项目中的根目录
         /// </summary>
-        public const string HOT_FILES_ROOT_DIR = "Assets/@Files";
+        public const string HOT_FILES_ROOT_DIR =  ASSETS_DIR + "@Files";
 
         #endregion
 

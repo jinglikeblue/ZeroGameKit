@@ -319,6 +319,8 @@ namespace Zero
                 assetPath = "";
             }
 
+            assetPath = RemoveRootFolder(assetPath);
+
             abName = FileUtility.StandardizeBackslashSeparator(Path.GetDirectoryName(assetPath));
             assetName = Path.GetFileName(assetPath);
         }
@@ -413,19 +415,23 @@ namespace Zero
         }
 
         /// <summary>
-        /// 移除AB资源根目录
+        /// 移除资源根目录
         /// </summary>
-        /// <param name="resPath"></param>
+        /// <param name="path"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string RemoveRootFolder(string resPath)
+        public static string RemoveRootFolder(string path)
         {
-            if (resPath.StartsWith(ZeroConst.AB_DIR_NAME))
+            if (path.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
             {
-                resPath = resPath.Substring(ZeroConst.AB_DIR_NAME.Length + 1);
+                path = path.Remove(0, ZeroConst.HOT_RESOURCES_ROOT_DIR.Length + 1);
+            }
+            else if (path.StartsWith(ZeroConst.AB_DIR_NAME))
+            {
+                path = path.Remove(0, ZeroConst.HOT_RESOURCES_ROOT_DIR.Length + 1);
             }
 
-            return resPath;
+            return path;
         }
     }
 }

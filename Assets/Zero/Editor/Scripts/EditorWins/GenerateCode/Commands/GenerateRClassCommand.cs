@@ -36,6 +36,7 @@ namespace ZeroEditor
 
             var template = File.ReadAllText(TEMPLATE_FILE).Split(new string[] { TEMPLATE_SPLIT }, StringSplitOptions.RemoveEmptyEntries);
             _mainClassT = template[0];
+            _mainClassT = _mainClassT.TrimEnd();
             _fieldT = template[1];
 
             string classContent;
@@ -46,10 +47,10 @@ namespace ZeroEditor
             FindAssetBundles(out var abFiles, out var assets);
             var allFiles = rawFiles.Concat(abFiles).Concat(assets).ToArray();
             var mapping = new FilePathMappingModel(allFiles);
-            
+
             classContent = classContent.ReplaceAt(FIELD_LIST_FLAG, GenerateFieldList(rawFiles, mapping));
-            classContent = classContent.ReplaceAt(FIELD_LIST_FLAG, GenerateFieldList(abFiles, mapping));
             classContent = classContent.ReplaceAt(FIELD_LIST_FLAG, GenerateFieldList(assets, mapping));
+            classContent = classContent.ReplaceAt(FIELD_LIST_FLAG, GenerateFieldList(abFiles, mapping));
 
             File.WriteAllText(OUTPUT_FILE, classContent);
         }
@@ -91,11 +92,13 @@ namespace ZeroEditor
                 .ToArray();
             foreach (var file in files)
             {
-                var path = file.Replace(ZeroConst.HOT_FILES_ROOT_DIR, ZeroConst.FILES_DIR_NAME);
+                var path = file; // file.Replace(ZeroConst.HOT_FILES_ROOT_DIR, ZeroConst.FILES_DIR_NAME);
+                StripPath(ref path);
+
                 path = FileUtility.StandardizeBackslashSeparator(path);
                 list.Add(path);
             }
-            
+
             return list.ToArray();
         }
 
@@ -118,10 +121,12 @@ namespace ZeroEditor
             cmd.Excute();
             foreach (var item in cmd.list)
             {
-                var abFile = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, item.assetbundle);
+                var abFile = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, item.assetbundle);
                 fileList.Add(abFile);
 
                 var folder = abFile.Replace(".ab", "");
+                StripPath(ref folder);
+
                 foreach (var asset in item.assetList)
                 {
                     var assetPath = FileUtility.CombinePaths(folder, asset);
@@ -136,6 +141,15 @@ namespace ZeroEditor
 
 
             return cmd.list.ToArray();
+        }
+
+        private static void StripPath(ref string path)
+        {
+            return;
+            if (path.StartsWith(ZeroConst.ASSETS_DIR))
+            {
+                path = path.RemoveAt(ZeroConst.ASSETS_DIR, 0);
+            }
         }
     }
 }

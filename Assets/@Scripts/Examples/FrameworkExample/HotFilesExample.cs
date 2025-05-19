@@ -63,7 +63,7 @@ namespace Example
 
         private void AllFiles()
         {
-            var list = HotFiles.GetAllFileList();
+            var list = R.AllFiles();
             var json = Json.ToJsonIndented(list);
             L($"所有的文件：{json}");            
             L("------------------------------------------------------------");
@@ -71,30 +71,30 @@ namespace Example
 
         private void PicsFiles()
         {
-            var list0 = HotFiles.GetFiles("pics");
-            var list1 = HotFiles.GetFiles("pics", System.IO.SearchOption.AllDirectories);
+            var list0 = R.Find("pics");
+            // var list1 = R.Find("pics", System.IO.SearchOption.AllDirectories);
 
-            L($"pics下的文件(不含子目录)：{Json.ToJsonIndented(list0)}");
+            L($"pics下的文件：{Json.ToJsonIndented(list0)}");
 
-            L($"pics下的文件(含子目录)：{Json.ToJsonIndented(list1)}");
+            // L($"pics下的文件(含子目录)：{Json.ToJsonIndented(list1)}");
 
             L("------------------------------------------------------------");
         }
 
         private void LoadSampleMP4()
         {
-            L($"加载 {HotFiles.VIDEOS_SAMPLE_MP4}");
-            this.StartCoroutine(LoadBytes(HotFiles.VIDEOS_SAMPLE_MP4));
+            L($"加载 {R.Sample_mp4}");
+            this.StartCoroutine(LoadBytes(R.Sample_mp4));
         }
 
         private async void LoadPrivacyPolicy()
         {
-            L($"加载 {HotFiles.PRIVACY_POLICY_TXT}");
-            L($"FullPath: {Res.AbsolutePath(HotFiles.PRIVACY_POLICY_TXT)}");
-            var text = await Res.LoadAsync<string>(HotFiles.PRIVACY_POLICY_TXT);
+            L($"加载 {R.__Files_privacy_policy_txt}");
+            L($"FullPath: {Res.AbsolutePath(R.__Files_privacy_policy_txt)}");
+            var text = await Res.LoadAsync<string>(R.__Files_privacy_policy_txt);
             if (null == text)
             {
-                L($"加载内容不存在: {HotFiles.PRIVACY_POLICY_TXT}");
+                L($"加载内容不存在: {R.__Files_privacy_policy_txt}");
             }
             
             Debug.Log(text);

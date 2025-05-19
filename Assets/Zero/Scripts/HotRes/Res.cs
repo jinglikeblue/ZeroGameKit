@@ -590,6 +590,7 @@ namespace Zero
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string GetPersistentPath(string path)
         {
+            path = TransformToHotPath(path);
             return FileUtility.CombinePaths(ZeroConst.WWW_RES_PERSISTENT_DATA_PATH, path);
         }
 
@@ -601,6 +602,7 @@ namespace Zero
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string GetStreamingAssetsPath(string path)
         {
+            path = TransformToHotPath(path);
             return FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, path);
         }
 
@@ -622,6 +624,26 @@ namespace Zero
 
             //其它不支持的路径，直接返回null
             return null;
+        }
+
+        /// <summary>
+        /// 将路径转换为热更目录下的路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private static string TransformToHotPath(string path)
+        {
+            if (path.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
+            {
+                return path.ReplaceAt(ZeroConst.HOT_RESOURCES_ROOT_DIR, ZeroConst.AB_DIR_NAME);
+            }
+            
+            if (path.StartsWith(ZeroConst.HOT_FILES_ROOT_DIR))
+            {
+                return path.ReplaceAt(ZeroConst.HOT_FILES_ROOT_DIR, ZeroConst.FILES_DIR_NAME);
+            }
+
+            return path;
         }
     }
 }

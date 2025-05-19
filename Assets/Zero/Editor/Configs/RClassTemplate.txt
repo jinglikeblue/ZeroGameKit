@@ -2,7 +2,9 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using Jing;
 
 namespace Zero
 {
@@ -11,6 +13,23 @@ namespace Zero
     /// </summary>
     public static class [CLASS NAME]
     {
+        #region @Files下的文件路径
+        [FIELD LIST]
+
+        #endregion      
+
+        #region @Resources下的资源路径
+        [FIELD LIST]
+
+        #endregion
+                
+        #region @Resources下的AssetBundle文件路径（AB模式存在）
+        
+        /*[FIELD LIST]        
+        */
+        
+        #endregion
+
         /// <summary>
         /// 资源类型
         /// </summary>
@@ -49,12 +68,12 @@ namespace Zero
 
                     var name = Path.GetFileName(path).ToLower();
 
-                    if (path.StartsWith(ZeroConst.FILES_DIR_NAME))
+                    if (path.StartsWith(ZeroConst.HOT_FILES_ROOT_DIR))
                     {
                         //  @Files下的文件
                         AddNameToDict(name, path, FileNameToPathDict);
                     }
-                    else if (path.StartsWith(ZeroConst.AB_DIR_NAME))
+                    else if (path.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
                     {
                         // @Resources下的资源
                         AddNameToDict(name, path, ResourceNameToPathDict);
@@ -108,21 +127,69 @@ namespace Zero
             return null;
         }
 
-        #region @Files下的文件路径
-        [FIELD LIST]
+        /// <summary>
+        /// 通过起始路径查找所有匹配的资源
+        /// </summary>
+        /// <param name="startPath"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string[] Find(string startPath, EResType type = EResType.All)
+        {
+            List<string> list = new List<string>();
+            
+            if (EResType.All == type || EResType.File == type)
+            {
+                if (!startPath.StartsWith(ZeroConst.HOT_FILES_ROOT_DIR))
+                {
+                    startPath = FileUtility.CombinePaths(ZeroConst.HOT_FILES_ROOT_DIR, startPath);
+                }
 
-        #endregion
+                foreach (var filePath in FileNameToPathDict.Values)
+                {
+                    if (filePath.StartsWith(startPath))
+                    {
+                        list.Add(filePath);
+                    }
+                }
+            }
+            
+            if (EResType.All == type || EResType.Resource == type)
+            {
+                if (!startPath.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
+                {
+                    startPath = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, startPath);
+                }
+
+                foreach (var filePath in ResourceNameToPathDict.Values)
+                {
+                    if (filePath.StartsWith(startPath))
+                    {
+                        list.Add(filePath);
+                    }
+                }
+            }
+
+            return list.ToArray();
+        }
         
-        #region @Resources下的AssetBundle文件路径（AB模式存在）
-        [FIELD LIST]
+        /// <summary>
+        /// 所有的文件资源
+        /// </summary>
+        /// <returns></returns>
+        public static string[] AllFiles()
+        {
+            return FileNameToPathDict.Values.ToArray();
+        }
 
-        #endregion
-        
-        #region @Resources下的资源路径
-        [FIELD LIST]
-
-        #endregion
+        /// <summary>
+        /// 所有的AB中的资源
+        /// </summary>
+        /// <returns></returns>
+        public static string[] AllAssets()
+        {
+            return ResourceNameToPathDict.Values.ToArray();
+        }
     }    
 }
 ------------------------------Split--------------------------------
-            public const string [FIELD NAME] = "[FIELD VALUE]";
+        public const string [FIELD NAME] = "[FIELD VALUE]";

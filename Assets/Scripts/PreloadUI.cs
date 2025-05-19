@@ -94,8 +94,8 @@ namespace Demo
 
         private async void Startup()
         {
-            try
-            {
+            // try
+            // {
                 SetProgress(0, 1);
 
                 var vo = LauncherSetting.LoadLauncherSettingDataFromResources();
@@ -115,12 +115,12 @@ namespace Demo
                 }
 
                 text.text = error;
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e);
-                text.text = "启动失败!";
-            }
+            // }
+            // catch (Exception e)
+            // {
+            //     Debug.LogError(e);
+            //     text.text = "启动失败!";
+            // }
         }
 
         private void SetProgress(long loadedSize, long totalSize)
