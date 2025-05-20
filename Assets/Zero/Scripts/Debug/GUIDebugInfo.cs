@@ -35,15 +35,30 @@ namespace Zero
         static Dictionary<string, InfoItem> _infoItemDic = new Dictionary<string, InfoItem>();
         static List<InfoItem> _infoItems = new List<InfoItem>();
 
+        /// <summary>
+        /// 文本颜色
+        /// </summary>
+        public static Color TextColor = Color.white;
+
+        /// <summary>
+        /// 文本文字大小
+        /// </summary>
+        public static int TextSize = 20;
+
+        /// <summary>
+        /// 是否允许文字描边
+        /// </summary>
+        public static bool IsOutlineEnable = true;
+
         public static void Show()
-        {         
+        {
             if (null == _ins && Debug.unityLogger.logEnabled)
             {
                 const string NAME = "GUIDebugInfo";
                 GameObject go = new GameObject();
                 go.name = NAME;
                 _ins = go.AddComponent<GUIDebugInfo>();
-                DontDestroyOnLoad(go);                
+                DontDestroyOnLoad(go);
             }
         }
 
@@ -66,7 +81,7 @@ namespace Zero
                     isNeedReorder = true;
                 }
 
-                var item = _infoItemDic[key];                
+                var item = _infoItemDic[key];
                 item.value = value;
                 if (item.priority != priority)
                 {
@@ -137,10 +152,9 @@ namespace Zero
 
         private void OnGUI()
         {
-            // 创建实际文本的GUIStyle，将颜色设置为白色
-            var labelStyle = new GUIStyle(GUI.skin.label);
-            labelStyle.normal.textColor = Color.white;
-            labelStyle.fontSize = 20;
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
+            labelStyle.normal.textColor = TextColor;
+            labelStyle.fontSize = TextSize;
             labelStyle.fontStyle = FontStyle.Bold;
 
             InfoItem[] items = null;
@@ -152,11 +166,33 @@ namespace Zero
             for (int i = 0; i < items.Length; i++)
             {
                 var item = items[i];
-                GUILayout.Label($"{item.key}:{item.value}", labelStyle);
+                string text = $"{item.key}:{item.value}";
+
+                // 四个方向的偏移（上下左右）
+                Rect baseRect = GUILayoutUtility.GetRect(new GUIContent(text), labelStyle);
+                
+                if (IsOutlineEnable)
+                {
+                    // 描边效果：先绘制4次偏移的黑色文本，再绘制原始白色文本
+                    GUIStyle outlineStyle = new GUIStyle(labelStyle);
+                    outlineStyle.normal.textColor = Color.black; // 描边颜色
+
+                    const int offset = 2;
+                    GUI.Label(new Rect(baseRect.x - offset, baseRect.y, baseRect.width, baseRect.height), text, outlineStyle);
+                    GUI.Label(new Rect(baseRect.x + offset, baseRect.y, baseRect.width, baseRect.height), text, outlineStyle);
+                    GUI.Label(new Rect(baseRect.x, baseRect.y - offset, baseRect.width, baseRect.height), text, outlineStyle);
+                    GUI.Label(new Rect(baseRect.x, baseRect.y + offset, baseRect.width, baseRect.height), text, outlineStyle);
+                    GUI.Label(new Rect(baseRect.x + offset, baseRect.y + offset, baseRect.width, baseRect.height), text, outlineStyle);
+                    GUI.Label(new Rect(baseRect.x + offset, baseRect.y - offset, baseRect.width, baseRect.height), text, outlineStyle);
+                    GUI.Label(new Rect(baseRect.x - offset, baseRect.y + offset, baseRect.width, baseRect.height), text, outlineStyle);
+                    GUI.Label(new Rect(baseRect.x - offset, baseRect.y - offset, baseRect.width, baseRect.height), text, outlineStyle);
+                }
+
+                // 原始文本
+                GUI.Label(baseRect, text, labelStyle);
+
                 GUILayout.Space(-10);
             }
         }
-
-
     }
 }
