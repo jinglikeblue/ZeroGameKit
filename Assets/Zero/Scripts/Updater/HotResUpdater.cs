@@ -73,6 +73,10 @@ namespace Zero
             {
                 Progress(groupLoader.loadedSize, groupLoader.totalSize);
                 await UniTask.NextFrame();
+                if (CancelToken.IsCancellationRequested)
+                {
+                    groupLoader.StopAndDispose(true);
+                }
             }
             while (false == groupLoader.isDone);
 

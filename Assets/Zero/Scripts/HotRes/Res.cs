@@ -57,11 +57,14 @@ namespace Zero
         /// </summary>
         /// <param name="resPath"></param>
         /// <param name="onProgress"></param>
+        /// <param name="cancelToken"></param>
         /// <returns>错误码： null表示更新成功</returns>
-        public static async UniTask<string> Update(string resPath, ProgressDelegate onProgress = null)
+        public static async UniTask<string> Update(string resPath, ProgressDelegate onProgress = null, CancellationToken cancelToken = default)
         {
             var updater = new HotResUpdater(resPath);
-            string errInfo = await updater.StartAsync((loaded, total) => { onProgress?.Invoke(CalculateProgress(loaded, total), loaded, total); });
+            string errInfo = await updater.StartAsync(
+                (loaded, total) => { onProgress?.Invoke(CalculateProgress(loaded, total), loaded, total); },
+                cancelToken);
             return errInfo;
         }
 
@@ -70,11 +73,14 @@ namespace Zero
         /// </summary>
         /// <param name="groups"></param>
         /// <param name="onProgress"></param>
+        /// <param name="cancelToken"></param>
         /// <returns></returns>
-        public static async UniTask<string> UpdateGroup(string[] groups, ProgressDelegate onProgress = null)
+        public static async UniTask<string> UpdateGroup(string[] groups, ProgressDelegate onProgress = null, CancellationToken cancelToken = default)
         {
             var updater = new HotResUpdater(groups);
-            string errInfo = await updater.StartAsync((loaded, total) => { onProgress?.Invoke(CalculateProgress(loaded, total), loaded, total); });
+            string errInfo = await updater.StartAsync(
+                (loaded, total) => { onProgress?.Invoke(CalculateProgress(loaded, total), loaded, total); }
+                , cancelToken);
             return errInfo;
         }
 
@@ -637,17 +643,17 @@ namespace Zero
             {
                 return path.ReplaceAt(ZeroConst.HOT_RESOURCES_ROOT_DIR, ZeroConst.AB_DIR_NAME);
             }
-            
+
             if (path.StartsWith(ZeroConst.RESOURCES_FOLDER_NAME))
             {
                 return path.ReplaceAt(ZeroConst.RESOURCES_FOLDER_NAME, ZeroConst.AB_DIR_NAME);
             }
-            
+
             if (path.StartsWith(ZeroConst.HOT_FILES_ROOT_DIR))
             {
                 return path.ReplaceAt(ZeroConst.HOT_FILES_ROOT_DIR, ZeroConst.FILES_DIR_NAME);
             }
-            
+
             if (path.StartsWith(ZeroConst.FILES_FOLDER_NAME))
             {
                 return path.ReplaceAt(ZeroConst.FILES_FOLDER_NAME, ZeroConst.FILES_DIR_NAME);

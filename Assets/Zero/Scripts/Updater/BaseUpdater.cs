@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 
@@ -27,6 +28,8 @@ namespace Zero
         public string error { get; private set; } = null;
 
         internal bool IsUpdating { get; private set; }
+        
+        protected CancellationToken CancelToken { get; private set; }
 
         public virtual void Start()
         {
@@ -41,9 +44,11 @@ namespace Zero
         /// 修改为异步执行
         /// </summary>
         /// <param name="onProgress"></param>
+        /// <param name="cancelToken"></param>
         /// <returns></returns>
-        public UniTask<string> StartAsync(UpdateProgress onProgress = null)
+        public UniTask<string> StartAsync(UpdateProgress onProgress = null, CancellationToken cancelToken = default)
         {
+            CancelToken = cancelToken;
             var tcs = new UniTaskCompletionSource<string>();
             this.onComplete += OnComplete;
             this.onProgress += onProgress;
@@ -68,6 +73,7 @@ namespace Zero
             IsUpdating = false;
             this.error = error;
             onComplete?.Invoke(this);
+            CancelToken = CancellationToken.None;
         }
 
         protected virtual void Progress(long loadedSize, long totalSize)
