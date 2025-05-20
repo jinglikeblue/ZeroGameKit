@@ -319,12 +319,12 @@ namespace Zero
 
                     var name = Path.GetFileName(path).ToLower();
 
-                    if (path.StartsWith(ZeroConst.HOT_FILES_ROOT_DIR))
+                    if (path.StartsWith(ZeroConst.PROJECT_FILES_DIR))
                     {
                         //@files下的文件
                         AddNameToDict(name, path, FileNameToPathDict);
                     }
-                    else if (path.StartsWith(ZeroConst.HOT_AB_ROOT_DIR))
+                    else if (path.StartsWith(ZeroConst.PROJECT_AB_DIR))
                     {
                         //@ab下的资源
                         AddNameToDict(name, path, ResourceNameToPathDict);
@@ -390,9 +390,9 @@ namespace Zero
             
             if (EResType.All == type || EResType.File == type)
             {
-                if (!startPath.StartsWith(ZeroConst.HOT_FILES_ROOT_DIR))
+                if (!startPath.StartsWith(ZeroConst.PROJECT_FILES_DIR))
                 {
-                    startPath = FileUtility.CombinePaths(ZeroConst.HOT_FILES_ROOT_DIR, startPath);
+                    startPath = FileUtility.CombinePaths(ZeroConst.PROJECT_FILES_DIR, startPath);
                 }
 
                 foreach (var filePath in FileNameToPathDict.Values)
@@ -406,9 +406,9 @@ namespace Zero
             
             if (EResType.All == type || EResType.Asset == type)
             {
-                if (!startPath.StartsWith(ZeroConst.HOT_AB_ROOT_DIR))
+                if (!startPath.StartsWith(ZeroConst.PROJECT_AB_DIR))
                 {
-                    startPath = FileUtility.CombinePaths(ZeroConst.HOT_AB_ROOT_DIR, startPath);
+                    startPath = FileUtility.CombinePaths(ZeroConst.PROJECT_AB_DIR, startPath);
                 }
 
                 foreach (var filePath in ResourceNameToPathDict.Values)

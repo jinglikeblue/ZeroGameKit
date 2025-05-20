@@ -87,7 +87,7 @@ namespace ZeroEditor
         public static string[] FindHotFiles()
         {
             var list = new List<string>();
-            var files = Directory.GetFiles(ZeroConst.HOT_FILES_ROOT_DIR, "*", SearchOption.AllDirectories)
+            var files = Directory.GetFiles(ZeroConst.PROJECT_FILES_DIR, "*", SearchOption.AllDirectories)
                 .Where(file => !file.EndsWith(".meta", StringComparison.OrdinalIgnoreCase))
                 .ToArray();
             foreach (var file in files)
@@ -121,7 +121,7 @@ namespace ZeroEditor
             cmd.Excute();
             foreach (var item in cmd.list)
             {
-                var abFile = FileUtility.CombinePaths(ZeroConst.HOT_AB_ROOT_DIR, item.assetbundle);
+                var abFile = FileUtility.CombinePaths(ZeroConst.PROJECT_AB_DIR, item.assetbundle);
                 fileList.Add(abFile);
 
                 var folder = abFile.Replace(".ab", "");
@@ -146,9 +146,9 @@ namespace ZeroEditor
         private static void StripPath(ref string path)
         {
             return;
-            if (path.StartsWith(ZeroConst.ASSETS_DIR))
+            if (path.StartsWith(ZeroConst.PROJECT_ASSETS_DIR))
             {
-                path = path.RemoveAt(ZeroConst.ASSETS_DIR, 0);
+                path = path.RemoveAt(ZeroConst.PROJECT_ASSETS_DIR, 0);
             }
         }
     }

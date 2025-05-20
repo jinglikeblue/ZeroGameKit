@@ -49,7 +49,7 @@ namespace Zero.Obsolete
             if (resPath.StartsWith(ZeroConst.FILES_DIR_NAME))
             {
                 // 替换起始目录为Assets下的目录
-                return FileUtility.CombinePaths(ZeroConst.HOT_FILES_ROOT_DIR, resPath.Substring(ZeroConst.FILES_DIR_NAME.Length));
+                return FileUtility.CombinePaths(ZeroConst.PROJECT_FILES_DIR, resPath.Substring(ZeroConst.FILES_DIR_NAME.Length));
             }
 
             //其它不支持的路径，直接返回null

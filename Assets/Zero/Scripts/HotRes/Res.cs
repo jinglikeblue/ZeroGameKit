@@ -625,7 +625,7 @@ namespace Zero
             if (path.StartsWith(ZeroConst.FILES_DIR_NAME))
             {
                 // 替换起始目录为Assets下的目录
-                return FileUtility.CombinePaths(ZeroConst.HOT_FILES_ROOT_DIR, path.Substring(ZeroConst.FILES_DIR_NAME.Length));
+                return FileUtility.CombinePaths(ZeroConst.PROJECT_FILES_DIR, path.Substring(ZeroConst.FILES_DIR_NAME.Length));
             }
 
             //其它不支持的路径，直接返回null
@@ -640,24 +640,24 @@ namespace Zero
         /// <returns></returns>
         private static string TransformToHotPath(string path, EResType resType = EResType.All)
         {
-            if (path.StartsWith(ZeroConst.HOT_AB_ROOT_DIR))
+            if (path.StartsWith(ZeroConst.PROJECT_AB_DIR))
             {
-                return path.ReplaceAt(ZeroConst.HOT_AB_ROOT_DIR, ZeroConst.AB_DIR_NAME);
+                return path.ReplaceAt(ZeroConst.PROJECT_AB_DIR, ZeroConst.AB_DIR_NAME);
             }
 
-            if (path.StartsWith(ZeroConst.AB_FOLDER_NAME))
+            if (path.StartsWith(ZeroConst.PROJECT_AB_FOLDER_NAME))
             {
-                return path.ReplaceAt(ZeroConst.AB_FOLDER_NAME, ZeroConst.AB_DIR_NAME);
+                return path.ReplaceAt(ZeroConst.PROJECT_AB_FOLDER_NAME, ZeroConst.AB_DIR_NAME);
             }
 
-            if (path.StartsWith(ZeroConst.HOT_FILES_ROOT_DIR))
+            if (path.StartsWith(ZeroConst.PROJECT_FILES_DIR))
             {
-                return path.ReplaceAt(ZeroConst.HOT_FILES_ROOT_DIR, ZeroConst.FILES_DIR_NAME);
+                return path.ReplaceAt(ZeroConst.PROJECT_FILES_DIR, ZeroConst.FILES_DIR_NAME);
             }
 
-            if (path.StartsWith(ZeroConst.FILES_FOLDER_NAME))
+            if (path.StartsWith(ZeroConst.PROJECT_FILES_FOLDER_NAME))
             {
-                return path.ReplaceAt(ZeroConst.FILES_FOLDER_NAME, ZeroConst.FILES_DIR_NAME);
+                return path.ReplaceAt(ZeroConst.PROJECT_FILES_FOLDER_NAME, ZeroConst.FILES_DIR_NAME);
             }
 
             switch (resType)
@@ -683,21 +683,21 @@ namespace Zero
         {
             if (path.StartsWith(ZeroConst.AB_DIR_NAME))
             {
-                return path.ReplaceAt(ZeroConst.AB_DIR_NAME, ZeroConst.HOT_AB_ROOT_DIR);
+                return path.ReplaceAt(ZeroConst.AB_DIR_NAME, ZeroConst.PROJECT_AB_DIR);
             }
 
             if (path.StartsWith(ZeroConst.FILES_DIR_NAME))
             {
-                return path.ReplaceAt(ZeroConst.FILES_DIR_NAME, ZeroConst.HOT_FILES_ROOT_DIR);
+                return path.ReplaceAt(ZeroConst.FILES_DIR_NAME, ZeroConst.PROJECT_FILES_DIR);
             }
 
             switch (resType)
             {
                 case EResType.File:
-                    path = FileUtility.CombinePaths(ZeroConst.HOT_FILES_ROOT_DIR, path);
+                    path = FileUtility.CombinePaths(ZeroConst.PROJECT_FILES_DIR, path);
                     break;
                 case EResType.Asset:
-                    path = FileUtility.CombinePaths(ZeroConst.HOT_AB_ROOT_DIR, path);
+                    path = FileUtility.CombinePaths(ZeroConst.PROJECT_AB_DIR, path);
                     break;
             }
 

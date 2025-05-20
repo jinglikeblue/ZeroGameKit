@@ -186,7 +186,7 @@ namespace ZeroEditor
                 Directory.Delete(ZeroEditorConst.FILES_PUBLISH_DIR, true);
             }
             //拷贝文件
-            FileUtility.CopyDir(ZeroConst.HOT_FILES_ROOT_DIR, ZeroEditorConst.FILES_PUBLISH_DIR, (s,t)=> {
+            FileUtility.CopyDir(ZeroConst.PROJECT_FILES_DIR, ZeroEditorConst.FILES_PUBLISH_DIR, (s,t)=> {
                 var ext = Path.GetExtension(s);
                 if (ext.Equals(".meta"))
                 {
@@ -211,7 +211,7 @@ namespace ZeroEditor
         void BuildAssetBundle()
         {
             //标记目标目录
-            new AssetBundleBuildCommand(ZeroConst.HOT_AB_ROOT_DIR, ZeroEditorConst.ASSET_BUNDLE_PUBLISH_DIR).Execute();
+            new AssetBundleBuildCommand(ZeroConst.PROJECT_AB_DIR, ZeroEditorConst.ASSET_BUNDLE_PUBLISH_DIR).Execute();
         }
 
         /// <summary>

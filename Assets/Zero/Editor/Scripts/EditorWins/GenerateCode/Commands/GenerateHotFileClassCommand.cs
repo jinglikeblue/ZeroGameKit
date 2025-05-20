@@ -52,7 +52,7 @@ namespace ZeroEditor
         string GenerateFieldList()
         {
 
-            var fileList = Directory.GetFiles(ZeroConst.HOT_FILES_ROOT_DIR, "*", SearchOption.AllDirectories);
+            var fileList = Directory.GetFiles(ZeroConst.PROJECT_FILES_DIR, "*", SearchOption.AllDirectories);
 
             StringBuilder sb = new StringBuilder();
 
@@ -66,7 +66,7 @@ namespace ZeroEditor
 
                 //Debug.Log(path);
 
-                var hotFilePath = FileUtility.GetRelativePath(ZeroConst.HOT_FILES_ROOT_DIR, path);
+                var hotFilePath = FileUtility.GetRelativePath(ZeroConst.PROJECT_FILES_DIR, path);
 
                 var fieldName = hotFilePath.Replace("/", "_").ToUpper();
                 var fieldValue = hotFilePath;

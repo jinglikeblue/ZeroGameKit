@@ -12,7 +12,7 @@ namespace ZeroEditor
         /// <summary>
         /// 创建的spriteatlas文件保存的目录
         /// </summary>
-        public string spriteAtlasSaveDirPath = ZeroConst.HOT_AB_ROOT_DIR + "/spriteatlas";
+        public string spriteAtlasSaveDirPath = ZeroConst.PROJECT_AB_DIR + "/spriteatlas";
 
         /// <summary>
         /// 打包到纹理集的资源最大宽度限制
