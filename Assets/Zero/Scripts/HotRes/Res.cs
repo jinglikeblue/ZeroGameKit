@@ -22,7 +22,7 @@ namespace Zero
         public delegate void ProgressDelegate(float progress, long loadedSize, long totalSize);
 
         ///  <summary>
-        /// 检查资源是否有更新
+        /// 检查资源是否有更新 
         /// </summary>
         public static bool CheckUpdate(string path)
         {
@@ -638,9 +638,19 @@ namespace Zero
                 return path.ReplaceAt(ZeroConst.HOT_RESOURCES_ROOT_DIR, ZeroConst.AB_DIR_NAME);
             }
             
+            if (path.StartsWith(ZeroConst.RESOURCES_FOLDER_NAME))
+            {
+                return path.ReplaceAt(ZeroConst.RESOURCES_FOLDER_NAME, ZeroConst.AB_DIR_NAME);
+            }
+            
             if (path.StartsWith(ZeroConst.HOT_FILES_ROOT_DIR))
             {
                 return path.ReplaceAt(ZeroConst.HOT_FILES_ROOT_DIR, ZeroConst.FILES_DIR_NAME);
+            }
+            
+            if (path.StartsWith(ZeroConst.FILES_FOLDER_NAME))
+            {
+                return path.ReplaceAt(ZeroConst.FILES_FOLDER_NAME, ZeroConst.FILES_DIR_NAME);
             }
 
             return path;

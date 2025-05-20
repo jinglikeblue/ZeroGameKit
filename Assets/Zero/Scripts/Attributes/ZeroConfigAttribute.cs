@@ -14,7 +14,7 @@ namespace Zero
         public string label { get; private set; }
 
         /// <summary>
-        /// 配置存储的位置，相对于@Resources目录
+        /// 配置存储的位置，相对于@ab目录
         /// </summary>
         public string assetPath { get; private set; }
 

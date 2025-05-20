@@ -10,7 +10,7 @@ using Zero;
 
 namespace PingPong
 {
-    [ViewRegister("Assets/@Resources/examples/ping_pong/PingPongGameStage.prefab")]
+    [ViewRegister("Assets/@ab/examples/ping_pong/PingPongGameStage.prefab")]
     public class PingPongGameStage : AView
     {
         PingPongGame _game;

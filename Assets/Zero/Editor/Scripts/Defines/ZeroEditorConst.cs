@@ -59,7 +59,7 @@ namespace ZeroEditor
         /// <summary>
         /// 热更代码的根目录
         /// </summary>
-        static public string HOT_SCRIPT_ROOT_DIR = "Assets/@Scripts";
+        public const string HOT_SCRIPT_ROOT_DIR = "Assets/@Scripts";
 
         /// <summary>
         /// 当前发布平台

@@ -22,7 +22,7 @@ namespace ZeroEditor
 
         [Title("热更资源打包", TitleAlignment = TitleAlignments.Centered)]
         [Title("勾选构建内容")]
-        [LabelText("Copy Files (拷贝 @Files 文件夹到发布目录)"), ToggleLeft]
+        [LabelText("Copy Files (拷贝 @files 文件夹到发布目录)"), ToggleLeft]
         public bool isCopyFiles = true;
         [LabelText("Build AssetBundles (构建AB包)"), ToggleLeft]
         public bool isBuildAB = true;

@@ -71,7 +71,7 @@ namespace Zero
         public const string MANIFEST_FILE_NAME = "manifest";
 
         /// <summary>
-        /// 直接放在Assets/@Resources目录下的资源，会被打包到root_assets.ab文件中
+        /// 直接放在Assets/@ab目录下的资源，会被打包到root_assets.ab文件中
         /// </summary>
         public const string ROOT_AB_FILE_NAME = "root_assets";
 
@@ -86,16 +86,26 @@ namespace Zero
         /// 项目中的根目录
         /// </summary>
         public const string ASSETS_DIR = "Assets/";
+
+        /// <summary>
+        /// 热更资源文件夹名
+        /// </summary>
+        public const string RESOURCES_FOLDER_NAME = "@ab";
+
+        /// <summary>
+        /// 热更文件文件夹名
+        /// </summary>
+        public const string FILES_FOLDER_NAME = "@files";
         
         /// <summary>
         /// 热更资源在项目中的根目录
         /// </summary>
-        public const string HOT_RESOURCES_ROOT_DIR = ASSETS_DIR + "@Resources";
+        public const string HOT_RESOURCES_ROOT_DIR = ASSETS_DIR + RESOURCES_FOLDER_NAME;
 
         /// <summary>
         /// 其它热更资源再项目中的根目录
         /// </summary>
-        public const string HOT_FILES_ROOT_DIR =  ASSETS_DIR + "@Files";
+        public const string HOT_FILES_ROOT_DIR =  ASSETS_DIR + FILES_FOLDER_NAME;
 
         #endregion
 

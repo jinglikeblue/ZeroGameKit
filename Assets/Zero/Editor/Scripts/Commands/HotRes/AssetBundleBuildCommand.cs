@@ -122,7 +122,7 @@ namespace ZeroEditor
 
         /// <summary>
         /// 附加要打包的资源。
-        /// 对于没有（或无法）放置在@Resources下的资源，通过接口添加到AssetBundles打包清单中
+        /// 对于没有（或无法）放置在@ab下的资源，通过接口添加到AssetBundles打包清单中
         /// </summary>
         private void AppendAssetBundles()
         {
@@ -183,7 +183,7 @@ namespace ZeroEditor
             {
                 if (dependPath.StartsWith(resRootDir) || dependPath.Contains(".cs"))
                 {
-                    //要过滤掉依赖的@Resources目录中的文件和脚本文件，@Resources目录中的文件已设置，而脚本不能打包
+                    //要过滤掉依赖的@ab目录中的文件和脚本文件，@ab目录中的文件已设置，而脚本不能打包
                     continue;
                 }
 

@@ -8,7 +8,7 @@ using Zero;
 namespace Zero
 {
     /// <summary>
-    /// 配置管理工具(对应@Resources中的文件)
+    /// 配置管理工具(对应@ab中的文件)
     /// </summary>
     public class ConfigMgr : BaseSingleton<ConfigMgr>
     {                

@@ -16,7 +16,7 @@ using Zero;
 namespace Example
 {
     /// <summary>
-    /// 读取@Files中的文件
+    /// 读取@files中的文件
     /// </summary>
     class HotFilesExample
     {
@@ -89,12 +89,12 @@ namespace Example
 
         private async void LoadPrivacyPolicy()
         {
-            L($"加载 {R._Files_privacy_policy_txt}");
-            L($"FullPath: {Res.AbsolutePath(R._Files_privacy_policy_txt)}");
-            var text = await Res.LoadAsync<string>(R._Files_privacy_policy_txt);
+            L($"加载 {R._files_privacy_policy_txt}");
+            L($"FullPath: {Res.AbsolutePath(R._files_privacy_policy_txt)}");
+            var text = await Res.LoadAsync<string>(R._files_privacy_policy_txt);
             if (null == text)
             {
-                L($"加载内容不存在: {R._Files_privacy_policy_txt}");
+                L($"加载内容不存在: {R._files_privacy_policy_txt}");
             }
             
             Debug.Log(text);

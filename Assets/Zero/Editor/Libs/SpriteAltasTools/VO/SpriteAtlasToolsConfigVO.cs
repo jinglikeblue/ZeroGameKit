@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using Zero;
 
 namespace ZeroEditor
 {
@@ -11,7 +12,7 @@ namespace ZeroEditor
         /// <summary>
         /// 创建的spriteatlas文件保存的目录
         /// </summary>
-        public string spriteAtlasSaveDirPath = "Assets/@Resources/spriteatlas";
+        public string spriteAtlasSaveDirPath = ZeroConst.HOT_RESOURCES_ROOT_DIR + "/spriteatlas";
 
         /// <summary>
         /// 打包到纹理集的资源最大宽度限制

@@ -9,7 +9,7 @@ namespace Zero
     {
         
 		/// <summary>
-		/// @Resources根目录下资源
+		/// @ab根目录下资源
 		/// </summary>
 		public sealed class ROOT_ASSETS
 		{

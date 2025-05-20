@@ -1,7 +1,7 @@
 ﻿{
   "abList": [
     {
-      "explain": "@Resources根目录下资源",
+      "explain": "@ab根目录下资源",
       "assetbundle": "root_assets.ab",
       "assetList": [
         "ILContent.prefab"
@@ -28,7 +28,20 @@
     },
     {
       "explain": null,
-      "assetbundle": "test.ab",
+      "assetbundle": "fonts.ab",
+      "assetList": []
+    },
+    {
+      "explain": null,
+      "assetbundle": "scenes.ab",
+      "assetList": [
+        "Scene0.unity",
+        "Scene1.unity"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "Test.ab",
       "assetList": [
         "test 1.json"
       ]
@@ -88,6 +101,7 @@
       "explain": null,
       "assetbundle": "examples/framework.ab",
       "assetList": [
+        "ChronographExampleWin.prefab",
         "ClockView.prefab",
         "CoroutineProxyExampleWin.prefab",
         "CoroutinesQueueExampleWin.prefab",
@@ -104,9 +118,9 @@
     },
     {
       "explain": null,
-      "assetbundle": "examples/future.ab",
+      "assetbundle": "examples/hot.ab",
       "assetList": [
-        "StreamingAssetsLoadFutureWin.prefab"
+        "MonoBehaviourExampleWin.prefab"
       ]
     },
     {
@@ -146,6 +160,19 @@
     },
     {
       "explain": null,
+      "assetbundle": "examples/ping_pong.ab",
+      "assetList": [
+        "PingPongGameControlWin.prefab",
+        "PingPongGamePanel.prefab",
+        "PingPongGameStage.prefab",
+        "PingPongMenuPanel.prefab",
+        "PingPongNetBattleHostWin.prefab",
+        "PingPongNetBattleJoinWin.prefab",
+        "PingPongNetBattleMenuWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
       "assetbundle": "examples/roushan.ab",
       "assetList": [
         "Block.prefab",
@@ -153,6 +180,13 @@
         "GameStage.prefab",
         "HelpWin.prefab",
         "StartupPanel.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/scene.ab",
+      "assetList": [
+        "SceneManagerExampleWin.prefab"
       ]
     },
     {
@@ -198,12 +232,26 @@
     },
     {
       "explain": null,
+      "assetbundle": "examples/text_outline.ab",
+      "assetList": [
+        "TextOutlineExampleWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
       "assetbundle": "examples/turbocharged_scroll_list.ab",
       "assetList": [
         "GridScrollListDemoPanel.prefab",
         "HorizontalScrollListDemoPanel.prefab",
         "ScrollListDemoMenuPanel.prefab",
         "VerticalScrollListDemoPanel.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "examples/unitask.ab",
+      "assetList": [
+        "UniTaskExampleWin.prefab"
       ]
     },
     {
@@ -217,7 +265,8 @@
       "explain": null,
       "assetbundle": "examples/utility.ab",
       "assetList": [
-        "CryptoExampleWin.prefab"
+        "CryptoExampleWin.prefab",
+        "StreamingAssetsUtilityExampleWin.prefab"
       ]
     },
     {
@@ -225,6 +274,20 @@
       "assetbundle": "examples/video.ab",
       "assetList": [
         "VideoExampleWin.prefab"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "fonts/Poppins.ab",
+      "assetList": [
+        "Poppins-Medium.ttf"
+      ]
+    },
+    {
+      "explain": null,
+      "assetbundle": "Test/Test 1.ab",
+      "assetList": [
+        "test 1.json"
       ]
     },
     {

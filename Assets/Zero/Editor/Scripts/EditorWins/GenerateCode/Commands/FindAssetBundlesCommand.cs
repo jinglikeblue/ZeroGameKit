@@ -67,7 +67,7 @@ namespace ZeroEditor
 
         void FindABAsync()
         {
-            //查找当前@Resources的AB信息
+            //查找当前@ab的AB信息
             List<AssetBundleItemVO>  list = SearchHotResources();
 
             //配置中的数据，转成字典
@@ -104,7 +104,7 @@ namespace ZeroEditor
             if (rootFiles.Length > 0)
             {
                 AssetBundleItemVO rootItem;
-                rootItem.explain = @"@Resources根目录下资源";
+                rootItem.explain = @"@ab根目录下资源";
                 rootItem.assetbundle = ZeroConst.ROOT_AB_FILE_NAME + ZeroConst.AB_EXTENSION;
                 rootItem.assetList = new List<string>();
                 foreach (var file in rootFiles)

@@ -13,17 +13,17 @@ namespace Zero
     /// </summary>
     public static class [CLASS NAME]
     {
-        #region @Files下的文件路径
+        #region 热更文件(files)下的资源路径
         [FIELD LIST]
 
         #endregion      
 
-        #region @Resources下的资源路径
+        #region 热更AssetBundle(ab)下的资源路径
         [FIELD LIST]
 
         #endregion
                 
-        #region @Resources下的AssetBundle文件路径（AB模式存在）
+        #region 热更AssetBundle(ab)下的AB文件资源路径
         
         /*[FIELD LIST]        
         */
@@ -36,14 +36,14 @@ namespace Zero
         public enum EResType
         {
             /// <summary>
-            /// @Files下的文件
+            /// @files下的文件
             /// </summary>
             File,
 
             /// <summary>
-            /// @Resources下的资源
+            /// @ab下的资源
             /// </summary>
-            Resource,
+            Asset,
 
             /// <summary>
             /// 所有
@@ -70,12 +70,12 @@ namespace Zero
 
                     if (path.StartsWith(ZeroConst.HOT_FILES_ROOT_DIR))
                     {
-                        //  @Files下的文件
+                        //@files下的文件
                         AddNameToDict(name, path, FileNameToPathDict);
                     }
                     else if (path.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
                     {
-                        // @Resources下的资源
+                        //@ab下的资源
                         AddNameToDict(name, path, ResourceNameToPathDict);
                     }
                 }
@@ -116,7 +116,7 @@ namespace Zero
                 }
             }
             
-            if (type == EResType.Resource || type == EResType.All)
+            if (type == EResType.Asset || type == EResType.All)
             {
                 if (ResourceNameToPathDict.TryGetValue(name, out var path))
                 {
@@ -153,7 +153,7 @@ namespace Zero
                 }
             }
             
-            if (EResType.All == type || EResType.Resource == type)
+            if (EResType.All == type || EResType.Asset == type)
             {
                 if (!startPath.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
                 {

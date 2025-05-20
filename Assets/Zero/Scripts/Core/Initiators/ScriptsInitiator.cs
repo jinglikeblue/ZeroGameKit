@@ -73,7 +73,7 @@ namespace Zero
 
         string StartupWithDll()
         {
-            Debug.Log(LogColor.Zero1("[Zero][ScriptsInitiator] @Scripts代码运行环境: [外部程序集(dll)]"));
+            Debug.Log(LogColor.Zero1("[Zero][ScriptsInitiator] 代码运行环境: [外部程序集(dll)]"));
 
             LoadDllBytes(out var dllBytes, out var pdbBytes);
 
@@ -92,7 +92,7 @@ namespace Zero
 
         void StartupWithoutDll()
         {
-            Debug.Log(LogColor.Zero1("[Zero][ScriptsInitiator] @Scripts代码运行环境: [本地程序集]"));
+            Debug.Log(LogColor.Zero1("[Zero][ScriptsInitiator] 代码运行环境: [本地程序集]"));
 
             //初始化IL
             ILBridge.Ins.Startup();
