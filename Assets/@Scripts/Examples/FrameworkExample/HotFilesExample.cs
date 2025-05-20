@@ -63,7 +63,7 @@ namespace Example
 
         private void AllFiles()
         {
-            var list = R.AllFiles();
+            var list = Res.AllFiles();
             var json = Json.ToJsonIndented(list);
             L($"所有的文件：{json}");            
             L("------------------------------------------------------------");
@@ -71,7 +71,7 @@ namespace Example
 
         private void PicsFiles()
         {
-            var list0 = R.Find("pics");
+            var list0 = Res.Find("pics");
             // var list1 = R.Find("pics", System.IO.SearchOption.AllDirectories);
 
             L($"pics下的文件：{Json.ToJsonIndented(list0)}");
