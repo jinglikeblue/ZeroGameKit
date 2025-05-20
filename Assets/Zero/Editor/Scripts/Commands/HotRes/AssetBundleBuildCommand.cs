@@ -337,7 +337,7 @@ namespace ZeroEditor
                 
                 if (scenesCount > 0 && assetsCount > 0)
                 {
-                    var folder = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, Path.GetFileNameWithoutExtension(abb.Key));
+                    var folder = FileUtility.CombinePaths(ZeroConst.HOT_AB_ROOT_DIR, Path.GetFileNameWithoutExtension(abb.Key));
                     throw new Exception($"场景文件不能和其它资源在同一个AB（文件夹）里面，请检查文件夹: {folder}");
                 }
             }

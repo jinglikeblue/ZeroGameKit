@@ -355,7 +355,7 @@ namespace Zero
         /// <returns></returns>
         public static string GetOriginalAssetPath(string abName, string assetName)
         {
-            var assetPath = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, JointAssetPath(abName, assetName));
+            var assetPath = FileUtility.CombinePaths(ZeroConst.HOT_AB_ROOT_DIR, JointAssetPath(abName, assetName));
             return assetPath;
         }
 
@@ -367,7 +367,7 @@ namespace Zero
         public static string GetOriginalAssetPath(string assetPath)
         {
             //已经是原始地址其实路径，不需要再获取
-            if (assetPath.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
+            if (assetPath.StartsWith(ZeroConst.HOT_AB_ROOT_DIR))
             {
                 return assetPath;
             }
@@ -378,7 +378,7 @@ namespace Zero
                 assetPath = Path.GetFileName(assetPath);
             }
 
-            var originalAssetPath = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, assetPath);
+            var originalAssetPath = FileUtility.CombinePaths(ZeroConst.HOT_AB_ROOT_DIR, assetPath);
             return originalAssetPath;
         }
 
@@ -389,12 +389,12 @@ namespace Zero
         /// <returns></returns>
         public static string GetAssetPathFromOriginal(string originalAssetPath)
         {
-            if (!originalAssetPath.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
+            if (!originalAssetPath.StartsWith(ZeroConst.HOT_AB_ROOT_DIR))
             {
                 return originalAssetPath;
             }
 
-            var assetPath = originalAssetPath.Substring(ZeroConst.HOT_RESOURCES_ROOT_DIR.Length + 1);
+            var assetPath = originalAssetPath.Substring(ZeroConst.HOT_AB_ROOT_DIR.Length + 1);
             return assetPath;
         }
 
@@ -422,13 +422,13 @@ namespace Zero
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string RemoveRootFolder(string path)
         {
-            if (path.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
+            if (path.StartsWith(ZeroConst.HOT_AB_ROOT_DIR))
             {
-                path = path.Remove(0, ZeroConst.HOT_RESOURCES_ROOT_DIR.Length + 1);
+                path = path.Remove(0, ZeroConst.HOT_AB_ROOT_DIR.Length + 1);
             }
             else if (path.StartsWith(ZeroConst.AB_DIR_NAME))
             {
-                path = path.Remove(0, ZeroConst.HOT_RESOURCES_ROOT_DIR.Length + 1);
+                path = path.Remove(0, ZeroConst.HOT_AB_ROOT_DIR.Length + 1);
             }
 
             return path;

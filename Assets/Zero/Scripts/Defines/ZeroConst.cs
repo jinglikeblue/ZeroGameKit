@@ -90,7 +90,7 @@ namespace Zero
         /// <summary>
         /// 热更资源文件夹名
         /// </summary>
-        public const string RESOURCES_FOLDER_NAME = "@ab";
+        public const string AB_FOLDER_NAME = "@ab";
 
         /// <summary>
         /// 热更文件文件夹名
@@ -100,7 +100,7 @@ namespace Zero
         /// <summary>
         /// 热更资源在项目中的根目录
         /// </summary>
-        public const string HOT_RESOURCES_ROOT_DIR = ASSETS_DIR + RESOURCES_FOLDER_NAME;
+        public const string HOT_AB_ROOT_DIR = ASSETS_DIR + AB_FOLDER_NAME;
 
         /// <summary>
         /// 其它热更资源再项目中的根目录

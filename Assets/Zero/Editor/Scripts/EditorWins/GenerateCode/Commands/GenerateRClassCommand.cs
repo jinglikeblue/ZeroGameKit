@@ -121,7 +121,7 @@ namespace ZeroEditor
             cmd.Excute();
             foreach (var item in cmd.list)
             {
-                var abFile = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, item.assetbundle);
+                var abFile = FileUtility.CombinePaths(ZeroConst.HOT_AB_ROOT_DIR, item.assetbundle);
                 fileList.Add(abFile);
 
                 var folder = abFile.Replace(".ab", "");

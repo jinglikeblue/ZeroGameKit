@@ -211,7 +211,7 @@ namespace ZeroEditor
         void BuildAssetBundle()
         {
             //标记目标目录
-            new AssetBundleBuildCommand(ZeroConst.HOT_RESOURCES_ROOT_DIR, ZeroEditorConst.ASSET_BUNDLE_PUBLISH_DIR).Execute();
+            new AssetBundleBuildCommand(ZeroConst.HOT_AB_ROOT_DIR, ZeroEditorConst.ASSET_BUNDLE_PUBLISH_DIR).Execute();
         }
 
         /// <summary>

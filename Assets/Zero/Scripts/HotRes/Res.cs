@@ -636,17 +636,18 @@ namespace Zero
         /// 将路径转换为热更目录下的路径
         /// </summary>
         /// <param name="path"></param>
+        /// <param name="resType">路径如果是相对路径且没有带资源类型前缀的情况下，会通过该参数来完善路径</param>
         /// <returns></returns>
-        private static string TransformToHotPath(string path)
+        private static string TransformToHotPath(string path, EResType resType = EResType.All)
         {
-            if (path.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
+            if (path.StartsWith(ZeroConst.HOT_AB_ROOT_DIR))
             {
-                return path.ReplaceAt(ZeroConst.HOT_RESOURCES_ROOT_DIR, ZeroConst.AB_DIR_NAME);
+                return path.ReplaceAt(ZeroConst.HOT_AB_ROOT_DIR, ZeroConst.AB_DIR_NAME);
             }
 
-            if (path.StartsWith(ZeroConst.RESOURCES_FOLDER_NAME))
+            if (path.StartsWith(ZeroConst.AB_FOLDER_NAME))
             {
-                return path.ReplaceAt(ZeroConst.RESOURCES_FOLDER_NAME, ZeroConst.AB_DIR_NAME);
+                return path.ReplaceAt(ZeroConst.AB_FOLDER_NAME, ZeroConst.AB_DIR_NAME);
             }
 
             if (path.StartsWith(ZeroConst.HOT_FILES_ROOT_DIR))
@@ -657,6 +658,47 @@ namespace Zero
             if (path.StartsWith(ZeroConst.FILES_FOLDER_NAME))
             {
                 return path.ReplaceAt(ZeroConst.FILES_FOLDER_NAME, ZeroConst.FILES_DIR_NAME);
+            }
+
+            switch (resType)
+            {
+                case EResType.File:
+                    path = FileUtility.CombinePaths(ZeroConst.FILES_DIR_NAME, path);
+                    break;
+                case EResType.Asset:
+                    path = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, path);
+                    break;
+            }
+            
+            return path;
+        }
+
+        /// <summary>
+        /// 将路径转换为工程Assets目录下的路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="resType">路径如果是相对路径且没有带资源类型前缀的情况下，会通过该参数来完善路径</param>
+        /// <returns></returns>
+        private static string TransformToProjectPath(string path, EResType resType = EResType.All)
+        {
+            if (path.StartsWith(ZeroConst.AB_DIR_NAME))
+            {
+                return path.ReplaceAt(ZeroConst.AB_DIR_NAME, ZeroConst.HOT_AB_ROOT_DIR);
+            }
+
+            if (path.StartsWith(ZeroConst.FILES_DIR_NAME))
+            {
+                return path.ReplaceAt(ZeroConst.FILES_DIR_NAME, ZeroConst.HOT_FILES_ROOT_DIR);
+            }
+
+            switch (resType)
+            {
+                case EResType.File:
+                    path = FileUtility.CombinePaths(ZeroConst.HOT_FILES_ROOT_DIR, path);
+                    break;
+                case EResType.Asset:
+                    path = FileUtility.CombinePaths(ZeroConst.HOT_AB_ROOT_DIR, path);
+                    break;
             }
 
             return path;

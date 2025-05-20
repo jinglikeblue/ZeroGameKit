@@ -7,8 +7,6 @@
 
 - 通过setting.json可以覆盖preload中的设置。这个业务流程操作起来体验有待改进。
 
-- Res的异步加载，增加取消的方法。
-
 ## List
 
 - 自动绑定AutoButtonClickBindingAttribute、BaseAutoBindingAttribute、BindingUIClickAttribute 这部分重新梳理，补全注释方便扩展
@@ -97,3 +95,5 @@
      - 重构LauncherSetting的配置界面，更清晰易懂。（例如：选择热补丁模式，才需要配置网络资源根目录。仅使用内嵌资源模式，其实不需要考虑网络资源地址。）
      - 增加是否开发状态的选择，开发状态中资源的获取仅通过AssetDataBase或者本地AB。不依赖「内嵌资源配置」的设置。
      - 开发状态下，可以不需要打包任何资源，业务逻辑也能正常跑通。
+
+- Res的异步加载，增加取消的方法。

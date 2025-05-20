@@ -30,7 +30,7 @@ namespace ZeroEditor
 
         bool _isAsync;
 
-        string _searchDir = ZeroConst.HOT_RESOURCES_ROOT_DIR;
+        string _searchDir = ZeroConst.HOT_AB_ROOT_DIR;
 
         /// <summary>
         /// 
@@ -51,7 +51,7 @@ namespace ZeroEditor
 
             if (false == Directory.Exists(_searchDir))
             {
-                throw new Exception(string.Format("没有一个正确的资源目录:「{0}」或「{1}", ZeroConst.HOT_RESOURCES_ROOT_DIR, _searchDir));
+                throw new Exception(string.Format("没有一个正确的资源目录:「{0}」或「{1}", ZeroConst.HOT_AB_ROOT_DIR, _searchDir));
             }
 
             cfg = GenerateAssetBundleNameModule.LoadConfig();

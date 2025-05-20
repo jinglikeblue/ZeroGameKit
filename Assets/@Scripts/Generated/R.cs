@@ -302,27 +302,6 @@ namespace Zero
         
         #endregion
 
-        /// <summary>
-        /// 资源类型
-        /// </summary>
-        public enum EResType
-        {
-            /// <summary>
-            /// @files下的文件
-            /// </summary>
-            File,
-
-            /// <summary>
-            /// @ab下的资源
-            /// </summary>
-            Asset,
-
-            /// <summary>
-            /// 所有
-            /// </summary>
-            All
-        }
-
         private static readonly Dictionary<string, string> FileNameToPathDict = new Dictionary<string, string>();
         private static readonly Dictionary<string, string> ResourceNameToPathDict = new Dictionary<string, string>();
         private static readonly Dictionary<string, List<string>> DuplicateNameToPathListDict = new Dictionary<string, List<string>>();
@@ -345,7 +324,7 @@ namespace Zero
                         //@files下的文件
                         AddNameToDict(name, path, FileNameToPathDict);
                     }
-                    else if (path.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
+                    else if (path.StartsWith(ZeroConst.HOT_AB_ROOT_DIR))
                     {
                         //@ab下的资源
                         AddNameToDict(name, path, ResourceNameToPathDict);
@@ -427,9 +406,9 @@ namespace Zero
             
             if (EResType.All == type || EResType.Asset == type)
             {
-                if (!startPath.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
+                if (!startPath.StartsWith(ZeroConst.HOT_AB_ROOT_DIR))
                 {
-                    startPath = FileUtility.CombinePaths(ZeroConst.HOT_RESOURCES_ROOT_DIR, startPath);
+                    startPath = FileUtility.CombinePaths(ZeroConst.HOT_AB_ROOT_DIR, startPath);
                 }
 
                 foreach (var filePath in ResourceNameToPathDict.Values)

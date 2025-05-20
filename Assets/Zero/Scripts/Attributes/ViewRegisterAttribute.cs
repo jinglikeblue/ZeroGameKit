@@ -25,9 +25,9 @@ namespace Zero
         /// <param name="prefabPath">预制体路径(参考AB.cs类)</param>
         public ViewRegisterAttribute(string prefabPath)
         {            
-            if (prefabPath.StartsWith(ZeroConst.HOT_RESOURCES_ROOT_DIR))
+            if (prefabPath.StartsWith(ZeroConst.HOT_AB_ROOT_DIR))
             {
-                prefabPath = prefabPath.Replace(ZeroConst.HOT_RESOURCES_ROOT_DIR, "");
+                prefabPath = prefabPath.Replace(ZeroConst.HOT_AB_ROOT_DIR, "");
                 prefabPath = FileUtility.RemoveStartPathSeparator(prefabPath);
             }
             this.prefabPath = prefabPath;
