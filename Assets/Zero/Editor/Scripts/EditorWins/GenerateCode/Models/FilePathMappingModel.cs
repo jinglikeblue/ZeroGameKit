@@ -51,7 +51,7 @@ namespace ZeroEditor
 
         private void CreateDuplicatesDict()
         {
-            var fileDict = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
+            var fileDict = new Dictionary<string, List<string>>();
 
             for (int i = 0; i < _files.Length; i++)
             {
