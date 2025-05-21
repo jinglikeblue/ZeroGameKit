@@ -326,12 +326,24 @@ namespace Zero
                 assetPath = "";
             }
 
-            assetPath = RemoveRootFolder(assetPath);
+            assetPath = Res.TransformToRelativePath(assetPath);
 
             abName = FileUtility.StandardizeBackslashSeparator(Path.GetDirectoryName(assetPath));
             assetName = Path.GetFileName(assetPath);
         }
-
+        
+        /// <summary>
+        /// 通过AB名称和资源名，获取资源原始路径（在工程Assets中的路径）
+        /// </summary>
+        /// <param name="abName"></param>
+        /// <param name="assetName"></param>
+        /// <returns></returns>
+        public static string GetOriginalAssetPath(string abName, string assetName)
+        {
+            var assetPath = FileUtility.CombinePaths(ZeroConst.PROJECT_AB_DIR, JointAssetPath(abName, assetName));
+            return assetPath;
+        }
+        
         /// <summary>
         /// 将AssetBundle和资源名称合并，返回资源的路径
         /// </summary>
@@ -352,93 +364,6 @@ namespace Zero
 
             var assetPath = FileUtility.CombinePaths(assetFolder, assetName);
             return assetPath;
-        }
-
-        /// <summary>
-        /// 通过AB名称和资源名，获取资源原始路径（在工程Assets中的路径）
-        /// </summary>
-        /// <param name="abName"></param>
-        /// <param name="assetName"></param>
-        /// <returns></returns>
-        public static string GetOriginalAssetPath(string abName, string assetName)
-        {
-            var assetPath = FileUtility.CombinePaths(ZeroConst.PROJECT_AB_DIR, JointAssetPath(abName, assetName));
-            return assetPath;
-        }
-
-        /// <summary>
-        /// 通过资源路径获取资源原始路径（在工程Assets中的路径）
-        /// </summary>
-        /// <param name="assetPath"></param>
-        /// <returns></returns>
-        public static string GetOriginalAssetPath(string assetPath)
-        {
-            //已经是原始地址其实路径，不需要再获取
-            if (assetPath.StartsWith(ZeroConst.PROJECT_AB_DIR))
-            {
-                return assetPath;
-            }
-
-            //如果是根AB，则需要忽略根AB的路径
-            if (assetPath.StartsWith(ZeroConst.ROOT_AB_FILE_NAME))
-            {
-                assetPath = Path.GetFileName(assetPath);
-            }
-
-            var originalAssetPath = FileUtility.CombinePaths(ZeroConst.PROJECT_AB_DIR, assetPath);
-            return originalAssetPath;
-        }
-
-        /// <summary>
-        /// 通过资源原始路径获取
-        /// </summary>
-        /// <param name="originalAssetPath"></param>
-        /// <returns></returns>
-        public static string GetAssetPathFromOriginal(string originalAssetPath)
-        {
-            if (!originalAssetPath.StartsWith(ZeroConst.PROJECT_AB_DIR))
-            {
-                return originalAssetPath;
-            }
-
-            var assetPath = originalAssetPath.Substring(ZeroConst.PROJECT_AB_DIR.Length + 1);
-            return assetPath;
-        }
-
-        /// <summary>
-        /// 添加AB资源根目录
-        /// </summary>
-        /// <param name="resPath"></param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string AddRootFolder(string resPath)
-        {
-            if (!resPath.StartsWith(ZeroConst.AB_DIR_NAME))
-            {
-                resPath = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, resPath);
-            }
-
-            return resPath;
-        }
-
-        /// <summary>
-        /// 移除资源根目录
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string RemoveRootFolder(string path)
-        {
-            if (path.StartsWith(ZeroConst.PROJECT_AB_DIR))
-            {
-                path = path.Remove(0, ZeroConst.PROJECT_AB_DIR.Length + 1);
-            }
-            else if (path.StartsWith(ZeroConst.AB_DIR_NAME))
-            {
-                path = path.Remove(0, ZeroConst.PROJECT_AB_DIR.Length + 1);
-            }
-
-            return path;
         }
     }
 }

@@ -193,7 +193,7 @@ namespace Zero
                     var abdepends = Assets.GetDepends(path);
                     foreach (var ab in abdepends)
                     {
-                        isUpdateEnable = CheckNewVersion(Assets.AddRootFolder(ab));
+                        isUpdateEnable = CheckNewVersion(TransformToHotPath(ab, EResType.Asset));
                         if (isUpdateEnable)
                         {
                             break;
@@ -838,7 +838,7 @@ namespace Zero
             {
                 return path;
             }
-            
+
             if (path.StartsWith(ZeroConst.AB_DIR_NAME))
             {
                 return path.ReplaceAt(ZeroConst.AB_DIR_NAME, ZeroConst.PROJECT_AB_DIR);
@@ -857,6 +857,29 @@ namespace Zero
                 case EResType.Asset:
                     path = FileUtility.CombinePaths(ZeroConst.PROJECT_AB_DIR, path);
                     break;
+            }
+
+            return path;
+        }
+
+        /// <summary>
+        /// 将路径转换为热更目录下的相对路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="resType"></param>
+        /// <returns></returns>
+        public static string TransformToRelativePath(string path)
+        {
+            path = TransformToHotPath(path);
+
+            if (path.StartsWith(ZeroConst.AB_DIR_NAME))
+            {
+                return path.Remove(0, ZeroConst.AB_DIR_NAME.Length + 1);
+            }
+
+            if (path.StartsWith(ZeroConst.FILES_DIR_NAME))
+            {
+                return path.Remove(0, ZeroConst.AB_DIR_NAME.Length + 1);
             }
 
             return path;
