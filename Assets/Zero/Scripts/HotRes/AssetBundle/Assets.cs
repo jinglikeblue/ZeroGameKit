@@ -87,16 +87,6 @@ namespace Zero
         }
 
         /// <summary>
-        /// 执行一次内存回收(该接口开销大，可能引起卡顿)
-        /// </summary>
-        public static void DoGC()
-        {
-            //移除没有引用的资源
-            Resources.UnloadUnusedAssets();
-            GC.Collect();
-        }
-
-        /// <summary>
         /// 得到AB资源的依赖
         /// </summary>
         /// <param name="abName"></param>

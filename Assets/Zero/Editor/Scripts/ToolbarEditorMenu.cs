@@ -64,7 +64,7 @@ namespace ZeroEditor
         [MenuItem("Zero/调试/GC", false, 350)]
         public static void GC()
         {
-            Assets.DoGC();
+            Runtime.GC();
         }
 
         [MenuItem("Zero/工具/位图字体创建", false, 400)]

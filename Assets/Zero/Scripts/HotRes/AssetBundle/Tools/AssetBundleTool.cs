@@ -312,7 +312,7 @@ namespace Zero
                 _loadedABDic.Clear();
             }
 
-            Assets.DoGC();
+            Runtime.GC();
         }
 
         AssetBundle LoadAssetBundleFromFile(string abName)

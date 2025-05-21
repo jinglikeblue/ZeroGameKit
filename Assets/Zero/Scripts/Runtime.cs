@@ -1,4 +1,5 @@
-﻿using Jing;
+﻿using System;
+using Jing;
 using System.IO;
 using UnityEngine;
 
@@ -229,6 +230,16 @@ namespace Zero
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] 下载资源存放路径: {localResDir}"));
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] 框架生成文件存放路径: {generateFilesDir}"));
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] ========================================="));
+        }
+        
+        /// <summary>
+        /// 执行一次内存回收(该接口开销大，可能引起卡顿)
+        /// </summary>
+        public static void GC()
+        {
+            //移除没有引用的资源
+            Resources.UnloadUnusedAssets();
+            System.GC.Collect();
         }
     }
 }
