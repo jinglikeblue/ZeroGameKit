@@ -20,7 +20,7 @@ namespace Sokoban
         {
             bgm = AudioDevice.Create("sokoban_bgm");
             effect = AudioDevice.Create("sokoban_effect");
-            bgm.Play(ResMgr.Load<AudioClip>(R.sokoban_bgm_mp3));
+            bgm.Play(Assets.Load<AudioClip>(R.sokoban_bgm_mp3));
         }
 
         public override void Dispose()

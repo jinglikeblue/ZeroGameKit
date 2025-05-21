@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Zero
 {
-    public class AssetBundleResMgr : AResMgr
+    internal class AssetBundleTool : BaseAssetTool
     {
         /// <summary>
         /// 资源描述
@@ -29,7 +29,7 @@ namespace Zero
         /// </summary>
         public string BuiltinAssetBundleRoot { get; private set; }
 
-        public AssetBundleResMgr(string manifestFileName)
+        public AssetBundleTool(string manifestFileName)
         {
             UnloadAll();
             _loadedABDic = new Dictionary<string, AssetBundle>();
@@ -79,7 +79,7 @@ namespace Zero
         /// 让已加载的AB资源字典继承源资源管理器
         /// </summary>
         /// <param name="source"></param>
-        internal void Inherit(AssetBundleResMgr source)
+        internal void Inherit(AssetBundleTool source)
         {
             _loadedABDic = source._loadedABDic;
         }
@@ -142,7 +142,7 @@ namespace Zero
             T asset = ab.LoadAsset<T>(assetName);
             if (null == asset)
             {
-                var assetPath = ResMgr.GetOriginalAssetPath(abName, assetName);
+                var assetPath = Assets.GetOriginalAssetPath(abName, assetName);
                 Debug.Log($"获取的资源不存在： AssetBundle: {abName}  Asset: {assetName}  AssetPath: {assetPath}");
             }
 
@@ -312,7 +312,7 @@ namespace Zero
                 _loadedABDic.Clear();
             }
 
-            ResMgr.DoGC();
+            Assets.DoGC();
         }
 
         AssetBundle LoadAssetBundleFromFile(string abName)

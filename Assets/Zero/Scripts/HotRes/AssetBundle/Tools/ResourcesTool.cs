@@ -9,9 +9,9 @@ namespace Zero
     /// <summary>
     /// Resources资源的管理器
     /// </summary>
-    public class ResourcesResMgr : AResMgr
+    internal class ResourcesTool : BaseAssetTool
     {
-        public ResourcesResMgr()
+        public ResourcesTool()
         {
             
         }

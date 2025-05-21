@@ -1,16 +1,12 @@
-﻿using Jing;
-using System;
-using System.IO;
-using System.Text;
+﻿using System;
 using UnityEngine;
-using Zero;
 
 namespace Zero
 {
     /// <summary>
     /// 配置管理工具(对应@ab中的文件)
     /// </summary>
-    public class ConfigMgr : BaseSingleton<ConfigMgr>
+    public class Configs
     {                
         /// <summary>
         /// 加载JSON配置文件
@@ -18,8 +14,8 @@ namespace Zero
         /// <typeparam name="T"></typeparam>
         /// <param name="assetPath"></param>
         /// <returns></returns>
-        public T LoadJsonConfig<T>(string assetPath)
-        {         
+        public static T LoadJsonConfig<T>(string assetPath)
+        {        
             string json = LoadTextConfig(assetPath);
             var vo = Json.ToObject<T>(json);
             return vo;
@@ -30,9 +26,9 @@ namespace Zero
         /// </summary>
         /// <param name="assetPath"></param>
         /// <returns></returns>
-        public string LoadTextConfig(string assetPath)
+        public static string LoadTextConfig(string assetPath)
         {
-            var ta = ResMgr.Load<TextAsset>(assetPath);    
+            var ta = Assets.Load<TextAsset>(assetPath);    
             
             if(null == ta)
             {
@@ -48,9 +44,9 @@ namespace Zero
         /// </summary>
         /// <param name="assetPath"></param>
         /// <returns></returns>
-        public byte[] LoadBytesConfig(string assetPath)
+        public static byte[] LoadBytesConfig(string assetPath)
         {
-            var ta = ResMgr.Load<TextAsset>(assetPath);
+            var ta = Assets.Load<TextAsset>(assetPath);
 
             if (null == ta)
             {
@@ -66,7 +62,7 @@ namespace Zero
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T LoadZeroConfig<T>()
+        public static T LoadZeroConfig<T>()
         {
             var type = typeof(T);
 
@@ -80,16 +76,6 @@ namespace Zero
             }
 
             return LoadJsonConfig<T>(att.assetPath);
-        }
-
-        public override void Destroy()
-        {
-            
-        }
-
-        protected override void Init()
-        {
-            
         }
     }
 }

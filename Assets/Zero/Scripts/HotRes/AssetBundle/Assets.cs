@@ -10,9 +10,12 @@ namespace Zero
     /// <summary>
     /// 资源管理器
     /// </summary>
-    public static class ResMgr
+    public static class Assets
     {
-        public enum EResMgrType
+        /// <summary>
+        /// 资源加载模式
+        /// </summary>
+        public enum ELoadMode
         {
             AssetBundle,
 
@@ -22,9 +25,9 @@ namespace Zero
             None,
         }
 
-        private static AResMgr _mgr;
+        private static BaseAssetTool _tool;
 
-        private static EResMgrType _type = EResMgrType.None;
+        private static ELoadMode _mode = ELoadMode.None;
 
         /// <summary>
         /// 资源管理是否是AssetBundle资源模式
@@ -36,33 +39,33 @@ namespace Zero
         /// </summary>
         public static bool IsAssetDatabase { get; private set; }
 
-        public static void Init(EResMgrType type, string assetsInfo = null)
+        public static void Init(ELoadMode mode, string assetsInfo = null)
         {
-            _type = type;
+            _mode = mode;
 
-            IsAssetBundle = type == EResMgrType.AssetBundle;
-            IsAssetDatabase = type == EResMgrType.AssetDataBase;
+            IsAssetBundle = mode == ELoadMode.AssetBundle;
+            IsAssetDatabase = mode == ELoadMode.AssetDataBase;
 
-            switch (type)
+            switch (mode)
             {
-                case EResMgrType.AssetBundle:
+                case ELoadMode.AssetBundle:
                     Debug.Log(LogColor.Zero1($"[Zero][ResMgr] 初始化资源管理器... 资源来源：[AssetBundle]  Manifest名称：{assetsInfo}"));
-                    var newMgr = new AssetBundleResMgr(assetsInfo);
-                    if (_mgr != null && _mgr is AssetBundleResMgr)
+                    var newMgr = new AssetBundleTool(assetsInfo);
+                    if (_tool != null && _tool is AssetBundleTool)
                     {
                         //替换旧的需要继承一下已加载字典
-                        newMgr.Inherit(_mgr as AssetBundleResMgr);
+                        newMgr.Inherit(_tool as AssetBundleTool);
                     }
 
-                    _mgr = newMgr;
+                    _tool = newMgr;
                     break;
-                case EResMgrType.Resources:
+                case ELoadMode.Resources:
                     Debug.Log(LogColor.Zero1("[Zero][ResMgr]初始化资源管理器... 资源来源：[Resources]"));
-                    _mgr = new ResourcesResMgr();
+                    _tool = new ResourcesTool();
                     break;
-                case EResMgrType.AssetDataBase:
+                case ELoadMode.AssetDataBase:
                     Debug.Log(LogColor.Zero1($"[Zero][ResMgr]初始化资源管理器... 资源来源：[AssetDataBase] 资源根目录：{assetsInfo}"));
-                    _mgr = new AssetDataBaseResMgr(assetsInfo);
+                    _tool = new AssetDataBaseTool(assetsInfo);
                     break;
                 default:
                     throw new Exception("错误的资源模式!");
@@ -86,7 +89,7 @@ namespace Zero
         /// <returns></returns>
         public static string[] GetDepends(string abName)
         {
-            return _mgr.GetDepends(abName);
+            return _tool.GetDepends(abName);
         }
 
         /// <summary>
@@ -97,7 +100,7 @@ namespace Zero
         /// <param name="isUnloadDepends">是否卸载关联的资源</param>
         public static void Unload(string abName, bool isUnloadAllLoaded = false, bool isUnloadDepends = true)
         {
-            _mgr.Unload(abName, isUnloadAllLoaded, isUnloadDepends);
+            _tool.Unload(abName, isUnloadAllLoaded, isUnloadDepends);
         }
 
         /// <summary>
@@ -106,7 +109,7 @@ namespace Zero
         /// <param name="isUnloadAllLoaded">是否卸载Hierarchy中的资源</param>
         public static void UnloadAll(bool isUnloadAllLoaded = false)
         {
-            _mgr.UnloadAll(isUnloadAllLoaded);
+            _tool.UnloadAll(isUnloadAllLoaded);
         }
 
         /// <summary>
@@ -116,7 +119,7 @@ namespace Zero
         /// <returns></returns>
         public static string[] GetAllAsssetsNames(string abName)
         {
-            return _mgr.GetAllAsssetsNames(abName);
+            return _tool.GetAllAsssetsNames(abName);
         }
 
         /// <summary>
@@ -127,7 +130,7 @@ namespace Zero
         /// <returns></returns>
         public static UnityEngine.Object Load(string abName, string assetName)
         {
-            return _mgr.Load(abName, assetName);
+            return _tool.Load(abName, assetName);
         }
 
         /// <summary>
@@ -137,7 +140,7 @@ namespace Zero
         /// <returns></returns>
         public static UnityEngine.Object[] LoadAll(string abName)
         {
-            return _mgr.LoadAll(abName);
+            return _tool.LoadAll(abName);
         }
 
         /// <summary>
@@ -146,7 +149,7 @@ namespace Zero
         /// <param name="abName"></param>
         public static AssetBundle TryLoadAssetBundle(string abName)
         {
-            return _mgr.TryLoadAssetBundle(abName);
+            return _tool.TryLoadAssetBundle(abName);
         }
 
         /// <summary>
@@ -173,7 +176,7 @@ namespace Zero
         {
             //System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             //sw.Start();
-            T obj = _mgr.Load<T>(abName, assetName);
+            T obj = _tool.Load<T>(abName, assetName);
             //sw.Stop();
             //Debug.LogFormat("获取资源耗时: {0}", sw.Elapsed.TotalMilliseconds);
 
@@ -206,7 +209,7 @@ namespace Zero
         {
             var completionSource = new UniTaskCompletionSource<UnityEngine.Object>();
 
-            _mgr.LoadAsync(abName, assetName, OnLoaded, onProgress);
+            _tool.LoadAsync(abName, assetName, OnLoaded, onProgress);
 
             void OnLoaded(UnityEngine.Object obj)
             {
@@ -229,7 +232,7 @@ namespace Zero
         {
             var completionSource = new UniTaskCompletionSource<T>();
 
-            _mgr.LoadAsync<T>(abName, assetName, Onloaded, onProgress);
+            _tool.LoadAsync<T>(abName, assetName, Onloaded, onProgress);
 
             void Onloaded(T obj)
             {
@@ -276,7 +279,7 @@ namespace Zero
         {
             var completionSource = new UniTaskCompletionSource<UnityEngine.Object[]>();
 
-            _mgr.LoadAllAsync(abName, Onloaded, onProgress);
+            _tool.LoadAllAsync(abName, Onloaded, onProgress);
 
             void Onloaded(UnityEngine.Object[] objs)
             {

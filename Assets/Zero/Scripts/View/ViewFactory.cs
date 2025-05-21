@@ -31,12 +31,12 @@ namespace Zero
                     viewName = null;
                     return false;
                 }
-                ResMgr.SeparateAssetPath(prefabPath, out abName, out viewName);
+                Assets.SeparateAssetPath(prefabPath, out abName, out viewName);
             }
             else
             {
                 var attr = attrs[0] as ViewRegisterAttribute;
-                ResMgr.SeparateAssetPath(attr.prefabPath, out abName, out viewName);
+                Assets.SeparateAssetPath(attr.prefabPath, out abName, out viewName);
             }
 
             return true;
@@ -85,13 +85,13 @@ namespace Zero
         /// <returns></returns>
         public static AView Create(Type type, string abName, string viewName, Transform parent, object data = null)
         {
-            GameObject prefab = ResMgr.Load<GameObject>(abName, viewName);
+            GameObject prefab = Assets.Load<GameObject>(abName, viewName);
             return Create(type, prefab, parent, data);
         }
 
         public static T Create<T>(string abName, string viewName, Transform parent, object data = null) where T : AView
         {
-            GameObject prefab = ResMgr.Load<GameObject>(abName, viewName);
+            GameObject prefab = Assets.Load<GameObject>(abName, viewName);
             return Create<T>(prefab, parent, data);
         }
 
@@ -129,7 +129,7 @@ namespace Zero
         /// <returns></returns>
         public static async UniTask<AView> CreateAsync(Type viewType, string assetPath, Transform parent, object data = null, Action<AView> onCreated = null, Action<float> onResProgress = null, Action<UnityEngine.Object> onResLoaded = null)
         {
-            ResMgr.SeparateAssetPath(assetPath, out var abName, out var assetName);
+            Assets.SeparateAssetPath(assetPath, out var abName, out var assetName);
             return await CreateAsync(viewType, abName, assetName, parent, data, onCreated, onResProgress, onResLoaded);
         }
 
@@ -152,7 +152,7 @@ namespace Zero
                 throw new Exception($"[Zero][View] {viewType.FullName} 并不是AView的子类");
             }
 
-            var prefab = await ResMgr.LoadAsync<GameObject>(abName, viewName, null, onResProgress);
+            var prefab = await Assets.LoadAsync<GameObject>(abName, viewName, null, onResProgress);
             onResLoaded?.Invoke(prefab);
             var view = Create(viewType, prefab, parent, data);
             onCreated?.Invoke(view);

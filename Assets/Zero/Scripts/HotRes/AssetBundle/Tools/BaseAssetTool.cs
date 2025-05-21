@@ -7,7 +7,7 @@ namespace Zero
     /// <summary>
     /// 资源加载抽象基类
     /// </summary>
-    public abstract class AResMgr
+    public abstract class BaseAssetTool
     {
         /// <summary>
         /// 如果AB名称没有后缀，则加上后缀名

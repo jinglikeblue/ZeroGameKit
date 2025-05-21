@@ -35,7 +35,7 @@ namespace Zero
             }
 
             //加载ILContent所在的Prefab;
-            GameObject mainPrefab = ResMgr.Load<GameObject>(AB.ROOT_ASSETS.NAME, AB.ROOT_ASSETS.ILContent);
+            GameObject mainPrefab = Assets.Load<GameObject>(AB.ROOT_ASSETS.NAME, AB.ROOT_ASSETS.ILContent);
             //实例化ILContent界面
             var ilContent = ViewFactory.Create<ILContent>(mainPrefab, null);
             ilContent.gameObject.name = mainPrefab.name;

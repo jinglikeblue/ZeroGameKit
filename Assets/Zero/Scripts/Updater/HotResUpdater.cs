@@ -235,7 +235,7 @@ namespace Zero
 
 
             string abName = itemName.Replace(abDir, "");
-            var abDependList = ResMgr.GetDepends(abName);
+            var abDependList = Assets.GetDepends(abName);
             foreach (var ab in abDependList)
             {
                 nameList.Add(FileUtility.CombinePaths(abDir, ab));

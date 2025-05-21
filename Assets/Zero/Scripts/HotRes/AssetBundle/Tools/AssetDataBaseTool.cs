@@ -11,11 +11,11 @@ namespace Zero
     /// <summary>
     /// 该资源管理器仅适用于Editor下的开发调试
     /// </summary>
-    class AssetDataBaseResMgr : AResMgr
+    internal class AssetDataBaseTool : BaseAssetTool
     {
         string _assetRoot;
 
-        public AssetDataBaseResMgr(string assetRoot)
+        public AssetDataBaseTool(string assetRoot)
         {
 #if !UNITY_EDITOR
         throw new Exception("AssetDataBaseResMgr仅在Editor模式下可用");
@@ -127,7 +127,7 @@ namespace Zero
             var asset = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(path);            
             if (null == asset)
             {
-                Debug.LogErrorFormat("资源不存在：{0}", ResMgr.LinkAssetPath(abName, assetName));
+                Debug.LogErrorFormat("资源不存在：{0}", Assets.LinkAssetPath(abName, assetName));
             }
             return asset;
 #else

@@ -26,7 +26,7 @@ namespace Example
         protected override void OnEnable()
         {
             base.OnEnable();
-            dynamicImage.sprite = ResMgr.Load<Sprite>(R.item_01_png);
+            dynamicImage.sprite = Assets.Load<Sprite>(R.item_01_png);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Sokoban
 
         private void OnMoveStart(MoveableUnit obj)
         {
-            var ac = ResMgr.Load<AudioClip>(R.push_mp3);
+            var ac = Assets.Load<AudioClip>(R.push_mp3);
             SokobanGlobal.Ins.Audio.effect.Play(ac);
         }
     }

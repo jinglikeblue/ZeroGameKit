@@ -61,12 +61,12 @@ namespace Zero
             //因为更新了manifest.ab文件，所以要重新初始化ResMgr的Init
             if (Runtime.IsUseAssetDataBase)
             {
-                ResMgr.Init(ResMgr.EResMgrType.AssetDataBase, ZeroConst.PROJECT_AB_DIR);
+                Assets.Init(Assets.ELoadMode.AssetDataBase, ZeroConst.PROJECT_AB_DIR);
             }
             else
             {
                 var manifestFileName = ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION;
-                ResMgr.Init(ResMgr.EResMgrType.AssetBundle, manifestFileName);
+                Assets.Init(Assets.ELoadMode.AssetBundle, manifestFileName);
             }
         }
 

@@ -58,7 +58,7 @@ namespace Knight
             };
 
             G.Ins.Audio.Device.StopAll();
-            G.Ins.Audio.Device.Play(ResMgr.Load<AudioClip>(R.BattleBGM_mp3), true);            
+            G.Ins.Audio.Device.Play(Assets.Load<AudioClip>(R.BattleBGM_mp3), true);            
         }
 
         protected override void OnDisable()

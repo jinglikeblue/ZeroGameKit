@@ -190,10 +190,10 @@ namespace Zero
                 //如果是AB，还要查依赖是否需要更新
                 if (path.EndsWith(ZeroConst.AB_EXTENSION))
                 {
-                    var abdepends = ResMgr.GetDepends(path);
+                    var abdepends = Assets.GetDepends(path);
                     foreach (var ab in abdepends)
                     {
-                        isUpdateEnable = CheckNewVersion(ResMgr.AddRootFolder(ab));
+                        isUpdateEnable = CheckNewVersion(Assets.AddRootFolder(ab));
                         if (isUpdateEnable)
                         {
                             break;
@@ -468,13 +468,13 @@ namespace Zero
             //AB文件
             if (typeof(T) == typeof(AssetBundle))
             {
-                return ResMgr.TryLoadAssetBundle(path) as T;
+                return Assets.TryLoadAssetBundle(path) as T;
             }
 
             //Unity Asset
             if (typeof(T).IsSubclassOf(typeof(UnityEngine.Object)))
             {
-                var asset = ResMgr.Load(path);
+                var asset = Assets.Load(path);
                 return asset as T;
             }
 
@@ -512,13 +512,13 @@ namespace Zero
             //AB文件
             if (typeof(T) == typeof(AssetBundle))
             {
-                return ResMgr.TryLoadAssetBundle(path) as T;
+                return Assets.TryLoadAssetBundle(path) as T;
             }
 
             //Unity Asset
             if (typeof(T).IsSubclassOf(typeof(UnityEngine.Object)))
             {
-                var asset = await ResMgr.LoadAsync(path, null, f => onProgress?.Invoke(f, CalculateLoadedSize(f, 100), 100));
+                var asset = await Assets.LoadAsync(path, null, f => onProgress?.Invoke(f, CalculateLoadedSize(f, 100), 100));
                 return asset as T;
             }
 

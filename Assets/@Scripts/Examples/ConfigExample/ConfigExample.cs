@@ -10,7 +10,7 @@ namespace Example
     {
         public static void Start()
         {
-            var cfg = ConfigMgr.Ins.LoadZeroConfig<TestConfigVO>();
+            var cfg = Configs.LoadZeroConfig<TestConfigVO>();
             Debug.Log("配置文件的内容是：");
             Debug.Log(Json.ToJsonIndented(cfg));
 

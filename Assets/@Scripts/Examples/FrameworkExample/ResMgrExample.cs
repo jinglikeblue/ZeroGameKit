@@ -60,10 +60,10 @@ namespace Example
         void SyncLoad()
         {
             //通过指定AB和资源名加载
-            img0.sprite = ResMgr.Load<Sprite>(AB.EXAMPLES_TEXTURES.NAME, AB.EXAMPLES_TEXTURES.activity_blue_ore_png);
+            img0.sprite = Assets.Load<Sprite>(AB.EXAMPLES_TEXTURES.NAME, AB.EXAMPLES_TEXTURES.activity_blue_ore_png);
 
             //通过资源完整路径加载
-            img1.sprite = ResMgr.Load<Sprite>(R.activity_yellow_ore_01_png);
+            img1.sprite = Assets.Load<Sprite>(R.activity_yellow_ore_01_png);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Example
         async void AsyncLoad()
         {
             //通过指定AB和资源名加载
-            var obj1 = await ResMgr.LoadAsync<Sprite>(AB.EXAMPLES_TEXTURES.NAME, AB.EXAMPLES_TEXTURES.gift_pudding_png,
+            var obj1 = await Assets.LoadAsync<Sprite>(AB.EXAMPLES_TEXTURES.NAME, AB.EXAMPLES_TEXTURES.gift_pudding_png,
                 (sprite) =>
                 {
                     img2.sprite = sprite;
@@ -84,7 +84,7 @@ namespace Example
             L(LogColor.Zero2($"[加载完成][await] {obj1.name}"));
 
             //通过资源完整路径加载
-            var obj2 = await ResMgr.LoadAsync<Sprite>(R.gift_sundae_png,
+            var obj2 = await Assets.LoadAsync<Sprite>(R.gift_sundae_png,
                 (sprite) =>
                 {
                     img3.sprite = sprite;
@@ -101,7 +101,7 @@ namespace Example
         /// </summary>
         void TestCrossDepend()
         {
-            var a = ResMgr.Load<GameObject>(R.A_prefab);
+            var a = Assets.Load<GameObject>(R.A_prefab);
             if (null != a)
             {
                 L($"资源读取成功：{AB.EXAMPLES_CROSS_DEPEND_TEST_A.NAME}");
@@ -111,7 +111,7 @@ namespace Example
                 L($"资源读取失败：{AB.EXAMPLES_CROSS_DEPEND_TEST_A.NAME}");
             }
 
-            var b = ResMgr.Load<GameObject>(R.B_prefab);
+            var b = Assets.Load<GameObject>(R.B_prefab);
             if (null != b)
             {
                 L($"资源读取成功：{AB.EXAMPLES_CROSS_DEPEND_TEST_B.NAME}");
@@ -131,19 +131,19 @@ namespace Example
             var abName = AB.ROOT_ASSETS.NAME;
 
             L(LogColor.Zero1($"获取AB中的资源名称列表:{abName}"));
-            var names = ResMgr.GetAllAsssetsNames(abName);
+            var names = Assets.GetAllAsssetsNames(abName);
             for (int i = 0; i < names.Length; i++)
             {
                 L(LogColor.Zero1($"{i}:{names[i]}"));
-                var temp = ResMgr.Load(abName, names[i]);
+                var temp = Assets.Load(abName, names[i]);
             }
 
             L(LogColor.Zero1($"开始同步加载:{abName}"));
-            var objs = ResMgr.LoadAll(abName);
+            var objs = Assets.LoadAll(abName);
             L(LogColor.Zero1($"加载完成，资源数:{objs?.Length}"));
 
             L(LogColor.Zero1($"开始异步加载:{abName}"));
-            ResMgr.LoadAllAsync(abName, (assets) => { L(LogColor.Zero1($"加载完成，资源数:{assets?.Length}")); },
+            Assets.LoadAllAsync(abName, (assets) => { L(LogColor.Zero1($"加载完成，资源数:{assets?.Length}")); },
                 (progress) => { L(LogColor.Zero1($"加载进度:{progress}")); });
         }
 
@@ -157,7 +157,7 @@ namespace Example
             L(LogColor.Zero1($"======================= 大小写兼容测试"));
             L(LogColor.Zero1($"加载资源: {assetPath}"));
             
-            var obj = ResMgr.Load(assetPath);
+            var obj = Assets.Load(assetPath);
 
             if (null != obj)
             {

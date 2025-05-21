@@ -74,7 +74,7 @@ namespace ZeroGameKit
 
             AddBtn(GROUP_DEBUG, "测试包下载地址", () => { Application.OpenURL("https://tt.appc02.com/y8b6"); });
             AddBtn(GROUP_DEBUG, "清空缓存", ClearCache);
-            AddBtn(GROUP_DEBUG, "GC", ResMgr.DoGC);
+            AddBtn(GROUP_DEBUG, "GC", Assets.DoGC);
 
             AddBtn(GROUP_DEMO, "DEMO_2D物理游戏", RoushanExample.Start);
             AddBtn(GROUP_DEMO, "DEMO_推箱子游戏", SokobanExample.Start);

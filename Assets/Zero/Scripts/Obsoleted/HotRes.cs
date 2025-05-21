@@ -353,10 +353,10 @@ namespace Zero.Obsolete
                 //如果是AB，还要查依赖是否需要更新
                 if (resPath.EndsWith(ZeroConst.AB_EXTENSION))
                 {
-                    var abdepends = ResMgr.GetDepends(ResMgr.RemoveRootFolder(resPath));
+                    var abdepends = Assets.GetDepends(Assets.RemoveRootFolder(resPath));
                     foreach (var ab in abdepends)
                     {
-                        isUpdateEnable = CheckHasNewNetVersion(ResMgr.AddRootFolder(ab));
+                        isUpdateEnable = CheckHasNewNetVersion(Assets.AddRootFolder(ab));
                         if (isUpdateEnable)
                         {
                             break;
