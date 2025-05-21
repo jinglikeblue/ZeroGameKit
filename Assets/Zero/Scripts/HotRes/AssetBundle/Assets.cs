@@ -39,7 +39,21 @@ namespace Zero
         /// </summary>
         public static bool IsAssetDatabase { get; private set; }
 
-        public static void Init(ELoadMode mode, string assetsInfo = null)
+        static Assets()
+        {
+            //因为更新了manifest.ab文件，所以要重新初始化ResMgr的Init
+            if (Runtime.IsUseAssetDataBase)
+            {
+                Assets.Init(Assets.ELoadMode.AssetDataBase, ZeroConst.PROJECT_AB_DIR);
+            }
+            else
+            {
+                var manifestFileName = ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION;
+                Assets.Init(Assets.ELoadMode.AssetBundle, manifestFileName);
+            }
+        }
+
+        private static void Init(ELoadMode mode, string assetsInfo = null)
         {
             _mode = mode;
 

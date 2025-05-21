@@ -50,6 +50,19 @@ namespace Zero
         /// </summary>
         public static bool IsOutlineEnable = true;
 
+        public static void Show(int textSize)
+        {
+            TextSize = textSize;
+            Show();
+        }
+        
+        public static void Show(Color textColor, int textSize)
+        {
+            TextColor = textColor;
+            TextSize = textSize;
+            Show();
+        }
+
         public static void Show()
         {
             if (null == _ins && Debug.unityLogger.logEnabled)

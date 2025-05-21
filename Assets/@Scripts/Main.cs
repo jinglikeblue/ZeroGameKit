@@ -24,10 +24,10 @@ namespace Zero
 
         void Init()
         {
-            Application.targetFrameRate = 60;
+            Application.targetFrameRate = 240;
 
             //在左上角显示FPS
-            GUIDebugInfo.Show();
+            GUIDebugInfo.Show(Color.green, 30);
 
             if (Application.isEditor)
             {

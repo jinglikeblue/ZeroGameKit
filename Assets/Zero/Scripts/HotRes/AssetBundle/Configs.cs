@@ -15,7 +15,7 @@ namespace Zero
         /// <param name="assetPath"></param>
         /// <returns></returns>
         public static T LoadJsonConfig<T>(string assetPath)
-        {        
+        {       
             string json = LoadTextConfig(assetPath);
             var vo = Json.ToObject<T>(json);
             return vo;
@@ -28,7 +28,7 @@ namespace Zero
         /// <returns></returns>
         public static string LoadTextConfig(string assetPath)
         {
-            var ta = Assets.Load<TextAsset>(assetPath);    
+            var ta = Res.Load<TextAsset>(assetPath);    
             
             if(null == ta)
             {

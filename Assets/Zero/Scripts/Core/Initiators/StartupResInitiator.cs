@@ -37,7 +37,7 @@ namespace Zero
                 }
 
                 // 初始化ResMgr，依赖manifest.ab
-                InitResMgr();
+                // InitResMgr();
 
                 if (Runtime.IsHotResEnable)
                 {
@@ -56,19 +56,19 @@ namespace Zero
             return err;
         }
 
-        void InitResMgr()
-        {
-            //因为更新了manifest.ab文件，所以要重新初始化ResMgr的Init
-            if (Runtime.IsUseAssetDataBase)
-            {
-                Assets.Init(Assets.ELoadMode.AssetDataBase, ZeroConst.PROJECT_AB_DIR);
-            }
-            else
-            {
-                var manifestFileName = ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION;
-                Assets.Init(Assets.ELoadMode.AssetBundle, manifestFileName);
-            }
-        }
+        // void InitResMgr()
+        // {
+        //     //因为更新了manifest.ab文件，所以要重新初始化ResMgr的Init
+        //     if (Runtime.IsUseAssetDataBase)
+        //     {
+        //         Assets.Init(Assets.ELoadMode.AssetDataBase, ZeroConst.PROJECT_AB_DIR);
+        //     }
+        //     else
+        //     {
+        //         var manifestFileName = ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION;
+        //         Assets.Init(Assets.ELoadMode.AssetBundle, manifestFileName);
+        //     }
+        // }
 
         private void OnHotResUpdaterProgress(long loadedSize, long totalSize)
         {
