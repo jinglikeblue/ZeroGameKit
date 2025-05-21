@@ -49,7 +49,7 @@ namespace Example
         private async void LoadScene0()
         {
             Debug.Log($"加载场景0");
-            var scene = SceneManagerUtility.LoadScene(AB.SCENES.Scene0_unity, LoadSceneMode.Additive);
+            var scene = SceneManagerUtility.LoadScene(R.Scene0_unity, LoadSceneMode.Additive);
             await UniTask.NextFrame();
             var rootObjs = scene.GetRootGameObjects();
             var view1 = ViewFactory.Binding<SceneGameObjectView>(scene.FindGameObject("Main Camera"));

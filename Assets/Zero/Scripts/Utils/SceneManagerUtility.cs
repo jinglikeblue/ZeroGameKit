@@ -65,10 +65,7 @@ namespace Zero
                 throw new Exception($"错误的场景路径: {scenePath}");
             }
 
-            if (false == scenePath.StartsWith("Assets/"))
-            {
-                scenePath = Assets.GetOriginalAssetPath(scenePath);    
-            }
+            scenePath = Res.TransformToProjectPath(scenePath, EResType.Asset);
             
             return scenePath;
         }

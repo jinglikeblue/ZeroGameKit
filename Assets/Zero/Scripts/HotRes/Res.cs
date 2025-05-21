@@ -791,7 +791,7 @@ namespace Zero
         /// <param name="path"></param>
         /// <param name="resType">路径如果是相对路径且没有带资源类型前缀的情况下，会通过该参数来完善路径</param>
         /// <returns></returns>
-        private static string TransformToHotPath(string path, EResType resType = EResType.All)
+        public static string TransformToHotPath(string path, EResType resType = EResType.All)
         {
             if (path.StartsWith(ZeroConst.PROJECT_AB_DIR))
             {
@@ -832,8 +832,13 @@ namespace Zero
         /// <param name="path"></param>
         /// <param name="resType">路径如果是相对路径且没有带资源类型前缀的情况下，会通过该参数来完善路径</param>
         /// <returns></returns>
-        private static string TransformToProjectPath(string path, EResType resType = EResType.All)
+        public static string TransformToProjectPath(string path, EResType resType = EResType.All)
         {
+            if (path.StartsWith(ZeroConst.PROJECT_FILES_DIR) || path.StartsWith(ZeroConst.PROJECT_AB_DIR))
+            {
+                return path;
+            }
+            
             if (path.StartsWith(ZeroConst.AB_DIR_NAME))
             {
                 return path.ReplaceAt(ZeroConst.AB_DIR_NAME, ZeroConst.PROJECT_AB_DIR);
