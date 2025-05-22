@@ -18,7 +18,7 @@ namespace ZeroEditor
         {
             var attributes = type.GetCustomAttributes(typeof(ZeroConfigAttribute),true);
             var assetPath = (attributes[0] as ZeroConfigAttribute).assetPath;
-            _path = FileUtility.CombinePaths(ZeroConst.PROJECT_AB_DIR, assetPath);
+            _path = Res.TransformToProjectPath(assetPath, EResType.Asset);
 
             if (File.Exists(_path))
             {

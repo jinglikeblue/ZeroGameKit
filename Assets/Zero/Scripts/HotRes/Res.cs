@@ -450,34 +450,52 @@ namespace Zero
         /// <returns></returns>
         public static T Load<T>(string path) where T : class
         {
+            var type = typeof(T);
+            path = TransformToProjectPath(path);
+
             //普通文件
-            if (typeof(T) == typeof(byte[]))
+            if (type == typeof(byte[]))
             {
-                var bytes = LoadBytes(path);
-                return bytes as T;
+                byte[] bytes = LoadBytes(path);
+                if (null != bytes)
+                {
+                    return bytes as T;
+                }
             }
 
             //文本文件
-            if (typeof(T) == typeof(string))
+            if (type == typeof(string))
             {
                 var bytes = LoadBytes(path);
-                var text = Encoding.UTF8.GetString(bytes);
-                return text as T;
+                if (null != bytes)
+                {
+                    var text = Encoding.UTF8.GetString(bytes);
+                    return text as T;
+                }
             }
 
             //AB文件
-            if (typeof(T) == typeof(AssetBundle))
+            if (type == typeof(AssetBundle))
             {
-                return Assets.TryLoadAssetBundle(path) as T;
+                var ab = Assets.TryLoadAssetBundle(path);
+                if (ab)
+                {
+                    return ab as T;
+                }
             }
 
             //Unity Asset
-            if (typeof(T).IsSubclassOf(typeof(UnityEngine.Object)))
+            if (type.IsSubclassOf(typeof(UnityEngine.Object)))
             {
                 var asset = Assets.Load(path);
-                return asset as T;
+
+                if (asset)
+                {
+                    return asset as T;
+                }
             }
 
+            Debug.LogError($"[Res][Load] 读取资源({type.Name})失败:{path}");
             return null;
         }
 
@@ -494,34 +512,50 @@ namespace Zero
         /// <returns></returns>
         public static async UniTask<T> LoadAsync<T>(string path, ProgressDelegate onProgress = null, CancellationToken cancellationToken = default) where T : class
         {
+            var type = typeof(T);
+
             //普通文件
-            if (typeof(T) == typeof(byte[]))
+            if (type == typeof(byte[]))
             {
                 var bytes = await LoadBytesAsync(path, onProgress, cancellationToken);
-                return bytes as T;
+                if (null != bytes)
+                {
+                    return bytes as T;
+                }
             }
 
             //文本文件
-            if (typeof(T) == typeof(string))
+            if (type == typeof(string))
             {
                 var bytes = await LoadBytesAsync(path, onProgress, cancellationToken);
-                var text = Encoding.UTF8.GetString(bytes);
-                return text as T;
+                if (null != bytes)
+                {
+                    var text = Encoding.UTF8.GetString(bytes);
+                    return text as T;
+                }
             }
 
             //AB文件
-            if (typeof(T) == typeof(AssetBundle))
+            if (type == typeof(AssetBundle))
             {
-                return Assets.TryLoadAssetBundle(path) as T;
+                var ab = Assets.TryLoadAssetBundle(path);
+                if (ab)
+                {
+                    return ab as T;
+                }
             }
 
             //Unity Asset
-            if (typeof(T).IsSubclassOf(typeof(UnityEngine.Object)))
+            if (type.IsSubclassOf(typeof(UnityEngine.Object)))
             {
                 var asset = await Assets.LoadAsync(path, null, f => onProgress?.Invoke(f, CalculateLoadedSize(f, 100), 100));
-                return asset as T;
+                if (asset)
+                {
+                    return asset as T;
+                }
             }
 
+            Debug.LogError($"[Res][LoadAsync] 读取资源({type.Name})失败:{path}");
             return null;
         }
 
@@ -535,6 +569,18 @@ namespace Zero
         private static byte[] LoadBytes(string path)
         {
             byte[] bytes = null;
+            
+            //如果是AB目录下的资源，则通过Assets来读取
+            if (path.StartsWith(ZeroConst.PROJECT_AB_DIR))
+            {
+                var ta = Assets.Load<TextAsset>(path);
+                if (ta)
+                {
+                    bytes = ta.bytes;
+                }
+
+                return bytes;
+            }
 
             if (Runtime.IsUseAssetBundle)
             {
@@ -571,6 +617,21 @@ namespace Zero
 
             byte[] bytes = null;
 
+            //如果是AB目录下的资源，则通过Assets来读取
+            if (path.StartsWith(ZeroConst.PROJECT_AB_DIR))
+            {
+                var ta = await Assets.LoadAsync<TextAsset>(path, null, progress =>
+                {
+                    onProgress?.Invoke(progress,  CalculateLoadedSize(progress, 100), 100);
+                });
+                if (ta)
+                {
+                    bytes = ta.bytes;
+                }
+
+                return bytes;
+            }
+            
             if (Runtime.IsUseAssetBundle)
             {
                 //如果支持热更，则先检查热更目录

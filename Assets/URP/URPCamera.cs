@@ -19,7 +19,7 @@ public class URPCamera : MonoBehaviour
     private void Awake()
     {
 #if UNITY_2020_1_OR_NEWER
-        DestroyImmediate(this);
+        Destroy(this);
         return;
 #endif
         _camera = GetComponent<Camera>();
@@ -31,7 +31,7 @@ public class URPCamera : MonoBehaviour
     {
         if (null == _camera)
         {
-            DestroyImmediate(this);
+            Destroy(this);
             return;
         }
         
