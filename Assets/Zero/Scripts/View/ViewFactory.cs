@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -31,6 +33,7 @@ namespace Zero
                     viewName = null;
                     return false;
                 }
+
                 Assets.SeparateAssetPath(prefabPath, out abName, out viewName);
             }
             else
@@ -56,7 +59,7 @@ namespace Zero
             go.name = prefab.name;
 
             AView view = Activator.CreateInstance(type) as AView;
-            view.SetGameObject(go, data);
+            view.SetGameObject(go, data, TryGetPrefabPath(prefab));
             return view;
         }
 
@@ -274,10 +277,76 @@ namespace Zero
             }
 
             AView viewChild = Activator.CreateInstance(type) as AView;
-            viewChild!.SetGameObject(childGameObject, data);
+            viewChild!.SetGameObject(childGameObject, data, TryGetPrefabPath(childGameObject));
             return viewChild;
         }
 
         #endregion
+
+        /// <summary>
+        /// 尝试获取预制体的资源路径
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <returns></returns>
+        public static string TryGetPrefabPath(GameObject gameObject)
+        {
+            string prefabPath = null;
+#if UNITY_EDITOR
+
+            // string FindRootPrefabPath(GameObject obj)
+            // {
+            //     //递归找到父节点的预制体
+            //     var parent = obj.transform.parent;
+            //     while (parent)
+            //     {
+            //         var zv = parent.GetComponent<ZeroView>();
+            //         if (zv && zv.PrefabPath != null)
+            //         {
+            //             return zv.PrefabPath;
+            //         }
+            //
+            //         parent = parent.parent;
+            //     }
+            //
+            //     return null;
+            // }
+
+            if (Runtime.IsUseAssetDataBase)
+            {
+                GameObject originalPrefab = UnityEditor.PrefabUtility.GetCorrespondingObjectFromOriginalSource(gameObject);
+                if (originalPrefab)
+                {
+                    prefabPath = UnityEditor.AssetDatabase.GetAssetPath(originalPrefab);
+                }
+                // else
+                // {
+                //     prefabPath = FindRootPrefabPath(gameObject);
+                // }
+            }
+            // else
+            // {
+            //     string[] guids = UnityEditor.AssetDatabase.FindAssets($"t:Prefab {gameObject.name} ");
+            //     List<string> assetPathList = new List<string>();
+            //     foreach (var guid in guids)
+            //     {
+            //         var assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+            //         if (Path.GetFileNameWithoutExtension(assetPath) == gameObject.name)
+            //         {
+            //             assetPathList.Add(assetPath);
+            //         }
+            //     }
+            //
+            //     if (1 == assetPathList.Count)
+            //     {
+            //         prefabPath = assetPathList[0];
+            //     }
+            //     else if (0 == assetPathList.Count)
+            //     {
+            //         prefabPath = FindRootPrefabPath(gameObject);
+            //     }
+            // }
+#endif
+            return prefabPath;
+        }
     }
 }

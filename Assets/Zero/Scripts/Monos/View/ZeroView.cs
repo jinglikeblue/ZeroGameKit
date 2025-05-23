@@ -27,6 +27,11 @@ namespace Zero
         /// </summary>
         public object aViewObject;
 
+        /// <summary>
+        /// 如果GameObject是Prefab实例化来的，则保存Prefab路径
+        /// </summary>
+        public string PrefabPath { get; internal set; }
+
         private void Awake()
         {
             IsAwake = true;

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.IO;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEditorInternal;
@@ -12,10 +14,19 @@ namespace ZeroEditor
     {
         ZeroView Target => target as ZeroView;
 
+        private string _prefabPath = null;
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            _prefabPath = Target.PrefabPath != null ? Target.PrefabPath : TryFindPrefabPath();
+        }
+
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            
+
             if (Target.aViewObject != null)
             {
                 EditorGUILayout.BeginHorizontal();
@@ -26,26 +37,41 @@ namespace ZeroEditor
                 }
 
                 EditorGUILayout.EndHorizontal();
-                
-                string[] guids = UnityEditor.AssetDatabase.FindAssets($"{Target.aViewObject.GetType().Name} t:Prefab");
-                if (guids.Length > 0)
+
+                if (_prefabPath != null)
                 {
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.PrefixLabel("Prefab");
-                    if (EditorGUILayout.LinkButton($"{Target.aViewObject.GetType().Name}"))
+                    if (EditorGUILayout.LinkButton($"{Path.GetFileNameWithoutExtension(_prefabPath)}"))
                     {
-                        Debug.Log($"定位到对应的预制件。 找到数量:{guids.Length}");
-                        if (guids.Length == 1)
-                        {
-                            var guid = guids[0];
-                            SelectionUtility.SelectAssetByGuid(guid);
-                        }
+                        SelectionUtility.SelectAssetByGuid(AssetDatabase.AssetPathToGUID(_prefabPath));
                     }
 
                     EditorGUILayout.EndHorizontal();
                 }
-                
             }
+        }
+
+        private string TryFindPrefabPath()
+        {
+            var gameObject = Target.gameObject;
+            string[] guids = UnityEditor.AssetDatabase.FindAssets($"t:Prefab {gameObject.name} ");
+            List<string> assetPathList = new List<string>();
+            foreach (var guid in guids)
+            {
+                var assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+                if (Path.GetFileNameWithoutExtension(assetPath) == gameObject.name)
+                {
+                    assetPathList.Add(assetPath);
+                }
+            }
+
+            if (1 == assetPathList.Count)
+            {
+                return assetPathList[0];
+            }
+
+            return null;
         }
     }
 }

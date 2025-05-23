@@ -237,9 +237,10 @@ namespace Zero
         /// </summary>
         public static void GC()
         {
-            //移除没有引用的资源
-            Resources.UnloadUnusedAssets();
+            //回收托管内存，确保Unity资源引用计数归零
             System.GC.Collect();
+            //释放原生资源
+            Resources.UnloadUnusedAssets();
         }
     }
 }

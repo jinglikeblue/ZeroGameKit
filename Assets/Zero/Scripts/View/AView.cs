@@ -55,7 +55,7 @@ namespace Zero
         /// </summary>
         ZeroView _z;
 
-        internal void SetGameObject(GameObject gameObject, object data = null)
+        internal void SetGameObject(GameObject gameObject, object data = null, string prefabPath = null)
         {
             this.gameObject = gameObject;
             var isActive = this.gameObject.activeInHierarchy;
@@ -63,6 +63,7 @@ namespace Zero
             AutoReference();
 
             _z = ComponentUtil.AutoGet<ZeroView>(this.gameObject);
+            _z.PrefabPath = prefabPath;
             _z.aViewObject = this;
             _z.onEnable += OnGameObjectEnable;
             _z.onDisable += OnGameObjectDisable;
