@@ -44,6 +44,7 @@ namespace ZeroEditor
                     EditorGUILayout.PrefixLabel("Prefab");
                     if (EditorGUILayout.LinkButton($"{Path.GetFileNameWithoutExtension(_prefabPath)}"))
                     {
+                        EditorUtility.FocusProjectWindow();
                         SelectionUtility.SelectAssetByGuid(AssetDatabase.AssetPathToGUID(_prefabPath));
                     }
 
