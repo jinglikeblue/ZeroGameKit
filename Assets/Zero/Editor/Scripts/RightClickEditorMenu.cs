@@ -10,7 +10,7 @@ using ZeroEditor;
 /// <summary>
 /// 自定义右键菜单
 /// </summary>
-public class RightClickEditorMenu
+public static class RightClickEditorMenu
 {
     [MenuItem("Assets/Zero/生成DLL（并拷贝到内嵌资源目录)", false, 0)]
     static async void GenerateDll()
@@ -90,7 +90,7 @@ public class RightClickEditorMenu
     #endregion
 
     [MenuItem("Assets/Zero/生成资源常量类", false, 100)]
-    static void GenerateAssetNames()
+    public static void GenerateAssetNames()
     {
         new GenerateRClassCommand().Excute();
         var findCmd = new FindAssetBundlesCommand(false);
