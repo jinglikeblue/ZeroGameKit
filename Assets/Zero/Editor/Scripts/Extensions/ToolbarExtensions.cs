@@ -16,6 +16,8 @@ namespace ZeroEditor
         {
             ToolbarExpand.OnToolbarGuiLeft += OnToolbarGuiLeft;
             ToolbarExpand.OnToolbarGuiRight += OnToolbarGuiRight;
+
+            GenerateScriptIconContent.tooltip = "生成资源常量类";
         }
 
         private static void OnToolbarGuiLeft()
