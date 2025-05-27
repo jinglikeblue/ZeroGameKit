@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Zero;
 using ZeroGameKit;
-using Zero;
 
 namespace Example
 {
@@ -152,12 +146,10 @@ namespace Example
         /// </summary>
         void TestUpperAndLowerCase()
         {
-            var assetPath = "Test/test 1/Test 1.json";
-            
             L(LogColor.Zero1($"======================= 大小写兼容测试"));
-            L(LogColor.Zero1($"加载资源: {assetPath}"));
-            
-            var obj = Assets.Load(assetPath);
+            L(LogColor.Zero1($"加载资源: {R.Test_1_test_1_json}"));
+
+            var obj = Res.Load<Object>(R.Test_1_test_1_json);
 
             if (null != obj)
             {

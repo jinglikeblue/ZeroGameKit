@@ -485,7 +485,7 @@ namespace Zero
             }
 
             //Unity Asset
-            if (type.IsSubclassOf(typeof(UnityEngine.Object)))
+            if (typeof(UnityEngine.Object).IsAssignableFrom(type))
             {
                 var asset = Assets.Load(path);
 

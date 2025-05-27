@@ -162,8 +162,8 @@ namespace Zero
 
         public override AssetBundle TryLoadAssetBundle(string abName)
         {
-            MakeABNameNotEmpty(ref abName);
-            abName = ABNameWithExtension(abName);
+            // MakeABNameNotEmpty(ref abName);
+            // abName = ABNameWithExtension(abName);
             AssetBundle ab = LoadAssetBundle(abName);
             return ab;
         }
@@ -348,7 +348,7 @@ namespace Zero
         {
             MakeABNameNotEmpty(ref abName);
             abName = ABNameWithExtension(abName);
-
+            abName = abName.ToLower();
             //依赖检查
             string[] dependList = _manifest.GetAllDependencies(abName);
             foreach (string depend in dependList)
