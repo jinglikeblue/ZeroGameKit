@@ -8,6 +8,8 @@ namespace ZeroEditor
 {
     /// <summary>
     /// 工具条拓展
+    /// 备注：
+    /// 【Unity自带图标】https://github.com/halak/unity-editor-icons?tab=readme-ov-file
     /// </summary>
     [UnityEditor.InitializeOnLoadAttribute]
     public static class ToolbarExtensions
