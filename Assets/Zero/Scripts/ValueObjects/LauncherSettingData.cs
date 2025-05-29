@@ -59,6 +59,7 @@ namespace Zero
 
         [Title("代码")]
         [InfoBox("通过dll文件运行程序。开启后会自动检测HybridCLR安装状态。", VisibleIf = "isUseDll")]
+        // [InfoBox("不使用dll的情况下，Build时会自动关闭HybridCLR功能。", VisibleIf = "@!isUseDll")]
         [LabelText("使用dll")]
         [OnValueChanged("OnValueChanged")]
         public bool isUseDll = false;

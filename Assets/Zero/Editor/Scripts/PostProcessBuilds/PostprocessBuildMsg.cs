@@ -15,7 +15,7 @@ namespace ZeroEditor
 
         public void OnPostprocessBuild(BuildReport report)
         {
-            Debug.Log("[PostprocessBuild] Build Completed");
+            Debug.Log("[Zero][Build][PostprocessBuild] Build后处理");
         }
     }
 }

@@ -23,6 +23,15 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 
 	// {{ AOT generic types
 	// AEventListener<object>
+	// Cysharp.Threading.Tasks.CompilerServices.AsyncUniTask.<>c<ZeroGameKit.PanelContainerView.<SwitchAsync>d__2<object>,object>
+	// Cysharp.Threading.Tasks.CompilerServices.AsyncUniTask.<>c<ZeroGameKit.PanelContainerView.<SwitchAsync>d__3,object>
+	// Cysharp.Threading.Tasks.CompilerServices.AsyncUniTask.<>c<ZeroGameKit.WindowsContainerView.<OpenAsync>d__7<object>,object>
+	// Cysharp.Threading.Tasks.CompilerServices.AsyncUniTask<ZeroGameKit.PanelContainerView.<SwitchAsync>d__2<object>,object>
+	// Cysharp.Threading.Tasks.CompilerServices.AsyncUniTask<ZeroGameKit.PanelContainerView.<SwitchAsync>d__3,object>
+	// Cysharp.Threading.Tasks.CompilerServices.AsyncUniTask<ZeroGameKit.WindowsContainerView.<OpenAsync>d__7<object>,object>
+	// Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>
+	// Cysharp.Threading.Tasks.CompilerServices.IStateMachineRunnerPromise<object>
+	// Cysharp.Threading.Tasks.ITaskPoolNode<object>
 	// Cysharp.Threading.Tasks.IUniTaskSource<System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,UnityEngine.SceneManagement.Scene>>>>>>>>>>
 	// Cysharp.Threading.Tasks.IUniTaskSource<System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,object>>>>>>>>>>
 	// Cysharp.Threading.Tasks.IUniTaskSource<System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,System.ValueTuple<byte,UnityEngine.SceneManagement.Scene>>>>>>>>>
@@ -126,6 +135,7 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 	// Cysharp.Threading.Tasks.UniTask<UnityEngine.SceneManagement.Scene>
 	// Cysharp.Threading.Tasks.UniTask<object>
 	// Cysharp.Threading.Tasks.UniTaskCompletionSource<object>
+	// Cysharp.Threading.Tasks.UniTaskCompletionSourceCore<object>
 	// DG.Tweening.Core.DOGetter<float>
 	// DG.Tweening.Core.TweenerCore<float,float,DG.Tweening.Plugins.Options.FloatOptions>
 	// DG.Tweening.Plugins.Core.ABSTweenPlugin<float,float,DG.Tweening.Plugins.Options.FloatOptions>
@@ -365,6 +375,7 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 	// System.Comparison<Sokoban.SortTool.SortItemVO<object,object>>
 	// System.Comparison<System.ValueTuple<object,object>>
 	// System.Comparison<object>
+	// System.Func<int>
 	// System.Func<object,int>
 	// System.Func<object,object,byte>
 	// System.Func<object,object>
@@ -405,7 +416,8 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 	// UnityEngine.Events.UnityEvent<byte>
 	// UnityEngine.Events.UnityEvent<float>
 	// Zero.ASingletonMonoBehaviour<object>
-	// Zero.BaseContainerView.<>c__DisplayClass2_0<object>
+	// Zero.Assets.<>c__DisplayClass24_0<object>
+	// Zero.BaseContainerView.<ShowAsync>d__3<object>
 	// Zero.BaseMessageReceiver<PingPong.Protocols.FrameInputNotify>
 	// Zero.BaseMessageReceiver<PingPong.Protocols.GameReadyRequest>
 	// Zero.BaseMessageReceiver<PingPong.Protocols.GameStartNotify>
@@ -418,12 +430,18 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 	// Zero.MessageDispatcher.ReceiverItem<object>
 	// Zero.MessageDispatcher<int>
 	// Zero.MessageDispatcher<object>
-	// Zero.ResMgr.<>c__DisplayClass24_0<object>
-	// Zero.ViewAsyncCreater<object>
+	// Zero.ViewFactory.<CreateAsync>d__11<object>
 	// }}
 
 	public void RefMethods()
 	{
+		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter<object>,ZeroGameKit.PanelContainerView.<SwitchAsync>d__2<object>>(Cysharp.Threading.Tasks.UniTask.Awaiter<object>&,ZeroGameKit.PanelContainerView.<SwitchAsync>d__2<object>&)
+		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter<object>,ZeroGameKit.PanelContainerView.<SwitchAsync>d__3>(Cysharp.Threading.Tasks.UniTask.Awaiter<object>&,ZeroGameKit.PanelContainerView.<SwitchAsync>d__3&)
+		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter<object>,ZeroGameKit.WindowsContainerView.<OpenAsync>d__7<object>>(Cysharp.Threading.Tasks.UniTask.Awaiter<object>&,ZeroGameKit.WindowsContainerView.<OpenAsync>d__7<object>&)
+		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.Start<ZeroGameKit.PanelContainerView.<SwitchAsync>d__2<object>>(ZeroGameKit.PanelContainerView.<SwitchAsync>d__2<object>&)
+		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.Start<ZeroGameKit.PanelContainerView.<SwitchAsync>d__3>(ZeroGameKit.PanelContainerView.<SwitchAsync>d__3&)
+		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.Start<ZeroGameKit.WindowsContainerView.<OpenAsync>d__7<object>>(ZeroGameKit.WindowsContainerView.<OpenAsync>d__7<object>&)
+		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.Start<object>(object&)
 		// DG.Tweening.Core.TweenerCore<float,float,DG.Tweening.Plugins.Options.FloatOptions> DG.Tweening.TweenSettingsExtensions.From<float,float,DG.Tweening.Plugins.Options.FloatOptions>(DG.Tweening.Core.TweenerCore<float,float,DG.Tweening.Plugins.Options.FloatOptions>,float,bool,bool)
 		// object DG.Tweening.TweenSettingsExtensions.OnComplete<object>(object,DG.Tweening.TweenCallback)
 		// Google.Protobuf.FieldCodec<object> Google.Protobuf.FieldCodec.ForMessage<object>(uint,Google.Protobuf.MessageParser<object>)
@@ -434,20 +452,30 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 		// object Newtonsoft.Json.JsonConvert.DeserializeObject<object>(string,Newtonsoft.Json.JsonSerializerSettings)
 		// object[] System.Array.Empty<object>()
 		// object System.Reflection.CustomAttributeExtensions.GetCustomAttribute<object>(System.Reflection.MemberInfo)
+		// System.Collections.Generic.IEnumerable<object> System.Reflection.CustomAttributeExtensions.GetCustomAttributes<object>(System.Reflection.MemberInfo)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter,Example.SceneManagerExampleWin.<CleanAddScenes>d__14>(Cysharp.Threading.Tasks.UniTask.Awaiter&,Example.SceneManagerExampleWin.<CleanAddScenes>d__14&)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter,Example.SceneManagerExampleWin.<CleanScenes>d__15>(Cysharp.Threading.Tasks.UniTask.Awaiter&,Example.SceneManagerExampleWin.<CleanScenes>d__15&)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter,Example.SceneManagerExampleWin.<LoadScene0>d__5>(Cysharp.Threading.Tasks.UniTask.Awaiter&,Example.SceneManagerExampleWin.<LoadScene0>d__5&)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter,Example.UniTaskExampleWin.<StartLoopShow>d__3>(Cysharp.Threading.Tasks.UniTask.Awaiter&,Example.UniTaskExampleWin.<StartLoopShow>d__3&)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter,PingPong.NetUpdateCommand.<UpdateNetLoop>d__3>(Cysharp.Threading.Tasks.UniTask.Awaiter&,PingPong.NetUpdateCommand.<UpdateNetLoop>d__3&)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter<UnityEngine.SceneManagement.Scene>,Example.SceneManagerExampleWin.<AsyncLoadScene0>d__6>(Cysharp.Threading.Tasks.UniTask.Awaiter<UnityEngine.SceneManagement.Scene>&,Example.SceneManagerExampleWin.<AsyncLoadScene0>d__6&)
+		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter<object>,Example.HotFilesExampleWin.<LoadPrivacyPolicy>d__11>(Cysharp.Threading.Tasks.UniTask.Awaiter<object>&,Example.HotFilesExampleWin.<LoadPrivacyPolicy>d__11&)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter<object>,Example.ResMgrExampleWin.<AsyncLoad>d__8>(Cysharp.Threading.Tasks.UniTask.Awaiter<object>&,Example.ResMgrExampleWin.<AsyncLoad>d__8&)
+		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter<object>,Example.ResUpdateExampleWin.<OnBtnUpdateClick>d__8>(Cysharp.Threading.Tasks.UniTask.Awaiter<object>&,Example.ResUpdateExampleWin.<OnBtnUpdateClick>d__8&)
+		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter<object>,Example.StreamingAssetsUtilityExampleWin.<Load>d__21>(Cysharp.Threading.Tasks.UniTask.Awaiter<object>&,Example.StreamingAssetsUtilityExampleWin.<Load>d__21&)
+		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter<object>,ZeroGameKit.MainStartupPanel.<OnInit>d__4>(Cysharp.Threading.Tasks.UniTask.Awaiter<object>&,ZeroGameKit.MainStartupPanel.<OnInit>d__4&)
+		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.Start<Example.HotFilesExampleWin.<LoadPrivacyPolicy>d__11>(Example.HotFilesExampleWin.<LoadPrivacyPolicy>d__11&)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.Start<Example.ResMgrExampleWin.<AsyncLoad>d__8>(Example.ResMgrExampleWin.<AsyncLoad>d__8&)
+		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.Start<Example.ResUpdateExampleWin.<OnBtnUpdateClick>d__8>(Example.ResUpdateExampleWin.<OnBtnUpdateClick>d__8&)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.Start<Example.SceneManagerExampleWin.<AsyncLoadScene0>d__6>(Example.SceneManagerExampleWin.<AsyncLoadScene0>d__6&)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.Start<Example.SceneManagerExampleWin.<CleanAddScenes>d__14>(Example.SceneManagerExampleWin.<CleanAddScenes>d__14&)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.Start<Example.SceneManagerExampleWin.<CleanScenes>d__15>(Example.SceneManagerExampleWin.<CleanScenes>d__15&)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.Start<Example.SceneManagerExampleWin.<LoadScene0>d__5>(Example.SceneManagerExampleWin.<LoadScene0>d__5&)
+		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.Start<Example.StreamingAssetsUtilityExampleWin.<Load>d__21>(Example.StreamingAssetsUtilityExampleWin.<Load>d__21&)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.Start<Example.UniTaskExampleWin.<StartLoopShow>d__3>(Example.UniTaskExampleWin.<StartLoopShow>d__3&)
+		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.Start<Example.VideoExampleWin.<OnInit>d__2>(Example.VideoExampleWin.<OnInit>d__2&)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.Start<PingPong.NetUpdateCommand.<UpdateNetLoop>d__3>(PingPong.NetUpdateCommand.<UpdateNetLoop>d__3&)
+		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.Start<ZeroGameKit.MainStartupPanel.<OnInit>d__4>(ZeroGameKit.MainStartupPanel.<OnInit>d__4&)
 		// object& System.Runtime.CompilerServices.Unsafe.As<object,object>(object&)
 		// System.Void* System.Runtime.CompilerServices.Unsafe.AsPointer<object>(object&)
 		// byte UnityEngine.AndroidJNIHelper.ConvertFromJNIArray<byte>(System.IntPtr)
@@ -469,28 +497,29 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 		// byte UnityEngine._AndroidJNIHelper.ConvertFromJNIArray<byte>(System.IntPtr)
 		// System.IntPtr UnityEngine._AndroidJNIHelper.GetMethodID<byte>(System.IntPtr,string,object[],bool)
 		// string UnityEngine._AndroidJNIHelper.GetSignature<byte>(object[])
-		// object Zero.AResMgr.Load<object>(string,string)
-		// System.Void Zero.AResMgr.LoadAsync<object>(string,string,System.Action<object>,System.Action<float>)
 		// object Zero.AView.CreateChildView<object>(UnityEngine.GameObject,object)
 		// object Zero.AView.CreateChildView<object>(string,object)
 		// object Zero.AView.GetChildComponent<object>(int)
 		// object Zero.AView.GetChildComponent<object>(string)
 		// object Zero.AView.GetComponent<object>()
 		// System.Collections.Generic.Dictionary<object,Example.ArrayUtilityExample.TestVO> Zero.ArrayUtility.Array2Table<object,Example.ArrayUtilityExample.TestVO>(System.Collections.Generic.IEnumerable<Example.ArrayUtilityExample.TestVO>,string,string)
+		// object Zero.Assets.Load<object>(string)
+		// object Zero.Assets.Load<object>(string,string)
+		// Cysharp.Threading.Tasks.UniTask<object> Zero.Assets.LoadAsync<object>(string,System.Action<object>,System.Action<float>)
+		// Cysharp.Threading.Tasks.UniTask<object> Zero.Assets.LoadAsync<object>(string,string,System.Action<object>,System.Action<float>)
+		// object Zero.BaseAssetTool.Load<object>(string,string)
+		// System.Void Zero.BaseAssetTool.LoadAsync<object>(string,string,System.Action<object>,System.Action<float>)
 		// object Zero.BaseContainerView.Show<object>(object)
+		// Cysharp.Threading.Tasks.UniTask<object> Zero.BaseContainerView.ShowAsync<object>(object,System.Action<object>,System.Action<float>,System.Action<UnityEngine.Object>)
 		// object Zero.ComponentUtil.AutoGet<object>(UnityEngine.GameObject)
-		// object Zero.ConfigMgr.LoadJsonConfig<object>(string)
-		// object Zero.ConfigMgr.LoadZeroConfig<object>()
+		// object Zero.Configs.LoadJsonConfig<object>(string)
+		// object Zero.Configs.LoadZeroConfig<object>()
 		// object Zero.Json.ToObject<object>(string)
 		// System.Void Zero.MessageDispatcher<object>.RegisterReceiver<object>(object)
-		// object Zero.ResMgr.Load<object>(string)
-		// object Zero.ResMgr.Load<object>(string,string)
-		// Cysharp.Threading.Tasks.UniTask<object> Zero.ResMgr.LoadAsync<object>(string,System.Action<object>,System.Action<float>)
-		// Cysharp.Threading.Tasks.UniTask<object> Zero.ResMgr.LoadAsync<object>(string,string,System.Action<object>,System.Action<float>)
 		// object Zero.ViewFactory.Binding<object>(UnityEngine.GameObject,object)
 		// object Zero.ViewFactory.Create<object>(UnityEngine.GameObject,UnityEngine.Transform,object)
 		// object Zero.ViewFactory.Create<object>(UnityEngine.Transform,object)
 		// object Zero.ViewFactory.Create<object>(string,string,UnityEngine.Transform,object)
-		// System.Void Zero.ViewFactory.CreateAsync<object>(string,string,UnityEngine.Transform,object,System.Action<object>,System.Action<float>,System.Action<UnityEngine.Object>)
+		// Cysharp.Threading.Tasks.UniTask<object> Zero.ViewFactory.CreateAsync<object>(string,string,UnityEngine.Transform,object,System.Action<object>,System.Action<float>,System.Action<UnityEngine.Object>)
 	}
 }
