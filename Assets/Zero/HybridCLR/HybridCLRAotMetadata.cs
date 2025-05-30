@@ -1,3 +1,4 @@
+using System;
 using HybridCLR;
 using UnityEngine;
 
@@ -47,14 +48,24 @@ namespace Zero
                 else
                 {
                     byte[] dllBytes = ta.bytes;
-                    var errCode = HybridCLR.RuntimeApi.LoadMetadataForAOTAssembly(dllBytes, HomologousImageMode.SuperSet);
-                    if (errCode == LoadImageErrorCode.OK)
+
+                    LoadImageErrorCode errCode;
+                    try
                     {
-                        Debug.Log(LogColor.Zero2($"补充元数据:{ta.name}  成功"));
+                        errCode = RuntimeApi.LoadMetadataForAOTAssembly(dllBytes, HomologousImageMode.SuperSet);
+                        if (errCode == LoadImageErrorCode.OK)
+                        {
+                            Debug.Log(LogColor.Zero2($"[Zero][HybridCLR] 补充元数据:{ta.name}  成功"));
+                        }
+                        else
+                        {
+                            Debug.LogError(LogColor.Zero2($"[Zero][HybridCLR] 补充元数据:{ta.name}  错误码:{errCode}"));
+                        }
                     }
-                    else
+                    catch (Exception e)
                     {
-                        Debug.Log(LogColor.Zero2($"补充元数据:{ta.name}  错误码:{errCode}"));
+                        Debug.Log(LogColor.Red($"[Zero][HybridCLR] 补充元数据调用异常。可能HybridCLR功能未开启或者为JIT模式!"));
+                        break;
                     }
                 }
             }
