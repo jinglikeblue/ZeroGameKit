@@ -52,9 +52,9 @@ namespace ZeroEditor
             
             if (GUILayout.Button(GenerateHotScriptsIconContent, _style))
             {
-                EditorUtility.DisplayProgressBar("代码生成", "生成热更程序集(dll)", 0);
+                // EditorUtility.DisplayProgressBar("代码生成", "生成热更程序集(dll)", 0);
                 RightClickEditorMenu.GenerateDll();
-                EditorUtility.ClearProgressBar();
+                // EditorUtility.ClearProgressBar();
             }
 
             if (GUILayout.Button(GenerateResDefineScriptIconContent, _style))
