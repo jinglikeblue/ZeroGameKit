@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -13,6 +10,8 @@ namespace Zero
     public sealed class ViewFactory
     {
         private static readonly Type ViewRegisterAttr = typeof(ViewRegisterAttribute);
+
+        public static Func<string, EResType, string> PathFindFunc = null;
 
         /// <summary>
         /// 查找Type对应的AB信息
@@ -26,7 +25,7 @@ namespace Zero
             var attrs = type.GetCustomAttributes(ViewRegisterAttr, false);
             if (attrs.Length == 0)
             {
-                var prefabPath = R.GetPath(type.Name + ".prefab", EResType.Asset);
+                var prefabPath = PathFindFunc(type.Name + ".prefab", EResType.Asset);
                 if (string.IsNullOrEmpty(prefabPath))
                 {
                     abName = null;

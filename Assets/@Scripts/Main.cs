@@ -11,6 +11,9 @@ namespace Zero
         /// </summary>
         public static void Startup()
         {
+            //注册类型名到预制件的隐射
+            ViewFactory.PathFindFunc = R.GetPath;
+            
             Signaler.Register(typeof(Main).Assembly);
             new Main();
         }
