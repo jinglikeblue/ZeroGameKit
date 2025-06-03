@@ -11,7 +11,7 @@ namespace ZeroEditor
     {
         protected override void OnEnable()
         {            
-            var types = Assembly.GetAssembly(typeof(Zero.Main)).GetTypes();
+            var types = Assembly.GetAssembly(typeof(Zero.ZeroConfigAttribute)).GetTypes();
             foreach (var type in types)
             {
                 var att = type.GetCustomAttribute<ZeroConfigAttribute>(false);
