@@ -15,6 +15,18 @@ namespace Zero
         /// </summary>
         // public static readonly Runtime Ins = new Runtime();
 
+        internal static BuildInfo BuildInfo { get; private set; }
+
+        /// <summary>
+        /// 是否启用了IL2Cpp
+        /// </summary>
+        public static bool IsIL2CPP => BuildInfo.IsIL2CPP;
+
+        /// <summary>
+        /// 是否启用了HybridCLR
+        /// </summary>
+        public static bool IsHybridClrEnable => BuildInfo.IsHybridClrEnable;
+
         /// <summary>
         /// 启动器设置数据
         /// </summary>
@@ -121,6 +133,8 @@ namespace Zero
                 return;
             }
 
+            BuildInfo = BuildInfo.TryLoadBuildInfo();
+
             LauncherData = data;
 
             SetLogEnable(data.isLogEnable);
@@ -201,6 +215,8 @@ namespace Zero
         public static void PrintInfo()
         {
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] ========================================="));
+            Debug.Log(LogColor.Zero2($"[Zero][Runtime] Scripting Backend: {(IsIL2CPP ? "IL2CPP" : "Mono")}"));
+            Debug.Log(LogColor.Zero2($"[Zero][Runtime] HybridCLR: {(IsHybridClrEnable ? "启用" : "禁止")}"));
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] 日志打印: {LauncherData.isLogEnable}"));
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] 资源加载: {(LauncherData.isUseAssetBundle ? "AssetBundle" : "AssetDataBase")}"));
             if (LauncherData.isUseAssetBundle)
@@ -231,7 +247,7 @@ namespace Zero
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] 框架生成文件存放路径: {generateFilesDir}"));
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] ========================================="));
         }
-        
+
         /// <summary>
         /// 执行一次内存回收(该接口开销大，可能引起卡顿)
         /// </summary>

@@ -21,6 +21,7 @@ namespace ZeroEditor
         {
             Debug.Log("[Zero][Build][PreprocessBuild] Build前处理");
             SyncHybridClrEnable();
+            BuildInfo.GenerateBuildInfo();
         }
 
         /// <summary>

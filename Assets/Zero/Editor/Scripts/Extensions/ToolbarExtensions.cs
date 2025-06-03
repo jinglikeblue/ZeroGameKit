@@ -14,8 +14,10 @@ namespace ZeroEditor
     [UnityEditor.InitializeOnLoadAttribute]
     public static class ToolbarExtensions
     {
-        private static readonly GUIContent GenerateScriptIconContent = EditorGUIUtility.IconContent("d_PreTexR");
+        private static readonly GUIContent GenerateResDefineScriptIconContent = EditorGUIUtility.IconContent("d_PreTexR");
         private static readonly GUIContent ProjectFolderIconContent = EditorGUIUtility.IconContent("FolderOpened On Icon");
+        // 备选图标：「cs Script Icon」
+        private static readonly GUIContent GenerateHotScriptsIconContent = EditorGUIUtility.IconContent("d_Assembly Icon");
 
         private static GUIStyle _style;
 
@@ -26,7 +28,8 @@ namespace ZeroEditor
             ToolbarExpand.OnToolbarGuiLeft += OnToolbarGuiLeft;
             ToolbarExpand.OnToolbarGuiRight += OnToolbarGuiRight;
 
-            GenerateScriptIconContent.tooltip = "生成资源常量类";
+            GenerateResDefineScriptIconContent.tooltip = "生成资源常量类";
+            GenerateHotScriptsIconContent.tooltip = "生成热更程序集(dll)";
 
             ProjectFolderPath = FileUtility.StandardizeBackslashSeparator(Path.GetDirectoryName(Application.dataPath));
 
@@ -46,8 +49,15 @@ namespace ZeroEditor
             }
 
             GUILayout.FlexibleSpace();
+            
+            if (GUILayout.Button(GenerateHotScriptsIconContent, _style))
+            {
+                EditorUtility.DisplayProgressBar("代码生成", "生成热更程序集(dll)", 0);
+                RightClickEditorMenu.GenerateDll();
+                EditorUtility.ClearProgressBar();
+            }
 
-            if (GUILayout.Button(GenerateScriptIconContent, _style))
+            if (GUILayout.Button(GenerateResDefineScriptIconContent, _style))
             {
                 EditorUtility.DisplayProgressBar("代码生成", "生成资源常量类", 0);
                 RightClickEditorMenu.GenerateAssetNames();

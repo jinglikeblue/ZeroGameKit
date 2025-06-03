@@ -19,7 +19,12 @@ namespace Zero
         /// <returns></returns>
         public static string MakeAbsolutePath(string relativePath)
         {
-            return FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_PATH, relativePath);
+            if (!relativePath.StartsWith(ZeroConst.STREAMING_ASSETS_PATH))
+            {
+                return FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_PATH, relativePath);
+            }
+
+            return relativePath;
         }
 
         /// <summary>
@@ -30,6 +35,7 @@ namespace Zero
         /// <returns></returns>
         private static async UniTask<bool> CheckFileExist(string path, bool isAsync)
         {
+            path = MakeAbsolutePath(path);
             var www = UnityWebRequest.Get(path);
             var tempFilePath = FileUtility.CombinePaths(Application.temporaryCachePath, $"streaming_assets_check_{Path.GetFileNameWithoutExtension(path)}.bytes");
             www.downloadHandler = new DownloadHandlerFile(tempFilePath);
@@ -122,6 +128,7 @@ namespace Zero
 
         static UnityWebRequest LoadSync(string path, float timeoutSeconds)
         {
+            path = MakeAbsolutePath(path);
             var www = UnityWebRequest.Get(path);
             www.SendWebRequest();
 
@@ -152,6 +159,7 @@ namespace Zero
 
         private static async UniTask<UnityWebRequest> LoadAsync(string path)
         {
+            path = MakeAbsolutePath(path);
             var www = UnityWebRequest.Get(path);
             www.SendWebRequest();
             while (false == www.isDone)
@@ -196,6 +204,7 @@ namespace Zero
         /// <returns></returns>
         public static AssetBundle LoadAssetBundle(string path)
         {
+            path = MakeAbsolutePath(path);
             var ab = AssetBundle.LoadFromFile(path);
             return ab;
         }

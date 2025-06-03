@@ -18,10 +18,10 @@
     <type fullname="Zero.AView" preserve="all" />
     <type fullname="Zero.AnimationCallback" preserve="all" />
     <type fullname="Zero.ArrayUtility" preserve="all" />
+    <type fullname="Zero.Assets" preserve="all" />
     <type fullname="Zero.AudioDevice" preserve="all" />
     <type fullname="Zero.BaseCommand" preserve="all" />
     <type fullname="Zero.BaseContainerView" preserve="all" />
-    <type fullname="Zero.BaseContainerView/ASyncShow`1" preserve="all" />
     <type fullname="Zero.BaseMessageReceiver`1" preserve="all" />
     <type fullname="Zero.BaseModule" preserve="all" />
     <type fullname="Zero.BaseObjectPool" preserve="all" />
@@ -32,10 +32,11 @@
     <type fullname="Zero.Blur" preserve="all" />
     <type fullname="Zero.CameraUtility" preserve="all" />
     <type fullname="Zero.ComponentUtil" preserve="all" />
-    <type fullname="Zero.ConfigMgr" preserve="all" />
+    <type fullname="Zero.Configs" preserve="all" />
     <type fullname="Zero.CoroutinesQueue" preserve="all" />
     <type fullname="Zero.CoroutinesQueue/EState" preserve="all" />
     <type fullname="Zero.EDispatchResult" preserve="all" />
+    <type fullname="Zero.EResType" preserve="all" />
     <type fullname="Zero.GUIDebugInfo" preserve="all" />
     <type fullname="Zero.GameObjectBindingData" preserve="all" />
     <type fullname="Zero.GroupHttpDownloader" preserve="all" />
@@ -44,8 +45,6 @@
     <type fullname="Zero.GroupHttpDownloader/TaskCompletedEvent" preserve="all" />
     <type fullname="Zero.GroupHttpDownloader/TaskInfo" preserve="all" />
     <type fullname="Zero.GroupHttpDownloader/TaskStartedEvent" preserve="all" />
-    <type fullname="Zero.HotFilesMgr" preserve="all" />
-    <type fullname="Zero.HotFilesMgr/Loader" preserve="all" />
     <type fullname="Zero.HotResUpdater" preserve="all" />
     <type fullname="Zero.HttpDownloader" preserve="all" />
     <type fullname="Zero.HttpDownloader/CompletedEvent" preserve="all" />
@@ -74,7 +73,9 @@
     <type fullname="Zero.RectTransformExtend/StretchInfo" preserve="all" />
     <type fullname="Zero.RectTransformUtility" preserve="all" />
     <type fullname="Zero.RectUtility" preserve="all" />
-    <type fullname="Zero.ResMgr" preserve="all" />
+    <type fullname="Zero.Res" preserve="all" />
+    <type fullname="Zero.Res/ProgressDelegate" preserve="all" />
+    <type fullname="Zero.Runtime" preserve="all" />
     <type fullname="Zero.SceneExtend" preserve="all" />
     <type fullname="Zero.SceneManagerUtility" preserve="all" />
     <type fullname="Zero.ScreenUtility" preserve="all" />
@@ -216,9 +217,11 @@
     <type fullname="System.Xml.XmlNodeList" preserve="all" />
   </assembly>
   <assembly fullname="UniTask">
+    <type fullname="Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder`1" preserve="all" />
     <type fullname="Cysharp.Threading.Tasks.PlayerLoopTiming" preserve="all" />
     <type fullname="Cysharp.Threading.Tasks.UniTask" preserve="all" />
     <type fullname="Cysharp.Threading.Tasks.UniTask/Awaiter" preserve="all" />
+    <type fullname="Cysharp.Threading.Tasks.UniTaskStatus" preserve="all" />
     <type fullname="Cysharp.Threading.Tasks.UniTask`1" preserve="all" />
     <type fullname="Cysharp.Threading.Tasks.UniTask`1/Awaiter" preserve="all" />
   </assembly>
@@ -315,9 +318,9 @@
   <assembly fullname="mscorlib">
     <type fullname="System.Action" preserve="all" />
     <type fullname="System.Action`1" preserve="all" />
-    <type fullname="System.Action`2" preserve="all" />
     <type fullname="System.Activator" preserve="all" />
     <type fullname="System.Array" preserve="all" />
+    <type fullname="System.AsyncCallback" preserve="all" />
     <type fullname="System.Attribute" preserve="all" />
     <type fullname="System.AttributeTargets" preserve="all" />
     <type fullname="System.AttributeUsageAttribute" preserve="all" />
@@ -344,6 +347,7 @@
     <type fullname="System.Exception" preserve="all" />
     <type fullname="System.Func`1" preserve="all" />
     <type fullname="System.Func`3" preserve="all" />
+    <type fullname="System.IAsyncResult" preserve="all" />
     <type fullname="System.IDisposable" preserve="all" />
     <type fullname="System.IO.Directory" preserve="all" />
     <type fullname="System.IO.DirectoryInfo" preserve="all" />
@@ -360,6 +364,7 @@
     <type fullname="System.Int32" preserve="all" />
     <type fullname="System.Int64" preserve="all" />
     <type fullname="System.Math" preserve="all" />
+    <type fullname="System.MulticastDelegate" preserve="all" />
     <type fullname="System.NotSupportedException" preserve="all" />
     <type fullname="System.Nullable`1" preserve="all" />
     <type fullname="System.Object" preserve="all" />

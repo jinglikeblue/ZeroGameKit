@@ -13,7 +13,7 @@ using ZeroEditor;
 public static class RightClickEditorMenu
 {
     [MenuItem("Assets/Zero/生成DLL（并拷贝到内嵌资源目录)", false, 0)]
-    static async void GenerateDll()
+    public static async void GenerateDll()
     {
         try
         {
