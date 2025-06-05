@@ -1,25 +1,17 @@
 ﻿using UnityEngine;
-using Zero;
 using ZeroGameKit;
 
 namespace Zero
 {
+    /// <summary>
+    /// 热更代码主类
+    /// </summary>
     public class Main
     {
-        /// <summary>
-        /// 热更代码入口
-        /// </summary>
-        public static void Startup()
+        public Main()
         {
-            //注册类型名到预制件的隐射
-            ViewFactory.PathFindFunc = R.GetPath;
-            
             Signaler.Register(typeof(Main).Assembly);
-            new Main();
-        }
-
-        private Main()
-        {
+            
             Signaler.Send(SignalNameDefine.ZeroMainInitBegion);
             Init();
             Signaler.Send(SignalNameDefine.ZeroMainInitEnd);

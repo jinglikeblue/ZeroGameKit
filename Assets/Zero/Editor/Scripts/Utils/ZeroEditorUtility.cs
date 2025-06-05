@@ -96,6 +96,15 @@ namespace ZeroEditor
         /// <summary>
         /// 在IDE中编辑脚本
         /// </summary>
+        /// <param name="path"></param>
+        public static void EditScript(string path)
+        {
+            InternalEditorUtility.OpenFileAtLineExternal(path, 0, 0);
+        }
+
+        /// <summary>
+        /// 在IDE中编辑脚本
+        /// </summary>
         /// <param name="obj"></param>
         public static void EditScript(object obj)
         {

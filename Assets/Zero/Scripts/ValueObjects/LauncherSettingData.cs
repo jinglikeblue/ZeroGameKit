@@ -19,14 +19,14 @@ namespace Zero
         [OnValueChanged("OnValueChanged")]
         public bool isLogEnable = true;
 
-        [ShowInInspector]
-        [Title("启动")]
-        [LabelText("启动类(完全限定类名)"), DisplayAsString]
-        protected string className = ZeroConst.LOGIC_SCRIPT_STARTUP_CLASS_NAME;
-
-        [ShowInInspector]
-        [LabelText("启动方法(静态)"), DisplayAsString]
-        protected string methodName = ZeroConst.LOGIC_SCRIPT_STARTUP_METHOD;
+        // [ShowInInspector]
+        // [Title("启动")]
+        // [LabelText("启动类(完全限定类名)"), DisplayAsString]
+        // protected string className = ZeroConst.LOGIC_SCRIPT_STARTUP_CLASS_NAME;
+        //
+        // [ShowInInspector]
+        // [LabelText("启动方法(静态)"), DisplayAsString]
+        // protected string methodName = ZeroConst.LOGIC_SCRIPT_STARTUP_METHOD;
 
         [Title("资源加载")] 
         [InfoBox("「启用」ResMgr通过AssetBundle相关接口加载资源。", VisibleIf = "isUseAssetBundle")]
@@ -59,6 +59,7 @@ namespace Zero
 
         [Title("代码")]
         [InfoBox("通过dll文件运行程序。开启后会自动检测HybridCLR安装状态。", VisibleIf = "isUseDll")]
+        [SuffixLabel("主类：Zero.Main")]
         // [InfoBox("不使用dll的情况下，Build时会自动关闭HybridCLR功能。", VisibleIf = "@!isUseDll")]
         [LabelText("使用dll")]
         [OnValueChanged("OnValueChanged")]

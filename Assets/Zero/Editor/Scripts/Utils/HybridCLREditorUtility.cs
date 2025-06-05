@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using HybridCLR.Editor.Commands;
 using HybridCLR.Editor.Installer;
 using HybridCLR.Editor.Settings;
@@ -42,7 +43,8 @@ namespace ZeroEditor
 
             if (Directory.Exists(targetDir)) Directory.Delete(targetDir, true);
 
-            foreach (var assembly in AOTGenericReferences.PatchedAOTAssemblyList)
+            var toCopyAssemblies = AOTGenericReferences.PatchedAOTAssemblyList.ToArray();
+            foreach (var assembly in toCopyAssemblies)
             {
                 var sourcePath = FileUtility.CombinePaths(outputStrippedDir, assembly);
 
@@ -57,9 +59,9 @@ namespace ZeroEditor
         /// 一键准备HybridCLR
         /// </summary>
         [MenuItem("Test/HybridCLR/OneClickForAll")]
-        public static void OneClickForAll()
+        public static async void OneClickForAll()
         {
-            if (false == EditorUtility.DisplayDialog("提示", "耗时较长，是否继续？", "继续", "取消"))
+            if (false == EditorUtility.DisplayDialog("提示", "仅在Build工程之前需要执行！\n耗时较长，是否继续？", "继续", "取消"))
             {
                 return;
             }
@@ -67,7 +69,7 @@ namespace ZeroEditor
             //检测HybridCLR安装情况
             AutoInstallHybridCLR();
             //生成一次热更DLL代码
-            HotResEditorUtility.GenerateScriptAssembly();
+            await HotResEditorUtility.GenerateScriptAssembly();
             //生成所有HybridCLR内容
             PrebuildCommand.GenerateAll();
             //拷贝元数据补充需要的程序集

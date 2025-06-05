@@ -376,12 +376,14 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 	// System.Comparison<System.ValueTuple<object,object>>
 	// System.Comparison<object>
 	// System.Func<int>
+	// System.Func<object,int,object>
 	// System.Func<object,int>
 	// System.Func<object,object,byte>
 	// System.Func<object,object>
 	// System.Func<object,uint>
 	// System.Func<object>
 	// System.Func<uint,int>
+	// System.Linq.Buffer<object>
 	// System.Nullable<int>
 	// System.Predicate<Example.ArrayUtilityExample.TestVO>
 	// System.Predicate<Sokoban.SortTool.SortItemVO<object,object>>
@@ -430,7 +432,7 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 	// Zero.MessageDispatcher.ReceiverItem<object>
 	// Zero.MessageDispatcher<int>
 	// Zero.MessageDispatcher<object>
-	// Zero.ViewFactory.<CreateAsync>d__11<object>
+	// Zero.ViewFactory.<CreateAsync>d__12<object>
 	// }}
 
 	public void RefMethods()
@@ -451,6 +453,7 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 		// object Newtonsoft.Json.JsonConvert.DeserializeObject<object>(string)
 		// object Newtonsoft.Json.JsonConvert.DeserializeObject<object>(string,Newtonsoft.Json.JsonSerializerSettings)
 		// object[] System.Array.Empty<object>()
+		// object[] System.Linq.Enumerable.ToArray<object>(System.Collections.Generic.IEnumerable<object>)
 		// object System.Reflection.CustomAttributeExtensions.GetCustomAttribute<object>(System.Reflection.MemberInfo)
 		// System.Collections.Generic.IEnumerable<object> System.Reflection.CustomAttributeExtensions.GetCustomAttributes<object>(System.Reflection.MemberInfo)
 		// System.Void System.Runtime.CompilerServices.AsyncVoidMethodBuilder.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter,Example.SceneManagerExampleWin.<CleanAddScenes>d__14>(Cysharp.Threading.Tasks.UniTask.Awaiter&,Example.SceneManagerExampleWin.<CleanAddScenes>d__14&)
