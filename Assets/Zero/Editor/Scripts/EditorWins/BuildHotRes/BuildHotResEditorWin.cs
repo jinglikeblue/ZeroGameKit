@@ -20,7 +20,7 @@ namespace ZeroEditor
         /// </summary>
         public static void Open()
         {
-            var win = GetWindow<BuildHotResEditorWin>("热更新", true);
+            var win = GetWindow<BuildHotResEditorWin>("热更构建", true);
             var rect = GUIHelper.GetEditorWindowRect().AlignCenter(1000, 600);
             win.position = rect;
         }
@@ -34,7 +34,7 @@ namespace ZeroEditor
         {
             OdinMenuTree tree = new OdinMenuTree();
             tree.Config.DrawSearchToolbar = true;
-            tree.Add("热更资源", new BuildResModule(this));
+            tree.Add("res", new BuildResModule(this));
             tree.Add("setting.json", new BuildSettingJsonModule(this));            
             return tree;
         }
