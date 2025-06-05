@@ -129,14 +129,10 @@ namespace Zero
 
             if (EResType.All == type || EResType.File == type)
             {
-                if (!startPath.StartsWith(ZeroConst.PROJECT_FILES_DIR))
-                {
-                    startPath = FileUtility.CombinePaths(ZeroConst.PROJECT_FILES_DIR, startPath);
-                }
-
+                var fileStartPath = Res.TransformToProjectPath(startPath, EResType.File);
                 foreach (var filePath in FileNameToPathDict.Values)
                 {
-                    if (filePath.StartsWith(startPath))
+                    if (filePath.StartsWith(fileStartPath))
                     {
                         list.Add(filePath);
                     }
@@ -145,14 +141,10 @@ namespace Zero
 
             if (EResType.All == type || EResType.Asset == type)
             {
-                if (!startPath.StartsWith(ZeroConst.PROJECT_AB_DIR))
-                {
-                    startPath = FileUtility.CombinePaths(ZeroConst.PROJECT_AB_DIR, startPath);
-                }
-
+                var assetStartPath = Res.TransformToProjectPath(startPath, EResType.Asset);
                 foreach (var filePath in AssetNameToPathDict.Values)
                 {
-                    if (filePath.StartsWith(startPath))
+                    if (filePath.StartsWith(assetStartPath))
                     {
                         list.Add(filePath);
                     }

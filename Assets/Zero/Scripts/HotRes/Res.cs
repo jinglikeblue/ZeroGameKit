@@ -419,7 +419,7 @@ namespace Zero
         private static byte[] LoadBytes(string path)
         {
             byte[] bytes = null;
-            
+
             //如果是AB目录下的资源，则通过Assets来读取
             if (path.StartsWith(ZeroConst.PROJECT_AB_DIR))
             {
@@ -470,10 +470,7 @@ namespace Zero
             //如果是AB目录下的资源，则通过Assets来读取
             if (path.StartsWith(ZeroConst.PROJECT_AB_DIR))
             {
-                var ta = await Assets.LoadAsync<TextAsset>(path, null, progress =>
-                {
-                    onProgress?.Invoke(progress,  CalculateLoadedSize(progress, 100), 100);
-                });
+                var ta = await Assets.LoadAsync<TextAsset>(path, null, progress => { onProgress?.Invoke(progress, CalculateLoadedSize(progress, 100), 100); });
                 if (ta)
                 {
                     bytes = ta.bytes;
@@ -481,7 +478,7 @@ namespace Zero
 
                 return bytes;
             }
-            
+
             if (Runtime.IsUseAssetBundle)
             {
                 //如果支持热更，则先检查热更目录
@@ -794,6 +791,36 @@ namespace Zero
             }
 
             return path;
+        }
+
+        /// <summary>
+        /// 在AssetBundle模式且运行中时，将通过res.json文件来查找匹配的热更资源文件返回，路径为热更目录中的路径。
+        /// 其它情况下，通过R类的接口来返回匹配的资源文件，路径为工程目录中的路径。
+        /// </summary>
+        /// <param name="startPath"></param>
+        /// <returns></returns>
+        public static string[] Find(string startPath)
+        {
+            string[] files = null;
+            if (Application.isPlaying && Runtime.IsUseAssetBundle)
+            {
+                var resVer = Runtime.IsHotResEnable ? Runtime.netResVer : Runtime.localResVer;
+                List<string> nameList = new List<string>();
+                var itemList = resVer.FindGroup(startPath);
+                foreach (var item in itemList)
+                {
+                    nameList.Add(item.name);
+                }
+
+                files = nameList.Select(x => TransformToHotPath(x)).ToArray();
+            }
+            else
+            {
+                files = R.Find(startPath);
+                files = files.Select(x => TransformToProjectPath(x)).ToArray();
+            }
+
+            return files;
         }
     }
 }
