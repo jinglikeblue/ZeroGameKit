@@ -245,6 +245,14 @@ namespace Zero
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] Persistent可读写目录路径: {ZeroConst.PERSISTENT_DATA_PATH}"));
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] 下载资源存放路径: {localResDir}"));
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] 框架生成文件存放路径: {generateFilesDir}"));
+            if (setting.startupParams != null)
+            {
+                foreach (var kv in setting.startupParams)
+                {
+                    Debug.Log(LogColor.Zero2($"[Zero][Runtime] 启动参数: [{kv.Key}] => [{kv.Value}]"));
+                }
+            }
+
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] ========================================="));
         }
 
