@@ -23,7 +23,7 @@ namespace ZeroEditor
         /// <summary>
         /// 导出类位置
         /// </summary>
-        public const string OUTPUT_FILE = ZeroEditorConst.HOT_SCRIPT_ROOT_DIR + "/Generated/R.cs";
+        public const string OUTPUT_FILE = ZeroEditorConst.HOT_SCRIPT_ROOT_DIR + "/Zero/Generated/R.cs";
 
 
         string _mainClassT;
