@@ -26,6 +26,14 @@
             public long size;
         }
 
+        /// <summary>
+        /// 标识符
+        /// </summary>
+        public string identifier;
+        
+        /// <summary>
+        /// 资源数组
+        /// </summary>
         public Item[] items;
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Jing;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEditor;
+using UnityEngine;
 using Zero;
 
 namespace ZeroEditor
@@ -54,7 +56,7 @@ namespace ZeroEditor
             _files.Clear();
 
             ScanningFiles(_sourceDir);
-
+            
             List<ResVerVO.Item> items = new List<ResVerVO.Item>();
             for (int i = 0; i < _files.Count; i++)
             {
@@ -75,8 +77,24 @@ namespace ZeroEditor
             }
 
             _res.items = items.ToArray();
+            _res.identifier = CreateIdentifier(_res.items);
+            Debug.Log($"[res.json] identifier: {_res.identifier}");
 
             EditorUtility.ClearProgressBar();
+        }
+
+        string CreateIdentifier(ResVerVO.Item[] items)
+        {
+            var sortedVersionList = items.Select(x => x.version).ToList();
+            sortedVersionList.Sort();
+            
+            StringBuilder sb = new StringBuilder();
+            foreach (var version in sortedVersionList)
+            {
+                sb.Append(version);
+            }
+
+            return MD5Helper.GetMD5(sb.ToString(), true);
         }
 
         void ScanningFiles(string dir)

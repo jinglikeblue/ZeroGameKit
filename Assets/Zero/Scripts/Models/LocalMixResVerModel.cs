@@ -49,7 +49,7 @@ namespace Zero
         /// <returns></returns>
         public override void SetVerAndSave(string name, string version)
         {            
-            _localResVer.SetVer(name, version);
+            _localResVer.SetVerAndSave(name, version);
             SetVer(name, version);
         }
 
