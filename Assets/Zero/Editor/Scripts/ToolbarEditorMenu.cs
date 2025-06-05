@@ -45,16 +45,6 @@ namespace ZeroEditor
             }
         }
 
-        [MenuItem("Zero/调试/打开[Caches]目录", false, 300)]
-        public static void OpenCachesDir()
-        {
-            var cacheDir = new DirectoryInfo(ZeroConst.PERSISTENT_DATA_PATH);
-            if (cacheDir.Exists)
-            {
-                ZeroEditorUtility.OpenDirectory(cacheDir.FullName);
-            }
-        }
-
         [MenuItem("Zero/调试/打开[Application.temporaryCachePath]目录", false, 310)]
         public static void OpenTemporaryCacheDir()
         {
@@ -96,27 +86,13 @@ namespace ZeroEditor
         {
             RedundancyResourcesCleanToolsEditorWin.Open();
         }
-        
+
         [MenuItem("Zero/HybridCLR一键处理", false, 450)]
         public static void HybridCLROneClickForAll()
         {
             HybridCLREditorUtility.OneClickForAll();
         }
 
-        [MenuItem("Zero/About", false, 500)]
-        public static void Document()
-        {
-            AboutEditorWin.Open();
-        }
-        
-        [MenuItem("Zero/项目工程/在资源管理器中打开", false, 600)]
-        
-        public static void OpenProjectFolder()
-        {
-            var projectDirInfo = new DirectoryInfo(Application.dataPath).Parent;
-            Application.OpenURL(projectDirInfo.FullName);
-        }
-        
         [MenuItem("Zero/项目工程/创建分身", false, 601)]
         public static void CreateShadowProject()
         {
@@ -133,6 +109,50 @@ namespace ZeroEditor
 #else
             EditorUtility.DisplayDialog("错误提示", "此功能暂不支持该平台！", "确定");
 #endif
+        }
+
+        #region 目录访问
+
+        [MenuItem("Zero/文件夹/工程目录", false, 10000)]
+        public static void OpenProjectFolder()
+        {
+            Application.OpenURL(ZeroEditorConst.PROJECT_PATH);
+        }
+
+        [MenuItem("Zero/文件夹/运行时可读写目录", false, 10001)]
+        public static void OpenPersistentDataFolder()
+        {
+            if (Directory.Exists(ZeroConst.PERSISTENT_DATA_PATH))
+            {
+                Application.OpenURL(ZeroConst.PERSISTENT_DATA_PATH);
+            }
+        }
+
+        [MenuItem("Zero/文件夹/热更发布目录", false, 10002)]
+        public static void OpenHotReleaseFolder()
+        {
+            var dir = FileUtility.CombineDirs(false, ZeroEditorConst.PROJECT_PATH, ZeroConst.ZERO_LIBRARY_DIR, "Release");
+            if (Directory.Exists(dir))
+            {
+                Application.OpenURL(dir);
+            }
+        }
+
+        [MenuItem("Zero/文件夹/内嵌资源目录", false, 10003)]
+        public static void OpenBuiltinResFolder()
+        {
+            if (Directory.Exists(ZeroConst.BuiltinResRootFolder))
+            {
+                Application.OpenURL(ZeroConst.BuiltinResRootFolder);
+            }
+        }
+
+        #endregion
+
+        [MenuItem("Zero/About", false, 99999)]
+        public static void Document()
+        {
+            AboutEditorWin.Open();
         }
     }
 }

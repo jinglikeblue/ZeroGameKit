@@ -24,12 +24,15 @@ namespace ZeroEditor
         [Title("勾选构建内容")]
         [LabelText("Copy Files (拷贝 @files 文件夹到发布目录)"), ToggleLeft]
         public bool isCopyFiles = true;
+
         [LabelText("Build AssetBundles (构建AB包)"), ToggleLeft]
         public bool isBuildAB = true;
+
         [LabelText("Build DLL (构建热更代码)"), ToggleLeft]
         public bool isBuildDLL = true;
+
         [LabelText("Build res.json (构建资源版本号)"), ToggleLeft]
-        public bool isBuildResJson = true;        
+        public bool isBuildResJson = true;
 
         [Button("发布热更资源", ButtonSizes.Large)]
         void BuildPart1()
@@ -39,7 +42,7 @@ namespace ZeroEditor
                 if (isCopyFiles)
                 {
                     EditorUtility.DisplayProgressBar("打包热更资源", "开始拷贝Files资源文件夹", 0f);
-                    Debug.Log("开始拷贝Files资源文件夹");                
+                    Debug.Log("开始拷贝Files资源文件夹");
                     CopyFiles();
                     Debug.Log("Files资源文件夹拷贝完成");
                 }
@@ -81,9 +84,7 @@ namespace ZeroEditor
                 EditorUtility.DisplayDialog("出错", "发布失败！", "确定");
                 throw;
             }
-
         }
-
 
 
         [LabelText("发布完成后打开发布目录"), ToggleLeft, PropertyOrder(800)]
@@ -93,7 +94,7 @@ namespace ZeroEditor
         [Space(50)]
         [Title("内嵌资源构建")]
         [LabelText("自动拷贝到内嵌资源目录(StreamingAssets/res)"), ToggleLeft, PropertyOrder(900)]
-        [InlineButton("OpenBuiltinDir", "打开内嵌资源目录")]        
+        [InlineButton("OpenBuiltinDir", "打开内嵌资源目录")]
         public bool isCopyToBuiltinDir = false;
 
         [HorizontalGroup("BuiltinResCopy")]
@@ -102,7 +103,7 @@ namespace ZeroEditor
         {
             CopyToBuiltinDir(true);
         }
-        
+
         void CopyToBuiltinDir(bool isRefreshAssetDatabase)
         {
             if (EditorUtility.DisplayDialog("确定窗口", "确定拷贝构建内容到'StreamingAssets/res'？", "是", "否"))
@@ -112,7 +113,7 @@ namespace ZeroEditor
                 {
                     AssetDatabase.Refresh();
                 }
-            }            
+            }
         }
 
         [Button("Build StreamingAssets/res中的res.json", ButtonSizes.Large), PropertyOrder(901)]
@@ -125,11 +126,11 @@ namespace ZeroEditor
         [Button("清空内嵌资源目录", ButtonSizes.Large), PropertyOrder(901)]
         void CleanBuiltinDir()
         {
-            if (EditorUtility.DisplayDialog("确定窗口", "确定清空'StreamingAssets/res'目录？", "是", "否"))
+            if (EditorUtility.DisplayDialog("确定窗口", $"确定清空'{ZeroConst.BuiltinResRootFolder}'目录？", "是", "否"))
             {
-                if (Directory.Exists(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH))
+                if (Directory.Exists(ZeroConst.BuiltinResRootFolder))
                 {
-                    Directory.Delete(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, true);
+                    Directory.Delete(ZeroConst.BuiltinResRootFolder, true);
                     AssetDatabase.Refresh();
                 }
             }
@@ -159,7 +160,7 @@ namespace ZeroEditor
 
             if (isOpenPublishDir)
             {
-                OpenPublishDir();                
+                OpenPublishDir();
             }
             else
             {
@@ -170,13 +171,11 @@ namespace ZeroEditor
         }
 
 
-
         void OpenBuiltinDir()
         {
             //打开目录
             ZeroEditorUtility.OpenDirectory(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH);
         }
-
 
 
         void CopyFiles()
@@ -185,13 +184,16 @@ namespace ZeroEditor
             {
                 Directory.Delete(ZeroEditorConst.FILES_PUBLISH_DIR, true);
             }
+
             //拷贝文件
-            FileUtility.CopyDir(ZeroConst.PROJECT_FILES_DIR, ZeroEditorConst.FILES_PUBLISH_DIR, (s,t)=> {
+            FileUtility.CopyDir(ZeroConst.PROJECT_FILES_DIR, ZeroEditorConst.FILES_PUBLISH_DIR, (s, t) =>
+            {
                 var ext = Path.GetExtension(s);
                 if (ext.Equals(".meta"))
                 {
                     return false;
                 }
+
                 return true;
             });
         }
@@ -220,7 +222,8 @@ namespace ZeroEditor
         void BuildDll(Action onBuildSuccess, Action onBuildFail)
         {
             var cmd = new DllBuildCommand(ZeroEditorConst.HOT_SCRIPT_ROOT_DIR, ZeroEditorConst.DLL_PUBLISH_DIR);
-            cmd.onFinished += (DllBuildCommand self, bool isSuccess) => {
+            cmd.onFinished += (DllBuildCommand self, bool isSuccess) =>
+            {
                 if (isSuccess)
                 {
                     //继续打包

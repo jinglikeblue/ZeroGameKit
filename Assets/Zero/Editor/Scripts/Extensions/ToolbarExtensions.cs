@@ -15,7 +15,9 @@ namespace ZeroEditor
     public static class ToolbarExtensions
     {
         private static readonly GUIContent GenerateResDefineScriptIconContent = EditorGUIUtility.IconContent("d_PreTexR");
+
         private static readonly GUIContent ProjectFolderIconContent = EditorGUIUtility.IconContent("FolderOpened On Icon");
+
         // 备选图标：「cs Script Icon」
         private static readonly GUIContent GenerateHotScriptsIconContent = EditorGUIUtility.IconContent("d_Assembly Icon");
 
@@ -33,7 +35,7 @@ namespace ZeroEditor
 
             ProjectFolderPath = FileUtility.StandardizeBackslashSeparator(Path.GetDirectoryName(Application.dataPath));
 
-            ProjectFolderIconContent.tooltip = ProjectFolderPath;
+            ProjectFolderIconContent.tooltip = $"访问项目目录：{ProjectFolderPath}";
         }
 
         private static void OnToolbarGuiLeft()
@@ -49,7 +51,7 @@ namespace ZeroEditor
             }
 
             GUILayout.FlexibleSpace();
-            
+
             if (GUILayout.Button(GenerateHotScriptsIconContent, _style))
             {
                 // EditorUtility.DisplayProgressBar("代码生成", "生成热更程序集(dll)", 0);

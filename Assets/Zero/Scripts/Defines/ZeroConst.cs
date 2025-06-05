@@ -96,7 +96,7 @@ namespace Zero
         /// 热更文件文件夹名
         /// </summary>
         public const string PROJECT_FILES_FOLDER_NAME = "@files";
-        
+
         /// <summary>
         /// 热更资源在项目中的根目录
         /// </summary>
@@ -105,7 +105,7 @@ namespace Zero
         /// <summary>
         /// 其它热更资源再项目中的根目录
         /// </summary>
-        public const string PROJECT_FILES_DIR =  PROJECT_ASSETS_DIR + PROJECT_FILES_FOLDER_NAME;
+        public const string PROJECT_FILES_DIR = PROJECT_ASSETS_DIR + PROJECT_FILES_FOLDER_NAME;
 
         #endregion
 
@@ -132,7 +132,7 @@ namespace Zero
 #elif UNITY_IPHONE
         _platformDirName = PlatformDirNameConst.IOS;
 #elif UNITY_ANDROID
-                _platformDirName = PlatformDirNameConst.ANDROID;
+                    _platformDirName = PlatformDirNameConst.ANDROID;
 #endif
                 }
 
@@ -146,7 +146,7 @@ namespace Zero
         /// 可用UnityWebRequest加载资源的streamingAssets目录地址
         /// </summary>
         public static string STREAMING_ASSETS_PATH
-        {            
+        {
             get
             {
                 if (null == _streamingAssetsPath)
@@ -157,6 +157,7 @@ namespace Zero
                     _streamingAssetsPath = "file://" + _streamingAssetsPath;
 #endif
                 }
+
                 return _streamingAssetsPath;
             }
         }
@@ -179,6 +180,7 @@ namespace Zero
                 _persistentDataPath = FileUtility.CombineDirs(false, Application.dataPath, "Caches");
 #endif
                 }
+
                 return _persistentDataPath;
             }
         }
@@ -186,24 +188,30 @@ namespace Zero
         /// <summary>
         /// 网络下载的更新资源存储的目录
         /// </summary>
-        public static string WWW_RES_PERSISTENT_DATA_PATH = FileUtility.CombineDirs(false, PERSISTENT_DATA_PATH, "zero", "res");
+        public static readonly string WWW_RES_PERSISTENT_DATA_PATH = FileUtility.CombineDirs(false, PERSISTENT_DATA_PATH, "zero", "res");
 
         /// <summary>
         /// 框架生成文件存放地址
         /// </summary>
-        public static string GENERATES_PERSISTENT_DATA_PATH = FileUtility.CombineDirs(false, PERSISTENT_DATA_PATH, "zero", "generated");
+        public static readonly string GENERATES_PERSISTENT_DATA_PATH = FileUtility.CombineDirs(false, PERSISTENT_DATA_PATH, "zero", "generated");
+
+        /// <summary>
+        /// StreamingAssets下的内嵌资源根目录（不含平台路径)
+        /// 内嵌资源根目录
+        /// </summary>
+        public static readonly string BuiltinResRootFolder = FileUtility.CombinePaths(Application.streamingAssetsPath, "res");
 
         /// <summary>
         /// StreamingAssets下的内嵌资源根路径，加载AssetBundle时使用；
         /// 使用WWW、UnityWebRequest加载的时候请使用[STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW]；
         /// 举例：[StreamingAssets绝对路径]/res/[平台]。
         /// </summary>
-        public static string STREAMING_ASSETS_RES_DATA_PATH = FileUtility.CombinePaths(Application.streamingAssetsPath, "res", ZeroConst.PLATFORM_DIR_NAME);
+        public static readonly string STREAMING_ASSETS_RES_DATA_PATH = FileUtility.CombinePaths(BuiltinResRootFolder, PLATFORM_DIR_NAME);
 
         /// <summary>
         /// StreamingAssets下的内嵌资源根路径，使用WWW、UnityWebRequest加载的时候使用
         /// 加载AssetBundle时时候请使用[STREAMING_ASSETS_RES_DATA_PATH]；        
         /// </summary>
-        public static string STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW = FileUtility.CombinePaths(STREAMING_ASSETS_PATH, "res", ZeroConst.PLATFORM_DIR_NAME);
+        public static readonly string STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW = FileUtility.CombinePaths(STREAMING_ASSETS_PATH, "res", ZeroConst.PLATFORM_DIR_NAME);
     }
 }
