@@ -5,22 +5,15 @@
 
 - 实现界面缓存机制，减少界面重复打开产生的GC以及运行效率。
 
-- 通过setting.json可以覆盖preload中的设置。这个业务流程操作起来体验有待改进。
-
 ## List
 
-- 自动绑定AutoButtonClickBindingAttribute、BaseAutoBindingAttribute、BindingUIClickAttribute 这部分重新梳理，补全注释方便扩展
+- i18n多语言机制（字体、文字、图片)
 
-- 重新整理资源，每个测试按钮改成独立加载资源包。加载动画搞一个。
+- 自动绑定AutoButtonClickBindingAttribute、BaseAutoBindingAttribute、BindingUIClickAttribute 这部分重新梳理，补全注释方便扩展
 
 - 实现一个帧同步框架
        - 定点数系统       
        - TCP/UDP自适应
-
-- 二进制数据加解密      
-       - 重新整理加解密库
-
-- [setting.json]增加是否使用反射执行DLL，标注“在Editor下不适用，仅适用于Player下”
 
 - 实现一个基于线程的定时器，TimerThreaded，可以应用在逻辑开发中，不依赖Unity的API。可以利用新增的Chronograph(计时器)来实现。
 
