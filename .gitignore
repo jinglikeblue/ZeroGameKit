@@ -59,3 +59,5 @@ sysinfo.txt
 /HybridCLRData
 /.idea
 /Packages/packages-lock.json
+/Assets/HybridCLRGenerate/Resources/hybrid_aot_assemblies
+/Assets/HybridCLRGenerate/Resources/hybrid_aot_assemblies.meta

@@ -104,7 +104,7 @@ namespace Zero
 
             var path = FileUtility.CombinePaths(Application.streamingAssetsPath, FileName);
             File.WriteAllText(path, sb.ToString().Trim());
-            Debug.Log($"[Zero][BuildInfo] 构建BuildInfo: {path}");
+            Debug.Log(LogColor.Zero2($"[Zero][BuildInfo] 构建BuildInfo: {path}"));
             UnityEditor.AssetDatabase.Refresh();
         }
 

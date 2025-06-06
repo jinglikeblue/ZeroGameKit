@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Build;
+﻿using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
+using Zero;
 
 namespace ZeroEditor
 {
@@ -11,11 +10,11 @@ namespace ZeroEditor
     /// </summary>
     public class PostprocessBuildMsg : IPostprocessBuildWithReport
     {
-        public int callbackOrder { get { return int.MaxValue; } }
+        public int callbackOrder => int.MaxValue;
 
         public void OnPostprocessBuild(BuildReport report)
         {
-            Debug.Log("[Zero][Build][PostprocessBuild] Build后处理");
+            Debug.Log(LogColor.Zero2("[Zero][Build][PostprocessBuild] Build后处理"));
         }
     }
 }

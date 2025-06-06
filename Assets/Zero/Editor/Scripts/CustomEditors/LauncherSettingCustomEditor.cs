@@ -92,7 +92,7 @@ namespace ZeroEditor
         }
 
 
-        static public void Save(LauncherSettingData vo, bool isOnlySaveIfDirty = true)
+        public static void Save(LauncherSettingData vo, bool isOnlySaveIfDirty = true)
         {
             if (isOnlySaveIfDirty)
             {

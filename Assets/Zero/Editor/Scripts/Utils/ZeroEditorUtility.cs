@@ -202,6 +202,11 @@ namespace ZeroEditor
                 return -1;
             }
         }
+        
+        /// <summary>
+        /// 是否设置的使用IL2CPP进行代码编译
+        /// </summary>
+        public static bool IsScriptingBackendIL2CPP => PlayerSettings.GetScriptingBackend(EditorUserBuildSettings.selectedBuildTargetGroup) == ScriptingImplementation.IL2CPP;
 
         /// <summary>
         /// 为当前项目创建一个分身项目。Assets等资源会链接到到当前项目的目录，这样代码可以统一管理。

@@ -419,7 +419,6 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 	// UnityEngine.Events.UnityEvent<float>
 	// Zero.ASingletonMonoBehaviour<object>
 	// Zero.Assets.<>c__DisplayClass24_0<object>
-	// Zero.BaseContainerView.<ShowAsync>d__3<object>
 	// Zero.BaseMessageReceiver<PingPong.Protocols.FrameInputNotify>
 	// Zero.BaseMessageReceiver<PingPong.Protocols.GameReadyRequest>
 	// Zero.BaseMessageReceiver<PingPong.Protocols.GameStartNotify>
@@ -432,7 +431,6 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 	// Zero.MessageDispatcher.ReceiverItem<object>
 	// Zero.MessageDispatcher<int>
 	// Zero.MessageDispatcher<object>
-	// Zero.ViewFactory.<CreateAsync>d__12<object>
 	// }}
 
 	public void RefMethods()
@@ -440,10 +438,12 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter<object>,ZeroGameKit.PanelContainerView.<SwitchAsync>d__2<object>>(Cysharp.Threading.Tasks.UniTask.Awaiter<object>&,ZeroGameKit.PanelContainerView.<SwitchAsync>d__2<object>&)
 		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter<object>,ZeroGameKit.PanelContainerView.<SwitchAsync>d__3>(Cysharp.Threading.Tasks.UniTask.Awaiter<object>&,ZeroGameKit.PanelContainerView.<SwitchAsync>d__3&)
 		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.AwaitUnsafeOnCompleted<Cysharp.Threading.Tasks.UniTask.Awaiter<object>,ZeroGameKit.WindowsContainerView.<OpenAsync>d__7<object>>(Cysharp.Threading.Tasks.UniTask.Awaiter<object>&,ZeroGameKit.WindowsContainerView.<OpenAsync>d__7<object>&)
+		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.Start<Zero.BaseContainerView.<ShowAsync>d__3<object>>(Zero.BaseContainerView.<ShowAsync>d__3<object>&)
+		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.Start<Zero.Res.<LoadAsync>d__15<object>>(Zero.Res.<LoadAsync>d__15<object>&)
+		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.Start<Zero.ViewFactory.<CreateAsync>d__12<object>>(Zero.ViewFactory.<CreateAsync>d__12<object>&)
 		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.Start<ZeroGameKit.PanelContainerView.<SwitchAsync>d__2<object>>(ZeroGameKit.PanelContainerView.<SwitchAsync>d__2<object>&)
 		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.Start<ZeroGameKit.PanelContainerView.<SwitchAsync>d__3>(ZeroGameKit.PanelContainerView.<SwitchAsync>d__3&)
 		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.Start<ZeroGameKit.WindowsContainerView.<OpenAsync>d__7<object>>(ZeroGameKit.WindowsContainerView.<OpenAsync>d__7<object>&)
-		// System.Void Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder<object>.Start<object>(object&)
 		// DG.Tweening.Core.TweenerCore<float,float,DG.Tweening.Plugins.Options.FloatOptions> DG.Tweening.TweenSettingsExtensions.From<float,float,DG.Tweening.Plugins.Options.FloatOptions>(DG.Tweening.Core.TweenerCore<float,float,DG.Tweening.Plugins.Options.FloatOptions>,float,bool,bool)
 		// object DG.Tweening.TweenSettingsExtensions.OnComplete<object>(object,DG.Tweening.TweenCallback)
 		// Google.Protobuf.FieldCodec<object> Google.Protobuf.FieldCodec.ForMessage<object>(uint,Google.Protobuf.MessageParser<object>)

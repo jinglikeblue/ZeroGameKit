@@ -33,9 +33,9 @@ namespace ZeroEditor
         /// <summary>
         /// 创建热更代码程序集
         /// </summary>
-        public static async UniTask<bool> GenerateScriptAssembly()
+        public static async Task<bool> GenerateScriptAssembly()
         {
-            var utcs = new UniTaskCompletionSource<bool>();
+            var utcs = new TaskCompletionSource<bool>();
             
             var now = DateTime.Now;
             var cmd = new DllBuildCommand(ZeroEditorConst.HOT_SCRIPT_ROOT_DIR, ZeroEditorConst.DLL_PUBLISH_DIR);
