@@ -81,7 +81,7 @@ namespace Zero
         /// <summary>
         /// 资源对象版本数据
         /// </summary>
-        public static ResVerModel netResVer;
+        public static NetResVerModel netResVer;
 
         /// <summary>
         /// 存放下载文件的目录

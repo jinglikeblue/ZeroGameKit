@@ -30,7 +30,7 @@ namespace Zero
             _vo = vo;
             if(_vo.items == null)
             {
-                _vo.items = new ResVerVO.Item[0];
+                _vo.items = Array.Empty<ResVerVO.Item>();
             }
         }
 
@@ -65,7 +65,7 @@ namespace Zero
                     return item;
                 }
             }
-            return default(ResVerVO.Item);
+            return null;
         }
 
         /// <summary>

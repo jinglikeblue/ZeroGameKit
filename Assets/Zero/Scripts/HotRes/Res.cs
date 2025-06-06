@@ -804,7 +804,7 @@ namespace Zero
             string[] files = null;
             if (Application.isPlaying && Runtime.IsUseAssetBundle)
             {
-                var resVer = Runtime.IsHotResEnable ? Runtime.netResVer : Runtime.localResVer;
+                ResVerModel resVer = Runtime.IsHotResEnable ? Runtime.netResVer : Runtime.localResVer;
                 List<string> nameList = new List<string>();
                 var itemList = resVer.FindGroup(startPath);
                 foreach (var item in itemList)

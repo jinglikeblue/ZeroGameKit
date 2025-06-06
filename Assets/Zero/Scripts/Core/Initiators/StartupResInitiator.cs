@@ -29,8 +29,8 @@ namespace Zero
 
                     string jsonStr = await Res.LoadAsync<string>(ZeroConst.RES_JSON_FILE_NAME);
                     ResVerVO vo = Json.ToObject<ResVerVO>(jsonStr);
-                    Runtime.netResVer = new ResVerModel(vo);
-
+                    Runtime.netResVer = new NetResVerModel(vo);
+                    Runtime.netResVer.TryCleanCache();
                     //更新manifest.ab
                     err = await new ManifestABUpdater().StartAsync();
                     if (!string.IsNullOrEmpty(err)) break;

@@ -135,7 +135,7 @@ namespace Zero
                     if (File.Exists(path))
                     {
                         File.Delete(path);
-                        Debug.Log($"[Zero][Cache] 删除缓存文件: {path}");
+                        Debug.Log($"[Zero][Cache][内嵌资源更新] 删除过时的缓存文件: {path}");
                     }
                 }
             }
