@@ -2077,9 +2077,8 @@ MonoBehaviour:
   data:
     isLogEnable: 1
     isUseAssetBundle: 1
-    isHotPatchEnable: 0
+    isHotPatchEnable: 1
     urlRoots:
-    - http://YourHotResRootUrl
     - http://127.0.0.1/zero/res/
     isOfflineEnable: 0
     isUseDll: 0
