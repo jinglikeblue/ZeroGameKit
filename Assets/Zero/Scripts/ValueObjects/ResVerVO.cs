@@ -29,7 +29,7 @@
         /// <summary>
         /// 标识符
         /// </summary>
-        public string identifier;
+        public string identifier = string.Empty;
         
         /// <summary>
         /// 资源数组

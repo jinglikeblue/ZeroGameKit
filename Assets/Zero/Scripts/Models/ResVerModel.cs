@@ -167,7 +167,7 @@ namespace Zero
         /// </summary>
         public void ClearVer()
         {
-            _vo.items = new ResVerVO.Item[0];
+            _vo.items = Array.Empty<ResVerVO.Item>();
         }
 
 

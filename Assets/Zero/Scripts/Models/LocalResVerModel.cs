@@ -1,5 +1,7 @@
-﻿using Jing;
+﻿using System;
+using Jing;
 using System.IO;
+using UnityEngine;
 
 namespace Zero
 {
@@ -14,7 +16,7 @@ namespace Zero
         public const string EMPTY_VERSION = "";
 
         public LocalResVerModel()
-        {            
+        {
             Load();
         }
 
@@ -35,7 +37,7 @@ namespace Zero
 
             if (_vo.items == null)
             {
-                _vo.items = new ResVerVO.Item[0];
+                _vo.items = Array.Empty<ResVerVO.Item>();
             }
             else
             {
@@ -93,9 +95,56 @@ namespace Zero
 
         public void Save()
         {
-            string json = Json.ToJson(_vo);
+            string json = Json.ToJsonIndented(_vo);
             File.WriteAllText(_path, json);
         }
 
+        /// <summary>
+        /// 尝试清理缓存
+        /// </summary>
+        public void TryCleanCache(ResVerVO builtinResVer)
+        {
+            if (!Runtime.IsBuiltinResExist)
+            {
+                //没有内嵌资源的情况，不用处理
+                return;
+            }
+
+            if (_vo.identifier.Equals(builtinResVer.identifier))
+            {
+                //和记录的标记一致，不用处理
+                return;
+            }
+
+            if (string.IsNullOrEmpty(_vo.identifier))
+            {
+                //没有缓存信息，重置一下数据
+                ClearVer();
+            }
+            else
+            {
+                Debug.Log($"[Zero][Cache][内嵌资源更新] res.json的identifier不一致,执行缓存资源清理。 [{_vo.identifier}] to [{builtinResVer.identifier}]");
+
+                //从caches里删除所有的builtin里有记录的文件
+                foreach (var item in builtinResVer.items)
+                {
+                    //移除版本号信息
+                    RemoveVer(item.name);
+                    //尝试删除文件
+                    var path = FileUtility.CombinePaths(ZeroConst.WWW_RES_PERSISTENT_DATA_PATH, item.name);
+                    if (File.Exists(path))
+                    {
+                        File.Delete(path);
+                        Debug.Log($"[Zero][Cache] 删除缓存文件: {path}");
+                    }
+                }
+            }
+
+            //更新标识符
+            _vo.identifier = builtinResVer.identifier;
+
+            //保存
+            Save();
+        }
     }
 }

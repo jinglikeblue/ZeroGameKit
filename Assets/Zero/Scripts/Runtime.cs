@@ -38,6 +38,11 @@ namespace Zero
         internal static readonly BuiltinInitiator BuiltinInitiator = new BuiltinInitiator();
 
         /// <summary>
+        /// 是否存在内嵌资源
+        /// </summary>
+        public static bool IsBuiltinResExist => BuiltinInitiator.IsBuiltinResVerExist;
+        
+        /// <summary>
         /// 资源模式是否仅使用包内资源（离线资源模式）
         /// </summary>
         public static bool IsOnlyUseBuiltinRes => false == LauncherData.isHotPatchEnable;

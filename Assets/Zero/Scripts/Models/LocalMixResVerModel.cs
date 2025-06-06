@@ -15,16 +15,16 @@ namespace Zero
     {                
         LocalResVerModel _localResVer;
 
-        public LocalMixResVerModel(ResVerVO streamingAssetsResVerVO)
+        public LocalMixResVerModel(ResVerVO streamingAssetsResVer)
         {
-            if(null == streamingAssetsResVerVO)
+            if(null == streamingAssetsResVer)
             {
                 throw new Exception("[Zero][LocalMixResVerModel]内嵌资源文件版本号数据不存在，建议直接使用[LocalResVerModel]");
             }
 
-            _vo = streamingAssetsResVerVO;
+            _vo = streamingAssetsResVer;
             _localResVer = new LocalResVerModel();
-            
+            _localResVer.TryCleanCache(_vo);
             Mix();
         }
 
