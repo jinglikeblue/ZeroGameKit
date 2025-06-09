@@ -1,14 +1,13 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!612988286 &1
-SpriteAtlasAsset:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_MasterAtlas: {fileID: 0}
-  m_ImporterData:
+  m_Name: examples_sokoban_imgs_ui
+  m_EditorData:
     serializedVersion: 2
     textureSettings:
       serializedVersion: 2
@@ -64,6 +63,71 @@ SpriteAtlasAsset:
     - {fileID: 21300000, guid: f3f0f3ff5f1edfe4080de317dd9cbc8c, type: 3}
     - {fileID: 21300000, guid: 5b73369824109294e81d0d360eec1172, type: 3}
     bindAsDefault: 1
-    isAtlasV2: 1
+    isAtlasV2: 0
     cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: f925a500d864cf746874bd1b849600cf, type: 3}
+  - {fileID: 21300000, guid: f61ab540eb0054144a6c4200f173c13e, type: 3}
+  - {fileID: 21300000, guid: d5a3f850d91ff3147821afb1798a625f, type: 3}
+  - {fileID: 21300000, guid: 67b01001df050ae4896279ea3b85d269, type: 3}
+  - {fileID: 21300000, guid: 8d6b3121a9b4e444d8e06273ddbdee75, type: 3}
+  - {fileID: 21300000, guid: 5e738d41a87153340b77ddb0a55abdc8, type: 3}
+  - {fileID: 21300000, guid: f9b88842fe60d414dafdf4db45810df9, type: 3}
+  - {fileID: 21300000, guid: d81f8452e931f284bb226dd8b27b56d9, type: 3}
+  - {fileID: 21300000, guid: 827dc582bd98d824aa3f6ea5a8aa727d, type: 3}
+  - {fileID: 21300000, guid: 803594256db35e242a180d3b3f08bee2, type: 3}
+  - {fileID: 21300000, guid: 3c6f52061060d0e45a5e701d3fb1bf77, type: 3}
+  - {fileID: 21300000, guid: b3739336428bff6418b48160dac8eb28, type: 3}
+  - {fileID: 21300000, guid: 03a31a573e1b0834eb86a255f4f4cc36, type: 3}
+  - {fileID: 21300000, guid: 72970cc716dbdd447af9ad2f6180df59, type: 3}
+  - {fileID: 21300000, guid: 5b73369824109294e81d0d360eec1172, type: 3}
+  - {fileID: 21300000, guid: 5dff19e83e4b09c4da44871fe6ffc29b, type: 3}
+  - {fileID: 21300000, guid: 03544f99e9bb99f42b8392fa90ef5180, type: 3}
+  - {fileID: 21300000, guid: 84d2771ae7066564daf29a3fed10a857, type: 3}
+  - {fileID: 21300000, guid: b2ad897a8326e464dbc7c8706d095b7f, type: 3}
+  - {fileID: 21300000, guid: 7b551a2b8bb91f045a4f10d1f104a0c3, type: 3}
+  - {fileID: 21300000, guid: 680c706bae9ba2c42966e3d33f622f7b, type: 3}
+  - {fileID: 21300000, guid: 4073a9abeecba1740b684352a0a6f18e, type: 3}
+  - {fileID: 21300000, guid: 57c8eccb602730844aebddc97fb8127e, type: 3}
+  - {fileID: 21300000, guid: 6b48abdbc329d4c4db4d73ff3a043f66, type: 3}
+  - {fileID: 21300000, guid: 9bf20c9c12bb4624182f5d22a34d7d55, type: 3}
+  - {fileID: 21300000, guid: a47e4e0d65b72154d94da53df692fcc8, type: 3}
+  - {fileID: 21300000, guid: 5b673f4e5d5ce5b4593326657e466c0c, type: 3}
+  - {fileID: 21300000, guid: d3453ede344a76d40840928419bb5389, type: 3}
+  - {fileID: 21300000, guid: 23d002ee019edb346adc11ea36422edf, type: 3}
+  - {fileID: 21300000, guid: f3f0f3ff5f1edfe4080de317dd9cbc8c, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - txz_btnxs_fx
+  - txz_btn_blue_02
+  - txz_gkxz_dk2
+  - txz_btn_blue
+  - txz_btn_gb
+  - txz_gkxz_sz_05
+  - txz_btnxs_ht
+  - txz_gkxz_02
+  - Joystick
+  - JoystickBG
+  - txz_gkxz_sz_04
+  - txz_btnxs_fh
+  - txz_btn_yellow
+  - txz_gkxz_suo
+  - txz_gkxz_sz_09
+  - txz_btn_yellow2_02
+  - txz_gkxz_sz_06
+  - txz_btn_yellow2
+  - txz_gkxz_sz_01
+  - sbzzz
+  - txz_gkxz_sz_02
+  - txz_gkxz_01
+  - txz_gkxz_sz_03
+  - txz_gkxz_sz_00
+  - txz_gkxz_dk
+  - txz_btn_yellow_02
+  - txz_btn_blue2_02
+  - txz_btn_blue2
+  - txz_gkxz_sz_07
+  - txz_gkxz_sz_08
+  m_RenderDataMap: {}
+  m_Tag: examples_sokoban_imgs_ui
   m_IsVariant: 0
