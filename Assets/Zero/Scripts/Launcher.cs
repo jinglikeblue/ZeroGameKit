@@ -151,7 +151,7 @@ namespace Zero
         /// <param name="error"></param>
         private void Error(string error)
         {
-            Debug.LogError(error);
+            Debug.LogError($"[Launcher] 启动失败: {error}");
             onError?.Invoke(error);
         }
     }

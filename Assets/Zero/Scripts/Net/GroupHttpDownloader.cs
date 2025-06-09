@@ -151,10 +151,7 @@ namespace Zero
         /// </summary>
         public bool IsStarted
         {
-            get
-            {
-                return currentTaskIndex > -1 ? true : false;
-            }
+            get { return currentTaskIndex > -1 ? true : false; }
         }
 
         /// <summary>
@@ -212,6 +209,13 @@ namespace Zero
 
         void DownloadNext()
         {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                End("Editor运行状态已退出!", true);
+                return;
+            }
+#endif
             currentTaskIndex++;
             if(currentTaskIndex < _infoList.Count)
             {
@@ -297,6 +301,10 @@ namespace Zero
             this.error = error;            
             isDone = true;
             onCompleted?.Invoke(this);
+            if (!string.IsNullOrEmpty(error))
+            {
+                Debug.Log($"[GroupHttpDownloader] 下载结束:  {error}");
+            }
         }
     }
 }
