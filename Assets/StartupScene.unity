@@ -2077,7 +2077,7 @@ MonoBehaviour:
   data:
     isLogEnable: 1
     isUseAssetBundle: 1
-    isHotPatchEnable: 1
+    isHotPatchEnable: 0
     urlRoots:
     - http://127.0.0.1/zero/res/
     isOfflineEnable: 0
@@ -2546,7 +2546,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u542F\u52A8\u4E2D:10%"
+  m_Text: Launcher
 --- !u!222 &1793168192
 CanvasRenderer:
   m_ObjectHideFlags: 0

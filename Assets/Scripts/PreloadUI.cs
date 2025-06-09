@@ -38,6 +38,7 @@ namespace Demo
 
         private void Awake()
         {
+            text.text = string.Empty;
             _runtimeSettings = transform.DeepFind("RuntimeSettings").gameObject;
             _runtimeSettings.SetActive(true);
             
