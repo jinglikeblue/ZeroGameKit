@@ -17,7 +17,7 @@ namespace ZeroEditor
     /// <summary>
     /// 优化配置模型
     /// </summary>
-    class OptimizeSettingModel<T> where T:IOptimizeSettingVO
+    class OptimizeSettingModel<T> where T : IOptimizeSettingVO
     {
         PathTree<T> _pathTree = new PathTree<T>();
 
@@ -42,19 +42,20 @@ namespace ZeroEditor
                 _pathTree.Create(paths).data = setting;
             }
 
-            var list = _pathTree.SearchNodes((node) =>
-            {
-                return node.data == null ? false : true;
-            });
+            var list = _pathTree.SearchNodes((node) => { return node.data == null ? false : true; });
 
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("[");
-            foreach (var node in list)
-            {
-                sb.AppendLine($"    {FileUtility.RemoveStartPathSeparator(node.ToPathString())}");
-            }
-            sb.AppendLine("]");
-            Debug.Log(sb.ToString());
+            // if (list.Count > 0)
+            // {
+            //     StringBuilder sb = new StringBuilder();
+            //     sb.AppendLine("[");
+            //     foreach (var node in list)
+            //     {
+            //         sb.AppendLine($"    {FileUtility.RemoveStartPathSeparator(node.ToPathString())}");
+            //     }
+            //
+            //     sb.AppendLine("]");
+            //     Debug.Log(sb.ToString());
+            // }
         }
 
         /// <summary>
@@ -75,6 +76,7 @@ namespace ZeroEditor
             {
                 return default(T);
             }
+
             return setting.data;
         }
     }

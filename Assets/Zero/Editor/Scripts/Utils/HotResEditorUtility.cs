@@ -51,29 +51,5 @@ namespace ZeroEditor
 
             return await utcs.Task;
         }
-
-        [UnityEditor.MenuItem("Test/生成资源常量类")]
-        private static void GenerateResConstClass()
-        {
-            _ = GenerateResConstClass(true);
-        }
-        
-        public static async UniTask<bool> GenerateResConstClass(bool isShowUI)
-        {
-            if (isShowUI)
-            {
-                UnityEditor.EditorUtility.DisplayProgressBar("生成代码", "asdf", 0);
-            }
-
-            var cmd = new GenerateRClassCommand();
-            cmd.Excute();
-            
-            if (isShowUI)
-            {
-                UnityEditor.EditorUtility.ClearProgressBar();
-            }
-
-            return false;
-        }
     }
 }

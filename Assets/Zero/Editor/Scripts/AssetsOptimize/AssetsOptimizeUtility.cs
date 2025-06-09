@@ -37,16 +37,19 @@ namespace ZeroEditor
         /// <summary>
         /// 保存配置
         /// </summary>
-        static public void SaveConfig()
+        public static void SaveConfig(bool isTidySettings = true)
         {
             if (null != _cacheConfigVO)
             {
                 EditorConfigUtil.SaveConfig(_cacheConfigVO, AssetsOptimizeConst.CONFIG_NAME);
-                TidySettings();
+                if (isTidySettings)
+                {
+                    TidySettings();    
+                }
             }
         }
 
-        static private void TidySettings()
+        private static void TidySettings()
         {
             _textureSettingModel.TidySettings(_cacheConfigVO.textureSettings);
             _audioSettingModel.TidySettings(_cacheConfigVO.audioSettings);
@@ -56,7 +59,7 @@ namespace ZeroEditor
         /// 根据配置优化纹理
         /// </summary>
         /// <param name="settings"></param>
-        static public void OptimizeTextures()
+        public static void OptimizeTextures()
         {
             OptimizeTexturesFolder("Assets");
         }
@@ -65,7 +68,7 @@ namespace ZeroEditor
         /// 根据指定配置优化纹理
         /// </summary>
         /// <param name="settings"></param>
-        static public void OptimizeTextures(TextureOptimizeSettingVO setting)
+        public static void OptimizeTextures(TextureOptimizeSettingVO setting)
         {
             OptimizeTexturesFolder(setting.folder);
         }
@@ -74,7 +77,7 @@ namespace ZeroEditor
         /// 优化文件夹下的所有资源
         /// </summary>
         /// <param name="folder"></param>
-        static public void OptimizeTexturesFolder(string folder)
+        public static void OptimizeTexturesFolder(string folder)
         {
             EditorUtility.DisplayProgressBar(folder, "", 0);
 
@@ -88,7 +91,7 @@ namespace ZeroEditor
             EditorUtility.ClearProgressBar();
         }
 
-        static public void OptimizeTexture(string filePath)
+        public static void OptimizeTexture(string filePath)
         {
             var importer = AssetImporter.GetAtPath(filePath) as TextureImporter;
             OptimizeTexture(importer);
@@ -98,7 +101,7 @@ namespace ZeroEditor
         /// 优化纹理
         /// </summary>
         /// <param name="filePath"></param>
-        static public void OptimizeTexture(TextureImporter importer)
+        public static void OptimizeTexture(TextureImporter importer)
         {
             if (null == importer)
             {
@@ -216,7 +219,7 @@ namespace ZeroEditor
         /// 根据配置优化声音文件
         /// </summary>
         /// <param name="settings"></param>
-        static public void OptimizeAudios()
+        public static void OptimizeAudios()
         {
             OptimizeAudiosFolder("Assets");
         }
@@ -225,7 +228,7 @@ namespace ZeroEditor
         /// 根据指定配置优化声音文件
         /// </summary>
         /// <param name="settings"></param>
-        static public void OptimizeAudios(TextureOptimizeSettingVO setting)
+        public static void OptimizeAudios(TextureOptimizeSettingVO setting)
         {
             OptimizeAudiosFolder(setting.folder);
         }
@@ -234,7 +237,7 @@ namespace ZeroEditor
         /// 优化文件夹下的所有资源
         /// </summary>
         /// <param name="folder"></param>
-        static public void OptimizeAudiosFolder(string folder)
+        public static void OptimizeAudiosFolder(string folder)
         {
             EditorUtility.DisplayProgressBar(folder, "", 0);
 
@@ -248,13 +251,13 @@ namespace ZeroEditor
             EditorUtility.ClearProgressBar();
         }
 
-        static public void OptimizeAudio(string filePath)
+        public static void OptimizeAudio(string filePath)
         {
             var importer = AssetImporter.GetAtPath(filePath) as AudioImporter;
             OptimizeAudio(importer);
         }
 
-        static public void OptimizeAudio(AudioImporter importer)
+        public static void OptimizeAudio(AudioImporter importer)
         {
             if (null == importer)
             {

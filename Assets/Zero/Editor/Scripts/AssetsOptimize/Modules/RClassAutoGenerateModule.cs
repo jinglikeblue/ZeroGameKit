@@ -24,8 +24,8 @@ namespace ZeroEditor
         [Button("保存配置", ButtonSizes.Large)]
         void SaveConfig()
         {
-            AssetsOptimizeUtility.Config.rClassAutoGenerateSetting = settings;
-            AssetsOptimizeUtility.SaveConfig();
+            ClassUtility.CopyTo(settings, AssetsOptimizeUtility.Config.rClassAutoGenerateSetting);
+            AssetsOptimizeUtility.SaveConfig(false);
         }
 
         [PropertyOrder(200)]
