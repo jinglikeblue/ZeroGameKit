@@ -21,7 +21,7 @@ namespace ZeroEditor
         /// <summary>
         /// 配置文件
         /// </summary>
-        static public AssetsOptimizeConfigVO Config
+        public static AssetsOptimizeConfigVO Config
         {
             get
             {

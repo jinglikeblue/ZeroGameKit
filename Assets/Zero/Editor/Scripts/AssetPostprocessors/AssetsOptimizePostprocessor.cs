@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEngine;
 
 namespace ZeroEditor
 {
@@ -24,7 +25,6 @@ namespace ZeroEditor
         /// </summary>
         public void OnPreprocessModel()
         {
-
         }
 
         /// <summary>
@@ -43,17 +43,20 @@ namespace ZeroEditor
         {
             foreach (string str in importedAssets)
             {
-                UnityEngine.Debug.LogWarning("Reimported Asset: " + str);
+                Debug.LogWarning($"[AssetPostprocessor] Reimported: {str}");
             }
+
             foreach (string str in deletedAssets)
             {
-                UnityEngine.Debug.LogWarning("Deleted Asset: " + str);
+                Debug.LogWarning("[AssetPostprocessor] Deleted: " + str);
             }
 
             for (int i = 0; i < movedAssets.Length; i++)
             {
-                UnityEngine.Debug.LogWarning("Moved Asset: " + movedAssets[i] + " from: " + movedFromAssetPaths[i]);
+                Debug.LogWarning($"[AssetPostprocessor] Moved: {movedFromAssetPaths[i]} => {movedAssets[i]}");
             }
+
+            AutoGenerateCodeUtility.TryGenerateRClass(importedAssets, deletedAssets, movedAssets, movedFromAssetPaths);
         }
     }
 }

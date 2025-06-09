@@ -25,7 +25,8 @@ namespace ZeroEditor
         {
             menuTree.Config.DrawSearchToolbar = false;
             menuTree.Add("纹理资源优化", new TextureAssetsOptimizeModule(this));
-            menuTree.Add("音频资源优化", new AudioAssetsOptimizeModule(this));            
+            menuTree.Add("音频资源优化", new AudioAssetsOptimizeModule(this));
+            menuTree.Add("资源常量生成", new RClassAutoGenerateModule(this));    
         }
     }
 }

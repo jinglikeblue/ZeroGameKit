@@ -28,7 +28,7 @@ namespace ZeroEditor
 
         [LabelText("版本"),DisplayAsString]
         public string version = "2.0";
-
+        
         [Title("相关链接")]        
         [Button("文档")]
         void OpenDocument()

@@ -20,5 +20,10 @@ namespace ZeroEditor
         /// </summary>
         public bool isAudioOptimizeEnable;
         public List<AudioOptimizeSettingVO> audioSettings = new List<AudioOptimizeSettingVO>();
+
+        /// <summary>
+        /// 资源常量自动生成
+        /// </summary>
+        public RClassAutoGenerateSettingVO rClassAutoGenerateSetting = new RClassAutoGenerateSettingVO();
     }
 }

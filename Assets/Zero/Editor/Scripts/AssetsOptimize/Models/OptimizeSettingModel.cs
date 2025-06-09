@@ -55,7 +55,6 @@ namespace ZeroEditor
             }
             sb.AppendLine("]");
             Debug.Log(sb.ToString());
-            
         }
 
         /// <summary>

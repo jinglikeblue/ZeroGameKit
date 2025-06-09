@@ -12,5 +12,8 @@
       "compressionFormat": 1,
       "quality": 100
     }
-  ]
+  ],
+  "rClassAutoGenerateSetting": {
+    "isAutoGenerateEnable": false
+  }
 }
