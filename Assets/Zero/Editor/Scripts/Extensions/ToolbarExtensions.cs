@@ -3,6 +3,8 @@ using Jing;
 using Toolbox.Editor;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 namespace ZeroEditor
 {
@@ -26,6 +28,11 @@ namespace ZeroEditor
         /// </summary>
         private static readonly GUIContent AssetImportToolsIconContent = EditorGUIUtility.IconContent("d_Profiler.NetworkMessages");
 
+        /// <summary>
+        /// 切换场景图标
+        /// </summary>
+        private static readonly GUIContent SwitchToStartupSceneIconContent = EditorGUIUtility.IconContent("d_SceneAsset Icon");
+
         private static GUIStyle _style;
 
         private static readonly string ProjectFolderPath;
@@ -42,6 +49,8 @@ namespace ZeroEditor
             ProjectFolderPath = FileUtility.StandardizeBackslashSeparator(Path.GetDirectoryName(Application.dataPath));
 
             ProjectFolderIconContent.tooltip = $"访问项目目录：{ProjectFolderPath}";
+
+            SwitchToStartupSceneIconContent.tooltip = $"切换场景至: StartupScene";
         }
 
         private static void OnToolbarGuiLeft()
@@ -53,10 +62,24 @@ namespace ZeroEditor
                     fixedWidth = 30,
                     fixedHeight = 20,
                     imagePosition = ImagePosition.ImageOnly,
+                    alignment = TextAnchor.MiddleCenter,
                 };
             }
 
             GUILayout.FlexibleSpace();
+
+            if (GUILayout.Button(SwitchToStartupSceneIconContent, _style))
+            {
+                const string startupScenePath = "Assets/StartupScene.unity";
+                var currentScenePath = SceneManager.GetActiveScene().path;
+                if (!currentScenePath.Equals(startupScenePath))
+                {
+                    if (EditorUtility.DisplayDialog("操作确认", "是否切换场景到StartupScene。确认当前场景修改已保存？", "确认", "取消"))
+                    {
+                        EditorSceneManager.OpenScene(startupScenePath);
+                    }
+                }
+            }
 
             if (GUILayout.Button(AssetImportToolsIconContent, _style))
             {
