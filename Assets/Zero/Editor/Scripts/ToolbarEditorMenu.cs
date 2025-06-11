@@ -60,6 +60,12 @@ namespace ZeroEditor
             RedundancyResourcesCleanToolsEditorWin.Open();
         }
 
+        [MenuItem("Zero/工具/字体替换工具", false, 304)]
+        public static void FontSwitchTools()
+        {
+            FontSwitchEditorWin.Open();
+        }
+
         #endregion
 
         #region 其它
