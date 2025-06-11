@@ -133,6 +133,8 @@ namespace Zero
         _platformDirName = PlatformDirNameConst.IOS;
 #elif UNITY_ANDROID
                     _platformDirName = PlatformDirNameConst.ANDROID;
+#elif UNITY_WEBGL
+                    _platformDirName = PlatformDirNameConst.WebGL;
 #endif
                 }
 

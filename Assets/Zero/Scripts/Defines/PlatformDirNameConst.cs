@@ -14,6 +14,7 @@ namespace Zero
         public const string PC = "pc";
         public const string OSX = "osx";
         public const string IOS = "ios";
-        public const string ANDROID = "android";        
+        public const string ANDROID = "android";
+        public const string WebGL = "webgl";  
     }
 }

@@ -2076,7 +2076,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     isLogEnable: 1
-    isUseAssetBundle: 1
+    isUseAssetBundle: 0
     isHotPatchEnable: 0
     urlRoots:
     - http://127.0.0.1/zero/res/
