@@ -32,7 +32,7 @@ namespace Zero
         public AssetBundleTool(string manifestFileName)
         {
             InitVariables();
-            
+
             //优先使用热更的
             var manifestPath = FileUtility.CombinePaths(HotResAssetBundleRoot, manifestFileName);
             if (false == File.Exists(manifestPath) || Runtime.IsOnlyUseBuiltinRes)
@@ -339,12 +339,20 @@ namespace Zero
 
         AssetBundle LoadAssetBundleFromFile(string abName)
         {
-            //优先使用热更的
-            var abPath = FileUtility.CombinePaths(HotResAssetBundleRoot, abName);
-            if (false == File.Exists(abPath) || Runtime.IsOnlyUseBuiltinRes)
+            string abPath;
+            if (WebGL.IsEnvironmentWebGL)
             {
-                //使用内嵌的
-                abPath = FileUtility.CombinePaths(BuiltinAssetBundleRoot, abName);
+                abPath = WebGL.MakeAbsolutePath(abName);
+            }
+            else
+            {
+                //优先使用热更的
+                abPath = FileUtility.CombinePaths(HotResAssetBundleRoot, abName);
+                if (false == File.Exists(abPath) || Runtime.IsOnlyUseBuiltinRes)
+                {
+                    //使用内嵌的
+                    abPath = FileUtility.CombinePaths(BuiltinAssetBundleRoot, abName);
+                }
             }
 
             if (ZeroLogSettings.ASSET_BUNDLE_LOAD_LOG_ENABLE)
@@ -352,7 +360,17 @@ namespace Zero
                 Debug.Log($"[AssetBundle] 加载AssetBundle:{abPath}");
             }
 
-            AssetBundle ab = AssetBundle.LoadFromFile(abPath);
+            AssetBundle ab;
+
+            if (WebGL.IsEnvironmentWebGL)
+            {
+                ab = WebGL.GetAssetBundle(abPath);
+            }
+            else
+            {
+                ab = AssetBundle.LoadFromFile(abPath);
+            }
+
             if (null == ab)
             {
                 Debug.LogErrorFormat($"[AssetBundle] 文件 [{abName}] 不存在: {abPath}");

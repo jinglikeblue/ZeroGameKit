@@ -17,8 +17,14 @@ namespace Zero
             Signaler.Send(SignalNameDefine.ZeroMainInitEnd);
         }
 
-        void Init()
+        async void Init()
         {
+            if (WebGL.IsEnvironmentWebGL)
+            {
+                var paths = Res.Find("ab");
+                await WebGL.PreloadAssetBundles(paths);
+            }
+            
             Application.targetFrameRate = 240;
 
             //在左上角显示FPS

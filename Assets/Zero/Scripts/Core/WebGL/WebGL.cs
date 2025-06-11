@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Jing;
 using UnityEngine;
@@ -21,6 +22,8 @@ namespace Zero
         /// </summary>
         public static AssetBundle ManifestAssetBundle { get; private set; }
 
+        const string AssetBundleFolder = ZeroConst.AB_DIR_NAME + "/";
+
         static WebGL()
         {
 #if UNITY_WEBGL
@@ -35,10 +38,50 @@ namespace Zero
         {
             if (string.IsNullOrEmpty(message))
             {
-                message = "当前逻辑无法在WebGL环境执行!";
+                message = "当前代码无法在WebGL环境继续执行!请调整代码进行适配!";
             }
 
             throw new Exception(message);
+        }
+
+        /// <summary>
+        /// 转换为绝对路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string MakeAbsolutePath(string path)
+        {
+            if (path.StartsWith(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW))
+            {
+                return path;
+            }
+
+            if (path.StartsWith(AssetBundleFolder))
+            {
+                return FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, path);
+            }
+
+            return FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.AB_DIR_NAME, path);
+        }
+
+        /// <summary>
+        /// 转换为相对路径。[ab/]开头的路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string MakeRelativePath(string path)
+        {
+            if (path.StartsWith(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW))
+            {
+                return path.Remove(0, ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW.Length + 1);
+            }
+
+            if (!path.StartsWith(AssetBundleFolder))
+            {
+                return FileUtility.CombinePaths(AssetBundleFolder, path);
+            }
+
+            return path;
         }
 
         /// <summary>
@@ -47,8 +90,46 @@ namespace Zero
         public static async UniTask PreloadManifestAssetBundle()
         {
             Debug.Log($"[Zero][WebGL] 预载Manifest.ab文件...");
-            var path = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.AB_DIR_NAME, ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION);
+            var path = MakeAbsolutePath(ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION);
             ManifestAssetBundle = await RequestAssetBundle(path);
+        }
+
+        private static Dictionary<string, AssetBundle> _pathToAssetBundleDict = new Dictionary<string, AssetBundle>();
+
+
+        /// <summary>
+        /// 获取AssetBundle。
+        /// 注意：AssetBundle必须通过PreloadAssetBundles进行了预加载，才能获取。
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static AssetBundle GetAssetBundle(string path)
+        {
+            path = MakeRelativePath(path);
+            Debug.Log($"[Zero][WebGL] 获取AssetBundle: {path}");
+            if (!_pathToAssetBundleDict.TryGetValue(path, out var ab))
+            {
+                Debug.LogError($"[Zero][WebGL] 获取AssetBundle失败，请确认是否进行了预加载。 Path: {path}");
+            }
+
+            return ab;
+        }
+
+        /// <summary>
+        /// 预载AssetBundle。WebGL环境下，AssetBundle必须通过预载才能使用。
+        /// </summary>
+        /// <param name="paths"></param>
+        public static async UniTask PreloadAssetBundles(string[] paths)
+        {
+            Debug.Log($"[Zero][WebGL][AssetBundle] 预载AssetBundle: {string.Join(",", paths)}");
+
+            //TODO 这里应该有预载进度
+
+            foreach (var path in paths)
+            {
+                var ab = await RequestAssetBundle(path);
+                _pathToAssetBundleDict.Add(MakeRelativePath(path), ab);
+            }
         }
 
         /// <summary>
@@ -58,6 +139,7 @@ namespace Zero
         /// <returns></returns>
         public static async UniTask<AssetBundle> RequestAssetBundle(string path, Action<float> onProgress = null, Action<string> onError = null)
         {
+            path = MakeAbsolutePath(path);
             Debug.Log($"[Zero][WebGL][AssetBundle] 请求AssetBundle: {path}");
 
             // #region 获取文件大小
@@ -93,7 +175,14 @@ namespace Zero
                     onError?.Invoke(request.error);
                 }
 
-                ab = DownloadHandlerAssetBundle.GetContent(request);
+                try
+                {
+                    ab = DownloadHandlerAssetBundle.GetContent(request);
+                }
+                catch (Exception e)
+                {
+                    ab = null;
+                }
 
                 if (!ab)
                 {
