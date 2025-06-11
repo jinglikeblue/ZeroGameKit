@@ -136,7 +136,7 @@ namespace Zero
 #elif UNITY_WEBGL
                     _platformDirName = PlatformDirNameConst.WebGL;
 #elif UNITY_EDITOR //如果上面宏定义都不存在，但是是编辑器，则使用编辑器平台名称
-                    _platformDirName = UnityEditor.BuildPipeline.GetBuildTargetName(UnityEditor.EditorUserBuildSettings.activeBuildTarget);
+                    _platformDirName = UnityEditor.BuildPipeline.GetBuildTargetName(UnityEditor.EditorUserBuildSettings.activeBuildTarget).ToLower();
 #else   //如果上面宏定义都不存在，但是是真机环境，则尝试从BuildInfo中获取平台名称
                     _platformDirName = Runtime.BuildInfo.PlatformName;
 #endif

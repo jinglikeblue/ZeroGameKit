@@ -46,7 +46,7 @@ namespace Zero
         /// 是否存在内嵌资源
         /// </summary>
         public static bool IsBuiltinResExist => BuiltinInitiator.IsBuiltinResVerExist;
-        
+
         /// <summary>
         /// 资源模式是否仅使用包内资源（离线资源模式）
         /// </summary>
@@ -162,9 +162,11 @@ namespace Zero
                 case RuntimePlatform.WindowsEditor:
                 case RuntimePlatform.LinuxEditor:
                 case RuntimePlatform.OSXEditor:
+                case RuntimePlatform.WebGLPlayer:
                     break;
                 default:
-                    throw new System.Exception(string.Format("抱歉！Zero暂时不支持平台：{0}", Application.platform));
+                    Debug.LogWarning($"[Zero] Zero未对当前平台({PlatformName})进行优化，请自行测试。");
+                    break;
             }
 
             generateFilesDir = ZeroConst.GENERATES_PERSISTENT_DATA_PATH;
