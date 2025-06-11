@@ -169,6 +169,11 @@ namespace ZeroEditor
             {
                 isDirty = true;
             }
+            
+            if (SetTextureImporterPlatformSettings(importer, importer.GetPlatformTextureSettings(AssetsOptimizeConst.PLATFORM_WEBGL), setting.webGLSetting, setting.isOverrideForWebGL))
+            {
+                isDirty = true;
+            }
 
             if (isDirty)
             {

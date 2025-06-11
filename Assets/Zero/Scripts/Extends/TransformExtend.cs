@@ -1,6 +1,4 @@
-﻿using System.IO;
-using Sirenix.Utilities;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Zero
 {

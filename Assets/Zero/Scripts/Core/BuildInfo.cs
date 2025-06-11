@@ -1,6 +1,6 @@
 using System.IO;
-using System.Text;
 using Jing;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Zero
@@ -14,61 +14,50 @@ namespace Zero
         /// <summary>
         /// 文件名称
         /// </summary>
-        public const string FileName = "zero_build_info.txt";
-
-        private const string FlagIL2CPP = "IL2CPP";
-        private const string FlagHybridClr = "HybridCLR";
+        public const string FileName = "zero_build_info.json";
 
         /// <summary>
         /// 是否是IL2CPP编译模式
         /// </summary>
+        [JsonProperty]
         public bool IsIL2CPP { get; private set; }
 
         /// <summary>
         /// 是否开启了HybridCLR
         /// </summary>
+        [JsonProperty]
         public bool IsHybridClrEnable { get; private set; }
+
+        /// <summary>
+        /// 平台名称
+        /// </summary>
+        [JsonProperty]
+        public string PlatformName { get; private set; }
 
         public static BuildInfo TryLoadBuildInfo()
         {
 #if UNITY_EDITOR
-            return CreateBuildInfo();
+            GenerateBuildInfo();
 #endif
 
-            var text = StreamingAssetsUtility.LoadText(FileName);
-            if (null == text)
-            {
-                Debug.LogError($"[Zero][BuildInfo] 文件不存在:{FileName}");
-                return new BuildInfo();
-            }
-
-            BuildInfo buildInfo = new BuildInfo();
-            try
-            {
-                using (StringReader reader = new StringReader(text))
-                {
-                    string line;
-                    while ((line = reader.ReadLine()?.Trim()) != null)
-                    {
-                        switch (line)
-                        {
-                            case FlagHybridClr:
-                                buildInfo.IsHybridClrEnable = true;
-                                break;
-                            case FlagIL2CPP:
-                                buildInfo.IsIL2CPP = true;
-                                break;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                buildInfo = new BuildInfo();
-            }
-
+            BuildInfo buildInfo = LoadBuildInfo();
             return buildInfo;
         }
+
+        private static BuildInfo LoadBuildInfo()
+        {
+            var ta = Resources.Load<TextAsset>(Path.GetFileNameWithoutExtension(FileName));
+            if (null == ta)
+            {
+                Debug.Log(LogColor.Red($"[Zero][BuildInfo] 未读取到BuildInfo文件: {FileName} "));
+                return null;
+            }
+
+            var content = ta.text;
+            var bi = Json.ToObject<BuildInfo>(content);
+            return bi;
+        }
+
 
 #if UNITY_EDITOR
 
@@ -77,6 +66,7 @@ namespace Zero
             BuildInfo bi = new BuildInfo();
             bi.IsIL2CPP = UnityEditor.PlayerSettings.GetScriptingBackend(UnityEditor.EditorUserBuildSettings.selectedBuildTargetGroup) == UnityEditor.ScriptingImplementation.IL2CPP;
             bi.IsHybridClrEnable = HybridCLR.Editor.Settings.HybridCLRSettings.Instance.enable;
+            bi.PlatformName = ZeroConst.PLATFORM_DIR_NAME;
             return bi;
         }
 
@@ -84,26 +74,16 @@ namespace Zero
         public static void GenerateBuildInfo()
         {
             var bi = CreateBuildInfo();
+            var content = Json.ToJsonIndented(bi);
 
-            StringBuilder sb = new StringBuilder();
-
-            if (bi.IsIL2CPP)
+            var folder = FileUtility.CombinePaths(ZeroConst.PROJECT_ASSETS_DIR, "Resources");
+            if (!Directory.Exists(folder))
             {
-                sb.AppendLine(FlagIL2CPP);
+                Directory.CreateDirectory(folder);
             }
 
-            if (bi.IsHybridClrEnable)
-            {
-                sb.AppendLine(FlagHybridClr);
-            }
-
-            if (!Directory.Exists(Application.streamingAssetsPath))
-            {
-                Directory.CreateDirectory(Application.streamingAssetsPath);
-            }
-
-            var path = FileUtility.CombinePaths(Application.streamingAssetsPath, FileName);
-            File.WriteAllText(path, sb.ToString().Trim());
+            var path = FileUtility.CombinePaths(folder, FileName);
+            File.WriteAllText(path, content);
             Debug.Log(LogColor.Zero2($"[Zero][BuildInfo] 构建BuildInfo: {path}"));
             UnityEditor.AssetDatabase.Refresh();
         }
@@ -111,7 +91,8 @@ namespace Zero
         [UnityEditor.MenuItem("Test/BuildInfo/Load")]
         private static void TestLoadBuildInfo()
         {
-            Debug.Log(Json.ToJsonIndented(TryLoadBuildInfo()));
+            var bi = TryLoadBuildInfo();
+            Debug.Log(Json.ToJsonIndented(bi));
         }
 #endif
     }

@@ -18,5 +18,7 @@ namespace ZeroEditor
         public const string PLATFORM_IOS = "iPhone";
 
         public const string PLATFORM_STANDALONE = "Standalone";
+        
+        public const string PLATFORM_WEBGL = "WebGL";
     }
 }

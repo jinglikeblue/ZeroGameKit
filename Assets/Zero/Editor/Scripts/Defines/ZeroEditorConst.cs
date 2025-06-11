@@ -65,22 +65,5 @@ namespace ZeroEditor
         /// 当前发布平台
         /// </summary>
         public static BuildTarget BUILD_PLATFORM => EditorUserBuildSettings.activeBuildTarget;
-//         {
-//             get
-//             {
-//                 return 
-//                 BuildTarget platform;
-// #if UNITY_STANDALONE_WIN
-//                 platform = BuildTarget.StandaloneWindows;
-// #elif UNITY_STANDALONE_OSX
-//                 platform = BuildTarget.StandaloneOSX;
-// #elif UNITY_IPHONE
-//         platform = BuildTarget.iOS;
-// #elif UNITY_ANDROID
-//                 platform = BuildTarget.Android;
-// #endif
-//                 return platform;
-//             }
-//         }
     }
 }

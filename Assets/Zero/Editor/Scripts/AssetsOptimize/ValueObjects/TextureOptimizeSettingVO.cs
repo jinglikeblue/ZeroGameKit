@@ -86,6 +86,18 @@ namespace ZeroEditor
             maxTextureSize = 2048,
             format = TextureImporterFormat.ASTC_6x6
         };
+        
+        [TabGroup("WebGL")]
+        [LabelText("Override For WebGL")]
+        public bool isOverrideForWebGL = true;
+
+        [TabGroup("WebGL")]
+        public PlatformSettingVO webGLSetting = new PlatformSettingVO()
+        {
+            name = AssetsOptimizeConst.PLATFORM_IOS,
+            maxTextureSize = 2048,
+            format = TextureImporterFormat.ASTC_6x6
+        };
 
 
 

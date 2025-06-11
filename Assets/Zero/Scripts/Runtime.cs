@@ -28,6 +28,11 @@ namespace Zero
         public static bool IsHybridClrEnable => BuildInfo.IsHybridClrEnable;
 
         /// <summary>
+        /// 平台名称
+        /// </summary>
+        public static string PlatformName => BuildInfo.PlatformName;
+
+        /// <summary>
         /// 启动器设置数据
         /// </summary>
         internal static LauncherSettingData LauncherData;
@@ -119,6 +124,11 @@ namespace Zero
         /// </summary>
         public static bool IsHotResEnable => LauncherData.isUseAssetBundle && LauncherData.isHotPatchEnable;
 
+        static Runtime()
+        {
+            BuildInfo = BuildInfo.TryLoadBuildInfo();
+        }
+
         /// <summary>
         /// 设置是否打印日志
         /// </summary>
@@ -137,8 +147,6 @@ namespace Zero
                 Debug.LogError("Runtime无法重复初始化!");
                 return;
             }
-
-            BuildInfo = BuildInfo.TryLoadBuildInfo();
 
             LauncherData = data;
 
@@ -220,6 +228,7 @@ namespace Zero
         public static void PrintInfo()
         {
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] ========================================="));
+            Debug.Log(LogColor.Zero2($"[Zero][Runtime] 平台: {PlatformName}"));
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] Scripting Backend: {(IsIL2CPP ? "IL2CPP" : "Mono")}"));
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] HybridCLR: {(IsHybridClrEnable ? "启用" : "禁止")}"));
             Debug.Log(LogColor.Zero2($"[Zero][Runtime] 日志打印: {LauncherData.isLogEnable}"));
