@@ -26,6 +26,7 @@ namespace ZeroEditor
             return win;
         }
 
+        [Title("设置")]
         [LabelText("替换所有字体")]
         public bool isSwitchAll = false;
 
@@ -36,6 +37,7 @@ namespace ZeroEditor
         [LabelText("要设置的字体")]
         public Font targetFont;
 
+        [Title("批量替换")]
         [LabelText("限定文件夹")]
         [FolderPath(AbsolutePath = false, UseBackslashes = false)]
         public string folder = "Assets";
@@ -91,6 +93,18 @@ namespace ZeroEditor
             }
         }
 
+        [Title("单独替换")]
+        [Button("替换当前场景中的字体", ButtonSizes.Large)]
+        void ReplaceCurrentScene()
+        {
+            if (!EditorUtility.DisplayDialog("提示", "确认替换当前场景中的字体?", "确定", "取消"))
+            {
+                return;
+            }
+
+            ReplaceScene(SceneManager.GetActiveScene());
+        }
+
         private bool ReplaceFontInPrefab()
         {
             var guids = AssetDatabase.FindAssets($"t:Prefab", new[] { folder });
@@ -125,20 +139,10 @@ namespace ZeroEditor
                 EditorUtility.DisplayProgressBar("替换中...", Path.GetFileName(path), progress);
 
                 Scene scene = EditorSceneManager.OpenScene(path);
-                bool isSceneReplaced = false;
-                foreach (GameObject gameObject in scene.GetRootGameObjects())
-                {
-                    if (ReplaceFont(gameObject))
-                    {
-                        isReplaced = true;
-                        isSceneReplaced = true;
-                    }
-                }
-
+                bool isSceneReplaced = ReplaceScene(scene);
                 if (isSceneReplaced)
                 {
-                    EditorSceneManager.MarkSceneDirty(scene);
-                    EditorSceneManager.SaveScene(scene);
+                    isReplaced = true;
                 }
 
                 Log(path, isSceneReplaced);
@@ -147,6 +151,26 @@ namespace ZeroEditor
             EditorSceneManager.OpenScene(currentActivieScene);
 
             return isReplaced;
+        }
+
+        bool ReplaceScene(Scene scene)
+        {
+            bool isSceneReplaced = false;
+            foreach (GameObject gameObject in scene.GetRootGameObjects())
+            {
+                if (ReplaceFont(gameObject))
+                {
+                    isSceneReplaced = true;
+                }
+            }
+
+            if (isSceneReplaced)
+            {
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+            }
+
+            return isSceneReplaced;
         }
 
         private bool ReplaceFont(GameObject prefab)
