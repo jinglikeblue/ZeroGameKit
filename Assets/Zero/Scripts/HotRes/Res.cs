@@ -822,5 +822,21 @@ namespace Zero
 
             return files;
         }
+
+        /// <summary>
+        /// 预载资源，仅在AssetBundle模式且运行中时才生效。
+        /// 根据运行环境有以下差异：
+        /// - WebGL：直接从网络下载资源，并缓存到本地。
+        /// - 其它：在开启了热更资源时，从网络下载资源并缓存到本地。
+        /// </summary>
+        /// <param name="paths"></param>
+        public static async UniTask Preload(string[] paths, ProgressDelegate onProgress = null)
+        {
+            onProgress?.Invoke(0,0, 1);
+            if (Runtime.IsUseAssetDataBase)
+            {
+                // return null;
+            }
+        }
     }
 }
