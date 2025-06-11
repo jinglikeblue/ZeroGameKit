@@ -74,7 +74,7 @@ namespace ZeroEditor
                 var currentScenePath = SceneManager.GetActiveScene().path;
                 if (!currentScenePath.Equals(startupScenePath))
                 {
-                    if (EditorUtility.DisplayDialog("操作确认", "是否切换场景到StartupScene。确认当前场景修改已保存？", "确认", "取消"))
+                    if (EditorUtility.DisplayDialog("提示", "切换场景到StartupScene，会丢失当前场景未保存的修改，是否切换？", "确认", "取消"))
                     {
                         EditorSceneManager.OpenScene(startupScenePath);
                     }
