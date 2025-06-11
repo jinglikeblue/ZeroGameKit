@@ -64,14 +64,24 @@ namespace Zero
             {
                 case ELoadMode.AssetBundle:
                     Debug.Log(LogColor.Zero1($"[Zero][ResMgr] 初始化资源管理器... 资源来源：[AssetBundle]  Manifest名称：{assetsInfo}"));
-                    var newMgr = new AssetBundleTool(assetsInfo);
+                    AssetBundleTool tool = null;
+                    if (WebGL.IsEnvironmentWebGL)
+                    {
+                        //WebGL需要用提前准备好的文件
+                        tool = new AssetBundleTool(WebGL.ManifestAssetBundle);
+                    }
+                    else
+                    {
+                        tool = new AssetBundleTool(assetsInfo);
+                    }
+
                     if (_tool != null && _tool is AssetBundleTool)
                     {
                         //替换旧的需要继承一下已加载字典
-                        newMgr.Inherit(_tool as AssetBundleTool);
+                        tool.Inherit(_tool as AssetBundleTool);
                     }
 
-                    _tool = newMgr;
+                    _tool = tool;
                     break;
                 case ELoadMode.Resources:
                     Debug.Log(LogColor.Zero1("[Zero][ResMgr]初始化资源管理器... 资源来源：[Resources]"));
@@ -331,7 +341,7 @@ namespace Zero
             abName = FileUtility.StandardizeBackslashSeparator(Path.GetDirectoryName(assetPath));
             assetName = Path.GetFileName(assetPath);
         }
-        
+
         /// <summary>
         /// 通过AB名称和资源名，获取资源原始路径（在工程Assets中的路径）
         /// </summary>
@@ -343,7 +353,7 @@ namespace Zero
             var assetPath = FileUtility.CombinePaths(ZeroConst.PROJECT_AB_DIR, JointAssetPath(abName, assetName));
             return assetPath;
         }
-        
+
         /// <summary>
         /// 将AssetBundle和资源名称合并，返回资源的路径
         /// </summary>

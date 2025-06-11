@@ -31,13 +31,8 @@ namespace Zero
 
         public AssetBundleTool(string manifestFileName)
         {
-            UnloadAll();
-            _loadedABDic = new Dictionary<string, AssetBundle>();
-
-            HotResAssetBundleRoot = FileUtility.CombinePaths(Runtime.localResDir, ZeroConst.AB_DIR_NAME);
-            BuiltinAssetBundleRoot =
-                FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.AB_DIR_NAME);
-
+            InitVariables();
+            
             //优先使用热更的
             var manifestPath = FileUtility.CombinePaths(HotResAssetBundleRoot, manifestFileName);
             if (false == File.Exists(manifestPath) || Runtime.IsOnlyUseBuiltinRes)
@@ -49,9 +44,36 @@ namespace Zero
             AssetBundle ab = AssetBundle.LoadFromFile(manifestPath);
             if (null == ab)
             {
-                throw new Exception($"[{manifestFileName}] 不存在: {manifestPath}");
+                throw new Exception($"AssetBundleTool] [{manifestFileName}] 不存在: {manifestPath}");
             }
 
+            InitManifest(ab);
+        }
+
+        public AssetBundleTool(AssetBundle manifest)
+        {
+            if (null == manifest)
+            {
+                throw new Exception($"[AssetBundleTool] manifest文件不存在!");
+            }
+
+            InitVariables();
+            InitManifest(manifest);
+        }
+
+        /// <summary>
+        /// 初始化变量
+        /// </summary>
+        void InitVariables()
+        {
+            UnloadAll();
+            _loadedABDic = new Dictionary<string, AssetBundle>();
+            HotResAssetBundleRoot = FileUtility.CombinePaths(Runtime.localResDir, ZeroConst.AB_DIR_NAME);
+            BuiltinAssetBundleRoot = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH, ZeroConst.AB_DIR_NAME);
+        }
+
+        void InitManifest(AssetBundle ab)
+        {
             _manifest = ab.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
 
             //{
@@ -67,9 +89,9 @@ namespace Zero
             //    Debug.Log(json);
             //}
 
-            if (_manifest == null)
+            if (!_manifest)
             {
-                throw new Exception(string.Format("错误的 Manifest File: {0}", manifestFileName));
+                throw new Exception($"错误的 Manifest File: {ab.name}");
             }
 
             ab.Unload(false);

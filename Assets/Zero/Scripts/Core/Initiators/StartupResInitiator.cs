@@ -51,6 +51,11 @@ namespace Zero
                     err = await new HotResUpdater(Runtime.setting.startupResGroups).StartAsync(OnHotResUpdaterProgress);
                     if (!string.IsNullOrEmpty(err)) break;
                 }
+
+                if (WebGL.IsEnvironmentWebGL)
+                {
+                    await WebGL.PreloadManifestAssetBundle();
+                }
             } while (false);
 
             return err;
