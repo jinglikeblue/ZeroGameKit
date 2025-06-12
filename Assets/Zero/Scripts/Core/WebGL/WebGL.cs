@@ -31,6 +31,7 @@ namespace Zero
 
         private static Dictionary<string, AssetBundle> _pathToAssetBundleDict = new Dictionary<string, AssetBundle>();
         private static Dictionary<string, byte[]> _pathToFileDict = new Dictionary<string, byte[]>();
+        private static Dictionary<string, HashSet<ProgressDelegate>> _preparingPathToDelegateSetDict = new Dictionary<string, HashSet<ProgressDelegate>>();
 
         static WebGL()
         {
@@ -44,6 +45,48 @@ namespace Zero
                 IsEnvironmentWebGL = false;
             }
 #endif
+        }
+
+        /// <summary>
+        /// 注册一个正在预加载的路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="pd"></param>
+        static void RegisterPreparingPath(string path, ProgressDelegate pd)
+        {
+            if (_preparingPathToDelegateSetDict.TryGetValue(path, out var set))
+            {
+                set.Add(pd);
+            }
+            else
+            {
+                set = new HashSet<ProgressDelegate> { pd };
+                _preparingPathToDelegateSetDict.Add(path, set);
+            }
+        }
+
+        /// <summary>
+        /// 注销一个预加载路径
+        /// </summary>
+        /// <param name="path"></param>
+        static void UnregisterPreparingPath(string path)
+        {
+            _preparingPathToDelegateSetDict.Remove(path);
+        }
+
+        /// <summary>
+        /// 更新正在预加载的进度
+        /// </summary>
+        /// <param name="progress"></param>
+        static void UpdatePreparingPath(string path, float progress)
+        {
+            if (_preparingPathToDelegateSetDict.TryGetValue(path, out var set))
+            {
+                foreach (var pd in set)
+                {
+                    pd?.Invoke(progress);
+                }
+            }
         }
 
         /// <summary>
@@ -126,7 +169,7 @@ namespace Zero
                 //清理被销毁的资源
                 _pathToAssetBundleDict.Remove(path);
             }
-            
+
             _pathToAssetBundleDict.TryGetValue(path, out var ab);
             if (isLogEnable)
             {
@@ -217,29 +260,38 @@ namespace Zero
                 return cache;
             }
 
-            //获取资源的版本信息
-            var url = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, item.ToUrlWithVer());
-            Debug.Log($"[Zero][WebGL][AssetBundle] 预载File: {url}");
-
-            using (UnityWebRequest request = UnityWebRequest.Get(url))
+            RegisterPreparingPath(item.name, onProgress);
+            try
             {
-                request.SendWebRequest();
-                while (!request.isDone)
+                //获取资源的版本信息
+                var url = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, item.ToUrlWithVer());
+                Debug.Log($"[Zero][WebGL][AssetBundle] 预载File: {url}");
+
+                using (UnityWebRequest request = UnityWebRequest.Get(url))
                 {
-                    onProgress?.Invoke(request.downloadProgress);
-                    await UniTask.NextFrame();
+                    request.SendWebRequest();
+                    while (!request.isDone)
+                    {
+                        UpdatePreparingPath(item.name, request.downloadProgress);
+                        await UniTask.NextFrame();
+                    }
+
+                    UpdatePreparingPath(item.name, 1);
+
+                    if (!string.IsNullOrEmpty(request.error))
+                    {
+                        throw new Exception(request.error);
+                    }
+
+                    cache = request.downloadHandler.data;
+                    _pathToFileDict.Add(item.name, cache);
                 }
-
-                onProgress?.Invoke(1);
-
-                if (!string.IsNullOrEmpty(request.error))
-                {
-                    throw new Exception(request.error);
-                }
-
-                cache = request.downloadHandler.data;
-                _pathToFileDict.Add(item.name, cache);
             }
+            finally
+            {
+                UnregisterPreparingPath(item.name);
+            }
+
 
             return cache;
         }
@@ -259,36 +311,44 @@ namespace Zero
                 return cache;
             }
 
-            var url = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, item.ToUrlWithVer());
-            Debug.Log($"[Zero][WebGL][AssetBundle] 预载AssetBundle: {url}");
-
-            using (var request = UnityWebRequestAssetBundle.GetAssetBundle(url))
+            RegisterPreparingPath(item.name, onProgress);
+            try
             {
-                onProgress?.Invoke(0);
-                request.SendWebRequest();
-                while (!request.isDone)
-                {
-                    onProgress?.Invoke(request.downloadProgress);
-                    await UniTask.NextFrame();
-                }
+                var url = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, item.ToUrlWithVer());
+                Debug.Log($"[Zero][WebGL][AssetBundle] 预载AssetBundle: {url}");
 
-                onProgress?.Invoke(1);
-                if (request.error != null)
+                using (var request = UnityWebRequestAssetBundle.GetAssetBundle(url))
                 {
-                    //出错了
-                    throw new Exception(request.error);
-                }
+                    onProgress?.Invoke(0);
+                    request.SendWebRequest();
+                    while (!request.isDone)
+                    {
+                        UpdatePreparingPath(item.name, request.downloadProgress);
+                        await UniTask.NextFrame();
+                    }
 
-                try
-                {
-                    cache = DownloadHandlerAssetBundle.GetContent(request);
-                    _pathToAssetBundleDict.Add(item.name, cache);
+                    UpdatePreparingPath(item.name, 1);
+                    if (request.error != null)
+                    {
+                        //出错了
+                        throw new Exception(request.error);
+                    }
+
+                    try
+                    {
+                        cache = DownloadHandlerAssetBundle.GetContent(request);
+                        _pathToAssetBundleDict.Add(item.name, cache);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError(e);
+                        throw new Exception($"[Zero][WebGL][AssetBundle] 错误的AssetBundle：{url}");
+                    }
                 }
-                catch (Exception e)
-                {
-                    Debug.LogError(e);
-                    throw new Exception($"[Zero][WebGL][AssetBundle] 错误的AssetBundle：{url}");
-                }
+            }
+            finally
+            {
+                UnregisterPreparingPath(item.name);
             }
 
             return cache;
