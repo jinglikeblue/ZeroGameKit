@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -48,7 +50,7 @@ namespace Zero
         {
             #region 计算要预载的资源
 
-            List<ResVerVO.Item> needPrepareItemList = new List<ResVerVO.Item>();
+            HashSet<ResVerVO.Item> needPrepareItemSet = new HashSet<ResVerVO.Item>();
             //检查path中，哪些已有缓存，过滤掉不需要预载的资源。
             foreach (var path in Paths)
             {
@@ -62,25 +64,25 @@ namespace Zero
                         var dependABName = Res.TransformToHotPath(dependPath, EResType.Asset);
                         if (!WebGL.GetAssetBundle(dependABName))
                         {
-                            needPrepareItemList.Add(GetItem(path, EResType.Asset));
+                            needPrepareItemSet.Add(GetItem(path, EResType.Asset));
                         }
                     }
                     
                     if (!WebGL.GetAssetBundle(abName))
                     {
-                        needPrepareItemList.Add(GetItem(path, EResType.Asset));
+                        needPrepareItemSet.Add(GetItem(path, EResType.Asset));
                     }
                 }
                 else if (resType == EResType.File)
                 {
                     if (null == WebGL.GetFile(path))
                     {
-                        needPrepareItemList.Add(GetItem(path, EResType.File));
+                        needPrepareItemSet.Add(GetItem(path, EResType.File));
                     }
                 }
             }
             
-            Info.prepareItems = needPrepareItemList.ToArray();
+            Info.prepareItems = needPrepareItemSet.ToArray();
             Info.totalSize = 0;
             foreach (var item in Info.prepareItems)
             {
@@ -88,29 +90,27 @@ namespace Zero
             }
 
             #endregion
-            
-
 
             #region 开始预载
 
+            long loadedSize = 0;
             for (int i = 0; i < Info.prepareItems.Length; i++)
             {
                 Info.preparingIndex = i;
                 var item = Info.prepareItems[i];
-                var loadedSize = Info.loadedSize;
                 await WebGL.Prepare(item.name, progress =>
                 {
                     Info.unitLoadedSize = (long)(progress * Info.UnitTotalSize);
                     Info.loadedSize = Info.unitLoadedSize + loadedSize;
                     Debug.Log(Info.ToString());
                 });
-                Info.loadedSize += item.size;
+                loadedSize += item.size;
+                Info.loadedSize = loadedSize;
                 Info.loadedCount = i + 1;
             }
-           
+            Debug.Log(Info.ToString());
 
             #endregion
-            
 
             ResVerVO.Item GetItem(string path, EResType resType)
             {
@@ -122,6 +122,7 @@ namespace Zero
 
         private async UniTask StartPrepareHotRes()
         {
+            throw new Exception("TODO");
         }
     }
 }

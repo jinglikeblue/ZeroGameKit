@@ -79,6 +79,8 @@ namespace Zero
                 
                 if (WebGL.IsEnvironmentWebGL)
                 {
+                    //TODO 思考！如果勾选了热更功能，是否资源的预载应该通过Web服务来实现，方便测试。
+                    
                     //如果是WebGL环境，则强制关闭热更功能以及使用DLL。WebGL下，Builtin资源就是热更资源。
                     data.isHotPatchEnable = false;
                     data.isUseDll = false;
