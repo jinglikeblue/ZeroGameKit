@@ -130,7 +130,7 @@ namespace Demo
             float loadedMB = loadedSize / 1024 / 1024f;
             var progress = (int)((float)loadedSize / totalSize * 100);
             //转换为MB
-            text.text = string.Format("加载进度： {0}% [{1}MB/{2}MB]", (int)(progress * 100f), loadedMB.ToString("0.00"), totalMB.ToString("0.00"));
+            text.text = string.Format("加载进度： {0}% [{1}MB/{2}MB]", progress, loadedMB.ToString("0.00"), totalMB.ToString("0.00"));
         }
     }
 }
