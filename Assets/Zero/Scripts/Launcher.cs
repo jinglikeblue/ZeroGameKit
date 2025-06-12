@@ -76,6 +76,13 @@ namespace Zero
             {
                 //非Editor下，将会强制开启AssetBundle模式
                 data.isUseAssetBundle = true;
+                
+                if (WebGL.IsEnvironmentWebGL)
+                {
+                    //如果是WebGL环境，则强制关闭热更功能以及使用DLL。WebGL下，Builtin资源就是热更资源。
+                    data.isHotPatchEnable = false;
+                    data.isUseDll = false;
+                }
             }
 
             launcherData = data;

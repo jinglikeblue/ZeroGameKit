@@ -16,6 +16,11 @@ namespace Zero
         public const string AB_DIR_NAME = "ab";
 
         /// <summary>
+        /// 热更AssetBundle资源的目录名称，带分割符
+        /// </summary>
+        public const string AssetBundleFolderWithSeparator = AB_DIR_NAME + "/";
+
+        /// <summary>
         /// 热更DLL资源的目录名称
         /// </summary>
         public const string DLL_DIR_NAME = "dll";
@@ -34,6 +39,11 @@ namespace Zero
         /// 其它资源文件的目录名称
         /// </summary>
         public const string FILES_DIR_NAME = "files";
+        
+        /// <summary>
+        /// 其它资源文件的目录名称，带分割符
+        /// </summary>
+        public const string FilesFolderWithSeparator = FILES_DIR_NAME + "/";
 
         /// <summary>
         /// 热更DLL的文件名称（不含后缀）
@@ -137,7 +147,7 @@ namespace Zero
                     _platformDirName = PlatformDirNameConst.WebGL;
 #elif UNITY_EDITOR //如果上面宏定义都不存在，但是是编辑器，则使用编辑器平台名称
                     _platformDirName = UnityEditor.BuildPipeline.GetBuildTargetName(UnityEditor.EditorUserBuildSettings.activeBuildTarget).ToLower();
-#else   //如果上面宏定义都不存在，但是是真机环境，则尝试从BuildInfo中获取平台名称
+#else //如果上面宏定义都不存在，但是是真机环境，则尝试从BuildInfo中获取平台名称
                     _platformDirName = Runtime.BuildInfo.PlatformName;
 #endif
                 }

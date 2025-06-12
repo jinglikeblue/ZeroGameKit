@@ -16,8 +16,8 @@ namespace Zero
         Asset,
 
         /// <summary>
-        /// 所有
+        /// 无法确定的资源类型
         /// </summary>
-        All
+        Unknown,
     }
 }

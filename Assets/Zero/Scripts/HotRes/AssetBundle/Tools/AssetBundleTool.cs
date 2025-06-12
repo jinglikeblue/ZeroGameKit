@@ -159,16 +159,18 @@ namespace Zero
 
         public override T Load<T>(string abName, string assetName)
         {
-            AssetBundle ab = TryLoadAssetBundle(abName);
-
-            T asset = ab.LoadAsset<T>(assetName);
-            if (null == asset)
+            try
+            {
+                AssetBundle ab = TryLoadAssetBundle(abName);
+                T asset = ab.LoadAsset<T>(assetName);
+                return asset;
+            }
+            catch (Exception e)
             {
                 var assetPath = Assets.GetOriginalAssetPath(abName, assetName);
                 Debug.Log($"获取的资源不存在： AssetBundle: {abName}  Asset: {assetName}  AssetPath: {assetPath}");
+                return null;
             }
-
-            return asset;
         }
 
         public override UnityEngine.Object[] LoadAll(string abName)
@@ -364,7 +366,7 @@ namespace Zero
 
             if (WebGL.IsEnvironmentWebGL)
             {
-                ab = WebGL.GetAssetBundle(abPath);
+                ab = WebGL.GetAssetBundle(abName, true);
             }
             else
             {

@@ -24,6 +24,11 @@ namespace Zero
         /// </summary>
         public delegate void ProgressDelegate(float progress, long loadedSize, long totalSize);
 
+        /// <summary>
+        /// 预载进度委托
+        /// </summary>
+        public delegate void PrepareProgressDelegate(ResPrepareProgressInfoVO info);
+
         ///  <summary>
         /// 检查资源是否有更新 
         /// </summary>
@@ -699,7 +704,7 @@ namespace Zero
         /// <param name="path"></param>
         /// <param name="resType">路径如果是相对路径且没有带资源类型前缀的情况下，会通过该参数来完善路径</param>
         /// <returns></returns>
-        public static string TransformToHotPath(string path, EResType resType = EResType.All)
+        public static string TransformToHotPath(string path, EResType resType = EResType.Unknown)
         {
             if (path.StartsWith(ZeroConst.PROJECT_AB_DIR))
             {
@@ -724,10 +729,16 @@ namespace Zero
             switch (resType)
             {
                 case EResType.File:
-                    path = FileUtility.CombinePaths(ZeroConst.FILES_DIR_NAME, path);
+                    if (!path.StartsWith(ZeroConst.FilesFolderWithSeparator))
+                    {
+                        path = FileUtility.CombinePaths(ZeroConst.FILES_DIR_NAME, path);    
+                    }
                     break;
                 case EResType.Asset:
-                    path = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, path);
+                    if (!path.StartsWith(ZeroConst.AssetBundleFolderWithSeparator))
+                    {
+                        path = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, path);    
+                    }
                     break;
             }
 
@@ -740,19 +751,19 @@ namespace Zero
         /// <param name="path"></param>
         /// <param name="resType">路径如果是相对路径且没有带资源类型前缀的情况下，会通过该参数来完善路径</param>
         /// <returns></returns>
-        public static string TransformToProjectPath(string path, EResType resType = EResType.All)
+        public static string TransformToProjectPath(string path, EResType resType = EResType.Unknown)
         {
             if (path.StartsWith(ZeroConst.PROJECT_FILES_DIR) || path.StartsWith(ZeroConst.PROJECT_AB_DIR))
             {
                 return path;
             }
 
-            if (path.StartsWith(ZeroConst.AB_DIR_NAME))
+            if (path.StartsWith(ZeroConst.AssetBundleFolderWithSeparator))
             {
                 return path.ReplaceAt(ZeroConst.AB_DIR_NAME, ZeroConst.PROJECT_AB_DIR);
             }
 
-            if (path.StartsWith(ZeroConst.FILES_DIR_NAME))
+            if (path.StartsWith(ZeroConst.FilesFolderWithSeparator))
             {
                 return path.ReplaceAt(ZeroConst.FILES_DIR_NAME, ZeroConst.PROJECT_FILES_DIR);
             }
@@ -794,6 +805,26 @@ namespace Zero
         }
 
         /// <summary>
+        /// 获取资源的类型
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static EResType GetResType(string path)
+        {
+            if (path.StartsWith(ZeroConst.AssetBundleFolderWithSeparator) || path.StartsWith(ZeroConst.PROJECT_AB_DIR))
+            {
+                return EResType.Asset;
+            }
+
+            if (path.StartsWith(ZeroConst.FilesFolderWithSeparator) || path.StartsWith(ZeroConst.PROJECT_FILES_DIR))
+            {
+                return EResType.File;
+            }
+
+            return EResType.Unknown;
+        }
+
+        /// <summary>
         /// 在AssetBundle模式且运行中时，将通过res.json文件来查找匹配的热更资源文件返回，路径为热更目录中的路径。
         /// 其它情况下，通过R类的接口来返回匹配的资源文件，路径为工程目录中的路径。
         /// </summary>
@@ -830,13 +861,17 @@ namespace Zero
         /// - 其它：在开启了热更资源时，从网络下载资源并缓存到本地。
         /// </summary>
         /// <param name="paths"></param>
-        public static async UniTask Preload(string[] paths, ProgressDelegate onProgress = null)
+        /// <param name="onProgressUpdate"></param>
+        public static async UniTask Prepare(string[] paths, PrepareProgressDelegate onProgressUpdate = null)
         {
-            onProgress?.Invoke(0,0, 1);
-            if (Runtime.IsUseAssetDataBase)
+            var rp = new ResPreparer(paths);
+            rp.Start();
+            while (!rp.IsDone)
             {
-                // return null;
+                onProgressUpdate?.Invoke(rp.Info);
+                await UniTask.NextFrame();
             }
+            onProgressUpdate?.Invoke(rp.Info);
         }
     }
 }

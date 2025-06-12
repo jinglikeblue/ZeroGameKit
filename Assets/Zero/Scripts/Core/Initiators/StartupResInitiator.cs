@@ -1,6 +1,10 @@
-﻿using Jing;
+﻿using System;
+using System.Collections.Generic;
+using Jing;
 using System.IO;
+using System.Linq;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Zero
 {
@@ -41,43 +45,62 @@ namespace Zero
 
                 if (Runtime.IsHotResEnable)
                 {
-                    if (null == Runtime.setting.startupResGroups || 0 == Runtime.setting.startupResGroups.Length)
-                    {
-                        //未配置启动必要资源组，默认下载所有的资源
-                        Runtime.setting.startupResGroups = new[] { "/" };
-                    }
-                    
                     //检查启动资源更新。依赖ResMgr
-                    err = await new HotResUpdater(Runtime.setting.startupResGroups).StartAsync(OnHotResUpdaterProgress);
+                    err = await new HotResUpdater(GetStartupResGroups()).StartAsync(OnHotResUpdaterProgress);
                     if (!string.IsNullOrEmpty(err)) break;
                 }
 
                 if (WebGL.IsEnvironmentWebGL)
                 {
-                    await WebGL.PreloadManifestAssetBundle();
+                    err = await PrepareStartupResForWebGL();
                 }
             } while (false);
 
             return err;
         }
 
-        // void InitResMgr()
-        // {
-        //     //因为更新了manifest.ab文件，所以要重新初始化ResMgr的Init
-        //     if (Runtime.IsUseAssetDataBase)
-        //     {
-        //         Assets.Init(Assets.ELoadMode.AssetDataBase, ZeroConst.PROJECT_AB_DIR);
-        //     }
-        //     else
-        //     {
-        //         var manifestFileName = ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION;
-        //         Assets.Init(Assets.ELoadMode.AssetBundle, manifestFileName);
-        //     }
-        // }
-
         private void OnHotResUpdaterProgress(long loadedSize, long totalSize)
         {
             _onProgress(loadedSize, totalSize);
+        }
+
+        string[] GetStartupResGroups()
+        {
+            if (null == Runtime.setting.startupResGroups || 0 == Runtime.setting.startupResGroups.Length)
+            {
+                //未配置启动必要资源组，默认下载所有的资源
+                Runtime.setting.startupResGroups = new[] { "/" };
+            }
+
+            return Runtime.setting.startupResGroups;
+        }
+
+        private async UniTask<string> PrepareStartupResForWebGL()
+        {
+            try
+            {
+                //预加载manifest.ab;
+                await WebGL.PreloadManifestAssetBundle();
+                //TODO 组织需要的启动资源
+                var groups = GetStartupResGroups();
+                var itemNames = new HashSet<string>();
+                foreach (var group in groups)
+                {
+                    var itemList = Runtime.localResVer.FindGroup(group);
+                    foreach (var item in itemList)
+                    {
+                        itemNames.Add(item.name);
+                    }
+                }
+
+                await Res.Prepare(itemNames.ToArray(), info => { OnHotResUpdaterProgress(info.loadedSize, info.totalSize); });
+                return null;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+                return e.ToString();
+            }
         }
     }
 }

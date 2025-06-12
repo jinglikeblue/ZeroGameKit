@@ -367,10 +367,10 @@ namespace Zero
         /// <param name="fileName"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static string GetPath(string fileName, EResType type = EResType.All)
+        public static string GetPath(string fileName, EResType type = EResType.Unknown)
         {
             var name = fileName.ToLower();
-            if (type == EResType.File || type == EResType.All)
+            if (type == EResType.File || type == EResType.Unknown)
             {
                 if (FileNameToPathDict.TryGetValue(name, out var path))
                 {
@@ -378,7 +378,7 @@ namespace Zero
                 }
             }
 
-            if (type == EResType.Asset || type == EResType.All)
+            if (type == EResType.Asset || type == EResType.Unknown)
             {
                 if (AssetNameToPathDict.TryGetValue(name, out var path))
                 {
@@ -395,11 +395,11 @@ namespace Zero
         /// <param name="startPath"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static string[] Find(string startPath, EResType type = EResType.All)
+        public static string[] Find(string startPath, EResType type = EResType.Unknown)
         {
             List<string> list = new List<string>();
 
-            if (EResType.All == type || EResType.File == type)
+            if (EResType.Unknown == type || EResType.File == type)
             {
                 var fileStartPath = Res.TransformToProjectPath(startPath, EResType.File);
                 foreach (var filePath in FileNameToPathDict.Values)
@@ -411,7 +411,7 @@ namespace Zero
                 }
             }
 
-            if (EResType.All == type || EResType.Asset == type)
+            if (EResType.Unknown == type || EResType.Asset == type)
             {
                 var assetStartPath = Res.TransformToProjectPath(startPath, EResType.Asset);
                 foreach (var filePath in AssetNameToPathDict.Values)

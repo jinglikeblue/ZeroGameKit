@@ -97,7 +97,8 @@ namespace Zero
         }
 
         /// <summary>
-        /// 得到AB资源的依赖
+        /// 得到AB资源的依赖。
+        /// 返回的依赖清单不需要再递归获取依赖，已为完整依赖列表。
         /// </summary>
         /// <param name="abName"></param>
         /// <returns></returns>
