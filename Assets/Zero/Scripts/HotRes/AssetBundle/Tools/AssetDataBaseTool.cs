@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zero;
 
@@ -137,6 +138,12 @@ namespace Zero
         
         public override AssetBundle TryLoadAssetBundle(string abName)
         {
+            return null;
+        }
+
+        public override async UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName)
+        {
+            await UniTask.NextFrame();
             return null;
         }
 

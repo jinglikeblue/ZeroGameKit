@@ -166,6 +166,16 @@ namespace Zero
         {
             return _tool.TryLoadAssetBundle(abName);
         }
+        
+        /// <summary>
+        /// 在运行环境支持的情况下。尝试异步加载AssetBundle文件。
+        /// </summary>
+        /// <param name="abName"></param>
+        /// <returns></returns>
+        public static async UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName)
+        {
+            return await _tool.TryLoadAssetBundleAsync(abName);
+        }
 
         /// <summary>
         /// 加载资源

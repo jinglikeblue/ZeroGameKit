@@ -290,6 +290,8 @@ namespace Zero
         /// <returns></returns>
         public static async UniTask<AssetBundle> PrepareAssetBundle(ResVerVO.Item item, ProgressDelegate onProgress = null)
         {
+            //TODO 在这里检查依赖是否会更好
+            
             var cache = GetAssetBundle(item.name);
             if (cache)
             {

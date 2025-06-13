@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -48,6 +49,11 @@ namespace Zero
         public override AssetBundle TryLoadAssetBundle(string abName)
         {
             return null;
+        }
+
+        public override UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName)
+        {
+            throw new NotImplementedException();
         }
 
         public override void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)

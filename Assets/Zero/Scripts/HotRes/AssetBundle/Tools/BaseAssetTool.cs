@@ -1,5 +1,6 @@
 ﻿using Jing;
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Zero
@@ -133,5 +134,12 @@ namespace Zero
         /// </summary>
         /// <param name="abName"></param>
         public abstract AssetBundle TryLoadAssetBundle(string abName);
+        
+        /// <summary>
+        /// 在运行环境支持的情况下。尝试异步加载AssetBundle文件。
+        /// </summary>
+        /// <param name="abName"></param>
+        /// <returns></returns>
+        public abstract UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName);
     }
 }

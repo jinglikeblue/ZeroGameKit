@@ -129,7 +129,7 @@ namespace Zero
 
         public override string[] GetAllAsssetsNames(string abName)
         {
-            AssetBundle ab = TryLoadAssetBundle(abName);
+            AssetBundle ab = LoadAssetBundle(abName);
             string[] assetNames = ab.GetAllAssetNames();
             for (int i = 0; i < assetNames.Length; i++)
             {
@@ -141,7 +141,7 @@ namespace Zero
 
         public override UnityEngine.Object Load(string abName, string assetName)
         {
-            AssetBundle ab = TryLoadAssetBundle(abName);
+            AssetBundle ab = LoadAssetBundle(abName);
             if (null == ab)
             {
                 Debug.LogErrorFormat("AB资源不存在  abName: {0}", abName);
@@ -161,7 +161,7 @@ namespace Zero
         {
             try
             {
-                AssetBundle ab = TryLoadAssetBundle(abName);
+                AssetBundle ab = LoadAssetBundle(abName);
                 T asset = ab.LoadAsset<T>(assetName);
                 return asset;
             }
@@ -175,7 +175,7 @@ namespace Zero
 
         public override UnityEngine.Object[] LoadAll(string abName)
         {
-            AssetBundle ab = TryLoadAssetBundle(abName);
+            AssetBundle ab = LoadAssetBundle(abName);
             if (ab.isStreamedSceneAssetBundle)
             {
                 return Array.Empty<UnityEngine.Object>();
@@ -192,23 +192,33 @@ namespace Zero
             return ab;
         }
 
+        public override async UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName)
+        {
+            if (WebGL.IsEnvironmentWebGL)
+            {
+                await WebGL.Prepare(abName);
+            }
+
+            return LoadAssetBundle(abName);
+        }
+
         public override void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
         {
-            AssetBundle ab = TryLoadAssetBundle(abName);
+            AssetBundle ab = LoadAssetBundle(abName);
             LoadAsync<UnityEngine.Object>(ab, assetName, onLoaded, onProgress);
         }
 
         public override void LoadAsync<T>(string abName, string assetName, Action<T> onLoaded,
             Action<float> onProgress = null)
         {
-            AssetBundle ab = TryLoadAssetBundle(abName);
+            AssetBundle ab = LoadAssetBundle(abName);
             LoadAsync(ab, assetName, onLoaded, onProgress);
         }
 
         public override void LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded,
             Action<float> onProgress = null)
         {
-            AssetBundle ab = TryLoadAssetBundle(abName);
+            AssetBundle ab = LoadAssetBundle(abName);
             LoadAllAsync(ab, onLoaded, onProgress);
         }
 
