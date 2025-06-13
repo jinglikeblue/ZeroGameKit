@@ -194,12 +194,7 @@ namespace Zero
 
         public override async UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName)
         {
-            if (WebGL.IsEnvironmentWebGL)
-            {
-                await WebGL.Prepare(abName);
-            }
-
-            return LoadAssetBundle(abName);
+            return await LoadAssetBundleAsync(abName);
         }
 
         public override void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
@@ -429,6 +424,21 @@ namespace Zero
             }
 
             return ab;
+        }
+
+        /// <summary>
+        /// 异步加载AB包，自动处理依赖问题
+        /// </summary>
+        /// <param name="abName"></param>
+        /// <returns></returns>
+        private async UniTask<AssetBundle> LoadAssetBundleAsync(string abName)
+        {
+            if (WebGL.IsEnvironmentWebGL)
+            {
+                await WebGL.Prepare(abName);
+            }
+
+            throw new Exception("TODO");
         }
     }
 }
