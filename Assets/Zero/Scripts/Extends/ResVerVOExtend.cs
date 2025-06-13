@@ -14,7 +14,7 @@ namespace Zero
         /// <returns></returns>
         public static string ToUrlWithVer(this ResVerVO.Item item)
         {
-            if (Application.isEditor)
+            if (Application.isEditor && false == Runtime.IsHotResEnable)
             {
                 return item.name;
             }

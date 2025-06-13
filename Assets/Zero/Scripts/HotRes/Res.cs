@@ -85,10 +85,28 @@ namespace Zero
         /// <returns></returns>
         public static async UniTask<string> UpdateGroup(string[] groups, ProgressDelegate onProgress = null, CancellationToken cancelToken = default)
         {
-            var updater = new HotResUpdater(groups);
-            string errInfo = await updater.StartAsync(
-                (loaded, total) => { onProgress?.Invoke(CalculateProgress(loaded, total), loaded, total); }
-                , cancelToken);
+            string errInfo = null;
+            if (WebGL.IsEnvironmentWebGL)
+            {
+                var itemNames = Res.GetGroupResArray(groups);
+                try
+                {
+                    await Prepare(itemNames, info =>
+                    {
+                        onProgress?.Invoke(info.Progress, info.loadedSize, info.totalSize);
+                    });
+                }
+                catch (Exception e)
+                {
+                    errInfo = e.ToString();
+                }
+            }
+            else
+            {
+                var updater = new HotResUpdater(groups);
+                errInfo = await updater.StartAsync((loaded, total) => { onProgress?.Invoke(CalculateProgress(loaded, total), loaded, total); }, cancelToken);
+            }
+
             return errInfo;
         }
 
@@ -731,14 +749,16 @@ namespace Zero
                 case EResType.File:
                     if (!path.StartsWith(ZeroConst.FilesFolderWithSeparator))
                     {
-                        path = FileUtility.CombinePaths(ZeroConst.FILES_DIR_NAME, path);    
+                        path = FileUtility.CombinePaths(ZeroConst.FILES_DIR_NAME, path);
                     }
+
                     break;
                 case EResType.Asset:
                     if (!path.StartsWith(ZeroConst.AssetBundleFolderWithSeparator))
                     {
-                        path = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, path);    
+                        path = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, path);
                     }
+
                     break;
             }
 
@@ -871,7 +891,28 @@ namespace Zero
                 onProgressUpdate?.Invoke(rp.Info);
                 await UniTask.NextFrame();
             }
+
             onProgressUpdate?.Invoke(rp.Info);
+        }
+
+        /// <summary>
+        /// 通过传入的groups数组，获取所有对应的资源清单
+        /// </summary>
+        /// <param name="groups"></param>
+        /// <returns></returns>
+        public static string[] GetGroupResArray(string[] groups)
+        {
+            var itemNames = new HashSet<string>();
+            foreach (var group in groups)
+            {
+                var itemList = Runtime.resVer.FindGroup(group);
+                foreach (var item in itemList)
+                {
+                    itemNames.Add(item.name);
+                }
+            }
+
+            return itemNames.ToArray();
         }
     }
 }

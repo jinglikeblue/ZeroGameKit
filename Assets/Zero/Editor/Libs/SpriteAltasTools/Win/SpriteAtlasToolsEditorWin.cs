@@ -153,6 +153,13 @@ namespace ZeroEditor
             // SpriteAtlasToolsUtility.PackPreview(spriteAtlasSaveDirPath);
         }
 
+        [Button("清理Editor下的SpriteAtlas缓存", ButtonSizes.Large)]
+        [PropertyOrder(32)]
+        void ClearLibraryCache()
+        {
+            SpriteAtlasToolsUtility.ClearLibraryCache();
+        }
+
         public struct SpriteAtlasItemEditor
         {
             SpriteAtlasToolsEditorWin _win;

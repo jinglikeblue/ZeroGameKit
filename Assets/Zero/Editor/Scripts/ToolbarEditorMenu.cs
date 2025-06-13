@@ -125,6 +125,12 @@ namespace ZeroEditor
         {
             Runtime.GC();
         }
+        
+        [MenuItem("Zero/调试/清理Editor下的SpriteAtlas缓存", false, 503)]
+        public static void ClearSpriteAtlasLibraryCache()
+        {
+            SpriteAtlasToolsUtility.ClearLibraryCache();
+        }
 
         #endregion
 

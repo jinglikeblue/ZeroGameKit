@@ -35,9 +35,19 @@ namespace Zero
                     ResVerVO vo = Json.ToObject<ResVerVO>(jsonStr);
                     Runtime.netResVer = new NetResVerModel(vo);
                     Runtime.netResVer.TryCleanCache();
+                }
+
+                if (Runtime.IsHotResEnable || WebGL.IsEnvironmentWebGL)
+                {
                     //更新manifest.ab
                     err = await new ManifestABUpdater().StartAsync();
                     if (!string.IsNullOrEmpty(err)) break;
+                }
+                
+                if (WebGL.IsEnvironmentWebGL)
+                {
+                    err = await PrepareStartupResForWebGL();
+                    break;
                 }
 
                 // 初始化ResMgr，依赖manifest.ab
@@ -48,11 +58,6 @@ namespace Zero
                     //检查启动资源更新。依赖ResMgr
                     err = await new HotResUpdater(GetStartupResGroups()).StartAsync(OnHotResUpdaterProgress);
                     if (!string.IsNullOrEmpty(err)) break;
-                }
-
-                if (WebGL.IsEnvironmentWebGL)
-                {
-                    err = await PrepareStartupResForWebGL();
                 }
             } while (false);
 
@@ -79,20 +84,19 @@ namespace Zero
         {
             try
             {
-                //预加载manifest.ab;
-                await WebGL.PreloadManifestAssetBundle();
-                //TODO 组织需要的启动资源
+                //组织需要的启动资源
                 var groups = GetStartupResGroups();
-                var itemNames = new HashSet<string>();
-                foreach (var group in groups)
-                {
-                    var itemList = Runtime.localResVer.FindGroup(group);
-                    foreach (var item in itemList)
-                    {
-                        itemNames.Add(item.name);
-                    }
-                }
+                // var itemNames = new HashSet<string>();
+                // foreach (var group in groups)
+                // {
+                //     var itemList = Runtime.localResVer.FindGroup(group);
+                //     foreach (var item in itemList)
+                //     {
+                //         itemNames.Add(item.name);
+                //     }
+                // }
 
+                var itemNames = Res.GetGroupResArray(groups);
                 await Res.Prepare(itemNames.ToArray(), info => { OnHotResUpdaterProgress(info.loadedSize, info.totalSize); });
                 return null;
             }

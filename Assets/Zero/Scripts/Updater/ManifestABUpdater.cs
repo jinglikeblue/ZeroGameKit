@@ -21,6 +21,12 @@ namespace Zero
         {
             base.Start();
 
+            if (WebGL.IsEnvironmentWebGL)
+            {
+                PrepareManifestForWebGL();
+                return;
+            }
+            
             manifestABPath = FileUtility.CombinePaths(ZeroConst.AB_DIR_NAME, ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION);
             
             if (Runtime.IsNeedNetwork && false == Runtime.netResVer.IsSameVer(manifestABPath, Runtime.localResVer))
@@ -31,6 +37,13 @@ namespace Zero
             {
                 End();
             }
+        }
+
+        public async void PrepareManifestForWebGL()
+        {
+            //预加载manifest.ab;
+            await WebGL.PrepareManifestAssetBundle();
+            End();
         }
 
         private async void UpdateManifestAB()

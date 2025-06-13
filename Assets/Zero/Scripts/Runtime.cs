@@ -100,6 +100,11 @@ namespace Zero
         public static BaseWriteableResVerModel localResVer { get; private set; }
 
         /// <summary>
+        /// 获取运行时所有的资源版本数据
+        /// </summary>
+        public static ResVerModel resVer => IsHotResEnable ? netResVer : localResVer;
+
+        /// <summary>
         /// Zero框架生成的文件的目录
         /// </summary>
         public static string generateFilesDir { get; private set; }

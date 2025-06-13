@@ -290,5 +290,18 @@ namespace ZeroEditor
 
             SpriteAtlasUtility.PackAtlases(list.ToArray(), ZeroEditorConst.BUILD_PLATFORM);
         }
+
+        /// <summary>
+        /// 清理Library下的AtlasCache文件夹
+        /// </summary>
+        public static void ClearLibraryCache()
+        {
+            var di = new DirectoryInfo(FileUtility.CombinePaths(ZeroEditorConst.PROJECT_PATH, "Library", "AtlasCache"));
+            if (di.Exists)
+            {
+                di.Delete(true);
+            }
+            Debug.Log($"清理Editor下的SpriteAtlas缓存，完成！");
+        }
     }
 }

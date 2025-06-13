@@ -76,14 +76,15 @@ namespace Zero
             {
                 //非Editor下，将会强制开启AssetBundle模式
                 data.isUseAssetBundle = true;
-                
-                if (WebGL.IsEnvironmentWebGL)
+            }
+            
+            if (WebGL.IsEnvironmentWebGL)
+            {
+                if (data.isUseDll)
                 {
-                    //TODO 思考！如果勾选了热更功能，是否资源的预载应该通过Web服务来实现，方便测试。
-                    
-                    //如果是WebGL环境，则强制关闭热更功能以及使用DLL。WebGL下，Builtin资源就是热更资源。
-                    data.isHotPatchEnable = false;
+                    //如果是WebGL环境，则强制关闭热更功能以及使用DLL。
                     data.isUseDll = false;
+                    Debug.Log($"[Zero][Launcher] WebGL环境下无法使用Dll，已自动关闭");
                 }
             }
 

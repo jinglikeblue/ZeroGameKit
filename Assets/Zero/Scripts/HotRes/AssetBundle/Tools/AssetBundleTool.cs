@@ -344,7 +344,7 @@ namespace Zero
             string abPath;
             if (WebGL.IsEnvironmentWebGL)
             {
-                abPath = WebGL.MakeAbsolutePath(abName);
+                abPath = WebGL.MakeAbsolutePath(abName, EResType.Asset);
             }
             else
             {

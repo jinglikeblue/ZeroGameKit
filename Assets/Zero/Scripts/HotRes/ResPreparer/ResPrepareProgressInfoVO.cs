@@ -49,6 +49,11 @@ namespace Zero
         /// 要预载的总大小
         /// </summary>
         public long totalSize;
+        
+        /// <summary>
+        /// 进度
+        /// </summary>
+        public float Progress => (float)loadedSize / totalSize;
 
         public override string ToString()
         {

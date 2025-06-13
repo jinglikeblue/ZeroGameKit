@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Cysharp.Threading.Tasks;
 using Jing;
 using UnityEngine;
@@ -107,49 +108,26 @@ namespace Zero
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static string MakeAbsolutePath(string path)
+        public static string MakeAbsolutePath(string path, EResType resType = EResType.Unknown)
         {
-            if (path.StartsWith(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW))
+            var hotPath = Res.TransformToHotPath(path, resType);
+            var item = Runtime.resVer.Get(hotPath);
+            if (null == item)
             {
-                return path;
+                Debug.LogError($"[Zero][WebGL] 无法获取资源版本信息： {hotPath}");
             }
 
-            if (path.StartsWith(AssetBundleFolder))
-            {
-                return FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, path);
-            }
-
-            return FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, ZeroConst.AB_DIR_NAME, path);
-        }
-
-        /// <summary>
-        /// 转换为相对路径。[ab/]开头的路径
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static string MakeRelativeAssetBundlePath(string path)
-        {
-            if (path.StartsWith(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW))
-            {
-                return path.Remove(0, ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW.Length + 1);
-            }
-
-            if (!path.StartsWith(AssetBundleFolder))
-            {
-                return FileUtility.CombinePaths(AssetBundleFolder, path);
-            }
-
-            return path;
+            return GetRequestPath(item);
         }
 
         /// <summary>
         /// 预载Manifest.ab文件
         /// </summary>
-        public static async UniTask PreloadManifestAssetBundle()
+        public static async UniTask PrepareManifestAssetBundle()
         {
             Debug.Log($"[Zero][WebGL] 预载Manifest.ab文件...");
             var abName = Res.TransformToHotPath(ZeroConst.MANIFEST_FILE_NAME + ZeroConst.AB_EXTENSION, EResType.Asset);
-            var item = Runtime.localResVer.Get(abName);
+            var item = Runtime.resVer.Get(abName);
             ManifestAssetBundle = await PrepareAssetBundle(item);
         }
 
@@ -220,7 +198,7 @@ namespace Zero
         /// <param name="onProgress"></param>
         public static async UniTask Prepare(string path, ProgressDelegate onProgress = null)
         {
-            var item = Runtime.localResVer.Get(path);
+            var item = Runtime.resVer.Get(path);
             await Prepare(item, onProgress);
         }
 
@@ -264,7 +242,7 @@ namespace Zero
             try
             {
                 //获取资源的版本信息
-                var url = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, item.ToUrlWithVer());
+                var url = GetRequestPath(item);
                 Debug.Log($"[Zero][WebGL][AssetBundle] 预载File: {url}");
 
                 using (UnityWebRequest request = UnityWebRequest.Get(url))
@@ -296,6 +274,14 @@ namespace Zero
             return cache;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static string GetRequestPath(ResVerVO.Item item)
+        {
+            var root = Runtime.IsHotResEnable ? Runtime.netResDir : ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW;
+            var path = FileUtility.CombinePaths(root, item.ToUrlWithVer());
+            return path;
+        }
+
         /// <summary>
         /// 请求AssetBundle
         /// </summary>
@@ -314,7 +300,7 @@ namespace Zero
             RegisterPreparingPath(item.name, onProgress);
             try
             {
-                var url = FileUtility.CombinePaths(ZeroConst.STREAMING_ASSETS_RES_DATA_PATH_FOR_WWW, item.ToUrlWithVer());
+                var url = GetRequestPath(item);
                 Debug.Log($"[Zero][WebGL][AssetBundle] 预载AssetBundle: {url}");
 
                 using (var request = UnityWebRequestAssetBundle.GetAssetBundle(url))
