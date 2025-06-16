@@ -140,6 +140,6 @@ namespace Zero
         /// </summary>
         /// <param name="abName"></param>
         /// <returns></returns>
-        public abstract UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName);
+        public abstract UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName, Action<float> onProgress = null);
     }
 }

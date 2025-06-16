@@ -51,7 +51,7 @@ namespace Zero
             return null;
         }
 
-        public override UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName)
+        public override UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName, Action<float> onProgress = null)
         {
             throw new NotImplementedException();
         }

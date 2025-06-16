@@ -53,7 +53,7 @@ namespace Zero
         /// </summary>
         /// <param name="path"></param>
         /// <param name="pd"></param>
-        static void RegisterPreparingPath(string path, ProgressDelegate pd)
+        private static void RegisterPreparingPath(string path, ProgressDelegate pd)
         {
             if (_preparingPathToDelegateSetDict.TryGetValue(path, out var set))
             {
@@ -70,7 +70,7 @@ namespace Zero
         /// 注销一个预加载路径
         /// </summary>
         /// <param name="path"></param>
-        static void UnregisterPreparingPath(string path)
+        private static void UnregisterPreparingPath(string path)
         {
             _preparingPathToDelegateSetDict.Remove(path);
         }
@@ -79,7 +79,7 @@ namespace Zero
         /// 更新正在预加载的进度
         /// </summary>
         /// <param name="progress"></param>
-        static void UpdatePreparingPath(string path, float progress)
+        private static void UpdatePreparingPath(string path, float progress)
         {
             if (_preparingPathToDelegateSetDict.TryGetValue(path, out var set))
             {
@@ -208,7 +208,7 @@ namespace Zero
         /// </summary>
         /// <param name="item"></param>
         /// <param name="onProgress"></param>
-        public static async UniTask Prepare(ResVerVO.Item item, ProgressDelegate onProgress = null)
+        private static async UniTask Prepare(ResVerVO.Item item, ProgressDelegate onProgress = null)
         {
             var resType = Res.GetResType(item.name);
             switch (resType)
@@ -229,7 +229,7 @@ namespace Zero
         /// <param name="path"></param>
         /// <param name="onProgress"></param>
         /// <returns></returns>
-        public static async UniTask<byte[]> PrepareFile(ResVerVO.Item item, ProgressDelegate onProgress = null)
+        private static async UniTask<byte[]> PrepareFile(ResVerVO.Item item, ProgressDelegate onProgress = null)
         {
             var cache = GetFile(item.name);
             if (cache != null)
@@ -288,9 +288,9 @@ namespace Zero
         /// <param name="item"></param>
         /// <param name="onProgress"></param>
         /// <returns></returns>
-        public static async UniTask<AssetBundle> PrepareAssetBundle(ResVerVO.Item item, ProgressDelegate onProgress = null)
+        private static async UniTask<AssetBundle> PrepareAssetBundle(ResVerVO.Item item, ProgressDelegate onProgress = null)
         {
-            //TODO 在这里检查依赖是否会更好
+            //TODO 思考：在这里检查依赖是否会更好，还是统一要求从Res.Prepare方法中预载资源
             // Assets.GetDepends(item.name);
             
             var cache = GetAssetBundle(item.name);

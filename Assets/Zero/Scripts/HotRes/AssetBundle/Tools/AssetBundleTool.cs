@@ -192,28 +192,29 @@ namespace Zero
             return ab;
         }
 
-        public override async UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName)
+        public override async UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName, Action<float> onProgress = null)
         {
-            return await LoadAssetBundleAsync(abName);
+            var ab = await LoadAssetBundleAsync(abName, onProgress);
+            return ab;
         }
 
-        public override void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
+        public override async void LoadAsync(string abName, string assetName, Action<UnityEngine.Object> onLoaded, Action<float> onProgress = null)
         {
-            AssetBundle ab = LoadAssetBundle(abName);
+            AssetBundle ab = await LoadAssetBundleAsync(abName, onProgress);
             LoadAsync<UnityEngine.Object>(ab, assetName, onLoaded, onProgress);
         }
 
-        public override void LoadAsync<T>(string abName, string assetName, Action<T> onLoaded,
+        public override async void LoadAsync<T>(string abName, string assetName, Action<T> onLoaded,
             Action<float> onProgress = null)
         {
-            AssetBundle ab = LoadAssetBundle(abName);
+            AssetBundle ab = await LoadAssetBundleAsync(abName, onProgress);
             LoadAsync(ab, assetName, onLoaded, onProgress);
         }
 
-        public override void LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded,
+        public override async void LoadAllAsync(string abName, Action<UnityEngine.Object[]> onLoaded,
             Action<float> onProgress = null)
         {
-            AssetBundle ab = LoadAssetBundle(abName);
+            AssetBundle ab = await LoadAssetBundleAsync(abName, onProgress);
             LoadAllAsync(ab, onLoaded, onProgress);
         }
 
@@ -430,15 +431,17 @@ namespace Zero
         /// 异步加载AB包，自动处理依赖问题
         /// </summary>
         /// <param name="abName"></param>
+        /// <param name="onProgress">如果资源存在预载的情况，该委托会更新进度信息</param>
         /// <returns></returns>
-        private async UniTask<AssetBundle> LoadAssetBundleAsync(string abName)
+        private async UniTask<AssetBundle> LoadAssetBundleAsync(string abName, Action<float> onProgress)
         {
-            if (WebGL.IsEnvironmentWebGL)
+            //预载资源
+            await Res.Prepare(new string[] { abName }, info =>
             {
-                await WebGL.Prepare(abName);
-            }
+                onProgress?.Invoke(info.Progress);
+            });
 
-            throw new Exception("TODO");
+            return LoadAssetBundle(abName);
         }
     }
 }

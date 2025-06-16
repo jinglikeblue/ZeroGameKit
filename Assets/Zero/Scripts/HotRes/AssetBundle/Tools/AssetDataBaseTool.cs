@@ -141,9 +141,11 @@ namespace Zero
             return null;
         }
 
-        public override async UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName)
+        public override async UniTask<AssetBundle> TryLoadAssetBundleAsync(string abName, Action<float> onProgress = null)
         {
+            onProgress?.Invoke(0);
             await UniTask.NextFrame();
+            onProgress?.Invoke(1);
             return null;
         }
 

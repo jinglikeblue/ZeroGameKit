@@ -884,6 +884,8 @@ namespace Zero
         /// <param name="onProgressUpdate"></param>
         public static async UniTask Prepare(string[] paths, PrepareProgressDelegate onProgressUpdate = null)
         {
+            if (false == Runtime.IsUseAssetBundle) return;
+            
             var rp = new ResPreparer(paths);
             rp.Start();
             while (!rp.IsDone)
