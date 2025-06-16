@@ -18,12 +18,22 @@ namespace ZeroEditor
     [UnityEditor.InitializeOnLoadAttribute]
     public static class ToolbarExtensions
     {
-        private static readonly GUIContent GenerateResDefineScriptIconContent = EditorGUIUtility.IconContent("d_PreTexR");
+        /*
+         * 备用图标
+         * 位图字体：TextMesh Icon，GUIText Icon
+         * 冗余资源检查：d_ViewToolZoom，d_MeshRenderer Icon，d_RenderTexture Icon，d_SpriteRenderer Icon，d_TilemapRenderer Icon
+         */
+
+        /// <summary>
+        /// d_TextScriptImporter Icon
+        /// d_PreTexR
+        /// </summary>
+        private static readonly GUIContent GenerateResDefineScriptIconContent = EditorGUIUtility.IconContent("d_TextScriptImporter Icon");
 
         private static readonly GUIContent ProjectFolderIconContent = EditorGUIUtility.IconContent("FolderOpened On Icon");
 
-        // 备选图标：「cs Script Icon」
-        private static readonly GUIContent GenerateHotScriptsIconContent = EditorGUIUtility.IconContent("cs Script Icon");
+        // 备选图标：「cs Script Icon」[d_Assembly Icon]
+        private static readonly GUIContent GenerateHotScriptsIconContent = EditorGUIUtility.IconContent("AssemblyDefinitionAsset Icon");
 
         /// <summary>
         /// AssetImport工具图标
@@ -39,6 +49,21 @@ namespace ZeroEditor
         /// SpriteAtlas工具图标
         /// </summary>
         private static readonly GUIContent SpriteAtlasToolsIconContent = EditorGUIUtility.IconContent("d_SpriteAtlasAsset Icon");
+
+        /// <summary>
+        /// 字体管理工具
+        /// </summary>
+        private static readonly GUIContent FontToolIconContent = EditorGUIUtility.IconContent("d_Font Icon");
+
+        /// <summary>
+        /// 位图字体工具
+        /// </summary>
+        private static readonly GUIContent BitmapFontIconContent = EditorGUIUtility.IconContent("GUIText Icon");
+
+        /// <summary>
+        /// 冗余资源检查工具图标
+        /// </summary>
+        private static readonly GUIContent RedundancyResourcesCleanToolsIconContent = EditorGUIUtility.IconContent("d_TilemapRenderer Icon");
 
         private static GUIStyle _style;
 
@@ -69,6 +94,9 @@ namespace ZeroEditor
 
             SwitchToStartupSceneIconContent.tooltip = $"切换场景至: StartupScene";
             SpriteAtlasToolsIconContent.tooltip = "SpriteAtlas 管理";
+            FontToolIconContent.tooltip = "字体替换";
+            RedundancyResourcesCleanToolsIconContent.tooltip = "冗余资源检查";
+            BitmapFontIconContent.tooltip = "位图字体创建";
         }
 
 
@@ -96,7 +124,7 @@ namespace ZeroEditor
             }
 
             GUILayout.Label("|");
-            
+
             if (GUILayout.Button(GenerateHotScriptsIconContent, _style))
             {
                 // EditorUtility.DisplayProgressBar("代码生成", "生成热更程序集(dll)", 0);
@@ -114,9 +142,9 @@ namespace ZeroEditor
                 EditorUtility.ClearProgressBar();
             }
             // }
-            
+
             GUILayout.Label("|");
-            
+
             if (GUILayout.Button(AssetImportToolsIconContent, _style))
             {
                 ToolbarEditorMenu.AssetsOptimizeTools();
@@ -126,9 +154,24 @@ namespace ZeroEditor
             {
                 ToolbarEditorMenu.SpriteAtlasTools();
             }
-            
+
+            if (GUILayout.Button(RedundancyResourcesCleanToolsIconContent, _style))
+            {
+                ToolbarEditorMenu.RedundancyResourcesCleanTools();
+            }
+
+            if (GUILayout.Button(FontToolIconContent, _style))
+            {
+                ToolbarEditorMenu.FontSwitchTools();
+            }
+
+            if (GUILayout.Button(BitmapFontIconContent, _style))
+            {
+                ToolbarEditorMenu.CreateBitmapFontGUITools();
+            }
+
             GUILayout.Label("|");
-            
+
             if (GUILayout.Button(SwitchToStartupSceneIconContent, _style))
             {
                 const string startupScenePath = "Assets/StartupScene.unity";
