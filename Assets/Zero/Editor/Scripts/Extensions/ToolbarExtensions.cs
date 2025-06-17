@@ -62,8 +62,9 @@ namespace ZeroEditor
 
         /// <summary>
         /// 冗余资源检查工具图标
+        /// d_TilemapRenderer Icon
         /// </summary>
-        private static readonly GUIContent RedundancyResourcesCleanToolsIconContent = EditorGUIUtility.IconContent("d_TilemapRenderer Icon");
+        private static readonly GUIContent RedundancyResourcesCleanToolsIconContent = EditorGUIUtility.IconContent("d_TreeEditor.Trash");
         
         /// <summary>
         /// 热更资源构建图标
