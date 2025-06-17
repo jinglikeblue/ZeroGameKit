@@ -97,7 +97,7 @@ namespace ZeroEditor
 
             ProjectFolderPath = FileUtility.StandardizeBackslashSeparator(Path.GetDirectoryName(Application.dataPath));
 
-            ProjectFolderIconContent.tooltip = $"访问项目目录：{ProjectFolderPath}";
+            ProjectFolderIconContent.tooltip = $"{ProjectFolderPath}";
 
             SwitchToStartupSceneIconContent.tooltip = $"切换场景至: StartupScene";
             SpriteAtlasToolsIconContent.tooltip = "SpriteAtlas 管理";
