@@ -64,6 +64,12 @@ namespace ZeroEditor
         /// 冗余资源检查工具图标
         /// </summary>
         private static readonly GUIContent RedundancyResourcesCleanToolsIconContent = EditorGUIUtility.IconContent("d_TilemapRenderer Icon");
+        
+        /// <summary>
+        /// 热更资源构建图标
+        /// d_FilterByType，d_PreMatCylinder，d_BlendTree Icon，Skybox Icon，d_CloudConnect，d_Profiler.GlobalIllumination
+        /// </summary>
+        private static readonly GUIContent HotResBuildIconContent = EditorGUIUtility.IconContent("d_Profiler.GlobalIllumination");
 
         private static GUIStyle _style;
 
@@ -97,6 +103,7 @@ namespace ZeroEditor
             FontToolIconContent.tooltip = "字体替换";
             RedundancyResourcesCleanToolsIconContent.tooltip = "冗余资源检查";
             BitmapFontIconContent.tooltip = "位图字体创建";
+            HotResBuildIconContent.tooltip = "热更构建";
         }
 
 
@@ -123,6 +130,13 @@ namespace ZeroEditor
                 Application.OpenURL(ProjectFolderPath);
             }
 
+            GUILayout.Label("|");
+            
+            if (GUILayout.Button(HotResBuildIconContent, _style))
+            {
+                ToolbarEditorMenu.HotResBuild();
+            }
+            
             GUILayout.Label("|");
 
             if (GUILayout.Button(GenerateHotScriptsIconContent, _style))
