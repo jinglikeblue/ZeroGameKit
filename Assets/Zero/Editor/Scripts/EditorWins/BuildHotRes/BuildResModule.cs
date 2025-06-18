@@ -106,6 +106,7 @@ namespace ZeroEditor
 
         void CopyToBuiltinDir(bool isRefreshAssetDatabase)
         {
+            CleanBuiltinDir(false);
             if (EditorUtility.DisplayDialog("确定窗口", "确定拷贝构建内容到'StreamingAssets/res'？", "是", "否"))
             {
                 FileUtility.CopyDir(ZeroEditorConst.PUBLISH_RES_ROOT_DIR, ZeroConst.STREAMING_ASSETS_RES_DATA_PATH);
@@ -126,7 +127,16 @@ namespace ZeroEditor
         [Button("清空内嵌资源目录", ButtonSizes.Large), PropertyOrder(901)]
         void CleanBuiltinDir()
         {
-            if (EditorUtility.DisplayDialog("确定窗口", $"确定清空'{ZeroConst.BuiltinResRootFolder}'目录？", "是", "否"))
+            CleanBuiltinDir(true);
+        }
+
+        /// <summary>
+        /// 清空内嵌资源目录
+        /// </summary>
+        /// <param name="isShowConfirmWindow">是否展示确认提示窗口</param>
+        void CleanBuiltinDir(bool isShowConfirmWindow)
+        {
+            if (false == isShowConfirmWindow || EditorUtility.DisplayDialog("确定窗口", $"确定清空'{ZeroConst.BuiltinResRootFolder}'目录？", "是", "否"))
             {
                 if (Directory.Exists(ZeroConst.BuiltinResRootFolder))
                 {
