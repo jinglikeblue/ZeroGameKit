@@ -122,7 +122,8 @@ namespace Zero
 
         private async UniTask StartPrepareHotRes()
         {
-            throw new Exception("TODO");
+            //TODO 考虑是否需要实现
+            return;
         }
     }
 }
