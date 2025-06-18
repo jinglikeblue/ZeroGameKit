@@ -126,6 +126,12 @@ namespace Demo
 
         private void SetProgress(long loadedSize, long totalSize)
         {
+            if (0 == totalSize)
+            {
+                text.text = string.Empty;
+                return;
+            }
+            
             float totalMB = totalSize / 1024 / 1024f;
             float loadedMB = loadedSize / 1024 / 1024f;
             var progress = (int)((float)loadedSize / totalSize * 100);

@@ -47,6 +47,10 @@ namespace ZeroGameKit
 
         private void OnProgress(float progress)
         {
+            if (float.IsNaN(progress))
+            {
+                progress = 0;
+            } 
             Debug.Log("[MainStartupPanel]加载进度：" + progress);
         }
 

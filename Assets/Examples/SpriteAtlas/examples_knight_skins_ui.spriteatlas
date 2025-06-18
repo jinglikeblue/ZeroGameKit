@@ -7,7 +7,6 @@ SpriteAtlas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: examples_knight_skins_ui
-  serializedVersion: 2
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -99,4 +98,3 @@ SpriteAtlas:
   m_RenderDataMap: {}
   m_Tag: examples_knight_skins_ui
   m_IsVariant: 0
-  m_IsPlaceholder: 0
