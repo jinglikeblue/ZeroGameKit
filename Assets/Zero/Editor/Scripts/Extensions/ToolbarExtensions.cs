@@ -65,12 +65,17 @@ namespace ZeroEditor
         /// d_TilemapRenderer Icon
         /// </summary>
         private static readonly GUIContent RedundancyResourcesCleanToolsIconContent = EditorGUIUtility.IconContent("d_TreeEditor.Trash");
-        
+
         /// <summary>
         /// 热更资源构建图标
         /// d_FilterByType，d_PreMatCylinder，d_BlendTree Icon，Skybox Icon，d_CloudConnect，d_Profiler.GlobalIllumination
         /// </summary>
         private static readonly GUIContent HotResBuildIconContent = EditorGUIUtility.IconContent("d_Profiler.GlobalIllumination");
+
+        /// <summary>
+        /// iOS平台配置
+        /// </summary>
+        private static readonly GUIContent iOSProjectInitIconContent = EditorGUIUtility.IconContent("BuildSettings.iPhone On");
 
         private static GUIStyle _style;
 
@@ -105,6 +110,7 @@ namespace ZeroEditor
             RedundancyResourcesCleanToolsIconContent.tooltip = "冗余资源检查";
             BitmapFontIconContent.tooltip = "位图字体创建";
             HotResBuildIconContent.tooltip = "热更构建";
+            iOSProjectInitIconContent.tooltip = "iOS平台构建自动化配置";
         }
 
 
@@ -132,12 +138,21 @@ namespace ZeroEditor
             }
 
             GUILayout.Label("|");
-            
+
+#if UNITY_IOS
+            if (GUILayout.Button("iOS"))
+            {
+                IOS.IOSProjectInitEditorWin.Open();
+            }
+
+            GUILayout.Label("|");
+#endif
+
             if (GUILayout.Button(HotResBuildIconContent, _style))
             {
                 ToolbarEditorMenu.HotResBuild();
             }
-            
+
             GUILayout.Label("|");
 
             if (GUILayout.Button(GenerateHotScriptsIconContent, _style))
