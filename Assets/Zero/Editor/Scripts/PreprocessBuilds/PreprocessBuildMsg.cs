@@ -55,10 +55,15 @@ namespace ZeroEditor
         {
             //如果启动了dll，且打包方式为IL2CPP，则启用HybridCLR
             bool isHybridClrEnable = false;
-            var setting = LauncherSetting.LoadLauncherSettingDataFromResources();
-            if (setting.isUseDll && ZeroEditorUtility.IsScriptingBackendIL2CPP)
+            
+            //目标平台是WegGL时，强制关闭HybridCLR
+            if (ZeroEditorConst.BUILD_PLATFORM != BuildTarget.WebGL)
             {
-                isHybridClrEnable = true;
+                var setting = LauncherSetting.LoadLauncherSettingDataFromResources();
+                if (setting.isUseDll && ZeroEditorUtility.IsScriptingBackendIL2CPP)
+                {
+                    isHybridClrEnable = true;
+                }
             }
 
             HybridCLRSettings.Instance.enable = isHybridClrEnable;
