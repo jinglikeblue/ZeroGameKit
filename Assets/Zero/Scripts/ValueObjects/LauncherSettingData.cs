@@ -13,8 +13,8 @@ namespace Zero
     [HideLabel]
     public class LauncherSettingData
     {
-        [Title("基础")]                               
-        [SuffixLabel("关闭日志打印可以提高执行效率")]        
+        [Title("基础")]
+        [SuffixLabel("关闭日志打印可以提高执行效率")]
         [LabelText("是否允许打印日志")]
         [OnValueChanged("OnValueChanged")]
         public bool isLogEnable = true;
@@ -28,28 +28,35 @@ namespace Zero
         // [LabelText("启动方法(静态)"), DisplayAsString]
         // protected string methodName = ZeroConst.LOGIC_SCRIPT_STARTUP_METHOD;
 
-        [Title("资源加载")] 
+        [Title("资源加载")]
         [InfoBox("「启用」ResMgr通过AssetBundle相关接口加载资源。", VisibleIf = "isUseAssetBundle")]
         [InfoBox("「关闭」ResMgr通过AssetDataBase接口加载资源。", VisibleIf = "@!isUseAssetBundle")]
         [InfoBox("<color=#D6E884>非Editor环境时，会强制使用AssetBundle模式。</color>", InfoMessageType.None)]
         [OnValueChanged("OnValueChanged")]
         [LabelText("AssetBundle模式")]
         public bool isUseAssetBundle = false;
-        
+
+#if UNITY_WEBGL
+        [Title("WebGL分包资源")]
+        [InfoBox("「启用」通过配置的根节点URL，作为资源获取的起始路径。", VisibleIf = "isHotPatchEnable")]
+        [InfoBox("「关闭」和首包资源采用同样的根节点URL，作为资源获取的起始路径。", VisibleIf = "@!isHotPatchEnable")]
+        [LabelText("重定向URL")]
+#else
         [Title("热更")]
         [InfoBox("「启用」AssetBundle模式下运行时，会自动检测网络，下载最新的网络资源。网络资源的根目录可以配置多个。框架会自动按照顺序尝试使用。", VisibleIf = "isHotPatchEnable")]
         [InfoBox("「关闭」仅使用[StreamingAssets/res]下的资源。", VisibleIf = "@!isHotPatchEnable")]
         [LabelText("热更功能")]
+#endif
         [OnValueChanged("OnValueChanged")]
         [ShowIf("isUseAssetBundle")]
         public bool isHotPatchEnable = false;
 
         [LabelText("网络资源的根目录(示例: http://YourHotResRootUrl)")]
-        [ListDrawerSettings(ShowFoldout = false, NumberOfItemsPerPage = 3, DefaultExpandedState = true)]            
+        [ListDrawerSettings(ShowFoldout = false, NumberOfItemsPerPage = 3, DefaultExpandedState = true)]
         [ShowIf("@isHotPatchEnable&&isUseAssetBundle")]
-        [OnValueChanged("OnValueChanged")]  
+        [OnValueChanged("OnValueChanged")]
         public string[] urlRoots = new string[1] { "http://YourHotResRootUrl" };
-        
+
         [LabelText("允许离线运行")]
         [ShowIf("@isUseAssetBundle&&isHotPatchEnable")]
         [OnValueChanged("OnValueChanged")]
@@ -63,6 +70,7 @@ namespace Zero
         // [InfoBox("不使用dll的情况下，Build时会自动关闭HybridCLR功能。", VisibleIf = "@!isUseDll")]
         [LabelText("使用dll")]
         [OnValueChanged("OnValueChanged")]
+        [ShowIf("CheckUseDllEnable")]
         public bool isUseDll = false;
 
 #if UNITY_EDITOR
@@ -71,7 +79,16 @@ namespace Zero
 
         void OnValueChanged()
         {
-            onChange?.Invoke();            
+            onChange?.Invoke();
+        }
+
+        bool CheckUseDllEnable()
+        {
+#if UNITY_WEBGL
+            return false;
+#endif
+
+            return true;
         }
 #endif
     }
