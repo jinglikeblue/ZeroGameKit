@@ -54,7 +54,11 @@ namespace Demo
         {
             var btnStartupT = TransformUtility.DeepFindChild(this.transform, "BtnStartup");
             var btnStartup = btnStartupT.GetComponent<Button>();
-            btnStartup.onClick.AddListener(Startup);
+            btnStartup.onClick.AddListener(() =>
+            {
+                btnStartup.gameObject.SetActive(false);
+                Startup();
+            });
         }
 
         private void OnEnable()

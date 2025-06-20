@@ -181,12 +181,12 @@ namespace ZeroEditor
                 Debug.Log($"[Zero][HybridCLR][Clean Generate] : {resourcesDir}");
             }
 
-            var linkXMLPath = FileUtility.CombinePaths(GenerateFileFolder, "link.xml");
-            if (File.Exists(linkXMLPath))
-            {
-                File.Delete(linkXMLPath);
-                Debug.Log($"[Zero][HybridCLR][Clean Generate] : {linkXMLPath}");
-            }
+            // var linkXMLPath = FileUtility.CombinePaths(GenerateFileFolder, "link.xml");
+            // if (File.Exists(linkXMLPath))
+            // {
+            //     File.Delete(linkXMLPath);
+            //     Debug.Log($"[Zero][HybridCLR][Clean Generate] : {linkXMLPath}");
+            // }
 
             if (isRefreshAssetDataBase)
             {
