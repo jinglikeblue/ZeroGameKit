@@ -11,6 +11,8 @@
 
 ## 2025-06-12
 - [框架] 平台兼容性增加。现在支持WebGL平台，可以支持发布微信小游戏。
+  
+[WebGL Demo: https://jinglikeblue.github.io/zero_webgl_demo/](https://jinglikeblue.github.io/zero_webgl_demo/)
 
 ## 2025-06-06
 - [框架] 增加工具栏扩展

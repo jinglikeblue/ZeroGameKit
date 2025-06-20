@@ -91,6 +91,12 @@ namespace Demo
                 toggleOffLineMode.gameObject.SetActive(false);
                 textNetRoots.gameObject.SetActive(false);
             }
+
+            if (WebGL.IsEnvironmentWebGL)
+            {
+                toggleUseDll.gameObject.SetActive(false);
+                toggleHotPatchMode.gameObject.SetActive(false);
+            }
         }
 
         private async void Startup()

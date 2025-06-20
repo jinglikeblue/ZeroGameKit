@@ -18,6 +18,11 @@ namespace ZeroEditor
     public static class HybridCLREditorUtility
     {
         /// <summary>
+        /// 生成文件的存放目录
+        /// </summary>
+        private static string GenerateFileFolder = FileUtility.CombinePaths(Application.dataPath, "HybridCLRGenerate");
+
+        /// <summary>
         /// 是否在使用HybridCLR
         /// </summary>
         public static bool IsHybridCLRUsed
@@ -33,7 +38,7 @@ namespace ZeroEditor
                 return false;
             }
         }
-        
+
         /// <summary>
         /// 拷贝要进行补充元数据的dlls
         /// </summary>
@@ -69,14 +74,14 @@ namespace ZeroEditor
                     EditorUtility.DisplayDialog("HybridCLR 部署出错", "当前代码编译环境并非IL2CPP，无法部署HybridCLR", "确定");
                     return;
                 }
-                
+
                 if (false == EditorUtility.DisplayDialog("提示", "仅在Build工程之前需要执行！\n耗时较长，是否继续？", "继续", "取消"))
                 {
                     return;
                 }
-                
+
                 Debug.Log($"[Zero][HybridCLR] 开始一键部署");
-                
+
                 EditorUtility.DisplayProgressBar("HybridCLR 一键部署", "检测HybridCLR安装情况", 0f);
                 Debug.Log($"[Zero][HybridCLR] 检测HybridCLR安装情况");
                 AutoInstallHybridCLR();
@@ -155,6 +160,38 @@ namespace ZeroEditor
             }
 
             return false;
+        }
+
+        [MenuItem("Test/HybridCLR/CleanGeneratedFiles")]
+        private static void CleanGeneratedFiles()
+        {
+            CleanGeneratedFiles(true);
+        }
+
+        /// <summary>
+        /// 清理HybridCLR生成的文件
+        /// </summary>
+        /// <param name="isRefreshAssetDataBase">是否调用AssetDataBase刷新</param>
+        public static void CleanGeneratedFiles(bool isRefreshAssetDataBase)
+        {
+            var resourcesDir = FileUtility.CombinePaths(GenerateFileFolder, "Resources");
+            if (Directory.Exists(resourcesDir))
+            {
+                Directory.Delete(resourcesDir, true);
+                Debug.Log($"[Zero][HybridCLR][Clean Generate] : {resourcesDir}");
+            }
+
+            var linkXMLPath = FileUtility.CombinePaths(GenerateFileFolder, "link.xml");
+            if (File.Exists(linkXMLPath))
+            {
+                File.Delete(linkXMLPath);
+                Debug.Log($"[Zero][HybridCLR][Clean Generate] : {linkXMLPath}");
+            }
+
+            if (isRefreshAssetDataBase)
+            {
+                AssetDatabase.Refresh();
+            }
         }
     }
 }

@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<linker>
+  <type fullname="Newtonsoft.Json" preserve="all" />
+  <assembly fullname="Assembly-CSharp" preserve="all" />
+</linker>
