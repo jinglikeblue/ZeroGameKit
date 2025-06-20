@@ -9,7 +9,7 @@ namespace ZeroEditor
     /// <summary>
     /// Editor下的数据持久化工具，类似PlayerPrefs
     /// </summary>
-    public static class ZeroEditorPrefs
+    public static class EditorPrefs
     {
         /// <summary>
         /// 文件保存路径
@@ -44,7 +44,7 @@ namespace ZeroEditor
         }
         */
 
-        static ZeroEditorPrefs()
+        static EditorPrefs()
         {
             if (File.Exists(FilePath))
             {
