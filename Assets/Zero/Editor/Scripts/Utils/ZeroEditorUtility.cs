@@ -18,9 +18,15 @@ namespace ZeroEditor
         {
             if (string.IsNullOrEmpty(path)) return;
 
-
+            string folder = path;
             if (Application.isEditor && Application.platform == RuntimePlatform.OSXEditor)
             {
+                //检查如果是相对路径，则要加上工程目录路径
+                if (false == path.StartsWith(ZeroEditorConst.PROJECT_PATH))
+                {
+                    path = FileUtility.CombinePaths(ZeroEditorConst.PROJECT_PATH, path);
+                }
+
                 const string MacFolderPrex = "file://";
                 if (!path.StartsWith(MacFolderPrex))
                 {
@@ -29,6 +35,7 @@ namespace ZeroEditor
                 }
             }
 
+            Debug.Log($"访问文件夹:{path} 是否存在:{Directory.Exists(folder)}");
             Application.OpenURL(path);
 
 
