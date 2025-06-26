@@ -27,11 +27,11 @@ namespace ZeroEditor
                     path = FileUtility.CombinePaths(ZeroEditorConst.PROJECT_PATH, path);
                 }
 
-                const string MacFolderPrex = "file://";
-                if (!path.StartsWith(MacFolderPrex))
+                const string macFolderPrex = "file://";
+                if (!path.StartsWith(macFolderPrex))
                 {
                     //兼容mac路径规则
-                    path = $"{MacFolderPrex}{path}";
+                    path = $"{macFolderPrex}{path}";
                 }
             }
 
