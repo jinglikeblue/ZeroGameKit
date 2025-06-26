@@ -18,6 +18,21 @@ namespace ZeroEditor
         {
             if (string.IsNullOrEmpty(path)) return;
 
+
+            if (Application.isEditor && Application.platform == RuntimePlatform.OSXEditor)
+            {
+                const string MacFolderPrex = "file://";
+                if (!path.StartsWith(MacFolderPrex))
+                {
+                    //兼容mac路径规则
+                    path = $"{MacFolderPrex}{path}";
+                }
+            }
+
+            Application.OpenURL(path);
+
+
+            /*老代码
             var fullPath = FileUtility.CombineDirs(true, ZeroEditorConst.PROJECT_PATH, path);
             if (!Directory.Exists(fullPath))
             {
@@ -35,6 +50,7 @@ namespace ZeroEditor
                 var args = string.Format("{0} {1}", "Tools/Mac/OpenDir.sh", fullPath);
                 System.Diagnostics.Process.Start("bash", args);
             }
+            */
         }
 
         /// <summary>
@@ -202,7 +218,7 @@ namespace ZeroEditor
                 return -1;
             }
         }
-        
+
         /// <summary>
         /// 是否设置的使用IL2CPP进行代码编译
         /// </summary>

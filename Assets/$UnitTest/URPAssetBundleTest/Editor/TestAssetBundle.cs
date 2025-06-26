@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using ZeroEditor;
 
 public class TestAssetBundle
 {
@@ -24,7 +25,7 @@ public class TestAssetBundle
         if (null != assetBundleManifest)
         {
             Debug.Log($"打包完成");
-            Application.OpenURL(Application.streamingAssetsPath);
+            ZeroEditorUtility.OpenDirectory(Application.streamingAssetsPath);
         }
         else
         {

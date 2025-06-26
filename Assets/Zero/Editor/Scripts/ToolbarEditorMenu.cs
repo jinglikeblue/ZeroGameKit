@@ -117,7 +117,7 @@ namespace ZeroEditor
         [MenuItem("Zero/调试/打开[Application.temporaryCachePath]目录", false, 501)]
         public static void OpenTemporaryCacheDir()
         {
-            Application.OpenURL(Application.temporaryCachePath);
+            ZeroEditorUtility.OpenDirectory(Application.temporaryCachePath);
         }
 
         [MenuItem("Zero/调试/GC", false, 502)]
@@ -140,7 +140,7 @@ namespace ZeroEditor
         [MenuItem("Zero/文件夹访问/工程目录", false, 600)]
         public static void OpenProjectFolder()
         {
-            Application.OpenURL(ZeroEditorConst.PROJECT_PATH);
+            ZeroEditorUtility.OpenDirectory(ZeroEditorConst.PROJECT_PATH);
         }
 
         [MenuItem("Zero/文件夹访问/运行时可读写目录", false, 601)]
@@ -148,7 +148,7 @@ namespace ZeroEditor
         {
             if (Directory.Exists(ZeroConst.PERSISTENT_DATA_PATH))
             {
-                Application.OpenURL(ZeroConst.PERSISTENT_DATA_PATH);
+                ZeroEditorUtility.OpenDirectory(ZeroConst.PERSISTENT_DATA_PATH);
             }
         }
 
@@ -158,7 +158,7 @@ namespace ZeroEditor
             var dir = FileUtility.CombineDirs(false, ZeroEditorConst.PROJECT_PATH, ZeroConst.ZERO_LIBRARY_DIR, "Release");
             if (Directory.Exists(dir))
             {
-                Application.OpenURL(dir);
+                ZeroEditorUtility.OpenDirectory(dir);
             }
         }
 
@@ -167,7 +167,7 @@ namespace ZeroEditor
         {
             if (Directory.Exists(ZeroConst.BuiltinResRootFolder))
             {
-                Application.OpenURL(ZeroConst.BuiltinResRootFolder);
+                ZeroEditorUtility.OpenDirectory(ZeroConst.BuiltinResRootFolder);
             }
         }
 

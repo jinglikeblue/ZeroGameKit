@@ -134,7 +134,7 @@ namespace ZeroEditor
 
             if (GUILayout.Button(ProjectFolderIconContent, _style))
             {
-                Application.OpenURL(ProjectFolderPath);
+                ZeroEditorUtility.OpenDirectory(ProjectFolderPath);
             }
 
             GUILayout.Label("|");
