@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace ZeroEditor.IOS
 {
-    class IOSPBXProjectInitModule : AEditorModule
+    class IOSPBXProjectInitModule : BaseXCodeConfigEditorModule
     {
         public enum ETargetGuid
         {
@@ -17,27 +17,17 @@ namespace ZeroEditor.IOS
             FRAMEWORK,
         }
 
-        public const string CONFIG_NAME = "ios_project_config.json";
-
-        IOSProjectInitConfigVO _cfg;
-
         IOSProjectInitConfigVO.PBXProjectSettingVO _pbxVO;
 
         public IOSPBXProjectInitModule(EditorWindow editorWin, ETargetGuid targetGuid) : base(editorWin)
         {
-            _cfg = EditorConfigUtil.LoadConfig<IOSProjectInitConfigVO>(CONFIG_NAME);
-            if (null == _cfg)
-            {
-                _cfg = new IOSProjectInitConfigVO();
-            }
-
             switch (targetGuid)
             {
                 case ETargetGuid.MAIN:
-                    _pbxVO = _cfg.main;
+                    _pbxVO = Cfg.main;
                     break;
                 case ETargetGuid.FRAMEWORK:
-                    _pbxVO = _cfg.framework;
+                    _pbxVO = Cfg.framework;
                     break;
             }
 
@@ -58,9 +48,8 @@ namespace ZeroEditor.IOS
             _pbxVO.file2BuildList = file2BuildList;
             _pbxVO.toSetBuildPropertyList = setBuildProperty;
             _pbxVO.toAddBuildPropertyList = addBuildProperty;
-            
-            EditorConfigUtil.SaveConfig(_cfg, CONFIG_NAME);
-            editorWin.ShowTip("保存成功!");
+
+            SaveConfigFile();
         }
 
         IOSProjectInitConfigVO.FrameworkInfoVO AddFramework()
@@ -71,8 +60,8 @@ namespace ZeroEditor.IOS
         [Space(20)]
         [InfoBox("把指定的 (系统自带的)framework 文件添加到 [Build Phases] 中的 [Link Binary With Libraries]")]
         [LabelText("AddFrameworkToProject"), ListDrawerSettings(DraggableItems = false, Expanded = true, CustomAddFunction = "AddFramework")]
-        [ShowInInspector]        
-        [HideReferenceObjectPicker]        
+        [ShowInInspector]
+        [HideReferenceObjectPicker]
         public IOSProjectInitConfigVO.FrameworkInfoVO[] frameworkToProjectList;
 
         [Space(20)]

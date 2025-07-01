@@ -49,11 +49,12 @@ namespace ZeroEditor.IOS
 
         public void Process()
         {
-            _cfg = EditorConfigUtil.LoadConfig<IOSProjectInitConfigVO>(IOSInfoplistInitModule.CONFIG_NAME);
+            _cfg = EditorConfigUtil.LoadConfig<IOSProjectInitConfigVO>(BaseXCodeConfigEditorModule.ConfigFile);
             if (false == _cfg.isEnable)
             {
                 return;
             }
+
             _pbxProjectPath = PBXProject.GetPBXProjectPath(_xcodeProjectPath);
             _pbx = new PBXProject();
             _pbx.ReadFromString(File.ReadAllText(_pbxProjectPath));
@@ -83,6 +84,7 @@ namespace ZeroEditor.IOS
             {
                 _pbx.AddFileToBuild(_mainGuid, fileGuid);
             }
+
             if (vo.isAddToFramework)
             {
                 _pbx.AddFileToBuild(_frameworkGuid, fileGuid);
@@ -94,15 +96,15 @@ namespace ZeroEditor.IOS
         /// </summary>
         void CopyAppIconSets()
         {
-            if(_cfg.appIconSetList.Length == 0)
+            if (_cfg.appIconSetList.Length == 0)
             {
                 return;
             }
 
-            foreach(var appIconSet in _cfg.appIconSetList)
+            foreach (var appIconSet in _cfg.appIconSetList)
             {
                 var name = Path.GetFileName(appIconSet);
-                var targetPath = FileUtility.CombineDirs(true, _xcodeProjectPath, "Unity-iPhone/Images.xcassets" , name);
+                var targetPath = FileUtility.CombineDirs(true, _xcodeProjectPath, "Unity-iPhone/Images.xcassets", name);
                 FileUtility.CopyDir(appIconSet, targetPath);
             }
 
@@ -146,6 +148,7 @@ namespace ZeroEditor.IOS
                                 {
                                     return false;
                                 }
+
                                 return true;
                             },
                             (string targetFile) =>
@@ -170,6 +173,7 @@ namespace ZeroEditor.IOS
                     {
                         targetGuid = _frameworkGuid;
                     }
+
                     _pbx.AddFileToBuildSection(targetGuid, _pbx.GetResourcesBuildPhaseByTarget(targetGuid), fileGuid);
                 }
             }
@@ -253,7 +257,7 @@ namespace ZeroEditor.IOS
                 pListEditor.AddLSApplicationQueriesScheme(whiteUrlScheme);
             }
 
-            foreach(var item in _cfg.pListAdvancedDataList)
+            foreach (var item in _cfg.pListAdvancedDataList)
             {
                 pListEditor.Add(item);
             }
@@ -328,6 +332,7 @@ namespace ZeroEditor.IOS
                 {
                     frameworkName = frameworkName.Replace(".framework", "");
                 }
+
                 var searchFlag0 = string.Format(SEARCH_FLAG_0_FORMAT, frameworkName);
                 for (int i = 0; i < lines.Length; i++)
                 {
@@ -341,6 +346,7 @@ namespace ZeroEditor.IOS
                     }
                 }
             }
+
             File.WriteAllLines(path, lines);
         }
     }

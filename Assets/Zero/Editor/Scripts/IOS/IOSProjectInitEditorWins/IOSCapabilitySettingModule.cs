@@ -9,50 +9,40 @@ using UnityEngine;
 
 namespace ZeroEditor.IOS
 {
-    class IOSCapabilitySettingModule : AEditorModule
+    class IOSCapabilitySettingModule : BaseXCodeConfigEditorModule
     {
-        public const string CONFIG_NAME = "ios_project_config.json";
-
-        IOSProjectInitConfigVO _cfg;
-
         public IOSCapabilitySettingModule(EditorWindow editorWin) : base(editorWin)
         {
-            _cfg = EditorConfigUtil.LoadConfig<IOSProjectInitConfigVO>(CONFIG_NAME);
-            if (null == _cfg)
-            {
-                _cfg = new IOSProjectInitConfigVO();
-            }
-            entitlementFilePath = _cfg.capabilitySetting.entitlementFilePath;
-            inAppPurchase = _cfg.capabilitySetting.inAppPurchase;
-            pushNotifications = _cfg.capabilitySetting.pushNotifications.enable;
-            isPushNotificationsDevelopment = _cfg.capabilitySetting.pushNotifications.development;
+            entitlementFilePath = Cfg.capabilitySetting.entitlementFilePath;
+            inAppPurchase = Cfg.capabilitySetting.inAppPurchase;
+            pushNotifications = Cfg.capabilitySetting.pushNotifications.enable;
+            isPushNotificationsDevelopment = Cfg.capabilitySetting.pushNotifications.development;
 #if UNITY_IPHONE
-            backgroundModes = _cfg.capabilitySetting.backgroundModes;
+            backgroundModes = Cfg.capabilitySetting.backgroundModes;
 #endif
-            associatedDomains = _cfg.capabilitySetting.associatedDomains;
-            signInWithApple = _cfg.capabilitySetting.signInWithApple;
-            accessWiFiInformation = _cfg.capabilitySetting.accessWiFiInformation;
-            gameCener = _cfg.capabilitySetting.gameCener;
+            associatedDomains = Cfg.capabilitySetting.associatedDomains;
+            signInWithApple = Cfg.capabilitySetting.signInWithApple;
+            accessWiFiInformation = Cfg.capabilitySetting.accessWiFiInformation;
+            gameCener = Cfg.capabilitySetting.gameCener;
         }
 
         [Title("Capability 配置", titleAlignment: TitleAlignments.Centered)]
         [Button("保存配置", ButtonSizes.Large), PropertyOrder(-1)]
         void SaveConfig()
         {
-            _cfg.capabilitySetting.entitlementFilePath = entitlementFilePath;
-            _cfg.capabilitySetting.inAppPurchase = inAppPurchase;
-            _cfg.capabilitySetting.pushNotifications.enable = pushNotifications;
-            _cfg.capabilitySetting.pushNotifications.development = isPushNotificationsDevelopment;
+            Cfg.capabilitySetting.entitlementFilePath = entitlementFilePath;
+            Cfg.capabilitySetting.inAppPurchase = inAppPurchase;
+            Cfg.capabilitySetting.pushNotifications.enable = pushNotifications;
+            Cfg.capabilitySetting.pushNotifications.development = isPushNotificationsDevelopment;
 #if UNITY_IPHONE
-            _cfg.capabilitySetting.backgroundModes = backgroundModes;
+            Cfg.capabilitySetting.backgroundModes = backgroundModes;
 #endif
-            _cfg.capabilitySetting.associatedDomains = associatedDomains;
-            _cfg.capabilitySetting.signInWithApple = signInWithApple;
-            _cfg.capabilitySetting.accessWiFiInformation = accessWiFiInformation;
-            _cfg.capabilitySetting.gameCener = gameCener;
+            Cfg.capabilitySetting.associatedDomains = associatedDomains;
+            Cfg.capabilitySetting.signInWithApple = signInWithApple;
+            Cfg.capabilitySetting.accessWiFiInformation = accessWiFiInformation;
+            Cfg.capabilitySetting.gameCener = gameCener;
 
-            EditorConfigUtil.SaveConfig(_cfg, CONFIG_NAME);
-            editorWin.ShowTip("保存成功!");
+            SaveConfigFile();
         }
 
         [Space(20)]
@@ -61,7 +51,7 @@ namespace ZeroEditor.IOS
         [LabelText("entitlements file")]
         public string entitlementFilePath;
 
-        [Space(20)]        
+        [Space(20)]
         [DisplayAsString]
         [Title("Apple支付")]
         [LabelText("In-App Purchase")]

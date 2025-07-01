@@ -10,21 +10,11 @@ using UnityEngine;
 
 namespace ZeroEditor.IOS
 {
-    class IOSCopyFilesToXCodeModule : AEditorModule
+    class IOSCopyFilesToXCodeModule : BaseXCodeConfigEditorModule
     {
-        public const string CONFIG_NAME = "ios_project_config.json";
-
-        IOSProjectInitConfigVO _cfg;
-
         public IOSCopyFilesToXCodeModule(EditorWindow editorWin) : base(editorWin)
         {
-            _cfg = EditorConfigUtil.LoadConfig<IOSProjectInitConfigVO>(CONFIG_NAME);
-            if (null == _cfg)
-            {
-                _cfg = new IOSProjectInitConfigVO();
-            }
-
-            foreach(var item in _cfg.copyInfoList)
+            foreach (var item in Cfg.copyInfoList)
             {
                 copyFileList.Add(new CopyFile(item));
             }
@@ -35,18 +25,17 @@ namespace ZeroEditor.IOS
         void SaveConfig()
         {
             List<IOSProjectInitConfigVO.CopyInfoVO> list = new List<IOSProjectInitConfigVO.CopyInfoVO>();
-            foreach(var item in copyFileList)
+            foreach (var item in copyFileList)
             {
                 list.Add(item.VO);
             }
 
-            _cfg.copyInfoList = list.ToArray();
+            Cfg.copyInfoList = list.ToArray();
 
-            EditorConfigUtil.SaveConfig(_cfg, CONFIG_NAME);
-            editorWin.ShowTip("保存成功!");
+            SaveConfigFile();
         }
 
-        [Space(20)]        
+        [Space(20)]
         [LabelText("拷贝文件")]
         [ListDrawerSettings(DraggableItems = false, NumberOfItemsPerPage = 5, Expanded = true, ShowIndexLabels = true)]
         public List<CopyFile> copyFileList = new List<CopyFile>();
@@ -64,6 +53,7 @@ namespace ZeroEditor.IOS
                     {
                         _vo = new IOSProjectInitConfigVO.CopyInfoVO();
                     }
+
                     _vo.fromPath = fromPath;
                     _vo.toPath = toPath;
                     _vo.isAddToMain = isAddToMain;
@@ -90,7 +80,7 @@ namespace ZeroEditor.IOS
             /// </summary>
             public string fromPath;
 
-            [InfoBox("相对于XCode工程目录的路径(可以指向文件或文件夹)", InfoMessageType.None)]            
+            [InfoBox("相对于XCode工程目录的路径(可以指向文件或文件夹)", InfoMessageType.None)]
             /// <summary>
             /// 相对于XCode工程目录的路径
             /// </summary>

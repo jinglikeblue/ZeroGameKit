@@ -10,40 +10,28 @@ using ZeroEditor.IOS;
 
 namespace ZeroEditor.IOS
 {
-    class IOSInfoplistInitModule : AEditorModule
+    class IOSInfoplistInitModule : BaseXCodeConfigEditorModule
     {
-        public const string CONFIG_NAME = "ios_project_config.json";
-
-        IOSProjectInitConfigVO _cfg;
-
         public IOSInfoplistInitModule(EditorWindow editorWin) : base(editorWin)
         {
-            _cfg = EditorConfigUtil.LoadConfig<IOSProjectInitConfigVO>(CONFIG_NAME);
-            if (null == _cfg)
-            {
-                _cfg = new IOSProjectInitConfigVO();
-            }
-
-            addPListInfo = _cfg.pListDataList;
-            urlSchemeList = _cfg.urlSchemeList;
-            deletePListDataKeyList = _cfg.deletePListDataKeyList;
-            appQueriesSchemeList = _cfg.appQueriesSchemeList;
-            pListAdvancedDataList = _cfg.pListAdvancedDataList;
+            addPListInfo = Cfg.pListDataList;
+            urlSchemeList = Cfg.urlSchemeList;
+            deletePListDataKeyList = Cfg.deletePListDataKeyList;
+            appQueriesSchemeList = Cfg.appQueriesSchemeList;
+            pListAdvancedDataList = Cfg.pListAdvancedDataList;
         }
 
         [Title("Info.plist 配置", titleAlignment: TitleAlignments.Centered)]
         [Button("保存配置", ButtonSizes.Large), PropertyOrder(-1)]
         void SaveConfig()
         {
-            _cfg.pListDataList = addPListInfo;
-            _cfg.urlSchemeList = urlSchemeList;
-            _cfg.appQueriesSchemeList = appQueriesSchemeList;
-            _cfg.deletePListDataKeyList = deletePListDataKeyList;
-            _cfg.pListAdvancedDataList = pListAdvancedDataList;
-
-
-            EditorConfigUtil.SaveConfig(_cfg, CONFIG_NAME);
-            editorWin.ShowTip("保存成功!");
+            Cfg.pListDataList = addPListInfo;
+            Cfg.urlSchemeList = urlSchemeList;
+            Cfg.appQueriesSchemeList = appQueriesSchemeList;
+            Cfg.deletePListDataKeyList = deletePListDataKeyList;
+            Cfg.pListAdvancedDataList = pListAdvancedDataList;
+            
+            SaveConfigFile();
         }
 
         void AddIOSInfoPListDictionaryItem()

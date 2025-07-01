@@ -14,8 +14,8 @@ namespace ZeroEditor
 
         public AEditorModule(EditorWindow editorWin)
         {
-            this.editorWin = editorWin;            
-        }                
+            this.editorWin = editorWin;
+        }
 
         /// <summary>
         /// 显示提示信息
@@ -26,18 +26,17 @@ namespace ZeroEditor
             editorWin.ShowTip(content);
         }
 
-        public void ShowTip(string content, params object[] args) {
+        public void ShowTip(string content, params object[] args)
+        {
             ShowTip(string.Format(content, args));
         }
 
         public virtual void OnEnable()
         {
-
         }
 
         public virtual void OnDisable()
         {
-
         }
     }
 }
