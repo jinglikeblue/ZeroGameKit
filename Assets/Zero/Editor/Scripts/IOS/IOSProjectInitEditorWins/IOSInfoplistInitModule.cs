@@ -21,17 +21,27 @@ namespace ZeroEditor.IOS
             pListAdvancedDataList = Cfg.pListAdvancedDataList;
         }
 
-        [Title("Info.plist 配置", titleAlignment: TitleAlignments.Centered)]
-        [Button("保存配置", ButtonSizes.Large), PropertyOrder(-1)]
-        void SaveConfig()
+        void CacheConfig()
         {
             Cfg.pListDataList = addPListInfo;
             Cfg.urlSchemeList = urlSchemeList;
             Cfg.appQueriesSchemeList = appQueriesSchemeList;
             Cfg.deletePListDataKeyList = deletePListDataKeyList;
             Cfg.pListAdvancedDataList = pListAdvancedDataList;
-            
+        }
+
+        [Title("Info.plist 配置", titleAlignment: TitleAlignments.Centered)]
+        [Button("保存配置", ButtonSizes.Large), PropertyOrder(-1)]
+        void SaveConfig()
+        {
+            CacheConfig();
             SaveConfigFile();
+        }
+
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            CacheConfig();
         }
 
         void AddIOSInfoPListDictionaryItem()

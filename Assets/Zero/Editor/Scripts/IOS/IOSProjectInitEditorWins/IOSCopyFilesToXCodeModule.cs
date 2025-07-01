@@ -24,6 +24,13 @@ namespace ZeroEditor.IOS
         [Button("保存配置", ButtonSizes.Large), PropertyOrder(-1)]
         void SaveConfig()
         {
+            CacheConfig();
+            SaveConfigFile();
+        }
+
+        void CacheConfig()
+        {
+            base.OnDisable();
             List<IOSProjectInitConfigVO.CopyInfoVO> list = new List<IOSProjectInitConfigVO.CopyInfoVO>();
             foreach (var item in copyFileList)
             {
@@ -31,8 +38,12 @@ namespace ZeroEditor.IOS
             }
 
             Cfg.copyInfoList = list.ToArray();
+        }
 
-            SaveConfigFile();
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            CacheConfig();
         }
 
         [Space(20)]

@@ -1,9 +1,4 @@
 ﻿using Sirenix.OdinInspector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -30,6 +25,12 @@ namespace ZeroEditor.IOS
         [Button("保存配置", ButtonSizes.Large), PropertyOrder(-1)]
         void SaveConfig()
         {
+            CacheConfig();
+            SaveConfigFile();
+        }
+
+        void CacheConfig()
+        {
             Cfg.capabilitySetting.entitlementFilePath = entitlementFilePath;
             Cfg.capabilitySetting.inAppPurchase = inAppPurchase;
             Cfg.capabilitySetting.pushNotifications.enable = pushNotifications;
@@ -41,8 +42,12 @@ namespace ZeroEditor.IOS
             Cfg.capabilitySetting.signInWithApple = signInWithApple;
             Cfg.capabilitySetting.accessWiFiInformation = accessWiFiInformation;
             Cfg.capabilitySetting.gameCener = gameCener;
+        }
 
-            SaveConfigFile();
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            CacheConfig();
         }
 
         [Space(20)]

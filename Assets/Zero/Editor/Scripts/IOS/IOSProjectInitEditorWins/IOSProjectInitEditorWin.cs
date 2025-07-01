@@ -22,14 +22,12 @@ namespace ZeroEditor.IOS
             win.position = rect;
         }
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-        }
+        private BaseXCodeConfigEditorModule _lastSelected = null;
 
         protected override OdinMenuTree BuildMenuTree()
         {
             OdinMenuTree tree = new OdinMenuTree();
+            tree.Selection.SelectionChanged += OnSelectionChanged;
             tree.Config.DrawSearchToolbar = false;
             tree.Add("全局配置", new IOSGlobalSettingModule(this));
             tree.Add("Capability 配置", new IOSCapabilitySettingModule(this));
@@ -38,6 +36,40 @@ namespace ZeroEditor.IOS
             tree.Add("Unity-iPhone 配置", new IOSPBXProjectInitModule(this, IOSPBXProjectInitModule.ETargetGuid.MAIN));
             tree.Add("UnityFramework 配置", new IOSPBXProjectInitModule(this, IOSPBXProjectInitModule.ETargetGuid.FRAMEWORK));            
             return tree;
+        }
+
+        private void OnSelectionChanged(SelectionChangedType type)
+        {
+            var selected = MenuTree.Selection.SelectedValue as BaseXCodeConfigEditorModule;
+            
+            switch (type)
+            {
+                case SelectionChangedType.ItemRemoved:
+                    break;
+                case SelectionChangedType.ItemAdded:
+                    if (null != selected)
+                    {
+                        _lastSelected = selected;
+                        selected.OnEnable();
+                    }
+                    break;
+                case SelectionChangedType.SelectionCleared:
+                    if (null != _lastSelected)
+                    {
+                        _lastSelected.OnDisable();
+                        _lastSelected = null;
+                    }
+                    break;
+            }     
+            
+            
+            if (null == selected)
+            {
+                _lastSelected?.OnDisable();
+                return;
+            }
+            
+            
         }
     }
 }

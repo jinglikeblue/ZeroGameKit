@@ -39,17 +39,27 @@ namespace ZeroEditor.IOS
             addBuildProperty = _pbxVO.toAddBuildPropertyList;
         }
 
-        [Title("PBXProject 配置", titleAlignment: TitleAlignments.Centered)]
-        [Button("保存配置", ButtonSizes.Large), PropertyOrder(-1)]
-        void SaveConfig()
+        void CacheConfig()
         {
             _pbxVO.frameworkToProjectList = frameworkToProjectList;
             _pbxVO.frameworksToOptionalList = frameworksToOptionalList;
             _pbxVO.file2BuildList = file2BuildList;
             _pbxVO.toSetBuildPropertyList = setBuildProperty;
             _pbxVO.toAddBuildPropertyList = addBuildProperty;
+        }
 
+        [Title("PBXProject 配置", titleAlignment: TitleAlignments.Centered)]
+        [Button("保存配置", ButtonSizes.Large), PropertyOrder(-1)]
+        void SaveConfig()
+        {
+            CacheConfig();
             SaveConfigFile();
+        }
+
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            CacheConfig();
         }
 
         IOSProjectInitConfigVO.FrameworkInfoVO AddFramework()

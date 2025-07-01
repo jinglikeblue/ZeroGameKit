@@ -17,19 +17,24 @@ namespace ZeroEditor.IOS
             appIconSetList = Cfg.appIconSetList;
         }
 
-        public override void OnEnable()
+        void CacheConfig()
         {
-            base.OnEnable();
+            Cfg.isEnable = isEnable;
+            Cfg.appIconSetList = appIconSetList;
         }
 
         [Title("全局配置", titleAlignment: TitleAlignments.Centered)]
         [Button("保存配置", ButtonSizes.Large), PropertyOrder(-1)]
         void SaveConfig()
         {
-            Cfg.isEnable = isEnable;
-            Cfg.appIconSetList = appIconSetList;
-
+            CacheConfig();
             SaveConfigFile();
+        }
+
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            CacheConfig();
         }
 
         [Title("功能开关")]
