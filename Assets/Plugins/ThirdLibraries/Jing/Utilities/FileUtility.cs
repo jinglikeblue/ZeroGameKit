@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using UnityEngine;
 
 namespace Jing
 {
@@ -140,6 +141,7 @@ namespace Jing
             {
                 path += "/";
             }
+
             return path;
         }
 
@@ -260,6 +262,7 @@ namespace Jing
             {
                 startDir = startDir.Substring(1);
             }
+
             if (targetDir.StartsWith("/"))
             {
                 targetDir = targetDir.Substring(1);
@@ -287,6 +290,7 @@ namespace Jing
                 {
                     result += "../";
                 }
+
                 result += targetDir;
             }
 
@@ -333,6 +337,7 @@ namespace Jing
 
             return EPathType.OTHER;
         }
+
         /// <summary>
         /// 保留文件夹的情况下，删除文件夹下的所有内容(当文件夹为链接时非常有用)
         /// </summary>
@@ -345,13 +350,13 @@ namespace Jing
             }
 
             var files = Directory.GetFiles(path);
-            foreach(var file in files)
+            foreach (var file in files)
             {
                 File.Delete(file);
             }
 
             var folders = Directory.GetDirectories(path);
-            foreach(var folder in folders)
+            foreach (var folder in folders)
             {
                 Directory.Delete(folder, true);
             }
@@ -368,6 +373,7 @@ namespace Jing
             {
                 File.Delete(targetPath);
             }
+
             File.Move(sourcePath, targetPath);
         }
 
@@ -381,10 +387,38 @@ namespace Jing
             {
                 using var fs = File.Open(filePath, FileMode.Open, FileAccess.ReadWrite);
                 return true;
-            } 
+            }
             catch (Exception e)
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// 根据path参数，创建文件夹。
+        /// path可以是文件的路径，也可以是文件夹的路径
+        /// 如果文件夹已经存在，则不创建
+        /// </summary>
+        /// <param name="path"></param>
+        public static void CreateFolder(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                Debug.LogError($"[CreateFolder] path is null or empty. path: {path}");
+                return;
+            }
+
+            path = StandardizeBackslashSeparator(path);
+            if (false == path.EndsWith("/") && Path.GetFileName(path).IndexOf(".") > -1)
+            {
+                //是文件，获取文件的父目录
+                path = Path.GetDirectoryName(path);
+            }
+
+            if (!Directory.Exists(path))
+            {
+                //创建文件夹
+                Directory.CreateDirectory(path);
             }
         }
     }

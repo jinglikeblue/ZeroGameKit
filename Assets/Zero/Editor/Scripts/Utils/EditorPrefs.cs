@@ -14,7 +14,7 @@ namespace ZeroEditor
         /// <summary>
         /// 文件保存路径
         /// </summary>
-        public static string FilePath => FileUtility.CombinePaths(ZeroConst.ZERO_LIBRARY_DIR, "zero_editor_prefs_data.json");
+        public static string FilePath => FileUtility.CombinePaths(ZeroEditorConst.EDITOR_CACHE_DIR, "zero_editor_prefs_data.json");
 
         /// <summary>
         /// 数据
@@ -44,6 +44,7 @@ namespace ZeroEditor
         }
         */
 
+
         static EditorPrefs()
         {
             if (File.Exists(FilePath))
@@ -57,12 +58,26 @@ namespace ZeroEditor
             }
         }
 
+        /// <summary>
+        /// 设置数据
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static void Set<T>(string key, T value)
         {
             _data[key] = Json.ToJson(value);
             Save();
         }
 
+        /// <summary>
+        /// 读取数据
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static T Get<T>(string key, T defaultValue = default)
         {
             if (_data.ContainsKey(key))
@@ -74,9 +89,34 @@ namespace ZeroEditor
             return defaultValue;
         }
 
+        /// <summary>
+        /// 删除指定数据
+        /// </summary>
+        /// <param name="key"></param>
+        public static void DeleteKey(string key)
+        {
+            if (_data.Remove(key))
+            {
+                Save();
+            }
+        }
+
+        /// <summary>
+        /// 删除所有数据
+        /// </summary>
+        public static void DeleteAll()
+        {
+            if (_data.Count > 0)
+            {
+                _data.Clear();
+                Save();
+            }
+        }
+
         private static void Save()
         {
             var jsonStr = Json.ToJsonIndented(_data);
+            FileUtility.CreateFolder(FilePath);
             File.WriteAllText(FilePath, jsonStr);
         }
     }

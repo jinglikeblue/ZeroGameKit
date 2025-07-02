@@ -27,6 +27,11 @@ namespace ZeroEditor
         public static readonly string EDITOR_CONFIG_DIR = FileUtility.CombineDirs(false, ZeroConst.ZERO_LIBRARY_DIR, "EditorConfigs");
         
         /// <summary>
+        /// 编辑器缓存数据目录
+        /// </summary>
+        public static readonly string EDITOR_CACHE_DIR = FileUtility.CombineDirs(false, ZeroConst.ZERO_LIBRARY_DIR, "EditorCaches");
+        
+        /// <summary>
         /// 热更资源发布目录
         /// </summary>
         public static readonly string PUBLISH_RES_ROOT_DIR = FileUtility.CombineDirs(false, ZeroConst.ZERO_LIBRARY_DIR, "Release", "res", ZeroConst.PLATFORM_DIR_NAME);
