@@ -1,7 +1,9 @@
 ﻿#if UNITY_IPHONE
+using System;
 using Jing;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
@@ -163,18 +165,41 @@ namespace ZeroEditor.IOS
                 //将文件或目录，添加到【Build Phases】的【Copy Bundle Resources】中
                 if (vo.isAddPathToResourcesBuildPhase)
                 {
-                    string targetGuid = null;
-                    string fileGuid = _pbx.FindFileGuidByProjectPath(vo.toPath);
-                    if (vo.isAddToMain)
+                    if (vo.isAddToMain || vo.isAddToFramework)
                     {
-                        targetGuid = _mainGuid;
-                    }
-                    else if (vo.isAddToFramework)
-                    {
-                        targetGuid = _frameworkGuid;
-                    }
+                        string targetGuid = null;
+                        string fileGuid = _pbx.FindFileGuidByProjectPath(vo.toPath);
+                        if (vo.isAddToMain)
+                        {
+                            targetGuid = _mainGuid;
+                        }
+                        else if (vo.isAddToFramework)
+                        {
+                            targetGuid = _frameworkGuid;
+                        }
 
-                    _pbx.AddFileToBuildSection(targetGuid, _pbx.GetResourcesBuildPhaseByTarget(targetGuid), fileGuid);
+                        var sectionGuid = _pbx.GetResourcesBuildPhaseByTarget(targetGuid);
+
+                        // #region 反射代码检查是否已添加
+                        //
+                        // var buildSectionAnyMethod = typeof(PBXProject).GetMethod("BuildSectionAny", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(string) }, null);
+                        // var buildSectionAnyMethodResult = buildSectionAnyMethod.Invoke(_pbx, new object[] { sectionGuid });
+                        // var filesField = buildSectionAnyMethodResult.GetType().GetField("files", BindingFlags.Public | BindingFlags.Instance);
+                        // var filesValue = filesField.GetValue(buildSectionAnyMethodResult);
+                        // var containsMethod = filesValue.GetType().GetMethod("Contains", BindingFlags.Public | BindingFlags.Instance);
+                        // var containsResult = containsMethod.Invoke(filesValue, new object[] { fileGuid });
+                        // bool isContains = (bool)containsResult;
+                        //
+                        // #endregion
+                        //
+                        //
+                        // if (false == isContains)
+                        // {
+                        //     
+                        // }
+                        
+                        _pbx.AddFileToBuildSection(targetGuid, sectionGuid, fileGuid);
+                    }
                 }
             }
         }

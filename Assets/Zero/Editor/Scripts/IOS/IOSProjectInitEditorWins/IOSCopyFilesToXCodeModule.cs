@@ -103,7 +103,9 @@ namespace ZeroEditor.IOS
             [InfoBox("是否添加到Framework的编译中", InfoMessageType.None)]
             public bool isAddToFramework;
 
+            [ShowIf("@isAddToMain||isAddToFramework")]
             [InfoBox("是否将文件或目录添加到【Build Phases】的【Copy Bundle Resources】中", InfoMessageType.None)]
+            [InfoBox("【谨慎使用该选项】Unity没有自动完成添加的情况才需要勾选该选项。否则可能造成文件的重复添加。", InfoMessageType.Warning, VisibleIf = "isAddPathToResourcesBuildPhase")]
             public bool isAddPathToResourcesBuildPhase;
         }
     }
