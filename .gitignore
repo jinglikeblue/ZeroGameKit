@@ -61,3 +61,5 @@ sysinfo.txt
 /Packages/packages-lock.json
 /Assets/HybridCLRGenerate/Resources/hybrid_aot_assemblies
 /Assets/HybridCLRGenerate/Resources/hybrid_aot_assemblies.meta
+/Release
+/LibraryZero/EditorCaches/zero_editor_prefs_data.json
