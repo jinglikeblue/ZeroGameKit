@@ -16,12 +16,17 @@ namespace Zero
         /// <returns></returns>
         public static LauncherSettingData LoadLauncherSettingDataFromResources()
         {
+            LauncherSettingData data = null;
             var ta = Resources.Load<TextAsset>(ZeroConst.LAUNCHER_SETTING_NAME);
             if (null != ta)
             {
-                return Json.ToObject<LauncherSettingData>(ta.text);
+                data = Json.ToObject<LauncherSettingData>(ta.text);
             }
-            return null;
+            else
+            {
+                data = new LauncherSettingData();
+            }
+            return data;
         }
     }
 }
