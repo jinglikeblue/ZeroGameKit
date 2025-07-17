@@ -54,7 +54,13 @@ namespace ZeroEditor.IOS
         [InfoBox("将键值添加到 [Info] 的 [Custom iOS Target Properties] 中")]
         [DictionaryDrawerSettings(KeyLabel = "Key", ValueLabel = "Value")]
         [LabelText("添加 info.plist 的参数")]
+        [OnValueChanged("OnAddPListInfoValueChanged")]
         public Dictionary<string, string> addPListInfo;
+        
+        void OnAddPListInfoValueChanged()
+        {
+            ReplaceDictValueNullValue(addPListInfo);
+        }
 
         [Space(20)]        
         [InfoBox("将键值从 [Info] 的 [Custom iOS Target Properties] 中移除")]        

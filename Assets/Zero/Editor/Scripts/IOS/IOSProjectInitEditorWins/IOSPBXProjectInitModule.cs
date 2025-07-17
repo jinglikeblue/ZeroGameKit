@@ -84,18 +84,36 @@ namespace ZeroEditor.IOS
         [ShowInInspector]
         [InfoBox("把指定的 tbd 文件添加到 [Build Phases] 中的 [Link Binary With Libraries]")]
         [LabelText("AddFileToBuild"), DictionaryDrawerSettings(KeyLabel = "Path", ValueLabel = "Project Path")]
+        [OnValueChanged("OnFile2BuildListValueChanged")]
         public Dictionary<string, string> file2BuildList;
 
         [Space(20)]
         [ShowInInspector]
         [InfoBox("修改 [Build Settings]中的参数")]
         [LabelText("SetBuildProperty"), DictionaryDrawerSettings(KeyLabel = "Name", ValueLabel = "Value")]
+        [OnValueChanged("OnSetBuildPropertyValueChanged")]
         public Dictionary<string, string> setBuildProperty;
 
         [Space(20)]
         [ShowInInspector]
         [InfoBox("添加 [Build Settings]中的参数")]
         [LabelText("AddBuildProperty"), DictionaryDrawerSettings(KeyLabel = "Name", ValueLabel = "Value")]
+        [OnValueChanged("OnAddBuildPropertyValueChanged")]
         public Dictionary<string, string> addBuildProperty;
+
+        void OnFile2BuildListValueChanged()
+        {
+            ReplaceDictValueNullValue(file2BuildList);
+        }
+
+        void OnSetBuildPropertyValueChanged()
+        {
+            ReplaceDictValueNullValue(setBuildProperty);
+        }
+
+        void OnAddBuildPropertyValueChanged()
+        {
+            ReplaceDictValueNullValue(addBuildProperty);
+        }
     }
 }

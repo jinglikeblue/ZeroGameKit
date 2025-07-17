@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+
 namespace ZeroEditor.IOS
 {
     public abstract class BaseXCodeConfigEditorModule : AEditorModule
@@ -44,6 +47,24 @@ namespace ZeroEditor.IOS
         {
             EditorConfigUtil.SaveConfig(_cfg, ConfigFile);
             editorWin.ShowTip("保存成功!");
+        }
+        
+        /// <summary>
+        /// 检查Dictionary，把value为null的值都替换为string.Empty
+        /// </summary>
+        /// <param name="dict"></param>
+        protected void ReplaceDictValueNullValue(Dictionary<string, string> dict)
+        {
+            if (dict == null) return;
+
+            var keys = dict.Keys.ToArray();
+            foreach (var key in keys)
+            {
+                if (null == dict[key])
+                {
+                    dict[key] = string.Empty;
+                }
+            }
         }
     }
 }
