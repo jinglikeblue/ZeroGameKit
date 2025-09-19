@@ -46,9 +46,11 @@ namespace Zero
         public const string effect_8_mp3 = "Assets/@ab/examples/audios/effect_8.mp3";
         public const string effect_9_mp3 = "Assets/@ab/examples/audios/effect_9.mp3";
         public const string BitmapFontExampleWin_prefab = "Assets/@ab/examples/bitmapfont/BitmapFontExampleWin.prefab";
+        public const string A_jpg = "Assets/@ab/examples/cross_depend_test/a/A.jpg";
         public const string A_prefab = "Assets/@ab/examples/cross_depend_test/a/A.prefab";
-        public const string C_prefab = "Assets/@ab/examples/cross_depend_test/a/C.prefab";
+        public const string B_png = "Assets/@ab/examples/cross_depend_test/b/B.png";
         public const string B_prefab = "Assets/@ab/examples/cross_depend_test/b/B.prefab";
+        public const string C_jpg = "Assets/@ab/examples/cross_depend_test/c/C.jpg";
         public const string ZipExampleWin_prefab = "Assets/@ab/examples/files/ZipExampleWin.prefab";
         public const string ChronographExampleWin_prefab = "Assets/@ab/examples/framework/ChronographExampleWin.prefab";
         public const string ClockView_prefab = "Assets/@ab/examples/framework/ClockView.prefab";
@@ -267,6 +269,7 @@ namespace Zero
         public const string cross_depend_test_ab = "Assets/@ab/examples/cross_depend_test.ab";
         public const string a_ab = "Assets/@ab/examples/cross_depend_test/a.ab";
         public const string b_ab = "Assets/@ab/examples/cross_depend_test/b.ab";
+        public const string c_ab = "Assets/@ab/examples/cross_depend_test/c.ab";
         public const string files_ab = "Assets/@ab/examples/files.ab";
         public const string framework_ab = "Assets/@ab/examples/framework.ab";
         public const string hot_ab = "Assets/@ab/examples/hot.ab";

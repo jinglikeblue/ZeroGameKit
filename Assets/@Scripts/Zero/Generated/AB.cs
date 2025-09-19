@@ -285,15 +285,23 @@ namespace Zero
 		{
 			public const string NAME = "examples/cross_depend_test/a.ab";
 
-			public const string A = "A.prefab";
-			public const string C = "C.prefab";            
+			public const string A_jpg = "A.jpg";
+			public const string A = "A.prefab";            
 		}
 
 		public sealed class EXAMPLES_CROSS_DEPEND_TEST_B
 		{
 			public const string NAME = "examples/cross_depend_test/b.ab";
 
+			public const string B_png = "B.png";
 			public const string B = "B.prefab";            
+		}
+
+		public sealed class EXAMPLES_CROSS_DEPEND_TEST_C
+		{
+			public const string NAME = "examples/cross_depend_test/c.ab";
+
+			public const string C_jpg = "C.jpg";            
 		}
 
 		public sealed class EXAMPLES_KNIGHT_AUDIOS

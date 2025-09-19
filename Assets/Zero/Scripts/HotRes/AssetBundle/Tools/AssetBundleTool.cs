@@ -391,20 +391,24 @@ namespace Zero
         /// 加载AB包，自动处理依赖问题
         /// </summary>
         /// <param name="abName"></param>
+        /// <param name="isLoadDepends">是否加载依赖项</param>
         /// <returns></returns>
-        private AssetBundle LoadAssetBundle(string abName)
+        private AssetBundle LoadAssetBundle(string abName, bool isLoadDepends = true)
         {
             MakeABNameNotEmpty(ref abName);
             abName = ABNameWithExtension(abName);
             abName = abName.ToLower();
             //依赖检查
-            string[] dependList = _manifest.GetAllDependencies(abName);
-            foreach (string depend in dependList)
+            if (isLoadDepends)
             {
-                //string dependPath = Path.Combine(_rootDir, depend);
-                if (false == _loadedABDic.ContainsKey(depend))
+                string[] dependList = _manifest.GetAllDependencies(abName);
+                foreach (string depend in dependList)
                 {
-                    _loadedABDic[depend] = LoadAssetBundle(depend);
+                    //string dependPath = Path.Combine(_rootDir, depend);
+                    if (false == _loadedABDic.ContainsKey(depend))
+                    {
+                        _loadedABDic[depend] = LoadAssetBundle(depend, false);
+                    }
                 }
             }
 
