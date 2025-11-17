@@ -11,7 +11,7 @@ namespace Jing
         /// UNIX时间。
         /// 这一刻标志着UNIX操作系统的诞生。UNIX时间是从1970年1月1日00:00:00开始计时的，被称为UNIX纪元或UNIX时间戳。
         /// </summary>
-        static readonly DateTime UNIX_EPOCH_TIME = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        private static readonly DateTime UnixEpochTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 
         /// <summary>
         /// 以毫秒为单位，获取对象的UTC时间戳
@@ -21,7 +21,7 @@ namespace Jing
         /// <returns></returns>
         public static long ToUtcMilliseconds(this DateTime dataTime)
         {
-            TimeSpan tn = dataTime - UNIX_EPOCH_TIME;            
+            TimeSpan tn = dataTime - UnixEpochTime;            
             return Convert.ToInt64(tn.TotalMilliseconds);
         }
     }

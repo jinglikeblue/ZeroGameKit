@@ -75,7 +75,7 @@ namespace ZeroEditor
         /// <summary>
         /// iOS平台配置
         /// </summary>
-        private static readonly GUIContent iOSProjectInitIconContent = EditorGUIUtility.IconContent("BuildSettings.iPhone On");
+        private static readonly GUIContent iOSProjectInitIconContent = new GUIContent("iOS"); //EditorGUIUtility.IconContent("BuildSettings.iPhone On");
 
         private static GUIStyle _style;
 
@@ -140,7 +140,7 @@ namespace ZeroEditor
             GUILayout.Label("|");
 
 #if UNITY_IOS
-            if (GUILayout.Button("iOS"))
+            if (GUILayout.Button(iOSProjectInitIconContent))
             {
                 IOS.IOSProjectInitEditorWin.Open();
             }
