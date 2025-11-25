@@ -28,6 +28,12 @@ namespace Zero
         public long downloadedSize { get; private set; } = 0;
 
         /// <summary>
+        /// 临时文件的大小。断点续传的情况下，该值大于0。
+        /// PS：因为ReceiveContentLengthHeader的触发时机问题。所以这里单独定义了变量来记录已下载部分的大小。
+        /// </summary>
+        private long _tempFileSize = 0; 
+
+        /// <summary>
         /// 文件大小
         /// </summary>
         public long totalSize { get; private set; } = 0;
@@ -78,7 +84,7 @@ namespace Zero
 
             if (isResumeable)
             {
-                downloadedSize = GetTempFileSize();
+                _tempFileSize = downloadedSize = GetTempFileSize();
             }
         }
 
@@ -108,7 +114,7 @@ namespace Zero
                 if (isResumeable)
                 {
                     //断点续传的话，则先记录已下载的文件尺寸
-                    downloadedSize = _fileStream.Length;
+                    _tempFileSize = downloadedSize = _fileStream.Length;
                 }
             }
             catch (Exception e)
@@ -126,7 +132,7 @@ namespace Zero
                 //Debug.Log($"重复收到ReceiveContentLengthHeader:{totalSize}");
                 return;
             }
-            totalSize = (long)contentLength + downloadedSize;
+            totalSize = (long)contentLength + _tempFileSize;
             Debug.Log($"[HttpDownloader] 下载的文件:{Path.GetFileName(savePath)} , size:{totalSize}");
             onReceivedHeaders?.Invoke();
         }
